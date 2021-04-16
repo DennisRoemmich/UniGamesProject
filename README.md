@@ -6,7 +6,7 @@
 - M. Barrios Herrera (Review von J. de Boer)
 - J. de Boer (Review von A. Kahabka)
 - A. Kahabka (Review von D. Römmich)
-- D. Römmich (Review von M. Tietz)
+- Dennis Römmich (Review von M. Tietz)
 - M. Tietz (Review von M. Barrios Herrera)
 
 
