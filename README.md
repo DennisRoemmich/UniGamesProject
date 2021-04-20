@@ -7,7 +7,7 @@
 - J. de Boer (Review von A. Kahabka)
 - A. Kahabka (Review von D. Römmich)
 - D. Römmich (Review von M. Tietz)
-- Maik Tietz (Review von M. Barrios Herrera)
+- Maik Tietz (Review von M. F. Barrios Herrera)
 
 
 ## Betreuer
