@@ -5,7 +5,7 @@
 
 - M. Barrios Herrera (Review von J. de Boer)
 - J. de Boer (Review von A. Kahabka)
-- Andreas Kahabka (Review von D. Römmich)
+- Andreas Kahabka
 - D. Römmich (Review von M. Tietz)
 - Maik Tietz (Review von M. Barrios Herrera)
 
