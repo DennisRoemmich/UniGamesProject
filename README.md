@@ -3,7 +3,7 @@
 
 ## Mitglieder
 
-- M. Barrios Herrera (Review von J. de Boer)
+- Maria Fernanda Barrios Herrera
 - J. de Boer (Review von A. Kahabka)
 - Andreas Kahabka
 - Dennis Römmich
