@@ -7,7 +7,7 @@
 - J. de Boer (Review von A. Kahabka)
 - Andreas Kahabka
 - Dennis Römmich
-- Maik Tietz (Review von M. Barrios Herrera)
+- Maik Tietz
 
 
 ## Betreuer
