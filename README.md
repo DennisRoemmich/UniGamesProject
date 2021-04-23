@@ -4,7 +4,7 @@
 ## Mitglieder
 
 - M. Barrios Herrera (Review von J. de Boer)
-- J. de Boer (Review von A. Kahabka)
+- Jan de Boer (Review von A. Kahabka)
 - Andreas Kahabka
 - Dennis Römmich
 - Maik Tietz (Review von M. Barrios Herrera)
