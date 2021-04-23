@@ -3,7 +3,7 @@
 
 ## Mitglieder
 
-- Maria Fernanda Barrios Herrera (Review von J. de Boer)
+- Maria Fernanda Barrios Herrera
 - J. de Boer (Review von A. Kahabka)
 - A. Kahabka (Review von D. Römmich)
 - D. Römmich (Review von M. Tietz)
