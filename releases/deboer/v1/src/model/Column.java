@@ -13,5 +13,17 @@ public enum Column {
 		return value;
 	}
 	
+	public static Column fromInt(int value) {
+		switch (value) {
+		case 0:
+			return Column.LEFT;
+		case 1:
+			return Column.MIDDLE;
+		case 2:
+			return Column.RIGHT;
+		default:
+			return Column.MIDDLE;
+		}
+	}
 	
 }

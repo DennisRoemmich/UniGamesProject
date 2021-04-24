@@ -1,7 +1,7 @@
 package model;
 
-public interface TicTacToePresenter {
-	public void refreshBoard();
+public abstract class TicTacToePresenter {
+	public abstract void refreshOutput();
 	
+	public TicTacToe game;
 }
-

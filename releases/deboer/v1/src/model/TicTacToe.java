@@ -10,9 +10,13 @@ public class TicTacToe {
 		nextPlayer = Player.O;
 	}
 	
-	private void initCells() {
+	public void initCells() {
 		cells = new Cell[3][3];
 		resetCells();
+	}
+	
+	public Cell getCell(Row row, Column column) {
+		return cells[row.toInt()][column.toInt()];
 	}
 	
 	private void resetCells() {
@@ -24,15 +28,19 @@ public class TicTacToe {
 	}
 	
 	public Boolean ticCell(Row row, Column column, Player player) {
-		if (nextPlayer != player) {
-			return false;
-		}
-		if (!cells[row.toInt()][column.toInt()].isFree()) {
-			return false;
-		}
-		cells[row.toInt()][column.toInt()].setPlayer(player);
+		
+		// Check if all conditions allow to tic the cell
+		if (getWinner() != Player.NONE) return false;
+		if (nextPlayer != player) return false;
+		if (!cells[row.toInt()][column.toInt()].isFree()) return false;
+		
+		cells[row.toInt()][column.toInt()].player = player;
 		togglePlayer();
 		return true;
+	}
+	
+	public Boolean ticCell(Row row, Column column) {
+		return ticCell(row, column, nextPlayer);
 	}
 	
 	private void togglePlayer() {
@@ -40,6 +48,59 @@ public class TicTacToe {
 			nextPlayer = Player.O;
 		} else {
 			nextPlayer = Player.X;
+		}
+	}
+	
+	public Player getWinner() {
+		
+		Player p;
+		
+		p = checkForWinningRow();
+		if (p != Player.NONE) return p;
+
+		p = checkForWinningColumn();
+		if (p != Player.NONE) return p;
+		
+		p = checkForWinningDiagonal();
+		return p;
+	}
+
+	private Player checkForWinningDiagonal() {
+		for(int offset = 0; offset <= 2; offset += 2) {
+			Player p = playerInCells(cells[0][0+offset], cells[1][1], cells[2][2-offset]);
+			if (p != Player.NONE) {
+				return p;
+			}
+		}
+		return Player.NONE;
+	}
+
+	private Player checkForWinningColumn() {
+		for(Column column: Column.values()) {
+			Player p = playerInCells(cells[0][column.toInt()], cells[1][column.toInt()], cells[2][column.toInt()]);
+			if (p != Player.NONE) {
+				return p;
+			}
+		}
+		return Player.NONE;
+	}
+
+	private Player checkForWinningRow() {
+		for(Row row: Row.values()) {
+			Player p = playerInCells(cells[row.toInt()][0], cells[row.toInt()][1], cells[row.toInt()][2]);
+			if (p != Player.NONE) {
+				return p;
+			}
+		}
+		return Player.NONE;
+	}
+	
+	
+	public Player playerInCells(Cell a, Cell b, Cell c) {
+		if (a.player == b.player && a.player == c.player) {
+			return a.player;
+		} else {
+			return Player.NONE;
 		}
 	}
 }

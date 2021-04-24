@@ -1,23 +1,18 @@
 package model;
 
-import java.util.Optional;
-
 public class Cell {
-	public Optional<Player> player;
+	public Player player;
 	
 	public void clearCell() {
-		this.player = null;
+		this.player = Player.NONE;
 	}
-	
-	public void setPlayer(Player player) {
-		this.player = Optional.of(player);
-	}
-	
+
 	public Boolean isFree() {
-		return player == null;
+		return player == Player.NONE;
 	}
 	
 	public Cell() {
-		this.player = null;
+		this.player = Player.NONE;
 	}
+	
 }
