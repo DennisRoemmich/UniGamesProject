@@ -3,8 +3,13 @@
 
 ## Mitglieder
 
+<<<<<<< README.md
+- M. Barrios Herrera (Review von J. de Boer)
+- Jan de Boer
+=======
 - Maria Fernanda Barrios Herrera
-- J. de Boer (Review von A. Kahabka)
+- Jan de Boer
+>>>>>>> README.md
 - Andreas Kahabka
 - Dennis Römmich
 - Maik Tietz
