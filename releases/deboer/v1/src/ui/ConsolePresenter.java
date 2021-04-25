@@ -1,6 +1,5 @@
 package ui;
 
-import java.io.Serial;
 import java.util.Scanner;
 
 import model.*;
