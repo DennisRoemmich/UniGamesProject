@@ -27,7 +27,7 @@ public class Tictactoe {
 	
 	
 	// prints the board to the console
-	public void printBoard() {
+	private void printBoard() {
 		
 		System.out.println("+" + "-" + "-" + "-" + "-" + "-" + "+");
 		
@@ -95,7 +95,7 @@ public class Tictactoe {
 	}
 	
 	// reads from the console
-	public int getInput() {
+	private int getInput() {
 		
 		if (this.currentPlayer == 1) {
 			System.out.println("Please insert your position, Player 1: ");
@@ -116,7 +116,7 @@ public class Tictactoe {
 	}
 	
 	// checks whether the move is valid
-	public boolean check(int move) {
+	private boolean check(int move) {
 		
 		String occ = "Field already occupied! Please choose an other field!";
 		
@@ -143,7 +143,7 @@ public class Tictactoe {
 	}
 	
 	// checks the current game status (win, draw or running)
-	public int gamestatus() {
+	private int gamestatus() {
 		
 		// checks for winner
 		int w = this.checkWin();
@@ -214,7 +214,7 @@ public class Tictactoe {
 	}
 	
 	// evaluates the result and prints it to the console
-	public void result() {
+	private void result() {
 		
 		int r = this.gamestatus();
 		
@@ -228,22 +228,6 @@ public class Tictactoe {
 			System.out.println("Draw! Nobody wins! Try again!");
 		}
 	}
-	
-/*	public final class Logger {
-		private Logger() {
-			// do not instantiate this class
-		}
-
-		@SuppressWarnings("squid:S106")
-		public static void log(String string) {
-			System.out.println(string);
-		}
-
-		public static void log(StringBuilder builder) {
-			log(builder.toString());
-		}
-	}
-*/
 	
 	
 	// main method
