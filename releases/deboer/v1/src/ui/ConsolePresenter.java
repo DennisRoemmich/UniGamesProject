@@ -7,26 +7,19 @@ import model.*;
 public class ConsolePresenter extends TicTacToePresenter {
 	
 	private Scanner scanner = new Scanner(System.in);
-
-	@Override
-	public void refreshOutput() {
-		for (Row row: Row.values()) {
-			printRow(row);
-			if(row != Row.BOTTOM) {
-				printRowSeperator();
-			}
-		}
-		System.out.println();	
+	
+	public ConsolePresenter() {
+		ConsoleMessages.printWelcome();
+		ConsoleMessages.printTicHelp();
+		ConsoleMessages.printLetsGo();
 	}
 	
-	private void printRow(Row row) {
+	private void printRow(Cell row[]) {
 		for (Column column: Column.values()) {
-			
 			if (column != Column.LEFT) {
 				printColumnSeperator();
 			}
-			Cell cell = game.getCell(row, column);
-			printCell(cell);
+			printCell(row[column.toInt()]);
 		}
 		System.out.println();
 	}
@@ -41,39 +34,44 @@ public class ConsolePresenter extends TicTacToePresenter {
 	
 	private void printCell(Cell cell) {
 		System.out.print(" ");
-		switch(cell.player) {
-		case NONE:
-			System.out.print(" ");
-			break;
-		case O:
-			System.out.print("O");
-			break;
-		case X:
-			System.out.print("X");
-			break;
-		}
+		System.out.print(cell.toString());
 		System.out.print(" ");
 	}
 	
-	public void getInput() {
+	@Override
+	public CellPosition getNextCellPosition() {
 		int i = scanner.nextInt();
-		if(i < 1 || i > 9 ) return;
+		if(i < 1 || i > 9 ) {
+			ConsoleMessages.printNumberNotInRange(i);
+		}
 		i--;
 		
 		Row row = Row.fromInt(i /3);
 		Column column = Column.fromInt(i%3);
 		
-		if(game.ticCell(row, column)) {
-			//refreshOutput();
-			checkForWinner();
-		}
+		System.out.println();
+		
+		return new CellPosition(row, column);
 	}
-	
-	private void checkForWinner() {
-		Player winner = game.getWinner();
-		if (winner != Player.NONE) {
-			System.out.println("Congratulations! Player " + winner.toString() + " won!");
-			System.out.println();
+
+	@Override
+	public void displayBoard(Cell[][] cells) {
+		for (Row row: Row.values()) {
+			printRow(cells[row.toInt()]);
+			if(row != Row.BOTTOM) {
+				printRowSeperator();
+			}
 		}
+		System.out.println();	
+	}
+
+	@Override
+	public void displayWinner(Player winner) {
+		ConsoleMessages.printWinner(winner.toString());
+	}
+
+	@Override
+	protected void handleInvalidPosition() {
+		ConsoleMessages.printCellIsFilled();
 	}
 }

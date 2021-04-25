@@ -10,16 +10,10 @@ public class Main {
 
 		ConsolePresenter presenter = new ConsolePresenter();
 		TicTacToe game = new TicTacToe();
-		
 		game.initCells();
-		presenter.game = game;
-
+		game.presenter = presenter;
 		
-		while(true) {
-
-			presenter.refreshOutput();
-			presenter.getInput();
-		}
+		game.startGame();
 	}
 
 }

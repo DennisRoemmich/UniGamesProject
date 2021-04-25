@@ -5,6 +5,10 @@ public class TicTacToe {
 	
 	private Player nextPlayer;
 	
+	public TicTacToePresenter presenter;
+	
+	boolean isRunning = false;
+	
 	public TicTacToe() {
 		initCells();
 		nextPlayer = Player.O;
@@ -43,11 +47,21 @@ public class TicTacToe {
 		return ticCell(row, column, nextPlayer);
 	}
 	
+	private Boolean ticCell(CellPosition position) {
+		return ticCell(position.row, position.column);
+	}
+	
 	private void togglePlayer() {
 		if(nextPlayer == Player.X) {
 			nextPlayer = Player.O;
 		} else {
 			nextPlayer = Player.X;
+		}
+	}
+	
+	public void stopGameIfWon() {
+		if (getWinner() != Player.NONE) {
+			isRunning = false;
 		}
 	}
 	
@@ -101,6 +115,28 @@ public class TicTacToe {
 			return a.player;
 		} else {
 			return Player.NONE;
+		}
+	}
+
+	public void startGame() {
+		isRunning = true;
+		presenter.displayBoard(cells);	
+		handleInput();	
+	}
+	
+	public void handleInput() {
+		if (!ticCell(presenter.getNextCellPosition())) {
+			presenter.handleInvalidPosition();
+			presenter.displayBoard(cells);
+			handleInput();
+		} else {
+			presenter.displayBoard(cells);
+			stopGameIfWon();
+			if(isRunning) {
+				handleInput();
+			} else {
+				presenter.displayWinner(getWinner());
+			}
 		}
 	}
 }

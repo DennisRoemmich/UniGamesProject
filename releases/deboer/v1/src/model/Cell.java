@@ -15,4 +15,8 @@ public class Cell {
 		this.player = Player.NONE;
 	}
 	
+	public String toString() {
+		return player.toString();
+	}
+	
 }
