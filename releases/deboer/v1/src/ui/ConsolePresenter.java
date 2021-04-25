@@ -56,6 +56,7 @@ public class ConsolePresenter extends TicTacToePresenter {
 
 		if(i < 1 || i > 9 ) {
 			ConsoleMessages.printNumberNotInRange(i);
+			return getNextCellPosition();
 		}
 		i--;
 		
