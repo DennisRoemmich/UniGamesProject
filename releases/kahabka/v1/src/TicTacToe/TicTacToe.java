@@ -6,9 +6,9 @@ import java.util.Arrays;
 public class TicTacToe {
 
 
-    private char emptyBox = '◦';
-    private char symbolPlayer1 = '⍉';
-    private char symbolPlayer2 = '✚';
+    private char emptyBox = '*';
+    private char symbolPlayer1 = 'o';
+    private char symbolPlayer2 = 'x';
 
     private String player1 = "Player1";
     private String player2 = "Player2";
@@ -52,7 +52,7 @@ public class TicTacToe {
         var exit = false;
 
 
-        System.out.println("• play: (1 - 9) + [Enter]\n• quit: [q]  + [Enter]\n\n Boxes are numbered like this:");
+        System.out.println("~ play: (1 - 9) + [Enter]\n~ quit: [q]  + [Enter]\n\n Boxes are numbered like this:");
         drawBoard(true);
         System.out.print("Player 1 (" + symbolPlayer1 + ") has the move\n:");
 
@@ -110,7 +110,7 @@ public class TicTacToe {
 
         } else {
 
-            System.out.print("• play: [1 - 9] + Enter\n• quit: [q]  + Enter\n:");
+            System.out.print("~ play: [1 - 9] + Enter\n~ quit: [q]  + Enter\n:");
 
         }
 
