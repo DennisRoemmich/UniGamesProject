@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.Serial;
 import java.util.Scanner;
 
 import model.*;
@@ -40,7 +41,20 @@ public class ConsolePresenter extends TicTacToePresenter {
 	
 	@Override
 	public CellPosition getNextCellPosition() {
-		int i = scanner.nextInt();
+		String input = scanner.nextLine();
+		System.out.println();
+		int i;
+		try {
+			i = Integer.parseInt(input);
+		} catch (Exception e) {
+			ConsoleMessages.printNotANumber(input);
+			return getNextCellPosition();
+		}
+		return positionFromInt(i);
+	}
+	
+	private CellPosition positionFromInt(int i) {
+
 		if(i < 1 || i > 9 ) {
 			ConsoleMessages.printNumberNotInRange(i);
 		}
@@ -49,9 +63,8 @@ public class ConsolePresenter extends TicTacToePresenter {
 		Row row = Row.fromInt(i /3);
 		Column column = Column.fromInt(i%3);
 		
-		System.out.println();
-		
 		return new CellPosition(row, column);
+		
 	}
 
 	@Override
