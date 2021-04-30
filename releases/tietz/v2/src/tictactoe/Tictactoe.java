@@ -497,7 +497,8 @@ public class Tictactoe {
 		System.out.println("Replay: ");
 		
 		this.printBoard(0);
-		
+                
+                // actual replay
 		for (int i = 0; i < this.mHistory.length; i++) {
 			
 			if (this.mHistory[i] != 0) {
