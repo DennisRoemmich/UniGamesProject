@@ -1,7 +1,7 @@
 package model;
 
 public enum Column {
-	LEFT(0), MIDDLE(1), RIGHT(2);
+	LEFT(0), CENTER(1), RIGHT(2);
 	
 	private int value;
 
@@ -18,12 +18,21 @@ public enum Column {
 		case 0:
 			return Column.LEFT;
 		case 1:
-			return Column.MIDDLE;
+			return Column.CENTER;
 		case 2:
 			return Column.RIGHT;
 		default:
-			return Column.MIDDLE;
+			return Column.CENTER;
 		}
 	}
-	
+
+	// Get the Positions of the Column
+	public Position[] getPositions() {
+		Row[] rows = Row.values();
+		Position[] positions = new Position[rows.length];
+		for(int i = 0; i < rows.length; i++) {
+			positions[i] = Position.valueOf(rows[i], this);
+		}
+		return positions;
+	}
 }

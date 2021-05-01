@@ -1,4 +1,6 @@
-package ui;
+package console;
+
+import model.Result;
 
 public class ConsoleMessages {
 	
@@ -19,14 +21,32 @@ public class ConsoleMessages {
 		System.out.println();
 	}
 	
-	public static void printWinner(String winnerName) {
+	public static void print(String winnerName) {
 		System.out.println("Congratulations! Player " + winnerName + " won!");
 		System.out.println();
+	}
+	
+	public static void print(Result result) {
+		switch (result) {
+			case IN_PROGRESS:
+				System.out.println("The game couldn't be more exciting!");
+				break;
+			case X_WON, O_WON, TIE:
+				System.out.println("Game Over! " + result.toString() + "!");
+				break;
+			case NOT_STARTED:
+				System.out.println("The game hasn't started yet...");
+			
+			}
 	}
 	
 	public static void printLetsGo() {
 		System.out.println("Let's go! Player 0 starts");
 		System.out.println();
+	}
+	
+	public static void printLeaveMessage() {
+		System.out.println("Cheers.");
 	}
 	
 	public static void printTicACell() {
