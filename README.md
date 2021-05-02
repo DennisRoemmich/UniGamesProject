@@ -3,11 +3,11 @@
 
 ## Mitglieder
 
-- M. Barrios Herrera (Review von J. de Boer)
-- J. de Boer (Review von A. Kahabka)
+- Maria Fernanda Barrios Herrera
+- Jan de Boer
 - Andreas Kahabka
 - Dennis Römmich
-- Maik Tietz (Review von M. Barrios Herrera)
+- Maik Tietz
 
 
 ## Betreuer

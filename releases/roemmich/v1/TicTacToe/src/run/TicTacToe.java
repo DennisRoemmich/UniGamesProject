@@ -129,6 +129,10 @@ public class TicTacToe {
 	 * @return boolean value
 	 */
 	public static boolean playerXWins(GameBoard game) {
+		
+		/* Could solve this a lot more elegantly but since these are not too many checks 
+		 * and SonarLint says it's alright... /shrug
+		 */
 		return	game.getCell(0, 0).isX() && game.getCell(0, 1).isX() && game.getCell(0, 2).isX() ||
 			game.getCell(1, 0).isX() && game.getCell(1, 1).isX() && game.getCell(1, 2).isX() ||
 			game.getCell(2, 0).isX() && game.getCell(2, 1).isX() && game.getCell(2, 2).isX() || 
@@ -147,6 +151,8 @@ public class TicTacToe {
 	 * @return boolean value
 	 */
 	public static boolean playerOWins(GameBoard game) {
+		
+		//Here again...
 		return	game.getCell(0, 0).isO() && game.getCell(0, 1).isO() && game.getCell(0, 2).isO() ||
 			game.getCell(1, 0).isO() && game.getCell(1, 1).isO() && game.getCell(1, 2).isO() ||
 			game.getCell(2, 0).isO() && game.getCell(2, 1).isO() && game.getCell(2, 2).isO() || 
@@ -272,6 +278,7 @@ public class TicTacToe {
 			System.out.println("Changed player symbol.");
 			
 			//TODO: Better exception handling here // unintended player change feature
+			//Maybe use of the turn variable etc.
 			
 		}
 	}

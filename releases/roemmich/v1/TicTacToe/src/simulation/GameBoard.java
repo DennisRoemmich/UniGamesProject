@@ -41,7 +41,7 @@ public class GameBoard {
 	}
 		
 	/**
-	 * Getter method for the gamelog list
+	 * Getter method for the gamelog list // I don't know how to fix this for SonarLint...
 	 * @return LinkedList The gamelog list
 	 */
 	public LinkedList<Integer> getGameLog() {
