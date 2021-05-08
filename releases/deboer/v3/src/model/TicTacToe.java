@@ -1,8 +1,5 @@
 package model;
 
-import elements.*;
-import meta.*;
-
 public class TicTacToe {
 	
 	private GameBoard gameBoard = new GameBoard();
@@ -18,6 +15,14 @@ public class TicTacToe {
 	
 	public Result getResult() {
 		return ResultChecker.getResult(gameBoard);
+	}
+	public boolean isRunning() { return !getResult().isFinished(); };
+
+	public void reset() {
+		gameBoard = new GameBoard();
+		history = new GameBoard[9];
+		currentMove = 0;
+		currentSign = Sign.O;
 	}
 	
 	public Boolean ticCell(Position position, Sign sign) {

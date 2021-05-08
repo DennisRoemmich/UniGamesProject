@@ -1,13 +1,14 @@
 package model;
 
-import elements.*;
-
 public final class ResultChecker {
 
 	
 	private ResultChecker(){} // Prevent initialization
 	
 	public static Result getResult(GameBoard gameBoard) {
+		if (gameBoard.noCellFilled()) {
+			return Result.NOT_STARTED;
+		}
 		for(Position[] positions: winPatterns) {
 			Sign sign = commonSign(gameBoard, positions);
 			if (sign == Sign.X) return Result.X_WON;

@@ -49,15 +49,22 @@ public class GameBoard {
 		}
 	}
 	
-	public Position getRandomFreePosition() {
+	public Position getFirstFreePosition() {
 		for(Position position: Position.values()) {
 			if(isFree(position)) return position;
 		}
 		return null;
 	}
+
+	public boolean noCellFilled() {
+		for(Position position: Position.values()) {
+			if(!isFree(position)) return false;
+		}
+		return true;
+	}
 	
 	public boolean freeCellAvailable() {
-		return getRandomFreePosition() != null;
+		return getFirstFreePosition() != null;
 	}
 	
 	public boolean isFree(Position position) {
