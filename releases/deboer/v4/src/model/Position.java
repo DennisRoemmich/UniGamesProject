@@ -1,5 +1,7 @@
 package model;
 
+import javafx.geometry.Pos;
+
 public enum Position {
 	
 	TOPLEFT(Row.TOP,Column.LEFT),    

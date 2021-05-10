@@ -119,21 +119,10 @@ public class ConsoleTicTacToeController implements Player {
 			break;
 		case "n":
 			newGame();
-			break;	
-		case "r":
-			replayGame();
-			processInput();
 			break;
 		default:
 			System.out.println("I didn't rocognize that...");
 			processInput();
-		}
-	}
-	
-	private void replayGame() {
-		for(GameBoard board: game.getHistory()) {
-			if(board == null) return;
-			GameBoardPrinter.print(board);
 		}
 	}
 	

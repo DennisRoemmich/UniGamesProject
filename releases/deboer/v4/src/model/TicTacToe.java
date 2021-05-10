@@ -1,11 +1,11 @@
 package model;
 
-public class TicTacToe {
+import game.Game;
+import javafx.geometry.Pos;
+
+public class TicTacToe extends Game {
 	
 	private GameBoard gameBoard = new GameBoard();
-	
-	private GameBoard[] history = new GameBoard[9];
-	private int currentMove = 0;
 	
 	public GameBoard getGameBoard() {
 		return gameBoard;
@@ -18,14 +18,25 @@ public class TicTacToe {
 	}
 	public boolean isRunning() { return !getResult().isFinished(); };
 
+
+	@Override
+	public void executeAction(String action) {
+		try {
+			int i = Integer.parseInt(action);
+			Position position = Position.valueOf(i);
+			ticCell(position);
+		} catch (Exception f) {
+
+		}
+	}
+
+	@Override
 	public void reset() {
 		gameBoard = new GameBoard();
-		history = new GameBoard[9];
-		currentMove = 0;
 		currentSign = Sign.O;
 	}
 	
-	public Boolean ticCell(Position position, Sign sign) {
+	public boolean ticCell(Position position, Sign sign) {
 		// Check if all conditions allow to tic the cell
 		if (getResult().isFinished()) return false;
 		if (getResult() == Result.NOT_STARTED) {
@@ -35,19 +46,14 @@ public class TicTacToe {
 		
 		if (gameBoard.tic(position, sign)) {
 			toggleSign();
-			history[currentMove] = (GameBoard) gameBoard.clone();
-			currentMove++;
+			logAction(position.toString());
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public GameBoard[] getHistory() {
-		return history;
-	}
-	
-	public Boolean ticCell(Position position) {
+
+	public boolean ticCell(Position position) {
 		return ticCell(position, currentSign);
 	}
 	
