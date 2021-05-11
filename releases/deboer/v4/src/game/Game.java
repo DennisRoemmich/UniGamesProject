@@ -24,16 +24,16 @@ public abstract class Game {
     }
 
     public final void undoLastActions(int amount) {
+        List<String> backupMoveHistory = actionHistory;
         for(int i = 0; i < amount; i ++) {
-            undoLastAction();
+            backupMoveHistory.remove(backupMoveHistory.size() - 1);
         }
+        reset();
+        executeActions(backupMoveHistory);
     }
     
     public final void undoLastAction(){
-        List<String> backupMoveHistory = actionHistory;
-        actionHistory.remove(actionHistory.size() - 1);
-        reset();
-        executeActions(actionHistory);
+        undoLastActions(1);
     }
 
     public final void executeActions(List<String> actions) {

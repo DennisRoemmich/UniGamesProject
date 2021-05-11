@@ -72,7 +72,7 @@ public class ConsoleTicTacToeController implements Player {
 	}
 	
 	private void processInputPreGame() {
-		System.out.println("You can start [s], change your opponent [o] or quit [q].\n");
+		System.out.println("You can start [s], change your opponent [o], enter a list of moves to replay [r] or quit [q].\n");
 		String input = scanner.next();
 		switch(input) {
 		case "q":
@@ -86,10 +86,44 @@ public class ConsoleTicTacToeController implements Player {
 			state = ConsoleState.INGAME;
 			nextMove();
 			break;
+		case "r":
+			state = ConsoleState.INGAME;
+			getMoves();
+			pickBeginner();
+			nextMove();
+			break;
 		default:
 			System.out.println("I didn't get that.");
 			processInput();
 		}
+	}
+
+	private void getMoves(){
+		System.out.println("Enter the moves (sequence of numbers from 1 to 9):");
+		String input = scanner.next();
+		switch(input) {
+			case "q":
+				quit();
+				break;
+			default:
+				processMoves(input);
+		}
+	}
+
+	private void processMoves(String moves){
+		if(moves.length() > 9) {
+			getMoves();
+			System.out.println("Not more than 9 moves can be played/entered!");
+			return;
+		}
+		for(Character c: moves.toCharArray()){
+			try {
+				game.executeAction(c.toString());
+			} catch (Exception e) {
+
+			}
+		}
+
 	}
 	
 	private void processInputInGame() {
@@ -128,10 +162,10 @@ public class ConsoleTicTacToeController implements Player {
 	
 	private void processPlayer() {
 		System.out.println();
-		System.out.println("Möchtest du gegen einen Menschen oder den Computer spielen? [m/c]");
+		System.out.println("Do you want to play against a human or the computer? [h/c]");
 		String kind = scanner.next();
 		switch(kind) {
-		case "m":
+		case "h":
 			playerB = this;
 			break;
 		case "c":
@@ -141,7 +175,7 @@ public class ConsoleTicTacToeController implements Player {
 			quit();
 			break;
 		default:
-			System.out.println("Das war keine zulässige Eingabe.");
+			System.out.println("That wasn't a valid input.");
 		}
 		processInput();
 	}
@@ -164,20 +198,20 @@ public class ConsoleTicTacToeController implements Player {
 	}
 	
 	private void pickBeginner() {
-		System.out.println("Wer beginnt? [A/B]\n");
+		System.out.println("Who starts? You or your opponent? [y/o]\n");
 		String input = scanner.next();
 		switch(input) {
-		case "A":
+		case "y":
 			currentPlayer = playerA;
 			break;
-		case "B":
+		case "o":
 			currentPlayer = playerB;
 			break;
 		case "q": 
 			quit();
 			break;
 		default:
-			System.out.println("Das war nicht A oder B!");
+			System.out.println("That wasn't y or c! You could also enter q to quit.");
 			pickBeginner();
 		}
 	}
