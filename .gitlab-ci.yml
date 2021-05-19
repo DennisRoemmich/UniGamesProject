@@ -42,6 +42,7 @@ coverage-jdk16:
     # read the <source></source> tag and prepend the path to every filename attribute
     - 'python /opt/source2filename.py target/site/cobertura.xml'
   needs: ["test-jdk16"]
+  allow_failure: true
   dependencies:
     - test-jdk16
   artifacts:
