@@ -41,7 +41,7 @@ coverage-jdk16:
     - 'python /opt/cover2cover.py target/site/jacoco/jacoco.xml src > target/site/cobertura.xml'
     # read the <source></source> tag and prepend the path to every filename attribute
     - 'python /opt/source2filename.py target/site/cobertura.xml'
-  needs: ["test-jdk11"]
+  needs: ["test-jdk16"]
   dependencies:
     - test-jdk16
   artifacts:
