@@ -4,22 +4,22 @@ stages:
   - deploy
 
 java-tests:
-  image: maven:3.8.1-openjdk-17
-  stage: test
-  tags:
-    - docker
-  script:
-    - mvn verify
-  artifacts:
-    when: always
-    reports:
-      junit:
-        - target/surefire-reports/TEST-*.xml
-        - target/failsafe-reports/TEST-*.xml
+    image: maven:3.8.1-openjdk-17
+    stage: test
+    tags:
+      - docker
+    script:
+      - mvn verify
+    artifacts:
+      when: always
+      reports:
+        junit:
+          - target/surefire-reports/TEST-*.xml
+          - target/failsafe-reports/TEST-*.xml
 
-test-jdk11:
+test-jdk16:
   stage: test
-  image: maven:3.6.3-jdk-11
+  image: maven:3.8.1-openjdk-16
   tags:
     - docker
   script:
@@ -43,7 +43,7 @@ coverage-jdk11:
     - 'python /opt/source2filename.py target/site/cobertura.xml'
   needs: ["test-jdk11"]
   dependencies:
-    - test-jdk11
+    - test-jdk16
   artifacts:
     reports:
       cobertura: target/site/cobertura.xml
