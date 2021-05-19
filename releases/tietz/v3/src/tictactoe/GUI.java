@@ -1,13 +1,10 @@
 package tictactoe;
 
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,12 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.lang.reflect.Array;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.Objects;
 
 
 public class GUI extends Application implements EventHandler<ActionEvent> {
@@ -378,7 +374,14 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	public ImageView getX() {
 
-		Image xi = new Image("tictactoe/X.png");
+	//	Image xi = new Image("tictactoe/X.png");
+		Image xi = null;
+		try {
+			xi = SwingFXUtils.toFXImage(ImageIO.read(
+					Objects.requireNonNull(getClass().getResource("/tietz/X.png"))),null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		ImageView x = new ImageView(xi);
 		x.setFitHeight(180);
 		x.setFitWidth(180);
@@ -388,7 +391,14 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	public ImageView getO() {
 
-		Image oi = new Image("tictactoe/O.png");
+	//	Image oi = new Image("tictactoe/O.png");
+		Image oi = null;
+		try {
+			oi = SwingFXUtils.toFXImage(ImageIO.read(
+					Objects.requireNonNull(getClass().getResource("/tietz/O.png"))),null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		ImageView o = new ImageView(oi);
 		o.setFitHeight(180);
 		o.setFitWidth(180);
