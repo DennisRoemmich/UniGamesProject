@@ -9,6 +9,5 @@ public class Main {
         Rummikub rummi = new Rummikub(4, 1);
         System.out.print(rummi.getCurrentMove());
 
-
     }
 }

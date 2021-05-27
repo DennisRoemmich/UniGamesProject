@@ -32,7 +32,8 @@ public class Rummikub {
     }
 
     public int getCurrentMove(){
-        return 1;
+        currentMove = 42;
+        return this.currentMove;
     }
 
     public Board getBoard(){
