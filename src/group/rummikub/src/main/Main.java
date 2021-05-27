@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import rummikub_game.Rummikub;
 
