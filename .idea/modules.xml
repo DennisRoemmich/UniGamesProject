@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/releases/group/milestone2/Rummikub/Rummikub.iml" filepath="$PROJECT_DIR$/releases/group/milestone2/Rummikub/Rummikub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gitlabci-maven.iml" filepath="$PROJECT_DIR$/gitlabci-maven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/group/rummikub/rummikub.iml" filepath="$PROJECT_DIR$/src/group/rummikub/rummikub.iml" />
+    </modules>
+  </component>
+</project>
