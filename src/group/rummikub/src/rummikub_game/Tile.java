@@ -50,5 +50,88 @@ public class Tile {
 
         return this.color == TileColor.JOKER;
     }
+
+    public int compareTo(Tile tile) {
+
+        return switch (this.color) {
+            case BLACK -> compareToBlack(tile);
+            case BLUE -> compareToBlue(tile);
+            case RED -> compareToRed(tile);
+            case YELLOW -> compareToYellow(tile);
+            case JOKER -> compareToJoker(tile);
+        };
+    }
+
+    private int compareToBlack(Tile tile) {
+
+        if (tile.getTileColor() == TileColor.BLACK) {
+
+            return 0;
+
+        } else {
+
+            return -1;
+        }
+    }
+
+    private int compareToBlue(Tile tile) {
+
+        if (tile.getTileColor() == TileColor.BLUE) {
+
+            return 0;
+
+        } else if (tile.getTileColor() == TileColor.BLACK){
+
+            return 1;
+
+        } else {
+
+            return -1;
+        }
+    }
+
+    private int compareToRed(Tile tile) {
+
+        if (tile.getTileColor() == TileColor.RED) {
+
+            return 0;
+
+        } else if (tile.getTileColor() == TileColor.YELLOW || tile.isJoker()){
+
+            return -1;
+
+        } else {
+
+            return 1;
+        }
+    }
+
+    private int compareToYellow(Tile tile) {
+
+        if (tile.getTileColor() == TileColor.YELLOW) {
+
+            return 0;
+
+        } else if (tile.isJoker()) {
+
+            return -1;
+
+        } else {
+
+            return 1;
+        }
+    }
+
+    private int compareToJoker(Tile tile) {
+
+        if (tile.isJoker()) {
+
+            return 0;
+
+        } else {
+
+            return 1;
+        }
+    }
 }
 

@@ -33,7 +33,7 @@ public class GridTile {
 
     /**
      * sets Tile of GridTile
-     * @param tile
+     * @param tile of GridTile
      */
     public void setTile(Tile tile) {
 
@@ -50,11 +50,18 @@ public class GridTile {
         this.isEmpty = true;
     }
 
+    /**
+     * @return position of GridTile
+     */
     public int getPosition() {
 
         return this.position;
     }
 
+    /**
+     * sets position of GridTile
+     * @param pos of GridTile
+     */
     public void setPosition(int pos) {
 
         this.position = pos;
