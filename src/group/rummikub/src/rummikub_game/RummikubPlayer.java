@@ -5,9 +5,10 @@ public class RummikubPlayer {
     private Rack tileRack;
     private Rack sketchRack;
 
-
     public RummikubPlayer(){
 
+        tileRack = new Rack();
+        sketchRack = new Rack();
     }
 
     public Rack getSketchRack() {
