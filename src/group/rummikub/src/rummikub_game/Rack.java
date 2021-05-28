@@ -198,7 +198,7 @@ public class Rack {
                 return this.positionToGridTile(i);
             }
         }
-        return null;
+        return new GridTile();
     }
 
     /**
@@ -215,7 +215,7 @@ public class Rack {
                 return this.positionToGridTile(i);
             }
         }
-        return null;
+        return new GridTile();
     }
 
     /**
