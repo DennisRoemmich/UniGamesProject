@@ -96,23 +96,34 @@ public class Rack {
 
         if (!toMove.isEmpty()) {
 
-            if (target.isEmpty()) {
+            if (!target.isEmpty()) {
 
-                target.setTile(toMove.getTile());
-                toMove.removeTile();
-                return true;
+                if (this.getFirstEmpty(to) != null) {
 
-            } else {
+                    GridTile gridTile = this.getFirstEmpty(to);
+                    GridTile nextGridTile;
 
-                GridTile gridTile = this.getFirstEmpty(to);
-                GridTile nextGridTile = target;
-                Tile helpTile;
+                    while (gridTile != target) {
 
-                while (gridTile.getPosition() != target.getPosition()) {
+                        nextGridTile = this.getPrevious(this.gridTileToPoint(gridTile));
 
+                        gridTile.setTile(nextGridTile.getTile());
+                        gridTile = this.getPrevious(this.gridTileToPoint(gridTile));
+                    }
+                } else {
 
+                    Tile help = target.getTile();
+
+                    target.setTile(toMove.getTile());
+                    toMove.setTile(help);
+
+                    return true;
                 }
             }
+            target.setTile(toMove.getTile());
+            toMove.removeTile();
+
+            return true;
         }
         return false;
     }
@@ -134,7 +145,6 @@ public class Rack {
     private GridTile getFirstEmpty(Point start) {
 
         int pos = getPosition(start);
-    //    Point firstEmpty;
 
         for (int i = pos + 1; i < GRIDHEIGHT * GRIDWIDTH; i++) {
 
