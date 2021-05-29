@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Rack {
 
-    static final int GRIDHEIGHT = 2;
-    static final int GRIDWIDTH = 15;
+    public static final int GRIDHEIGHT = 2;
+    public static final int GRIDWIDTH = 15;
 
     private final GridTile[][] grid;
     private int size;

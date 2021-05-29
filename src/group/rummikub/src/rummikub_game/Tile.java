@@ -62,6 +62,10 @@ public class Tile {
         };
     }
 
+    public String toString(){
+        return "[" + color.toString() + "," + Integer.toString(color.number) + "]";
+    }
+
     private int compareToBlack(Tile tile) {
 
         if (tile.getTileColor() == TileColor.BLACK) {
@@ -133,5 +137,6 @@ public class Tile {
             return 1;
         }
     }
+
 }
 
