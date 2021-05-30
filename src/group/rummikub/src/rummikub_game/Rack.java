@@ -52,6 +52,7 @@ public class Rack {
 
             sum = sum + this.positionToGridTile(i).getTile().getValue();
         }
+
         return sum;
     }
 
