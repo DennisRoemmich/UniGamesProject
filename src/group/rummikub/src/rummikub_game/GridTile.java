@@ -12,6 +12,7 @@ public class GridTile {
     public GridTile(){
 
         this.isEmpty = true;
+        this.tile = null;
     }
 
     /**
@@ -67,11 +68,12 @@ public class GridTile {
         this.position = pos;
     }
 
-    public String toString(){
-        if(this.tile == null){
+    public String toString() {
+
+        if (this.tile == null) {
             return "[*]";
         }
+
         return "[" + tile.color.toString() + "," + Integer.toString(tile.value) + "]";
     }
-
 }
