@@ -15,10 +15,11 @@ public class Rack {
      */
     public Rack() {
 
-        this.grid = new GridTile[GRIDWIDTH][GRIDHEIGHT];
+        this.grid = new GridTile[GRIDHEIGHT][GRIDWIDTH];
         for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
 
-            this.positionToGridTile(i).setPosition(i);
+            this.grid[i / GRIDWIDTH][i % GRIDWIDTH] = new GridTile();
+            this.grid[i / GRIDWIDTH][i % GRIDWIDTH].setPosition(i);
         }
         this.size = 0;
     }
