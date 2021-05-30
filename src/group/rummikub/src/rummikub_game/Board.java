@@ -4,10 +4,10 @@ import java.awt.*;
 
 public class Board {
 
-    static final int boardHeight = 20;  // Warum klein gemacht? Konvention ist groß.
-    static final int boardWidth = 20;
+    public static final int GRID_HEIGHT = 20;
+    public static final int GRID_WIDTH = 20;
 
-    GridTile[][] grid = new GridTile[boardWidth][boardHeight];
+    GridTile[][] grid = new GridTile[GRID_WIDTH][GRID_HEIGHT];
 
     public Board(){
 

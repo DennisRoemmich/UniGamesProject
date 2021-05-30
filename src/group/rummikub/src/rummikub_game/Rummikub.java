@@ -23,6 +23,8 @@ public class Rummikub {
      * @param indexStartPlayer must be the arrayindex! (Player 1 means index 0)
      */
     public Rummikub(int playerNumber, int indexStartPlayer){
+
+        this.board = new Board();
         this.players = new RummikubPlayer[playerNumber];
 
         for(int i = 0; i < playerNumber; i++){
@@ -59,7 +61,7 @@ public class Rummikub {
      * @param boardPos
      * @return
      */
-    public boolean moveTileFromRackToBoard(Point rackPos, Point boardPos){
+    public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos){
 
         var currentPlayersRack = getCurrentPlayer().getRack();
         var rackGridTile = currentPlayersRack.pointToGridTile(rackPos);
