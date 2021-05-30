@@ -54,6 +54,7 @@ public class Tile {
     public int compareTo(Tile tile) {
 
         return switch (this.color) {
+
             case BLACK -> compareToBlack(tile);
             case BLUE -> compareToBlue(tile);
             case RED -> compareToRed(tile);
