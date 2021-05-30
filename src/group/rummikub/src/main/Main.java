@@ -19,8 +19,8 @@ public class Main {
 
         // draw rack of player one after handout
 
+        System.out.println("Rack of Player 1:");
         for(int i = 0; i < Rack.GRIDHEIGHT; i++){
-            System.out.println("Rack of Player 1:");
             for(int o = 0; o < Rack.GRIDWIDTH; o++){
                 Point point = new Point(i, o);
                 System.out.print(rummi.getPlayerAt(0).getRack().pointToGridTile(point).toString());
