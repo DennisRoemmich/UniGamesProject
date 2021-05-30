@@ -10,7 +10,8 @@ public enum TileColor {
 
     public final int number;
 
-    private TileColor(int number){
+    private TileColor(int number) {
+
         this.number = number;
     }
 

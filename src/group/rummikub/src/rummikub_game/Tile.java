@@ -138,6 +138,4 @@ public class Tile {
             return 1;
         }
     }
-
 }
-
