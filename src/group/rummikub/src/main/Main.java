@@ -16,15 +16,16 @@ public class Main {
         // create rummikub game
 
         Rummikub rummi = new Rummikub(4, 1);
-        System.out.print(rummi.getCurrentMove());
 
         // draw rack of player one after handout
 
         for(int i = 0; i < Rack.GRIDHEIGHT; i++){
+            System.out.println("Rack of Player 1:");
             for(int o = 0; o < Rack.GRIDWIDTH; o++){
                 Point point = new Point(i, o);
                 System.out.print(rummi.getPlayerAt(0).getRack().pointToGridTile(point).toString());
             }
+            System.out.println();
         }
 
 

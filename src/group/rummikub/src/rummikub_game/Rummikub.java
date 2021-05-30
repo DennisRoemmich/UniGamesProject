@@ -110,12 +110,6 @@ public class Rummikub {
         for(RummikubPlayer player : players){
             for(int i = 0; i < START_TILES_AMOUNT; i++){
                 var mytile = getRandomTileFromStack();
-                System.out.print("No." + Integer.toString(i) + ": ");
-                if(mytile == null){
-                    System.out.println(" IS NULL!");
-                } else {
-                    System.out.println(" not null");
-                }
                 player.getRack().addTile(mytile);
             }
         }
@@ -165,14 +159,6 @@ public class Rummikub {
         }
 
         tilesOnStack = 104 + JOKER_AMOUNT;
-
-        for (Tile tile : tileStack){
-            if(tile == null){
-                System.out.println("Error: is null.");
-            } else {
-                System.out.print(tile.toString());
-            }
-        }
 
     }
 

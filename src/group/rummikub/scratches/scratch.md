@@ -9,8 +9,6 @@
 
 `Andi`
 
-* Perormance von `getRandomTileFromStack()` ist schlecht, weil z.B. für das letzte Tile im Schnitt 106 mal die Schleife durchlaufen wird.
-
 `Fernanda`
 
 `Allgemein`
