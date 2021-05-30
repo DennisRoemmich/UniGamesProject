@@ -63,7 +63,8 @@ public class Tile {
     }
 
     public String toString(){
-        return "[" + color.toString() + "," + Integer.toString(color.number) + "]";
+
+        return "[" + color.toString() + "," + Integer.toString(value) + "]";
     }
 
     private int compareToBlack(Tile tile) {

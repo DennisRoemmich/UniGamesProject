@@ -66,4 +66,12 @@ public class GridTile {
 
         this.position = pos;
     }
+
+    public String toString(){
+        if(this.tile == null){
+            return "[*]";
+        }
+        return "[" + tile.color.toString() + "," + Integer.toString(tile.value) + "]";
+    }
+
 }
