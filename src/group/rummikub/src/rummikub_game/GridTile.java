@@ -11,8 +11,8 @@ public class GridTile {
      */
     public GridTile(){
 
-        this.isEmpty = true;
-        this.tile = null;
+        isEmpty = true;
+        tile = null;
     }
 
     /**
@@ -21,7 +21,7 @@ public class GridTile {
      */
     public boolean isEmpty() {
 
-        return this.isEmpty;
+        return isEmpty;
     }
 
     /**
@@ -29,7 +29,7 @@ public class GridTile {
      */
     public Tile getTile() {
 
-        return this.tile;
+        return tile;
     }
 
     /**
@@ -39,7 +39,7 @@ public class GridTile {
     public void setTile(Tile tile) {
 
         this.tile = tile;
-        this.isEmpty = false;
+        isEmpty = false;
     }
 
     /**
@@ -47,8 +47,8 @@ public class GridTile {
      */
     public void removeTile() {
 
-        this.tile = null;
-        this.isEmpty = true;
+        tile = null;
+        isEmpty = true;
     }
 
     /**
@@ -56,7 +56,7 @@ public class GridTile {
      */
     public int getPosition() {
 
-        return this.position;
+        return position;
     }
 
     /**
@@ -65,12 +65,13 @@ public class GridTile {
      */
     public void setPosition(int pos) {
 
-        this.position = pos;
+        position = pos;
     }
 
     public String toString() {
 
-        if (this.tile == null) {
+        if (tile == null) {
+
             return "[*]";
         }
 

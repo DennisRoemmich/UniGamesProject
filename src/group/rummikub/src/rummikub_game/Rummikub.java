@@ -110,7 +110,7 @@ public class Rummikub {
     private void handOutTiles(){
 
         for(RummikubPlayer player : players){
-            for(int i = 0; i < START_TILES_AMOUNT; i++){
+            for(var i = 0; i < START_TILES_AMOUNT; i++){
                 var mytile = getRandomTileFromStack();
                 player.getRack().addTile(mytile);
             }

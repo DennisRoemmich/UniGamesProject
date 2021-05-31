@@ -5,7 +5,7 @@
 * Joker hat Value 30
 * GridTile position geadded für besseres Umgehen mit Klasse Point
 * Komparator für Tilefarbe geadded 
-* Klärungsbedarf: wann this.
+* Klärungsbedarf: wann this. -> nur wenn unbedingt nötig
 
 `Andi`
 
