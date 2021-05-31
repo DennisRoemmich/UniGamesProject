@@ -4,6 +4,7 @@ public class RummikubPlayer {
 
     private Rack tileRack;
     private Rack sketchRack;
+    private int score;
 
     /**
      * Constructor
@@ -12,6 +13,8 @@ public class RummikubPlayer {
 
         this.tileRack = new Rack();
         this.sketchRack = new Rack();
+        this.score = 0;
+
     }
 
     /**
@@ -30,6 +33,24 @@ public class RummikubPlayer {
     public Rack getRack(){
 
         return this.tileRack;
+    }
+
+    /**
+     * @return players score of the current game (only set in the end of the game)
+     */
+    public int getScore(){
+
+        return score;
+
+    }
+
+    /**
+     * @return players score of the current game (only set in the end of the game)
+     */
+    public void setScore(int score){
+
+        this.score = score;
+
     }
 
     /**

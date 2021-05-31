@@ -3,13 +3,13 @@ package main;
 import rummikub_game.Board;
 import rummikub_game.Rack;
 import rummikub_game.Rummikub;
+import rummikub_game.Tile;
 
 import java.awt.*;
 
 public class Main {
 
     public static void main(String[] args) {
-
 
 
         /* SOME TESTING */

@@ -3,36 +3,44 @@ package rummikub_game;
 import java.awt.*;
 import java.util.Random;
 
+
 public class Rummikub {
 
     private static final int JOKER_AMOUNT = 2;
     private static final int START_TILES_AMOUNT = 14;
+    private static final boolean ACCEPT_CHANGES_WITHOUT_PUTTING = false;
+
+    private final Random rand = new Random();
+
     private Board board;
     private Board sketchBoard;
-    private RummikubPlayer[] players;
-    private int startPlayer;
+
+    private final RummikubPlayer[] players;
+    private final int startPlayer;
     private int currentMove;
     private Tile[] tileStack;
-    private int[] currentScores;
     private int tilesOnStack = 0;
 
-
     /**
-     * initialize board, games, everything
-     * @param playerNumber
+     * Constructor. Initializes board, players etc.
+     * @param playerNumber number of players in the game
      * @param indexStartPlayer must be the arrayindex! (Player 1 means index 0)
      */
     public Rummikub(int playerNumber, int indexStartPlayer){
 
-        this.board = new Board();
+
         this.players = new RummikubPlayer[playerNumber];
 
+        /* initialize player array */
         for(int i = 0; i < playerNumber; i++){
+
            players[i] = new RummikubPlayer();
+
         }
 
-        this.currentScores = new int[playerNumber];
+        this.board = new Board();
         this.startPlayer = indexStartPlayer;
+        this.currentMove = 0;
 
         createTileStack();
         handOutTiles();
@@ -40,59 +48,69 @@ public class Rummikub {
     }
 
     public RummikubPlayer getCurrentPlayer(){
-        return players[(currentMove + startPlayer) % players.length];
+
+        return players[ ( currentMove + startPlayer ) % players.length ];
+
     }
 
     public RummikubPlayer getPlayerAt (int index){
-        return players[index];
+
+        return players[ index ];
+
     }
 
     public int getCurrentMove(){
+
         return this.currentMove;
+
     }
 
     public Board getBoard(){
+
         return this.board;
+
     }
 
     /**
-     * is always referring to sketchRack and sketchBoard
-     * @param rackPos
-     * @param boardPos
-     * @return
+     * Moves tile from rack of the player with the current move to the game board.
+     * Is always referring to sketchRack and sketchBoard!
+     * @return true if movement is possible, false otherwise.
      */
     public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos){
 
-        var currentPlayersRack = getCurrentPlayer().getRack();
+        var currentPlayersRack = getCurrentPlayer().getSketchRack();
         var rackGridTile = currentPlayersRack.pointToGridTile(rackPos);
-        var boardGridTile = board.getGridTileAt(boardPos);
+        var boardGridTile = sketchBoard.getGridTileAt(boardPos);
 
-        if (rackGridTile.isEmpty() || !boardGridTile.isEmpty()) {
+        if ( rackGridTile.isEmpty() || !boardGridTile.isEmpty() ) {
+
             return false;
+
         }
 
-        board.addTile(boardPos, rackGridTile.getTile());
+        sketchBoard.addTile(boardPos, rackGridTile.getTile());
         currentPlayersRack.removeTile(rackPos);
 
         return true;
-    }
-
-    /**
-     * Current player gets (random) Tile from tileStack
-     */
-    public void currentPlayerTakeTile(){
 
     }
+
 
     /**
      *
-     * @return
+     * @return true if game is finished, false if not
      */
     public boolean isFinished(){
 
-        // call gameOver() if game is over!
+        return ( currentMove != 0 && getWinner() != null );
 
-        return false;
+    }
+
+
+    public void resetMove(){
+
+        sketchBoard = board;
+
     }
 
     /**
@@ -100,35 +118,113 @@ public class Rummikub {
      * @return false if current board is invalid, otherwise true
      */
     public boolean finishMove(){
+
+        if ( sketchBoard.isValid() ) {
+
+            /* true if player didn't play tiles */
+            if ( getCurrentPlayer().getRack().getSize() == getCurrentPlayer().getSketchRack().getSize() ){
+
+                var nextTile = getRandomTileFromStack();
+
+                if ( nextTile != null ) {
+                    getCurrentPlayer().getRack().addTile( nextTile );
+                }
+
+                if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
+                    board = sketchBoard;
+                }
+
+            } else {
+
+                board = sketchBoard;
+
+            }
+
+            getCurrentPlayer().acceptSketchRack();
+            currentMove++;
+
+            if( isFinished() ){
+                gameOver();
+            }
+
+            return true;
+        }
+
         return false;
+
     }
 
-    public void resetMove(){
+    /**
+     * Current player gets (random) Tile from tileStack
+     * @return returns false if there weren't any tiles left on stack.
+     */
+    private boolean currentPlayerTakeTile(){
+
+        var tile = getRandomTileFromStack();
+
+        if (tile != null) {
+
+            getCurrentPlayer().getRack().addTile(tile);
+            return true;
+
+        } else {
+
+            return false;
+
+        }
 
     }
 
     private void handOutTiles(){
 
-        for(RummikubPlayer player : players){
-            for(int i = 0; i < START_TILES_AMOUNT; i++){
+        for ( RummikubPlayer player : players ) {
+
+            for ( int i = 0; i < START_TILES_AMOUNT; i++ ) {
+
                 var mytile = getRandomTileFromStack();
                 player.getRack().addTile(mytile);
+
             }
+        }
+    }
+
+
+    /**
+     * call if game is over
+     * evaluates stats
+     */
+    private void gameOver(){
+
+        RummikubPlayer winner = getWinner();
+        var totalSum = 0;
+
+        for ( RummikubPlayer player : players ){
+
+            if ( player != winner ){
+
+                var sum = player.getRack().getSum();
+                player.setScore(sum * -1);
+                totalSum += sum;
+
+            }
+
+            winner.setScore(totalSum);
+
         }
 
     }
 
     /**
      * returns null if there are no tiles left! Otherwise random remaining tile on stack ist returned.
-     * @return
      */
     private Tile getRandomTileFromStack(){
 
-        if(tilesOnStack == 0){
+        if ( tilesOnStack == 0 ) {
+
             return null;
+
         }
 
-        var rand = new Random();
         var randomIndex = rand.nextInt(tilesOnStack);
         Tile tile = tileStack[randomIndex];
 
@@ -165,18 +261,18 @@ public class Rummikub {
     }
 
     private RummikubPlayer getWinner(){
-        return new RummikubPlayer();
+
+        for ( RummikubPlayer player : players ){
+
+            if ( player.getRack().isEmpty() ){
+
+                return player;
+
+            }
+        }
+
+        return null;
     }
-
-    /**
-     * call if game is over
-     * evaluates stats
-     */
-    private void gameOver(){
-
-    }
-
-
 
 
 }
