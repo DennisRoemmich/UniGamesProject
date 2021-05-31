@@ -6,41 +6,80 @@ public class ChessBoard {
     final int numColumns = 8;
 
     ChessPiece[][] pieces = new ChessPiece[numRows][numColumns];
+    void placePiece(ChessPiece piece, Position pos){
+        placePiece(piece, pos.getRow(), pos.getColumn());
+    }
 
-    boolean placePiece(ChessPiece piece, int row, int column) {
-        if (isPositionValid(row, column) && isFieldFree(row, column)) {
-            pieces[row][column] = piece;
-            return true;
-        } else {
-            return false;
+    void placePiece(ChessPiece piece, Row row, Column column) {
+        pieces[row.getIndex()][column.getIndex()] = piece;
+    }
+
+    void removePiece(Position pos) {
+        removePiece(pos.getRow(), pos.getColumn());
+    }
+
+    void removePiece(Row row, Column column) {
+        pieces[row.getIndex()][column.getIndex()] = null;
+    }
+
+    public ChessPiece getPiece(Position pos) {
+        return  getPiece(pos.getRow(), pos.getColumn());
+    }
+    public ChessPiece getPiece(Row row, Column column) {
+        return pieces[row.getIndex()][column.getIndex()];
+    }
+
+    void movePiece(Position origin, Position destination, int moveNumber) {
+        ChessPiece piece = getPiece(origin);
+        if(piece != null) {
+            placePiece(piece, destination);
+            removePiece(origin);
+            piece.setLastMove(moveNumber);
         }
     }
 
-    boolean removePiece(int row, int column) {
-        if(!isPositionValid(row, column) || isFieldFree(row, column)) {
-            return false;
-        } else {
-            pieces[row][column] = null;
-            return true;
-        }
+    public boolean isFieldFree(Position pos) {
+        return isFieldFree(pos.getRow(), pos.getColumn());
+    }
+    public boolean isFieldFree(Row row, Column column) {
+        return getPiece(row, column) == null;
     }
 
-    private boolean isPositionValid(int row, int column){
-        if (row < 0 || row >= numRows) {
-            return false;
-        }
-        if (column < 0 || column >= numColumns) {
-            return false;
-        }
-        return true;
+    public boolean isOccupiedByOpponent(Position pos, boolean selfIsWhite) {
+        return !isFieldFree(pos) && (getPiece(pos).isWhite() != selfIsWhite);
     }
 
-    private boolean isFieldFree(int row, int column) {
-        if (!isPositionValid(row, column)) {
-            return false;
-        } else {
-            return pieces[row][column] == null;
+    public boolean isOccupiedByOpponentOrFree(Position pos, boolean selfIsWhite) {
+        return isFieldFree(pos) || isOccupiedByOpponent(pos, selfIsWhite);
+    }
+
+    public boolean isOccupiedBySelf(Position pos, boolean selfIsWhite) {
+        return !isFieldFree(pos) && (getPiece(pos).isWhite() == selfIsWhite);
+    }
+
+    public static ChessBoard getStartBoard() {
+        ChessBoard board = new ChessBoard();
+        for(Column column : Column.values()) {
+            board.placePiece(new ChessPiece(ChessPieceType.PAWN, true), Row._2_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.PAWN, false), Row._7_, column);
         }
+        for(Column column : new Column[]{Column.A, Column.H}){
+            board.placePiece(new ChessPiece(ChessPieceType.ROOK, true), Row._1_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.ROOK, false), Row._8_, column);
+        }
+        for(Column column : new Column[]{Column.B, Column.G}){
+            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, true), Row._1_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, false), Row._8_, column);
+        }
+        for(Column column : new Column[]{Column.C, Column.F}){
+            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, true), Row._1_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, false), Row._8_, column);
+        }
+        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, true), Row._1_, Column.D);
+        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, false), Row._8_, Column.D);
+        board.placePiece(new ChessPiece(ChessPieceType.KING, true), Row._1_, Column.E);
+        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row._8_, Column.E);
+        return board;
     }
 
 }
