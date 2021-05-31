@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Rack {
 
-    public static final int GRIDHEIGHT = 2;
-    public static final int GRIDWIDTH = 15;
+    public static final int GRID_HEIGHT = 2;
+    public static final int GRID_WIDTH = 15;
 
     private final GridTile[][] grid;
     private int size;
@@ -15,13 +15,13 @@ public class Rack {
      */
     public Rack() {
 
-        this.grid = new GridTile[GRIDHEIGHT][GRIDWIDTH];
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            this.grid[i / GRIDWIDTH][i % GRIDWIDTH] = new GridTile();
-            this.grid[i / GRIDWIDTH][i % GRIDWIDTH].setPosition(i);
+            grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
+            grid[i / GRID_WIDTH][i % GRID_WIDTH].setPosition(i);
         }
-        this.size = 0;
+        size = 0;
     }
 
     /**
@@ -29,7 +29,7 @@ public class Rack {
      */
     public int getSize() {
 
-        return this.size;
+        return size;
     }
 
     /**
@@ -38,7 +38,7 @@ public class Rack {
      */
     public boolean isEmpty() {
 
-        return this.size == 0;
+        return size == 0;
     }
 
     /**
@@ -48,9 +48,9 @@ public class Rack {
 
         var sum = 0;
 
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            sum = sum + this.positionToGridTile(i).getTile().getValue();
+            sum = sum + positionToGridTile(i).getTile().getValue();
         }
 
         return sum;
@@ -61,7 +61,7 @@ public class Rack {
      */
     public GridTile[][] getGrid() {
 
-        return this.grid;
+        return grid;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Rack {
      * @param point
      * @return position
      */
-    public int getPosition(Point point) {
+    public int pointToPosition(Point point) {
 
         return point.x + point.y;
     }
@@ -81,7 +81,7 @@ public class Rack {
      */
     public GridTile pointToGridTile(Point point) {
 
-        return this.grid[point.x][point.y];
+        return grid[point.x][point.y];
     }
 
     /**
@@ -91,7 +91,7 @@ public class Rack {
      */
     public Point gridTileToPoint(GridTile gridTile) {
 
-        return new Point(gridTile.getPosition() / GRIDWIDTH, gridTile.getPosition() % GRIDWIDTH);
+        return new Point(gridTile.getPosition() / GRID_WIDTH, gridTile.getPosition() % GRID_WIDTH);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Rack {
      */
     public GridTile positionToGridTile(int i) {
 
-        return this.grid[i / GRIDWIDTH][i % GRIDWIDTH];
+        return grid[i / GRID_WIDTH][i % GRID_WIDTH];
     }
 
     /**
@@ -110,12 +110,12 @@ public class Rack {
      */
     public void addTile(Tile tile) {
 
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            if (this.positionToGridTile(i).isEmpty()) {
+            if (positionToGridTile(i).isEmpty()) {
 
-                this.positionToGridTile(i).setTile(tile);
-                this.size++;
+                positionToGridTile(i).setTile(tile);
+                size++;
 
                 return;
             }
@@ -130,7 +130,7 @@ public class Rack {
 
         for (Tile tile : tiles) {
 
-            this.addTile(tile);
+            addTile(tile);
         }
     }
 
@@ -140,8 +140,8 @@ public class Rack {
      */
     public void removeTile(Point pos) {
 
-        this.pointToGridTile(pos).removeTile();
-        this.size--;
+        pointToGridTile(pos).removeTile();
+        size--;
     }
 
     /**
@@ -152,28 +152,28 @@ public class Rack {
      */
     public boolean moveTile(Point from, Point to) {
 
-        var toMove = this.pointToGridTile(from);
-        var target = this.pointToGridTile(to);
+        var toMove = pointToGridTile(from);
+        var target = pointToGridTile(to);
 
         if (!toMove.isEmpty()) {
 
             if (!target.isEmpty()) {
 
-                if (this.getFirstEmpty(this.getPosition(to)) != null) {
+                if (getFirstEmpty(pointToPosition(to)) != null) {
 
-                    var gridTile = this.getFirstEmpty(this.getPosition(to));
-                    GridTile nextGridTile = this.positionToGridTile(gridTile.getPosition());
+                    var gridTile = getFirstEmpty(pointToPosition(to));
+                    var nextGridTile = positionToGridTile(gridTile.getPosition());
 
                     while (gridTile != target) {
 
-                        nextGridTile = this.positionToGridTile(nextGridTile.getPosition() - 1);
+                        nextGridTile = positionToGridTile(nextGridTile.getPosition() - 1);
 
                         gridTile.setTile(nextGridTile.getTile());
-                        gridTile = this.positionToGridTile(gridTile.getPosition() - 1);
+                        gridTile = positionToGridTile(gridTile.getPosition() - 1);
                     }
                 } else {
 
-                    this.swap(toMove, target);
+                    swap(toMove, target);
 
                     return true;
                 }
@@ -193,11 +193,11 @@ public class Rack {
      */
     private GridTile getFirstEmpty(int pos) {
 
-        for (int i = pos + 1; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            if (this.positionToGridTile(i).isEmpty()) {
+            if (positionToGridTile(i).isEmpty()) {
 
-                return this.positionToGridTile(i);
+                return positionToGridTile(i);
             }
         }
         return new GridTile();
@@ -210,11 +210,11 @@ public class Rack {
      */
     private GridTile getFirstNonEmpty(int pos) {
 
-        for (int i = pos + 1; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            if (!this.positionToGridTile(i).isEmpty()) {
+            if (!positionToGridTile(i).isEmpty()) {
 
-                return this.positionToGridTile(i);
+                return positionToGridTile(i);
             }
         }
         return new GridTile();
@@ -225,11 +225,11 @@ public class Rack {
      */
     private void closeGaps() {
 
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            if (this.positionToGridTile(i).isEmpty() && (this.getFirstNonEmpty(i) != null)) {
+            if (positionToGridTile(i).isEmpty() && (getFirstNonEmpty(i) != null)) {
 
-                swap(this.positionToGridTile(i), this.getFirstNonEmpty(i));
+                swap(positionToGridTile(i), getFirstNonEmpty(i));
             }
         }
     }
@@ -262,18 +262,18 @@ public class Rack {
 
         this.closeGaps();
 
-        var sorted = new GridTile[this.size];
+        var sorted = new GridTile[size];
 
         for (var i = 0; i < sorted.length; i++) {
 
-            sorted[i] = this.grid[i / 15][i % 15];
+            sorted[i] = grid[i / 15][i % 15];
         }
 
         sortGroup(sorted);
 
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            this.grid[i / 15][i % 15].setTile(sorted[i].getTile());
+            grid[i / 15][i % 15].setTile(sorted[i].getTile());
         }
     }
 
@@ -281,18 +281,18 @@ public class Rack {
 
         this.closeGaps();
 
-        var sorted = new GridTile[this.size];
+        var sorted = new GridTile[size];
 
         for (var i = 0; i < sorted.length; i++) {
 
-            sorted[i] = this.grid[i / 15][i % 15];
+            sorted[i] = grid[i / 15][i % 15];
         }
 
         sortRun(sorted);
 
-        for (var i = 0; i < GRIDHEIGHT * GRIDWIDTH; i++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            this.grid[i / 15][i % 15].setTile(sorted[i].getTile());
+            grid[i / 15][i % 15].setTile(sorted[i].getTile());
         }
     }
 
@@ -349,7 +349,7 @@ public class Rack {
                     maxPos = j;
                 }
             }
-            this.swap(grid[i], grid[maxPos]);
+            swap(grid[i], grid[maxPos]);
         }
 
         var iterator = 0;

@@ -12,7 +12,7 @@ public class Tile {
     public Tile(TileColor color){
 
         this.color = color;
-        this.value = 30;
+        value = 30;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Tile {
      */
     public TileColor getTileColor() {
 
-        return this.color;
+        return color;
     }
 
     /**
@@ -39,7 +39,7 @@ public class Tile {
      */
     public int getValue() {
 
-        return this.value;
+        return value;
     }
 
     /**
@@ -48,12 +48,12 @@ public class Tile {
      */
     public boolean isJoker(){
 
-        return this.color == TileColor.JOKER;
+        return color == TileColor.JOKER;
     }
 
     public int compareTo(Tile tile) {
 
-        return switch (this.color) {
+        return switch (color) {
 
             case BLACK -> compareToBlack(tile);
             case BLUE -> compareToBlue(tile);

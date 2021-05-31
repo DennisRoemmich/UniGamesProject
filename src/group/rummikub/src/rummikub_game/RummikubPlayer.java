@@ -11,9 +11,9 @@ public class RummikubPlayer {
      */
     public RummikubPlayer(){
 
-        this.tileRack = new Rack();
-        this.sketchRack = new Rack();
-        this.score = 0;
+        tileRack = new Rack();
+        sketchRack = new Rack();
+        score = 0;
 
     }
 

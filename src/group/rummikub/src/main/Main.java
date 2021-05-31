@@ -16,19 +16,21 @@ public class Main {
 
         // create rummikub game
 
-        Rummikub rummi = new Rummikub(4, 1);
+        Rummikub rummi = new Rummikub(4, 0);
 
-        // draw rack of player one after handout
+        // draw rack of players one after handout
 
-        System.out.println("Rack of Player 2:");
-        for(int i = 0; i < Rack.GRIDHEIGHT; i++){
-            for(int o = 0; o < Rack.GRIDWIDTH; o++){
-                Point point = new Point(i, o);
-                System.out.print(rummi.getPlayerAt(1).getRack().pointToGridTile(point).toString());
+        for (int p = 0; p < 4; p++) {
+            System.out.println("Rack of Player " + (p+1) + ":");
+            for (int i = 0; i < Rack.GRID_HEIGHT; i++) {
+                for (int o = 0; o < Rack.GRID_WIDTH; o++) {
+                    Point point = new Point(i, o);
+                    System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
+                }
+                System.out.println();
             }
-            System.out.println();
         }
-
+/**
         // move a tile from rack to board
 
         rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(5,5));
@@ -44,7 +46,8 @@ public class Main {
             }
             System.out.println();
         }
-
+ **/
 
     }
+
 }
