@@ -24,9 +24,9 @@ public class ChessPiece {
         return lastMove;
     }
 
-    public void setLastMove(int i) {
-        if(i > lastMove){
-            lastMove = i;
+    public void setLastMove(int currentMove) {
+        if(currentMove > lastMove){
+            lastMove = currentMove;
         }
     }
 

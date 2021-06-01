@@ -1,8 +1,9 @@
 package sample;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
-import java.util.List;
 
 public class Controller {
 

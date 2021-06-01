@@ -1,8 +1,5 @@
 package core;
 
-import org.json.simple.JSONObject;
-
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class Chess {
         if(board.isOccupiedBySelf(pos, isItWhitesTurn)) {
             return MoveFinder.findMoves(pos, board);
         } else {
-            return new ArrayList<Position>();
+            return new ArrayList<>();
         }
     }
 }

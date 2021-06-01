@@ -60,25 +60,25 @@ public class ChessBoard {
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
         for(Column column : Column.values()) {
-            board.placePiece(new ChessPiece(ChessPieceType.PAWN, true), Row._2_, column);
-            board.placePiece(new ChessPiece(ChessPieceType.PAWN, false), Row._7_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.PAWN, true), Row.M2, column);
+            board.placePiece(new ChessPiece(ChessPieceType.PAWN, false), Row.M7, column);
         }
         for(Column column : new Column[]{Column.A, Column.H}){
-            board.placePiece(new ChessPiece(ChessPieceType.ROOK, true), Row._1_, column);
-            board.placePiece(new ChessPiece(ChessPieceType.ROOK, false), Row._8_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.ROOK, true), Row.M1, column);
+            board.placePiece(new ChessPiece(ChessPieceType.ROOK, false), Row.M8, column);
         }
         for(Column column : new Column[]{Column.B, Column.G}){
-            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, true), Row._1_, column);
-            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, false), Row._8_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, true), Row.M1, column);
+            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, false), Row.M8, column);
         }
         for(Column column : new Column[]{Column.C, Column.F}){
-            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, true), Row._1_, column);
-            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, false), Row._8_, column);
+            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, true), Row.M1, column);
+            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, false), Row.M8, column);
         }
-        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, true), Row._1_, Column.D);
-        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, false), Row._8_, Column.D);
-        board.placePiece(new ChessPiece(ChessPieceType.KING, true), Row._1_, Column.E);
-        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row._8_, Column.E);
+        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, true), Row.M1, Column.D);
+        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, false), Row.M8, Column.D);
+        board.placePiece(new ChessPiece(ChessPieceType.KING, true), Row.M1, Column.E);
+        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row.M8, Column.E);
         return board;
     }
 

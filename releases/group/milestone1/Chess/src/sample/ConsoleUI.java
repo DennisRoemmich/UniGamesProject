@@ -13,7 +13,7 @@ public class ConsoleUI {
     private Scanner scanner = new Scanner(System.in);
 
     public void test() {
-        List<Position> positions = game.getPossibleMoves(new Position(Row._2_, Column.A));
+        List<Position> positions = game.getPossibleMoves(new Position(Row.M2, Column.A));
         for (Position pos: positions) {
             System.out.println("row: " + pos.getRow() + ", column: " + pos.getColumn());
         }
