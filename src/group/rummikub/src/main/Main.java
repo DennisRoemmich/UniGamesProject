@@ -30,6 +30,20 @@ public class Main {
                 System.out.println();
             }
         }
+        rummi.getPlayerAt(0).getRack().sortForRun();
+        rummi.getPlayerAt(1).getRack().sortForRun();
+        rummi.getPlayerAt(2).getRack().sortForGroup();
+        rummi.getPlayerAt(3).getRack().sortForRun();
+        for (int p = 0; p < 4; p++) {
+            System.out.println("Rack of Player " + (p+1) + ":");
+            for (int i = 0; i < Rack.GRID_HEIGHT; i++) {
+                for (int o = 0; o < Rack.GRID_WIDTH; o++) {
+                    Point point = new Point(i, o);
+                    System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
+                }
+                System.out.println();
+            }
+        }
 /**
         // move a tile from rack to board
 
