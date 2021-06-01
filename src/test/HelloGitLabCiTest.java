@@ -6,6 +6,6 @@ import junit.framework.TestSuite;
 
 public class HelloGitLabCiTest extends TestCase {
     public void testSayHello() {
-        assertEquals(HelloGitLabCi.sayHello(), "Hello GitLab CI!");
+        assertEquals(HelloGitLabCi.sayHello(), "Hello GitLab CI! Fer");
     }
 }
