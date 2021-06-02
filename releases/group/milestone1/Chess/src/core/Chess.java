@@ -1,5 +1,7 @@
 package core;
 
+import core.positioning.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 

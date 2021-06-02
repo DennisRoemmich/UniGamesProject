@@ -1,10 +1,14 @@
 package sample;
 
-import core.Chess;
-import core.Column;
-import core.Position;
-import core.Row;
+import core.*;
+import core.pieces.ChessPieceType;
+import core.positioning.Column;
+import core.positioning.Position;
+import core.positioning.Row;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,12 +25,43 @@ public class ConsoleUI {
     }
 
     public void startGame(){
+        printKing();
         game = new Chess();
         System.out.println("Let's play some chess!");
         System.out.println("You start!");
         while(true) {
             getMove();
         }
+    }
+
+    public void printKing() {
+        Charset utf8 = Charset.forName("UTF-8");
+        Charset def = Charset.defaultCharset();
+
+        String charToPrint = "u0905";
+
+        byte[] bytes = new byte[0];
+        try {
+            bytes = charToPrint.getBytes("UTF-8");
+        String message = new String(bytes , def.name());
+
+        PrintStream printStream = new PrintStream(System.out, true, utf8.name());
+        printStream.println(message);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getQuickMove() {
+        boolean isItWhitesTurn = game.isItWhitesTurn();
+
+        ChessPieceType type;
+        Row destinationRow;
+        Column destinationColumn;
+
+
+
     }
 
     public void getMove(){

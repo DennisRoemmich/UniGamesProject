@@ -1,12 +1,16 @@
 package core;
 
+import core.pieces.ChessPiece;
+import core.pieces.Pawn;
+import core.positioning.Column;
+import core.positioning.Position;
+import core.positioning.Row;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MoveFinder {
 
-
-    //needs currentMove fuer en-passant
     public static List<Position> findMoves(Position pos, ChessBoard board) {
 
         ChessPiece piece = board.getPiece(pos);

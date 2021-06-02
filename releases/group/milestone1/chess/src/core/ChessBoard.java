@@ -1,5 +1,10 @@
 package core;
 
+import core.pieces.*;
+import core.positioning.Column;
+import core.positioning.Position;
+import core.positioning.Row;
+
 public class ChessBoard {
 
     final int numRows = 8;
@@ -62,23 +67,22 @@ public class ChessBoard {
             board.placePiece(new Pawn(true), Row.M2, column);
             board.placePiece(new Pawn(false), Row.M7, column);
         }
-        /*
         for(Column column : new Column[]{Column.A, Column.H}){
-            board.placePiece(new ChessPiece(ChessPieceType.ROOK, true), Row.M1, column);
-            board.placePiece(new ChessPiece(ChessPieceType.ROOK, false), Row.M8, column);
+            board.placePiece(new Rook(true), Row.M1, column);
+            board.placePiece(new Rook(false), Row.M8, column);
         }
         for(Column column : new Column[]{Column.B, Column.G}){
-            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, true), Row.M1, column);
-            board.placePiece(new ChessPiece(ChessPieceType.KNIGHT, false), Row.M8, column);
+            board.placePiece(new Knight(true), Row.M1, column);
+            board.placePiece(new Knight(false), Row.M8, column);
         }
         for(Column column : new Column[]{Column.C, Column.F}){
-            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, true), Row.M1, column);
-            board.placePiece(new ChessPiece(ChessPieceType.BISHOP, false), Row.M8, column);
+            board.placePiece(new Bishop(true), Row.M1, column);
+            board.placePiece(new Bishop(false), Row.M8, column);
         }
-        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, true), Row.M1, Column.D);
-        board.placePiece(new ChessPiece(ChessPieceType.QUEEN, false), Row.M8, Column.D);
-        board.placePiece(new ChessPiece(ChessPieceType.KING, true), Row.M1, Column.E);
-        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row.M8, Column.E);*/
+        board.placePiece(new Queen(true), Row.M1, Column.D);
+        board.placePiece(new Queen(false), Row.M8, Column.D);
+        board.placePiece(new King(true), Row.M1, Column.E);
+        board.placePiece(new King(false), Row.M8, Column.E);
         return board;
     }
 
