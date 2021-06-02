@@ -1,6 +1,4 @@
-package core;
-
-import java.security.InvalidParameterException;
+package core.positioning;
 
 public enum Column {
 

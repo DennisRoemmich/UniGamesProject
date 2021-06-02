@@ -1,6 +1,4 @@
-package core;
-
-import java.lang.reflect.Type;
+package core.pieces;
 
 public class Pawn extends ChessPiece {
 

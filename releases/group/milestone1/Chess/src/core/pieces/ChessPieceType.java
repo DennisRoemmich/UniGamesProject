@@ -1,4 +1,4 @@
-package core;
+package core.pieces;
 
 public enum ChessPieceType {
     PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING;

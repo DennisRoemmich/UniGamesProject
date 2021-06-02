@@ -1,4 +1,4 @@
-package core;
+package core.positioning;
 
 import java.security.InvalidParameterException;
 
