@@ -99,9 +99,9 @@ public class Rack {
      * @param position
      * @return GridTile
      */
-    public GridTile positionToGridTile(int i) {
+    public GridTile positionToGridTile(int position) {
 
-        return grid[i / GRID_WIDTH][i % GRID_WIDTH];
+        return grid[position / GRID_WIDTH][position % GRID_WIDTH];
     }
 
     /**
@@ -138,9 +138,9 @@ public class Rack {
      * removes a Tile from the Rack
      * @param position
      */
-    public void removeTile(Point pos) {
+    public void removeTile(Point position) {
 
-        pointToGridTile(pos).removeTile();
+        pointToGridTile(position).removeTile();
         size--;
     }
 
@@ -191,9 +191,9 @@ public class Rack {
      * @param position
      * @return empty GridTile
      */
-    private GridTile getFirstEmpty(int pos) {
+    private GridTile getFirstEmpty(int position) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (positionToGridTile(i).isEmpty()) {
 
@@ -208,9 +208,9 @@ public class Rack {
      * @param position
      * @return non-empty GridTile
      */
-    private GridTile getFirstNonEmpty(int pos) {
+    private GridTile getFirstNonEmpty(int position) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (!positionToGridTile(i).isEmpty()) {
 
@@ -221,23 +221,9 @@ public class Rack {
     }
 
     /**
-     * closes the gapas in the Rack
-     */
-    private void closeGaps() {
-
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
-
-            if (positionToGridTile(i).isEmpty() && (getFirstNonEmpty(i) != null)) {
-
-                swap(positionToGridTile(i), getFirstNonEmpty(i));
-            }
-        }
-    }
-
-    /**
      * swaps tiles of two GridTiles
-     * @param GridTile 1
-     * @param GridTile 2
+     * @param uno GridTile
+     * @param dos GridTile
      */
     private void swap(GridTile uno, GridTile dos) {
 
@@ -260,14 +246,14 @@ public class Rack {
 
         var groupSorted = new Tile[size];
 
-        tilesToGrid(sortGroup(gridToTiles(groupSorted)));
+        tilesToGrid(sortGroup(gridToTiles(groupSorted), true));
     }
 
     public void sortForRun() {
 
         var runSorted = new Tile[size];
 
-        tilesToGrid(sortRun(gridToTiles(runSorted)));
+        tilesToGrid(sortRun(gridToTiles(runSorted), true));
     }
 
     private Tile[] gridToTiles(Tile [] tiles) {
@@ -305,66 +291,134 @@ public class Rack {
         }
     }
 
-    private Tile[] sortRun(Tile[] tiles) {
+    /**
+     * sorts a tiles-array for run
+     * @param tiles
+     * @param mode
+     * @return
+     */
+    private Tile[] sortRun(Tile[] tiles, boolean mode) {
 
-        for (var i = 0; i < tiles.length; i++) {
+        int min;
+        for (var i = 0; i < tiles.length - 1; i++) {
+
+            min = i;
 
             for (var j = i; j < tiles.length; j++) {
 
-                if (tiles[i].compareToRun(tiles[j])) {
+                if (tiles[min].compareToRun(tiles[j])) {
 
-                    var help = tiles[i];
-
-                    tiles[i] = tiles[j];
-                    tiles[j] = help;
+                    min = j;
                 }
             }
+
+            Tile help = tiles[i];
+
+            tiles[i] = tiles[min];
+            tiles[min] = help;
         }
-/**
-        var j = 0;
-        var k = 0;
 
-        for (var i = 0; i < 5; i++) {
+        if (mode) {
 
-            while (tiles[j].getTileColor().value == i) {
-
-                j++;
-            }
-
-            var forGroup = new Tile[j-k];
-
-            sortGroup(forGroup);
-
-            for (var l = k; l < j-k; l++) {
-
-                tiles[l] = forGroup[l-k];
-            }
-
-            k++;
+            sortRunForGroup(tiles);
         }
-**/
         return tiles;
     }
 
-    /** sry, ist jzt echt hässlich und lang geworden, wird noch geändert, änderungsvorschläge erwünscht
-     * sorts a grid for group
-     * @param grid sorted by group
+    /**
+     * sorts a tiles-array for group
+     * @param tiles-array sorted by group
+     * @param mode
      */
-    private Tile[] sortGroup(Tile[] tiles) {
+    private Tile[] sortGroup(Tile[] tiles, boolean mode) {
 
-        for (var i = 0; i < tiles.length; i++) {
+        int min;
+        for (var i = 0; i < tiles.length - 1; i++) {
+
+            min = i;
 
             for (var j = i; j < tiles.length; j++) {
 
-                if (tiles[i].compareToGroup(tiles[j])) {
+                if (tiles[min].compareToGroup(tiles[j])) {
 
-                    var help = tiles[i];
+                    min = j;
+                }
+            }
 
-                    tiles[i] = tiles[j];
-                    tiles[j] = help;
+            Tile help = tiles[i];
+
+            tiles[i] = tiles[min];
+            tiles[min] = help;
+        }
+
+        if (mode) {
+
+            sortGroupForRun(tiles);
+        }
+        return tiles;
+    }
+
+    private void sortRunForGroup(Tile[] tiles) {
+
+        var h = 0;
+        for (var i = 1; i <= 13; i++) {
+
+            var n = 0;
+
+            while (h < tiles.length && tiles[h].getValue() == i) {
+
+                h++;
+                n++;
+            }
+
+            if (n > 1) {
+
+                var toGroup = new Tile[n];
+
+                for (var j = 0; j < n; j++) {
+
+                    toGroup[j] = tiles[h - n + j];
+                }
+
+                sortGroup(toGroup, false);
+
+                for (var l = h - n; l < h; l++) {
+
+                    tiles[l] = toGroup[l - (h - n)];
                 }
             }
         }
-        return tiles;
+    }
+
+    private void sortGroupForRun(Tile[] tiles) {
+
+        var h = 0;
+        for (var i = 0; i < 5; i++) {
+
+            var n = 0;
+
+            while (h < tiles.length && tiles[h].getTileColor().value == i) {
+
+                h++;
+                n++;
+            }
+
+            if (n > 1) {
+
+                var toRun = new Tile[n];
+
+                for (var j = 0; j < n; j++) {
+
+                    toRun[j] = tiles[h - n + j];
+                }
+
+                var sorted = sortRun(toRun, false);
+
+                for (var l = h - n; l < h; l++) {
+
+                    tiles[l] = sorted[l - (h - n)];
+                }
+            }
+        }
     }
 }

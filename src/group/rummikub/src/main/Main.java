@@ -16,34 +16,43 @@ public class Main {
 
         // create rummikub game
 
-        Rummikub rummi = new Rummikub(4, 0);
+        var rummi = new Rummikub(4, 0);
 
         // draw rack of players one after handout
 
-        for (int p = 0; p < 4; p++) {
+        for (var p = 0; p < 4; p++) {
             System.out.println("Rack of Player " + (p+1) + ":");
-            for (int i = 0; i < Rack.GRID_HEIGHT; i++) {
-                for (int o = 0; o < Rack.GRID_WIDTH; o++) {
-                    Point point = new Point(i, o);
+            for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+                for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+                    var point = new Point(i, o);
                     System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
                 }
                 System.out.println();
             }
-        }
-        rummi.getPlayerAt(0).getRack().sortForRun();
-        rummi.getPlayerAt(1).getRack().sortForRun();
-        rummi.getPlayerAt(2).getRack().sortForGroup();
-        rummi.getPlayerAt(3).getRack().sortForRun();
-        for (int p = 0; p < 4; p++) {
-            System.out.println("Rack of Player " + (p+1) + ":");
-            for (int i = 0; i < Rack.GRID_HEIGHT; i++) {
-                for (int o = 0; o < Rack.GRID_WIDTH; o++) {
+/**                                         TESTING FOR SORTING
+                System.out.println();
+
+            rummi.getPlayerAt(p).getRack().sortForGroup();
+            for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+                for (var o = 0; o < Rack.GRID_WIDTH; o++) {
                     Point point = new Point(i, o);
                     System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
                 }
-                System.out.println();
+            //    System.out.println();
             }
+            System.out.println();
+
+            rummi.getPlayerAt(p).getRack().sortForRun();
+            for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+                for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+                    Point point = new Point(i, o);
+                    System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
+                }
+            //    System.out.println();
+            }
+            System.out.println(); **/
         }
+
 /**
         // move a tile from rack to board
 

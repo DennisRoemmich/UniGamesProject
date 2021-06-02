@@ -9,9 +9,9 @@ public class Tile {
      * Constructor only for joker
      * @param color of tile
      */
-    public Tile(TileColor color){
+    public Tile(TileColor joker){
 
-        this.color = color;
+        this.color = joker;
         value = 30;
     }
 
