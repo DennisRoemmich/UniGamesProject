@@ -1,5 +1,7 @@
 package core;
 
+import java.security.InvalidParameterException;
+
 public enum Column {
 
     A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7);
@@ -11,7 +13,19 @@ public enum Column {
     }
 
     public static Column valueOf(char c) {
-        return valueOf(String.valueOf(c));
+        try {
+            Column column = valueOf(String.valueOf(c));
+            return column;
+        } catch (Exception e) {
+            try {
+                char captialLetter = (char) (c - 32);
+                Column column = valueOf(captialLetter);
+                return column;
+            } catch (Exception exception) {
+                throw new InvalidParameterException();
+
+            }
+        }
     }
 
     public static Column valueOf(int i) {
