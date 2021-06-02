@@ -168,8 +168,7 @@ public class MoveFinder {
                 /* TODO */
                 // J: Kann auch nur als Königszug angesehen werden, da sonst Mehrdeutigkeiten entstehen (Tf1 vs kurze Rochade)
 
-                for (int rowMirror = 1; rowMirror < 8; rowMirror++) {
-                    int rowOffset = rowMirror;
+                for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
                     int columnOffset = 0;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
@@ -188,8 +187,7 @@ public class MoveFinder {
                     }
                 }
 
-                for (int rowMirror = -1; rowMirror > -8; rowMirror--) {
-                    int rowOffset = rowMirror;
+                for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
                     int columnOffset = 0;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
@@ -208,9 +206,8 @@ public class MoveFinder {
                     }
                 }
 
-                for (int columnMirror = 1; columnMirror < 8; columnMirror++) {
+                for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
                     int rowOffset = 0;
-                    int columnOffset = columnMirror;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
                         newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
@@ -228,9 +225,8 @@ public class MoveFinder {
                     }
                 }
 
-                for (int columnMirror = -1; columnMirror > -8; columnMirror--) {
+                for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
                     int rowOffset = 0;
-                    int columnOffset = columnMirror;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
                         newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
@@ -330,8 +326,7 @@ public class MoveFinder {
                     }
                 }
 
-                for (int rowMirror = 1; rowMirror < 8; rowMirror++) {
-                    int rowOffset = rowMirror;
+                for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
                     int columnOffset = 0;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
@@ -350,8 +345,7 @@ public class MoveFinder {
                     }
                 }
 
-                for (int rowMirror = -1; rowMirror > -8; rowMirror--) {
-                    int rowOffset = rowMirror;
+                for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
                     int columnOffset = 0;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
@@ -370,9 +364,8 @@ public class MoveFinder {
                     }
                 }
 
-                for (int columnMirror = 1; columnMirror < 8; columnMirror++) {
+                for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
                     int rowOffset = 0;
-                    int columnOffset = columnMirror;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
                         newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
@@ -390,9 +383,8 @@ public class MoveFinder {
                     }
                 }
 
-                for (int columnMirror = -1; columnMirror > -8; columnMirror--) {
+                for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
                     int rowOffset = 0;
-                    int columnOffset = columnMirror;
                     try {
                         newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
                         newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
@@ -415,10 +407,8 @@ public class MoveFinder {
                 //Rochade
                 /* TODO */
 
-                for (int rowMirror : new int[]{-1, 0, 1}) {
-                    for (int columnMirror : new int[]{-1, 0, 1}) {
-                        int rowOffset = rowMirror;
-                        int columnOffset = columnMirror;
+                for (int rowOffset : new int[]{-1, 0, 1}) {
+                    for (int columnOffset : new int[]{-1, 0, 1}) {
                         try {
                             newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
                             newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
