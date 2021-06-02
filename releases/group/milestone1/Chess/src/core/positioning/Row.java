@@ -19,6 +19,10 @@ public enum Row {
         return valueOf(c);
     }
 
+    public String toString() {
+        return String.valueOf(name().charAt(1));
+    }
+
     public int getIndex(){
         return index;
     }

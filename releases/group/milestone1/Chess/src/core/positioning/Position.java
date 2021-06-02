@@ -32,7 +32,7 @@ public class Position {
     }
 
     public String toString() {
-        return column.toString() + String.valueOf(row.toString().charAt(1));
+        return column.toString() + row.toString();
     }
 
     @Override

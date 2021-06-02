@@ -1,6 +1,7 @@
 package sample;
 
 import core.*;
+import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.positioning.Column;
 import core.positioning.Position;
@@ -28,6 +29,7 @@ public class ConsoleUI {
     public void startGame(){
         printKing();
         game = new Chess();
+        printBoard();
         System.out.println("Let's play some chess!");
         System.out.println("You start!");
         while(true) {
@@ -117,5 +119,42 @@ public class ConsoleUI {
         } while (destination == null);
         game.makeMove(origin, destination);
         System.out.println("Move executed.");
+        printBoard();
+    }
+
+    public void printBoard() {
+        System.out.println("   A  B  C  D  E  F  G  H   ");
+        System.out.println(" ┌────────────────────────┐ ");
+        for(Row row : Row.values()) {
+            System.out.print(row + "│");
+            for(Column column : Column.values()){
+                System.out.print(' ');
+                ChessPiece piece = game.getBoard().getPiece(row, column);
+                if (piece == null) {
+                    System.out.print(' ');
+                } else {
+                    printPieceChar(piece);
+                }
+                System.out.print(' ');
+            }
+            System.out.println("│" + row);
+        }
+        System.out.println(" └────────────────────────┘ ");
+        System.out.println("   A  B  C  D  E  F  G  H   ");
+    }
+
+    private void printPieceChar(ChessPiece piece){
+        char c;
+        switch(piece.getType()) {
+            case KNIGHT:
+                c = 'N';
+                break;
+            default:
+                c = piece.getType().toString().charAt(0);
+        }
+        if(piece.isWhite()) {
+            c = Character.toLowerCase(c);
+        }
+        System.out.print(c);
     }
 }
