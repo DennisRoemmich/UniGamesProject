@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chess {
+
     private ChessBoard board = ChessBoard.getStartBoard();
     private int currentMove = 1;
     private boolean isItWhitesTurn = true;
@@ -37,5 +38,17 @@ public class Chess {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    public ChessBoard getBoard() {
+        return board;
+    }
+
+    public int getCurrentMove() {
+        return currentMove;
+    }
+
+    public boolean isItWhitesTurn() {
+        return isItWhitesTurn;
     }
 }
