@@ -1,4 +1,4 @@
-package game;
+import org.json.simple.JSONObject;
 
 public interface Player {
 

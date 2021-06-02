@@ -1,16 +1,16 @@
-package game;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 
 public abstract class GameController {
-	private GameLog _log;
-	private List<Player> _player;
+	private GameLog mLog;
+	private List<Player> mPlayer;
 
 	public GameController() {
 		throw new UnsupportedOperationException();
 	}
 
-	public GameController(java.util.List<JSONObject> aMoves) {
+	public GameController(List<JSONObject> aMoves) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -24,11 +24,10 @@ public abstract class GameController {
 
 	public abstract void executeMove(JSONObject aMove);
 
-	/**
-	 * @param aMoves The moves that shall be executed
-	 */
-	public final void executeMoves(java.util.List<JSONObject> aMoves) {
-		System.out.println("Test");
+	public final void executeMoves(List<JSONObject> aMoves) {
+		for(JSONObject move : aMoves) {
+			executeMove(move);
+		}
 	}
 
 	public void resetLog() {

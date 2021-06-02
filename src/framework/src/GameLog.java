@@ -1,4 +1,7 @@
-package game;
+import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameLog {
 	private List<JSONObject> _moveLog = new ArrayList<JSONObject>();
