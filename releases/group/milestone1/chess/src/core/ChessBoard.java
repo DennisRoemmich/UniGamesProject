@@ -34,7 +34,6 @@ public class ChessBoard {
         if(piece != null) {
             placePiece(piece, destination);
             removePiece(origin);
-            piece.setLastMove(moveNumber);
         }
     }
 
@@ -60,9 +59,10 @@ public class ChessBoard {
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
         for(Column column : Column.values()) {
-            board.placePiece(new ChessPiece(ChessPieceType.PAWN, true), Row.M2, column);
-            board.placePiece(new ChessPiece(ChessPieceType.PAWN, false), Row.M7, column);
+            board.placePiece(new Pawn(true), Row.M2, column);
+            board.placePiece(new Pawn(false), Row.M7, column);
         }
+        /*
         for(Column column : new Column[]{Column.A, Column.H}){
             board.placePiece(new ChessPiece(ChessPieceType.ROOK, true), Row.M1, column);
             board.placePiece(new ChessPiece(ChessPieceType.ROOK, false), Row.M8, column);
@@ -78,7 +78,7 @@ public class ChessBoard {
         board.placePiece(new ChessPiece(ChessPieceType.QUEEN, true), Row.M1, Column.D);
         board.placePiece(new ChessPiece(ChessPieceType.QUEEN, false), Row.M8, Column.D);
         board.placePiece(new ChessPiece(ChessPieceType.KING, true), Row.M1, Column.E);
-        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row.M8, Column.E);
+        board.placePiece(new ChessPiece(ChessPieceType.KING, false), Row.M8, Column.E);*/
         return board;
     }
 

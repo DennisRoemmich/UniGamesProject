@@ -457,12 +457,17 @@ public class MoveFinder {
         }
 
         //Doppelzug
-        if (piece.getLastMove() == 0) {
-            newRow = Row.valueOf(pos.getRow().getIndex() + 2 * directionFactor);
-            posToTest = new Position(newRow, newColumn);
-            if (board.isFieldFree(posToTest)) {
-                list.add(posToTest);
+        try {
+            Pawn pawn = (Pawn) piece;
+            if (pawn.getNumberOfMoves() == 0) {
+                newRow = Row.valueOf(pos.getRow().getIndex() + 2 * directionFactor);
+                posToTest = new Position(newRow, newColumn);
+                if (board.isFieldFree(posToTest)) {
+                    list.add(posToTest);
+                }
             }
+        } catch (Exception e){
+
         }
 
         //Schlagen

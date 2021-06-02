@@ -1,40 +1,23 @@
 package core;
 
-public class ChessPiece {
+public abstract class ChessPiece {
 
-    private int lastMove = 0;
-
-    private ChessPieceType type;
-    private boolean isWhite;
-
-    protected ChessPiece(ChessPieceType type, boolean isWhite) {
-        this.type = type;
-        this.isWhite = isWhite;
-    }
+    protected ChessPieceType type;
+    protected boolean isWhite;
 
     public final String getName() {
         return type.name();
     }
 
-    public boolean isWhite() {
+    public final boolean isWhite() {
         return isWhite;
     }
 
-    public int getLastMove() {
-        return lastMove;
-    }
-
-    public void setLastMove(int currentMove) {
-        if(currentMove > lastMove){
-            lastMove = currentMove;
-        }
-    }
-
-    public ChessPieceType getType() {
+    public final ChessPieceType getType() {
         return type;
     }
 
-    public String toString() {
+    public final String toString() {
         return (isWhite ? "WHITE " : "BLACK ") + type.toString();
     }
 }
