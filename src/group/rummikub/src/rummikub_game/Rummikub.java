@@ -32,7 +32,7 @@ public class Rummikub {
         this.players = new RummikubPlayer[playerNumber];
 
         /* initialize player array */
-        for(int i = 0; i < playerNumber; i++){
+        for(var i = 0; i < playerNumber; i++){
 
            players[i] = new RummikubPlayer();
 
@@ -179,7 +179,7 @@ public class Rummikub {
 
         for ( RummikubPlayer player : players ) {
 
-            for ( int i = 0; i < START_TILES_AMOUNT; i++ ) {
+            for ( var i = 0; i < START_TILES_AMOUNT; i++ ) {
 
                 var mytile = getRandomTileFromStack();
                 player.getRack().addTile(mytile);
@@ -208,7 +208,7 @@ public class Rummikub {
 
             }
 
-            winner.setScore(totalSum);
+                winner.setScore(totalSum);
 
         }
 
@@ -226,7 +226,7 @@ public class Rummikub {
         }
 
         var randomIndex = rand.nextInt(tilesOnStack);
-        Tile tile = tileStack[randomIndex];
+        var tile = tileStack[randomIndex];
 
         /* put top tile to position where the random tile was
            this is so the removed tiles are always at the end of the array */
