@@ -12,6 +12,18 @@ import java.util.List;
 public class MoveFinder {
 
     public static List<Position> findMoves(Position pos, ChessBoard board) {
+        List<Position> validDestinations = new ArrayList<Position>();
+        ChessPiece piece = board.getPiece(pos);
+
+        for (Position destination : findMovesDisregaringChess(pos, board)) {
+            if(!CheckDetector.isInCheckAfterMove(board, piece.isWhite(), pos, destination)) {
+                validDestinations.add(destination);
+            }
+        }
+        return validDestinations;
+    }
+
+    public static List<Position> findMovesDisregaringChess(Position pos, ChessBoard board) {
 
         ChessPiece piece = board.getPiece(pos);
 
@@ -22,16 +34,12 @@ public class MoveFinder {
                 return findKnightMoves(pos, board);
             case BISHOP:
                 return findBishopMoves(pos, board);
-
             case ROOK:
                 return findRookMoves(pos, board);
-
             case QUEEN:
                 return findQueenMoves(pos, board);
-
             case KING:
                 return findKingMoves(pos, board);
-
             default:
                 return new ArrayList<Position>();
         }

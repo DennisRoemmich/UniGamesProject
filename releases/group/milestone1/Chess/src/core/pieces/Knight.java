@@ -1,11 +1,19 @@
 package core.pieces;
 
+import core.ChessBoard;
+import core.MoveFinder;
+import core.positioning.Position;
+
+import java.util.List;
+
 public class Knight extends ChessPiece  {
 
-    final ChessPieceType type = ChessPieceType.KNIGHT;
-
     public Knight(boolean isWhite){
-        this.isWhite = isWhite;
-        super.type = this.type;
+        super(isWhite, ChessPieceType.KNIGHT);
+    }
+
+    @Override
+    public List<Position> findMoves(Position pos, ChessBoard board) {
+        return MoveFinder.findMoves(pos, board);
     }
 }

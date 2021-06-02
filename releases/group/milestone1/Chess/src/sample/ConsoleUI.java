@@ -9,6 +9,7 @@ import core.positioning.Row;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -66,18 +67,34 @@ public class ConsoleUI {
 
     public void getMove(){
         System.out.println("Please enter the position of the piece, that you want to move:");
+
         Position origin = null;
+        List<Position> availableDestinations = new ArrayList<Position>();
+
         do {
             String input = scanner.nextLine();
             try {
                 origin = new Position(input);
+                if(game.getBoard().isFieldFree(origin)){
+                    System.out.println("This Field is empty.");
+                    origin = null;
+                    continue;
+                }
+                if(game.getBoard().isOccupiedByOpponent(origin, game.isItWhitesTurn())){
+                    System.out.println("This Field is occupied by the opponent.");
+                    origin = null;
+                    continue;
+                }
+                availableDestinations = game.getPossibleMoves(origin);
+                if(availableDestinations.isEmpty()) {
+                    System.out.println("The selected Piece can't move.");
+                }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
                 getMove();
             }
-        } while (origin == null);
+        } while (availableDestinations.isEmpty());
 
-        List<Position> availableDestinations = game.getPossibleMoves(origin);
         System.out.println("Available Fields are: " + availableDestinations);
         System.out.println("Please enter the position of the field, where you want to place your piece or enter [r] to returnand choose another piece:");
         Position destination = null;

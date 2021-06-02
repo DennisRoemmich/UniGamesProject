@@ -1,9 +1,15 @@
 package core.pieces;
 
-public abstract class ChessPiece {
+import core.CheckDetector;
+import core.ChessBoard;
+import core.positioning.Position;
 
-    protected ChessPieceType type;
-    protected boolean isWhite;
+import java.util.List;
+
+public abstract class ChessPiece implements Cloneable {
+
+    protected final ChessPieceType type;
+    protected final boolean isWhite;
 
     public final String getName() {
         return type.name();
@@ -19,5 +25,23 @@ public abstract class ChessPiece {
 
     public final String toString() {
         return (isWhite ? "WHITE " : "BLACK ") + type.toString();
+    }
+
+    public abstract List<Position> findMoves(Position pos, ChessBoard board);
+
+    protected ChessPiece(boolean isWhite, ChessPieceType type) {
+        this.isWhite = isWhite;
+        this.type = type;
+    }
+
+    @Override
+    public ChessPiece clone() {
+        try {
+            ChessPiece clone = getClass().getDeclaredConstructor(boolean.class).newInstance(isWhite);
+            return clone;
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 }

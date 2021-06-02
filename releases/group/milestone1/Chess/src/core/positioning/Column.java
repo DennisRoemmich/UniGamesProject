@@ -11,18 +11,11 @@ public enum Column {
     }
 
     public static Column valueOf(char c) {
+        c = Character.toUpperCase(c);
         try {
-            Column column = valueOf(String.valueOf(c));
-            return column;
+            return valueOf(String.valueOf(c));
         } catch (Exception e) {
-            try {
-                char captialLetter = (char) (c - 32);
-                Column column = valueOf(captialLetter);
-                return column;
-            } catch (Exception exception) {
-                throw new IllegalArgumentException();
-
-            }
+            throw new IllegalArgumentException();
         }
     }
 

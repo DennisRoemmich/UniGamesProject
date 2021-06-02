@@ -1,5 +1,6 @@
 package core;
 
+import core.pieces.ChessPiece;
 import core.positioning.Position;
 
 import java.util.ArrayList;
@@ -11,32 +12,37 @@ public class Chess {
     private int currentMove = 1;
     private boolean isItWhitesTurn = true;
 
+
     public void reset() {
         board = ChessBoard.getStartBoard();
     }
 
     public Chess() {
-
     }
 
     public boolean makeMove(Position origin, Position destination) {
         if (getPossibleMoves(origin).contains(destination)) {
             board.movePiece(origin, destination, currentMove);
-            if(isItWhitesTurn) {
-                isItWhitesTurn = false;
-            } else {
-                isItWhitesTurn = true;
-                currentMove++;
-            }
+            incrementMove();
             return true;
         } else {
             return false;
         }
     }
 
+    private void incrementMove() {
+        if(isItWhitesTurn) {
+            isItWhitesTurn = false;
+        } else {
+            isItWhitesTurn = true;
+            currentMove++;
+        }
+    }
+
     public List<Position> getPossibleMoves(Position pos) {
-        if(board.isOccupiedBySelf(pos, isItWhitesTurn)) {
-            return MoveFinder.findMoves(pos, board);
+        ChessPiece piece = board.getPiece(pos);
+        if(piece != null && piece.isWhite() == isItWhitesTurn) {
+            return piece.findMoves(pos, board);
         } else {
             return new ArrayList<>();
         }

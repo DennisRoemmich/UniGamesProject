@@ -5,12 +5,16 @@ import core.positioning.Column;
 import core.positioning.Position;
 import core.positioning.Row;
 
-public class ChessBoard {
+import java.nio.channels.Pipe;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ChessBoard implements Cloneable {
 
     final int numRows = 8;
     final int numColumns = 8;
 
-    ChessPiece[][] pieces = new ChessPiece[numRows][numColumns];
+    ChessPiece[][] pieces;
     void placePiece(ChessPiece piece, Position pos){
         placePiece(piece, pos.getRow(), pos.getColumn());
     }
@@ -61,6 +65,14 @@ public class ChessBoard {
         return !isFieldFree(pos) && (getPiece(pos).isWhite() == selfIsWhite);
     }
 
+    private ChessBoard(ChessPiece[][] pieces) {
+        this.pieces = pieces;
+    }
+
+    public ChessBoard(){
+        this.pieces = new ChessPiece[numRows][numColumns];
+    }
+
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
         for(Column column : Column.values()) {
@@ -86,4 +98,41 @@ public class ChessBoard {
         return board;
     }
 
+    public List<Position> findPositionsOfPieces(boolean color) {
+        ArrayList<Position> list = new ArrayList<Position>();
+        for(ChessPieceType type : ChessPieceType.values()) {
+            list.addAll(findPositionsOfPieces(type, color));
+        }
+        return list;
+    }
+
+    public List<Position> findPositionsOfPieces(ChessPieceType type) {
+        ArrayList<Position> list = new ArrayList<Position>();
+        list.addAll(findPositionsOfPieces(type, true));
+        list.addAll(findPositionsOfPieces(type, false));
+        return list;
+    }
+
+    public List<Position> findPositionsOfPieces(ChessPieceType type, boolean color) {
+        ArrayList<Position> list = new ArrayList<Position>();
+        for(Position pos : Position.values()) {
+            if(isFieldFree(pos)) continue;
+            ChessPiece piece = getPiece(pos);
+            if(piece.getType() == type && piece.isWhite() == color) {
+                list.add(pos);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public ChessBoard clone() {
+        ChessBoard clone = new ChessBoard();
+        for(Position pos : Position.values()) {
+            if(!isFieldFree(pos)) {
+                clone.placePiece(getPiece(pos).clone(), pos);
+            }
+        }
+        return clone;
+    }
 }
