@@ -144,17 +144,6 @@ public class ConsoleUI {
     }
 
     private void printPieceChar(ChessPiece piece){
-        char c;
-        switch(piece.getType()) {
-            case KNIGHT:
-                c = 'N';
-                break;
-            default:
-                c = piece.getType().toString().charAt(0);
-        }
-        if(piece.isWhite()) {
-            c = Character.toLowerCase(c);
-        }
-        System.out.print(c);
+        System.out.print(piece.toSymbol());
     }
 }

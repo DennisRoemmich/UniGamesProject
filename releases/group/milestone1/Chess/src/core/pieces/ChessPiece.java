@@ -27,6 +27,48 @@ public abstract class ChessPiece implements Cloneable {
         return (isWhite ? "WHITE " : "BLACK ") + type.toString();
     }
 
+    public final char toSymbol() {
+        switch (type) {
+            case PAWN:
+                if (isWhite) {
+                    return '♟';
+                } else {
+                    return '♙';
+                }
+            case KNIGHT:
+                if (isWhite) {
+                    return '♞';
+                } else {
+                    return '♘';
+                }
+            case BISHOP:
+                if (isWhite) {
+                    return '♝';
+                } else {
+                    return '♗';
+                }
+            case ROOK:
+                if (isWhite) {
+                    return '♜';
+                } else {
+                    return '♖';
+                }
+            case QUEEN:
+                if (isWhite) {
+                    return '♛';
+                } else {
+                    return '♕';
+                }
+            case KING:
+                if (isWhite) {
+                    return '♚';
+                } else {
+                    return '♔';
+                }
+        }
+        return ' ';
+    }
+
     public abstract List<Position> findMoves(Position pos, ChessBoard board);
 
     protected ChessPiece(boolean isWhite, ChessPieceType type) {
