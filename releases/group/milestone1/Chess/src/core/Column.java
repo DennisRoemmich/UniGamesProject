@@ -22,7 +22,7 @@ public enum Column {
                 Column column = valueOf(captialLetter);
                 return column;
             } catch (Exception exception) {
-                throw new InvalidParameterException();
+                throw new IllegalArgumentException();
 
             }
         }
