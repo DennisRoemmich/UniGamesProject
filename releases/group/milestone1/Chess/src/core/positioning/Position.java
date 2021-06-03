@@ -1,8 +1,6 @@
 package core.positioning;
 
-import java.security.InvalidParameterException;
-
-public class Position {
+public class Position implements Cloneable{
 
     private Row row;
     private Column column;
@@ -19,7 +17,7 @@ public class Position {
             this.row = row;
             this.column = column;
         } catch (Exception e) {
-            throw e;
+        	throw e;
         }
     }
 
@@ -51,6 +49,11 @@ public class Position {
         // Compare the data members and return accordingly
         return p.column == this.column && p.row == this.row;
     }
+    
+    @Override
+    public int hashCode() {
+    	return -1;
+    }
 
     public static Position[] values() {
         Position[] positions = new Position[64];
@@ -61,7 +64,10 @@ public class Position {
         }
         return positions;
     }
-
+    
+    
+    //SonarLint mag das hier auch nicht
+    @Override
     public Position clone() {
         return new Position(row, column);
     }

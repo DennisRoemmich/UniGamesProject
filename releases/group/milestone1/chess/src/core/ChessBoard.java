@@ -1,18 +1,18 @@
 package core;
 
 import core.pieces.*;
+
 import core.positioning.Column;
 import core.positioning.Position;
 import core.positioning.Row;
 
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChessBoard implements Cloneable {
 
-    final int numRows = 8;
-    final int numColumns = 8;
+    static final int NUMROWS = 8;
+    static final int NUMCOLUMNS = 8;
 
     ChessPiece[][] pieces;
     void placePiece(ChessPiece piece, Position pos){
@@ -44,6 +44,9 @@ public class ChessBoard implements Cloneable {
             placePiece(piece, destination);
             removePiece(origin);
         }
+        
+        //Rochade
+  //      if(piece.getType() )
     }
 
     public boolean isFieldFree(Position pos) {
@@ -70,7 +73,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public ChessBoard(){
-        this.pieces = new ChessPiece[numRows][numColumns];
+        this.pieces = new ChessPiece[NUMROWS][NUMCOLUMNS];
     }
 
     public static ChessBoard getStartBoard() {

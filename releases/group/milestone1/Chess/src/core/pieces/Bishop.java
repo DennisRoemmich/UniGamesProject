@@ -17,6 +17,7 @@ public class Bishop extends ChessPiece {
         return MoveFinder.findMoves(pos, board);
     }
 
+    //D: SonarLint meckert hier  
     @Override
     public ChessPiece clone() {
         return new Bishop(isWhite);

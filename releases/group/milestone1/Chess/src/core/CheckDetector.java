@@ -1,12 +1,14 @@
 package core;
 
-import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
-import core.positioning.Column;
 import core.positioning.Position;
-import core.positioning.Row;
+
 
 public class CheckDetector {
+	
+	private CheckDetector() {
+		
+	}
 
     public static boolean isInCheck(ChessBoard board, boolean color) {
         Position kingPos = board.findPositionsOfPieces(ChessPieceType.KING, color).get(0);

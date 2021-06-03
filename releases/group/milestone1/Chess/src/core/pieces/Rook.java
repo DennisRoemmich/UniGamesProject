@@ -8,12 +8,16 @@ import java.util.List;
 
 public class Rook extends ChessPiece  {
 
-    private boolean hasMoved = false;
+    private static boolean hasMoved = false;
 
     public Rook(boolean isWhite){
         super(isWhite, ChessPieceType.ROOK);
     }
-
+    
+    public static boolean getHasMoved() {
+    	return hasMoved;
+    }
+    
     @Override
     public List<Position> findMoves(Position pos, ChessBoard board) {
         return MoveFinder.findMoves(pos, board);

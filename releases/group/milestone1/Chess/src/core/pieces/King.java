@@ -8,10 +8,14 @@ import java.util.List;
 
 public class King extends ChessPiece  {
 
-    private boolean hasMoved = false;
+    private static boolean hasMoved = false;
 
     public King(boolean isWhite){
         super(isWhite, ChessPieceType.KING);
+    }
+    
+    public static boolean getHasMoved() {
+    	return hasMoved;
     }
 
     @Override
