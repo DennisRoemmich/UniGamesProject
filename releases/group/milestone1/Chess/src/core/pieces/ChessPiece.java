@@ -124,12 +124,12 @@ public abstract class ChessPiece implements Cloneable {
     public final String toString() {
         return (isWhite ? "WHITE " : "BLACK ") + type.toString();
     }
-
+    
+    //Remove this "clone" implementation; use a copy constructor or copy factory instead.
     @Override
     public ChessPiece clone() {
         try {
-            ChessPiece clone = getClass().getDeclaredConstructor(boolean.class).newInstance(isWhite);
-            return clone;
+            return getClass().getDeclaredConstructor(boolean.class).newInstance(isWhite);
         } catch (Exception e) {
 
         }

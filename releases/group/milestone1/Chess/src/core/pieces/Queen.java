@@ -16,167 +16,20 @@ public class Queen extends ChessPiece  {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
+        List<Square> list = new ArrayList<>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRank();
-        File newFile = pos.getFile();
-        Square posToTest;
-        for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
-            int rowOffset = rightDiagonal;
-            int columnOffset = rightDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
+        
+        ChessPieceMoves.diagonalMoveD1(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD2(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD3(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD4(pos, board, list, piece);
+        
+        ChessPieceMoves.forwardMove(pos, board, list, piece);
+        ChessPieceMoves.backwardMove(pos, board, list, piece);
+        ChessPieceMoves.leftwardMove(pos, board, list, piece);
+        ChessPieceMoves.rightwardMove(pos, board, list, piece);
 
-            }
-        }
-
-        for (int rightDiagonal = -1; rightDiagonal > -8; rightDiagonal--) {
-            int rowOffset = rightDiagonal;
-            int columnOffset = rightDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int leftDiagonal = 1; leftDiagonal < 8; leftDiagonal++) {
-            int rowOffset = leftDiagonal;
-            int columnOffset = -leftDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int leftDiagonal = -1; leftDiagonal > -8; leftDiagonal--) {
-            int rowOffset = leftDiagonal;
-            int columnOffset = -leftDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
-            int columnOffset = 0;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
-            int columnOffset = 0;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
-            int rowOffset = 0;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
-            int rowOffset = 0;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
         return list;
     }
 }

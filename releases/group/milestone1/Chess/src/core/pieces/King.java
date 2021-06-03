@@ -19,8 +19,8 @@ public class King extends CastlingChessPiece  {
         List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRank();
-        File newFile = pos.getFile();
+        Rank newRank;
+        File newFile;
         Square posToTest;
 
         //Rochade

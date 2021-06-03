@@ -16,11 +16,11 @@ public class Knight extends ChessPiece  {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
+        List<Square> list = new ArrayList<>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRank();
-        File newFile = pos.getFile();
+        Rank newRank;
+        File newFile;
         Square squareToTest;
         for (int rowMirror : new int[]{1, -1}) {
             for (int columnMirror : new int[]{-1, 1}) {

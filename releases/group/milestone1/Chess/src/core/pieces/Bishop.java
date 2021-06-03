@@ -16,101 +16,19 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
+        List<Square> list = new ArrayList<>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRank();
-        File newFile = pos.getFile();
-        Square posToTest;
-        for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
 
+        ChessPieceMoves.diagonalMoveD1(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD2(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD3(pos, board, list, piece);
+        ChessPieceMoves.diagonalMoveD4(pos, board, list, piece);
 
-            int rowOffset = rightDiagonal;
-            int columnOffset = rightDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-
-        }
-
-        for (int rightDiagonal = -1; rightDiagonal > -8; rightDiagonal--) {
-
-
-            int rowOffset = rightDiagonal;
-            int columnOffset = rightDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-
-        }
-
-        for (int leftDiagonal = 1; leftDiagonal < 8; leftDiagonal++) {
-            int rowOffset = leftDiagonal;
-            int columnOffset = -leftDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-
-        for (int leftDiagonal = -1; leftDiagonal > -8; leftDiagonal--) {
-            int rowOffset = leftDiagonal;
-            int columnOffset = -leftDiagonal;
-            try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
-                } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                    break;
-                }
-            } catch (Exception e) {
-
-            }
-        }
         return list;
     }
 
-    //D: SonarLint meckert hier  
+    //SonarLint: Remove this "clone" implementation; use a copy constructor or copy factory instead.
     @Override
     public ChessPiece clone() {
         return new Bishop(isWhite);

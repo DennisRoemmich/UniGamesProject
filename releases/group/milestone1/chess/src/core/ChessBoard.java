@@ -100,7 +100,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public List<Square> findPositionsOfPieces(boolean color) {
-        ArrayList<Square> list = new ArrayList<Square>();
+        ArrayList<Square> list = new ArrayList<>();
         for(ChessPieceType type : ChessPieceType.values()) {
             list.addAll(findPositionsOfPieces(type, color));
         }
@@ -108,14 +108,14 @@ public class ChessBoard implements Cloneable {
     }
 
     public List<Square> findPositionsOfPieces(ChessPieceType type) {
-        ArrayList<Square> list = new ArrayList<Square>();
+        ArrayList<Square> list = new ArrayList<>();
         list.addAll(findPositionsOfPieces(type, true));
         list.addAll(findPositionsOfPieces(type, false));
         return list;
     }
 
     public List<Square> findPositionsOfPieces(ChessPieceType type, boolean color) {
-        ArrayList<Square> list = new ArrayList<Square>();
+        ArrayList<Square> list = new ArrayList<>();
         for(Square pos : Square.values()) {
             if(isFieldFree(pos)) continue;
             ChessPiece piece = getPiece(pos);
@@ -126,6 +126,7 @@ public class ChessBoard implements Cloneable {
         return list;
     }
 
+    //Use super.clone() to create and seed the cloned instance to be returned.
     @Override
     public ChessBoard clone() {
         ChessBoard clone = new ChessBoard();
