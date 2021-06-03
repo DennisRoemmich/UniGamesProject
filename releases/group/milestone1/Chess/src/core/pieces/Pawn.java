@@ -19,10 +19,10 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
+        List<Square> list = new ArrayList<>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRank();
+        Rank newRank;
         File newFile = pos.getFile();
         Square posToTest;
 

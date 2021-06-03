@@ -50,7 +50,7 @@ public class ConsoleUI implements Presenter, Player {
         System.out.println("Please enter the position of the piece, that you want to move:");
 
         Square origin = null;
-        List<Square> availableDestinations = new ArrayList<Square>();
+        List<Square> availableDestinations = new ArrayList<>();
 
         do {
             String input = scanner.nextLine();

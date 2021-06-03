@@ -12,12 +12,15 @@ public class Square {
 
     public Square(String name) {
         try {
+        
+        //Rename "file" and "rank" which hides the field declared at line 6 and 7.
         File file = File.valueOf(name.charAt(0));
         Rank rank = Rank.valueOf(name.charAt(1));
             this.rank = rank;
             this.file = file;
         } catch (Exception e) {
-            throw e;
+        	//Add logic to this catch clause or eliminate it and rethrow the exception automatically.
+        	throw e;
         }
     }
 
@@ -49,6 +52,11 @@ public class Square {
         // Compare the data members and return accordingly
         return p.file == this.file && p.rank == this.rank;
     }
+    
+    @Override
+    public int hashCode() {
+    	return -1;
+    }
 
     public static Square[] values() {
         Square[] squares = new Square[64];
@@ -59,7 +67,8 @@ public class Square {
         }
         return squares;
     }
-
+    
+    //Use super.clone() to create and seed the cloned instance to be returned.
     public Square clone() {
         return new Square(rank, file);
     }
