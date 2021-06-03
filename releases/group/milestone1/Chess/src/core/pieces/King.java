@@ -16,7 +16,8 @@ public class King extends CastlingChessPiece  {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
+        List<Square> list = new ArrayList<>();
+        List<Square> temp = new ArrayList<>();
 
         ChessPiece piece = board.getPiece(pos);
         Rank newRank;
@@ -24,7 +25,16 @@ public class King extends CastlingChessPiece  {
         Square posToTest;
 
         //Rochade
-        /* TODO */
+        ChessPieceMoves.rightwardMove(pos, board, temp, piece);
+        if(temp.size()==2) {
+        	list.add(temp.get(1));
+        }
+        
+        ChessPieceMoves.leftwardMove(pos, board, temp, piece);
+        if(temp.size()==3) {
+        	list.add(temp.get(1));
+        }
+
 
         for (int rowOffset : new int[]{-1, 0, 1}) {
             for (int columnOffset : new int[]{-1, 0, 1}) {

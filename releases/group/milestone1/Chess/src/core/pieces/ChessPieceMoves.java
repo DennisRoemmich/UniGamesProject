@@ -143,7 +143,7 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void leftwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+	protected static void rightwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
 	    for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
 	        int rowOffset = 0;
 	        try {
@@ -161,7 +161,7 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void rightwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+	protected static void leftwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
 	    for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
 	        int rowOffset = 0;
 	        try {

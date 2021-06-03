@@ -26,8 +26,8 @@ public class Rook extends CastlingChessPiece  {
 
         ChessPieceMoves.forwardMove(pos, board, list, piece);
         ChessPieceMoves.backwardMove(pos, board, list, piece);
-        ChessPieceMoves.leftwardMove(pos, board, list, piece);
         ChessPieceMoves.rightwardMove(pos, board, list, piece);
+        ChessPieceMoves.leftwardMove(pos, board, list, piece);
         
         return list;
     }
