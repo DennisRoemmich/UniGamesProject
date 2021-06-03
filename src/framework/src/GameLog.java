@@ -4,27 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameLog {
-	private List<JSONObject> _moveLog = new ArrayList<JSONObject>();
-	private JSONObject _metaSettings;
-	private JSONObject _gameSettings;
+	private String id;
+	private List<JSONObject> mMoveLog = new ArrayList<JSONObject>();
+	private JSONObject mMetaSettings;
+	private JSONObject mGameSettings;
 
-	public GameLog(JSONObject aMetaSettings, JSONObject aGameSettings, List<JSONObject> aMoves) {
+	public GameLog(String id, JSONObject aMetaSettings, JSONObject aGameSettings, List<JSONObject> aMoves) {
 		throw new UnsupportedOperationException();
 	}
 
 	public void logMove(JSONObject aMove) {
-		throw new UnsupportedOperationException();
+		mMoveLog.add(aMove);
 	}
 
 	public void removeLastMove() {
-		throw new UnsupportedOperationException();
+		mMoveLog.remove(mMoveLog.size() - 1);
 	}
 
 	public void removeLastMoves(int aAmount) {
-		throw new UnsupportedOperationException();
+		for(int i = 0; i < aAmount; i++ ) {
+			removeLastMove();
+		}
+ 	}
+
+	public String getID() {
+		return id;
 	}
 
 	public List<JSONObject> getMoveLog() {
-		return this._moveLog;
+		return this.mMoveLog;
+	}
+
+	public JSONObject getmMetaSettings() {
+		return mMetaSettings;
+	}
+
+	public JSONObject getmGameSettings() {
+		return mGameSettings;
 	}
 }
