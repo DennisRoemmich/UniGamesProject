@@ -1,16 +1,11 @@
 package sample;
 
-import core.*;
 import core.pieces.ChessPiece;
-import core.pieces.ChessPieceType;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 import org.json.simple.JSONObject;
 
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,11 +23,11 @@ public class ConsoleUI implements Presenter, Player {
     public void printBoard() {
         System.out.println("   A  B  C  D  E  F  G  H   ");
         System.out.println(" ┌────────────────────────┐ ");
-        for(Row row : Row.values()) {
-            System.out.print(row + "│");
-            for(Column column : Column.values()){
+        for(Rank rank : Rank.values()) {
+            System.out.print(rank + "│");
+            for(File file : File.values()){
                 System.out.print(' ');
-                ChessPiece piece = controller.getGame().getBoard().getPiece(row, column);
+                ChessPiece piece = controller.getGame().getBoard().getPiece(rank, file);
                 if (piece == null) {
                     System.out.print(' ');
                 } else {
@@ -40,7 +35,7 @@ public class ConsoleUI implements Presenter, Player {
                 }
                 System.out.print(' ');
             }
-            System.out.println("│" + row);
+            System.out.println("│" + rank);
         }
         System.out.println(" └────────────────────────┘ ");
         System.out.println("   A  B  C  D  E  F  G  H   ");
@@ -54,13 +49,13 @@ public class ConsoleUI implements Presenter, Player {
     public JSONObject requestMove() {
         System.out.println("Please enter the position of the piece, that you want to move:");
 
-        Position origin = null;
-        List<Position> availableDestinations = new ArrayList<Position>();
+        Square origin = null;
+        List<Square> availableDestinations = new ArrayList<Square>();
 
         do {
             String input = scanner.nextLine();
             try {
-                origin = new Position(input);
+                origin = new Square(input);
                 if(controller.getGame().getBoard().isFieldFree(origin)){
                     System.out.println("This Field is empty.");
                     origin = null;
@@ -82,14 +77,14 @@ public class ConsoleUI implements Presenter, Player {
 
         System.out.println("Available Fields are: " + availableDestinations);
         System.out.println("Please enter the position of the field, where you want to place your piece or enter [r] to returnand choose another piece:");
-        Position destination = null;
+        Square destination = null;
         do {
             String input = scanner.nextLine();
             if(input.charAt(0) == 'r') {
                 return requestMove();
             }
             try {
-                destination = new Position(input);
+                destination = new Square(input);
                 if(!availableDestinations.contains(destination)){
                     System.out.println("Field is unreachable! Enter another field or [r].");
                     destination = null;

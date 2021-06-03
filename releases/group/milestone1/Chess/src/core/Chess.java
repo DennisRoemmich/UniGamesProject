@@ -1,7 +1,10 @@
 package core;
 
+import core.pieces.CastlingChessPiece;
 import core.pieces.ChessPiece;
-import core.positioning.Position;
+import core.pieces.ChessPieceType;
+import core.pieces.Pawn;
+import core.positioning.Square;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +23,26 @@ public class Chess {
     public Chess() {
     }
 
-    public boolean makeMove(Position origin, Position destination) {
+    public boolean makeMove(Square origin, Square destination) {
         if (getPossibleMoves(origin).contains(destination)) {
-            board.movePiece(origin, destination, currentMove);
+            board.movePiece(origin, destination);
+            registerMove(destination);
             incrementMove();
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void registerMove(Square destination) {
+        ChessPiece piece = board.getPiece(destination);
+        if(piece.getType() == ChessPieceType.PAWN) {
+            Pawn pawn = (Pawn) piece;
+            pawn.registerMove(currentMove);
+        }
+        if(piece.getType() == ChessPieceType.KING || piece.getType() == ChessPieceType.ROOK) {
+            CastlingChessPiece castlingPiece = (CastlingChessPiece) piece;
+            castlingPiece.registerMove();
         }
     }
 
@@ -39,7 +55,7 @@ public class Chess {
         }
     }
 
-    public List<Position> getPossibleMoves(Position pos) {
+    public List<Square> getPossibleMoves(Square pos) {
         ChessPiece piece = board.getPiece(pos);
         if(piece != null && piece.isWhite() == isItWhitesTurn) {
             return piece.findMoves(pos, board);

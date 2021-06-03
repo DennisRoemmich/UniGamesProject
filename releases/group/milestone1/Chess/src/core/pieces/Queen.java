@@ -1,9 +1,9 @@
 package core.pieces;
 
 import core.ChessBoard;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +15,20 @@ public class Queen extends ChessPiece  {
     }
 
     @Override
-    public List<Position> findMovesDisregardingCheck(Position pos, ChessBoard board) {
-        List<Position> list = new ArrayList<Position>();
+    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+        List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Row newRow = pos.getRow();
-        Column newColumn = pos.getColumn();
-        Position posToTest;
+        Rank newRank = pos.getRow();
+        File newFile = pos.getColumn();
+        Square posToTest;
         for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
             int rowOffset = rightDiagonal;
             int columnOffset = rightDiagonal;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -46,9 +46,9 @@ public class Queen extends ChessPiece  {
             int rowOffset = rightDiagonal;
             int columnOffset = rightDiagonal;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -66,9 +66,9 @@ public class Queen extends ChessPiece  {
             int rowOffset = leftDiagonal;
             int columnOffset = -leftDiagonal;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -86,9 +86,9 @@ public class Queen extends ChessPiece  {
             int rowOffset = leftDiagonal;
             int columnOffset = -leftDiagonal;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -105,9 +105,9 @@ public class Queen extends ChessPiece  {
         for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
             int columnOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -124,9 +124,9 @@ public class Queen extends ChessPiece  {
         for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
             int columnOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -143,9 +143,9 @@ public class Queen extends ChessPiece  {
         for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
             int rowOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {
@@ -162,9 +162,9 @@ public class Queen extends ChessPiece  {
         for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
             int rowOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 } else {

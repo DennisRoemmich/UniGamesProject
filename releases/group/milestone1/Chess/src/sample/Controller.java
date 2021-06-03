@@ -1,9 +1,7 @@
 package sample;
 
-import java.util.List;
-
 import core.Chess;
-import core.positioning.Position;
+import core.positioning.Square;
 import org.json.simple.JSONObject;
 
 
@@ -23,8 +21,8 @@ public class Controller {
         try {
             String originName = move.get("origin").toString();
             String destinationName = move.get("destination").toString();
-            Position origin = new Position(originName);
-            Position destination = new Position(destinationName);
+            Square origin = new Square(originName);
+            Square destination = new Square(destinationName);
             game.makeMove(origin, destination);
         } catch (Exception e) {
 

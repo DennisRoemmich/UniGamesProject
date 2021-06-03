@@ -1,29 +1,27 @@
 package core.pieces;
 
 import core.ChessBoard;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class King extends ChessPiece  {
-
-    private boolean hasMoved = false;
+public class King extends CastlingChessPiece  {
 
     public King(boolean isWhite){
         super(isWhite, ChessPieceType.KING);
     }
 
     @Override
-    public List<Position> findMovesDisregardingCheck(Position pos, ChessBoard board) {
-        List<Position> list = new ArrayList<Position>();
+    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+        List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Row newRow = pos.getRow();
-        Column newColumn = pos.getColumn();
-        Position posToTest;
+        Rank newRank = pos.getRow();
+        File newFile = pos.getColumn();
+        Square posToTest;
 
         //Rochade
         /* TODO */
@@ -31,9 +29,9 @@ public class King extends ChessPiece  {
         for (int rowOffset : new int[]{-1, 0, 1}) {
             for (int columnOffset : new int[]{-1, 0, 1}) {
                 try {
-                    newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                    newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                    posToTest = new Position(newRow, newColumn);
+                    newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                    newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                    posToTest = new Square(newRank, newFile);
                     if (board.isOccupiedByOpponentOrFree(posToTest, piece.isWhite())) {
                         list.add(posToTest);
                     }
@@ -44,4 +42,5 @@ public class King extends ChessPiece  {
         }
         return list;
     }
+
 }

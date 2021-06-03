@@ -1,11 +1,10 @@
 package core;
 
 import core.pieces.*;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,30 +14,30 @@ public class ChessBoard implements Cloneable {
     final int numColumns = 8;
 
     ChessPiece[][] pieces;
-    void placePiece(ChessPiece piece, Position pos){
+    void placePiece(ChessPiece piece, Square pos){
         placePiece(piece, pos.getRow(), pos.getColumn());
     }
 
-    void placePiece(ChessPiece piece, Row row, Column column) {
-        pieces[row.getIndex()][column.getIndex()] = piece;
+    void placePiece(ChessPiece piece, Rank rank, File file) {
+        pieces[rank.getIndex()][file.getIndex()] = piece;
     }
 
-    void removePiece(Position pos) {
+    void removePiece(Square pos) {
         removePiece(pos.getRow(), pos.getColumn());
     }
 
-    void removePiece(Row row, Column column) {
-        pieces[row.getIndex()][column.getIndex()] = null;
+    void removePiece(Rank rank, File file) {
+        pieces[rank.getIndex()][file.getIndex()] = null;
     }
 
-    public ChessPiece getPiece(Position pos) {
+    public ChessPiece getPiece(Square pos) {
         return  getPiece(pos.getRow(), pos.getColumn());
     }
-    public ChessPiece getPiece(Row row, Column column) {
-        return pieces[row.getIndex()][column.getIndex()];
+    public ChessPiece getPiece(Rank rank, File file) {
+        return pieces[rank.getIndex()][file.getIndex()];
     }
 
-    void movePiece(Position origin, Position destination, int moveNumber) {
+    void movePiece(Square origin, Square destination) {
         ChessPiece piece = getPiece(origin);
         if(piece != null) {
             placePiece(piece, destination);
@@ -46,22 +45,22 @@ public class ChessBoard implements Cloneable {
         }
     }
 
-    public boolean isFieldFree(Position pos) {
+    public boolean isFieldFree(Square pos) {
         return isFieldFree(pos.getRow(), pos.getColumn());
     }
-    public boolean isFieldFree(Row row, Column column) {
-        return getPiece(row, column) == null;
+    public boolean isFieldFree(Rank rank, File file) {
+        return getPiece(rank, file) == null;
     }
 
-    public boolean isOccupiedByOpponent(Position pos, boolean selfIsWhite) {
+    public boolean isOccupiedByOpponent(Square pos, boolean selfIsWhite) {
         return !isFieldFree(pos) && (getPiece(pos).isWhite() != selfIsWhite);
     }
 
-    public boolean isOccupiedByOpponentOrFree(Position pos, boolean selfIsWhite) {
+    public boolean isOccupiedByOpponentOrFree(Square pos, boolean selfIsWhite) {
         return isFieldFree(pos) || isOccupiedByOpponent(pos, selfIsWhite);
     }
 
-    public boolean isOccupiedBySelf(Position pos, boolean selfIsWhite) {
+    public boolean isOccupiedBySelf(Square pos, boolean selfIsWhite) {
         return !isFieldFree(pos) && (getPiece(pos).isWhite() == selfIsWhite);
     }
 
@@ -75,47 +74,47 @@ public class ChessBoard implements Cloneable {
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
-        for(Column column : Column.values()) {
-            board.placePiece(new Pawn(true), Row.M2, column);
-            board.placePiece(new Pawn(false), Row.M7, column);
+        for(File file : File.values()) {
+            board.placePiece(new Pawn(true), Rank.M2, file);
+            board.placePiece(new Pawn(false), Rank.M7, file);
         }
-        for(Column column : new Column[]{Column.A, Column.H}){
-            board.placePiece(new Rook(true), Row.M1, column);
-            board.placePiece(new Rook(false), Row.M8, column);
+        for(File file : new File[]{File.A, File.H}){
+            board.placePiece(new Rook(true), Rank.M1, file);
+            board.placePiece(new Rook(false), Rank.M8, file);
         }
-        for(Column column : new Column[]{Column.B, Column.G}){
-            board.placePiece(new Knight(true), Row.M1, column);
-            board.placePiece(new Knight(false), Row.M8, column);
+        for(File file : new File[]{File.B, File.G}){
+            board.placePiece(new Knight(true), Rank.M1, file);
+            board.placePiece(new Knight(false), Rank.M8, file);
         }
-        for(Column column : new Column[]{Column.C, Column.F}){
-            board.placePiece(new Bishop(true), Row.M1, column);
-            board.placePiece(new Bishop(false), Row.M8, column);
+        for(File file : new File[]{File.C, File.F}){
+            board.placePiece(new Bishop(true), Rank.M1, file);
+            board.placePiece(new Bishop(false), Rank.M8, file);
         }
-        board.placePiece(new Queen(true), Row.M1, Column.D);
-        board.placePiece(new Queen(false), Row.M8, Column.D);
-        board.placePiece(new King(true), Row.M1, Column.E);
-        board.placePiece(new King(false), Row.M8, Column.E);
+        board.placePiece(new Queen(true), Rank.M1, File.D);
+        board.placePiece(new Queen(false), Rank.M8, File.D);
+        board.placePiece(new King(true), Rank.M1, File.E);
+        board.placePiece(new King(false), Rank.M8, File.E);
         return board;
     }
 
-    public List<Position> findPositionsOfPieces(boolean color) {
-        ArrayList<Position> list = new ArrayList<Position>();
+    public List<Square> findPositionsOfPieces(boolean color) {
+        ArrayList<Square> list = new ArrayList<Square>();
         for(ChessPieceType type : ChessPieceType.values()) {
             list.addAll(findPositionsOfPieces(type, color));
         }
         return list;
     }
 
-    public List<Position> findPositionsOfPieces(ChessPieceType type) {
-        ArrayList<Position> list = new ArrayList<Position>();
+    public List<Square> findPositionsOfPieces(ChessPieceType type) {
+        ArrayList<Square> list = new ArrayList<Square>();
         list.addAll(findPositionsOfPieces(type, true));
         list.addAll(findPositionsOfPieces(type, false));
         return list;
     }
 
-    public List<Position> findPositionsOfPieces(ChessPieceType type, boolean color) {
-        ArrayList<Position> list = new ArrayList<Position>();
-        for(Position pos : Position.values()) {
+    public List<Square> findPositionsOfPieces(ChessPieceType type, boolean color) {
+        ArrayList<Square> list = new ArrayList<Square>();
+        for(Square pos : Square.values()) {
             if(isFieldFree(pos)) continue;
             ChessPiece piece = getPiece(pos);
             if(piece.getType() == type && piece.isWhite() == color) {
@@ -128,7 +127,7 @@ public class ChessBoard implements Cloneable {
     @Override
     public ChessBoard clone() {
         ChessBoard clone = new ChessBoard();
-        for(Position pos : Position.values()) {
+        for(Square pos : Square.values()) {
             if(!isFieldFree(pos)) {
                 clone.placePiece(getPiece(pos).clone(), pos);
             }

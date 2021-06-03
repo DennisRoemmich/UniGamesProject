@@ -1,29 +1,27 @@
 package core.pieces;
 
 import core.ChessBoard;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends ChessPiece  {
-
-    private boolean hasMoved = false;
+public class Rook extends CastlingChessPiece  {
 
     public Rook(boolean isWhite){
         super(isWhite, ChessPieceType.ROOK);
     }
 
     @Override
-    public List<Position> findMovesDisregardingCheck(Position pos, ChessBoard board) {
-        List<Position> list = new ArrayList<Position>();
+    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+        List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Row newRow = pos.getRow();
-        Column newColumn = pos.getColumn();
-        Position posToTest;
+        Rank newRank = pos.getRow();
+        File newFile = pos.getColumn();
+        Square squareToTest;
 
         //Rochade
         /* TODO */
@@ -32,14 +30,14 @@ public class Rook extends ChessPiece  {
         for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
             int columnOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                squareToTest = new Square(newRank, newFile);
+                if (board.isFieldFree(squareToTest)) {
+                    list.add(squareToTest);
                 } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
+                    if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
+                        list.add(squareToTest);
                     }
                     break;
                 }
@@ -51,14 +49,14 @@ public class Rook extends ChessPiece  {
         for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
             int columnOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                squareToTest = new Square(newRank, newFile);
+                if (board.isFieldFree(squareToTest)) {
+                    list.add(squareToTest);
                 } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
+                    if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
+                        list.add(squareToTest);
                     }
                     break;
                 }
@@ -70,14 +68,14 @@ public class Rook extends ChessPiece  {
         for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
             int rowOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                squareToTest = new Square(newRank, newFile);
+                if (board.isFieldFree(squareToTest)) {
+                    list.add(squareToTest);
                 } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
+                    if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
+                        list.add(squareToTest);
                     }
                     break;
                 }
@@ -89,14 +87,14 @@ public class Rook extends ChessPiece  {
         for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
             int rowOffset = 0;
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + rowOffset);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                squareToTest = new Square(newRank, newFile);
+                if (board.isFieldFree(squareToTest)) {
+                    list.add(squareToTest);
                 } else {
-                    if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
+                    if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
+                        list.add(squareToTest);
                     }
                     break;
                 }

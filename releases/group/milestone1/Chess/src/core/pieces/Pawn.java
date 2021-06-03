@@ -1,9 +1,9 @@
 package core.pieces;
 
 import core.ChessBoard;
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
+import core.positioning.File;
+import core.positioning.Square;
+import core.positioning.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,44 +18,37 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Position> findMovesDisregardingCheck(Position pos, ChessBoard board) {
-        List<Position> list = new ArrayList<Position>();
+    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+        List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Row newRow = pos.getRow();
-        Column newColumn = pos.getColumn();
-        Position posToTest;
+        Rank newRank = pos.getRow();
+        File newFile = pos.getColumn();
+        Square posToTest;
 
         int directionFactor = piece.isWhite() ? 1 : -1;
 
         //Einfacher Zug
-        newRow = Row.valueOf(pos.getRow().getIndex() + 1 * directionFactor);
-        posToTest = new Position(newRow, pos.getColumn());
+        newRank = Rank.valueOf(pos.getRow().getIndex() + 1 * directionFactor);
+        posToTest = new Square(newRank, pos.getColumn());
 
         if (board.isFieldFree(posToTest)) {
             list.add(posToTest);
-        }
-
-        //Doppelzug
-        try {
-            Pawn pawn = (Pawn) piece;
-            if (pawn.getNumberOfMoves() == 0) {
-                newRow = Row.valueOf(pos.getRow().getIndex() + 2 * directionFactor);
-                posToTest = new Position(newRow, newColumn);
+            if (numberOfMoves == 0) {
+                newRank = Rank.valueOf(pos.getRow().getIndex() + 2 * directionFactor);
+                posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
                 }
             }
-        } catch (Exception e){
-
         }
 
         //Schlagen
         for (int columnOffset : new int[]{-1, 1}) {
             try {
-                newRow = Row.valueOf(pos.getRow().getIndex() + directionFactor);
-                newColumn = Column.valueOf(pos.getColumn().getIndex() + columnOffset);
-                posToTest = new Position(newRow, newColumn);
+                newRank = Rank.valueOf(pos.getRow().getIndex() + directionFactor);
+                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                posToTest = new Square(newRank, newFile);
                 if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
                     list.add(posToTest);
                 }
@@ -63,6 +56,7 @@ public class Pawn extends ChessPiece {
 
             }
         }
+
         //En-passant
         /* TODO */
         //Verwandlung

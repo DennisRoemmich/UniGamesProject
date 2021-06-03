@@ -1,16 +1,16 @@
 package core.positioning;
 
-public enum Column {
+public enum File {
 
     A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7);
 
     private final int index;
 
-    Column(int i) {
+    File(int i) {
         index = i;
     }
 
-    public static Column valueOf(char c) {
+    public static File valueOf(char c) {
         c = Character.toUpperCase(c);
         try {
             return valueOf(String.valueOf(c));
@@ -19,7 +19,7 @@ public enum Column {
         }
     }
 
-    public static Column valueOf(int i) {
+    public static File valueOf(int i) {
         char c = (char)(65 + i); // 65 is the decimal representation of the char 'A'
         return valueOf(c);
     }

@@ -2,7 +2,7 @@ package core.pieces;
 
 import core.CheckDetector;
 import core.ChessBoard;
-import core.positioning.Position;
+import core.positioning.Square;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,14 @@ public abstract class ChessPiece implements Cloneable {
 
     /* Functionality */
 
-    public abstract List<Position> findMovesDisregardingCheck(Position pos, ChessBoard board);
+    public abstract List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board);
 
-    public final List<Position> findMoves(Position pos, ChessBoard board) {
-        List<Position> movesDisregardingCheck = findMovesDisregardingCheck(pos, board);
-        List<Position> validMoves = new ArrayList<Position>();
-        for(Position uncheckedPosition : movesDisregardingCheck) {
-            if(!CheckDetector.isInCheckAfterMove(board, isWhite, pos, uncheckedPosition)) {
-                validMoves.add(uncheckedPosition);
+    public final List<Square> findMoves(Square pos, ChessBoard board) {
+        List<Square> movesDisregardingCheck = findMovesDisregardingCheck(pos, board);
+        List<Square> validMoves = new ArrayList<Square>();
+        for(Square uncheckedSquare : movesDisregardingCheck) {
+            if(!CheckDetector.isInCheckAfterMove(board, isWhite, pos, uncheckedSquare)) {
+                validMoves.add(uncheckedSquare);
             }
         }
         return validMoves;
