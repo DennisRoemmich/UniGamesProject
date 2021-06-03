@@ -1,28 +1,20 @@
 package core;
 
-import core.pieces.*;
-<<<<<<< HEAD
-import core.positioning.File;
-import core.positioning.Square;
-import core.positioning.Rank;
-=======
 
-import core.positioning.Column;
-import core.positioning.Position;
-import core.positioning.Row;
->>>>>>> remotes/origin/chess01j
+import core.pieces.*;
+import core.positioning.File;
+import core.positioning.Rank;
+import core.positioning.Square;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChessBoard implements Cloneable {
 
-    static final int NUMROWS = 8;
-    static final int NUMCOLUMNS = 8;
-
     ChessPiece[][] pieces;
+
     void placePiece(ChessPiece piece, Square pos){
-        placePiece(piece, pos.getRow(), pos.getColumn());
+        placePiece(piece, pos.getRank(), pos.getFile());
     }
 
     void placePiece(ChessPiece piece, Rank rank, File file) {
@@ -30,7 +22,7 @@ public class ChessBoard implements Cloneable {
     }
 
     void removePiece(Square pos) {
-        removePiece(pos.getRow(), pos.getColumn());
+        removePiece(pos.getRank(), pos.getFile());
     }
 
     void removePiece(Rank rank, File file) {
@@ -38,7 +30,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public ChessPiece getPiece(Square pos) {
-        return  getPiece(pos.getRow(), pos.getColumn());
+        return  getPiece(pos.getRank(), pos.getFile());
     }
     public ChessPiece getPiece(Rank rank, File file) {
         return pieces[rank.getIndex()][file.getIndex()];
@@ -56,7 +48,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public boolean isFieldFree(Square pos) {
-        return isFieldFree(pos.getRow(), pos.getColumn());
+        return isFieldFree(pos.getRank(), pos.getFile());
     }
     public boolean isFieldFree(Rank rank, File file) {
         return getPiece(rank, file) == null;
@@ -79,7 +71,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public ChessBoard(){
-        this.pieces = new ChessPiece[NUMROWS][NUMCOLUMNS];
+        this.pieces = new ChessPiece[Rank.values().length][File.values().length];
     }
 
     public static ChessBoard getStartBoard() {

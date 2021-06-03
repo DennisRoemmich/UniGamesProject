@@ -19,8 +19,8 @@ public class Knight extends ChessPiece  {
         List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRow();
-        File newFile = pos.getColumn();
+        Rank newRank = pos.getRank();
+        File newFile = pos.getFile();
         Square squareToTest;
         for (int rowMirror : new int[]{1, -1}) {
             for (int columnMirror : new int[]{-1, 1}) {
@@ -28,8 +28,8 @@ public class Knight extends ChessPiece  {
                     int rowOffset = (1 + diagonalMirror) * rowMirror;
                     int columnOffset = (2 - diagonalMirror) * columnMirror;
                     try {
-                        newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                        newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                        newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                        newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                         squareToTest = new Square(newRank, newFile);
                         if (board.isOccupiedByOpponentOrFree(squareToTest, piece.isWhite())) {
                             list.add(squareToTest);

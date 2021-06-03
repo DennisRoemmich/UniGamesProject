@@ -8,20 +8,10 @@ import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
 public class King extends CastlingChessPiece  {
-=======
-public class King extends ChessPiece  {
-
-    private static boolean hasMoved = false;
->>>>>>> remotes/origin/chess01j
 
     public King(boolean isWhite){
         super(isWhite, ChessPieceType.KING);
-    }
-    
-    public static boolean getHasMoved() {
-    	return hasMoved;
     }
 
     @Override
@@ -29,8 +19,8 @@ public class King extends ChessPiece  {
         List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRow();
-        File newFile = pos.getColumn();
+        Rank newRank = pos.getRank();
+        File newFile = pos.getFile();
         Square posToTest;
 
         //Rochade
@@ -39,8 +29,8 @@ public class King extends ChessPiece  {
         for (int rowOffset : new int[]{-1, 0, 1}) {
             for (int columnOffset : new int[]{-1, 0, 1}) {
                 try {
-                    newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                    newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                    newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                    newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                     posToTest = new Square(newRank, newFile);
                     if (board.isOccupiedByOpponentOrFree(posToTest, piece.isWhite())) {
                         list.add(posToTest);

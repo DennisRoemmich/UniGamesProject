@@ -22,20 +22,20 @@ public class Pawn extends ChessPiece {
         List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRow();
-        File newFile = pos.getColumn();
+        Rank newRank = pos.getRank();
+        File newFile = pos.getFile();
         Square posToTest;
 
         int directionFactor = piece.isWhite() ? 1 : -1;
 
         //Einfacher Zug
-        newRank = Rank.valueOf(pos.getRow().getIndex() + 1 * directionFactor);
-        posToTest = new Square(newRank, pos.getColumn());
+        newRank = Rank.valueOf(pos.getRank().getIndex() + 1 * directionFactor);
+        posToTest = new Square(newRank, pos.getFile());
 
         if (board.isFieldFree(posToTest)) {
             list.add(posToTest);
             if (numberOfMoves == 0) {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + 2 * directionFactor);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + 2 * directionFactor);
                 posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
@@ -46,8 +46,8 @@ public class Pawn extends ChessPiece {
         //Schlagen
         for (int columnOffset : new int[]{-1, 1}) {
             try {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + directionFactor);
-                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + directionFactor);
+                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                 posToTest = new Square(newRank, newFile);
                 if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
                     list.add(posToTest);

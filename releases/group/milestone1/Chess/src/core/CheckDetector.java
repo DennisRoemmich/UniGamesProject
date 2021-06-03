@@ -1,12 +1,7 @@
 package core;
 
 import core.pieces.ChessPieceType;
-<<<<<<< HEAD
 import core.positioning.Square;
-=======
-import core.positioning.Position;
-
->>>>>>> remotes/origin/chess01j
 
 public class CheckDetector {
 	

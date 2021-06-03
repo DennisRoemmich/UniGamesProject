@@ -21,11 +21,11 @@ public class Square {
         }
     }
 
-    public Rank getRow() {
+    public Rank getRank() {
         return rank;
     }
 
-    public File getColumn() {
+    public File getFile() {
         return file;
     }
 

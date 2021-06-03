@@ -19,8 +19,8 @@ public class Bishop extends ChessPiece {
         List<Square> list = new ArrayList<Square>();
 
         ChessPiece piece = board.getPiece(pos);
-        Rank newRank = pos.getRow();
-        File newFile = pos.getColumn();
+        Rank newRank = pos.getRank();
+        File newFile = pos.getFile();
         Square posToTest;
         for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
 
@@ -28,8 +28,8 @@ public class Bishop extends ChessPiece {
             int rowOffset = rightDiagonal;
             int columnOffset = rightDiagonal;
             try {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                 posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
@@ -51,8 +51,8 @@ public class Bishop extends ChessPiece {
             int rowOffset = rightDiagonal;
             int columnOffset = rightDiagonal;
             try {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                 posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
@@ -72,8 +72,8 @@ public class Bishop extends ChessPiece {
             int rowOffset = leftDiagonal;
             int columnOffset = -leftDiagonal;
             try {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                 posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
@@ -92,8 +92,8 @@ public class Bishop extends ChessPiece {
             int rowOffset = leftDiagonal;
             int columnOffset = -leftDiagonal;
             try {
-                newRank = Rank.valueOf(pos.getRow().getIndex() + rowOffset);
-                newFile = File.valueOf(pos.getColumn().getIndex() + columnOffset);
+                newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
+                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
                 posToTest = new Square(newRank, newFile);
                 if (board.isFieldFree(posToTest)) {
                     list.add(posToTest);
