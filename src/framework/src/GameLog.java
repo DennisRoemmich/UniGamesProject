@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameLog {
-	private String id;
+	private String mID;
 	private List<JSONObject> mMoveLog = new ArrayList<JSONObject>();
 	private JSONObject mMetaSettings;
 	private JSONObject mGameSettings;
@@ -28,7 +28,7 @@ public class GameLog {
  	}
 
 	public String getID() {
-		return id;
+		return mID;
 	}
 
 	public List<JSONObject> getMoveLog() {
