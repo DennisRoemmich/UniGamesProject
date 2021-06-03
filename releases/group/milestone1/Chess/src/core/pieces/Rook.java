@@ -8,12 +8,22 @@ import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 public class Rook extends CastlingChessPiece  {
+=======
+public class Rook extends ChessPiece  {
+
+    private static boolean hasMoved = false;
+>>>>>>> remotes/origin/chess01j
 
     public Rook(boolean isWhite){
         super(isWhite, ChessPieceType.ROOK);
     }
-
+    
+    public static boolean getHasMoved() {
+    	return hasMoved;
+    }
+    
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
         List<Square> list = new ArrayList<Square>();

@@ -1,17 +1,24 @@
 package core;
 
 import core.pieces.*;
+<<<<<<< HEAD
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
+=======
+
+import core.positioning.Column;
+import core.positioning.Position;
+import core.positioning.Row;
+>>>>>>> remotes/origin/chess01j
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChessBoard implements Cloneable {
 
-    final int numRows = 8;
-    final int numColumns = 8;
+    static final int NUMROWS = 8;
+    static final int NUMCOLUMNS = 8;
 
     ChessPiece[][] pieces;
     void placePiece(ChessPiece piece, Square pos){
@@ -43,6 +50,9 @@ public class ChessBoard implements Cloneable {
             placePiece(piece, destination);
             removePiece(origin);
         }
+        
+        //Rochade
+  //      if(piece.getType() )
     }
 
     public boolean isFieldFree(Square pos) {
@@ -69,7 +79,7 @@ public class ChessBoard implements Cloneable {
     }
 
     public ChessBoard(){
-        this.pieces = new ChessPiece[numRows][numColumns];
+        this.pieces = new ChessPiece[NUMROWS][NUMCOLUMNS];
     }
 
     public static ChessBoard getStartBoard() {

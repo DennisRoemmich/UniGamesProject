@@ -8,10 +8,20 @@ import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 public class King extends CastlingChessPiece  {
+=======
+public class King extends ChessPiece  {
+
+    private static boolean hasMoved = false;
+>>>>>>> remotes/origin/chess01j
 
     public King(boolean isWhite){
         super(isWhite, ChessPieceType.KING);
+    }
+    
+    public static boolean getHasMoved() {
+    	return hasMoved;
     }
 
     @Override

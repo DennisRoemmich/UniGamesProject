@@ -1,9 +1,18 @@
 package core;
 
 import core.pieces.ChessPieceType;
+<<<<<<< HEAD
 import core.positioning.Square;
+=======
+import core.positioning.Position;
+
+>>>>>>> remotes/origin/chess01j
 
 public class CheckDetector {
+	
+	private CheckDetector() {
+		
+	}
 
     public static boolean isInCheck(ChessBoard board, boolean color) {
         Square kingPos = board.findPositionsOfPieces(ChessPieceType.KING, color).get(0);

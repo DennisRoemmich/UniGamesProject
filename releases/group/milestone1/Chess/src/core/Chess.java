@@ -21,6 +21,7 @@ public class Chess {
     }
 
     public Chess() {
+    	//Ununsed so far
     }
 
     public boolean makeMove(Square origin, Square destination) {

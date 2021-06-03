@@ -110,6 +110,7 @@ public class Bishop extends ChessPiece {
         return list;
     }
 
+    //D: SonarLint meckert hier  
     @Override
     public ChessPiece clone() {
         return new Bishop(isWhite);
