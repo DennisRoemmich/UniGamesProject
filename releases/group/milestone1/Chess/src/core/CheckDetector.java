@@ -11,7 +11,7 @@ public class CheckDetector {
     public static boolean isInCheck(ChessBoard board, boolean color) {
         Position kingPos = board.findPositionsOfPieces(ChessPieceType.KING, color).get(0);
         for (Position opponentPos : board.findPositionsOfPieces(!color)) {
-            if(MoveFinder.findMovesDisregaringChess(opponentPos, board).contains(kingPos)) {
+            if(board.getPiece(opponentPos).findMovesDisregardingCheck(opponentPos, board).contains(kingPos)) {
                 return true;
             }
         }
