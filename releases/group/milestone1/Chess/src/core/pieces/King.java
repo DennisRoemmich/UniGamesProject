@@ -24,14 +24,15 @@ public class King extends CastlingChessPiece  {
         File newFile;
         Square posToTest;
 
-        //Rochade
+        //Rochade King side
         ChessPieceMoves.rightwardMove(pos, board, temp, piece);
-        if(temp.size()==2) {
+        if(temp.size()==2 && !hasMoved()) {
         	list.add(temp.get(1));
         }
         
+        //Rochade Queen side
         ChessPieceMoves.leftwardMove(pos, board, temp, piece);
-        if(temp.size()==3) {
+        if(temp.size()==3 && !hasMoved()) {
         	list.add(temp.get(1));
         }
 
