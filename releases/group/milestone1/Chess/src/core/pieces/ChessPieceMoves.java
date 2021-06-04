@@ -12,35 +12,34 @@ public class ChessPieceMoves {
 	private static boolean breakLoop = false;
 	
 	private ChessPieceMoves() {
-		
+		// Prevent initialization
 	}
 	
-    public static Square testPosition(Square pos, int rowOffset, int columnOffset) {
+    public static Square testSquare(Square square, int rankOffset, int fileOffset) {
     	
-    	Rank newRow = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-        File newColumn = File.valueOf(pos.getFile().getIndex() + columnOffset);
-        return new Square(newRow, newColumn);     
+    	Rank newRank = Rank.valueOf(square.getRank().getIndex() + rankOffset);
+        File newFile = File.valueOf(square.getFile().getIndex() + fileOffset);
+        return new Square(newRank, newFile);
         
     }
 
-
-    private static void testMove(Square posToTest, ChessBoard board, List<Square> list, ChessPiece piece) {
-    	if (board.isFieldFree(posToTest)) {
-    		list.add(posToTest);
+    private static void testMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
+    	if (board.isFieldFree(square)) {
+    		list.add(square);
     	} else {
-    	if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-             list.add(posToTest);
-        }
-        breakLoop = true;
+    		if (board.isOccupiedByOpponent(square, piece.isWhite())) {
+             	list.add(square);
+        	}
+        	breakLoop = true;
     	}
     }
 
-    protected static void diagonalMoveD1(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+    protected static void diagonalMoveD1(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
     	for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
-    		int rowOffset = rightDiagonal;
-    		int columnOffset = rightDiagonal;
+    		int rankOffset = rightDiagonal;
+    		int fileOffset = rightDiagonal;
     		try {
-    			Square posToTest = testPosition(pos, rowOffset, columnOffset);
+    			Square posToTest = testSquare(square, rankOffset, fileOffset);
     			testMove(posToTest, board, list, piece);
 
     			if(breakLoop) {
@@ -53,15 +52,13 @@ public class ChessPieceMoves {
 		}
     }
 
-    protected static void diagonalMoveD2(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+    protected static void diagonalMoveD2(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
     	for (int rightDiagonal = -1; rightDiagonal > -8; rightDiagonal--) {
     		int rowOffset = rightDiagonal;
-    		int columnOffset = rightDiagonal;
+    		int fileOffset = rightDiagonal;
     		try {
-    			Square posToTest = testPosition(pos, rowOffset, columnOffset);
+    			Square posToTest = testSquare(square, rowOffset, fileOffset);
     			testMove(posToTest, board, list, piece);
-        	
-           
     			if(breakLoop) {
     				breakLoop = false;
     				break;
@@ -72,12 +69,12 @@ public class ChessPieceMoves {
     	}
     }
 
-	protected static void diagonalMoveD3(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+	protected static void diagonalMoveD3(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
 	    for (int leftDiagonal = -1; leftDiagonal > -8; leftDiagonal--) {
-	        int rowOffset = leftDiagonal;
-	        int columnOffset = -leftDiagonal;
+	        int rankOffset = leftDiagonal;
+	        int fileOffset = -leftDiagonal;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	
 	           
@@ -90,12 +87,12 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void diagonalMoveD4(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
+	protected static void diagonalMoveD4(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
 	    for (int leftDiagonal = 1; leftDiagonal < 8; leftDiagonal++) {
-	        int rowOffset = leftDiagonal;
-	        int columnOffset = -leftDiagonal;
+	        int rankOffset = leftDiagonal;
+	        int fileOffset = -leftDiagonal;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	
 	            if(breakLoop) {
@@ -108,11 +105,11 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void forwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int rowOffset = 1; rowOffset < 8; rowOffset++) {
-	        int columnOffset = 0;
+	protected static void forwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
+	    for (int rankOffset = 1; rankOffset < 8; rankOffset++) {
+	        int fileOffset = 0;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	              
 	            if(breakLoop) {
@@ -125,11 +122,11 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void backwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int rowOffset = -1; rowOffset > -8; rowOffset--) {
-	        int columnOffset = 0;
+	protected static void backwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
+	    for (int rankOffset = -1; rankOffset > -8; rankOffset--) {
+	        int fileOffset = 0;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	
 	           
@@ -143,11 +140,11 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void rightwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int columnOffset = 1; columnOffset < 8; columnOffset++) {
-	        int rowOffset = 0;
+	protected static void rightwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
+	    for (int fileOffset = 1; fileOffset < 8; fileOffset++) {
+	        int rankOffset = 0;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	
 	           
@@ -161,11 +158,11 @@ public class ChessPieceMoves {
 	    }
 	}
 
-	protected static void leftwardMove(Square pos, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int columnOffset = -1; columnOffset > -8; columnOffset--) {
-	        int rowOffset = 0;
+	protected static void leftwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
+	    for (int fileOffset = -1; fileOffset > -8; fileOffset--) {
+	        int rankOffset = 0;
 	        try {
-	        	Square posToTest = testPosition(pos, rowOffset, columnOffset);
+	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
 	        	testMove(posToTest, board, list, piece);
 	        	
 	           
