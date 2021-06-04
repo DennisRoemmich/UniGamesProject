@@ -6,18 +6,17 @@ public class Square {
     private File file;
 
     public Square(Rank rank, File file) {
+        if(rank == null || file == null) {
+            throw new NullPointerException();
+        }
         this.rank = rank;
         this.file = file;
     }
 
     public Square(String name) {
         try {
-        
-        //Rename "file" and "rank" which hides the field declared at line 6 and 7.
-        File file = File.valueOf(name.charAt(0));
-        Rank rank = Rank.valueOf(name.charAt(1));
-            this.rank = rank;
-            this.file = file;
+            this.rank = Rank.valueOf(name.charAt(1));
+            this.file = File.valueOf(name.charAt(0));
         } catch (Exception e) {
         	//Add logic to this catch clause or eliminate it and rethrow the exception automatically.
         	throw e;
@@ -71,6 +70,70 @@ public class Square {
     //Use super.clone() to create and seed the cloned instance to be returned.
     public Square clone() {
         return new Square(rank, file);
+    }
+
+    public Square rightNeighbour(){
+        try {
+            return new Square(rank, file.getRightNeighbour());
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public Square leftNeighbour(){
+        try {
+            return new Square(rank, file.getLeftNeighbour());
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public Square topNeighbour(){
+        try {
+            return new Square(rank.getTopNeighbour(), file);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public Square bottomNeighbour(){
+        try {
+            return new Square(rank.getBottomNeighbour(), file);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public Square topRightNeighbour(){
+        try {
+            return new Square(rank.getTopNeighbour(), file.getRightNeighbour());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Square topLeftNeighbour(){
+        try {
+            return new Square(rank.getTopNeighbour(), file.getLeftNeighbour());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Square bottomRightNeighbour(){
+        try {
+            return new Square(rank.getBottomNeighbour(), file.getRightNeighbour());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Square bottomLeftNeighbour(){
+        try {
+            return new Square(rank.getBottomNeighbour(), file.getLeftNeighbour());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -16,14 +16,14 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
         List<Square> list = new ArrayList<>();
 
-        ChessPiece piece = board.getPiece(pos);
-
-        ChessPieceMoves.diagonalMoveD1(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD2(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD3(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD4(pos, board, list, piece);
+        list.addAll(moveFinder.diagonalMoveD1());
+        list.addAll(moveFinder.diagonalMoveD2());
+        list.addAll(moveFinder.diagonalMoveD3());
+        list.addAll(moveFinder.diagonalMoveD4());
 
         return list;
     }

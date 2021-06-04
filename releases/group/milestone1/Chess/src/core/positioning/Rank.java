@@ -27,4 +27,20 @@ public enum Rank {
     public int getIndex(){
         return index;
     }
+
+    public Rank getBottomNeighbour() {
+        if(this != Rank.M1){
+            return Rank.valueOf(this.getIndex() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public Rank getTopNeighbour() {
+        if(this != Rank.M8){
+            return Rank.valueOf(this.getIndex() + 1);
+        } else {
+            return null;
+        }
+    }
 }

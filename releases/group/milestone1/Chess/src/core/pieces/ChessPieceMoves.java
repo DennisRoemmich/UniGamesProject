@@ -1,5 +1,6 @@
 package core.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import core.ChessBoard;
@@ -9,171 +10,130 @@ import core.positioning.Square;
 
 public class ChessPieceMoves {
 	
-	private static boolean breakLoop = false;
-	
-	private ChessPieceMoves() {
-		// Prevent initialization
+	private boolean breakLoop = false;
+	private Square origin;
+	private ChessPiece piece;
+	private ChessBoard board;
+
+	public ChessPieceMoves(ChessPiece piece, Square square, ChessBoard board) {
+		this.origin = square;
+		this.piece = piece;
+		this.board = board;
 	}
 	
-    public static Square testSquare(Square square, int rankOffset, int fileOffset) {
+    public Square testSquare(Square squareToTest, int rankOffset, int fileOffset) {
     	
-    	Rank newRank = Rank.valueOf(square.getRank().getIndex() + rankOffset);
-        File newFile = File.valueOf(square.getFile().getIndex() + fileOffset);
+    	Rank newRank = Rank.valueOf(squareToTest.getRank().getIndex() + rankOffset);
+        File newFile = File.valueOf(squareToTest.getFile().getIndex() + fileOffset);
         return new Square(newRank, newFile);
         
     }
 
-    private static void testMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-    	if (board.isFieldFree(square)) {
-    		list.add(square);
+    private boolean isSquareReachable(Square squareToTest) {
+    	if (board.isFieldFree(squareToTest)) {
+    		return true;
     	} else {
-    		if (board.isOccupiedByOpponent(square, piece.isWhite())) {
-             	list.add(square);
-        	}
-        	breakLoop = true;
+			breakLoop = true;
+    		if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
+             	return true;
+        	} else {
+    			return false;
+			}
     	}
     }
 
-    protected static void diagonalMoveD1(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-    	for (int rightDiagonal = 1; rightDiagonal < 8; rightDiagonal++) {
-    		int rankOffset = rightDiagonal;
-    		int fileOffset = rightDiagonal;
-    		try {
-    			Square posToTest = testSquare(square, rankOffset, fileOffset);
-    			testMove(posToTest, board, list, piece);
-
-    			if(breakLoop) {
-    				breakLoop = false;
-    				break;
-    			}
-    		} catch (Exception e) {
-
-    		}
+    protected List<Square> diagonalMoveD1() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.topRightNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.topRightNeighbour();
 		}
+		return checkLine(lineSquares);
     }
 
-    protected static void diagonalMoveD2(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-    	for (int rightDiagonal = -1; rightDiagonal > -8; rightDiagonal--) {
-    		int rowOffset = rightDiagonal;
-    		int fileOffset = rightDiagonal;
-    		try {
-    			Square posToTest = testSquare(square, rowOffset, fileOffset);
-    			testMove(posToTest, board, list, piece);
-    			if(breakLoop) {
-    				breakLoop = false;
-    				break;
-    			}
-    		} catch (Exception e) {
-
-    		}
-    	}
+    protected List<Square> diagonalMoveD2() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.topLeftNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.topLeftNeighbour();
+		}
+		return checkLine(lineSquares);
     }
 
-	protected static void diagonalMoveD3(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int leftDiagonal = -1; leftDiagonal > -8; leftDiagonal--) {
-	        int rankOffset = leftDiagonal;
-	        int fileOffset = -leftDiagonal;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	
-	           
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	        }
-	    }
+	protected List<Square> diagonalMoveD3() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.bottomLeftNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.bottomLeftNeighbour();
+		}
+		return checkLine(lineSquares);
 	}
 
-	protected static void diagonalMoveD4(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int leftDiagonal = 1; leftDiagonal < 8; leftDiagonal++) {
-	        int rankOffset = leftDiagonal;
-	        int fileOffset = -leftDiagonal;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	
-	        }
-	    }
+	protected List<Square> diagonalMoveD4() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.bottomRightNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.bottomRightNeighbour();
+		}
+		return checkLine(lineSquares);
 	}
 
-	protected static void forwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int rankOffset = 1; rankOffset < 8; rankOffset++) {
-	        int fileOffset = 0;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	              
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	
-	        }
-	    }
+	protected List<Square> forwardMove(){
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.topNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.topNeighbour();
+		}
+		return checkLine(lineSquares);
 	}
 
-	protected static void backwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int rankOffset = -1; rankOffset > -8; rankOffset--) {
-	        int fileOffset = 0;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	
-	           
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	
-	        }
-	    }
+	protected List<Square> backwardMove() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.bottomNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.bottomNeighbour();
+		}
+		return checkLine(lineSquares);
 	}
 
-	protected static void rightwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int fileOffset = 1; fileOffset < 8; fileOffset++) {
-	        int rankOffset = 0;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	
-	           
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	
-	        }
-	    }
+	protected List<Square> rightwardMove() {
+	    List<Square> lineSquares = new ArrayList<>();
+	    Square squareToAdd = origin.rightNeighbour();
+	    while (squareToAdd != null) {
+	    	lineSquares.add(squareToAdd);
+	    	squareToAdd = squareToAdd.rightNeighbour();
+		}
+		return checkLine(lineSquares);
 	}
 
-	protected static void leftwardMove(Square square, ChessBoard board, List<Square> list, ChessPiece piece) {
-	    for (int fileOffset = -1; fileOffset > -8; fileOffset--) {
-	        int rankOffset = 0;
-	        try {
-	        	Square posToTest = testSquare(square, rankOffset, fileOffset);
-	        	testMove(posToTest, board, list, piece);
-	        	
-	           
-	            if(breakLoop) {
-	            	breakLoop = false;
-	            	break;
-	            }
-	        } catch (Exception e) {
-	
-	        }
-	    }
+	protected List<Square> leftwardMove() {
+		List<Square> lineSquares = new ArrayList<>();
+		Square squareToAdd = origin.leftNeighbour();
+		while (squareToAdd != null) {
+			lineSquares.add(squareToAdd);
+			squareToAdd = squareToAdd.leftNeighbour();
+		}
+		return checkLine(lineSquares);
+	}
+
+	protected List<Square> checkLine(List<Square> lineSquares) {
+		List<Square> reachableFields = new ArrayList<>();
+		for(Square square : lineSquares){
+			if (isSquareReachable(square)) {
+				reachableFields.add(square);
+			}
+			if(breakLoop) {
+				breakLoop = false;
+				break;
+			}
+		}
+		return reachableFields;
 	}
    
 }

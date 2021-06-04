@@ -25,16 +25,16 @@ public class King extends CastlingChessPiece  {
         Square posToTest;
 
         //Rochade King side
-        ChessPieceMoves.rightwardMove(pos, board, temp, piece);
+        /*ChessPieceMoves.rightwardMove(pos, board, temp, piece);
         if(temp.size()==2 && !hasMoved()) {
         	list.add(temp.get(1));
-        }
+        }*/
         
         //Rochade Queen side
-        ChessPieceMoves.leftwardMove(pos, board, temp, piece);
+        /*ChessPieceMoves.leftwardMove(pos, board, temp, piece);
         if(temp.size()==3 && !hasMoved()) {
         	list.add(temp.get(1));
-        }
+        }*/
 
 
         for (int rowOffset : new int[]{-1, 0, 1}) {

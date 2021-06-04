@@ -16,19 +16,18 @@ public class Rook extends CastlingChessPiece  {
     
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<Square>();
-
-        ChessPiece piece = board.getPiece(pos);
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
+        List<Square> list = new ArrayList<>();
 
         //Rochade
         /* TODO */
         // J: Kann auch nur als Königszug angesehen werden, da sonst Mehrdeutigkeiten entstehen (Tf1 vs kurze Rochade)
 
-        ChessPieceMoves.forwardMove(pos, board, list, piece);
-        ChessPieceMoves.backwardMove(pos, board, list, piece);
-        ChessPieceMoves.rightwardMove(pos, board, list, piece);
-        ChessPieceMoves.leftwardMove(pos, board, list, piece);
-        
+        list.addAll(moveFinder.forwardMove());
+        list.addAll(moveFinder.backwardMove());
+        list.addAll(moveFinder.rightwardMove());
+        list.addAll(moveFinder.leftwardMove());
+
         return list;
     }
 }
