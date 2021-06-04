@@ -9,9 +9,9 @@ public class Tile {
      * Constructor only for joker
      * @param color of tile
      */
-    public Tile(TileColor color){
+    public Tile(TileColor joker){
 
-        this.color = color;
+        this.color = joker;
         value = 30;
     }
 
@@ -51,92 +51,18 @@ public class Tile {
         return color == TileColor.JOKER;
     }
 
-    public int compareTo(Tile tile) {
-
-        return switch (color) {
-
-            case BLACK -> compareToBlack(tile);
-            case BLUE -> compareToBlue(tile);
-            case RED -> compareToRed(tile);
-            case YELLOW -> compareToYellow(tile);
-            case JOKER -> compareToJoker(tile);
-        };
-    }
-
     public String toString(){
 
         return "[" + color.toString() + "," + Integer.toString(value) + "]";
     }
 
-    private int compareToBlack(Tile tile) {
+    public boolean compareToRun(Tile tile) {
 
-        if (tile.getTileColor() == TileColor.BLACK) {
-
-            return 0;
-
-        } else {
-
-            return -1;
-        }
+        return tile.getValue() < value;
     }
 
-    private int compareToBlue(Tile tile) {
+    public boolean compareToGroup(Tile tile) {
 
-        if (tile.getTileColor() == TileColor.BLUE) {
-
-            return 0;
-
-        } else if (tile.getTileColor() == TileColor.BLACK){
-
-            return 1;
-
-        } else {
-
-            return -1;
-        }
-    }
-
-    private int compareToRed(Tile tile) {
-
-        if (tile.getTileColor() == TileColor.RED) {
-
-            return 0;
-
-        } else if (tile.getTileColor() == TileColor.YELLOW || tile.isJoker()){
-
-            return -1;
-
-        } else {
-
-            return 1;
-        }
-    }
-
-    private int compareToYellow(Tile tile) {
-
-        if (tile.getTileColor() == TileColor.YELLOW) {
-
-            return 0;
-
-        } else if (tile.isJoker()) {
-
-            return -1;
-
-        } else {
-
-            return 1;
-        }
-    }
-
-    private int compareToJoker(Tile tile) {
-
-        if (tile.isJoker()) {
-
-            return 0;
-
-        } else {
-
-            return 1;
-        }
+        return tile.getTileColor().value < color.value;
     }
 }

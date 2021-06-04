@@ -99,9 +99,9 @@ public class Rack {
      * @param position
      * @return GridTile
      */
-    public GridTile positionToGridTile(int i) {
+    public GridTile positionToGridTile(int position) {
 
-        return grid[i / GRID_WIDTH][i % GRID_WIDTH];
+        return grid[position / GRID_WIDTH][position % GRID_WIDTH];
     }
 
     /**
@@ -138,9 +138,9 @@ public class Rack {
      * removes a Tile from the Rack
      * @param position
      */
-    public void removeTile(Point pos) {
+    public void removeTile(Point position) {
 
-        pointToGridTile(pos).removeTile();
+        pointToGridTile(position).removeTile();
         size--;
     }
 
@@ -191,9 +191,9 @@ public class Rack {
      * @param position
      * @return empty GridTile
      */
-    private GridTile getFirstEmpty(int pos) {
+    private GridTile getFirstEmpty(int position) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (positionToGridTile(i).isEmpty()) {
 
@@ -208,9 +208,9 @@ public class Rack {
      * @param position
      * @return non-empty GridTile
      */
-    private GridTile getFirstNonEmpty(int pos) {
+    private GridTile getFirstNonEmpty(int position) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (!positionToGridTile(i).isEmpty()) {
 
@@ -221,23 +221,9 @@ public class Rack {
     }
 
     /**
-     * closes the gapas in the Rack
-     */
-    private void closeGaps() {
-
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
-
-            if (positionToGridTile(i).isEmpty() && (getFirstNonEmpty(i) != null)) {
-
-                swap(positionToGridTile(i), getFirstNonEmpty(i));
-            }
-        }
-    }
-
-    /**
      * swaps tiles of two GridTiles
-     * @param GridTile 1
-     * @param GridTile 2
+     * @param uno GridTile
+     * @param dos GridTile
      */
     private void swap(GridTile uno, GridTile dos) {
 
@@ -256,161 +242,183 @@ public class Rack {
         }
     }
 
-                                        // WHOLE SORTIEREN HAS TO BE DONE
-
     public void sortForGroup() {
 
-        this.closeGaps();
+        var groupSorted = new Tile[size];
 
-        var sorted = new GridTile[size];
-
-        for (var i = 0; i < sorted.length; i++) {
-
-            sorted[i] = grid[i / 15][i % 15];
-        }
-
-        sortGroup(sorted);
-
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
-
-            grid[i / 15][i % 15].setTile(sorted[i].getTile());
-        }
+        tilesToGrid(sortGroup(gridToTiles(groupSorted), true));
     }
 
     public void sortForRun() {
 
-        this.closeGaps();
+        var runSorted = new Tile[size];
 
-        var sorted = new GridTile[size];
+        tilesToGrid(sortRun(gridToTiles(runSorted), true));
+    }
 
-        for (var i = 0; i < sorted.length; i++) {
-
-            sorted[i] = grid[i / 15][i % 15];
-        }
-
-        sortRun(sorted);
+    private Tile[] gridToTiles(Tile [] tiles) {
 
         for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
-            grid[i / 15][i % 15].setTile(sorted[i].getTile());
-        }
-    }
+            if (!positionToGridTile(i).isEmpty()) {
 
-    private void sortRun(GridTile[] grid) {
+                var j = 0;
 
-        int minValue;
-        var minPos = 0;
+                while (tiles[j] != null) {
 
-        for (var i = 0; i < grid.length; i++) {
-
-            minValue = grid[0].getTile().getValue();
-
-            for (var j = i; j < grid.length; j++) {
-
-                if (grid[j].getTile().getValue() < minValue) {
-
-                    minValue = grid[j].getTile().getValue();
-                    minPos = j;
+                    j++;
                 }
+
+                tiles[j] = positionToGridTile(i).getTile();
             }
-            this.swap(grid[i], grid[minPos]);
         }
 
-        var iterator = 0;
-        var old = 0;
-        for (var i = 1; i < 13; i++) {
+        return tiles;
+    }
 
-            while (grid[iterator].getTile().getValue() == i) {
+    private void tilesToGrid(Tile[] tiles) {
 
-                iterator++;
-            }
-            var num = new GridTile[i - old];
-            for (var j = 0; j < num.length; j++) {
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
+            if (i < size) {
 
+                positionToGridTile(i).setTile(tiles[i]);
+
+            } else {
+
+                positionToGridTile(i).removeTile();
             }
         }
     }
 
-    /** sry, ist jzt echt hässlich und lang geworden, wird noch geändert, änderungsvorschläge erwünscht
-     * sorts a grid for group
-     * @param grid sorted by group
+    /**
+     * sorts a tiles-array for run
+     * @param tiles
+     * @param mode
+     * @return
      */
-    private void sortGroup(GridTile[] grid) {
+    private Tile[] sortRun(Tile[] tiles, boolean mode) {
 
-        var maxPos = 0;
+        int min;
+        for (var i = 0; i < tiles.length - 1; i++) {
 
-        for (var i = 0; i < grid.length; i++) {
+            min = i;
 
-            for (var j = i; j < grid.length; j++) {
+            for (var j = i; j < tiles.length; j++) {
 
-                if (grid[i].getTile().compareTo(grid[j].getTile()) == 1) {
+                if (tiles[min].compareToRun(tiles[j])) {
 
-                    maxPos = j;
+                    min = j;
                 }
             }
-            swap(grid[i], grid[maxPos]);
+
+            Tile help = tiles[i];
+
+            tiles[i] = tiles[min];
+            tiles[min] = help;
         }
 
-        var iterator = 0;
-        GridTile[] black;
-        GridTile[] blue;
-        GridTile[] red;
-        GridTile[] yellow;
+        if (mode) {
 
-        while (grid[iterator].getTile().getTileColor() == TileColor.BLACK) {
-
-            iterator++;
+            sortRunForGroup(tiles);
         }
-        black = new GridTile[iterator];
-        for (var i = 0; i < black.length; i++) {
+        return tiles;
+    }
 
-            black[i] = grid[i];
-        }
-        while (grid[iterator].getTile().getTileColor() == TileColor.BLUE) {
+    /**
+     * sorts a tiles-array for group
+     * @param tiles-array sorted by group
+     * @param mode
+     */
+    private Tile[] sortGroup(Tile[] tiles, boolean mode) {
 
-            iterator++;
-        }
-        blue = new GridTile[iterator];
-        for (var i = 0; i < blue.length; i++) {
+        int min;
+        for (var i = 0; i < tiles.length - 1; i++) {
 
-            blue[i] = grid[black.length + i];
-        }
-        while (grid[iterator].getTile().getTileColor() == TileColor.RED) {
+            min = i;
 
-            iterator++;
-        }
-        red = new GridTile[iterator];
-        for (var i = 0; i < red.length; i++) {
+            for (var j = i; j < tiles.length; j++) {
 
-            red[i] = grid[black.length + blue.length + i];
-        }
-        while (grid[iterator].getTile().getTileColor() == TileColor.YELLOW) {
+                if (tiles[min].compareToGroup(tiles[j])) {
 
-            iterator++;
-        }
-        yellow = new GridTile[iterator];
-        for (var i = 0; i < yellow.length; i++) {
+                    min = j;
+                }
+            }
 
-            yellow[i] = grid[black.length + blue.length + red.length + i];
+            Tile help = tiles[i];
+
+            tiles[i] = tiles[min];
+            tiles[min] = help;
         }
 
-        sortRun(black);
-        sortRun(blue);
-        sortRun(red);
-        sortRun(yellow);
+        if (mode) {
 
-        for (var j = 0; j < black.length; j++) {
-            grid[j] = black[j];
+            sortGroupForRun(tiles);
         }
-        for (var k = 0; k < blue.length; k++) {
-            grid[black.length + k] = blue[k];
+        return tiles;
+    }
+
+    private void sortRunForGroup(Tile[] tiles) {
+
+        var h = 0;
+        for (var i = 1; i <= 13; i++) {
+
+            var n = 0;
+
+            while (h < tiles.length && tiles[h].getValue() == i) {
+
+                h++;
+                n++;
+            }
+
+            if (n > 1) {
+
+                var toGroup = new Tile[n];
+
+                for (var j = 0; j < n; j++) {
+
+                    toGroup[j] = tiles[h - n + j];
+                }
+
+                sortGroup(toGroup, false);
+
+                for (var l = h - n; l < h; l++) {
+
+                    tiles[l] = toGroup[l - (h - n)];
+                }
+            }
         }
-        for (var l = 0; l < blue.length; l++) {
-            grid[black.length + blue.length + l] = red[l];
-        }
-        for (var m = 0; m < blue.length; m++) {
-            grid[black.length + blue.length + red.length + m] = yellow[m];
+    }
+
+    private void sortGroupForRun(Tile[] tiles) {
+
+        var h = 0;
+        for (var i = 0; i < 5; i++) {
+
+            var n = 0;
+
+            while (h < tiles.length && tiles[h].getTileColor().value == i) {
+
+                h++;
+                n++;
+            }
+
+            if (n > 1) {
+
+                var toRun = new Tile[n];
+
+                for (var j = 0; j < n; j++) {
+
+                    toRun[j] = tiles[h - n + j];
+                }
+
+                var sorted = sortRun(toRun, false);
+
+                for (var l = h - n; l < h; l++) {
+
+                    tiles[l] = sorted[l - (h - n)];
+                }
+            }
         }
     }
 }

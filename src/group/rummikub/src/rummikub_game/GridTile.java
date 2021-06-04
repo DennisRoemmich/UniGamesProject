@@ -61,11 +61,11 @@ public class GridTile {
 
     /**
      * sets position of GridTile
-     * @param pos of GridTile
+     * @param position of GridTile
      */
-    public void setPosition(int pos) {
+    public void setPosition(int position) {
 
-        position = pos;
+        this.position = position;
     }
 
     public String toString() {

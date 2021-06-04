@@ -248,7 +248,7 @@ public class Rummikub {
         for(TileColor color : TileColor.values()){
             if(color != TileColor.JOKER) {
                 for (var i = 0; i < 13*2; i++) {
-                    tileStack[color.number*26+i] = new Tile(color, (i%13)+1);
+                    tileStack[color.value*26+i] = new Tile(color, (i%13)+1);
                 }
             }
         }
