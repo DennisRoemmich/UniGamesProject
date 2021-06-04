@@ -375,17 +375,11 @@ public class Rack {
 
                 var toGroup = new Tile[n];
 
-                for (var j = 0; j < n; j++) {
-
-                    toGroup[j] = tiles[h - n + j];
-                }
+                System.arraycopy(tiles, h - n, toGroup, 0, n);
 
                 sortGroup(toGroup, false);
 
-                for (var l = h - n; l < h; l++) {
-
-                    tiles[l] = toGroup[l - (h - n)];
-                }
+                if (h - (h - n) >= 0) System.arraycopy(toGroup, 0, tiles, h - n, h - (h - n));
             }
         }
     }
@@ -407,17 +401,11 @@ public class Rack {
 
                 var toRun = new Tile[n];
 
-                for (var j = 0; j < n; j++) {
-
-                    toRun[j] = tiles[h - n + j];
-                }
+                System.arraycopy(tiles, h - n, toRun, 0, n);
 
                 var sorted = sortRun(toRun, false);
 
-                for (var l = h - n; l < h; l++) {
-
-                    tiles[l] = sorted[l - (h - n)];
-                }
+                if (h - (h - n) >= 0) System.arraycopy(sorted, 0, tiles, h - n, h - (h - n));
             }
         }
     }
