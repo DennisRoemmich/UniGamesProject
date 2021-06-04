@@ -14,7 +14,7 @@ public class ChessBoard implements Cloneable {
     ChessPiece[][] pieces;
 
     void placePiece(ChessPiece piece, Square pos){
-        placePiece(piece, pos.getRank(), pos.getFile());
+        pieces[pos.getRank().getIndex()][pos.getFile().getIndex()] = piece;
     }
 
     void placePiece(ChessPiece piece, Rank rank, File file) {
@@ -22,11 +22,7 @@ public class ChessBoard implements Cloneable {
     }
 
     void removePiece(Square pos) {
-        removePiece(pos.getRank(), pos.getFile());
-    }
-
-    void removePiece(Rank rank, File file) {
-        pieces[rank.getIndex()][file.getIndex()] = null;
+        pieces[pos.getRank().getIndex()][pos.getFile().getIndex()] = null;
     }
 
     public ChessPiece getPiece(Square pos) {
@@ -44,14 +40,11 @@ public class ChessBoard implements Cloneable {
         }
         
         //Rochade
-  //      if(piece.getType() )
+        //      if(piece.getType() )
     }
 
     public boolean isFieldFree(Square pos) {
-        return isFieldFree(pos.getRank(), pos.getFile());
-    }
-    public boolean isFieldFree(Rank rank, File file) {
-        return getPiece(rank, file) == null;
+        return getPiece(pos) == null;
     }
 
     public boolean isOccupiedByOpponent(Square pos, boolean selfIsWhite) {

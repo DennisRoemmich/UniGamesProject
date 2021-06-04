@@ -14,13 +14,8 @@ public class Square {
     }
 
     public Square(String name) {
-        try {
-            this.rank = Rank.valueOf(name.charAt(1));
-            this.file = File.valueOf(name.charAt(0));
-        } catch (Exception e) {
-        	//Add logic to this catch clause or eliminate it and rethrow the exception automatically.
-        	throw e;
-        }
+        this.rank = Rank.valueOf(name.charAt(1));
+        this.file = File.valueOf(name.charAt(0));
     }
 
     public Rank getRank() {
@@ -72,68 +67,30 @@ public class Square {
         return new Square(rank, file);
     }
 
-    public Square rightNeighbour(){
+    public Square getNext(Direction direction) {
         try {
-            return new Square(rank, file.getRightNeighbour());
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public Square leftNeighbour(){
-        try {
-            return new Square(rank, file.getLeftNeighbour());
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public Square topNeighbour(){
-        try {
-            return new Square(rank.getTopNeighbour(), file);
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public Square bottomNeighbour(){
-        try {
-            return new Square(rank.getBottomNeighbour(), file);
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public Square topRightNeighbour(){
-        try {
-            return new Square(rank.getTopNeighbour(), file.getRightNeighbour());
+            switch (direction) {
+                case UP:
+                    return new Square(rank.getTopNeighbour(), file);
+                case DOWN:
+                    return new Square(rank.getBottomNeighbour(), file);
+                case LEFT:
+                    return new Square(rank, file.getLeftNeighbour());
+                case RIGHT:
+                    return new Square(rank, file.getRightNeighbour());
+                case UP_LEFT:
+                    return new Square(rank.getTopNeighbour(), file.getLeftNeighbour());
+                case UP_RIGHT:
+                    return new Square(rank.getTopNeighbour(), file.getRightNeighbour());
+                case DOWN_LEFT:
+                    return new Square(rank.getBottomNeighbour(), file.getLeftNeighbour());
+                case DOWN_RIGHT:
+                    return new Square(rank.getBottomNeighbour(), file.getRightNeighbour());
+            }
         } catch (Exception e) {
-            return null;
-        }
-    }
 
-    public Square topLeftNeighbour(){
-        try {
-            return new Square(rank.getTopNeighbour(), file.getLeftNeighbour());
-        } catch (Exception e) {
-            return null;
         }
-    }
-
-    public Square bottomRightNeighbour(){
-        try {
-            return new Square(rank.getBottomNeighbour(), file.getRightNeighbour());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public Square bottomLeftNeighbour(){
-        try {
-            return new Square(rank.getBottomNeighbour(), file.getLeftNeighbour());
-        } catch (Exception e) {
-            return null;
-        }
+        return null;
     }
 
 }

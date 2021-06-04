@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.ChessBoard;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
@@ -42,98 +43,36 @@ public class ChessPieceMoves {
     	}
     }
 
-    protected List<Square> diagonalMoveD1() {
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.topRightNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.topRightNeighbour();
+	public List<Square> getReachableSquares(Direction[] directions) {
+		List<Square> reachableSquares = new ArrayList<>();
+		for(Direction direction : directions) {
+			reachableSquares.addAll(getReachableSquares(direction));
 		}
-		return checkLine(lineSquares);
-    }
-
-    protected List<Square> diagonalMoveD2() {
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.topLeftNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.topLeftNeighbour();
-		}
-		return checkLine(lineSquares);
-    }
-
-	protected List<Square> diagonalMoveD3() {
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.bottomLeftNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.bottomLeftNeighbour();
-		}
-		return checkLine(lineSquares);
+		return reachableSquares;
 	}
 
-	protected List<Square> diagonalMoveD4() {
+	public List<Square> getReachableSquares(Direction direction) {
 		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.bottomRightNeighbour();
+		Square squareToAdd = origin.getNext(direction);
 		while (squareToAdd != null) {
 			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.bottomRightNeighbour();
-		}
-		return checkLine(lineSquares);
-	}
-
-	protected List<Square> forwardMove(){
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.topNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.topNeighbour();
-		}
-		return checkLine(lineSquares);
-	}
-
-	protected List<Square> backwardMove() {
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.bottomNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.bottomNeighbour();
-		}
-		return checkLine(lineSquares);
-	}
-
-	protected List<Square> rightwardMove() {
-	    List<Square> lineSquares = new ArrayList<>();
-	    Square squareToAdd = origin.rightNeighbour();
-	    while (squareToAdd != null) {
-	    	lineSquares.add(squareToAdd);
-	    	squareToAdd = squareToAdd.rightNeighbour();
-		}
-		return checkLine(lineSquares);
-	}
-
-	protected List<Square> leftwardMove() {
-		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.leftNeighbour();
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.leftNeighbour();
+			squareToAdd = squareToAdd.getNext(direction);
 		}
 		return checkLine(lineSquares);
 	}
 
 	protected List<Square> checkLine(List<Square> lineSquares) {
-		List<Square> reachableFields = new ArrayList<>();
+		List<Square> reachableSquares = new ArrayList<>();
 		for(Square square : lineSquares){
 			if (isSquareReachable(square)) {
-				reachableFields.add(square);
+				reachableSquares.add(square);
 			}
 			if(breakLoop) {
 				breakLoop = false;
 				break;
 			}
 		}
-		return reachableFields;
+		return reachableSquares;
 	}
    
 }
