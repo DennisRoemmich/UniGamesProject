@@ -21,14 +21,6 @@ public class ChessPieceMoves {
 		this.piece = piece;
 		this.board = board;
 	}
-	
-    public Square testSquare(Square squareToTest, int rankOffset, int fileOffset) {
-    	
-    	Rank newRank = Rank.valueOf(squareToTest.getRank().getIndex() + rankOffset);
-        File newFile = File.valueOf(squareToTest.getFile().getIndex() + fileOffset);
-        return new Square(newRank, newFile);
-        
-    }
 
     private boolean isSquareReachable(Square squareToTest) {
     	if (board.isFieldFree(squareToTest)) {
