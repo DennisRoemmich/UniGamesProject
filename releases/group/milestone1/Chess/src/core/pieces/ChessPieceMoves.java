@@ -55,16 +55,15 @@ public class ChessPieceMoves {
 
 	protected List<Square> checkLine(List<Square> lineSquares) {
 		List<Square> reachableSquares = new ArrayList<>();
-		for(Square square : lineSquares){
+		for (Square square : lineSquares) {
 			if (isSquareReachable(square)) {
 				reachableSquares.add(square);
 			}
-			if(breakLoop) {
+			if (breakLoop) {
 				breakLoop = false;
 				break;
 			}
 		}
 		return reachableSquares;
 	}
-   
 }

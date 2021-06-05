@@ -18,11 +18,6 @@ public enum Rank {
         char c = (char)(49 + i); // 49 is the decimal representation of the char '1'
         return valueOf(c);
     }
-    
-    @Override
-    public String toString() {
-        return String.valueOf(name().charAt(1));
-    }
 
     public int getIndex(){
         return index;
@@ -42,5 +37,10 @@ public enum Rank {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(name().charAt(1));
     }
 }

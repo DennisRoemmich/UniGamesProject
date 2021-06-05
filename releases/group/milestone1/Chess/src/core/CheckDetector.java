@@ -6,7 +6,7 @@ import core.positioning.Square;
 public class CheckDetector {
 	
 	private CheckDetector() {
-		
+		// Prevent initialization
 	}
 
     public static boolean isInCheck(ChessBoard board, boolean color) {

@@ -27,7 +27,7 @@ public class ConsoleUI implements Presenter, Player {
             System.out.print(rank + "│");
             for(File file : File.values()){
                 System.out.print(' ');
-                ChessPiece piece = controller.getGame().getBoard().getPiece(rank, file);
+                ChessPiece piece = controller.getGame().getBoard().getPiece(new Square(rank, file));
                 if (piece == null) {
                     System.out.print(' ');
                 } else {

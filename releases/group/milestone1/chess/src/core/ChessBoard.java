@@ -13,23 +13,16 @@ public class ChessBoard implements Cloneable {
 
     ChessPiece[][] pieces;
 
-    void placePiece(ChessPiece piece, Square pos){
-        pieces[pos.getRank().getIndex()][pos.getFile().getIndex()] = piece;
+    void placePiece(ChessPiece piece, Square square){
+        pieces[square.getRank().getIndex()][square.getFile().getIndex()] = piece;
     }
 
-    void placePiece(ChessPiece piece, Rank rank, File file) {
-        pieces[rank.getIndex()][file.getIndex()] = piece;
+    void removePiece(Square square) {
+        pieces[square.getRank().getIndex()][square.getFile().getIndex()] = null;
     }
 
-    void removePiece(Square pos) {
-        pieces[pos.getRank().getIndex()][pos.getFile().getIndex()] = null;
-    }
-
-    public ChessPiece getPiece(Square pos) {
-        return  getPiece(pos.getRank(), pos.getFile());
-    }
-    public ChessPiece getPiece(Rank rank, File file) {
-        return pieces[rank.getIndex()][file.getIndex()];
+    public ChessPiece getPiece(Square square) {
+        return pieces[square.getRank().getIndex()][square.getFile().getIndex()];
     }
 
     void movePiece(Square origin, Square destination) {
@@ -43,20 +36,20 @@ public class ChessBoard implements Cloneable {
         //      if(piece.getType() )
     }
 
-    public boolean isFieldFree(Square pos) {
-        return getPiece(pos) == null;
+    public boolean isFieldFree(Square square) {
+        return getPiece(square) == null;
     }
 
-    public boolean isOccupiedByOpponent(Square pos, boolean selfIsWhite) {
-        return !isFieldFree(pos) && (getPiece(pos).isWhite() != selfIsWhite);
+    public boolean isOccupiedByOpponent(Square square, boolean selfIsWhite) {
+        return !isFieldFree(square) && (getPiece(square).isWhite() != selfIsWhite);
     }
 
-    public boolean isOccupiedByOpponentOrFree(Square pos, boolean selfIsWhite) {
-        return isFieldFree(pos) || isOccupiedByOpponent(pos, selfIsWhite);
+    public boolean isOccupiedByOpponentOrFree(Square square, boolean selfIsWhite) {
+        return isFieldFree(square) || isOccupiedByOpponent(square, selfIsWhite);
     }
 
-    public boolean isOccupiedBySelf(Square pos, boolean selfIsWhite) {
-        return !isFieldFree(pos) && (getPiece(pos).isWhite() == selfIsWhite);
+    public boolean isOccupiedBySelf(Square square, boolean selfIsWhite) {
+        return !isFieldFree(square) && (getPiece(square).isWhite() == selfIsWhite);
     }
 
     private ChessBoard(ChessPiece[][] pieces) {
@@ -70,25 +63,25 @@ public class ChessBoard implements Cloneable {
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
         for(File file : File.values()) {
-            board.placePiece(new Pawn(true), Rank.M2, file);
-            board.placePiece(new Pawn(false), Rank.M7, file);
+            board.placePiece(new Pawn(true), new Square(Rank.M2, file));
+            board.placePiece(new Pawn(false), new Square(Rank.M7, file));
         }
         for(File file : new File[]{File.A, File.H}){
-            board.placePiece(new Rook(true), Rank.M1, file);
-            board.placePiece(new Rook(false), Rank.M8, file);
+            board.placePiece(new Rook(true), new Square(Rank.M1, file));
+            board.placePiece(new Rook(false), new Square(Rank.M8, file));
         }
         for(File file : new File[]{File.B, File.G}){
-            board.placePiece(new Knight(true), Rank.M1, file);
-            board.placePiece(new Knight(false), Rank.M8, file);
+            board.placePiece(new Knight(true), new Square(Rank.M1, file));
+            board.placePiece(new Knight(false), new Square(Rank.M8, file));
         }
         for(File file : new File[]{File.C, File.F}){
-            board.placePiece(new Bishop(true), Rank.M1, file);
-            board.placePiece(new Bishop(false), Rank.M8, file);
+            board.placePiece(new Bishop(true), new Square(Rank.M1, file));
+            board.placePiece(new Bishop(false), new Square(Rank.M8, file));
         }
-        board.placePiece(new Queen(true), Rank.M1, File.D);
-        board.placePiece(new Queen(false), Rank.M8, File.D);
-        board.placePiece(new King(true), Rank.M1, File.E);
-        board.placePiece(new King(false), Rank.M8, File.E);
+        board.placePiece(new Queen(true), new Square(Rank.M1, File.D));
+        board.placePiece(new Queen(false), new Square(Rank.M8, File.D));
+        board.placePiece(new King(true), new Square(Rank.M1, File.E));
+        board.placePiece(new King(false), new Square(Rank.M8, File.E));
         return board;
     }
 
@@ -109,11 +102,11 @@ public class ChessBoard implements Cloneable {
 
     public List<Square> findPositionsOfPieces(ChessPieceType type, boolean color) {
         ArrayList<Square> list = new ArrayList<>();
-        for(Square pos : Square.values()) {
-            if(isFieldFree(pos)) continue;
-            ChessPiece piece = getPiece(pos);
+        for(Square square : Square.values()) {
+            if(isFieldFree(square)) continue;
+            ChessPiece piece = getPiece(square);
             if(piece.getType() == type && piece.isWhite() == color) {
-                list.add(pos);
+                list.add(square);
             }
         }
         return list;
@@ -123,9 +116,9 @@ public class ChessBoard implements Cloneable {
     @Override
     public ChessBoard clone() {
         ChessBoard clone = new ChessBoard();
-        for(Square pos : Square.values()) {
-            if(!isFieldFree(pos)) {
-                clone.placePiece(getPiece(pos).clone(), pos);
+        for(Square square : Square.values()) {
+            if(!isFieldFree(square)) {
+                clone.placePiece(getPiece(square).clone(), square);
             }
         }
         return clone;

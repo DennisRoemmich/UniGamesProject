@@ -1,5 +1,8 @@
 package core.positioning;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Square {
 
     private Rank rank;
