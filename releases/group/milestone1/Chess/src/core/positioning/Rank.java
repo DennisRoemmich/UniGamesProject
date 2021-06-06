@@ -18,13 +18,29 @@ public enum Rank {
         char c = (char)(49 + i); // 49 is the decimal representation of the char '1'
         return valueOf(c);
     }
-    
-    @Override
-    public String toString() {
-        return String.valueOf(name().charAt(1));
-    }
 
     public int getIndex(){
         return index;
+    }
+
+    public Rank getBottomNeighbour() {
+        if(this != Rank.M1){
+            return Rank.valueOf(this.getIndex() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public Rank getTopNeighbour() {
+        if(this != Rank.M8){
+            return Rank.valueOf(this.getIndex() + 1);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(name().charAt(1));
     }
 }

@@ -31,7 +31,6 @@ public class Controller {
 
     public Controller(Presenter presenter) {
         this.presenter = presenter;
-        this.presenter.setController(this);
     }
 
     public void setPlayerA(Player playerA) {

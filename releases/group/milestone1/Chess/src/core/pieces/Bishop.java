@@ -1,6 +1,7 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
@@ -16,16 +17,10 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        List<Square> list = new ArrayList<>();
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
 
-        ChessPiece piece = board.getPiece(pos);
-
-        ChessPieceMoves.diagonalMoveD1(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD2(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD3(pos, board, list, piece);
-        ChessPieceMoves.diagonalMoveD4(pos, board, list, piece);
-
-        return list;
+        Direction[] bishopDirections = new Direction[]{Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT};
+        return moveFinder.getReachableSquares(bishopDirections);
     }
 
     //SonarLint: Remove this "clone" implementation; use a copy constructor or copy factory instead.

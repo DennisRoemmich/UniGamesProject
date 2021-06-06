@@ -35,8 +35,8 @@ public class Chess {
         }
     }
 
-    private void registerMove(Square destination) {
-        ChessPiece piece = board.getPiece(destination);
+    private void registerMove(Square square) {
+        ChessPiece piece = board.getPiece(square);
         if(piece.getType() == ChessPieceType.PAWN) {
             Pawn pawn = (Pawn) piece;
             pawn.registerMove(currentMove);

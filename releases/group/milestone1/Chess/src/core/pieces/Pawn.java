@@ -1,9 +1,8 @@
 package core.pieces;
 
 import core.ChessBoard;
-import core.positioning.File;
+import core.positioning.Direction;
 import core.positioning.Square;
-import core.positioning.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,39 +17,31 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+    public List<Square> findMovesDisregardingCheck(Square origin, ChessBoard board) {
         List<Square> list = new ArrayList<>();
 
-        ChessPiece piece = board.getPiece(pos);
-        Rank newRank;
-        File newFile = pos.getFile();
-        Square posToTest;
+        Direction moveDirection = isWhite ? Direction.UP : Direction.DOWN;
 
-        int directionFactor = piece.isWhite() ? 1 : -1;
+        //Einfacher Zug & Doppelzug
+        Square squareToTest = origin.getNext(moveDirection);
 
-        //Einfacher Zug
-        newRank = Rank.valueOf(pos.getRank().getIndex() + 1 * directionFactor);
-        posToTest = new Square(newRank, pos.getFile());
-
-        if (board.isFieldFree(posToTest)) {
-            list.add(posToTest);
+        if (board.isFieldFree(squareToTest)) {
+            list.add(squareToTest);
             if (numberOfMoves == 0) {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + 2 * directionFactor);
-                posToTest = new Square(newRank, newFile);
-                if (board.isFieldFree(posToTest)) {
-                    list.add(posToTest);
+                squareToTest = squareToTest.getNext(moveDirection);
+                if (board.isFieldFree(squareToTest)) {
+                    list.add(squareToTest);
                 }
             }
         }
 
         //Schlagen
-        for (int columnOffset : new int[]{-1, 1}) {
+        for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
             try {
-                newRank = Rank.valueOf(pos.getRank().getIndex() + directionFactor);
-                newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                posToTest = new Square(newRank, newFile);
-                if (board.isOccupiedByOpponent(posToTest, piece.isWhite())) {
-                    list.add(posToTest);
+                squareToTest = origin.getNext(moveDirection);
+                squareToTest = squareToTest.getNext(captureDirection);
+                if (board.isOccupiedByOpponent(squareToTest, isWhite)) {
+                    list.add(squareToTest);
                 }
             } catch (Exception e) {
 

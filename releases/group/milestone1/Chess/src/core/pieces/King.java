@@ -1,6 +1,7 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
@@ -19,36 +20,26 @@ public class King extends CastlingChessPiece  {
         List<Square> list = new ArrayList<>();
         List<Square> temp = new ArrayList<>();
 
-        ChessPiece piece = board.getPiece(pos);
-        Rank newRank;
-        File newFile;
-        Square posToTest;
-
         //Rochade King side
-        ChessPieceMoves.rightwardMove(pos, board, temp, piece);
+        /*ChessPieceMoves.rightwardMove(pos, board, temp, this);
         if(temp.size()==2 && !hasMoved()) {
         	list.add(temp.get(1));
-        }
+        }*/
         
         //Rochade Queen side
-        ChessPieceMoves.leftwardMove(pos, board, temp, piece);
+        /*ChessPieceMoves.leftwardMove(pos, board, temp, this);
         if(temp.size()==3 && !hasMoved()) {
         	list.add(temp.get(1));
-        }
+        }*/
 
-
-        for (int rowOffset : new int[]{-1, 0, 1}) {
-            for (int columnOffset : new int[]{-1, 0, 1}) {
-                try {
-                    newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                    newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
-                    posToTest = new Square(newRank, newFile);
-                    if (board.isOccupiedByOpponentOrFree(posToTest, piece.isWhite())) {
-                        list.add(posToTest);
-                    }
-                } catch (Exception e) {
-
+        for (Direction direction : Direction.values()) {
+            try {
+                Square squareToTest = pos.getNext(direction);
+                if (board.isOccupiedByOpponentOrFree(squareToTest, isWhite)) {
+                    list.add(squareToTest);
                 }
+            } catch (Exception e) {
+
             }
         }
         return list;

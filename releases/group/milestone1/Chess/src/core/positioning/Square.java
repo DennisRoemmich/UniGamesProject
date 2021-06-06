@@ -1,27 +1,24 @@
 package core.positioning;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Square {
 
     private Rank rank;
     private File file;
 
     public Square(Rank rank, File file) {
+        if(rank == null || file == null) {
+            throw new NullPointerException();
+        }
         this.rank = rank;
         this.file = file;
     }
 
     public Square(String name) {
-        try {
-        
-        //Rename "file" and "rank" which hides the field declared at line 6 and 7.
-        File file = File.valueOf(name.charAt(0));
-        Rank rank = Rank.valueOf(name.charAt(1));
-            this.rank = rank;
-            this.file = file;
-        } catch (Exception e) {
-        	//Add logic to this catch clause or eliminate it and rethrow the exception automatically.
-        	throw e;
-        }
+        this.rank = Rank.valueOf(name.charAt(1));
+        this.file = File.valueOf(name.charAt(0));
     }
 
     public Rank getRank() {
@@ -71,6 +68,33 @@ public class Square {
     //Use super.clone() to create and seed the cloned instance to be returned.
     public Square clone() {
         return new Square(rank, file);
+    }
+
+    public Square getNext(Direction direction) {
+        try {
+            switch (direction) {
+                case UP:
+                    return new Square(rank.getTopNeighbour(), file);
+                case DOWN:
+                    return new Square(rank.getBottomNeighbour(), file);
+                case LEFT:
+                    return new Square(rank, file.getLeftNeighbour());
+                case RIGHT:
+                    return new Square(rank, file.getRightNeighbour());
+                case UP_LEFT:
+                    return new Square(rank.getTopNeighbour(), file.getLeftNeighbour());
+                case UP_RIGHT:
+                    return new Square(rank.getTopNeighbour(), file.getRightNeighbour());
+                case DOWN_LEFT:
+                    return new Square(rank.getBottomNeighbour(), file.getLeftNeighbour());
+                case DOWN_RIGHT:
+                    return new Square(rank.getBottomNeighbour(), file.getRightNeighbour());
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

@@ -27,4 +27,20 @@ public enum File {
     public int getIndex(){
         return index;
     }
+
+    public File getLeftNeighbour() {
+        if(this != File.A){
+            return File.valueOf(this.getIndex() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public File getRightNeighbour() {
+        if(this != File.H){
+            return File.valueOf(this.getIndex() + 1);
+        } else {
+            return null;
+        }
+    }
 }
