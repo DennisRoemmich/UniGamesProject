@@ -89,11 +89,12 @@ public class Square {
                     return new Square(rank.getBottomNeighbour(), file.getLeftNeighbour());
                 case DOWN_RIGHT:
                     return new Square(rank.getBottomNeighbour(), file.getRightNeighbour());
+                default:
+                    throw new IndexOutOfBoundsException();
             }
         } catch (Exception e) {
-
+            return null;
         }
-        return null;
     }
 
 }
