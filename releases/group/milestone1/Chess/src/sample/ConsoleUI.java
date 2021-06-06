@@ -23,7 +23,7 @@ public class ConsoleUI implements Presenter, Player {
     public void printBoard() {
         System.out.println("   A  B  C  D  E  F  G  H   ");
         System.out.println(" ┌────────────────────────┐ ");
-        for(Rank rank : Rank.values()) {
+        for(Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
             System.out.print(rank + "│");
             for(File file : File.values()){
                 System.out.print(' ');
@@ -47,6 +47,7 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public JSONObject requestMove() {
+
         System.out.println("Please enter the position of the piece, that you want to move:");
 
         Square origin = null;
