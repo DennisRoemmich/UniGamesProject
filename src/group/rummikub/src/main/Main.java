@@ -53,10 +53,9 @@ public class Main {
             System.out.println(); **/
         }
 
-/**
-        // move a tile from rack to board
+        // move a tile from current players sketchRack to sketchBoard position (4,4)
 
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(5,5));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(4,4));
 
         // draw the board
 
@@ -65,11 +64,23 @@ public class Main {
         for(int i = 0; i < Board.GRID_HEIGHT; i++){
             for(int o = 0; o < Board.GRID_WIDTH; o++){
                 Point point = new Point(i, o);
-                System.out.print(rummi.getBoard().getGridTileAt(point).toString());
+                System.out.print(rummi.getSketchBoard().getGridTileAt(point).toString());
             }
             System.out.println();
         }
- **/
+
+        // draw the rack
+
+        System.out.print("\n\n\n");
+
+        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+                var point = new Point(i, o);
+                System.out.print(rummi.getCurrentPlayer().getSketchRack().pointToGridTile(point).toString());
+            }
+            System.out.println();
+        }
+
 
     }
 

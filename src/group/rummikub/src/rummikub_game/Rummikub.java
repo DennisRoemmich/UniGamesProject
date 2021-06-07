@@ -39,6 +39,7 @@ public class Rummikub {
         }
 
         this.board = new Board();
+        this.sketchBoard = new Board();
         this.startPlayer = indexStartPlayer;
         this.currentMove = 0;
 
@@ -68,6 +69,12 @@ public class Rummikub {
     public Board getBoard(){
 
         return this.board;
+
+    }
+
+    public Board getSketchBoard(){
+
+        return this.sketchBoard;
 
     }
 
@@ -185,6 +192,9 @@ public class Rummikub {
                 player.getRack().addTile(mytile);
 
             }
+
+            player.resetSketchRack();
+
         }
     }
 

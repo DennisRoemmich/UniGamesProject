@@ -12,6 +12,15 @@ public class Board {
 
     public Board(){
 
+        // init Board with empty GridTiles
+
+        grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+
+            grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
+
+        }
+
     }
 
     public void addTile(Point position, Tile tile){
@@ -56,4 +65,3 @@ public class Board {
 
 }
 
-}
