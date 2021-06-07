@@ -1,9 +1,8 @@
 package core;
 
-import core.pieces.CastlingChessPiece;
-import core.pieces.ChessPiece;
-import core.pieces.ChessPieceType;
-import core.pieces.Pawn;
+import core.pieces.*;
+import core.positioning.File;
+import core.positioning.Rank;
 import core.positioning.Square;
 
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class Chess {
 
     public boolean makeMove(Square origin, Square destination) {
         if (getPossibleMoves(origin).contains(destination)) {
+            checkForCastling(origin, destination);
             board.movePiece(origin, destination);
             registerMove(destination);
             incrementMove();
@@ -37,14 +37,46 @@ public class Chess {
 
     private void registerMove(Square square) {
         ChessPiece piece = board.getPiece(square);
-        if(piece.getType() == ChessPieceType.PAWN) {
-            Pawn pawn = (Pawn) piece;
-            pawn.registerMove(currentMove);
+        switch (piece.getType()) {
+            case PAWN:
+                ((Pawn) piece).registerMove(currentMove);
+                break;
+            case KING, ROOK:
+                ((CastlingChessPiece) piece).registerMove();
+                break;
         }
-        if(piece.getType() == ChessPieceType.KING || piece.getType() == ChessPieceType.ROOK) {
-            CastlingChessPiece castlingPiece = (CastlingChessPiece) piece;
-            castlingPiece.registerMove();
+    }
+
+    private void checkForCastling(Square origin, Square destination) {
+        Rank backRank = isItWhitesTurn ? Rank.M1 : Rank.M8;
+        King king = (King)board.findPieces(ChessPieceType.KING, isItWhitesTurn).get(0);
+        if(king.hasMoved()) {
+            return;
         }
+        Square kingSquare = board.getSquare((ChessPiece) king);
+        if(!kingSquare.equals(origin)) {
+            // So far, castling is always triggered by the king. So only the square of the king is interesting
+            return;
+        }
+        if(destination.getRank() != backRank) {
+            return;
+        }
+
+        Square extraMoveOrigin;
+        Square extraMoveDestination;
+        switch(destination.getFile()) {
+            case C:
+                extraMoveOrigin = new Square(kingSquare.getRank(), File.A);
+                extraMoveDestination = new Square(kingSquare.getRank(), File.D);
+                break;
+            case G:
+                extraMoveOrigin = new Square(kingSquare.getRank(), File.H);
+                extraMoveDestination = new Square(kingSquare.getRank(), File.F);
+                break;
+            default:
+                return;
+        }
+        board.movePiece(extraMoveOrigin, extraMoveDestination);
     }
 
     private void incrementMove() {

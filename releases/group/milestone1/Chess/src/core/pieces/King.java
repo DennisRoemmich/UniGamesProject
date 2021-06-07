@@ -1,5 +1,6 @@
 package core.pieces;
 
+import core.CheckDetector;
 import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.File;
@@ -16,26 +17,14 @@ public class King extends CastlingChessPiece  {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
         List<Square> list = new ArrayList<>();
         List<Square> temp = new ArrayList<>();
 
-        //Rochade King side
-        /*ChessPieceMoves.rightwardMove(pos, board, temp, this);
-        if(temp.size()==2 && !hasMoved()) {
-        	list.add(temp.get(1));
-        }*/
-        
-        //Rochade Queen side
-        /*ChessPieceMoves.leftwardMove(pos, board, temp, this);
-        if(temp.size()==3 && !hasMoved()) {
-        	list.add(temp.get(1));
-        }*/
-
         for (Direction direction : Direction.values()) {
             try {
-                Square squareToTest = pos.getNext(direction);
-                if (board.isOccupiedByOpponentOrFree(squareToTest, isWhite)) {
+                Square squareToTest = origin.getNext(direction);
+                if (board.isOccupiedByOpponentOrFree(squareToTest, isWhite())) {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
@@ -43,6 +32,42 @@ public class King extends CastlingChessPiece  {
             }
         }
         return list;
+    }
+
+    @Override
+    public List<Square> findMoves(Square square, ChessBoard board) {
+        List<Square> moves = super.findMoves(square, board);
+        moves.addAll(findCastlingMoves(board));
+        return moves;
+    }
+
+    private List<Square> findCastlingMoves(ChessBoard board) {
+        List<Square> castlingMoves = new ArrayList<>();
+        if (this.hasMoved() || CheckDetector.isInCheck(board, isWhite())) {
+            return castlingMoves;
+        }
+        Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
+        for(Square rookSquare : board.findSquaresOfPieces(ChessPieceType.ROOK, isWhite())) {
+            Rook rook = (Rook)board.getPiece(rookSquare);
+            if(rook.hasMoved()){
+                continue;
+            }
+            Square kingSquare = new Square(backRank, File.E);
+            Direction kingMoveDirection = rookSquare.getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
+            List<Square> kingMovementSquares = new ArrayList<>();
+            kingMovementSquares.add(kingSquare.getNext(kingMoveDirection));
+            kingMovementSquares.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));
+            for(Square square : kingMovementSquares) {
+                if(!board.isFieldFree(square) || CheckDetector.isSquareAttacked(board, square, !isWhite())) {
+                    continue;
+                }
+            }
+            if(kingMoveDirection == Direction.LEFT && !board.isFieldFree(new Square(backRank, File.B))) {
+                continue;
+            }
+            castlingMoves.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));
+        }
+        return  castlingMoves;
     }
 
 }
