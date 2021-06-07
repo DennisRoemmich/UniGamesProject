@@ -75,7 +75,7 @@ public class Rack {
     }
 
     /**
-     * converts point to GridTile
+     * converts point to GridTile.
      * @param point
      * @return GridTile
      */

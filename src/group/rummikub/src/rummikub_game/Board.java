@@ -1,6 +1,8 @@
 package rummikub_game;
 
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Board {
 
@@ -59,8 +61,33 @@ public class Board {
         return true;
     }
 
-    private Set[] createSets(){
-        return new Set[0];
+    private ArrayList<Set> createSets(){
+
+        /* Mit Liste! */
+
+        ArrayList<Set> setList = new ArrayList<>();
+        var currentSet = new Set();
+
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+
+            var currentGridTile = grid[i / GRID_WIDTH][i % GRID_WIDTH];
+
+            if (currentGridTile.isEmpty()){
+
+               if ( currentSet.getSize() != 0){
+                   setList.add(currentSet);
+                   currentSet = new Set();
+               }
+
+            } else {
+
+                currentSet.addTile(currentGridTile.getTile());
+
+            }
+
+        }
+
+        return setList;
     }
 
 }

@@ -27,9 +27,8 @@ public class Main {
                     var point = new Point(i, o);
                     System.out.print(rummi.getPlayerAt(p).getRack().pointToGridTile(point).toString());
                 }
-                System.out.println();
             }
-/**                                         TESTING FOR SORTING
+//                                      TESTING FOR SORTING
                 System.out.println();
 
             rummi.getPlayerAt(p).getRack().sortForGroup();
@@ -50,12 +49,14 @@ public class Main {
                 }
             //    System.out.println();
             }
-            System.out.println(); **/
+            System.out.println();
         }
 
         // move a tile from current players sketchRack to sketchBoard position (4,4)
 
         rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(4,4));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(4,5));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(4,6));
 
         // draw the board
 
@@ -81,6 +82,8 @@ public class Main {
             System.out.println();
         }
 
+
+        System.out.print("\n\n Is valid? :" + rummi.getSketchBoard().isValid());
 
     }
 
