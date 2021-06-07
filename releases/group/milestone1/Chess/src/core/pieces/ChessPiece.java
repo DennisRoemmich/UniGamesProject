@@ -81,41 +81,17 @@ public abstract class ChessPiece implements Cloneable {
     public final char toSymbol() {
         switch (type) {
             case PAWN:
-                if (isWhite) {
-                    return '♟';
-                } else {
-                    return '♙';
-                }
+               return  isWhite ? '♙' : '♟';
             case KNIGHT:
-                if (isWhite) {
-                    return '♞';
-                } else {
-                    return '♘';
-                }
+                return  isWhite ? '♘' : '♞';
             case BISHOP:
-                if (isWhite) {
-                    return '♝';
-                } else {
-                    return '♗';
-                }
+                return  isWhite ? '♗' : '♝';
             case ROOK:
-                if (isWhite) {
-                    return '♜';
-                } else {
-                    return '♖';
-                }
+                return  isWhite ? '♖' : '♜';
             case QUEEN:
-                if (isWhite) {
-                    return '♛';
-                } else {
-                    return '♕';
-                }
+                return  isWhite ? '♕' : '♛';
             case KING:
-                if (isWhite) {
-                    return '♚';
-                } else {
-                    return '♔';
-                }
+                return  isWhite ? '♔' : '♚';
         }
         return ' ';
     }

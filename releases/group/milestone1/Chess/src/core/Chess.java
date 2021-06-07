@@ -27,6 +27,7 @@ public class Chess {
         if (getPossibleMoves(origin).contains(destination)) {
             checkForCastling(origin, destination);
             board.movePiece(origin, destination);
+            checkForPromotion(destination, 'Q');
             registerMove(destination);
             incrementMove();
             return true;
@@ -77,6 +78,45 @@ public class Chess {
                 return;
         }
         board.movePiece(extraMoveOrigin, extraMoveDestination);
+    }
+    
+    private void checkForPromotion(Square destination, char c) {
+    	Rank topRank = isItWhitesTurn ? Rank.M8 : Rank.M1;
+    	
+    	if(destination.getRank() != topRank) {
+    		return;
+    	}
+    	
+    	
+    	ChessPiece piece = board.getPiece(destination);
+    	
+    	if(!piece.getType().equals(ChessPieceType.PAWN)) {
+    		return;
+    	}
+    	Queen queen = new Queen(isItWhitesTurn);
+    	
+    		setPromotionPiece(c);
+    		board.placePiece(queen, destination);		
+    }
+    
+    private ChessPiece setPromotionPiece(char c) {
+        switch (c) {
+
+        case 'n','N':
+        	Knight knight = new Knight(isItWhitesTurn);
+        return knight;
+        case 'b','B':
+        	Bishop bishop = new Bishop(isItWhitesTurn);
+        return bishop;
+        case 'r','R':
+        	Rook rook = new Rook(isItWhitesTurn);
+        return rook;
+        case 'q','Q':
+        	Queen queen = new Queen(isItWhitesTurn);
+        	return queen;
+        default:
+            throw new IllegalArgumentException();
+        }  	
     }
 
     private void incrementMove() {
