@@ -1,5 +1,5 @@
 package core;
 
 public enum ChessResult {
-    CHECKMATE, STALEMATE, DRAW, SURRENDERED, NONE;
+    CHECKMATE, STALEMATE, DRAW, SURRENDER, NONE;
 }

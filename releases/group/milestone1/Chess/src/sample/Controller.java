@@ -1,6 +1,8 @@
 package sample;
 
 import core.Chess;
+import core.ChessResult;
+import core.GameOverDetector;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
 
@@ -12,8 +14,8 @@ public class Controller {
 
     boolean isGameRunning = false;
 
-    Player playerA;
-    Player playerB;
+    private Player playerA;
+    private Player playerB;
 
     boolean colorSwitch = false;
 
@@ -81,5 +83,10 @@ public class Controller {
         } else {
             executeMove(playerB.requestMove());
         }
+        updateGameState();
+    }
+
+    private void updateGameState() {
+        isGameRunning = GameOverDetector.checkForMate(game.isItWhitesTurn(), game.getBoard()) == ChessResult.NONE;
     }
 }

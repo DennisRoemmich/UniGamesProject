@@ -5,7 +5,7 @@ import core.positioning.Square;
 
 import java.util.List;
 
-public class GameOverDetector {
+public abstract class GameOverDetector {
 
     public static ChessResult checkForMate(boolean currentPlayerIsWhite, ChessBoard board) {
         List<Square> squaresOfPlayer= board.findSquaresOfPieces(currentPlayerIsWhite);

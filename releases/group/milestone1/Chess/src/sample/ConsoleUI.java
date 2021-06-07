@@ -1,6 +1,11 @@
 package sample;
 
+import core.Chess;
+import core.ChessBoard;
+import core.ChessResult;
+import core.GameOverDetector;
 import core.pieces.ChessPiece;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
@@ -13,11 +18,15 @@ import java.util.Scanner;
 public class ConsoleUI implements Presenter, Player {
     private Scanner scanner = new Scanner(System.in);
     private Controller controller = new Controller(this);
+    private Chess game;
+    private ChessBoard board;
 
     public void startGame(){
         controller.setPlayerA(this);
         controller.setPlayerB(this);
         controller.createGame();
+        game = controller.getGame();
+        board = game.getBoard();
         controller.startGame();
     }
 
@@ -40,6 +49,19 @@ public class ConsoleUI implements Presenter, Player {
         }
         System.out.println(" └────────────────────────┘ ");
         System.out.println("   A  B  C  D  E  F  G  H   ");
+    }
+
+    private void printResult() {
+        switch (game.getResult()) {
+            case DRAW:
+                System.out.println("Draw");
+            case CHECKMATE:
+                System.out.println("Checkmate");
+            case STALEMATE:
+                System.out.println("Stalemate");
+            case SURRENDER:
+                System.out.println("Surrender");
+        }
     }
 
     private void printPieceChar(ChessPiece piece){
@@ -109,5 +131,8 @@ public class ConsoleUI implements Presenter, Player {
     @Override
     public void refreshOutput() {
         printBoard();
+        if(!game.isGameRunning()) {
+            printResult();
+        }
     }
 }

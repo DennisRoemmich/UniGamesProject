@@ -108,4 +108,12 @@ public class Chess {
     public boolean isItWhitesTurn() {
         return isItWhitesTurn;
     }
+
+    public ChessResult getResult() {
+        return GameOverDetector.checkForMate(isItWhitesTurn, board);
+    }
+
+    public boolean isGameRunning() {
+        return getResult() == ChessResult.NONE;
+    }
 }

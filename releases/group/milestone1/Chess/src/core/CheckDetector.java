@@ -6,10 +6,8 @@ import core.positioning.Square;
 
 import java.util.List;
 
-public class CheckDetector {
+public final class CheckDetector {
 
-    ChessBoard board;
-	
 	private CheckDetector() {
 		// Prevent initialization
 	}
