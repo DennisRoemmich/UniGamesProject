@@ -29,6 +29,9 @@ public class Controller {
         }
     }
 
+    public Controller() {
+
+    }
     public Controller(Presenter presenter) {
         this.presenter = presenter;
     }
@@ -45,12 +48,18 @@ public class Controller {
         return game;
     }
 
-    public boolean newGame() {
+    public void createGame() {
+        game = new Chess();
+    }
+
+    public boolean startGame() {
         if (playerA == null || playerB == null) {
             return false;
         } else {
-            game = new Chess();
             isGameRunning = true;
+            if(presenter != null) {
+                presenter.refreshOutput();
+            }
             gameLoop();
             return true;
         }
@@ -59,7 +68,9 @@ public class Controller {
     public void gameLoop() {
         while(isGameRunning) {
             gameStep();
-            presenter.refreshOutput();
+            if(presenter != null) {
+                presenter.refreshOutput();
+            }
         }
     }
 
