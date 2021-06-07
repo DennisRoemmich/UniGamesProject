@@ -16,9 +16,8 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
-
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, origin, board);
         Direction[] bishopDirections = new Direction[]{Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT};
         return moveFinder.getReachableSquares(bishopDirections);
     }
@@ -26,6 +25,6 @@ public class Bishop extends ChessPiece {
     //SonarLint: Remove this "clone" implementation; use a copy constructor or copy factory instead.
     @Override
     public ChessPiece clone() {
-        return new Bishop(isWhite);
+        return new Bishop(isWhite());
     }
 }

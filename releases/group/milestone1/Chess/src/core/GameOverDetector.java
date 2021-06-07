@@ -8,7 +8,7 @@ import java.util.List;
 public class GameOverDetector {
 
     public static ChessResult checkForMate(boolean currentPlayerIsWhite, ChessBoard board) {
-        List<Square> squaresOfPlayer= board.findPositionsOfPieces(currentPlayerIsWhite);
+        List<Square> squaresOfPlayer= board.findSquaresOfPieces(currentPlayerIsWhite);
         if(isDraw(board)) {
             return ChessResult.DRAW;
         }
@@ -32,7 +32,7 @@ public class GameOverDetector {
 
     private static boolean canPlayerWin(ChessBoard board, boolean isWhite) {
         int availableMinorPieces = 0; //Bishop & Knight are minor pieces, at least two are required for a checkmate
-        for (Square square : board.findPositionsOfPieces(isWhite)) {
+        for (Square square : board.findSquaresOfPieces(isWhite)) {
             ChessPieceType type = board.getPiece(square).getType();
             switch(type) {
                 case PAWN, ROOK, QUEEN:

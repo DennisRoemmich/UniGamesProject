@@ -16,8 +16,8 @@ public class Queen extends ChessPiece  {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, origin, board);
         return moveFinder.getReachableSquares(Direction.values());
     }
 }

@@ -16,8 +16,8 @@ public class Rook extends CastlingChessPiece  {
     }
     
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
-        ChessPieceMoves moveFinder = new ChessPieceMoves(this, pos, board);
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+        ChessPieceMoves moveFinder = new ChessPieceMoves(this, origin, board);
 
         //Rochade
         /* TODO */

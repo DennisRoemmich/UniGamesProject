@@ -17,10 +17,10 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square origin, ChessBoard board) {
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
         List<Square> list = new ArrayList<>();
 
-        Direction moveDirection = isWhite ? Direction.UP : Direction.DOWN;
+        Direction moveDirection = isWhite() ? Direction.UP : Direction.DOWN;
 
         //Einfacher Zug & Doppelzug
         Square squareToTest = origin.getNext(moveDirection);
@@ -40,7 +40,7 @@ public class Pawn extends ChessPiece {
             try {
                 squareToTest = origin.getNext(moveDirection);
                 squareToTest = squareToTest.getNext(captureDirection);
-                if (board.isOccupiedByOpponent(squareToTest, isWhite)) {
+                if (board.isOccupiedByOpponent(squareToTest, isWhite())) {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {

@@ -9,8 +9,8 @@ import java.util.List;
 
 public abstract class ChessPiece implements Cloneable {
 
-    protected final ChessPieceType type;
-    protected final boolean isWhite;
+    private final ChessPieceType type;
+    private final boolean isWhite;
 
     /* Constructor */
 
@@ -21,13 +21,13 @@ public abstract class ChessPiece implements Cloneable {
 
     /* Functionality */
 
-    public abstract List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board);
+    public abstract List<Square> findCoveredSquares(ChessBoard board, Square origin);
 
-    public final List<Square> findMoves(Square pos, ChessBoard board) {
-        List<Square> movesDisregardingCheck = findMovesDisregardingCheck(pos, board);
+    public List<Square> findMoves(Square square, ChessBoard board) {
+        List<Square> coveredSquares = findCoveredSquares(board, square);
         List<Square> validMoves = new ArrayList<Square>();
-        for(Square uncheckedSquare : movesDisregardingCheck) {
-            if(!CheckDetector.isInCheckAfterMove(board, isWhite, pos, uncheckedSquare)) {
+        for(Square uncheckedSquare : coveredSquares) {
+            if(!CheckDetector.isInCheckAfterMove(board, isWhite, square, uncheckedSquare)) {
                 validMoves.add(uncheckedSquare);
             }
         }

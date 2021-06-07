@@ -15,10 +15,10 @@ public class Knight extends ChessPiece  {
     }
 
     @Override
-    public List<Square> findMovesDisregardingCheck(Square pos, ChessBoard board) {
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
         List<Square> list = new ArrayList<>();
 
-        ChessPiece piece = board.getPiece(pos);
+        ChessPiece piece = board.getPiece(origin);
         Rank newRank;
         File newFile;
         Square squareToTest;
@@ -28,8 +28,8 @@ public class Knight extends ChessPiece  {
                     int rowOffset = (1 + diagonalMirror) * rowMirror;
                     int columnOffset = (2 - diagonalMirror) * columnMirror;
                     try {
-                        newRank = Rank.valueOf(pos.getRank().getIndex() + rowOffset);
-                        newFile = File.valueOf(pos.getFile().getIndex() + columnOffset);
+                        newRank = Rank.valueOf(origin.getRank().getIndex() + rowOffset);
+                        newFile = File.valueOf(origin.getFile().getIndex() + columnOffset);
                         squareToTest = new Square(newRank, newFile);
                         if (board.isOccupiedByOpponentOrFree(squareToTest, piece.isWhite())) {
                             list.add(squareToTest);
