@@ -14,7 +14,6 @@ public class RummikubPlayer {
         tileRack = new Rack();
         sketchRack = new Rack();
         score = 0;
-
     }
 
     /**
@@ -41,16 +40,14 @@ public class RummikubPlayer {
     public int getScore(){
 
         return score;
-
     }
 
     /**
-     * @return players score of the current game (only set in the end of the game)
+     * sets players score of the current game (only set in the end of the game)
      */
     public void setScore(int score){
 
         this.score = score;
-
     }
 
     /**
