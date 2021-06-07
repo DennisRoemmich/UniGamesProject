@@ -1,26 +1,27 @@
 package Main;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameLog {
-	private String mID;
-	private List<JSONObject> mMoveLog = new ArrayList<JSONObject>();
-	private JSONObject mMetaSettings;
-	private JSONObject mGameSettings;
+	private String id;
+	private JSONArray moveLog = new JSONArray();
+	private JSONObject metaSettings;
+	private JSONObject gameSettings;
 
 	public GameLog(String id, JSONObject aMetaSettings, JSONObject aGameSettings, List<JSONObject> aMoves) {
 		throw new UnsupportedOperationException();
 	}
 
 	public void logMove(JSONObject aMove) {
-		mMoveLog.add(aMove);
+		moveLog.add(aMove);
 	}
 
 	public void removeLastMove() {
-		mMoveLog.remove(mMoveLog.size() - 1);
+		moveLog.remove(moveLog.size() - 1);
 	}
 
 	public void removeLastMoves(int aAmount) {
@@ -30,19 +31,27 @@ public class GameLog {
  	}
 
 	public String getID() {
-		return mID;
+		return id;
 	}
 
 	public List<JSONObject> getMoveLog() {
-		return this.mMoveLog;
+		return this.moveLog;
 	}
 
-	public JSONObject getmMetaSettings() {
-		return mMetaSettings;
+	public JSONObject getMetaSettings() {
+		return metaSettings;
 	}
 
-	public JSONObject getmGameSettings() {
-		return mGameSettings;
+	public JSONObject getGameSettings() {
+		return gameSettings;
+	}
+
+	public JSONObject getCompleteJSONObject(){
+		JSONObject complete = new JSONObject();
+		complete.put("moveLog", moveLog);
+		complete.put("gameSetting", gameSettings);
+		complete.put("metaSetting", metaSettings);
+		return complete;
 	}
 
 }

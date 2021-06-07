@@ -19,29 +19,17 @@ public abstract class GameController {
 	public abstract JSONObject gameSettingsToJSON();
 
 	public GameController() {
-		throw new UnsupportedOperationException();
-	}
 
-	public GameController(List<JSONObject> startMoves) {
-		throw new UnsupportedOperationException();
 	}
-
-	// why -> " throw new UnsupportedOperationException(); "?
 
 	public final void undoLastMove() {
-
 		undoLastMoves(1);
-
 	}
 
 	public final void undoLastMoves(int amount) {
-
 		moveLog.removeLastMoves(amount);
-
 		resetGame();
-
 		executeMoves(moveLog.getMoveLog());
-
 	}
 
 	public final void executeMoves(List<JSONObject> moves) {
