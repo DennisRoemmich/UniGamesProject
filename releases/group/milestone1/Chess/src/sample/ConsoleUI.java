@@ -17,7 +17,8 @@ public class ConsoleUI implements Presenter, Player {
     public void startGame(){
         controller.setPlayerA(this);
         controller.setPlayerB(this);
-        controller.newGame();
+        controller.createGame();
+        controller.startGame();
     }
 
     public void printBoard() {
