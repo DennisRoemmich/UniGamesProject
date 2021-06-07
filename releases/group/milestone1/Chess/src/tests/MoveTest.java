@@ -2,7 +2,7 @@ package tests;
 
 import core.positioning.Square;
 
-public class MoveTest implements Test {
+public class MoveTest {
     Square[][] moves = new Square[][]{{new Square("e2"), new Square("e4")},
             {new Square("e7"), new Square("e5")},
             {new Square("b1"), new Square("c3")},
