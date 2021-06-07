@@ -6,15 +6,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 public abstract class GameController {
-	private GameLog moveLog;
-	private List<Player> players;
+	protected GameLog moveLog;
+	protected List<Player> players;
 
 	public abstract void executeMove(JSONObject move);
-
 	public abstract void resetGame();
-
 	public abstract void addAIPlayer();
-
 	public abstract JSONObject metaSettingsToJSON();
 	public abstract JSONObject gameSettingsToJSON();
 
