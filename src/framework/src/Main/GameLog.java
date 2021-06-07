@@ -1,3 +1,5 @@
+package Main;
+
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -42,4 +44,5 @@ public class GameLog {
 	public JSONObject getmGameSettings() {
 		return mGameSettings;
 	}
+
 }

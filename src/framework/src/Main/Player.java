@@ -1,3 +1,5 @@
+package Main;
+
 import org.json.simple.JSONObject;
 
 public interface Player {
