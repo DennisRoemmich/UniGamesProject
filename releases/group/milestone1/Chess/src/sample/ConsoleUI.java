@@ -55,12 +55,16 @@ public class ConsoleUI implements Presenter, Player {
         switch (game.getResult()) {
             case DRAW:
                 System.out.println("Draw");
+                break;
             case CHECKMATE:
                 System.out.println("Checkmate");
+                break;
             case STALEMATE:
                 System.out.println("Stalemate");
+                break;
             case SURRENDER:
                 System.out.println("Surrender");
+                break;
         }
     }
 
