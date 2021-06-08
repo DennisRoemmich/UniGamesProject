@@ -2,7 +2,6 @@ package sample;
 
 import core.Chess;
 
-import core.ChessBoard;
 import core.pieces.ChessPiece;
 import core.positioning.File;
 import core.positioning.Square;
@@ -22,15 +21,13 @@ import java.util.Scanner;
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
     private Controller mController = new Controller(this);
-    private Chess mGame;
-    private ChessBoard mBoard; //TODO: Not sure why Eclipse does not like this
+    private Chess mGame; 
 
     public void startGame() {
         mController.setPlayerA(this);
         mController.setPlayerB(this);
         mController.createGame();
         mGame = mController.getGame();
-        mBoard = mGame.getBoard();
         mController.startGame();
     }
 
@@ -83,37 +80,15 @@ public class ConsoleUI implements Presenter, Player {
     public JSONObject requestMove() {
 
         System.out.println("Please enter the position of the piece, that you want to move:");
-
+        
         Square origin = null;
         List<Square> availableDestinations = new ArrayList<>();
-
-        do {
-            String input = mScanner.nextLine();
-            try {
-                origin = new Square(input);
-                if (mController.getGame().getBoard().isFieldFree(origin)) {
-                    System.out.println("This Field is empty.");
-                    origin = null;
-                    continue;
-                }
-                if (mController.getGame().getBoard().
-                		isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
-                    System.out.println("This Field is occupied by the opponent.");
-                    origin = null;
-                    continue;
-                }
-                availableDestinations = mController.getGame().getPossibleMoves(origin);
-                if (availableDestinations.isEmpty()) {
-                    System.out.println("The selected Piece can't move.");
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input: " + input);
-            }
-        } while (availableDestinations.isEmpty());
+        
+        validDestinations(origin, availableDestinations);
 
         System.out.println("Available Fields are: " + availableDestinations);
-        System.out.println("Please enter the position of the field, ");
-        System.out.print("where you want to place your piece or enter [r] to returnand choose another piece:");
+        System.out.print("Please enter the position of the field, ");
+        System.out.print("where you want to place your piece or enter [r] to returnand choose another piece: \n" );
         
         Square destination = null;
         do {
@@ -139,7 +114,32 @@ public class ConsoleUI implements Presenter, Player {
         return move;
     }
     
-
+    public void validDestinations(Square origin, List<Square> availableDestinations ) {
+    	
+    	do {
+            String input = mScanner.nextLine();
+            try {
+                origin = new Square(input);
+                if (mController.getGame().getBoard().isFieldFree(origin)) {
+                    System.out.println("This Field is empty.");
+                    origin = null;
+                } else {
+                	if (mController.getGame().getBoard().
+                	isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
+                    System.out.println("This Field is occupied by the opponent.");
+                    origin = null;
+                	} else {
+                		availableDestinations = mController.getGame().getPossibleMoves(origin);
+                		if (availableDestinations.isEmpty()) {
+                		System.out.println("The selected Piece can't move.");
+                		}
+                	}              	
+                }      
+            } catch (Exception e) {
+                System.out.println("Invalid input: " + input);
+            }
+    	} while (availableDestinations.isEmpty());
+    }
 
     @Override
     public void setController(Controller controller) {
