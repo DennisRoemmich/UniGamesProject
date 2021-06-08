@@ -7,13 +7,12 @@ import core.positioning.File;
 import core.positioning.Square;
 import sample.PrintError;
 import core.positioning.Rank;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class King extends CastlingChessPiece  {
 
-    public King(boolean isWhite){
+    public King(boolean isWhite) {
         super(isWhite, ChessPieceType.KING);
     }
 
@@ -48,9 +47,9 @@ public class King extends CastlingChessPiece  {
             return castlingMoves;
         }
         Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
-        for(Square rookSquare : board.findSquaresOfPieces(ChessPieceType.ROOK, isWhite())) {
-            Rook rook = (Rook)board.getPiece(rookSquare);
-            if(rook.hasMoved()){
+        for (Square rookSquare : board.findSquaresOfPieces(ChessPieceType.ROOK, isWhite())) {
+            Rook rook = (Rook) board.getPiece(rookSquare);
+            if (rook.hasMoved()) {
                 continue;
             }
             Square kingSquare = new Square(backRank, File.E);
@@ -58,12 +57,12 @@ public class King extends CastlingChessPiece  {
             List<Square> kingMovementSquares = new ArrayList<>();
             kingMovementSquares.add(kingSquare.getNext(kingMoveDirection));
             kingMovementSquares.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));
-            for(Square square : kingMovementSquares) {
-                if(!board.isFieldFree(square) || CheckDetector.isSquareAttacked(board, square, !isWhite())) {
+            for (Square square : kingMovementSquares) {
+                if (!board.isFieldFree(square) || CheckDetector.isSquareAttacked(board, square, !isWhite())) {
                     continue;
                 }
             }
-            if(kingMoveDirection == Direction.LEFT && !board.isFieldFree(new Square(backRank, File.B))) {
+            if (kingMoveDirection == Direction.LEFT && !board.isFieldFree(new Square(backRank, File.B))) {
                 continue;
             }
             castlingMoves.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));

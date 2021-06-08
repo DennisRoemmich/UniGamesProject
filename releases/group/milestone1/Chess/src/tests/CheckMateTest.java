@@ -8,26 +8,26 @@ import java.util.List;
 
 public class CheckMateTest extends Test {
 
-    Square[][] moves = new Square[][]{{new Square("f2"), new Square("f3")},
+    Square[][] mMoves = new Square[][]{{new Square("f2"), new Square("f3")},
             {new Square("e7"), new Square("e5")},
             {new Square("g2"), new Square("g4")},
             {new Square("d8"), new Square("h4")}};
 
     protected List<JSONObject> getMoves() {
         List<JSONObject> list = new ArrayList<>();
-        for(Square[] move : moves) {
-            JSONObject newJSONmove = new JSONObject();
-            newJSONmove.put("origin", move[0].toString());
-            newJSONmove.put("destination", move[1].toString());
-            list.add(newJSONmove);
+        for (Square[] move : mMoves) {
+            JSONObject newJSonMove = new JSONObject();
+            newJSonMove.put("origin", move[0].toString());
+            newJSonMove.put("destination", move[1].toString());
+            list.add(newJSonMove);
         }
         return list;
     }
 
     public boolean runTest() {
-        super.testController.createGame();
+        super.mTestController.createGame();
         super.runMoves();
-        ChessResult result = testController.getGame().getResult();
+        ChessResult result = mTestController.getGame().getResult();
         return result == ChessResult.CHECKMATE;
     }
 }

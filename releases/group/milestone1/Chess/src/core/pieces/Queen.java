@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Queen extends ChessPiece  {
 
-    public Queen(boolean isWhite){
+    public Queen(boolean isWhite) {
         super(isWhite, ChessPieceType.QUEEN);
     }
 

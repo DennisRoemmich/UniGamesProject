@@ -3,9 +3,12 @@ package core;
 import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.positioning.Square;
-
 import java.util.List;
 
+/**
+ * Checks for check condition.
+ *  @author Jan de Boer, Dennis Roemmich
+ */
 public final class CheckDetector {
 
 	private CheckDetector() {
@@ -16,7 +19,7 @@ public final class CheckDetector {
         for (Square opponentSquare : board.findSquaresOfPieces(color)) {
             ChessPiece opponentPiece = board.getPiece(opponentSquare);
             List<Square> opponentCoveredSquares = opponentPiece.findCoveredSquares(board, opponentSquare);
-            if(opponentCoveredSquares.contains(squareToTest)) {
+            if (opponentCoveredSquares.contains(squareToTest)) {
                 return true;
             }
         }

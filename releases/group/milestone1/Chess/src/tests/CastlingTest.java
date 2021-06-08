@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CastlingTest extends Test {
 
-    Square[][] moves = new Square[][]{{new Square("e2"), new Square("e4")},
+    Square[][] mMove = new Square[][]{{new Square("e2"), new Square("e4")},
             {new Square("e7"), new Square("e5")},
             {new Square("g1"), new Square("f3")},
             {new Square("b8"), new Square("c6")},
@@ -23,19 +23,19 @@ public class CastlingTest extends Test {
 
     protected List<JSONObject> getMoves() {
         List<JSONObject> list = new ArrayList<>();
-        for(Square[] move : moves) {
-            JSONObject newJSONmove = new JSONObject();
-            newJSONmove.put("origin", move[0].toString());
-            newJSONmove.put("destination", move[1].toString());
-            list.add(newJSONmove);
+        for (Square[] move : mMove) {
+            JSONObject newJSonMove = new JSONObject();
+            newJSonMove.put("origin", move[0].toString());
+            newJSonMove.put("destination", move[1].toString());
+            list.add(newJSonMove);
         }
         return list;
     }
 
     public boolean runTest() {
-        super.testController.createGame();
+        super.mTestController.createGame();
         super.runMoves();
-        ChessBoard board = super.testController.getGame().getBoard();
+        ChessBoard board = super.mTestController.getGame().getBoard();
         Square rookSquare = new Square(Rank.M1, File.F);
         return !board.isFieldFree(rookSquare) && board.getPiece(rookSquare).getType() == ChessPieceType.ROOK;
     }

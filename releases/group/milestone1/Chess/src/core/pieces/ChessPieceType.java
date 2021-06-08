@@ -5,17 +5,17 @@ public enum ChessPieceType {
 
     public static ChessPieceType valueOf(char c) {
         switch (c) {
-            case 'p','P':
+            case 'p', 'P':
                 return PAWN;
-            case 'n','N':
+            case 'n', 'N':
                 return KNIGHT;
-            case 'b','B':
+            case 'b', 'B':
                 return BISHOP;
-            case 'r','R':
+            case 'r', 'R':
                 return ROOK;
-            case 'q','Q':
+            case 'q', 'Q':
                 return QUEEN;
-            case 'k','K':
+            case 'k', 'K':
                 return KING;
             default:
                 throw new IllegalArgumentException();

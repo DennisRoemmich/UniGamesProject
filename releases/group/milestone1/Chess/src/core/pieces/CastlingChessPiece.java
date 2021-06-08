@@ -1,17 +1,18 @@
 package core.pieces;
 
 public abstract class CastlingChessPiece extends ChessPiece {
-    private boolean hasMoved = false;
+    
+	private boolean mHasMoved = false;
 
     protected CastlingChessPiece(boolean isWhite, ChessPieceType type) {
         super(isWhite, type);
     }
 
     public void registerMove() {
-        hasMoved = true;
+        mHasMoved = true;
     }
 
     public boolean hasMoved() {
-        return hasMoved;
+        return mHasMoved;
     }
 }

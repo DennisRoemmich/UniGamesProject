@@ -1,4 +1,5 @@
 package core.pieces;
+
 import java.util.ArrayList;
 import java.util.List;
 import core.ChessBoard;
@@ -7,30 +8,30 @@ import core.positioning.Square;
 
 public class ChessPieceMoves {
 	
-	private boolean breakLoop = false;
-	private Square origin;
-	private ChessPiece piece;
-	private ChessBoard board;
+	private boolean mBreakLoop = false;
+	private Square mOrigin;
+	private ChessPiece mPiece;
+	private ChessBoard mBoard;
 
 	public ChessPieceMoves(ChessPiece piece, Square square, ChessBoard board) {
-		this.origin = square;
-		this.piece = piece;
-		this.board = board;
+		this.mOrigin = square;
+		this.mPiece = piece;
+		this.mBoard = board;
 	}
 
     private boolean isSquareReachable(Square squareToTest) {
    	
-    	if (board.isFieldFree(squareToTest)) {
+    	if (mBoard.isFieldFree(squareToTest)) {
     		return true;
     	} else {
-			breakLoop = true;
-    		return board.isOccupiedByOpponent(squareToTest, piece.isWhite());
+			mBreakLoop = true;
+    		return mBoard.isOccupiedByOpponent(squareToTest, mPiece.isWhite());
     	}
     }
 
 	public List<Square> getReachableSquares(Direction[] directions) {
 		List<Square> reachableSquares = new ArrayList<>();
-		for(Direction direction : directions) {
+		for (Direction direction : directions) {
 			reachableSquares.addAll(getReachableSquares(direction));
 		}
 		return reachableSquares;
@@ -38,7 +39,7 @@ public class ChessPieceMoves {
 
 	public List<Square> getReachableSquares(Direction direction) {
 		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = origin.getNext(direction);
+		Square squareToAdd = mOrigin.getNext(direction);
 		while (squareToAdd != null) {
 			lineSquares.add(squareToAdd);
 			squareToAdd = squareToAdd.getNext(direction);
@@ -52,8 +53,8 @@ public class ChessPieceMoves {
 			if (isSquareReachable(square)) {
 				reachableSquares.add(square);
 			}
-			if (breakLoop) {
-				breakLoop = false;
+			if (mBreakLoop) {
+				mBreakLoop = false;
 				break;
 			}
 		}

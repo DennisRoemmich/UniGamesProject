@@ -4,18 +4,17 @@ import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.Square;
 import sample.PrintError;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends ChessPiece {
 
-    private int numberOfMoves = 0;
-    private int lastMoved = 0;
+    private int mNumberOfMoves = 0;
+    private int mLastMoved = 0;
 
-    private boolean canBeCapturedEnPassant = false;
+    private boolean mCanBeCapturedEnPassant = false;
 
-    public Pawn(boolean isWhite){
+    public Pawn(boolean isWhite) {
         super(isWhite, ChessPieceType.PAWN);
     }
 
@@ -30,7 +29,7 @@ public class Pawn extends ChessPiece {
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
-            if (numberOfMoves == 0) {
+            if (mNumberOfMoves == 0) {
                 squareToTest = squareToTest.getNext(moveDirection);
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
@@ -49,7 +48,7 @@ public class Pawn extends ChessPiece {
                 }
                 Square neighbourSquare = origin.getNext(captureDirection);
                 Pawn pawn = (Pawn) board.getPiece(neighbourSquare);
-                if(pawn.canBeCapturedEnPassant) {
+                if (pawn.mCanBeCapturedEnPassant) {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
@@ -61,23 +60,23 @@ public class Pawn extends ChessPiece {
     }
 
     public void registerMove(int moveNumber) {
-        numberOfMoves++;
-        lastMoved = moveNumber;
+        mNumberOfMoves++;
+        mLastMoved = moveNumber;
     }
 
     public void registerDoubleMove() {
-        canBeCapturedEnPassant = true;
+        mCanBeCapturedEnPassant = true;
     }
 
     public void resetEnPassant() {
-        canBeCapturedEnPassant = false;
+        mCanBeCapturedEnPassant = false;
     }
 
     public int getNumberOfMoves() {
-        return numberOfMoves;
+        return mNumberOfMoves;
     }
 
     public int getLastMoved() {
-        return lastMoved;
+        return mLastMoved;
     }
 }

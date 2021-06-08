@@ -9,15 +9,20 @@ import org.json.simple.JSONObject;
 
 public class Controller {
 
-    private Chess game;
-    private Presenter presenter;
-
-    boolean isGameRunning = false;
-
-    private Player playerA;
-    private Player playerB;
-
-    boolean colorSwitch = false;
+    private Chess mGame;
+    private Presenter mPresenter;
+    private boolean mIsGameRunning = false;
+    private Player mPlayerA;
+    private Player mPlayerB;
+    private boolean mColorSwitch = false;
+    
+    public Controller() {
+    	//For testing purposes
+    }
+    
+    public Controller(Presenter presenter) {
+    	this.mPresenter = presenter;
+    }
 
     public void executeMove(JSONObject move) {
         try {
@@ -25,42 +30,35 @@ public class Controller {
             String destinationName = move.get("destination").toString();
             Square origin = new Square(originName);
             Square destination = new Square(destinationName);
-            game.makeMove(origin, destination);
+            mGame.makeMove(origin, destination);
         } catch (Exception e) {
         	PrintError.writeErrorLog("");
         }
     }
 
-    public Controller() {
-
-    }
-    public Controller(Presenter presenter) {
-        this.presenter = presenter;
-    }
-
     public void setPlayerA(Player playerA) {
-        this.playerA = playerA;
+        this.mPlayerA = playerA;
     }
 
     public void setPlayerB(Player playerB) {
-        this.playerB = playerB;
+        this.mPlayerB = playerB;
     }
 
     public Chess getGame() {
-        return game;
+        return mGame;
     }
 
     public void createGame() {
-        game = new Chess();
+        mGame = new Chess();
     }
 
     public boolean startGame() {
-        if (playerA == null || playerB == null) {
+        if (mPlayerA == null || mPlayerB == null) {
             return false;
         } else {
-            isGameRunning = true;
-            if(presenter != null) {
-                presenter.refreshOutput();
+            mIsGameRunning = true;
+            if (mPresenter != null) {
+                mPresenter.refreshOutput();
             }
             gameLoop();
             return true;
@@ -68,25 +66,25 @@ public class Controller {
     }
 
     public void gameLoop() {
-        while(isGameRunning) {
+        while (mIsGameRunning) {
             gameStep();
-            if(presenter != null) {
-                presenter.refreshOutput();
+            if (mPresenter != null) {
+                mPresenter.refreshOutput();
             }
         }
     }
 
     public void gameStep() {
-        boolean isTurnOfPlayerA = game.isItWhitesTurn() != colorSwitch;
-        if(isTurnOfPlayerA){
-            executeMove(playerA.requestMove());
+        boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
+        if (isTurnOfPlayerA) {
+            executeMove(mPlayerA.requestMove());
         } else {
-            executeMove(playerB.requestMove());
+            executeMove(mPlayerB.requestMove());
         }
         updateGameState();
     }
 
     private void updateGameState() {
-        isGameRunning = GameOverDetector.checkForMate(game.isItWhitesTurn(), game.getBoard()) == ChessResult.NONE;
+        mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
     }
 }

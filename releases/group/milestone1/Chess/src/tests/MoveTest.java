@@ -3,7 +3,7 @@ package tests;
 import core.positioning.Square;
 
 public class MoveTest {
-    Square[][] moves = new Square[][]{{new Square("e2"), new Square("e4")},
+    Square[][] mMoves = new Square[][]{{new Square("e2"), new Square("e4")},
             {new Square("e7"), new Square("e5")},
             {new Square("b1"), new Square("c3")},
             {new Square("f8"), new Square("c4")},

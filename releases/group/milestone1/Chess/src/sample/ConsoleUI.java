@@ -12,29 +12,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleUI implements Presenter, Player {
-    private Scanner scanner = new Scanner(System.in);
-    private Controller controller = new Controller(this);
-    private Chess game;
-    private ChessBoard board; //Not sure why Eclipse does not like this
+//TODO: Eliminate println statements.
 
-    public void startGame(){
-        controller.setPlayerA(this);
-        controller.setPlayerB(this);
-        controller.createGame();
-        game = controller.getGame();
-        board = game.getBoard();
-        controller.startGame();
+public class ConsoleUI implements Presenter, Player {
+    private Scanner mScanner = new Scanner(System.in);
+    private Controller mController = new Controller(this);
+    private Chess mGame;
+    private ChessBoard mBoard; //TODO: Not sure why Eclipse does not like this
+
+    public void startGame() {
+        mController.setPlayerA(this);
+        mController.setPlayerB(this);
+        mController.createGame();
+        mGame = mController.getGame();
+        mBoard = mGame.getBoard();
+        mController.startGame();
     }
 
     public void printBoard() {
         System.out.println("   A  B  C  D  E  F  G  H   ");
         System.out.println(" ┌────────────────────────┐ ");
-        for(Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
+        for (Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
             System.out.print(rank + "│");
-            for(File file : File.values()){
+            for (File file : File.values()) {
                 System.out.print(' ');
-                ChessPiece piece = controller.getGame().getBoard().getPiece(new Square(rank, file));
+                ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
                 if (piece == null) {
                     System.out.print(' ');
                 } else {
@@ -49,7 +51,7 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     private void printResult() {
-        switch (game.getResult()) {
+        switch (mGame.getResult()) {
             case DRAW:
                 System.out.println("Draw");
                 break;
@@ -68,7 +70,7 @@ public class ConsoleUI implements Presenter, Player {
         }
     }
 
-    private void printPieceChar(ChessPiece piece){
+    private void printPieceChar(ChessPiece piece) {
         System.out.print(piece.toSymbol());
     }
 
@@ -81,21 +83,22 @@ public class ConsoleUI implements Presenter, Player {
         List<Square> availableDestinations = new ArrayList<>();
 
         do {
-            String input = scanner.nextLine();
+            String input = mScanner.nextLine();
             try {
                 origin = new Square(input);
-                if(controller.getGame().getBoard().isFieldFree(origin)){
+                if (mController.getGame().getBoard().isFieldFree(origin)) {
                     System.out.println("This Field is empty.");
                     origin = null;
                     continue;
                 }
-                if(controller.getGame().getBoard().isOccupiedByOpponent(origin, controller.getGame().isItWhitesTurn())){
+                if (mController.getGame().getBoard().
+                		isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
                     System.out.println("This Field is occupied by the opponent.");
                     origin = null;
                     continue;
                 }
-                availableDestinations = controller.getGame().getPossibleMoves(origin);
-                if(availableDestinations.isEmpty()) {
+                availableDestinations = mController.getGame().getPossibleMoves(origin);
+                if (availableDestinations.isEmpty()) {
                     System.out.println("The selected Piece can't move.");
                 }
             } catch (Exception e) {
@@ -104,16 +107,18 @@ public class ConsoleUI implements Presenter, Player {
         } while (availableDestinations.isEmpty());
 
         System.out.println("Available Fields are: " + availableDestinations);
-        System.out.println("Please enter the position of the field, where you want to place your piece or enter [r] to returnand choose another piece:");
+        System.out.println("Please enter the position of the field, ");
+        System.out.print("where you want to place your piece or enter [r] to returnand choose another piece:");
+        
         Square destination = null;
         do {
-            String input = scanner.nextLine();
-            if(input.charAt(0) == 'r') {
+            String input = mScanner.nextLine();
+            if (input.charAt(0) == 'r') {
                 return requestMove();
             }
             try {
                 destination = new Square(input);
-                if(!availableDestinations.contains(destination)){
+                if (!availableDestinations.contains(destination)) {
                     System.out.println("Field is unreachable! Enter another field or [r].");
                     destination = null;
                 }
@@ -133,13 +138,13 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public void setController(Controller controller) {
-        this.controller = controller;
+        this.mController = controller;
     }
 
     @Override
     public void refreshOutput() {
         printBoard();
-        if(!game.isGameRunning()) {
+        if (!mGame.isGameRunning()) {
             printResult();
         }
     }

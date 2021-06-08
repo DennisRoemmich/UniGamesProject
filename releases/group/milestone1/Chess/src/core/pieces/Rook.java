@@ -3,12 +3,11 @@ package core.pieces;
 import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.Square;
-
 import java.util.List;
 
 public class Rook extends CastlingChessPiece  {
 
-    public Rook(boolean isWhite){
+    public Rook(boolean isWhite) {
         super(isWhite, ChessPieceType.ROOK);
     }
     

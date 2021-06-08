@@ -5,13 +5,12 @@ import core.positioning.File;
 import core.positioning.Square;
 import sample.PrintError;
 import core.positioning.Rank;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Knight extends ChessPiece  {
 
-    public Knight(boolean isWhite){
+    public Knight(boolean isWhite) {
         super(isWhite, ChessPieceType.KNIGHT);
     }
 

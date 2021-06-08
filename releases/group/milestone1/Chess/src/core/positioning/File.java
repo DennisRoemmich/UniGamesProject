@@ -4,10 +4,10 @@ public enum File {
 
     A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7);
 
-    private final int index;
+    private final int mIndex;
 
     File(int i) {
-        index = i;
+        mIndex = i;
     }
 
     public static File valueOf(char c) {
@@ -20,16 +20,16 @@ public enum File {
     }
 
     public static File valueOf(int i) {
-        char c = (char)(65 + i); // 65 is the decimal representation of the char 'A'
+        char c = (char) (65 + i); // 65 is the decimal representation of the char 'A'
         return valueOf(c);
     }
 
-    public int getIndex(){
-        return index;
+    public int getIndex() {
+        return mIndex;
     }
 
     public File getLeftNeighbour() {
-        if(this != File.A){
+        if (this != File.A) {
             return File.valueOf(this.getIndex() - 1);
         } else {
             return null;
@@ -37,7 +37,7 @@ public enum File {
     }
 
     public File getRightNeighbour() {
-        if(this != File.H){
+        if (this != File.H) {
             return File.valueOf(this.getIndex() + 1);
         } else {
             return null;
