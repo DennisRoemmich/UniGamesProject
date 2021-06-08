@@ -6,8 +6,7 @@ import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
-import sample.Controller;
-import sample.Player;
+
 
 import java.util.ArrayList;
 import java.util.List;

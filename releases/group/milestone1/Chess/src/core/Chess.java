@@ -5,6 +5,7 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
+import sample.PrintError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,18 +42,15 @@ public class Chess {
     }
 
     private void handleEnPassantCapture(Square origin, Square destination) {
-        if(board.getPiece(origin).getType() == ChessPieceType.PAWN) {
-            if(origin.getFile() != destination.getFile()) {
-                // Pawn is capturing a piece
-                if(board.getPiece(destination) == null) {
-                    // En Passant Capture
+        if(board.getPiece(origin).getType() == ChessPieceType.PAWN && origin.getFile() != destination.getFile() && board.getPiece(destination) == null) {
+                    
                     Direction direction = board.getPiece(origin).isWhite() ? Direction.DOWN : Direction.UP;
                     Square squareToRemove = destination.getNext(direction);
                     board.removePiece(squareToRemove);
                 }
             }
-        }
-    }
+        
+    
 
     private void resetEnPassant() {
         for(ChessPiece piece : board.findPieces(ChessPieceType.PAWN)){
@@ -70,6 +68,8 @@ public class Chess {
             case KING, ROOK:
                 ((CastlingChessPiece) piece).registerMove();
                 break;
+		default:
+			break;
         }
     }
 
@@ -84,7 +84,7 @@ public class Chess {
                     pawn.registerDoubleMove();
                 }
             } catch (Exception e) {
-
+            	PrintError.writeErrorLog("");
             }
         }
     }

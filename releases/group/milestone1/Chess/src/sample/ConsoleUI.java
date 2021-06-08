@@ -1,16 +1,13 @@
 package sample;
 
 import core.Chess;
+
 import core.ChessBoard;
-import core.ChessResult;
-import core.GameOverDetector;
 import core.pieces.ChessPiece;
-import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +16,7 @@ public class ConsoleUI implements Presenter, Player {
     private Scanner scanner = new Scanner(System.in);
     private Controller controller = new Controller(this);
     private Chess game;
-    private ChessBoard board;
+    private ChessBoard board; //Not sure why Eclipse does not like this
 
     public void startGame(){
         controller.setPlayerA(this);
@@ -65,6 +62,9 @@ public class ConsoleUI implements Presenter, Player {
             case SURRENDER:
                 System.out.println("Surrender");
                 break;
+            default:
+            	System.out.println("ERROR: Unknown game result");
+            	break;
         }
     }
 
@@ -122,10 +122,14 @@ public class ConsoleUI implements Presenter, Player {
             }
         } while (destination == null);
         JSONObject move = new JSONObject();
+        
+        //TODO: Type safety: The method put(Object, Object) belongs to the raw type HashMap. References to generic type HashMap<K,V> should be parameterized
         move.put("origin", origin);
         move.put("destination", destination);
         return move;
     }
+    
+
 
     @Override
     public void setController(Controller controller) {

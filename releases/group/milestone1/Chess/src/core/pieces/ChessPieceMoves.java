@@ -1,12 +1,8 @@
 package core.pieces;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import core.ChessBoard;
 import core.positioning.Direction;
-import core.positioning.File;
-import core.positioning.Rank;
 import core.positioning.Square;
 
 public class ChessPieceMoves {
@@ -23,15 +19,12 @@ public class ChessPieceMoves {
 	}
 
     private boolean isSquareReachable(Square squareToTest) {
+   	
     	if (board.isFieldFree(squareToTest)) {
     		return true;
     	} else {
 			breakLoop = true;
-    		if (board.isOccupiedByOpponent(squareToTest, piece.isWhite())) {
-             	return true;
-        	} else {
-    			return false;
-			}
+    		return board.isOccupiedByOpponent(squareToTest, piece.isWhite());
     	}
     }
 

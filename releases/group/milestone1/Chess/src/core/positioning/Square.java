@@ -1,8 +1,5 @@
 package core.positioning;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Square {
 
     private Rank rank;
@@ -65,7 +62,7 @@ public class Square {
         return squares;
     }
     
-    //Use super.clone() to create and seed the cloned instance to be returned.
+    //TODO: Eliminate clone method. Use copy constructor.
     public Square clone() {
         return new Square(rank, file);
     }

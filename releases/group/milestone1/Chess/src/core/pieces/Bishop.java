@@ -2,11 +2,7 @@ package core.pieces;
 
 import core.ChessBoard;
 import core.positioning.Direction;
-import core.positioning.File;
 import core.positioning.Square;
-import core.positioning.Rank;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends ChessPiece {
@@ -22,7 +18,7 @@ public class Bishop extends ChessPiece {
         return moveFinder.getReachableSquares(bishopDirections);
     }
 
-    //SonarLint: Remove this "clone" implementation; use a copy constructor or copy factory instead.
+    //TODO: Eliminate clone method. Use copy constructor.
     @Override
     public ChessPiece clone() {
         return new Bishop(isWhite());

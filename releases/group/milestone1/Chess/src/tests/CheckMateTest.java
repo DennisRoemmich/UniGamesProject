@@ -1,13 +1,8 @@
 package tests;
 
-import core.ChessBoard;
 import core.ChessResult;
-import core.pieces.ChessPieceType;
-import core.positioning.File;
-import core.positioning.Rank;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

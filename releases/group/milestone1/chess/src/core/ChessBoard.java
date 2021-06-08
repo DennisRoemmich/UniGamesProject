@@ -31,9 +31,6 @@ public class ChessBoard implements Cloneable {
             placePiece(piece, destination);
             removePiece(origin);
         }
-        
-        //Rochade
-        //      if(piece.getType() )
     }
 
     public boolean isFieldFree(Square square) {
@@ -50,10 +47,6 @@ public class ChessBoard implements Cloneable {
 
     public boolean isOccupiedBySelf(Square square, boolean selfIsWhite) {
         return !isFieldFree(square) && (getPiece(square).isWhite() == selfIsWhite);
-    }
-
-    private ChessBoard(ChessPiece[][] pieces) {
-        this.pieces = pieces;
     }
 
     public ChessBoard(){
@@ -86,27 +79,27 @@ public class ChessBoard implements Cloneable {
     }
 
     public List<ChessPiece> findPieces(boolean color) {
-        ArrayList<ChessPiece> pieces = new ArrayList<>();
+        ArrayList<ChessPiece> piece = new ArrayList<>();
         for(Square squareOfPiece : findSquaresOfPieces(color)) {
-            pieces.add(getPiece(squareOfPiece));
+            piece.add(getPiece(squareOfPiece));
         }
-        return  pieces;
+        return  piece;
     }
 
     public List<ChessPiece> findPieces(ChessPieceType type) {
-        ArrayList<ChessPiece> pieces = new ArrayList<>();
+        ArrayList<ChessPiece> piece = new ArrayList<>();
         for(Square squareOfPiece : findSquaresOfPieces(type)) {
-            pieces.add(getPiece(squareOfPiece));
+            piece.add(getPiece(squareOfPiece));
         }
-        return  pieces;
+        return  piece;
     }
 
     public List<ChessPiece> findPieces(ChessPieceType type, boolean color) {
-        ArrayList<ChessPiece> pieces = new ArrayList<>();
+        ArrayList<ChessPiece> piece = new ArrayList<>();
         for(Square squareOfPiece : findSquaresOfPieces(type, color)) {
-            pieces.add(getPiece(squareOfPiece));
+            piece.add(getPiece(squareOfPiece));
         }
-        return  pieces;
+        return  piece;
     }
 
     public List<Square> findSquaresOfPieces(boolean color) {
@@ -145,7 +138,7 @@ public class ChessBoard implements Cloneable {
         return null;
     }
 
-    //Use super.clone() to create and seed the cloned instance to be returned.
+    //TODO: Eliminate clone method. Use copy constructor.
     @Override
     public ChessBoard clone() {
         ChessBoard clone = new ChessBoard();

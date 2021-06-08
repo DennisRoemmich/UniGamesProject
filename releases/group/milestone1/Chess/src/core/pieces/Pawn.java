@@ -3,6 +3,7 @@ package core.pieces;
 import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.Square;
+import sample.PrintError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +53,10 @@ public class Pawn extends ChessPiece {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
-
+            	PrintError.writeErrorLog("");
             }
         }
 
-        //En-passant
-        /* TODO */
-        //Verwandlung
-        /* TODO */
         return list;
     }
 

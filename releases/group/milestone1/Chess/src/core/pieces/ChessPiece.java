@@ -3,6 +3,7 @@ package core.pieces;
 import core.CheckDetector;
 import core.ChessBoard;
 import core.positioning.Square;
+import sample.PrintError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public abstract class ChessPiece implements Cloneable {
 
     public List<Square> findMoves(Square square, ChessBoard board) {
         List<Square> coveredSquares = findCoveredSquares(board, square);
-        List<Square> validMoves = new ArrayList<Square>();
+        List<Square> validMoves = new ArrayList<>();
         for(Square uncheckedSquare : coveredSquares) {
             if(!CheckDetector.isInCheckAfterMove(board, isWhite, square, uncheckedSquare)) {
                 validMoves.add(uncheckedSquare);
@@ -101,14 +102,17 @@ public abstract class ChessPiece implements Cloneable {
         return (isWhite ? "WHITE " : "BLACK ") + type.toString();
     }
     
-    //Remove this "clone" implementation; use a copy constructor or copy factory instead.
+    ///TODO: Eliminate clone method. Use copy constructor.
     @Override
     public ChessPiece clone() {
-        try {
+        
+    	//Empty piece
+    	ChessPiece piece = new Pawn(true);
+    	try {
             return getClass().getDeclaredConstructor(boolean.class).newInstance(isWhite);
         } catch (Exception e) {
-
+        	PrintError.writeErrorLog("");
         }
-        return null;
+        return piece;
     }
 }

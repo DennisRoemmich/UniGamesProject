@@ -5,7 +5,11 @@ import core.positioning.Square;
 
 import java.util.List;
 
-public abstract class GameOverDetector {
+public class GameOverDetector {
+	
+	private GameOverDetector() {
+		
+	}
 
     public static ChessResult checkForMate(boolean currentPlayerIsWhite, ChessBoard board) {
         List<Square> squaresOfPlayer= board.findSquaresOfPieces(currentPlayerIsWhite);
@@ -39,6 +43,9 @@ public abstract class GameOverDetector {
                     return true;
                 case BISHOP, KNIGHT:
                     availableMinorPieces++;
+                	break;
+                default:
+                	return true;
             }
         }
         return availableMinorPieces >= 2;
