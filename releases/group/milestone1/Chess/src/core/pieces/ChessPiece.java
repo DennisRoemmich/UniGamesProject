@@ -7,6 +7,11 @@ import sample.PrintError;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract ChessPiece class that is the super class to all the chess pieces.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public abstract class ChessPiece implements Cloneable {
 
     private final ChessPieceType mType;

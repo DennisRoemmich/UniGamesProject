@@ -1,5 +1,10 @@
 package core.pieces;
 
+/**
+ * Stores the different chess pieces as enums.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public enum ChessPieceType {
     PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING;
 

@@ -7,6 +7,11 @@ import core.positioning.Square;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The chess board implementation of a chess game.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ChessBoard implements Cloneable {
 
     ChessPiece[][] mPieces;

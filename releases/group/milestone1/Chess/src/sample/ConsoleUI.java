@@ -14,6 +14,11 @@ import java.util.Scanner;
 
 //TODO: Eliminate println statements.
 
+/**
+ * The console UI to interact with the chess game.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
     private Controller mController = new Controller(this);

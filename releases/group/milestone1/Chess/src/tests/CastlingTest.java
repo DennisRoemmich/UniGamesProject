@@ -11,6 +11,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests the castling feature.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class CastlingTest extends Test {
 
     Square[][] mMove = new Square[][]{{new Square("e2"), new Square("e4")},

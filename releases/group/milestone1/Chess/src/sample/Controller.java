@@ -6,7 +6,11 @@ import core.GameOverDetector;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
 
-
+/**
+ * Creates the surrounding game logic the chess game operates in.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Controller {
 
     private Chess mGame;

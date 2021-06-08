@@ -4,6 +4,11 @@ import org.json.simple.JSONObject;
 import sample.Controller;
 import java.util.List;
 
+/**
+ * Runs the test controller.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public abstract class Test {
 	
 	Controller mTestController = new Controller();

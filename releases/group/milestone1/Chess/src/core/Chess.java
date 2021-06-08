@@ -9,6 +9,10 @@ import sample.PrintError;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 	Main Chess class where the main chess game logic is being executed.
+ *  @author Jan de Boer, Dennis Roemmich
+ */
 public class Chess {
 
     private ChessBoard mBoard = ChessBoard.getStartBoard();

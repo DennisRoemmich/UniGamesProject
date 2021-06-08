@@ -10,6 +10,11 @@ import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * King piece on the chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class King extends CastlingChessPiece  {
 
     public King(boolean isWhite) {

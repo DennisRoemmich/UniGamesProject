@@ -2,6 +2,11 @@ package tests;
 
 import core.positioning.Square;
 
+/**
+ * Runs the moves for the other tests.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class MoveTest {
     Square[][] mMoves = new Square[][]{{new Square("e2"), new Square("e4")},
             {new Square("e7"), new Square("e5")},

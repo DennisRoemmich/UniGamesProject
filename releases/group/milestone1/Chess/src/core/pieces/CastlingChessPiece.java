@@ -1,5 +1,10 @@
 package core.pieces;
 
+/**
+ * Methods for obtaining info for the castling conditions.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public abstract class CastlingChessPiece extends ChessPiece {
     
 	private boolean mHasMoved = false;

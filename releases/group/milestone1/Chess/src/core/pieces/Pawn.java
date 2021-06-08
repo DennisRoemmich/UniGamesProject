@@ -7,6 +7,11 @@ import sample.PrintError;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Pawn piece on the chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Pawn extends ChessPiece {
 
     private int mNumberOfMoves = 0;

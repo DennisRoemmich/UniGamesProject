@@ -1,5 +1,10 @@
 package core.positioning;
 
+/**
+ * Squares represent the possible positions for chess pieces on a chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Square {
 
     private Rank mRank;

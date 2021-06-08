@@ -4,6 +4,11 @@ import core.pieces.ChessPieceType;
 import core.positioning.Square;
 import java.util.List;
 
+/**
+ * Checks if the game is over.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class GameOverDetector {
 	
 	private GameOverDetector() {

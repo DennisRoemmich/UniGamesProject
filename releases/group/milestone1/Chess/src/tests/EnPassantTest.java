@@ -7,6 +7,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests the En-Passant moves in a chess game.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class EnPassantTest extends Test {
 
     Square[][] mMoves = new Square[][]{{new Square("e2"), new Square("e4")},

@@ -6,6 +6,11 @@ import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.Square;
 
+/**
+ * Game moves for the pices Queen, Bishop and rook.
+ * @author Jan de Boer, Dennis Roemmich
+ * 
+ */
 public class ChessPieceMoves {
 	
 	private boolean mBreakLoop = false;

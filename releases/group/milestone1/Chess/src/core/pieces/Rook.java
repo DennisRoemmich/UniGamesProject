@@ -5,6 +5,11 @@ import core.positioning.Direction;
 import core.positioning.Square;
 import java.util.List;
 
+/**
+ * Rook piece on the chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Rook extends CastlingChessPiece  {
 
     public Rook(boolean isWhite) {

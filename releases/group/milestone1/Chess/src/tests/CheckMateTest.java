@@ -6,6 +6,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests the checkmate feature.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class CheckMateTest extends Test {
 
     Square[][] mMoves = new Square[][]{{new Square("f2"), new Square("f3")},

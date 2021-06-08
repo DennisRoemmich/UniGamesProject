@@ -1,5 +1,10 @@
 package core.positioning;
 
+/**
+ * A file represents a column on a chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public enum File {
 
     A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7);

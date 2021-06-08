@@ -8,6 +8,11 @@ import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Knight piece on the chess board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Knight extends ChessPiece  {
 
     public Knight(boolean isWhite) {
