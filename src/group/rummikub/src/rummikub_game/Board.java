@@ -9,20 +9,23 @@ public class Board {
     public static final int GRID_HEIGHT = 20;
     public static final int GRID_WIDTH = 20;
 
-    GridTile[][] grid = new GridTile[GRID_WIDTH][GRID_HEIGHT];
-    GridTile[][] empty = new GridTile[GRID_WIDTH][GRID_HEIGHT];
+    GridTile[][] grid;
 
     public Board(){
 
         // init Board with empty GridTiles
 
+        initEmptyBoard();
+
+    }
+
+    public void initEmptyBoard(){
         grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
         for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
 
         }
-
     }
 
     public void addTile(Point position, Tile tile){
@@ -49,7 +52,7 @@ public class Board {
     }
 
     public void clearBoard(){
-        grid = empty;
+        initEmptyBoard();
     }
 
     public boolean isValid(){

@@ -1,6 +1,7 @@
 package rummikub_game;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -121,7 +122,7 @@ public class Rummikub {
     }
 
     /**
-     * Zug ist zu Ende. Überprüfe board, next current player etc.
+     * call if move should be finished; Only finishes move if board is possible!
      * @return false if current board is invalid, otherwise true
      */
     public boolean finishMove(){
@@ -138,7 +139,12 @@ public class Rummikub {
                 }
 
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
+
+                    // TODO : This must be passed by value
+                    // --> Arrays.copy grid-array
+                    // same below
                     board = sketchBoard;
+
                 }
 
             } else {
