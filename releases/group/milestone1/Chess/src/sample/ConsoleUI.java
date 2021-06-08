@@ -80,11 +80,33 @@ public class ConsoleUI implements Presenter, Player {
     public JSONObject requestMove() {
 
         System.out.println("Please enter the position of the piece, that you want to move:");
-        
+
         Square origin = null;
         List<Square> availableDestinations = new ArrayList<>();
-        
-        validDestinations(origin, availableDestinations);
+
+        do {
+            String input = mScanner.nextLine();
+            try {
+                origin = new Square(input);
+                if (mController.getGame().getBoard().isFieldFree(origin)) {
+                    System.out.println("This Field is empty.");
+                    origin = null;
+                } else {
+                	if (mController.getGame().getBoard().
+                	isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
+                    System.out.println("This Field is occupied by the opponent.");
+                    origin = null;
+                	} else {
+                		availableDestinations = mController.getGame().getPossibleMoves(origin);
+                		if (availableDestinations.isEmpty()) {
+                		System.out.println("The selected Piece can't move.");
+                		}
+                	}              	
+                }      
+            } catch (Exception e) {
+                System.out.println("Invalid input: " + input);
+            }
+        } while (availableDestinations.isEmpty());
 
         System.out.println("Available Fields are: " + availableDestinations);
         System.out.print("Please enter the position of the field, ");
@@ -114,33 +136,6 @@ public class ConsoleUI implements Presenter, Player {
         return move;
     }
     
-    public void validDestinations(Square origin, List<Square> availableDestinations ) {
-    	
-    	do {
-            String input = mScanner.nextLine();
-            try {
-                origin = new Square(input);
-                if (mController.getGame().getBoard().isFieldFree(origin)) {
-                    System.out.println("This Field is empty.");
-                    origin = null;
-                } else {
-                	if (mController.getGame().getBoard().
-                	isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
-                    System.out.println("This Field is occupied by the opponent.");
-                    origin = null;
-                	} else {
-                		availableDestinations = mController.getGame().getPossibleMoves(origin);
-                		if (availableDestinations.isEmpty()) {
-                		System.out.println("The selected Piece can't move.");
-                		}
-                	}              	
-                }      
-            } catch (Exception e) {
-                System.out.println("Invalid input: " + input);
-            }
-    	} while (availableDestinations.isEmpty());
-    }
-
     @Override
     public void setController(Controller controller) {
         this.mController = controller;
