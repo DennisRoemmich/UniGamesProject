@@ -12,6 +12,8 @@ public class Pawn extends ChessPiece {
     private int numberOfMoves = 0;
     private int lastMoved = 0;
 
+    private boolean canBeCapturedEnPassant = false;
+
     public Pawn(boolean isWhite){
         super(isWhite, ChessPieceType.PAWN);
     }
@@ -42,6 +44,12 @@ public class Pawn extends ChessPiece {
                 squareToTest = squareToTest.getNext(captureDirection);
                 if (board.isOccupiedByOpponent(squareToTest, isWhite())) {
                     list.add(squareToTest);
+                    continue;
+                }
+                Square neighbourSquare = origin.getNext(captureDirection);
+                Pawn pawn = (Pawn) board.getPiece(neighbourSquare);
+                if(pawn.canBeCapturedEnPassant) {
+                    list.add(squareToTest);
                 }
             } catch (Exception e) {
 
@@ -58,6 +66,14 @@ public class Pawn extends ChessPiece {
     public void registerMove(int moveNumber) {
         numberOfMoves++;
         lastMoved = moveNumber;
+    }
+
+    public void registerDoubleMove() {
+        canBeCapturedEnPassant = true;
+    }
+
+    public void resetEnPassant() {
+        canBeCapturedEnPassant = false;
     }
 
     public int getNumberOfMoves() {

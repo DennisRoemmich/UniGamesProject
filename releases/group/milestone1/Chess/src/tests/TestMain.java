@@ -1,7 +1,7 @@
 package tests;
 
 public class TestMain {
-    private static Test[] tests = new Test[]{new CastlingTest(), new CheckMateTest()};
+    private static Test[] tests = new Test[]{new CastlingTest(), new CheckMateTest(), new EnPassantTest()};
 
     public static void main(String args[]) {
         for(Test test : tests) {

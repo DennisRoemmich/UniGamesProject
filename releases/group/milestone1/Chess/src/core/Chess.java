@@ -1,6 +1,7 @@
 package core;
 
 import core.pieces.*;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
@@ -26,13 +27,37 @@ public class Chess {
     public boolean makeMove(Square origin, Square destination) {
         if (getPossibleMoves(origin).contains(destination)) {
             checkForCastling(origin, destination);
+            handleEnPassantCapture(origin, destination);
             board.movePiece(origin, destination);
             checkForPromotion(destination, 'Q');
             registerMove(destination);
+            resetEnPassant();
+            checkForPawnDoubleMove(origin, destination);
             incrementMove();
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void handleEnPassantCapture(Square origin, Square destination) {
+        if(board.getPiece(origin).getType() == ChessPieceType.PAWN) {
+            if(origin.getFile() != destination.getFile()) {
+                // Pawn is capturing a piece
+                if(board.getPiece(destination) == null) {
+                    // En Passant Capture
+                    Direction direction = board.getPiece(origin).isWhite() ? Direction.DOWN : Direction.UP;
+                    Square squareToRemove = destination.getNext(direction);
+                    board.removePiece(squareToRemove);
+                }
+            }
+        }
+    }
+
+    private void resetEnPassant() {
+        for(ChessPiece piece : board.findPieces(ChessPieceType.PAWN)){
+            Pawn pawn = (Pawn) piece;
+            pawn.resetEnPassant();
         }
     }
 
@@ -45,6 +70,22 @@ public class Chess {
             case KING, ROOK:
                 ((CastlingChessPiece) piece).registerMove();
                 break;
+        }
+    }
+
+    private void checkForPawnDoubleMove(Square origin, Square destination) {
+        ChessPiece piece = board.getPiece(destination);
+        if(piece.getType() == ChessPieceType.PAWN) {
+            Direction moveDirection = isItWhitesTurn ? Direction.UP : Direction.DOWN;
+            try {
+                Square doubleMoveDestination = origin.getNext(moveDirection).getNext(moveDirection);
+                if(doubleMoveDestination.equals(destination)) {
+                    Pawn pawn = (Pawn) piece;
+                    pawn.registerDoubleMove();
+                }
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -87,7 +128,6 @@ public class Chess {
     		return;
     	}
     	
-    	
     	ChessPiece piece = board.getPiece(destination);
     	
     	if(!piece.getType().equals(ChessPieceType.PAWN)) {
@@ -95,8 +135,8 @@ public class Chess {
     	}
     	Queen queen = new Queen(isItWhitesTurn);
     	
-    		setPromotionPiece(c);
-    		board.placePiece(queen, destination);		
+    	setPromotionPiece(c);
+    	board.placePiece(queen, destination);
     }
     
     private ChessPiece setPromotionPiece(char c) {
