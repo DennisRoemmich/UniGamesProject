@@ -17,8 +17,8 @@ public class Tile {
 
     /**
      * Constructor for any tile but joker
-     * @param color of tile
-     * @param value of tile
+     * @param color color of tile
+     * @param value value of tile
      */
     public Tile(TileColor color, int value){
 
@@ -43,14 +43,16 @@ public class Tile {
     }
 
     /**
-     * @return true if joker
-     * @return false if not joker
+     * @return true if joker, false if not joker
      */
     public boolean isJoker(){
 
         return color == TileColor.JOKER;
     }
 
+    /**
+     * @return String of Tile
+     */
     public String toString(){
 
         return toString(false);
@@ -81,13 +83,37 @@ public class Tile {
     }
 
 
+    /**
+     * compares two tiles for run
+     * @param tile tile to compare with
+     * @return true if tile has smaller value, false if not
+     */
     public boolean compareToRun(Tile tile) {
 
-        return tile.getValue() < value;
+        if (tile != null) {
+
+            return tile.getValue() < value;
+
+        } else {
+
+            return false;
+        }
     }
 
+    /**
+     * compares two tiles for group
+     * @param tile tile to compare with
+     * @return true if tile has smaller color value, false if not
+     */
     public boolean compareToGroup(Tile tile) {
 
-        return tile.getTileColor().value < color.value;
+        if (tile != null) {
+
+            return tile.getTileColor().value < color.value;
+
+        } else {
+
+            return false;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class RummikubPlayer {
      */
     public Rack getSketchRack() {
 
-        return this.sketchRack;
+        return sketchRack;
     }
 
     /**
@@ -31,7 +31,7 @@ public class RummikubPlayer {
      */
     public Rack getRack(){
 
-        return this.tileRack;
+        return tileRack;
     }
 
     /**
@@ -47,7 +47,7 @@ public class RummikubPlayer {
      */
     public void setScore(int score){
 
-        this.score = score;
+        score = score;
     }
 
     /**
@@ -55,7 +55,7 @@ public class RummikubPlayer {
      */
     public void resetSketchRack(){
 
-        this.sketchRack = this.tileRack;
+        sketchRack = tileRack;
     }
 
     /**
@@ -63,6 +63,6 @@ public class RummikubPlayer {
      */
     public void acceptSketchRack(){
 
-        this.tileRack = this.sketchRack;
+        tileRack = sketchRack;
     }
 }
