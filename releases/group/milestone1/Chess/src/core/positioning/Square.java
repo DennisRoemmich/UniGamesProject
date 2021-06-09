@@ -1,9 +1,11 @@
 package core.positioning;
 
+import java.security.InvalidParameterException;
+
 /**
  * Squares represent the possible positions for chess pieces on a chess board.
- * @author Jan de Boer, Dennis Roemmich
  *
+ * @author Jan de Boer, Dennis Roemmich
  */
 public class Square {
 
@@ -23,6 +25,11 @@ public class Square {
         this.mFile = File.valueOf(name.charAt(0));
     }
 
+    public Square(Square square) {
+        mRank = square.getRank();
+        mFile = square.getFile();
+    }
+
     public Rank getRank() {
         return mRank;
     }
@@ -33,6 +40,39 @@ public class Square {
 
     public String toString() {
         return mFile.toString() + mRank.toString();
+    }
+
+    public static Square[] values() {
+        Square[] squares = new Square[64];
+        for (Rank rank : Rank.values()) {
+            for (File file : File.values()) {
+                squares[rank.getIndex() * 8 + file.getIndex()] = new Square(rank, file);
+            }
+        }
+        return squares;
+    }
+
+    public Square getNext(Direction direction) {
+        switch (direction) {
+            case UP:
+                return new Square(mRank.getTopNeighbour(), mFile);
+            case DOWN:
+                return new Square(mRank.getBottomNeighbour(), mFile);
+            case LEFT:
+                return new Square(mRank, mFile.getLeftNeighbour());
+            case RIGHT:
+                return new Square(mRank, mFile.getRightNeighbour());
+            case UP_LEFT:
+                return new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
+            case UP_RIGHT:
+                return new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
+            case DOWN_LEFT:
+                return new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
+            case DOWN_RIGHT:
+                return new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
+            default:
+                throw new InvalidParameterException();
+        }
     }
 
     @Override
@@ -51,52 +91,10 @@ public class Square {
         // Compare the data members and return accordingly
         return p.mFile == this.mFile && p.mRank == this.mRank;
     }
-    
+
     @Override
     public int hashCode() {
-    	return -1;
-    }
-
-    public static Square[] values() {
-        Square[] squares = new Square[64];
-        for (Rank rank : Rank.values()) {
-            for (File file : File.values()) {
-                squares[rank.getIndex() * 8 + file.getIndex()] = new Square(rank, file);
-            }
-        }
-        return squares;
-    }
-    
-    //TODO: Eliminate clone method. Use copy constructor.
-    public Square clone() {
-        return new Square(mRank, mFile);
-    }
-
-    public Square getNext(Direction direction) {
-        try {
-            switch (direction) {
-                case UP:
-                    return new Square(mRank.getTopNeighbour(), mFile);
-                case DOWN:
-                    return new Square(mRank.getBottomNeighbour(), mFile);
-                case LEFT:
-                    return new Square(mRank, mFile.getLeftNeighbour());
-                case RIGHT:
-                    return new Square(mRank, mFile.getRightNeighbour());
-                case UP_LEFT:
-                    return new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
-                case UP_RIGHT:
-                    return new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
-                case DOWN_LEFT:
-                    return new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
-                case DOWN_RIGHT:
-                    return new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
-                default:
-                    throw new IndexOutOfBoundsException();
-            }
-        } catch (Exception e) {
-            return null;
-        }
+        return -1;
     }
 
 }

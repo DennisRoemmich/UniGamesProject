@@ -107,10 +107,7 @@ public class ConsoleUI implements Presenter, Player {
             }
         } while (availableDestinations.isEmpty());
 
-        println("Available Fields are: " + availableDestinations);
-        print("Please enter the position of the field, ");
-        print("where you want to place your piece or enter [r] to returnand choose another piece: \n" );
-        
+        System.out.print("where you want to place your piece or enter [r] to return and choose another piece: \n" );        
         Square destination = null;
         do {
             String input = mScanner.nextLine();
