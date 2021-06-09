@@ -180,14 +180,28 @@ public class Test {
         rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 4));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(1, 3));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,4), new Point(1, 2));
-        //rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(1, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(1, 1));
 
-        //rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(0, 0));
-        //rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(0, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(0, 0));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(0, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,12), new Point(0, 2));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,11), new Point(0, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,10), new Point(0, 4));
 
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(0, 2));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,6), new Point(0, 1));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,7), new Point(0, 0));
+        rummi.finishMove();
+        rummi.finishMove();
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(2, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(2, 2));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(2, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(2, 0));
+
+        rummi.finishMove();
+
+        rummi.getSketchBoard().moveTile(new Point(1, 4), new Point(3,0));
+        rummi.getSketchBoard().moveTile(new Point(2, 3), new Point(3,1));
+        rummi.getSketchBoard().moveTile(new Point(0,0), new Point(3,2));
+
 
 
         var builder = new StringBuilder();

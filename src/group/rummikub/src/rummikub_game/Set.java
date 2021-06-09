@@ -36,26 +36,24 @@ public class Set {
         int i = 1;
         int j = i + 1;
         
-        if(isSmaller(first, second) && sameColor(first, second)){
+        if(isSmaller(first, second) && sameColor(first, second) || first.isJoker()) {
             i = 1;
-            while(isRun && j < tiles.size()){
-                isRun = isSmaller(tiles.get(i), tiles.get(j)) && sameColor(tiles.get(i), tiles.get(j));
+            while (isRun && j < tiles.size()) {
+                isRun = isSmaller(tiles.get(i), tiles.get(j)) && sameColor(tiles.get(i), tiles.get(j)) || tiles.get(i).isJoker();
                 i++;
             }
-            System.out.println(isRun);
-        } else if(valueIsEqual(first, second) && !sameColor(first, second)) {
+
+        } else if(valueIsEqual(first, second) && !sameColor(first, second) || first.isJoker()) {
             i = 1;
 
             while (isGroup && j < tiles.size()) {
-                isGroup = valueIsEqual(tiles.get(i), tiles.get(j));
+                isGroup = valueIsEqual(tiles.get(i), tiles.get(j)) || tiles.get(i).isJoker();
             }
             isGroup = isGroup && noSameColors();
-            System.out.println(isGroup);
 
         } else {
 
             valid = false;
-            System.out.print("hi");
         }
 
         return (isRun || isGroup) && valid;
