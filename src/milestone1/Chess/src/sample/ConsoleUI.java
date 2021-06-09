@@ -137,8 +137,8 @@ public class ConsoleUI implements Presenter, Player {
         JSONObject move = new JSONObject();
         
         //TODO: Type safety: The method put(Object, Object) belongs to the raw type HashMap. References to generic type HashMap<K,V> should be parameterized
-        move.put("origin", origin);
-        move.put("destination", destination);
+        move.put("origin", origin.toString());
+        move.put("destination", destination.toString());
         return move;
     }
 

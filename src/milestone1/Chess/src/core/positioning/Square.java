@@ -53,25 +53,29 @@ public class Square {
     }
 
     public Square getNext(Direction direction) {
-        switch (direction) {
-            case UP:
-                return new Square(mRank.getTopNeighbour(), mFile);
-            case DOWN:
-                return new Square(mRank.getBottomNeighbour(), mFile);
-            case LEFT:
-                return new Square(mRank, mFile.getLeftNeighbour());
-            case RIGHT:
-                return new Square(mRank, mFile.getRightNeighbour());
-            case UP_LEFT:
-                return new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
-            case UP_RIGHT:
-                return new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
-            case DOWN_LEFT:
-                return new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
-            case DOWN_RIGHT:
-                return new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
-            default:
-                throw new InvalidParameterException();
+        try {
+            switch (direction) {
+                case UP:
+                    return new Square(mRank.getTopNeighbour(), mFile);
+                case DOWN:
+                    return new Square(mRank.getBottomNeighbour(), mFile);
+                case LEFT:
+                    return new Square(mRank, mFile.getLeftNeighbour());
+                case RIGHT:
+                    return new Square(mRank, mFile.getRightNeighbour());
+                case UP_LEFT:
+                    return new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
+                case UP_RIGHT:
+                    return new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
+                case DOWN_LEFT:
+                    return new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
+                case DOWN_RIGHT:
+                    return new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 

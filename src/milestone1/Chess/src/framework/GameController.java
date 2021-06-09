@@ -6,26 +6,32 @@ import java.util.List;
 import java.util.ListIterator;
 
 public abstract class GameController {
-	protected GameLog moveLog;
+	private GameLog gameLog;
 	protected List<Player> players;
 
 	public abstract void executeMove(JSONObject move);
-	public abstract void resetGame();
-	public abstract JSONObject metaSettingsToJSON();
-	public abstract JSONObject gameSettingsToJSON();
+	//public abstract void newGame();
+	//public abstract JSONObject metaSettingsToJSON();
+	//public abstract JSONObject gameSettingsToJSON();
+	//public abstract void loadGame(GameLog gameLog);
 
 	public GameController() {
-
+		gameLog = new GameLog("game1");
 	}
 
-	public final void undoLastMove() {
+	/*public final void undoLastMove() {
 		undoLastMoves(1);
 	}
 
 	public final void undoLastMoves(int amount) {
-		moveLog.removeLastMoves(amount);
-		resetGame();
-		executeMoves(moveLog.getMoveLog());
+		gameLog.removeLastMoves(amount);
+		loadGame(gameLog);
+		executeMoves(gameLog.getMoveLog());
+	}*/
+
+	public void logMove(JSONObject move) {
+		gameLog.logMove(move);
+		saveGame();
 	}
 
 	public final void executeMoves(List<JSONObject> moves) {
@@ -34,7 +40,15 @@ public abstract class GameController {
 		}
 	}
 
+	public final void saveGame() {
+		if(gameLog != null) {
+			FileController.saveJSON(gameLog.getCompleteJSONObject(), gameLog.getID());
+		}
+	}
+
 	public void newGameLog(){
+
+		gameLog = new GameLog("abc");
 
 		// ? save old GameLog Object
 

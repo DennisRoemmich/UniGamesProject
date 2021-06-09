@@ -7,12 +7,15 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 
 public final class FileController {
+
+    public static final String fileExtension = ".json";
+
     private FileController() {
         // Prevent initialization
     }
 
     public static void saveJSON(JSONObject object, String fileName) {
-        try (FileWriter file = new FileWriter(fileName)) {
+        try (FileWriter file = new FileWriter(fileName + fileExtension)) {
             file.write(object.toJSONString());
             file.flush();
         } catch (IOException e) {

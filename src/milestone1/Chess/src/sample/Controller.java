@@ -22,40 +22,37 @@ public class Controller extends GameController {
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
+
+    private final JSONObject mMoveRequestJSON;
     
     public Controller() {
-    	//For testing purposes
+    	 JSONObject object = new JSONObject();
+    	 object.put("type", "move");
+    	 mMoveRequestJSON = object;
     }
     
     public Controller(Presenter presenter) {
     	this.mPresenter = presenter;
+        JSONObject object = new JSONObject();
+        object.put("type", "move");
+        mMoveRequestJSON = object;
     }
 
     public void executeMove(JSONObject move) {
+        String originName = move.get("origin").toString();
+        String destinationName = move.get("destination").toString();
+        Square origin;
+        Square destination;
         try {
-            String originName = move.get("origin").toString();
-            String destinationName = move.get("destination").toString();
-            Square origin = new Square(originName);
-            Square destination = new Square(destinationName);
-            mGame.makeMove(origin, destination);
+            origin = new Square(originName);
+            destination = new Square(destinationName);
         } catch (Exception e) {
-        	PrintError.writeErrorLog("");
+            PrintError.writeErrorLog("");
+            return;
         }
-    }
-
-    @Override
-    public void resetGame() {
-
-    }
-
-    @Override
-    public JSONObject metaSettingsToJSON() {
-        return null;
-    }
-
-    @Override
-    public JSONObject gameSettingsToJSON() {
-        return null;
+        if(mGame.makeMove(origin, destination)) {
+            logMove(move);
+        }
     }
 
     public void setPlayerA(Player playerA) {
@@ -99,9 +96,9 @@ public class Controller extends GameController {
     public void gameStep() {
         boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            executeMove(mPlayerA.requestMove());
+            executeMove(mPlayerA.requestMove(mMoveRequestJSON));
         } else {
-            executeMove(mPlayerB.requestMove());
+            executeMove(mPlayerB.requestMove(mMoveRequestJSON));
         }
         updateGameState();
     }
