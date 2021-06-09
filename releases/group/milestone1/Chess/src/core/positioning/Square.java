@@ -23,6 +23,11 @@ public class Square {
         this.mFile = File.valueOf(name.charAt(0));
     }
 
+    public Square(Square square) {
+        mRank = square.getRank();
+        mFile = square.getFile();
+    }
+
     public Rank getRank() {
         return mRank;
     }
@@ -67,11 +72,6 @@ public class Square {
         return squares;
     }
     
-    //TODO: Eliminate clone method. Use copy constructor.
-    public Square clone() {
-        return new Square(mRank, mFile);
-    }
-
     public Square getNext(Direction direction) {
         try {
             switch (direction) {
