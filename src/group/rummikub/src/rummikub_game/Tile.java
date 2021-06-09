@@ -7,7 +7,7 @@ public class Tile {
 
     /**
      * Constructor only for joker
-     * @param color of tile
+     * @param joker color of tile
      */
     public Tile(TileColor joker){
 
@@ -53,8 +53,33 @@ public class Tile {
 
     public String toString(){
 
-        return "[" + color.toString() + "," + Integer.toString(value) + "]";
+        return toString(false);
     }
+
+    public String toString(boolean wide){
+
+        if (!wide) {
+
+            return "[" + color.toString() + "," + Integer.toString(value) + "]";
+
+        }
+
+        var colorString = "??";
+
+        switch (color){
+            case JOKER -> colorString = "JK";
+            case RED -> colorString = "RD";
+            case BLUE -> colorString = "BL";
+            case BLACK -> colorString = "BK";
+            case YELLOW -> colorString = "YL";
+        }
+
+        var formatted = String.format("%02d", value);
+
+        return "[" + colorString + "|" + formatted + "]";
+
+    }
+
 
     public boolean compareToRun(Tile tile) {
 

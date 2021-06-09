@@ -3,7 +3,6 @@ package Tests;
 import rummikub_game.Board;
 import rummikub_game.Rack;
 import rummikub_game.Rummikub;
-import rummikub_game.Tile;
 
 import java.awt.*;
 
@@ -79,11 +78,32 @@ public class Test {
     public void andreas(){
 
         //andreasTileMoving();
-        andreasDrawRacks();
-        andreasBoardTest();
+        //andreasDrawRacks();
+        //andreasBoardTest();
+        andreasSetTest();
+
+    }
+
+    private void andreasSetTest(){
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(1, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(1, 2));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 3));
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(3, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,4), new Point(3, 4));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(3, 5));
+
+        var builder = new StringBuilder();
 
 
-        printTest("Fernandas Test", "This is a test");
+        builder.append(rummi.getSketchBoard().toString(true) + "\n\n");
+        builder.append(rummi.getCurrentPlayer().getSketchRack().toString(true) + "\n");
+
+        builder.append("Board valid? : " + rummi.getSketchBoard().isValid() + "\n");
+
+        printTest("SetTest", builder.toString());
+
 
     }
 
@@ -105,10 +125,10 @@ public class Test {
         // moves tiles from current players sketchRack to sketchBoard position (4,4)
         //    testTileMoving();
 
-        testString += newLines(1);
+        testString += getNewlines(1);
 
 
-        testString += newLines(1);
+        testString += getNewlines(1);
 
         // check board and print rack
 
@@ -135,7 +155,10 @@ public class Test {
 
         rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(4,4));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(4,5));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(4,6));
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(3,6));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(3,7));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,4), new Point(3,8));
 
         rummi.moveTileFromCurrentRackToBoard(new Point(0, 6), new Point(8, 3));
     }
@@ -143,18 +166,19 @@ public class Test {
 
     /* HELPER */
 
-    private static void printNewLines(int n) {
 
-        System.out.print(CharsTimes(n, '\n'));
+    /**
+     * returns String with n newlines
+     */
+    private static String getNewlines(int n) {
 
+        return getCharTimes(n, '\n');
     }
 
-    private static String newLines(int n) {
-
-        return CharsTimes(n, '\n');
-    }
-
-    private static String CharsTimes(int n, char c) {
+    /**
+     * returns String with n times the char c
+     */
+    private static String getCharTimes(int n, char c) {
 
         String returnString = "";
 
@@ -165,56 +189,29 @@ public class Test {
         return returnString;
     }
 
-    private static void printPlayerRack(int player) {
 
-        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
-            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
-                var point = new Point(i, o);
-                System.out.print(rummi.getPlayerAt(player).getRack().pointToGridTile(point).toString());
-            }
-            //    newLine(1);
-        }
-        printNewLines(1);
-    }
-
-    private static String playerRackString(int player) {
+    private static String rackString(Rack rack) {
 
         String returnString = "";
 
         for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
             for (var o = 0; o < Rack.GRID_WIDTH; o++) {
                 var point = new Point(i, o);
-                returnString += rummi.getPlayerAt(player).getRack().pointToGridTile(point).toString();
+                returnString += rack.pointToGridTile(point).toString();
             }
             //    newLine(1);
         }
-        returnString += newLines(1);
+        returnString += getNewlines(1);
 
         return returnString;
 
     }
 
-    private static void printPlayerSketchRack (int player){
+    // use rackString(Rack rack) directly?
+    private static String playerRackString(int player) {
 
-        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
-            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
-                var point = new Point(i, o);
-                System.out.print(rummi.getPlayerAt(player).getSketchRack().pointToGridTile(point).toString());
-            }
-            //    newLine(1);
-        }
-        printNewLines(1);
-    }
+        return rackString(rummi.getPlayerAt(player).getRack());
 
-    private static void printBoard () {
-
-        for(int i = 0; i < Board.GRID_HEIGHT; i++){
-            for(int o = 0; o < Board.GRID_WIDTH; o++){
-                Point point = new Point(i, o);
-                System.out.print(rummi.getSketchBoard().getGridTileAt(point).toString());
-            }
-            printNewLines(1);
-        }
     }
 
     private static String boardString () {
@@ -233,6 +230,54 @@ public class Test {
 
     }
 
+    /** use the String-functions instead plss */
+    private static void printNewLines(int n) {
+
+        System.out.print(getCharTimes(n, '\n'));
+
+    }
+
+    /** use the String-functions instead plss */
+    private static void printPlayerRack(int player) {
+
+        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+                var point = new Point(i, o);
+                System.out.print(rummi.getPlayerAt(player).getRack().pointToGridTile(point).toString());
+            }
+            //    newLine(1);
+        }
+        printNewLines(1);
+    }
+
+
+    /** use the String-functions instead plss */
+    private static void printPlayerSketchRack (int player){
+
+        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+                var point = new Point(i, o);
+                System.out.print(rummi.getPlayerAt(player).getSketchRack().pointToGridTile(point).toString());
+            }
+            //    newLine(1);
+        }
+        printNewLines(1);
+    }
+
+    /** use the String-functions instead plss */
+    private static void printBoard () {
+
+        for(int i = 0; i < Board.GRID_HEIGHT; i++){
+            for(int o = 0; o < Board.GRID_WIDTH; o++){
+                Point point = new Point(i, o);
+                System.out.print(rummi.getSketchBoard().getGridTileAt(point).toString());
+            }
+            printNewLines(1);
+        }
+    }
+
+
+
     /**
      * works with Intellij PlugIn "Grep Console"
      */
@@ -250,7 +295,7 @@ public class Test {
             description = "\n § " + withDescription;
         }
 
-        String line = CharsTimes(10 + name.length()+1, '-');
+        String line = getCharTimes(10 + name.length()+1, '-');
         System.out.print("\n\n" + line + "\n [TEST] : " + name + description + " \n" + line + "\n\n" + test);
 
     }

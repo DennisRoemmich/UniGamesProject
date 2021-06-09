@@ -186,6 +186,33 @@ public class Rack {
         return false;
     }
 
+    public String toString(){
+
+        return toString(false);
+
+    }
+
+    public String toString(boolean wide){
+
+        var strB = new StringBuilder();
+
+        for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
+
+            for (var o = 0; o < Rack.GRID_WIDTH; o++) {
+
+                var point = new Point(i, o);
+                strB.append(pointToGridTile(point).toString(wide));
+
+            }
+
+            strB.append("\n");
+
+        }
+
+        return strB.toString();
+
+    }
+
     /**
      * returns the first empty GridTile
      * @param position

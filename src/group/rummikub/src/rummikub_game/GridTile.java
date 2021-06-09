@@ -70,11 +70,28 @@ public class GridTile {
 
     public String toString() {
 
+        return toString(false);
+
+    }
+
+    public String toString(boolean wide) {
+
         if (tile == null) {
 
-            return "[*]";
+            if(wide){
+
+                return "[EMPTY]";
+
+            } else {
+
+                return "[*]";
+
+            }
+
         }
 
-        return "[" + tile.color.toString() + "," + Integer.toString(tile.value) + "]";
+        return tile.toString(wide);
+
     }
+
 }

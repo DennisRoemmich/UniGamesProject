@@ -19,6 +19,8 @@ public class Main {
 
         var test = new Test();
 
+        System.out.print("hallo");
+
         test.andreas();
         //test.fer();
 

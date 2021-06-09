@@ -64,6 +64,34 @@ public class Board {
         return true;
     }
 
+    public String toString(){
+
+        return toString(false);
+
+    }
+
+    public String toString(boolean wide){
+
+        var strB = new StringBuilder();
+
+        for (var i = 0; i < Board.GRID_HEIGHT; i++) {
+
+            for (var o = 0; o < Board.GRID_WIDTH; o++) {
+
+                var point = new Point(i, o);
+                strB.append(getGridTileAt(point).toString(wide));
+
+            }
+
+            strB.append("\n");
+
+        }
+
+        return strB.toString();
+
+    }
+
+
     private ArrayList<Set> createSets(){
 
         /* Mit Liste! */
@@ -92,6 +120,9 @@ public class Board {
 
         return setList;
     }
+
+
+
 
 }
 
