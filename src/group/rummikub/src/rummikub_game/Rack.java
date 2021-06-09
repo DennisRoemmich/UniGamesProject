@@ -19,7 +19,6 @@ public class Rack {
         for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
-            grid[i / GRID_WIDTH][i % GRID_WIDTH].setPosition(i);
         }
         size = 0;
     }
@@ -33,8 +32,7 @@ public class Rack {
     }
 
     /**
-     * @return true if empty
-     * @return false if not empty
+     * @return true if empty, false if not empty
      */
     public boolean isEmpty() {
 
@@ -66,7 +64,7 @@ public class Rack {
 
     /**
      * converts Point into position
-     * @param point
+     * @param point to convert
      * @return position
      */
     public int pointToPosition(Point point) {
@@ -76,7 +74,7 @@ public class Rack {
 
     /**
      * converts point to GridTile.
-     * @param point
+     * @param point to convert
      * @return GridTile
      */
     public GridTile pointToGridTile(Point point) {
@@ -86,17 +84,17 @@ public class Rack {
 
     /**
      * converts GridTile to point
-     * @param gridTile
+     * @param gridTile toconvert
      * @return point
      */
     public Point gridTileToPoint(GridTile gridTile) {
 
-        return new Point(gridTile.getPosition() / GRID_WIDTH, gridTile.getPosition() % GRID_WIDTH);
+        return new Point(gridTileToPosition(gridTile) / GRID_WIDTH, gridTileToPosition(gridTile) % GRID_WIDTH);
     }
 
     /**
      * converts position to GridTile
-     * @param position
+     * @param position to convert
      * @return GridTile
      */
     public GridTile positionToGridTile(int position) {
@@ -105,8 +103,25 @@ public class Rack {
     }
 
     /**
+     *
+     * @param gridTile to convert
+     * @return position
+     */
+    public int gridTileToPosition(GridTile gridTile) {
+
+        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+
+            if (grid[i / GRID_WIDTH][i % GRID_WIDTH] == gridTile) {
+
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * adds a Tile to the Rack
-     * @param tile
+     * @param tile tile to be added
      */
     public void addTile(Tile tile) {
 
@@ -124,7 +139,7 @@ public class Rack {
 
     /**
      * adds several Tiles to the Rack
-     * @param tiles
+     * @param tiles tiles array
      */
     public void addTiles(Tile[] tiles) {
 
@@ -136,11 +151,11 @@ public class Rack {
 
     /**
      * removes a Tile from the Rack
-     * @param position
+     * @param pos position
      */
-    public void removeTile(Point position) {
+    public void removeTile(Point pos) {
 
-        pointToGridTile(position).removeTile();
+        pointToGridTile(pos).removeTile();
         size--;
     }
 
@@ -155,31 +170,28 @@ public class Rack {
         var toMove = pointToGridTile(from);
         var target = pointToGridTile(to);
 
+        var m = gridTileToPosition(toMove);
+        var t = gridTileToPosition(target);
+
         if (!toMove.isEmpty()) {
 
             if (!target.isEmpty()) {
 
-                if (getFirstEmpty(pointToPosition(to)) != null) {
+                var e = gridTileToPosition(getFirstEmpty(t));
 
-                    var gridTile = getFirstEmpty(pointToPosition(to));
-                    var nextGridTile = positionToGridTile(gridTile.getPosition());
+                if (m < t) {
 
-                    while (gridTile != target) {
-
-                        nextGridTile = positionToGridTile(nextGridTile.getPosition() - 1);
-
-                        gridTile.setTile(nextGridTile.getTile());
-                        gridTile = positionToGridTile(gridTile.getPosition() - 1);
-                    }
-                } else {
-
+                    moveMT(t, e);
                     swap(toMove, target);
 
-                    return true;
+                } else if (m > t) {
+
+                    moveTM(m, t, e);
                 }
+            } else {
+
+                swap(toMove, target);
             }
-            target.setTile(toMove.getTile());
-            toMove.removeTile();
 
             return true;
         }
@@ -214,13 +226,63 @@ public class Rack {
     }
 
     /**
+     * help-method for moveTile()
+     * @param t target position
+     * @param e empty position
+     */
+    private void moveMT(int t, int e) {
+
+        if (e != -1) {
+
+            var n = e - t;
+
+            for (var i = 0; i < n; i++) {
+
+                swap(positionToGridTile(e), positionToGridTile(e - 1));
+                e--;
+            }
+        }
+    }
+
+    /**
+     * help-method for moveTile()
+     * @param m toMove position
+     * @param t target position
+     * @param e empty position
+     */
+    private void moveTM(int m, int t, int e) {
+
+        if (e < m && e != -1) {
+
+            var n = e - t;
+
+            for (var i = 0; i < n; i++) {
+
+                swap(positionToGridTile(e), positionToGridTile(e - 1));
+                e--;
+            }
+            swap(positionToGridTile(m), positionToGridTile(t));
+
+        } else {
+
+            var n = m - t;
+
+            for (var i = 0; i < n; i++) {
+
+                swap(positionToGridTile(m), positionToGridTile(m - 1));
+                m--;
+            }
+        }
+    }
+
+    /**
      * returns the first empty GridTile
-     * @param position
+     * @param pos position
      * @return empty GridTile
      */
-    private GridTile getFirstEmpty(int position) {
+    private GridTile getFirstEmpty(int pos) {
 
-        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (positionToGridTile(i).isEmpty()) {
 
@@ -232,12 +294,12 @@ public class Rack {
 
     /**
      * returns first non-empty GridTile
-     * @param position
+     * @param pos position
      * @return non-empty GridTile
      */
-    private GridTile getFirstNonEmpty(int position) {
+    private GridTile getFirstNonEmpty(int pos) {
 
-        for (int i = position + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
             if (!positionToGridTile(i).isEmpty()) {
 
@@ -249,8 +311,8 @@ public class Rack {
 
     /**
      * swaps tiles of two GridTiles
-     * @param uno GridTile
-     * @param dos GridTile
+     * @param uno GridTile 1
+     * @param dos GridTile 2
      */
     private void swap(GridTile uno, GridTile dos) {
 
@@ -269,6 +331,9 @@ public class Rack {
         }
     }
 
+    /**
+     * sorts rack for group
+     */
     public void sortForGroup() {
 
         var groupSorted = new Tile[size];
@@ -276,6 +341,9 @@ public class Rack {
         tilesToGrid(sortGroup(gridToTiles(groupSorted), true));
     }
 
+    /**
+     * sorts rack for run
+     */
     public void sortForRun() {
 
         var runSorted = new Tile[size];
@@ -283,7 +351,12 @@ public class Rack {
         tilesToGrid(sortRun(gridToTiles(runSorted), true));
     }
 
-    private Tile[] gridToTiles(Tile [] tiles) {
+    /**
+     * returns a tiles array with all rack tiles
+     * @param tiles empty tiles array
+     * @return tiles array filled with tiles on rack
+     */
+    private Tile[] gridToTiles(Tile[] tiles) {
 
         for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
 
@@ -303,6 +376,10 @@ public class Rack {
         return tiles;
     }
 
+    /**
+     * sets rack to tiles in tiles array
+     * @param tiles tiles array
+     */
     private void tilesToGrid(Tile[] tiles) {
 
         for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
@@ -320,9 +397,9 @@ public class Rack {
 
     /**
      * sorts a tiles-array for run
-     * @param tiles
-     * @param mode
-     * @return
+     * @param  tiles tiles array
+     * @param mode mode (sort separate runs for group, or not)
+     * @return array sorted for run
      */
     private Tile[] sortRun(Tile[] tiles, boolean mode) {
 
@@ -333,6 +410,7 @@ public class Rack {
 
             for (var j = i; j < tiles.length; j++) {
 
+                // true if tiles[j] has to be in front of tiles[min]
                 if (tiles[min].compareToRun(tiles[j])) {
 
                     min = j;
@@ -354,8 +432,9 @@ public class Rack {
 
     /**
      * sorts a tiles-array for group
-     * @param tiles-array sorted by group
-     * @param mode
+     * @param tiles tiles array
+     * @param mode mode (sort separate groups for run, or not)
+     * @return array sorted for group
      */
     private Tile[] sortGroup(Tile[] tiles, boolean mode) {
 
@@ -366,6 +445,7 @@ public class Rack {
 
             for (var j = i; j < tiles.length; j++) {
 
+                // true if tiles[j] has to be in front of tiles[min]
                 if (tiles[min].compareToGroup(tiles[j])) {
 
                     min = j;
@@ -385,6 +465,10 @@ public class Rack {
         return tiles;
     }
 
+    /**
+     * sorts array sorted for run for group
+     * @param tiles tiles array sorted for run
+     */
     private void sortRunForGroup(Tile[] tiles) {
 
         var h = 0;
@@ -411,6 +495,10 @@ public class Rack {
         }
     }
 
+    /**
+     * sorts array sorted for run for group
+     * @param tiles tiles array sorted for run
+     */
     private void sortGroupForRun(Tile[] tiles) {
 
         var h = 0;

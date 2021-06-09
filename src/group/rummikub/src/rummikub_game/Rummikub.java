@@ -171,7 +171,7 @@ public class Rummikub {
      * Current player gets (random) Tile from tileStack
      * @return returns false if there weren't any tiles left on stack.
      */
-    private boolean currentPlayerTakeTile(){
+    public boolean currentPlayerTakeTile(){
 
         var tile = getRandomTileFromStack();
 

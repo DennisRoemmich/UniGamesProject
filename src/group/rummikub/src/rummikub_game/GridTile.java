@@ -4,7 +4,6 @@ public class GridTile {
 
     private boolean isEmpty;
     private Tile tile;
-    private int position;
 
     /**
      * Constructor
@@ -16,8 +15,7 @@ public class GridTile {
     }
 
     /**
-     * @return true if empty
-     * @return false if not empty
+     * @return true if empty, false if not empty
      */
     public boolean isEmpty() {
 
@@ -49,23 +47,6 @@ public class GridTile {
 
         tile = null;
         isEmpty = true;
-    }
-
-    /**
-     * @return position of GridTile
-     */
-    public int getPosition() {
-
-        return position;
-    }
-
-    /**
-     * sets position of GridTile
-     * @param position of GridTile
-     */
-    public void setPosition(int position) {
-
-        this.position = position;
     }
 
     public String toString() {
