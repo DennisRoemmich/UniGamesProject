@@ -140,16 +140,13 @@ public class Rummikub {
 
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
 
-                    // TODO : This must be passed by value
-                    // --> Arrays.copy grid-array
-                    // same below
-                    board = sketchBoard;
+                    System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
 
                 }
 
             } else {
 
-                board = sketchBoard;
+                System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
 
             }
 

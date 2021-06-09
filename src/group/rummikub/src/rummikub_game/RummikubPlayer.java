@@ -48,6 +48,7 @@ public class RummikubPlayer {
     public void setScore(int score){
 
         this.score = score;
+
     }
 
     /**
@@ -55,7 +56,8 @@ public class RummikubPlayer {
      */
     public void resetSketchRack(){
 
-        this.sketchRack = this.tileRack;
+        System.arraycopy(tileRack.getGrid(), 0, sketchRack.getGrid(), 0, sketchRack.getSize());
+
     }
 
     /**
@@ -63,6 +65,7 @@ public class RummikubPlayer {
      */
     public void acceptSketchRack(){
 
-        this.tileRack = this.sketchRack;
+        System.arraycopy(sketchRack.getGrid(), 0, tileRack.getGrid(), 0, sketchRack.getSize());
+
     }
 }
