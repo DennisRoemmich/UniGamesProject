@@ -104,6 +104,8 @@ public class Rummikub {
     }
 
 
+
+
     /**
      *
      * @return true if game is finished, false if not
@@ -117,6 +119,7 @@ public class Rummikub {
 
     public void resetMove(){
 
+        getCurrentPlayer().resetSketchRack();
         sketchBoard = board;
 
     }
