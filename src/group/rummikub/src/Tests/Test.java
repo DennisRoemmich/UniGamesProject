@@ -170,10 +170,36 @@ public class Test {
 
     public void fer(){
 
+        maikDrawRacks();
+        ferSetTest();
+    }
 
-        printTest("SetTest", "", "testing Set isValid method");
-        printBoard();
-        System.out.println(rummi.getSketchBoard().isValid());
+    public void ferSetTest(){
+
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 4));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(1, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,4), new Point(1, 2));
+        //rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(1, 1));
+
+        //rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(0, 0));
+        //rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(0, 1));
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(0, 2));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,6), new Point(0, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,7), new Point(0, 0));
+
+
+        var builder = new StringBuilder();
+
+
+        builder.append(rummi.getSketchBoard().toString(true) + "\n\n");
+        builder.append("Fancy:\n" + rummi.getCurrentPlayer().getSketchRack().toString(true) + "\n");
+        builder.append("Normal:\n" + rummi.getCurrentPlayer().getSketchRack().toString() + "\n");
+
+        builder.append("Board valid? : " + rummi.getSketchBoard().isValid() + "\n");
+
+        printTest("SetTest", builder.toString());
     }
 
     /* ANDREAS */

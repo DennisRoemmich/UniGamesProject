@@ -24,7 +24,7 @@ public class Set {
 
     public boolean isValid(){
 
-        if ( tiles.size() < 3 ){
+        if (tiles.size() < 3 ){
             return false;
         }
 
@@ -42,6 +42,7 @@ public class Set {
                 isRun = isSmaller(tiles.get(i), tiles.get(j)) && sameColor(tiles.get(i), tiles.get(j));
                 i++;
             }
+            System.out.println(isRun);
         } else if(valueIsEqual(first, second) && !sameColor(first, second)) {
             i = 1;
 
@@ -49,10 +50,12 @@ public class Set {
                 isGroup = valueIsEqual(tiles.get(i), tiles.get(j));
             }
             isGroup = isGroup && noSameColors();
+            System.out.println(isGroup);
 
         } else {
 
             valid = false;
+            System.out.print("hi");
         }
 
         return (isRun || isGroup) && valid;
