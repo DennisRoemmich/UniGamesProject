@@ -83,6 +83,8 @@ public class Test {
         andreasBoardTest();
 
 
+        printTest("Fernandas Test", "This is a test");
+
     }
 
     private void andreasDrawRacks() {
