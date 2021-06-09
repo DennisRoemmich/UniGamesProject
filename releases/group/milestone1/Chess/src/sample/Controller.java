@@ -36,7 +36,7 @@ public class Controller {
             Square destination = new Square(destinationName);
             mGame.makeMove(origin, destination);
         } catch (Exception e) {
-        	PrintError.writeErrorLog("");
+        	WriteError.writeErrorLog("");
         }
     }
 

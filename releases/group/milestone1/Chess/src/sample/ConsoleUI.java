@@ -1,7 +1,7 @@
 package sample;
 
 import core.Chess;
-
+import core.GameOverDetector;
 import core.pieces.ChessPiece;
 import core.positioning.File;
 import core.positioning.Square;
@@ -10,8 +10,6 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-//TODO: Eliminate println statements.
 
 /**
  * The console UI to interact with the chess game.
@@ -32,54 +30,55 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     public void printBoard() {
-        System.out.println("   A  B  C  D  E  F  G  H   ");
-        System.out.println(" ┌────────────────────────┐ ");
+    	println("   A  B  C  D  E  F  G  H   ");
+        println(" ┌────────────────────────┐ ");
         for (Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
-            System.out.print(rank + "│");
+            print(rank + "│");
             for (File file : File.values()) {
-                System.out.print(' ');
+                print(' ');
                 ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
                 if (piece == null) {
-                    System.out.print(' ');
+                    print(' ');
                 } else {
                     printPieceChar(piece);
                 }
-                System.out.print(' ');
+                print(' ');
             }
-            System.out.println("│" + rank);
+            println("│" + rank);
         }
-        System.out.println(" └────────────────────────┘ ");
-        System.out.println("   A  B  C  D  E  F  G  H   ");
+        println(" └────────────────────────┘ ");
+        println("   A  B  C  D  E  F  G  H   ");
     }
 
     private void printResult() {
         switch (mGame.getResult()) {
             case DRAW:
-                System.out.println("Draw");
+                println("Draw");
                 break;
             case CHECKMATE:
-                System.out.println("Checkmate");
+                println("Checkmate");
                 break;
             case STALEMATE:
-                System.out.println("Stalemate");
+                println("Stalemate");
                 break;
             case SURRENDER:
-                System.out.println("Surrender");
+                println("Surrender");
                 break;
             default:
-            	System.out.println("ERROR: Unknown game result");
+            	println("ERROR: Unknown game result");
             	break;
         }
     }
 
     private void printPieceChar(ChessPiece piece) {
-        System.out.print(piece.toSymbol());
+        print(piece.toSymbol());
     }
-
+    
+    //TODO: Refactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.
     @Override
     public JSONObject requestMove() {
 
-        System.out.println("Please enter the position of the piece, that you want to move:");
+        println("Please enter the position of the piece, that you want to move:");
 
         Square origin = null;
         List<Square> availableDestinations = new ArrayList<>();
@@ -87,30 +86,30 @@ public class ConsoleUI implements Presenter, Player {
         do {
             String input = mScanner.nextLine();
             try {
-                origin = new Square(input);
+                origin = new Square(input);             
                 if (mController.getGame().getBoard().isFieldFree(origin)) {
-                    System.out.println("This Field is empty.");
+                    println("This Field is empty.");
                     origin = null;
                 } else {
                 	if (mController.getGame().getBoard().
                 	isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
-                    System.out.println("This Field is occupied by the opponent.");
+                    println("This Field is occupied by the opponent.");
                     origin = null;
                 	} else {
                 		availableDestinations = mController.getGame().getPossibleMoves(origin);
                 		if (availableDestinations.isEmpty()) {
-                		System.out.println("The selected Piece can't move.");
+                		println("The selected Piece can't move.");
                 		}
                 	}              	
                 }      
             } catch (Exception e) {
-                System.out.println("Invalid input: " + input);
+                println("Invalid input: " + input);
             }
         } while (availableDestinations.isEmpty());
 
-        System.out.println("Available Fields are: " + availableDestinations);
-        System.out.print("Please enter the position of the field, ");
-        System.out.print("where you want to place your piece or enter [r] to returnand choose another piece: \n" );
+        println("Available Fields are: " + availableDestinations);
+        print("Please enter the position of the field, ");
+        print("where you want to place your piece or enter [r] to returnand choose another piece: \n" );
         
         Square destination = null;
         do {
@@ -121,11 +120,11 @@ public class ConsoleUI implements Presenter, Player {
             try {
                 destination = new Square(input);
                 if (!availableDestinations.contains(destination)) {
-                    System.out.println("Field is unreachable! Enter another field or [r].");
+                    println("Field is unreachable! Enter another field or [r].");
                     destination = null;
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input.");
+                println("Invalid input.");
             }
         } while (destination == null);
         JSONObject move = new JSONObject();
@@ -135,6 +134,18 @@ public class ConsoleUI implements Presenter, Player {
         move.put("destination", destination);
         return move;
     }
+    
+	public static void println(String input) {
+		System.out.println(input);		
+	}
+	
+	public static void print(String input) {
+		System.out.print(input);		
+	}
+	
+	public static void print(char input) {
+		System.out.print(input);		
+	}
     
     @Override
     public void setController(Controller controller) {

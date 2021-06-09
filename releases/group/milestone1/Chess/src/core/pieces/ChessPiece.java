@@ -3,7 +3,7 @@ package core.pieces;
 import core.CheckDetector;
 import core.ChessBoard;
 import core.positioning.Square;
-import sample.PrintError;
+import sample.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +115,7 @@ public abstract class ChessPiece implements Cloneable {
     	try {
             return getClass().getDeclaredConstructor(boolean.class).newInstance(mIsWhite);
         } catch (Exception e) {
-        	PrintError.writeErrorLog("");
+        	WriteError.writeErrorLog("");
         }
         return piece;
     }
