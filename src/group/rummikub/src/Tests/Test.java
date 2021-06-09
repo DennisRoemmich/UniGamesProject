@@ -202,6 +202,12 @@ public class Test {
         rummi.getSketchBoard().moveTile(new Point(2, 3), new Point(3,1));
         rummi.getSketchBoard().moveTile(new Point(0,0), new Point(3,2));
 
+        rummi.finishMove();
+        rummi.finishMove();
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,13), new Point(0, 0));
+
+
 
 
         var builder = new StringBuilder();

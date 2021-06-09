@@ -36,10 +36,10 @@ public class Set {
         int i = 1;
         int j = i + 1;
         
-        if(isSmaller(first, second) && sameColor(first, second) || first.isJoker()) {
+        if(isSmaller(first, second) && sameColor(first, second) || first.isJoker() || second.isJoker()) {
             i = 1;
             while (isRun && j < tiles.size()) {
-                isRun = isSmaller(tiles.get(i), tiles.get(j)) && sameColor(tiles.get(i), tiles.get(j)) || tiles.get(i).isJoker();
+                isRun = isSmaller(tiles.get(i), tiles.get(j)) && sameColor(tiles.get(i), tiles.get(j)) || tiles.get(i).isJoker() || tiles.get(j).isJoker();
                 i++;
             }
 
