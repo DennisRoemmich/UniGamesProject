@@ -3,6 +3,7 @@ package Tests;
 import rummikub_game.Board;
 import rummikub_game.Rack;
 import rummikub_game.Rummikub;
+import rummikub_game.Tile;
 
 import java.awt.*;
 
@@ -65,15 +66,19 @@ public class Test {
 
     /* FERNANDA */
 
-    public void fernanda(){
+    public void fer(){
 
+
+        printTest("SetTest", "", "testing Set isValid method");
+        printBoard();
+        System.out.println(rummi.getSketchBoard().isValid());
     }
 
     /* ANDREAS */
 
     public void andreas(){
 
-        // andreasTileMoving();
+        //andreasTileMoving();
         andreasDrawRacks();
         andreasBoardTest();
 

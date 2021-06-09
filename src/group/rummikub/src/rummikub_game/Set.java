@@ -76,8 +76,8 @@ public class Set {
 
     public boolean noSameColors(){
         boolean noRep = true;
-        for(int i = 0; i < tiles.size() - 1; i++){
-            for(int j = 1; j < tiles.size(); j++){
+        for(var i = 0; i < tiles.size() - 1; i++){
+            for(var j = 1; j < tiles.size(); j++){
                 if(tiles.get(i).getTileColor() == TileColor.JOKER){
                     noRep = true;
                 } else if(tiles.get(i).getTileColor() != tiles.get(j).getTileColor()){

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/group/rummikub/Rummikub.iml" filepath="$PROJECT_DIR$/src/group/rummikub/Rummikub.iml" />
       <module fileurl="file://$PROJECT_DIR$/gitlabci-maven.iml" filepath="$PROJECT_DIR$/gitlabci-maven.iml" />
     </modules>
   </component>
