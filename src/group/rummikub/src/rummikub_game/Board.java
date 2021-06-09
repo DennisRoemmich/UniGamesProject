@@ -76,6 +76,13 @@ public class Board {
 
         for (var i = 0; i < Board.GRID_HEIGHT; i++) {
 
+            if (wide) {
+
+                var formatted = String.format("%02d", i);
+                strB.append(formatted).append(" | ");
+
+            }
+
             for (var o = 0; o < Board.GRID_WIDTH; o++) {
 
                 var point = new Point(i, o);

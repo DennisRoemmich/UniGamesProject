@@ -98,7 +98,8 @@ public class Test {
 
 
         builder.append(rummi.getSketchBoard().toString(true) + "\n\n");
-        builder.append(rummi.getCurrentPlayer().getSketchRack().toString(true) + "\n");
+        builder.append("Fancy:\n" + rummi.getCurrentPlayer().getSketchRack().toString(true) + "\n");
+        builder.append("Normal:\n" + rummi.getCurrentPlayer().getSketchRack().toString() + "\n");
 
         builder.append("Board valid? : " + rummi.getSketchBoard().isValid() + "\n");
 

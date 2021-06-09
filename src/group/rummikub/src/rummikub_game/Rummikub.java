@@ -241,8 +241,8 @@ public class Rummikub {
 
         }
 
-        // var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
-        var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
+        var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
+        // var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
 
         var tile = tileStack[randomIndex];
 
