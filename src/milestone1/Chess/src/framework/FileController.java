@@ -1,4 +1,4 @@
-package Main;
+package framework;
 
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;

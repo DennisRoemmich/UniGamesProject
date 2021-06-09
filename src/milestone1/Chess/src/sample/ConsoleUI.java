@@ -6,6 +6,8 @@ import core.pieces.ChessPiece;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
+import framework.Player;
+import framework.Presenter;
 import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,11 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     @Override
-    public JSONObject requestMove() {
+    public JSONObject requestMove(JSONObject dataType) {
+
+        if(dataType.get("type") != "move") {
+            throw new IllegalArgumentException();
+        }
 
         System.out.println("Please enter the position of the piece, that you want to move:");
 
@@ -116,7 +122,7 @@ public class ConsoleUI implements Presenter, Player {
         do {
             String input = mScanner.nextLine();
             if (input.charAt(0) == 'r') {
-                return requestMove();
+                return requestMove(dataType);
             }
             try {
                 destination = new Square(input);
@@ -134,11 +140,6 @@ public class ConsoleUI implements Presenter, Player {
         move.put("origin", origin);
         move.put("destination", destination);
         return move;
-    }
-    
-    @Override
-    public void setController(Controller controller) {
-        this.mController = controller;
     }
 
     @Override

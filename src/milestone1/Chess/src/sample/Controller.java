@@ -4,6 +4,9 @@ import core.Chess;
 import core.ChessResult;
 import core.GameOverDetector;
 import core.positioning.Square;
+import framework.GameController;
+import framework.Player;
+import framework.Presenter;
 import org.json.simple.JSONObject;
 
 /**
@@ -11,7 +14,7 @@ import org.json.simple.JSONObject;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class Controller {
+public class Controller extends GameController {
 
     private Chess mGame;
     private Presenter mPresenter;
@@ -38,6 +41,21 @@ public class Controller {
         } catch (Exception e) {
         	PrintError.writeErrorLog("");
         }
+    }
+
+    @Override
+    public void resetGame() {
+
+    }
+
+    @Override
+    public JSONObject metaSettingsToJSON() {
+        return null;
+    }
+
+    @Override
+    public JSONObject gameSettingsToJSON() {
+        return null;
     }
 
     public void setPlayerA(Player playerA) {

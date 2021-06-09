@@ -1,4 +1,4 @@
-package Main;
+package framework;
 
 import org.json.simple.JSONObject;
 
@@ -11,7 +11,6 @@ public abstract class GameController {
 
 	public abstract void executeMove(JSONObject move);
 	public abstract void resetGame();
-	public abstract void addAIPlayer();
 	public abstract JSONObject metaSettingsToJSON();
 	public abstract JSONObject gameSettingsToJSON();
 
