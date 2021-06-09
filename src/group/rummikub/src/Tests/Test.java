@@ -26,80 +26,37 @@ public class Test {
 
         maikDrawRacks();
 
-        rummi.getPlayerAt(0).getSketchRack().sortForRun();
-
-        maikDrawRack(0);
+        maikSort(0, false);
 
         maikFinishMove(0, true);
-
         maikFinishMove(1, false);
 
         maikDrawRack(2);
 
         maikMoveTile(2, new Point(0,3), new Point(0, 10));
-
         maikMoveTile(2, new Point(0, 6), new Point(0, 3));
 
-        rummi.getPlayerAt(2).getRack().sortForGroup();
+        maikSort(2, true);
 
-        maikDrawRack(2);
+        maikMoveTile(2, new Point(0, 7), new Point(0, 2));
+        maikMoveTile(2, new Point(0, 2), new Point(0, 7));
+        maikMoveTile(2, new Point(0, 10), new Point(0, 2));
+        maikMoveTile(2, new Point(0, 4), new Point(0, 8));
 
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 7), new Point(0, 2));
+        maikTakeTile(2, 15);
 
-        maikDrawRack(2);
+        maikSort(2, true);
 
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 2), new Point(0, 7));
+        maikMoveTile(2, new Point(0, 4), new Point(1, 14));
+        maikMoveTile(2, new Point(0, 8), new Point(1, 5));
 
-        maikDrawRack(2);
+        maikSort(2, true);
 
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 10), new Point(0, 2));
+        maikMoveTile(2, new Point(0, 4), new Point(1, 2));
+        maikMoveTile(2, new Point(0, 4), new Point(0, 3));
+        maikMoveTile(2, new Point(1, 12), new Point(0, 3));
 
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 4), new Point(0, 8));
-
-        maikDrawRack(2);
-
-
-
-        var n = 15;
-        while (n > 0) {
-            rummi.currentPlayerTakeTile();
-            n--;
-        }
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().sortForGroup();
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 4), new Point(1, 14));
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 8), new Point(1, 5));
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().sortForGroup();
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 4), new Point(1, 2));
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(0, 4), new Point(0, 3));
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().moveTile(new Point(1, 12), new Point(0, 3));
-
-        maikDrawRack(2);
-
-        rummi.getPlayerAt(2).getRack().removeTile(new Point(1, 4));
-
-        maikDrawRack(2);
+        maikRemoveTile(2, new Point(1, 4));
 
         maikFinishMove(2, true);
 
@@ -112,7 +69,7 @@ public class Test {
 
         for (var p = 0; p < 4; p++) {
 
-            builder.append("Rack of Player " + (p+1) + ": \n" + rummi.getPlayerAt(p).getRack().toString(true));
+            builder.append("\n Rack of Player " + (p+1) + ": \n" + rummi.getPlayerAt(p).getRack().toString(true));
         }
 
         printTest(testName, builder.toString());
@@ -120,7 +77,7 @@ public class Test {
 
     private void maikDrawRack(int p) {
 
-        var testName = "Draw Rack";
+        var testName = "Player " + (p+1) + ": Draw Rack";
         StringBuilder builder = new StringBuilder();
 
         builder.append("Rack of Player " + (p+1) + ": \n" + rummi.getPlayerAt(p).getRack().toString(true));
@@ -152,25 +109,61 @@ public class Test {
 
     private void maikMoveTile(int p, Point m, Point t) {
 
-        var testName = "Player " + (p+1) + ": Move Tile : " + (m.x + m.y + 1) + " => " + (t.x + t.y + 1);
+        var testName = "Player " + (p+1) + ": Move Tile : " + (m.x * 15 + m.y + 1) + " => " + (t.x * 15 + t.y + 1);
         StringBuilder builder = new StringBuilder();
 
-        builder.append(rummi.getPlayerAt(p).getRack().moveTile(m, t));
-        builder.append("\n" + rummi.getPlayerAt(p).getRack().toString(true));
+        rummi.getPlayerAt(p).getRack().moveTile(m, t);
+        builder.append(rummi.getPlayerAt(p).getRack().toString(true));
 
         printTest(testName, builder.toString());
     }
 
-    private void maikSorting(int p){
+    private void maikSort(int p, boolean m) {
 
-        rummi.getPlayerAt(p).getRack().sortForGroup();
-        printPlayerRack(p);
+        var testName = "Palyer " + (p+1) + ": Sorting";
+        StringBuilder builder = new StringBuilder();
 
-        rummi.getPlayerAt(p).getRack().sortForRun();
-        printPlayerRack(p);
+        if (m) {
 
-        printNewLines(1);
+            testName += " For Group: ";
 
+            rummi.getPlayerAt(p).getRack().sortForGroup();
+            builder.append(rummi.getPlayerAt(p).getRack().toString(true));
+
+        } else {
+
+            testName += " For Run: ";
+
+            rummi.getPlayerAt(p).getRack().sortForRun();
+            builder.append(rummi.getPlayerAt(p).getRack().toString(true));
+        }
+
+        printTest(testName, builder.toString());
+    }
+
+    private void maikTakeTile(int p, int n) {
+
+        var testName = "Player " + (p+1) + ": Take " + n + " Tiles";
+        StringBuilder builder = new StringBuilder();
+
+        while (n > 0) {
+            rummi.currentPlayerTakeTile();
+            n--;
+        }
+        builder.append(rummi.getPlayerAt(p).getRack().toString(true));
+
+        printTest(testName, builder.toString());
+    }
+
+    private void maikRemoveTile(int p, Point r) {
+
+        var testName = "Player " + (p+1)+ ": Remove Tile : " + (r.x * 15 + r.y + 1);
+        StringBuilder builder = new StringBuilder();
+
+        rummi.getPlayerAt(2).getRack().removeTile(r);
+        builder.append(rummi.getPlayerAt(p).getRack().toString(true));
+
+        printTest(testName, builder.toString());
     }
 
     /* FERNANDA */

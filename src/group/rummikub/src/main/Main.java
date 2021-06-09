@@ -8,7 +8,7 @@ public class Main {
 
         var test = new Test();
 
-        test.maik();
+    //    test.maik();
 
     //    test.andreas();
     //    test.fer();
