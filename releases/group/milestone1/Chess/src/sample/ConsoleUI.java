@@ -110,7 +110,7 @@ public class ConsoleUI implements Presenter, Player {
 
         System.out.println("Available Fields are: " + availableDestinations);
         System.out.print("Please enter the position of the field, ");
-        System.out.print("where you want to place your piece or enter [r] to returnand choose another piece: \n" );
+        System.out.print("where you want to place your piece or enter [r] to return and choose another piece: \n" );
         
         Square destination = null;
         do {
