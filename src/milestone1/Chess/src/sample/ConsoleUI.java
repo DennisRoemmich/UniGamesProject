@@ -44,7 +44,8 @@ public class ConsoleUI implements Presenter, Player {
                 if (piece == null) {
                     System.out.print(' ');
                 } else {
-                    printPieceChar(piece);
+                    // .toChar() can be changed to .toSymbol() for Unicode symbols
+                    System.out.println(piece.toChar());
                 }
                 System.out.print(' ');
             }
@@ -74,9 +75,6 @@ public class ConsoleUI implements Presenter, Player {
         }
     }
 
-    private void printPieceChar(ChessPiece piece) {
-        System.out.print(piece.toSymbol());
-    }
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {

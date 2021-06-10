@@ -42,9 +42,9 @@ public class MenuPrototype {
             case "Q", "q":
                 quitGame();
             default:
-                System.out.println("The given input is invalid. Please try again.");
-                handleGameInput();
+                System.out.println("The given input is invalid.");
         }
+        handleGameInput();
     }
 
     private void startChess() {
