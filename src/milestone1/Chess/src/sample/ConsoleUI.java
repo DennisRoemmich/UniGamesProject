@@ -2,13 +2,17 @@ package sample;
 
 import core.Chess;
 
+import core.ChessMove;
 import core.pieces.ChessPiece;
+import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -45,7 +49,7 @@ public class ConsoleUI implements Presenter, Player {
                     System.out.print(' ');
                 } else {
                     // .toChar() can be changed to .toSymbol() for Unicode symbols
-                    System.out.println(piece.toChar());
+                    System.out.print(piece.toChar());
                 }
                 System.out.print(' ');
             }
@@ -57,24 +61,14 @@ public class ConsoleUI implements Presenter, Player {
 
     private void printResult() {
         switch (mGame.getResult()) {
-            case DRAW:
-                System.out.println("Draw");
-                break;
-            case CHECKMATE:
-                System.out.println("Checkmate");
-                break;
-            case STALEMATE:
-                System.out.println("Stalemate");
-                break;
-            case SURRENDER:
-                System.out.println("Surrender");
-                break;
-            default:
-            	System.out.println("ERROR: Unknown game result");
-            	break;
+            case DRAW -> System.out.println("Draw");
+            case CHECKMATE -> System.out.println("Checkmate");
+            case STALEMATE -> System.out.println("Stalemate");
+            case SURRENDER -> System.out.println("Surrender");
+            case NONE -> System.out.println("The game isn't over.");
+            default -> System.out.println("ERROR: Unknown game result");
         }
     }
-
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
@@ -82,63 +76,43 @@ public class ConsoleUI implements Presenter, Player {
         if(dataType.get("type") != "move") {
             throw new IllegalArgumentException();
         }
-
-        System.out.println("Please enter the position of the piece, that you want to move:");
-
-        Square origin = null;
-        List<Square> availableDestinations = new ArrayList<>();
-
-        do {
-            String input = mScanner.nextLine();
-            try {
-                origin = new Square(input);
-                if (mController.getGame().getBoard().isFieldFree(origin)) {
-                    System.out.println("This Field is empty.");
-                    origin = null;
-                } else {
-                	if (mController.getGame().getBoard().
-                	isOccupiedByOpponent(origin, mController.getGame().isItWhitesTurn())) {
-                    System.out.println("This Field is occupied by the opponent.");
-                    origin = null;
-                	} else {
-                		availableDestinations = mController.getGame().getPossibleMoves(origin);
-                		if (availableDestinations.isEmpty()) {
-                		System.out.println("The selected Piece can't move.");
-                		}
-                	}              	
-                }      
-            } catch (Exception e) {
-                System.out.println("Invalid input: " + input);
+        System.out.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
+        String input = mScanner.nextLine();
+        try {
+            Square destination;
+            ChessPieceType pieceType;
+            switch (input.length()) {
+                case 2:
+                    pieceType = ChessPieceType.PAWN;
+                    destination = new Square(input);
+                    break;
+                case 3:
+                    pieceType = ChessPieceType.valueOf(input.charAt(0));
+                    destination = new Square(input.substring(1));
+                    break;
+                default:
+                    System.out.println("The given input couldn't be recognized.");
+                    return requestMove(dataType);
             }
-        } while (availableDestinations.isEmpty());
-
-        System.out.println("Available Fields are: " + availableDestinations);
-        System.out.print("Please enter the position of the field, ");
-        System.out.print("where you want to place your piece or enter [r] to return and choose another piece: \n" );
-        
-        Square destination = null;
-        do {
-            String input = mScanner.nextLine();
-            if (input.charAt(0) == 'r') {
-                return requestMove(dataType);
+            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
+            switch (possibleOrigins.size()){
+                case 0:
+                    System.out.println("This move is impossible.");
+                    return requestMove(dataType);
+                case 1:
+                    ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
+                    return move.toJSON();
+                default:
+                    System.out.println("The entered input could mean different moves. This scenario isn't supported yet.");
+                    return requestMove(dataType);
             }
-            try {
-                destination = new Square(input);
-                if (!availableDestinations.contains(destination)) {
-                    System.out.println("Field is unreachable! Enter another field or [r].");
-                    destination = null;
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
-            }
-        } while (destination == null);
-        JSONObject move = new JSONObject();
-        
-        //TODO: Type safety: The method put(Object, Object) belongs to the raw type HashMap. References to generic type HashMap<K,V> should be parameterized
-        move.put("origin", origin.toString());
-        move.put("destination", destination.toString());
-        return move;
+        } catch (Exception e) {
+            System.out.println("Invalid input: " + input);
+            return requestMove(dataType);
+        }
     }
+
+
 
     @Override
     public void refreshOutput() {

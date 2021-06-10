@@ -29,6 +29,7 @@ public class MenuPrototype {
         switch(input) {
             case "C", "c":
                 startChess();
+                System.out.println("You finished the game.");
                 break;
             case "R", "r":
                 System.out.println("This game isn't implemented yet :(");
@@ -44,6 +45,7 @@ public class MenuPrototype {
             default:
                 System.out.println("The given input is invalid.");
         }
+        printSelectGame();
         handleGameInput();
     }
 

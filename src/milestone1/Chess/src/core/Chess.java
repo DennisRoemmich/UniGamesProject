@@ -28,7 +28,8 @@ public class Chess {
     }
 
     public boolean makeMove(Square origin, Square destination) {
-        if (getPossibleMoves(origin).contains(destination)) {
+        ChessPieceType pieceType = mBoard.getPiece(origin).getType();
+        if (getPossibleOrigins(destination, pieceType).contains(origin)) {
             checkForCastling(origin, destination);
             handleEnPassantCapture(origin, destination);
             mBoard.movePiece(origin, destination);
@@ -96,7 +97,7 @@ public class Chess {
         if (king.hasMoved()) {
             return;
         }
-        Square kingSquare = mBoard.getSquare((ChessPiece) king);
+        Square kingSquare = mBoard.getSquare(king);
         if (!kingSquare.equals(origin)) {
             // So far, castling is always triggered by the king. So only the square of the king is interesting
             return;
@@ -141,17 +142,13 @@ public class Chess {
         switch (c) {
 
         case 'n', 'N':
-        	Knight knight = new Knight(mIsItWhitesTurn);
-        return knight;
+        	return new Knight(mIsItWhitesTurn);
         case 'b', 'B':
-        	Bishop bishop = new Bishop(mIsItWhitesTurn);
-        return bishop;
+        	return new Bishop(mIsItWhitesTurn);
         case 'r', 'R':
-        	Rook rook = new Rook(mIsItWhitesTurn);
-        return rook;
+        	return new Rook(mIsItWhitesTurn);
         case 'q', 'Q':
-        	Queen queen = new Queen(mIsItWhitesTurn);
-        	return queen;
+        	return new Queen(mIsItWhitesTurn);
         default:
             throw new IllegalArgumentException();
         }  	
@@ -166,13 +163,16 @@ public class Chess {
         }
     }
 
-    public List<Square> getPossibleMoves(Square pos) {
-        ChessPiece piece = mBoard.getPiece(pos);
-        if (piece != null && piece.isWhite() == mIsItWhitesTurn) {
-            return piece.findMoves(pos, mBoard);
-        } else {
-            return new ArrayList<>();
+    public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
+        List<Square> squaresWithPiece = mBoard.findSquaresOfPieces(pieceType, isItWhitesTurn());
+        List<Square> possibleOrigins = new ArrayList<>();
+        for(Square origin : squaresWithPiece) {
+            ChessPiece piece = mBoard.getPiece(origin);
+            if(piece.findCoveredSquares(mBoard, origin).contains(destination)) {
+                possibleOrigins.add(origin);
+            }
         }
+        return possibleOrigins;
     }
 
     public ChessBoard getBoard() {
