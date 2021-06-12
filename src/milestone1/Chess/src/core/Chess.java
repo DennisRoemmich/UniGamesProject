@@ -5,7 +5,7 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
-import sample.PrintError;
+import sample.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +86,7 @@ public class Chess {
                     pawn.registerDoubleMove();
                 }
             } catch (Exception e) {
-            	PrintError.writeErrorLog("");
+            	WriteError.writeErrorLog("");
             }
         }
     }

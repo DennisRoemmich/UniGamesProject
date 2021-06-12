@@ -3,7 +3,7 @@ package core.pieces;
 import core.ChessBoard;
 import core.positioning.File;
 import core.positioning.Square;
-import sample.PrintError;
+import sample.WriteError;
 import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Knight extends ChessPiece  {
                             list.add(squareToTest);
                         }
                     } catch (Exception e) {
-                    	PrintError.writeErrorLog("");
+                    	WriteError.writeErrorLog("");
                     }
                 }
             }

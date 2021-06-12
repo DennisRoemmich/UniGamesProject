@@ -8,14 +8,14 @@ import java.io.*;
 
 public final class FileController {
 
-    public static final String fileExtension = ".json";
+    public static final String FILEEXTENSION = ".json";
 
     private FileController() {
         // Prevent initialization
     }
 
-    public static void saveJSON(JSONObject object, String fileName) {
-        try (FileWriter file = new FileWriter(fileName + fileExtension)) {
+    public static void saveJSon (JSONObject object, String fileName) {
+        try (FileWriter file = new FileWriter(fileName + FILEEXTENSION)) {
             file.write(object.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -23,20 +23,14 @@ public final class FileController {
         }
     }
 
-    public static JSONObject loadJSON(String fileName) {
+    public static JSONObject loadJSon(String fileName) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(fileName))
-        {
+        try (FileReader reader = new FileReader(fileName)) {
             Object obj = jsonParser.parse(reader);
-            JSONObject gameLogJSON = (JSONObject) obj;
-            return gameLogJSON;
-        } catch (FileNotFoundException e) {
+            return (JSONObject) obj;
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+            return null;
+        	}
     }
 }

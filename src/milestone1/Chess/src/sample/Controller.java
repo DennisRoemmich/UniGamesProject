@@ -22,20 +22,19 @@ public class Controller extends GameController {
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
-
-    private final JSONObject mMoveRequestJSON;
+    private final JSONObject mMoveRequestJSon;
     
     public Controller() {
     	 JSONObject object = new JSONObject();
     	 object.put("type", "move");
-    	 mMoveRequestJSON = object;
+    	 mMoveRequestJSon = object;
     }
     
     public Controller(Presenter presenter) {
     	this.mPresenter = presenter;
         JSONObject object = new JSONObject();
         object.put("type", "move");
-        mMoveRequestJSON = object;
+        mMoveRequestJSon = object;
     }
 
     public void executeMove(JSONObject move) {
@@ -47,7 +46,7 @@ public class Controller extends GameController {
             origin = new Square(originName);
             destination = new Square(destinationName);
         } catch (Exception e) {
-            PrintError.writeErrorLog("");
+            WriteError.writeErrorLog("");
             return;
         }
         if(mGame.makeMove(origin, destination)) {
@@ -96,9 +95,9 @@ public class Controller extends GameController {
     public void gameStep() {
         boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            executeMove(mPlayerA.requestMove(mMoveRequestJSON));
+            executeMove(mPlayerA.requestMove(mMoveRequestJSon));
         } else {
-            executeMove(mPlayerB.requestMove(mMoveRequestJSON));
+            executeMove(mPlayerB.requestMove(mMoveRequestJSon));
         }
         updateGameState();
     }

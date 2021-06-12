@@ -8,9 +8,9 @@ import java.io.FileWriter;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public final class PrintError {	
+public final class WriteError {	
 	
-	private PrintError() {	
+	private WriteError() {	
 		
 	}	
 	

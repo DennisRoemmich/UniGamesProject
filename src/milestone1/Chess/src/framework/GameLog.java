@@ -2,65 +2,63 @@ package framework;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameLog {
-	private String id;
-	private JSONArray moveLog = new JSONArray();
-	private JSONObject metaSettings;
-	private JSONObject gameSettings;
+	private String mId;
+	private JSONArray mMoveLog = new JSONArray();
+	private JSONObject mMetaSettings;
+	private JSONObject mGameSettings;
 
 	public GameLog(String id) {
-		this.id = id;
-		this.metaSettings = new JSONObject();
-		this.gameSettings = new JSONObject();
-		this.moveLog = new JSONArray();
+		this.mId = id;
+		this.mMetaSettings = new JSONObject();
+		this.mGameSettings = new JSONObject();
+		this.mMoveLog = new JSONArray();
 	}
 
 	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, JSONArray moves) {
-		this.id = id;
-		this.metaSettings = metaSettings;
-		this.gameSettings = gameSettings;
-		this.moveLog = moves;
+		this.mId = id;
+		this.mMetaSettings = metaSettings;
+		this.mGameSettings = gameSettings;
+		this.mMoveLog = moves;
 	}
 
 	public void logMove(JSONObject aMove) {
-		moveLog.add(aMove);
+		mMoveLog.add(aMove);
 	}
 
 	public void removeLastMove() {
-		moveLog.remove(moveLog.size() - 1);
+		mMoveLog.remove(mMoveLog.size() - 1);
 	}
 
 	public void removeLastMoves(int aAmount) {
-		for(int i = 0; i < aAmount; i++ ) {
+		for (int i = 0; i < aAmount; i++ ) {
 			removeLastMove();
 		}
  	}
 
 	public String getID() {
-		return id;
+		return mId;
 	}
 
 	public List<JSONObject> getMoveLog() {
-		return this.moveLog;
+		return this.mMoveLog;
 	}
 
 	public JSONObject getMetaSettings() {
-		return metaSettings;
+		return mMetaSettings;
 	}
 
 	public JSONObject getGameSettings() {
-		return gameSettings;
+		return mGameSettings;
 	}
 
 	public JSONObject getCompleteJSONObject(){
 		JSONObject complete = new JSONObject();
-		complete.put("moveLog", moveLog);
-		complete.put("gameSetting", gameSettings);
-		complete.put("metaSetting", metaSettings);
+		complete.put("moveLog", mMoveLog);
+		complete.put("gameSetting", mGameSettings);
+		complete.put("metaSetting", mMetaSettings);
 		return complete;
 	}
 
