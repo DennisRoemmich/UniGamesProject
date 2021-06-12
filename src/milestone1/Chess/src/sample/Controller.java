@@ -23,7 +23,7 @@ public class Controller extends GameController {
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private final JSONObject mMoveRequestJSon;
-    protected static boolean mEndedGame = false;
+    protected boolean mEndedGame = false;
     
     public Controller() {
     	 JSONObject object = new JSONObject();
@@ -77,7 +77,8 @@ public class Controller extends GameController {
     }
 
     public boolean startGame() {
-        if (mPlayerA == null || mPlayerB == null) {
+    	
+    	if (mPlayerA == null || mPlayerB == null) {
             return false;
         } else {
             mIsGameRunning = true;
@@ -114,5 +115,13 @@ public class Controller extends GameController {
     	} else {
         mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
     	}
+    }
+    
+    public boolean getEndedGame() {
+    	return mEndedGame;
+    }
+    
+    public void setEndedGame(boolean value) {
+    	mEndedGame = value;
     }
 }

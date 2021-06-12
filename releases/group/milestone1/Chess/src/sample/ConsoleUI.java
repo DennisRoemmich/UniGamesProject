@@ -69,12 +69,6 @@ public class ConsoleUI implements Presenter, Player {
     @Override
     public JSONObject requestMove(JSONObject dataType) {
     	
-/* Diese Exception macht Probleme bei mir */
-    	
-//        if (dataType.get("type").equals("move")) {
-//            throw new IllegalArgumentException();
-//        }
-    	
         PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
         
@@ -117,9 +111,9 @@ public class ConsoleUI implements Presenter, Player {
         
     }
 
-    public static boolean checkEndGame(String input) {
+    public boolean checkEndGame(String input) {
 		if ("exit".equalsIgnoreCase(input)) {
-			Controller.mEndedGame = true;
+			mController.setEndedGame(true);
 			return true;
 		}
 		return false;

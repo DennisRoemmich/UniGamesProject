@@ -73,7 +73,7 @@ public class ConsoleUI implements Presenter, Player {
         String input = mScanner.nextLine();
         
         try {   	
-        	if (!Controller.mEndedGame) {
+        	if (!checkEndGame(input)) {
 	            Square destination;
 	            ChessPieceType pieceType;
 	            switch (input.length()) {
@@ -111,9 +111,9 @@ public class ConsoleUI implements Presenter, Player {
         
     }
 
-    public static boolean checkEndGame(String input) {
+    public boolean checkEndGame(String input) {
 		if ("exit".equalsIgnoreCase(input)) {
-			Controller.mEndedGame = true;
+			mController.setEndedGame(true);
 			return true;
 		}
 		return false;
