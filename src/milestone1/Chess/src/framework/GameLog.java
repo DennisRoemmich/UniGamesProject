@@ -54,7 +54,7 @@ public class GameLog {
 		return mGameSettings;
 	}
 
-	public JSONObject getCompleteJSONObject(){
+	public JSONObject getCompleteJSonObject() {
 		JSONObject complete = new JSONObject();
 		complete.put("moveLog", mMoveLog);
 		complete.put("gameSetting", mGameSettings);

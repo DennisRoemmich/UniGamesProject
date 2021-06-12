@@ -49,7 +49,7 @@ public class Controller extends GameController {
             WriteError.writeErrorLog("");
             return;
         }
-        if(mGame.makeMove(origin, destination)) {
+        if (mGame.makeMove(origin, destination)) {
             logMove(move);
         }
     }

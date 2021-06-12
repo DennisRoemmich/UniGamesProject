@@ -42,7 +42,7 @@ public abstract class GameController {
 
 	public final void saveGame() {
 		if (mGameLog != null) {
-			FileController.saveJSon(mGameLog.getCompleteJSONObject(), mGameLog.getID());
+			FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
 		}
 	}
 

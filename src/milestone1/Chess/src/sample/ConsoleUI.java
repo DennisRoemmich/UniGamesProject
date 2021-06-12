@@ -67,10 +67,13 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
-
-        if (dataType.get("type").equals("move")) {
-            throw new IllegalArgumentException();
-        }
+    	
+/* Diese Exception macht Probleme bei mir */
+    	
+//        if (dataType.get("type").equals("move")) {
+//            throw new IllegalArgumentException();
+//        }
+    	
         PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
         try {
@@ -92,7 +95,7 @@ public class ConsoleUI implements Presenter, Player {
             List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
             switch (possibleOrigins.size()) {
                 case 0:
-                	PrintToConsole.println("This move is impossible.");
+                	PrintToConsole.println("The entered input could mean different moves or is impossible.");
                     return requestMove(dataType);
                 case 1:
                     ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
