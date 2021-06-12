@@ -11,8 +11,12 @@ public class GameLog {
 	private JSONObject metaSettings;
 	private JSONObject gameSettings;
 
+	public GameLog(){
+
+	}
+
 	public GameLog(String id, JSONObject aMetaSettings, JSONObject aGameSettings, List<JSONObject> aMoves) {
-		throw new UnsupportedOperationException();
+
 	}
 
 	public void logMove(JSONObject aMove) {

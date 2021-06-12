@@ -1,5 +1,6 @@
 package Tests;
 
+import rummikub_controller.RummikubController;
 import rummikub_game.Board;
 import rummikub_game.Rack;
 import rummikub_game.Rummikub;
@@ -229,19 +230,39 @@ public class Test {
         //andreasTileMoving();
         //andreasDrawRacks();
         //andreasBoardTest();
-        andreasSetTest();
+        // andreasSetTest();
+        andreasConsoleTest();
+
+    }
+
+    private void andreasConsoleTest(){
+
+        var console = new Console();
+
+        var controller = new RummikubController();
+
+
+        controller.addPlayer(console);
+        controller.startGameLoop();
 
     }
 
     private void andreasSetTest(){
 
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(1, 1));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(1, 2));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 3));
 
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(3, 3));
+
+        // This results in a crash:
+        /*
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(1, 1));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(1, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 2));
+        */
+
+
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(3, 5));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,4), new Point(3, 4));
-        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(3, 5));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,5), new Point(3, 3));
+        rummi.moveTileFromCurrentRackToBoard(new Point(0,6), new Point(3, 2));
 
         var builder = new StringBuilder();
 

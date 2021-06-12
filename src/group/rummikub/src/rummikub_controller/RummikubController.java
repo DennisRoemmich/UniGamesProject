@@ -2,10 +2,12 @@ package rummikub_controller;
 
 import framework.GameController;
 import framework.GameLog;
+import framework.Player;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RummikubController extends GameController {
 
@@ -13,11 +15,40 @@ public class RummikubController extends GameController {
 
     private final Rummikub rummiGame = new Rummikub(4, 0);
 
-    RummikubController(){
+    private ArrayList<Player> players = new ArrayList<>();
+
+    public RummikubController(){
+
+        moveLog = new GameLog();
 
     }
 
-    public boolean makeMove(gameMove move){
+    public void addPlayer(Player player){
+        players.add(player);
+        player.setGameClass(rummiGame);
+    }
+
+    public void startGameLoop(){
+
+        ActionType currentAction = null;
+
+        do {
+
+            for (var player : players){
+
+                boolean result = makeMove(player.getGameMove());
+
+                if (!result) {
+                    System.out.print("\nThis move is not possible.\n\n");
+                }
+
+            }
+
+        } while (currentAction != ActionType.QUIT);
+
+    }
+
+    public boolean makeMove(GameMove move){
 
         /* CHECK IF MOVE IS VALID */
 
@@ -29,7 +60,7 @@ public class RummikubController extends GameController {
 
             case ONRACK -> successful = rummiGame.getCurrentPlayer().getSketchRack().moveTile(move.pointA, move.pointB);
 
-            case ONBOARD -> successful = rummiGame.getBoard().moveTile(move.pointA, move.pointB);
+            case ONBOARD -> successful = rummiGame.getSketchBoard().moveTile(move.pointA, move.pointB);
 
             case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.pointA, move.pointB);
 
@@ -58,7 +89,7 @@ public class RummikubController extends GameController {
 
         if ( successful ) {
 
-            moveLog.logMove(moveToJSON(move));
+            moveLog.logMove(move.toJSON());
 
         }
 
@@ -66,23 +97,6 @@ public class RummikubController extends GameController {
 
     }
 
-    private JSONObject moveToJSON(gameMove move){
-
-        var obj = new JSONObject();
-
-        obj.put("actionType", move.type.toString());
-
-        if ( move.type.usesPoints() ) {
-
-            obj.put("PointAx", move.pointA.toString());
-            obj.put("PointAy", move.pointA.toString());
-            obj.put("PointB", move.pointB.toString());
-
-        }
-
-        return obj;
-
-    }
 
     @Override
     public void executeMove(JSONObject obj) {
@@ -120,51 +134,9 @@ public class RummikubController extends GameController {
 
 }
 
-class gameMove {
-
-    ActionType type;
-
-    Point pointA;
-    Point pointB;
-
-    gameMove(ActionType type){
-        this.type = type;
-    }
-
-    gameMove(ActionType type, Point a, Point b){
-
-        this.type = type;
-        this.pointA = a;
-        this.pointB = b;
-
-    }
-
-}
-
 enum GameState {
     STARTED,
     RUNNING,
     ENDED;
 }
 
-enum ActionType {
-
-    FINISHMOVE(0),
-    ONRACK(1),
-    ONBOARD(2),
-    RACKTOBOARD(3),
-    SORTGROUP(4),
-    SORTRUN(5),
-    RESET(6);
-
-    int value;
-
-    ActionType(int value){
-        this.value = value;
-    }
-
-    boolean usesPoints(){
-        return (value == 1 || value == 2 ||value == 3);
-    }
-
-}

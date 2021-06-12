@@ -55,6 +55,10 @@ public class Rummikub {
 
     }
 
+    public int getCurrentPlayerIndex(){
+        return ( currentMove + startPlayer ) % players.length;
+    }
+
     public RummikubPlayer getPlayerAt (int index){
 
         return players[ index ];
