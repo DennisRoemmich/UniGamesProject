@@ -25,6 +25,7 @@ public class ConsoleUI implements Presenter, Player {
     private Chess mGame; 
 
     public void startGame() {
+    	PrintToConsole.println("Type \"exit\" to end the game.");
         mController.setPlayerA(this);
         mController.setPlayerB(this);
         mController.createGame();
@@ -76,41 +77,53 @@ public class ConsoleUI implements Presenter, Player {
     	
         PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
-        try {
-            Square destination;
-            ChessPieceType pieceType;
-            switch (input.length()) {
-                case 2:
-                    pieceType = ChessPieceType.PAWN;
-                    destination = new Square(input);
-                    break;
-                case 3:
-                    pieceType = ChessPieceType.valueOf(input.charAt(0));
-                    destination = new Square(input.substring(1));
-                    break;
-                default:
-                	PrintToConsole.println("The given input couldn't be recognized.");
-                    return requestMove(dataType);
-            }
-            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
-            switch (possibleOrigins.size()) {
-                case 0:
-                	PrintToConsole.println("The entered input could mean different moves or is impossible.");
-                    return requestMove(dataType);
-                case 1:
-                    ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
-                    return move.toJSON();
-                default:
-                	PrintToConsole.println("The entered input could mean different moves. This isn't supported yet.");
-                    return requestMove(dataType);
-            }
+        
+        try {   	
+        	if (!checkEndGame(input)) {
+	            Square destination;
+	            ChessPieceType pieceType;
+	            switch (input.length()) {
+	                case 2:
+	                    pieceType = ChessPieceType.PAWN;
+	                    destination = new Square(input);
+	                    break;
+	                case 3:
+	                    pieceType = ChessPieceType.valueOf(input.charAt(0));
+	                    destination = new Square(input.substring(1));
+	                    break;
+	                default:
+	                	PrintToConsole.println("The given input couldn't be recognized.");
+	                    return requestMove(dataType);
+	            }
+	            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
+	            switch (possibleOrigins.size()) {
+	                case 0:
+	                	PrintToConsole.println("The entered input could mean different moves or is impossible.");
+	                    return requestMove(dataType);
+	                case 1:
+	                    ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
+	                    return move.toJSon();
+	                default:
+	                	PrintToConsole.println("The entered input could mean different moves. Not supported yet");
+	                    return requestMove(dataType);
+	            }
+        	} else {
+        		return null;
+        	}
         } catch (Exception e) {
         	PrintToConsole.println("Invalid input: " + input);
             return requestMove(dataType);
         }
+        
     }
 
-
+    public static boolean checkEndGame(String input) {
+		if ("exit".equalsIgnoreCase(input)) {
+			Controller.mEndedGame = true;
+			return true;
+		}
+		return false;
+    }
 
     @Override
     public void refreshOutput() {

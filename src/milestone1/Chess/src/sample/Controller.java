@@ -23,6 +23,7 @@ public class Controller extends GameController {
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private final JSONObject mMoveRequestJSon;
+    protected static boolean mEndedGame = false;
     
     public Controller() {
     	 JSONObject object = new JSONObject();
@@ -38,7 +39,12 @@ public class Controller extends GameController {
     }
 
     public void executeMove(JSONObject move) {
-        String originName = move.get("origin").toString();
+       
+    	if (move == null) {
+    		return;
+    	}
+    	
+    	String originName = move.get("origin").toString();
         String destinationName = move.get("destination").toString();
         Square origin;
         Square destination;
@@ -93,7 +99,7 @@ public class Controller extends GameController {
     }
 
     public void gameStep() {
-        boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
+    	boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
             executeMove(mPlayerA.requestMove(mMoveRequestJSon));
         } else {
@@ -103,6 +109,10 @@ public class Controller extends GameController {
     }
 
     private void updateGameState() {
+    	if (mEndedGame) {
+    		mIsGameRunning = false;
+    	} else {
         mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
+    	}
     }
 }
