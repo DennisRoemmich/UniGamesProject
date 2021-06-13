@@ -9,6 +9,9 @@ import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Creates the surrounding game logic the chess game operates in.
  * @author Jan de Boer, Dennis Roemmich
@@ -16,26 +19,29 @@ import org.json.simple.JSONObject;
  */
 public class Controller extends GameController {
 
-    private Chess mGame;
-    private Presenter mPresenter;
-    private boolean mIsGameRunning = false;
-    private Player mPlayerA;
-    private Player mPlayerB;
-    private boolean mColorSwitch = false;
+    private static Presenter mPresenter;
+    private static boolean mIsGameRunning = false;
+    private static List<Player> players = new ArrayList<Player>();
+    private static boolean mColorSwitch = false;
+    private static Controller main = new Controller();
 
-    private final JSONObject mMoveRequestJSON;
-    
-    public Controller() {
-    	 JSONObject object = new JSONObject();
-    	 object.put("type", "move");
-    	 mMoveRequestJSON = object;
+    public static boolean addPlayerGlobal(Player playerToAdd) {
+        if(players.size() < 2) {
+            players.add(playerToAdd);
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-    public Controller(Presenter presenter) {
-    	this.mPresenter = presenter;
+
+    public static void removePlayerGlobal(Player playerToRemove) {
+        players.remove(playerToRemove);
+    }
+
+    private static JSONObject getMoveRequestJSON() {
         JSONObject object = new JSONObject();
         object.put("type", "move");
-        mMoveRequestJSON = object;
+        return object;
     }
 
     public void executeMove(JSONObject move) {
@@ -50,29 +56,18 @@ public class Controller extends GameController {
             PrintError.writeErrorLog("");
             return;
         }
-        if(mGame.makeMove(origin, destination)) {
+        if(Chess.makeMove(origin, destination)) {
             logMove(move);
+            tryOutput();
         }
     }
 
-    public void setPlayerA(Player playerA) {
-        this.mPlayerA = playerA;
+    public static Controller getMain() {
+        return main;
     }
 
-    public void setPlayerB(Player playerB) {
-        this.mPlayerB = playerB;
-    }
-
-    public Chess getGame() {
-        return mGame;
-    }
-
-    public void createGame() {
-        mGame = new Chess();
-    }
-
-    public boolean startGame() {
-        if (mPlayerA == null || mPlayerB == null) {
+    public static boolean startGame() {
+        if (players.size() != 2) {
             return false;
         } else {
             mIsGameRunning = true;
@@ -84,7 +79,7 @@ public class Controller extends GameController {
         }
     }
 
-    public void gameLoop() {
+    public static void gameLoop() {
         while (mIsGameRunning) {
             gameStep();
             if (mPresenter != null) {
@@ -93,17 +88,16 @@ public class Controller extends GameController {
         }
     }
 
-    public void gameStep() {
-        boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
+    public static void gameStep() {
+        boolean isTurnOfPlayerA = Chess.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            executeMove(mPlayerA.requestMove(mMoveRequestJSON));
+            main.executeMove(players.get(0).requestMove(getMoveRequestJSON()));
         } else {
-            executeMove(mPlayerB.requestMove(mMoveRequestJSON));
+            main.executeMove(players.get(1).requestMove(getMoveRequestJSON()));
         }
-        updateGameState();
     }
 
-    private void updateGameState() {
-        mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
+    public void setPresenter(Presenter newPresenter) {
+        presenter = newPresenter;
     }
 }

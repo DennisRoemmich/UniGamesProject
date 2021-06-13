@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 public abstract class GameController {
 	private GameLog gameLog;
+	protected Presenter presenter;
 	protected List<Player> players;
 
 	public abstract void executeMove(JSONObject move);
@@ -37,6 +38,12 @@ public abstract class GameController {
 	public final void executeMoves(List<JSONObject> moves) {
 		for(JSONObject move : moves) {
 			executeMove(move);
+		}
+	}
+
+	public final void tryOutput() {
+		if(presenter != null) {
+			presenter.refreshOutput();
 		}
 	}
 
