@@ -29,7 +29,7 @@ public class ChessMove {
         return mDestination;
     }
 
-    public JSONObject toJSON() {
+    public JSONObject toJSon() {
         JSONObject moveObject = new JSONObject();
         moveObject.put("origin", mOrigin.toString());
         moveObject.put("destination", mDestination.toString());

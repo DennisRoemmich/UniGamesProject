@@ -6,7 +6,7 @@ import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
-import sample.PrintError;
+import sample.WriteError;
 import core.positioning.Rank;
 
 import javax.swing.filechooser.FileView;
@@ -35,7 +35,7 @@ public class King extends CastlingChessPiece  {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
-            	PrintError.writeErrorLog("");
+            	WriteError.writeErrorLog("");
             }
         }
         return list;

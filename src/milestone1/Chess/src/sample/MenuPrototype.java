@@ -4,14 +4,14 @@ import java.util.Scanner;
 
 public class MenuPrototype {
 
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner mScanner = new Scanner(System.in);
 
     public MenuPrototype() {
         printWelcomeMessage();
     }
 
     private void printWelcomeMessage() {
-        System.out.println("Welcome to our game collection!");
+        PrintToConsole.println("Welcome to our game collection!");
     }
 
     public void startLoop() {
@@ -20,30 +20,31 @@ public class MenuPrototype {
     }
 
     private void printSelectGame() {
-        System.out.println("Please chose a game to play:");
-        System.out.println("[C]hess, [R]umikub, [S]kat, Die Siedler von [K]onstanz");
+    	PrintToConsole.println("Please chose a game to play:");
+    	PrintToConsole.println("[C]hess, [R]umikub, [S]kat, Die Siedler von [K]onstanz, [Q]uit");
     }
 
     private void handleGameInput() {
-        String input = scanner.nextLine();
-        switch(input) {
+        String input = mScanner.nextLine();
+        switch (input) {
             case "C", "c":
                 startChess();
-                System.out.println("You finished the game.");
+            PrintToConsole.println("You finished the game.");
                 break;
             case "R", "r":
-                System.out.println("This game isn't implemented yet :(");
+            	PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "S", "s":
-                System.out.println("This game isn't implemented yet :(");
+            	PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "K", "k":
-                System.out.println("This game isn't implemented yet :(");
+            	PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "Q", "q":
                 quitGame();
+            	break;
             default:
-                System.out.println("The given input is invalid.");
+            	PrintToConsole.println("The given input is invalid.");
         }
         printSelectGame();
         handleGameInput();
@@ -55,7 +56,7 @@ public class MenuPrototype {
     }
 
     private void quitGame() {
-        System.out.println("See you again soon!");
+    	PrintToConsole.println("See you again soon!");
         System.exit(1);
     }
 }
