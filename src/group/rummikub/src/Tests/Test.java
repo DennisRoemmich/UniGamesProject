@@ -230,7 +230,7 @@ public class Test {
         //andreasTileMoving();
         //andreasDrawRacks();
         //andreasBoardTest();
-        // andreasSetTest();
+        //andreasSetTest();
         andreasConsoleTest();
 
     }
@@ -241,9 +241,11 @@ public class Test {
 
         var controller = new RummikubController();
 
+        for (var i = 0; i < 4; i++){
+            controller.addPlayer(console);
+        }
 
-        controller.addPlayer(console);
-        controller.startGameLoop();
+        controller.startGame();
 
     }
 
@@ -252,11 +254,12 @@ public class Test {
 
 
         // This results in a crash:
-        /*
+
         rummi.moveTileFromCurrentRackToBoard(new Point(0,0), new Point(1, 1));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,1), new Point(1, 3));
         rummi.moveTileFromCurrentRackToBoard(new Point(0,2), new Point(1, 2));
-        */
+
+
 
 
         rummi.moveTileFromCurrentRackToBoard(new Point(0,3), new Point(3, 5));

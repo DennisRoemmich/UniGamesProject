@@ -6,15 +6,12 @@ import framework.Player;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class RummikubController extends GameController {
 
     private GameState state = GameState.STARTED;
-
     private final Rummikub rummiGame = new Rummikub(4, 0);
-
     private ArrayList<Player> players = new ArrayList<>();
 
     public RummikubController(){
@@ -28,15 +25,16 @@ public class RummikubController extends GameController {
         player.setGameClass(rummiGame);
     }
 
-    public void startGameLoop(){
+    public void startGame(){
 
-        ActionType currentAction = null;
+        ActionType type = null;
 
         do {
 
             for (var player : players){
 
-                boolean result = makeMove(player.getGameMove());
+                var move = player.requestGameMove();
+                boolean result = makeMove(player.requestGameMove());
 
                 if (!result) {
                     System.out.print("\nThis move is not possible.\n\n");
@@ -44,7 +42,16 @@ public class RummikubController extends GameController {
 
             }
 
-        } while (currentAction != ActionType.QUIT);
+        } while (type != ActionType.QUIT);
+
+    }
+
+
+
+
+    public void gameLoop(){
+
+
 
     }
 
@@ -97,6 +104,12 @@ public class RummikubController extends GameController {
 
     }
 
+
+    private void nextMove(){
+
+
+
+    }
 
     @Override
     public void executeMove(JSONObject obj) {

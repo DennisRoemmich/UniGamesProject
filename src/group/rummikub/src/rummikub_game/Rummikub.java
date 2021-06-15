@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Random;
 
-
 public class Rummikub {
 
     private static final int JOKER_AMOUNT = 2;
@@ -245,8 +244,8 @@ public class Rummikub {
 
         }
 
-        //var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
-         var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
+        var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
+        // var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
 
         var tile = tileStack[randomIndex];
 

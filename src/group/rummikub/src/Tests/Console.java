@@ -1,15 +1,17 @@
 package Tests;
 
 import framework.Player;
+import framework.RequestType;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
 import rummikub_game.Rummikub;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.awt.*;
 import java.util.Scanner;
 
-public class Console implements Player {
+public class Console implements Player<ActionType, GameMove> {
 
     private Rummikub game;
 
@@ -20,7 +22,7 @@ public class Console implements Player {
 
 
     @Override
-    public JSONObject getMove() {
+    public JSONObject requestJSONMove() {
 
         printBoard();
         printRack();
@@ -38,7 +40,11 @@ public class Console implements Player {
     }
 
     @Override
-    public GameMove getGameMove() {
+    public GameMove requestMove(ActionType type) {
+        return null;
+    }
+
+    public GameMove requestGameMove() {
 
         printBoard();
         System.out.print("\n\n");
@@ -57,6 +63,8 @@ public class Console implements Player {
         return move;
 
     }
+
+
 
     @Override
     public void setGameClass(Rummikub game) {
