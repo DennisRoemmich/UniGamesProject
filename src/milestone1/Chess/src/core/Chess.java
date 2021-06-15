@@ -23,10 +23,6 @@ public class Chess {
     	//Unused so far
     }
 
-    public void reset() {
-        mBoard = ChessBoard.getStartBoard();
-    }
-
     public boolean makeMove(Square origin, Square destination) {
         ChessPieceType pieceType = mBoard.getPiece(origin).getType();
         if (getPossibleOrigins(destination, pieceType).contains(origin)) {

@@ -26,11 +26,23 @@ public class GameLog {
 		this.moveLog = moves;
 	}
 
+	public GameLog(GameLog log) {
+		this.id = log.id;
+		this.gameSettings = log.gameSettings;
+		this.metaSettings = log.metaSettings;
+		this.moveLog = log.moveLog;
+	}
+
 	public void logMove(JSONObject aMove) {
 		moveLog.add(aMove);
 	}
 
+	public void resetMoveLog() {
+		moveLog = new JSONArray();
+	}
+
 	public void removeLastMove() {
+		if(moveLog.isEmpty()) return;
 		moveLog.remove(moveLog.size() - 1);
 	}
 
@@ -44,7 +56,7 @@ public class GameLog {
 		return id;
 	}
 
-	public List<JSONObject> getMoveLog() {
+	public JSONArray getMoveLog() {
 		return this.moveLog;
 	}
 

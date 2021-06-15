@@ -1,13 +1,18 @@
 package sample;
 
 import core.Chess;
+import core.ChessMove;
 import core.ChessResult;
 import core.GameOverDetector;
 import core.positioning.Square;
 import framework.GameController;
+import framework.GameLog;
 import framework.Player;
 import framework.Presenter;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.List;
 
 /**
  * Creates the surrounding game logic the chess game operates in.
@@ -38,21 +43,34 @@ public class Controller extends GameController {
         mMoveRequestJSON = object;
     }
 
-    public void executeMove(JSONObject move) {
-        String originName = move.get("origin").toString();
-        String destinationName = move.get("destination").toString();
-        Square origin;
-        Square destination;
+    @Override
+    public void newGame() {
+        mGame = new Chess();
+        mIsGameRunning = true;
+    }
+
+    public void executeMove(final JSONObject move) {
         try {
-            origin = new Square(originName);
-            destination = new Square(destinationName);
+            String originName = move.get("origin").toString();
+            String destinationName = move.get("destination").toString();
+            Square origin = new Square(originName);
+            Square destination = new Square(destinationName);
+            if(mGame.makeMove(origin, destination)) {
+                logMove(move);
+            }
         } catch (Exception e) {
             PrintError.writeErrorLog("");
-            return;
         }
-        if(mGame.makeMove(origin, destination)) {
-            logMove(move);
-        }
+    }
+
+    @Override
+    public JSONObject metaSettingsToJSON() {
+        return new JSONObject();
+    }
+
+    @Override
+    public JSONObject gameSettingsToJSON() {
+        return new JSONObject();
     }
 
     public void setPlayerA(Player playerA) {

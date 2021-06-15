@@ -8,6 +8,8 @@ import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
+import framework.FileController;
+import framework.GameLog;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
@@ -28,6 +30,13 @@ public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
     private Controller mController = new Controller(this);
     private Chess mGame; 
+
+    public void reloadGame() {
+        try {
+            JSONObject gameLogObject = FileController.loadJSON("game1");
+            mController.loadGame(GameLog());
+        }
+    }
 
     public void startGame() {
         mController.setPlayerA(this);
@@ -78,6 +87,10 @@ public class ConsoleUI implements Presenter, Player {
         }
         System.out.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
+        if(input.equals("undo")) {
+            mController.undoLastMove();
+            return null;
+        }
         try {
             Square destination;
             ChessPieceType pieceType;
