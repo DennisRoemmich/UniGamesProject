@@ -15,8 +15,7 @@ public class Console implements Player<ActionType, GameMove> {
 
     private Rummikub game;
 
-    Console(){
-
+        Console(){
 
     }
 

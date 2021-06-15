@@ -230,8 +230,8 @@ public class Test {
         //andreasTileMoving();
         //andreasDrawRacks();
         //andreasBoardTest();
-        //andreasSetTest();
-        andreasConsoleTest();
+        andreasSetTest();
+        //andreasConsoleTest();
 
     }
 

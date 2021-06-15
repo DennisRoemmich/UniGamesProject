@@ -9,7 +9,8 @@ public enum ActionType {
     SORTGROUP(4),
     SORTRUN(5),
     RESET(6),
-    QUIT(7);
+    QUIT(7),
+    BOARDTORACK(8);
 
     int value;
 

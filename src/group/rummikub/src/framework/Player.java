@@ -10,4 +10,5 @@ public interface Player<S,T> {
 	T requestMove(S type);
 	void setGameClass(Rummikub game);
 	GameMove requestGameMove();
+
 }
