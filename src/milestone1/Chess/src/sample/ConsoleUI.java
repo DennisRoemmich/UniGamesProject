@@ -29,20 +29,24 @@ import java.util.Scanner;
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
     private Controller mController = new Controller(this);
-    private Chess mGame; 
+
+    public ConsoleUI() {
+        mController.setPlayerA(this);
+        mController.setPlayerB(this);
+        reloadGame();
+    }
 
     public void reloadGame() {
         try {
             JSONObject gameLogObject = FileController.loadJSON("game1");
-            mController.loadGame(GameLog());
+            mController.loadGame(new GameLog(gameLogObject));
+        } catch (Exception e) {
+            mController.newGame();
         }
+        startGame();
     }
 
     public void startGame() {
-        mController.setPlayerA(this);
-        mController.setPlayerB(this);
-        mController.createGame();
-        mGame = mController.getGame();
         mController.startGame();
     }
 
@@ -69,7 +73,7 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     private void printResult() {
-        switch (mGame.getResult()) {
+        switch (mController.getGame().getResult()) {
             case DRAW -> System.out.println("Draw");
             case CHECKMATE -> System.out.println("Checkmate");
             case STALEMATE -> System.out.println("Stalemate");
@@ -86,6 +90,7 @@ public class ConsoleUI implements Presenter, Player {
             throw new IllegalArgumentException();
         }
         System.out.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
+        System.out.println("It's "+ (mController.getGame().isItWhitesTurn() ? "whites" : "blacks") + " turn.");
         String input = mScanner.nextLine();
         if(input.equals("undo")) {
             mController.undoLastMove();
@@ -107,7 +112,7 @@ public class ConsoleUI implements Presenter, Player {
                     System.out.println("The given input couldn't be recognized.");
                     return requestMove(dataType);
             }
-            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
+            List<Square> possibleOrigins = mController.getGame().getPossibleOrigins(destination, pieceType);
             switch (possibleOrigins.size()){
                 case 0:
                     System.out.println("This move is impossible.");
@@ -125,12 +130,10 @@ public class ConsoleUI implements Presenter, Player {
         }
     }
 
-
-
     @Override
     public void refreshOutput() {
         printBoard();
-        if (!mGame.isGameRunning()) {
+        if (!mController.getGame().isGameRunning()) {
             printResult();
         }
     }

@@ -38,7 +38,7 @@ public class CastlingTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        super.mTestController.newGame();
         super.runMoves();
         ChessBoard board = super.mTestController.getGame().getBoard();
         Square rookSquare = new Square(Rank.M1, File.F);

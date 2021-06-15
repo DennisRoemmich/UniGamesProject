@@ -85,10 +85,6 @@ public class Controller extends GameController {
         return mGame;
     }
 
-    public void createGame() {
-        mGame = new Chess();
-    }
-
     public boolean startGame() {
         if (mPlayerA == null || mPlayerB == null) {
             return false;

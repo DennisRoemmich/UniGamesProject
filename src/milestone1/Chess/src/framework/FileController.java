@@ -25,7 +25,7 @@ public final class FileController {
 
     public static JSONObject loadJSON(String fileName) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(fileName))
+        try (FileReader reader = new FileReader(fileName + fileExtension))
         {
             Object obj = jsonParser.parse(reader);
             JSONObject gameLogJSON = (JSONObject) obj;

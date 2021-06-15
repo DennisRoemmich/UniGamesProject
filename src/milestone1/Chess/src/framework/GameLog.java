@@ -3,47 +3,57 @@ package framework;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameLog {
-	private String id;
-	private JSONArray moveLog = new JSONArray();
-	private JSONObject metaSettings;
-	private JSONObject gameSettings;
+
+	private String mId;
+	private JSONArray mMoveLog = new JSONArray();
+	private JSONObject mMetaSettings;
+	private JSONObject mGameSettings;
+
+
+	public static final String idKey = "id";
+	public static final String metaSettingsKey = "metaSettings";
+	public static final String gameSettingsKey = "gameSettings";
+	public static final String moveLogKey = "moveLog";
 
 	public GameLog(String id) {
-		this.id = id;
-		this.metaSettings = new JSONObject();
-		this.gameSettings = new JSONObject();
-		this.moveLog = new JSONArray();
+		this.mId = id;
+		this.mMetaSettings = new JSONObject();
+		this.mGameSettings = new JSONObject();
+		this.mMoveLog = new JSONArray();
 	}
 
 	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, JSONArray moves) {
-		this.id = id;
-		this.metaSettings = metaSettings;
-		this.gameSettings = gameSettings;
-		this.moveLog = moves;
+		this.mId = id;
+		this.mMetaSettings = metaSettings;
+		this.mGameSettings = gameSettings;
+		this.mMoveLog = moves;
 	}
 
 	public GameLog(GameLog log) {
-		this.id = log.id;
-		this.gameSettings = log.gameSettings;
-		this.metaSettings = log.metaSettings;
-		this.moveLog = log.moveLog;
+		this.mId = log.mId;
+		this.mGameSettings = log.mGameSettings;
+		this.mMetaSettings = log.mMetaSettings;
+		this.mMoveLog = log.mMoveLog;
+	}
+	public GameLog(JSONObject completeJSon) {
+		this.mId = (String) completeJSon.get(idKey);
+		this.mMetaSettings = (JSONObject) completeJSon.get(metaSettingsKey);
+		this.mGameSettings = (JSONObject) completeJSon.get(gameSettingsKey);
+		this.mMoveLog = (JSONArray) completeJSon.get(moveLogKey);
 	}
 
 	public void logMove(JSONObject aMove) {
-		moveLog.add(aMove);
+		mMoveLog.add(aMove);
 	}
 
 	public void resetMoveLog() {
-		moveLog = new JSONArray();
+		mMoveLog = new JSONArray();
 	}
 
 	public void removeLastMove() {
-		if(moveLog.isEmpty()) return;
-		moveLog.remove(moveLog.size() - 1);
+		if(mMoveLog.isEmpty()) return;
+		mMoveLog.remove(mMoveLog.size() - 1);
 	}
 
 	public void removeLastMoves(int aAmount) {
@@ -53,26 +63,26 @@ public class GameLog {
  	}
 
 	public String getID() {
-		return id;
+		return mId;
 	}
 
 	public JSONArray getMoveLog() {
-		return this.moveLog;
+		return this.mMoveLog;
 	}
 
 	public JSONObject getMetaSettings() {
-		return metaSettings;
+		return mMetaSettings;
 	}
 
 	public JSONObject getGameSettings() {
-		return gameSettings;
+		return mGameSettings;
 	}
 
 	public JSONObject getCompleteJSONObject(){
 		JSONObject complete = new JSONObject();
-		complete.put("moveLog", moveLog);
-		complete.put("gameSetting", gameSettings);
-		complete.put("metaSetting", metaSettings);
+		complete.put("moveLog", mMoveLog);
+		complete.put("gameSetting", mGameSettings);
+		complete.put("metaSetting", mMetaSettings);
 		return complete;
 	}
 

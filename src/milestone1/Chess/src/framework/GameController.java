@@ -4,16 +4,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.List;
-import java.util.ListIterator;
 
 public abstract class GameController {
-	private GameLog gameLog;
-	protected List<Player> players;
+	private GameLog mGameLog;
+	protected List<Player> mPlayers;
 
 	/**
 	 * Reset all game data
 	 */
 	public abstract void newGame();
+	
 	/**
 	 * Every call of executeMove with a valid move should lead to a call of logMove()
 	 * @param move: Move as JSON Object
@@ -22,17 +22,16 @@ public abstract class GameController {
 	public abstract JSONObject metaSettingsToJSON();
 	public abstract JSONObject gameSettingsToJSON();
 
-	public void loadGame(GameLog gameLog) {
+	public final void loadGame(GameLog gameLog) {
 		newGame();
-		this.gameLog = new GameLog(gameLog);
-		this.gameLog.resetMoveLog();
+		this.mGameLog = new GameLog(gameLog);
 		for(Object move : gameLog.getMoveLog()) {
 			executeMove((JSONObject) move);
 		}
 	}
 
 	public GameController() {
-		gameLog = new GameLog("game1");
+		mGameLog = new GameLog("game1");
 	}
 
 	public final void undoLastMove() {
@@ -40,14 +39,14 @@ public abstract class GameController {
 	}
 
 	public final void undoLastMoves(int amount) {
-		gameLog.removeLastMoves(amount);
-		loadGame(gameLog);
-		executeMoves(gameLog.getMoveLog());
+		mGameLog.removeLastMoves(amount);
+		GameLog newLog = new GameLog(mGameLog);
+		loadGame(newLog);
 	}
 
 	public void logMove(JSONObject move) {
-		if(gameLog != null) {
-			gameLog.logMove(move);
+		if(mGameLog != null) {
+			mGameLog.logMove(move);
 			saveGame();
 		}
 	}
@@ -59,14 +58,14 @@ public abstract class GameController {
 	}
 
 	public final void saveGame() {
-		if(gameLog != null) {
-			FileController.saveJSON(gameLog.getCompleteJSONObject(), gameLog.getID());
+		if(mGameLog != null) {
+			FileController.saveJSON(mGameLog.getCompleteJSONObject(), mGameLog.getID());
 		}
 	}
 
 	public void newGameLog(){
 
-		gameLog = new GameLog("abc");
+		mGameLog = new GameLog("abc");
 
 		// ? save old GameLog Object
 
