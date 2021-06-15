@@ -14,7 +14,7 @@ public abstract class GameController {
 	//public abstract void newGame();
 	//public abstract JSONObject metaSettingsToJSON();
 	//public abstract JSONObject gameSettingsToJSON();
-	//public abstract void loadGame(GameLog gameLog);
+	public abstract void loadGame(GameLog gameLog);
 
 	public GameController() {
 		gameLog = new GameLog("game1");
@@ -49,7 +49,7 @@ public abstract class GameController {
 
 	public final void saveGame() {
 		if(gameLog != null) {
-			FileController.saveJSON(gameLog.getCompleteJSONObject(), gameLog.getID());
+			FileController.saveJSon(gameLog.getCompleteJSonObject(), gameLog.getID());
 		}
 	}
 

@@ -47,7 +47,7 @@ public class ConsoleUI implements Presenter, Player {
                     System.out.print(' ');
                 } else {
                     // .toChar() can be changed to .toSymbol() for Unicode symbols
-                    System.out.print(piece.toChar());
+                    System.out.print(piece.toSymbol());
                 }
                 System.out.print(' ');
             }
@@ -78,7 +78,7 @@ public class ConsoleUI implements Presenter, Player {
         String input = mScanner.nextLine();
         try {
             ChessMove move = ChessMove.valueOf(input);
-            return move.toJSON();
+            return move.toJSon();
         } catch (Exception e) {
             System.out.println("Unknown Issue.");
             return  requestMove(dataType);

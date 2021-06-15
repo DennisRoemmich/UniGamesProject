@@ -5,6 +5,7 @@ import core.ChessResult;
 import core.GameOverDetector;
 import core.positioning.Square;
 import framework.GameController;
+import framework.GameLog;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
@@ -53,13 +54,18 @@ public class Controller extends GameController {
             origin = new Square(originName);
             destination = new Square(destinationName);
         } catch (Exception e) {
-            PrintError.writeErrorLog("");
+            WriteError.writeErrorLog("");
             return;
         }
         if(Chess.makeMove(origin, destination)) {
             logMove(move);
             tryOutput();
         }
+    }
+
+    @Override
+    public void loadGame(GameLog gameLog) {
+
     }
 
     public static Controller getMain() {
