@@ -32,8 +32,8 @@ public class ConsoleUI implements Presenter, Player {
     private boolean useSymbols = false;
 
     public void startGame() {
-        controller.addPlayerGlobal(this);
-        controller.addPlayerGlobal(this);
+        controller.addPlayer(this);
+        controller.addPlayer(this);
         controller.setPresenter(this);
         //Only macOS (e.g. "Mac OS X") natively supports the Unicode symbols
         useSymbols = getOperatingSystem().contains("Mac") ? true : false;

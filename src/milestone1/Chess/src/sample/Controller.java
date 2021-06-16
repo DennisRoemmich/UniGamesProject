@@ -20,12 +20,12 @@ import java.util.List;
  */
 public class Controller extends GameController {
 
-    private static Presenter mPresenter;
-    private static boolean mIsGameRunning = false;
-    private static List<Player> players = new ArrayList<Player>();
-    private static boolean mColorSwitch = false;
+    private Presenter mPresenter;
+    private boolean mIsGameRunning = false;
+    private List<Player> players = new ArrayList<Player>();
+    private boolean mColorSwitch = false;
 
-    public boolean addPlayerGlobal(Player playerToAdd) {
+    public boolean addPlayer(Player playerToAdd) {
         if(players.size() < 2) {
             players.add(playerToAdd);
             return true;
@@ -34,7 +34,7 @@ public class Controller extends GameController {
         }
     }
 
-    public static void removePlayerGlobal(Player playerToRemove) {
+    public void removePlayer(Player playerToRemove) {
         players.remove(playerToRemove);
     }
 
