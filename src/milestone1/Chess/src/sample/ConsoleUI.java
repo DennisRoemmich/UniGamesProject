@@ -85,7 +85,7 @@ public class ConsoleUI implements Presenter, Player {
         if(dataType.get("type") != "move") {
             throw new IllegalArgumentException();
         }
-        System.out.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
+        PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
         try {
             ChessMove move = ChessMove.valueOf(input);
@@ -95,8 +95,14 @@ public class ConsoleUI implements Presenter, Player {
             return  requestMove(dataType);
         }
     }
-
-
+    
+    public boolean checkEndGame(String input) {
+		if ("exit".equalsIgnoreCase(input)) {
+			mController.setEndedGame(true);
+			return true;
+		}
+		return false;
+    }
 
     @Override
     public void refreshOutput() {
