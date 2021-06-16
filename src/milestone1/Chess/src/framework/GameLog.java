@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.util.List;
 
+// TODO : Replace this prototype by the real framework, as soon as it is available
 public class GameLog {
 	private String mId;
 	private JSONArray mMoveLog = new JSONArray();
