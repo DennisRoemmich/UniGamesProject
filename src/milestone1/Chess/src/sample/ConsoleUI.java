@@ -29,12 +29,21 @@ import java.util.Scanner;
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
     private Controller controller = new Controller();
+    private boolean useSymbols = false;
 
     public void startGame() {
         controller.addPlayerGlobal(this);
         controller.addPlayerGlobal(this);
         controller.setPresenter(this);
+        //Only macOS (e.g. "Mac OS X") natively supports the Unicode symbols
+        useSymbols = getOperatingSystem().contains("Mac") ? true : false;
         controller.startGame();
+    }
+
+    public String getOperatingSystem() {
+        String os = System.getProperty("os.name");
+        // System.out.println("Using System Property: " + os);
+        return os;
     }
 
     public void printBoard() {
@@ -48,8 +57,8 @@ public class ConsoleUI implements Presenter, Player {
                 if (piece == null) {
                     System.out.print(' ');
                 } else {
-                    // .toChar() can be changed to .toSymbol() for Unicode symbols
-                    System.out.print(piece.toSymbol());
+                    char piecePrint = useSymbols ? piece.toSymbol() : piece.toChar();
+                    System.out.print(piecePrint);
                 }
                 System.out.print(' ');
             }
