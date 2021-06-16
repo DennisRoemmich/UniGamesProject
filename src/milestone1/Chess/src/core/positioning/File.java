@@ -11,8 +11,8 @@ public enum File {
 
     private final int mIndex;
 
-    File(int i) {
-        mIndex = i;
+    File(int index) {
+        mIndex = index;
     }
 
     public static File valueOf(char c) {
@@ -24,8 +24,8 @@ public enum File {
         }
     }
 
-    public static File valueOf(int i) {
-        char c = (char) (65 + i); // 65 is the decimal representation of the char 'A'
+    public static File valueOf(int index) {
+        char c = (char) (65 + index); // 65 is the decimal representation of the char 'A'
         return valueOf(c);
     }
 

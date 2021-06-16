@@ -5,9 +5,13 @@ import core.ChessResult;
 import core.GameOverDetector;
 import core.positioning.Square;
 import framework.GameController;
+import framework.GameLog;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Creates the surrounding game logic the chess game operates in.
@@ -16,35 +20,32 @@ import org.json.simple.JSONObject;
  */
 public class Controller extends GameController {
 
-    private Chess mGame;
     private Presenter mPresenter;
     private boolean mIsGameRunning = false;
-    private Player mPlayerA;
-    private Player mPlayerB;
+    private List<Player> players = new ArrayList<Player>();
     private boolean mColorSwitch = false;
-    private final JSONObject mMoveRequestJSon;
-    protected boolean mEndedGame = false;
-    
-    public Controller() {
-    	 JSONObject object = new JSONObject();
-    	 object.put("type", "move");
-    	 mMoveRequestJSon = object;
+
+    public boolean addPlayer(Player playerToAdd) {
+        if(players.size() < 2) {
+            players.add(playerToAdd);
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-    public Controller(Presenter presenter) {
-    	this.mPresenter = presenter;
+
+    public void removePlayer(Player playerToRemove) {
+        players.remove(playerToRemove);
+    }
+
+    private JSONObject getMoveRequestJSON() {
         JSONObject object = new JSONObject();
         object.put("type", "move");
-        mMoveRequestJSon = object;
+        return object;
     }
 
     public void executeMove(JSONObject move) {
-       
-    	if (move == null) {
-    		return;
-    	}
-    	
-    	String originName = move.get("origin").toString();
+        String originName = move.get("origin").toString();
         String destinationName = move.get("destination").toString();
         Square origin;
         Square destination;
@@ -55,30 +56,19 @@ public class Controller extends GameController {
             WriteError.writeErrorLog("");
             return;
         }
-        if (mGame.makeMove(origin, destination)) {
+        if(Chess.makeMove(origin, destination)) {
             logMove(move);
+            tryOutput();
         }
     }
 
-    public void setPlayerA(Player playerA) {
-        this.mPlayerA = playerA;
-    }
+    @Override
+    public void loadGame(GameLog gameLog) {
 
-    public void setPlayerB(Player playerB) {
-        this.mPlayerB = playerB;
-    }
-
-    public Chess getGame() {
-        return mGame;
-    }
-
-    public void createGame() {
-        mGame = new Chess();
     }
 
     public boolean startGame() {
-    	
-    	if (mPlayerA == null || mPlayerB == null) {
+        if (players.size() != 2) {
             return false;
         } else {
             mIsGameRunning = true;
@@ -100,21 +90,16 @@ public class Controller extends GameController {
     }
 
     public void gameStep() {
-    	boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
+        boolean isTurnOfPlayerA = Chess.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            executeMove(mPlayerA.requestMove(mMoveRequestJSon));
+            executeMove(players.get(0).requestMove(getMoveRequestJSON()));
         } else {
-            executeMove(mPlayerB.requestMove(mMoveRequestJSon));
+            executeMove(players.get(1).requestMove(getMoveRequestJSON()));
         }
-        updateGameState();
     }
 
-    private void updateGameState() {
-    	if (mEndedGame) {
-    		mIsGameRunning = false;
-    	} else {
-        mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
-    	}
+    public void setPresenter(Presenter newPresenter) {
+        mPresenter = newPresenter;
     }
     
     public boolean getEndedGame() {

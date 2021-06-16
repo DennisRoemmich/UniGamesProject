@@ -4,11 +4,17 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.util.List;
 
+// TODO : Replace this prototype by the real framework, as soon as it is available
 public class GameLog {
 	private String mId;
 	private JSONArray mMoveLog = new JSONArray();
 	private JSONObject mMetaSettings;
 	private JSONObject mGameSettings;
+
+	public static final String idKey = "id";
+	public static final String metaSettingsKey = "metaSettings";
+	public static final String gameSettingsKey = "gameSettings";
+	public static final String moveLogKey = "moveLog";
 
 	public GameLog(String id) {
 		this.mId = id;
@@ -22,6 +28,13 @@ public class GameLog {
 		this.mMetaSettings = metaSettings;
 		this.mGameSettings = gameSettings;
 		this.mMoveLog = moves;
+	}
+
+	public GameLog(JSONObject completeJSon) {
+		this.mId = (String) completeJSon.get(idKey);
+		this.mMetaSettings = (JSONObject) completeJSon.get(metaSettingsKey);
+		this.mGameSettings = (JSONObject) completeJSon.get(gameSettingsKey);
+		this.mMoveLog = (JSONArray) completeJSon.get(moveLogKey);
 	}
 
 	public void logMove(JSONObject aMove) {
@@ -56,9 +69,10 @@ public class GameLog {
 
 	public JSONObject getCompleteJSonObject() {
 		JSONObject complete = new JSONObject();
-		complete.put("moveLog", mMoveLog);
-		complete.put("gameSetting", mGameSettings);
-		complete.put("metaSetting", mMetaSettings);
+		complete.put(idKey, mId);
+		complete.put(moveLogKey, mMoveLog);
+		complete.put(gameSettingsKey, mGameSettings);
+		complete.put(metaSettingsKey, mMetaSettings);
 		return complete;
 	}
 

@@ -1,9 +1,12 @@
 package tests;
 
+import core.Chess;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
+import sample.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +35,9 @@ public class EnPassantTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        Chess.resetGame();
         super.runMoves();
         Square capturedSquare = new Square(Rank.M5, File.F);
-        return mTestController.getGame().getBoard().getPiece(capturedSquare) == null;
+        return Chess.getBoard().getPiece(capturedSquare) == null;
     }
 }

@@ -11,15 +11,14 @@ import java.util.List;
  */
 public abstract class Test {
 	
-	Controller mTestController = new Controller();
-	
-    protected abstract List<JSONObject> getMoves(); 
+    protected abstract List<JSONObject> getMoves();
+    protected Controller mController = new Controller();
     
     public abstract boolean runTest();
 
     public void runMoves() {
         for (JSONObject move : getMoves()) {
-            mTestController.executeMove(move);
+            mController.executeMove(move);
         }
     }
 }
