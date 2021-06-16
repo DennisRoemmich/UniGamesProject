@@ -1,5 +1,6 @@
 package tests;
 
+import core.Chess;
 import core.ChessResult;
 import core.positioning.Square;
 import org.json.simple.JSONObject;
@@ -30,9 +31,9 @@ public class CheckMateTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        Chess.resetGame();
         super.runMoves();
-        ChessResult result = mTestController.getGame().getResult();
+        ChessResult result = Chess.getResult();
         return result == ChessResult.CHECKMATE;
     }
 }

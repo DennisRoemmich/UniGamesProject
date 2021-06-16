@@ -21,8 +21,8 @@ public class Square {
     }
 
     public Square(String name) {
-        this.mRank = Rank.valueOf(name.charAt(1));
         this.mFile = File.valueOf(name.charAt(0));
+        this.mRank = Rank.valueOf(name.charAt(1));
     }
 
     public Square(Square square) {

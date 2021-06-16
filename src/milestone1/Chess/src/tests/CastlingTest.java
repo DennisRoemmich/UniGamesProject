@@ -1,5 +1,6 @@
 package tests;
 
+import core.Chess;
 import core.ChessBoard;
 import core.pieces.ChessPieceType;
 import core.positioning.File;
@@ -38,9 +39,9 @@ public class CastlingTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        Chess.resetGame();
         super.runMoves();
-        ChessBoard board = super.mTestController.getGame().getBoard();
+        ChessBoard board = Chess.getBoard();
         Square rookSquare = new Square(Rank.M1, File.F);
         return !board.isFieldFree(rookSquare) && board.getPiece(rookSquare).getType() == ChessPieceType.ROOK;
     }
