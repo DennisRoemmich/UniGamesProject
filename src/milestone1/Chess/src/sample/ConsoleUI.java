@@ -95,6 +95,7 @@ public class ConsoleUI implements Presenter, Player {
             return  requestMove(dataType);
         }
     }
+
     
     public boolean checkEndGame(String input) {
 		if ("exit".equalsIgnoreCase(input)) {
