@@ -96,7 +96,13 @@ public class ConsoleUI implements Presenter, Player {
         }
     }
 
-
+    public boolean checkEndGame(String input) {
+		if ("exit".equalsIgnoreCase(input)) {
+			mController.setEndedGame(true);
+			return true;
+		}
+		return false;
+    }
 
     @Override
     public void refreshOutput() {
