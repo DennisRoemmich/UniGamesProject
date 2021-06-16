@@ -7,7 +7,7 @@ import java.util.ListIterator;
 
 public abstract class GameController {
 	private GameLog gameLog;
-	protected Presenter presenter;
+	protected Presenter mPresenter;
 	protected List<Player> players;
 
 	public abstract void executeMove(JSONObject move);
@@ -42,8 +42,8 @@ public abstract class GameController {
 	}
 
 	public final void tryOutput() {
-		if(presenter != null) {
-			presenter.refreshOutput();
+		if(mPresenter != null) {
+			mPresenter.refreshOutput();
 		}
 	}
 
@@ -51,6 +51,10 @@ public abstract class GameController {
 		if(gameLog != null) {
 			FileController.saveJSon(gameLog.getCompleteJSonObject(), gameLog.getID());
 		}
+	}
+
+	protected void setPresenter(Presenter presenter) {
+		this.mPresenter = presenter;
 	}
 
 	public void newGameLog(){

@@ -24,9 +24,8 @@ public class Controller extends GameController {
     private static boolean mIsGameRunning = false;
     private static List<Player> players = new ArrayList<Player>();
     private static boolean mColorSwitch = false;
-    private static Controller main = new Controller();
 
-    public static boolean addPlayerGlobal(Player playerToAdd) {
+    public boolean addPlayerGlobal(Player playerToAdd) {
         if(players.size() < 2) {
             players.add(playerToAdd);
             return true;
@@ -39,7 +38,7 @@ public class Controller extends GameController {
         players.remove(playerToRemove);
     }
 
-    private static JSONObject getMoveRequestJSON() {
+    private JSONObject getMoveRequestJSON() {
         JSONObject object = new JSONObject();
         object.put("type", "move");
         return object;
@@ -68,11 +67,7 @@ public class Controller extends GameController {
 
     }
 
-    public static Controller getMain() {
-        return main;
-    }
-
-    public static boolean startGame() {
+    public boolean startGame() {
         if (players.size() != 2) {
             return false;
         } else {
@@ -85,7 +80,7 @@ public class Controller extends GameController {
         }
     }
 
-    public static void gameLoop() {
+    public void gameLoop() {
         while (mIsGameRunning) {
             gameStep();
             if (mPresenter != null) {
@@ -94,16 +89,16 @@ public class Controller extends GameController {
         }
     }
 
-    public static void gameStep() {
+    public void gameStep() {
         boolean isTurnOfPlayerA = Chess.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            main.executeMove(players.get(0).requestMove(getMoveRequestJSON()));
+            executeMove(players.get(0).requestMove(getMoveRequestJSON()));
         } else {
-            main.executeMove(players.get(1).requestMove(getMoveRequestJSON()));
+            executeMove(players.get(1).requestMove(getMoveRequestJSON()));
         }
     }
 
     public void setPresenter(Presenter newPresenter) {
-        presenter = newPresenter;
+        mPresenter = newPresenter;
     }
 }

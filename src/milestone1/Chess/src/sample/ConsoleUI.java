@@ -9,6 +9,7 @@ import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
+import framework.GameController;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
@@ -27,12 +28,13 @@ import java.util.Scanner;
  */
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
+    private Controller controller = new Controller();
 
     public void startGame() {
-        Controller.addPlayerGlobal(this);
-        Controller.addPlayerGlobal(this);
-        Controller.getMain().setPresenter(this);
-        Controller.getMain().startGame();
+        controller.addPlayerGlobal(this);
+        controller.addPlayerGlobal(this);
+        controller.setPresenter(this);
+        controller.startGame();
     }
 
     public void printBoard() {
