@@ -1,12 +1,14 @@
 package framework;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameLog {
 	private String mId;
-	private JSONArray mMoveLog = new JSONArray();
+	ArrayList<JSONObject> mMoveLog = new ArrayList<>();
 	private JSONObject mMetaSettings;
 	private JSONObject mGameSettings;
 
@@ -14,18 +16,19 @@ public class GameLog {
 		this.mId = id;
 		this.mMetaSettings = new JSONObject();
 		this.mGameSettings = new JSONObject();
-		this.mMoveLog = new JSONArray();
+		this.mMoveLog = new ArrayList<>();
 	}
 
-	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, JSONArray moves) {
+	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, List<JSONObject> moves) {
 		this.mId = id;
 		this.mMetaSettings = metaSettings;
 		this.mGameSettings = gameSettings;
-		this.mMoveLog = moves;
+		this.mMoveLog = (ArrayList<JSONObject>) moves;
 	}
 
 	public void logMove(JSONObject aMove) {
 		mMoveLog.add(aMove);
+		
 	}
 
 	public void removeLastMove() {
@@ -55,11 +58,11 @@ public class GameLog {
 	}
 
 	public JSONObject getCompleteJSonObject() {
-		JSONObject complete = new JSONObject();
-		complete.put("moveLog", mMoveLog);
-		complete.put("gameSetting", mGameSettings);
-		complete.put("metaSetting", mMetaSettings);
-		return complete;
+		HashMap<String, Object> rawComplete = new HashMap<>();
+		rawComplete.put("moveLog", mMoveLog);
+		rawComplete.put("gameSetting", mGameSettings);
+		rawComplete.put("metaSetting", mMetaSettings);
+		return new JSONObject(rawComplete);
 	}
 
 }

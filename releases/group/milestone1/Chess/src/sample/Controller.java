@@ -7,6 +7,9 @@ import core.positioning.Square;
 import framework.GameController;
 import framework.Player;
 import framework.Presenter;
+
+import java.util.HashMap;
+
 import org.json.simple.JSONObject;
 
 /**
@@ -26,15 +29,17 @@ public class Controller extends GameController {
     protected boolean mEndedGame = false;
     
     public Controller() {
-    	 JSONObject object = new JSONObject();
-    	 object.put("type", "move");
-    	 mMoveRequestJSon = object;
+    	HashMap<String, String> rawObject = new HashMap<>();
+    	rawObject.put("type", "move");
+    	JSONObject object = new JSONObject(rawObject);
+    	mMoveRequestJSon = object;
     }
     
     public Controller(Presenter presenter) {
+    	HashMap<String, String> rawObject = new HashMap<>();
     	this.mPresenter = presenter;
-        JSONObject object = new JSONObject();
-        object.put("type", "move");
+    	rawObject.put("type", "move");
+        JSONObject object = new JSONObject(rawObject);
         mMoveRequestJSon = object;
     }
 

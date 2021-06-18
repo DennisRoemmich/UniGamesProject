@@ -5,6 +5,7 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
+import sample.ConsoleUI;
 import sample.WriteError;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class Chess {
     private ChessBoard mBoard = ChessBoard.getStartBoard();
     private int mCurrentMove = 1;
     private boolean mIsItWhitesTurn = true;
+    private char standardPromotionPiece = 'Q';
+    private boolean autoPromotion = true;
     
     public Chess() {
     	//Unused so far
@@ -33,7 +36,7 @@ public class Chess {
             checkForCastling(origin, destination);
             handleEnPassantCapture(origin, destination);
             mBoard.movePiece(origin, destination);
-            checkForPromotion(destination, 'Q');
+            checkForPromotion(destination, standardPromotionPiece);
             registerMove(destination);
             resetEnPassant();
             checkForPawnDoubleMove(origin, destination);
@@ -132,9 +135,14 @@ public class Chess {
     	if (!piece.getType().equals(ChessPieceType.PAWN)) {
     		return;
     	}
+    	if(!autoPromotion) {
+    		ChessPiece promotionPiece;
+    		ConsoleUI newUI = new ConsoleUI();
+    		promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
+    		mBoard.placePiece(promotionPiece, destination);
+    		return;
+    	}
     	Queen queen = new Queen(mIsItWhitesTurn);
-    	
-    	setPromotionPiece(c);
     	mBoard.placePiece(queen, destination);
     }
     
@@ -194,4 +202,14 @@ public class Chess {
     public boolean isGameRunning() {
         return getResult() == ChessResult.NONE;
     }
+    
+    public boolean getAutoPromotion() {
+    	return autoPromotion;
+    }
+    
+    public void setAutoPromotion(boolean set) {
+    	this.autoPromotion = set;
+    }
+
+
 }

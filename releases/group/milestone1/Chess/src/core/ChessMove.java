@@ -1,6 +1,9 @@
 package core;
 
 import core.positioning.Square;
+
+import java.util.HashMap;
+
 import org.json.simple.JSONObject;
 
 public class ChessMove {
@@ -21,9 +24,10 @@ public class ChessMove {
     }
 
     public JSONObject toJSon() {
-        JSONObject moveObject = new JSONObject();
-        moveObject.put("origin", mOrigin.toString());
-        moveObject.put("destination", mDestination.toString());
-        return moveObject;
+        
+        HashMap<String, String> rawMoveObject = new HashMap<>();
+        rawMoveObject.put("origin", mOrigin.toString());
+        rawMoveObject.put("destination", mDestination.toString());
+        return new JSONObject(rawMoveObject);
     }
 }

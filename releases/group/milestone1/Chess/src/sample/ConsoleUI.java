@@ -25,7 +25,7 @@ public class ConsoleUI implements Presenter, Player {
     private Chess mGame; 
 
     public void startGame() {
-    	PrintToConsole.println("Type \"exit\" to end the game.");
+    	PrintToConsole.println("Type \"exit\" to end the game or \"menu\" to change game settings. \n");
         mController.setPlayerA(this);
         mController.setPlayerB(this);
         mController.createGame();
@@ -73,7 +73,7 @@ public class ConsoleUI implements Presenter, Player {
         String input = mScanner.nextLine();
         
         try {   	
-        	if (!checkEndGame(input)) {
+        	if (!checkSpecialInput(input)) {
 	            Square destination;
 	            ChessPieceType pieceType;
 	            switch (input.length()) {
@@ -111,15 +111,56 @@ public class ConsoleUI implements Presenter, Player {
         
     }
 
-    public boolean checkEndGame(String input) {
+    public boolean checkSpecialInput(String input) {
 		if ("exit".equalsIgnoreCase(input)) {
 			mController.setEndedGame(true);
 			return true;
 		}
+		if("menu".equalsIgnoreCase(input)) {
+			PrintToConsole.println("Settings:");
+			PrintToConsole.println("Set [A]uto-Promotion on/off");
+			PrintToConsole.println("Any input to continue the game");
+			
+			String newInput = mScanner.nextLine();
+			if("a".equalsIgnoreCase(newInput)) {
+				autoPromotion();
+				return true;
+			}
+		}
 		return false;
     }
 
-    @Override
+    private void autoPromotion() {
+    	
+    	if(mGame.getAutoPromotion()) {
+    		mGame.setAutoPromotion(false);
+    		PrintToConsole.println("Auto-Promotion turned off");
+    	} else {
+    		mGame.setAutoPromotion(true);
+    		PrintToConsole.println("Auto-Promotion turned on");
+    	}
+    	
+	}
+    
+    public char setPromotionPiece() {
+    	PrintToConsole.println("Please enter the piece you wish to promote to or press any other key");
+    	String input = mScanner.nextLine();
+    	
+    	switch (input.charAt(0)) {
+    		case 'q', 'Q':
+    			return 'Q';
+    		case 'r', 'R':
+    			return 'R';
+    		case 'b', 'B':
+    			return 'B';
+    		case 'n', 'N':
+    			return 'N';
+    		default:
+    			return 'Q';
+    	}
+    }
+
+	@Override
     public void refreshOutput() {
         printBoard();
         if (!mGame.isGameRunning()) {

@@ -1,7 +1,5 @@
 package core.positioning;
 
-import java.security.InvalidParameterException;
-
 /**
  * Squares represent the possible positions for chess pieces on a chess board.
  *

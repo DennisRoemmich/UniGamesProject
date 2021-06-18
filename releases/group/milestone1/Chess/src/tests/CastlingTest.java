@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,9 +30,10 @@ public class CastlingTest extends Test {
     protected List<JSONObject> getMoves() {
         List<JSONObject> list = new ArrayList<>();
         for (Square[] move : mMove) {
-            JSONObject newJSonMove = new JSONObject();
-            newJSonMove.put("origin", move[0].toString());
-            newJSonMove.put("destination", move[1].toString());
+        	HashMap<String, String> rawNewJsonMove = new HashMap<>();           
+        	rawNewJsonMove.put("origin", move[0].toString());
+        	rawNewJsonMove.put("destination", move[1].toString());
+            JSONObject newJSonMove = new JSONObject(rawNewJsonMove);
             list.add(newJSonMove);
         }
         return list;
