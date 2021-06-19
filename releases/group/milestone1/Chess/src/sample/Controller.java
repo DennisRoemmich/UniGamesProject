@@ -118,7 +118,7 @@ public class Controller extends GameController {
     	if (mEndedGame) {
     		mIsGameRunning = false;
     	} else {
-        mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
+    		mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
     	}
     }
     

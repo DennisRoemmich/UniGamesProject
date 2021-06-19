@@ -118,12 +118,17 @@ public class ConsoleUI implements Presenter, Player {
 		}
 		if("menu".equalsIgnoreCase(input)) {
 			PrintToConsole.println("Settings:");
-			PrintToConsole.println("Set [A]uto-Promotion on/off");
+			PrintToConsole.println("Set Auto-[P]romotion on/off");
+			PrintToConsole.println("Set [A]I on/off");
 			PrintToConsole.println("Any input to continue the game");
 			
 			String newInput = mScanner.nextLine();
-			if("a".equalsIgnoreCase(newInput)) {
+			if("p".equalsIgnoreCase(newInput)) {
 				autoPromotion();
+				return true;
+			}
+			if("a".equalsIgnoreCase(newInput)) {
+				aiState();
 				return true;
 			}
 		}
@@ -141,6 +146,17 @@ public class ConsoleUI implements Presenter, Player {
     	}
     	
 	}
+    
+    private void aiState() {
+    	if(mGame.getAiState()) {
+    		mGame.setAiState(false);
+    		PrintToConsole.println("AI off");
+    	} else {
+    		mGame.setAiState(true);
+    		PrintToConsole.println("AI on");
+    	}
+    	
+    }
     
     public char setPromotionPiece() {
     	PrintToConsole.println("Please enter the piece you wish to promote to or press any other key");

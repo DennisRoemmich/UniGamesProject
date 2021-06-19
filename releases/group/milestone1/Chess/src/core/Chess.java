@@ -21,6 +21,7 @@ public class Chess {
     private boolean mIsItWhitesTurn = true;
     private char standardPromotionPiece = 'Q';
     private boolean autoPromotion = true;
+    private boolean aiState = false;
     
     public Chess() {
     	//Unused so far
@@ -209,6 +210,13 @@ public class Chess {
     
     public void setAutoPromotion(boolean set) {
     	this.autoPromotion = set;
+    }
+    
+    public boolean getAiState() {
+    	return aiState;
+    }
+    public void setAiState(boolean set) {
+    	this.aiState = set;
     }
 
 
