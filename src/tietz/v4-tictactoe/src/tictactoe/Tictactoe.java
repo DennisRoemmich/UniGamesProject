@@ -3,7 +3,6 @@ package tictactoe;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Random;
-// import java.util.logging.*;
 
 public class Tictactoe {
 
@@ -48,6 +47,7 @@ public class Tictactoe {
 		return this.mHistory[i];
 	}
 
+	// returns number of moves of last game
 	public int getHistoryLenght() {
 
 		for (var i = 0; i < this.mHistory.length; i++) {
@@ -90,6 +90,7 @@ public class Tictactoe {
 		this.mCurrentMove = i;
 	}
 
+	// returns score for given player
 	public int getScore(int i) {
 
 		if (i == 1) {
@@ -106,6 +107,7 @@ public class Tictactoe {
 		}
 	}
 
+	// sets score of given player
 	public void setScore(int i, int s) {
 
 		if (i == 1) {
@@ -391,6 +393,7 @@ public class Tictactoe {
 		return 0;
 	}
 
+	// returns random move for GUI-KI
 	public int getMoveG() {
 
 		return mRand.nextInt(9) + 1;
@@ -439,7 +442,7 @@ public class Tictactoe {
 		}
 	}
 
-	//
+	// checks move for GUI
 	public boolean checkG(int move) {
 
 		return this.mBoard[(move - 1) / 3][(move - 1) % 3] == 0;
@@ -454,7 +457,7 @@ public class Tictactoe {
 		this.printBoard(0);
 	}
 
-	//
+	// sets sequence move for GUI
 	public void moveS(int pos) {
 
 		this.mCurrentMove++;
@@ -465,14 +468,12 @@ public class Tictactoe {
 
 	}
 
-	//
+	// moves move for GUI
 	public void moveG(int pos) {
 
 		this.mCurrentMove++;
 		this.mBoard[(pos - 1) / 3][(pos - 1) % 3] = this.mCurrentPlayer;
 		this.mHistory[this.mCurrentMove - 1] = pos;
-
-	//	wait(800);
 	}
 	
 	// checks the current game status (win, draw or running)
@@ -552,11 +553,11 @@ public class Tictactoe {
 		
 		// checks for no draw (or free fields)
 		for (var i = 0; i < this.mBoard.length; i++) {
-			
+
 			for (var j = 0; j < this.mBoard[i].length; j++) {
-				
+
 				if (this.mBoard[i][j] == 0) {
-					
+
 					return 0;
 				}
 			}
@@ -676,7 +677,7 @@ public class Tictactoe {
 		this.mCurrentPlayer = this.mStartPlayer;
 	}
 
-	//
+	// restes game for GUI
 	public void resetGameG() {
 
 		this.resetBoard();
@@ -711,7 +712,7 @@ public class Tictactoe {
 		}
 	}
 
-	//
+	// reads a sequence from the console
 	private void getSequence() {
 
 		System.out.println("If you want to enter a sequence of turns: Press [s], else: Press [any]");
@@ -736,7 +737,7 @@ public class Tictactoe {
 		}
 	}
 
-	//
+	// plays a given sequence
 	private void setSequence(String s) {
 
 		int l = s.length();
@@ -761,11 +762,12 @@ public class Tictactoe {
 		}
 	}
 
-	//
+	// checks whether a given sequence is correct
 	private boolean checkSequence(int[] s) {
 
 		int l = s.length;
 
+		// sequence too long
 		if (l > 9) {
 
 			System.out.println("Please enter a valid sequence of maximum 9 turns");
@@ -776,6 +778,7 @@ public class Tictactoe {
 
 		for (var i = 0; i < l; i++) {
 
+			// invalid input
 			if (!(s[i] > 0 && s[i] < 10)) {
 
 				System.out.println("Please ensure to enter numbers between 1 and 9");
@@ -783,6 +786,7 @@ public class Tictactoe {
 				return false;
 			}
 
+			// two positions twice or more in sequence
 			for (var j = i+1; j < l; j++) {
 
 				if (s[i] == s[j]) {
@@ -797,7 +801,7 @@ public class Tictactoe {
 		return true;
 	}
 
-	//
+	// checks sequence for GUI
 	public boolean checkSequenceG(int[] s) {
 
 		int l = s.length;
@@ -833,22 +837,5 @@ public class Tictactoe {
 	        Thread.currentThread().interrupt();
 	    }
 	}
-	
-	
-/*	public final class Logger {
-		private Logger() {
-			// do not instantiate this class
-		}
-
-		@SuppressWarnings("squid:S106")
-		public static void log(String string) {
-			System.out.println(string);
-		}
-
-		public static void log(StringBuilder builder) {
-			log(builder.toString());
-		}
-	}
-*/
 	
 }

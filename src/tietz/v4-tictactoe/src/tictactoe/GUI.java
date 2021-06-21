@@ -1,15 +1,11 @@
 package tictactoe;
 
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,16 +15,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
 
 public class GUI extends Application implements EventHandler<ActionEvent> {
 
+	// initializes buttons
 	Button button1 = new Button();
 	Button button2 = new Button();
 	Button button3 = new Button();
@@ -41,6 +34,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	ArrayList<Button> fields = createButtons();
 
+	// some labels and buttons
 	public Label player1 = new Label("Player 1");
 	public Label player2 = new Label("Player 2");
 	public Label scoreP1 = new Label("0");
@@ -59,6 +53,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 	public TextField p1 = new TextField();
 	public TextField p2 = new TextField();
 
+	// needed objects for the scenes
 	Scene window;
 	BorderPane borderPane = new BorderPane();
 	GridPane gridPane = new GridPane();
@@ -71,13 +66,17 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 	Scene menu;
 	BorderPane borderPane2 = new BorderPane();
 
+	// tictactoe game
 	Tictactoe ttt = new Tictactoe();
 
+	// help for replay
 	int historyHelp;
 
+	// some different states for the buttons (can be pressed or not)
 	boolean buttonState1 = true;
 	boolean buttonState2 = false;
 
+	// main method
 	public static void main(String[] args) {
 		
 		launch(args);
@@ -114,6 +113,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	}
 
+	// initialises buttons
 	public ArrayList<Button> createButtons() {
 
 		ArrayList<Button> fields = new ArrayList<>();
@@ -135,6 +135,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return fields;
 	}
 
+	// creates and sets the borderPane used in game scene
 	public void setBorderPane() {
 
 		this.borderPane.setCenter(this.gridPane);
@@ -142,6 +143,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.borderPane.setBottom(this.bottomLine);
 	}
 
+	// sets gridPane used in borderPane of game scene
 	public void setGridPane() {
 
 		this.gridPane.getColumnConstraints().add(new ColumnConstraints(200));
@@ -157,6 +159,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// sets top of borderPane of game scene
 	public void setTop() {
 
 		var topLeft = new HBox();
@@ -173,6 +176,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.topLine.getChildren().addAll(topLeft, topCenter, topRight);
 	}
 
+	// sets left of top of borderPane of game scene
 	public HBox setTopLeft(HBox topLeft) {
 
 		this.player1.setFont(Font.font("Times New Roman", 24));
@@ -184,6 +188,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return topLeft;
 	}
 
+	// sets center of top of borderPane of game scene
 	public HBox setTopCenter(HBox topCenter) {
 
 		this.scoreP1.setFont(Font.font("Times New Roman", 24));
@@ -192,16 +197,19 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		var score = new Label(":");
 		score.setFont(Font.font("Times New Roman", 24));
 
+		// center left
 		var topCL = new HBox();
 		topCL.setAlignment(Pos.CENTER);
 		topCL.setPrefWidth(90);
 		topCL.getChildren().add(this.scoreP1);
 
+		// center center
 		var topCC = new HBox();
 		topCC.setAlignment(Pos.CENTER);
 		topCC.setPrefWidth(20);
 		topCC.getChildren().add(score);
 
+		// center right
 		var topCR = new HBox();
 		topCR.setAlignment(Pos.CENTER);
 		topCR.setPrefWidth(90);
@@ -215,6 +223,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return topCenter;
 	}
 
+	// sets right of top of borderPane of game scene
 	public HBox setTopRight(HBox topRight) {
 
 		this.player2.setFont(Font.font("Times New Roman", 24));
@@ -226,6 +235,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return topRight;
 	}
 
+	// sets bottom of borderPane of game scene
 	public void setBottom() {
 
 		var bottomLeft = new HBox();
@@ -238,6 +248,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.bottomLine.getChildren().addAll(bottomLeft, this.bottomRight);
 	}
 
+	// sets left of bottom of borderPane of game scene
 	public HBox setBottomLeft(HBox bottomLeft) {
 
 		this.instruction.setFont(Font.font("Times New Roman", 24));
@@ -249,7 +260,10 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return bottomLeft;
 	}
 
+	// sets right of bottom of borderPane of game scene
 	public void setBottomRight() {
+
+		// initialises buttons of bottom right
 
 		this.replay.setFont(Font.font("Times New Roman", 22));
 		this.replay.setVisible(false);
@@ -297,6 +311,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 	//	return bottomRight;
 	}
 
+	// sets left of right of bottom of borderPane of game scene
 	public void setBottomRL(int i) {
 
 		this.bottomRL.getChildren().clear();
@@ -313,6 +328,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// sets center of right of bottom of borderPane of game scene
 	public void setBottomRC(int i) {
 
 		this.bottomRC.getChildren().clear();
@@ -326,7 +342,10 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// sets borderPane of menu scene
 	public void setBorderPane2() {
+
+		// initialises buttons
 
 		this.playPP.setFont(Font.font("Times New Roman", 24));
 		this.playPP.setPrefSize(200, 100);
@@ -343,6 +362,8 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.p2.setFont(Font.font("Times New Roman", 18));
 		this.p2.setPromptText("Name Player 2");
 		this.p2.setFocusTraversable(false);
+
+		// initialises labels and textfields
 
 		var playPvP = new HBox();
 		playPvP.setAlignment(Pos.CENTER_LEFT);
@@ -378,6 +399,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.borderPane2.setBottom(players);
 	}
 
+	// handles pressed buttons
 	public void setButtonAction() {
 
 			button1.setOnAction(e -> triggeredButton(button1, 1));
@@ -398,6 +420,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	}
 
+	// returns button for given integer
 	private Button intToButton(int i) {
 
 		return switch (i) {
@@ -413,6 +436,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		};
 	}
 
+	// handles pressed board buttons
 	public void triggeredButton(Button b, int i) {
 
 		if (buttonState1) {
@@ -428,6 +452,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// returns image of X
 	public ImageView getX() {
 
 		var xi = new Image("tictactoe/X.png");
@@ -438,6 +463,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return x;
 	}
 
+	// returns image of O
 	public ImageView getO() {
 
 		var oi = new Image("tictactoe/O.png");
@@ -448,6 +474,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		return o;
 	}
 
+	// handles finished game
 	public void resultG() {
 
 		int r = ttt.gamestatus();
@@ -485,6 +512,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		this.quit.setVisible(true);
 	}
 
+	// updates player score
 	private void updateScore(int p) {
 
 		if (p == 1) {
@@ -499,6 +527,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// handles replay and play again
 	private void resume(ActionEvent e) {
 
 		if (buttonState2) {
@@ -530,6 +559,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// actual replay of history with delay between moves
 	private void replayG() {
 
 		Task<Void> sleeper = new Task<Void>() {
@@ -561,6 +591,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// actual replay move after the delay
 	private void replayMove() {
 
 		int p = ttt.getCurrentPlayer();
@@ -594,6 +625,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
+	// sets a given butten state
 	private void setButtonState(int i){
 
 		if (i == 0) {
@@ -624,7 +656,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
-	//
+	// leaves menu scene and enters game scene
 	private void playG(ActionEvent e, Stage stage) {
 
 		if (e.getSource() == this.playPP) {
@@ -662,7 +694,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		stage.setScene(this.window);
 	}
 
-	//
+	// leaves game scene and enters menu scene
 	private void quitG(Stage stage) {
 
 		ttt.resetGameG();
@@ -676,7 +708,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		stage.setScene(this.menu);
 	}
 
-	//
+	// executes PvP move
 	private void pvP(Button b, int i) {
 
 		int p = ttt.getCurrentPlayer();
@@ -708,7 +740,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
-	//
+	// executes PvE move
 	private void pvE (Button b, int i){
 
 		int p = ttt.getCurrentPlayer();
@@ -737,7 +769,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
-	//
+	// executes one sequence move
 	private void seqMove(Button b, int i) {
 
 		this.setBottomRL(0);
@@ -759,7 +791,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		ttt.setCurrentPlayer(-p);
 	}
 
-	//
+	// executes a computer move
 	private void compMove() {
 
 		Task<Void> sleeper = new Task<Void>() {
@@ -787,6 +819,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		new Thread(sleeper).start();
 	}
 
+	// actual computer move after delay
 	private void exeCompMove() {
 
 		int p = ttt.getCurrentPlayer();
@@ -812,14 +845,14 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 
-	//
+	// enters the sequence mode
 	private void enterSequence() {
 
 		this.setBottomRL(2);
 		this.setBottomRC(1);
 	}
 
-	//
+	// reads sequence from textfield
 	private void getSequence() {
 
 		var s = this.seq.getText();
@@ -827,13 +860,14 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 		setSequenceG(s);
 	}
 
-	//
+	// checks the entered sequence
 	public void setSequenceG(String s) {
 
 		int l = s.length();
 
 		var c = new int[l];
 
+		// reads the sequence into an array
 		for (var i = 0; i < l; i++) {
 
 			try {
@@ -846,10 +880,12 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 			}
 		}
 
+		// sequence invalid
 		if (!ttt.checkSequenceG(c)) {
 
 			this.instruction.setText("No correct sequence!");
 
+			//sequence valid
 		} else {
 
 			this.seq.setText("");
