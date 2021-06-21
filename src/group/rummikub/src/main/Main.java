@@ -14,8 +14,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../JavaFX/sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+
+
+        var test = "test";
+
+
     }
 
 
@@ -27,9 +32,9 @@ public class Main extends Application {
 
         var test = new Test();
 
-        //   test.maik();
+        //  test.maik();
 
-        // test.andreas();
+         test.andreas();
 
         //test.fer();
 

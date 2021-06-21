@@ -228,9 +228,9 @@ public class Test {
     public void andreas(){
 
         //andreasTileMoving();
-        //andreasDrawRacks();
+        andreasDrawRacks();
         //andreasBoardTest();
-        andreasSetTest();
+        //andreasSetTest();
         //andreasConsoleTest();
 
     }
