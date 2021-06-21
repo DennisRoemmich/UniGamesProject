@@ -6,7 +6,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
-// TODO : Replace this prototype by the real framework, as soon as it is available
 public final class FileController {
 
     public static final String FILEEXTENSION = ".json";

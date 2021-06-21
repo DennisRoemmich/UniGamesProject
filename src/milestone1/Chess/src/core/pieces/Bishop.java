@@ -15,6 +15,10 @@ public class Bishop extends ChessPiece {
     public Bishop(boolean isWhite) {
         super(isWhite, ChessPieceType.BISHOP);
     }
+    
+    public Bishop(Bishop bishop) {
+    	super(bishop.isWhite(), ChessPieceType.BISHOP);
+    }
 
     @Override
     public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
@@ -22,11 +26,5 @@ public class Bishop extends ChessPiece {
         Direction[] bishopDirections =
         		new Direction[]{Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT};
         return moveFinder.getReachableSquares(bishopDirections);
-    }
-
-    //TODO: Eliminate clone method. Use copy constructor.
-    @Override
-    public ChessPiece clone() {
-        return new Bishop(isWhite());
     }
 }

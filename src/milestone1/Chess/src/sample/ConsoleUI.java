@@ -1,25 +1,18 @@
 package sample;
 
 import core.Chess;
-
 import core.ChessMove;
-import core.ChessResult;
 import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
-import framework.GameController;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
-
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//TODO: Eliminate println statements.
 
 /**
  * The console UI to interact with the chess game.
@@ -28,87 +21,165 @@ import java.util.Scanner;
  */
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
-    private Controller controller = new Controller();
-    private boolean useSymbols = false;
+    private Controller mController = new Controller(this);
+    private Chess mGame; 
 
     public void startGame() {
-        controller.addPlayer(this);
-        controller.addPlayer(this);
-        controller.setPresenter(this);
-        //Only macOS (e.g. "Mac OS X") natively supports the Unicode symbols
-        useSymbols = getOperatingSystem().contains("Mac") ? true : false;
-        controller.startGame();
-    }
-
-    public String getOperatingSystem() {
-        String os = System.getProperty("os.name");
-        // System.out.println("Using System Property: " + os);
-        return os;
+    	PrintToConsole.println("Type \"exit\" to end the game or \"menu\" to change game settings. \n");
+        mController.setPlayerA(this);
+        mController.setPlayerB(this);
+        mController.createGame();
+        mGame = mController.getGame();
+        mController.startGame();
     }
 
     public void printBoard() {
-        System.out.println("   A  B  C  D  E  F  G  H   ");
-        System.out.println(" ┌────────────────────────┐ ");
+        PrintToConsole.println("   A  B  C  D  E  F  G  H   ");
+        PrintToConsole.println(" ┌────────────────────────┐ ");
         for (Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
-            System.out.print(rank + "│");
+        	PrintToConsole.print(rank + "│");
             for (File file : File.values()) {
-                System.out.print(' ');
-                ChessPiece piece = Chess.getBoard().getPiece(new Square(rank, file));
+            	PrintToConsole.print(' ');
+                ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
                 if (piece == null) {
-                    System.out.print(' ');
+                	PrintToConsole.print(' ');
                 } else {
-                    char piecePrint = useSymbols ? piece.toSymbol() : piece.toChar();
-                    System.out.print(piecePrint);
+                	// .toChar() can be changed to .toSymbol() for Unicode symbols
+                	PrintToConsole.print(piece.toChar());
                 }
-                System.out.print(' ');
+                PrintToConsole.print(' ');
             }
-            System.out.println("│" + rank);
+            PrintToConsole.println("│" + rank);
         }
-        System.out.println(" └────────────────────────┘ ");
-        System.out.println("   A  B  C  D  E  F  G  H   ");
+        PrintToConsole.println(" └────────────────────────┘ ");
+        PrintToConsole.println("   A  B  C  D  E  F  G  H   ");
     }
 
     private void printResult() {
-        switch (Chess.getResult()) {
-            case DRAW -> System.out.println("Draw");
-            case CHECKMATE -> System.out.println("Checkmate");
-            case STALEMATE -> System.out.println("Stalemate");
-            case SURRENDER -> System.out.println("Surrender");
-            case INGAME -> System.out.println("The game isn't over.");
-            default -> System.out.println("ERROR: Unknown game result");
+        switch (mGame.getResult()) {
+            case DRAW -> PrintToConsole.println("Draw");
+            case CHECKMATE -> PrintToConsole.println("Checkmate");
+            case STALEMATE -> PrintToConsole.println("Stalemate");
+            case SURRENDER -> PrintToConsole.println("Surrender");
+            case NONE -> PrintToConsole.println("The game isn't over.");
+            default -> PrintToConsole.println("ERROR: Unknown game result");
         }
     }
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
-
-        if(dataType.get("type") != "move") {
-            throw new IllegalArgumentException();
-        }
+    	
         PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
         String input = mScanner.nextLine();
-        try {
-            ChessMove move = ChessMove.valueOf(input);
-            return move.toJSon();
+        
+        try {   	
+        	if (!checkSpecialInput(input)) {
+	            Square destination;
+	            ChessPieceType pieceType;
+	            switch (input.length()) {
+	                case 2:
+	                    pieceType = ChessPieceType.PAWN;
+	                    destination = new Square(input);
+	                    break;
+	                case 3:
+	                    pieceType = ChessPieceType.valueOf(input.charAt(0));
+	                    destination = new Square(input.substring(1));
+	                    break;
+	                default:
+	                	PrintToConsole.println("The given input couldn't be recognized.");
+	                    return requestMove(dataType);
+	            }
+	            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
+	            switch (possibleOrigins.size()) {
+	                case 0:
+	                	PrintToConsole.println("The entered input could mean different moves or is impossible.");
+	                    return requestMove(dataType);
+	                case 1:
+	                    ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
+	                    return move.toJSon();
+	                default:
+	                	PrintToConsole.println("The entered input could mean different moves. Not supported yet");
+	                    return requestMove(dataType);
+	            }
+        	} else {
+        		return null;
+        	}
         } catch (Exception e) {
-            System.out.println("Unknown Issue.");
-            return  requestMove(dataType);
+        	PrintToConsole.println("Invalid input: " + input);
+            return requestMove(dataType);
         }
+        
     }
 
-    
-    public boolean checkEndGame(String input) {
+    public boolean checkSpecialInput(String input) {
 		if ("exit".equalsIgnoreCase(input)) {
 			mController.setEndedGame(true);
 			return true;
 		}
+		if("menu".equalsIgnoreCase(input)) {
+			PrintToConsole.println("Settings:");
+			PrintToConsole.println("Set Auto-[P]romotion on/off");
+			PrintToConsole.println("Set [A]I on/off");
+			PrintToConsole.println("Any input to continue the game");
+			
+			String newInput = mScanner.nextLine();
+			if("p".equalsIgnoreCase(newInput)) {
+				autoPromotion();
+				return true;
+			}
+			if("a".equalsIgnoreCase(newInput)) {
+				aiState();
+				return true;
+			}
+		}
 		return false;
     }
 
-    @Override
+    private void autoPromotion() {
+    	
+    	if(mGame.getAutoPromotion()) {
+    		mGame.setAutoPromotion(false);
+    		PrintToConsole.println("Auto-Promotion turned off");
+    	} else {
+    		mGame.setAutoPromotion(true);
+    		PrintToConsole.println("Auto-Promotion turned on");
+    	}
+    	
+	}
+    
+    private void aiState() {
+    	if(mGame.getAiState()) {
+    		mGame.setAiState(false);
+    		PrintToConsole.println("AI off");
+    	} else {
+    		mGame.setAiState(true);
+    		PrintToConsole.println("AI on");
+    	}
+    	
+    }
+    
+    public char setPromotionPiece() {
+    	PrintToConsole.println("Please enter the piece you wish to promote to or press any other key");
+    	String input = mScanner.nextLine();
+    	
+    	switch (input.charAt(0)) {
+    		case 'q', 'Q':
+    			return 'Q';
+    		case 'r', 'R':
+    			return 'R';
+    		case 'b', 'B':
+    			return 'B';
+    		case 'n', 'N':
+    			return 'N';
+    		default:
+    			return 'Q';
+    	}
+    }
+
+	@Override
     public void refreshOutput() {
         printBoard();
-        if (Chess.getResult() != ChessResult.INGAME) {
+        if (!mGame.isGameRunning()) {
             printResult();
         }
     }

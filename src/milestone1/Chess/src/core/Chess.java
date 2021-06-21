@@ -5,6 +5,7 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
+import sample.ConsoleUI;
 import sample.WriteError;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,25 +16,28 @@ import java.util.List;
  */
 public class Chess {
 
-    private static ChessBoard mBoard = ChessBoard.getStartBoard();
-    private static int mCurrentMove = 1;
-    private static boolean mIsItWhitesTurn = true;
-
-    public static void resetGame() {
-        mBoard = ChessBoard.getStartBoard();
-        mCurrentMove = 1;
-        mIsItWhitesTurn = true;
+    private ChessBoard mBoard = ChessBoard.getStartBoard();
+    private int mCurrentMove = 1;
+    private boolean mIsItWhitesTurn = true;
+    private char standardPromotionPiece = 'Q';
+    private boolean autoPromotion = true;
+    private boolean aiState = false;
+    
+    public Chess() {
+    	//Unused so far
     }
 
-    public static boolean makeMove(Square origin, Square destination) {
-        ChessPiece piece = mBoard.getPiece(origin);
-        if(piece == null) return false;
-        ChessPieceType pieceType = piece.getType();
+    public void reset() {
+        mBoard = ChessBoard.getStartBoard();
+    }
+
+    public boolean makeMove(Square origin, Square destination) {
+        ChessPieceType pieceType = mBoard.getPiece(origin).getType();
         if (getPossibleOrigins(destination, pieceType).contains(origin)) {
             checkForCastling(origin, destination);
             handleEnPassantCapture(origin, destination);
             mBoard.movePiece(origin, destination);
-            checkForPromotion(destination, 'Q');
+            checkForPromotion(destination, standardPromotionPiece);
             registerMove(destination);
             resetEnPassant();
             checkForPawnDoubleMove(origin, destination);
@@ -44,7 +48,7 @@ public class Chess {
         }
     }
 
-    private static void handleEnPassantCapture(Square origin, Square destination) {
+    private void handleEnPassantCapture(Square origin, Square destination) {
         if (mBoard.getPiece(origin).getType() == ChessPieceType.PAWN && origin.getFile() != destination.getFile()
         	&& mBoard.getPiece(destination) == null) {
                     
@@ -54,14 +58,14 @@ public class Chess {
                 }
             }
       
-    private static void resetEnPassant() {
+    private void resetEnPassant() {
         for (ChessPiece piece : mBoard.findPieces(ChessPieceType.PAWN)) {
             Pawn pawn = (Pawn) piece;
             pawn.resetEnPassant();
         }
     }
 
-    private static void registerMove(Square square) {
+    private void registerMove(Square square) {
         ChessPiece piece = mBoard.getPiece(square);
         switch (piece.getType()) {
             case PAWN:
@@ -75,7 +79,7 @@ public class Chess {
         }
     }
 
-    private static void checkForPawnDoubleMove(Square origin, Square destination) {
+    private void checkForPawnDoubleMove(Square origin, Square destination) {
         ChessPiece piece = mBoard.getPiece(destination);
         if (piece.getType() == ChessPieceType.PAWN) {
             Direction moveDirection = mIsItWhitesTurn ? Direction.UP : Direction.DOWN;
@@ -91,7 +95,7 @@ public class Chess {
         }
     }
 
-    private static void checkForCastling(Square origin, Square destination) {
+    private void checkForCastling(Square origin, Square destination) {
         Rank backRank = mIsItWhitesTurn ? Rank.M1 : Rank.M8;
         King king = (King) mBoard.findPieces(ChessPieceType.KING, mIsItWhitesTurn).get(0);
         if (king.hasMoved()) {
@@ -123,7 +127,7 @@ public class Chess {
         mBoard.movePiece(extraMoveOrigin, extraMoveDestination);
     }
     
-    private static void checkForPromotion(Square destination, char c) {
+    private void checkForPromotion(Square destination, char c) {
     	Rank topRank = mIsItWhitesTurn ? Rank.M8 : Rank.M1;   	
     	if (destination.getRank() != topRank) {
     		return;
@@ -132,13 +136,18 @@ public class Chess {
     	if (!piece.getType().equals(ChessPieceType.PAWN)) {
     		return;
     	}
+    	if(!autoPromotion) {
+    		ChessPiece promotionPiece;
+    		ConsoleUI newUI = new ConsoleUI();
+    		promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
+    		mBoard.placePiece(promotionPiece, destination);
+    		return;
+    	}
     	Queen queen = new Queen(mIsItWhitesTurn);
-    	
-    	setPromotionPiece(c);
     	mBoard.placePiece(queen, destination);
     }
     
-    private static ChessPiece setPromotionPiece(char c) {
+    private ChessPiece setPromotionPiece(char c) {
         switch (c) {
 
         case 'n', 'N':
@@ -154,7 +163,7 @@ public class Chess {
         }  	
     }
 
-    private static void incrementMove() {
+    private void incrementMove() {
         if (mIsItWhitesTurn) {
             mIsItWhitesTurn = false;
         } else {
@@ -163,32 +172,52 @@ public class Chess {
         }
     }
 
-    public static List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
+    public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
         List<Square> squaresWithPiece = mBoard.findSquaresOfPieces(pieceType, isItWhitesTurn());
         List<Square> possibleOrigins = new ArrayList<>();
-        for(Square origin : squaresWithPiece) {
+        for (Square origin : squaresWithPiece) {
             ChessPiece piece = mBoard.getPiece(origin);
-            if(piece.findMoves(origin, mBoard).contains(destination)) {
+            if (piece.findCoveredSquares(mBoard, origin).contains(destination)) {
                 possibleOrigins.add(origin);
             }
         }
         return possibleOrigins;
     }
 
-    public static ChessBoard getBoard() {
+    public ChessBoard getBoard() {
         return mBoard;
     }
 
-    public static int getCurrentMove() {
+    public int getCurrentMove() {
         return mCurrentMove;
     }
 
-    public static boolean isItWhitesTurn() {
+    public boolean isItWhitesTurn() {
         return mIsItWhitesTurn;
     }
 
-    public static ChessResult getResult() {
+    public ChessResult getResult() {
         return GameOverDetector.checkForMate(mIsItWhitesTurn, mBoard);
     }
+
+    public boolean isGameRunning() {
+        return getResult() == ChessResult.NONE;
+    }
+    
+    public boolean getAutoPromotion() {
+    	return autoPromotion;
+    }
+    
+    public void setAutoPromotion(boolean set) {
+    	this.autoPromotion = set;
+    }
+    
+    public boolean getAiState() {
+    	return aiState;
+    }
+    public void setAiState(boolean set) {
+    	this.aiState = set;
+    }
+
 
 }
