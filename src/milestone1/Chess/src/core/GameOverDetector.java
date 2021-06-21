@@ -23,7 +23,7 @@ public final class GameOverDetector {
 
         // Check if current Player can move
         for (Square square : squaresOfPlayer) {
-            if (!board.getPiece(square).findMoves(square, board).isEmpty()) {
+            if (!board.getPiece(square).findMoves(board, square).isEmpty()) {
                 return ChessResult.NONE;
             }
         }

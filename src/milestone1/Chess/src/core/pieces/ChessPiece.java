@@ -28,7 +28,7 @@ public abstract class ChessPiece implements Cloneable {
 
     public abstract List<Square> findCoveredSquares(ChessBoard board, Square origin);
 
-    public List<Square> findMoves(Square square, ChessBoard board) {
+    public List<Square> findMoves(ChessBoard board, Square square) {
         List<Square> coveredSquares = findCoveredSquares(board, square);
         List<Square> validMoves = new ArrayList<>();
         for (Square uncheckedSquare : coveredSquares) {

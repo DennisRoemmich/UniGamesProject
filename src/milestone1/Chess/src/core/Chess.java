@@ -177,7 +177,7 @@ public class Chess {
         List<Square> possibleOrigins = new ArrayList<>();
         for (Square origin : squaresWithPiece) {
             ChessPiece piece = mBoard.getPiece(origin);
-            if (piece.findCoveredSquares(mBoard, origin).contains(destination)) {
+            if (piece.findMoves(mBoard, origin).contains(destination)) {
                 possibleOrigins.add(origin);
             }
         }

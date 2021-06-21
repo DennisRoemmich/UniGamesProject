@@ -39,8 +39,8 @@ public class King extends CastlingChessPiece  {
     }
 
     @Override
-    public List<Square> findMoves(Square square, ChessBoard board) {
-        List<Square> moves = super.findMoves(square, board);
+    public List<Square> findMoves(ChessBoard board, Square square) {
+        List<Square> moves = super.findMoves(board, square);
         moves.addAll(findCastlingMoves(board));
         return moves;
     }
