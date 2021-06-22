@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class King extends CastlingChessPiece  {
+public class King extends ChessPiece  {
 
     public King(boolean isWhite) {
         super(isWhite, ChessPieceType.KING);
@@ -47,7 +47,7 @@ public class King extends CastlingChessPiece  {
     
     private List<Square> findCastlingMoves(ChessBoard board) {
         List<Square> castlingMoves = new ArrayList<>();
-        if (this.hasMoved() || CheckDetector.isInCheck(board, isWhite())) {
+        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(board, isWhite())) {
             return castlingMoves;
         }
         Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
@@ -55,7 +55,7 @@ public class King extends CastlingChessPiece  {
             
         	Rook rook = (Rook) board.getPiece(rookSquare);
             
-            if (!rook.hasMoved()) {
+            if (rook.getNumberOfMoves() == 0) {
             	Square kingSquare = new Square(backRank, File.E);
             	Direction kingMoveDirection = rookSquare.getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
             	List<Square> kingMovementSquares = new ArrayList<>();

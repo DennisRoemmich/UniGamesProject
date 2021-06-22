@@ -32,7 +32,7 @@ public class CheckMateTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        super.mTestController.newGame();
         super.runMoves();
         ChessResult result = mTestController.getGame().getResult();
         return result == ChessResult.CHECKMATE;

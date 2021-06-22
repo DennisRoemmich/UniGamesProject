@@ -1,6 +1,7 @@
 package sample;
 
 import core.Chess;
+import core.ChessMove;
 import core.ChessResult;
 import core.GameOverDetector;
 import core.positioning.Square;
@@ -20,50 +21,63 @@ import org.json.simple.JSONObject;
 public class Controller extends GameController {
 
     private Chess mGame;
-    private Presenter mPresenter;
-    private boolean mIsGameRunning = false;
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
-    private final JSONObject mMoveRequestJSon;
-    protected boolean mEndedGame = false;
     
     public Controller() {
-    	HashMap<String, String> rawObject = new HashMap<>();
-    	rawObject.put("type", "move");
-    	JSONObject object = new JSONObject(rawObject);
-    	mMoveRequestJSon = object;
     }
     
     public Controller(Presenter presenter) {
-    	HashMap<String, String> rawObject = new HashMap<>();
-    	this.mPresenter = presenter;
-    	rawObject.put("type", "move");
-        JSONObject object = new JSONObject(rawObject);
-        mMoveRequestJSon = object;
+        // Vielleicht ist es übersichtlicher auf diesen Konstuktor zu verzichten und set zu benutzen
+        // Oder ein Konstuktor mit Presenter und Player-Liste als Parametern
+        mPresenter = presenter;
     }
 
-    public void executeMove(JSONObject move) {
-       
-    	if (move == null) {
-    		return;
+
+    protected JSONObject executeMove(JSONObject moveJSON) {
+    	if (moveJSON == null) {
+    		return createReply(false, "NullInput");
     	}
-    	
-    	String originName = move.get("origin").toString();
-        String destinationName = move.get("destination").toString();
-        Square origin;
-        Square destination;
+    	if (!moveJSON.containsKey("origin") || !moveJSON.containsKey("destination")) {
+            return createReply(false, "InvalidInput");
+        }
+    	ChessMove move;
         try {
-            origin = new Square(originName);
-            destination = new Square(destinationName);
+            move = ChessMove.valueOf(moveJSON);
         } catch (Exception e) {
             WriteError.writeErrorLog("");
-            return;
+            return createReply(false, "unknown");
         }
-        if (mGame.makeMove(origin, destination)) {
-            logMove(move);
-        }
+        mGame.makeMove(move);
+        return createReply(true, "success");
     }
+
+    @Override
+    public void newGame() {
+        mGame = new Chess();
+    }
+
+    @Override
+    public JSONObject metaSettingsToJSON() {
+        return new JSONObject();
+    }
+
+    @Override
+    public JSONObject gameSettingsToJSON() {
+        return new JSONObject();
+    }
+
+    @Override
+    public void restoreMetaSettings(JSONObject metaSettings) {
+
+    }
+
+    @Override
+    public void restoreGameSettings(JSONObject gameSettings) {
+
+    }
+
 
     public void setPlayerA(Player playerA) {
         this.mPlayerA = playerA;
@@ -75,10 +89,6 @@ public class Controller extends GameController {
 
     public Chess getGame() {
         return mGame;
-    }
-
-    public void createGame() {
-        mGame = new Chess();
     }
 
     public boolean startGame() {
@@ -107,26 +117,16 @@ public class Controller extends GameController {
     public void gameStep() {
     	boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            executeMove(mPlayerA.requestMove(mMoveRequestJSon));
+            handleMove(mPlayerA.requestMove(createRequestJSON("move")));
         } else {
-            executeMove(mPlayerB.requestMove(mMoveRequestJSon));
+            handleMove(mPlayerB.requestMove(createRequestJSON("move")));
         }
         updateGameState();
     }
 
     private void updateGameState() {
-    	if (mEndedGame) {
-    		mIsGameRunning = false;
-    	} else {
-    		mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
-    	}
-    }
-    
-    public boolean getEndedGame() {
-    	return mEndedGame;
-    }
-    
-    public void setEndedGame(boolean value) {
-    	mEndedGame = value;
+        if(mIsGameRunning) {
+            mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
+        }
     }
 }

@@ -14,9 +14,6 @@ import java.util.List;
  */
 public class Pawn extends ChessPiece {
 
-    private int mNumberOfMoves = 0;
-    private int mLastMoved = 0;
-
     private boolean mCanBeCapturedEnPassant = false;
 
     public Pawn(boolean isWhite) {
@@ -34,7 +31,7 @@ public class Pawn extends ChessPiece {
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
-            if (mNumberOfMoves == 0) {
+            if (getNumberOfMoves() == 0) {
                 squareToTest = squareToTest.getNext(moveDirection);
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
@@ -64,24 +61,11 @@ public class Pawn extends ChessPiece {
         return list;
     }
 
-    public void registerMove(int moveNumber) {
-        mNumberOfMoves++;
-        mLastMoved = moveNumber;
-    }
-
     public void registerDoubleMove() {
         mCanBeCapturedEnPassant = true;
     }
 
     public void resetEnPassant() {
         mCanBeCapturedEnPassant = false;
-    }
-
-    public int getNumberOfMoves() {
-        return mNumberOfMoves;
-    }
-
-    public int getLastMoved() {
-        return mLastMoved;
     }
 }

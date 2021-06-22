@@ -7,6 +7,8 @@ import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
+import framework.FileController;
+import framework.GameLog;
 import framework.Player;
 import framework.Presenter;
 import org.json.simple.JSONObject;
@@ -21,15 +23,35 @@ import java.util.Scanner;
  */
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
-    private Controller mController = new Controller(this);
-    private Chess mGame; 
+    private Controller mController = new Controller();
+
+    public void run() {
+    	PrintToConsole.println("Welcome to Chess!");
+    	// TODO : Hilfe anbieten (z.B. mit Notation)
+		// TODO : Gegener wechselm (Hotseat oder KI)
+
+		JSONObject loadedGame = FileController.loadJSon("game1");
+		if(loadedGame != null) {
+			startGame(GameLog.valueOf(loadedGame));
+		} else {
+			startGame();
+		}
+	}
+
+	public void startGame(GameLog log) {
+		mController.setPlayerA(this);
+		mController.setPlayerB(this);
+		mController.setPresenter(this);
+		mController.replayLog(log);
+		mController.startGame();
+	}
 
     public void startGame() {
     	PrintToConsole.println("Type \"exit\" to end the game or \"menu\" to change game settings. \n");
         mController.setPlayerA(this);
         mController.setPlayerB(this);
-        mController.createGame();
-        mGame = mController.getGame();
+		mController.setPresenter(this);
+        mController.newGame();
         mController.startGame();
     }
 
@@ -56,7 +78,7 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     private void printResult() {
-        switch (mGame.getResult()) {
+        switch (mController.getGame().getResult()) {
             case DRAW -> PrintToConsole.println("Draw");
             case CHECKMATE -> PrintToConsole.println("Checkmate");
             case STALEMATE -> PrintToConsole.println("Stalemate");
@@ -68,67 +90,41 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
-    	
-        PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
-        String input = mScanner.nextLine();
-        
-        try {   	
-        	if (!checkSpecialInput(input)) {
-	            Square destination;
-	            ChessPieceType pieceType;
-	            switch (input.length()) {
-	                case 2:
-	                    pieceType = ChessPieceType.PAWN;
-	                    destination = new Square(input);
-	                    break;
-	                case 3:
-	                    pieceType = ChessPieceType.valueOf(input.charAt(0));
-	                    destination = new Square(input.substring(1));
-	                    break;
-	                default:
-	                	PrintToConsole.println("The given input couldn't be recognized.");
-	                    return requestMove(dataType);
-	            }
-	            List<Square> possibleOrigins = mGame.getPossibleOrigins(destination, pieceType);
-	            switch (possibleOrigins.size()) {
-	                case 0:
-	                	PrintToConsole.println("The entered input could mean different moves or is impossible.");
-	                    return requestMove(dataType);
-	                case 1:
-	                    ChessMove move = new ChessMove(possibleOrigins.get(0), destination);
-	                    return move.toJSon();
-	                default:
-	                	PrintToConsole.println("The entered input could mean different moves. Not supported yet");
-	                    return requestMove(dataType);
-	            }
-        	} else {
-        		return null;
-        	}
-        } catch (Exception e) {
-        	PrintToConsole.println("Invalid input: " + input);
-            return requestMove(dataType);
-        }
-        
-    }
+
+		if (dataType.get("type") != "move") {
+			return new JSONObject();
+		}
+		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
+		String input = mScanner.nextLine();
+		if(checkSpecialInput(input)) {
+			return new JSONObject();
+		}
+		try {
+			ChessMove move = ChessMove.valueOf(input, mController.getGame());
+			return move.toJSon();
+		} catch (Exception e) {
+			System.out.println("Unknown Issue.");
+			return new JSONObject();
+		}
+	}
 
     public boolean checkSpecialInput(String input) {
-		if ("exit".equalsIgnoreCase(input)) {
-			mController.setEndedGame(true);
+		if("exit".equalsIgnoreCase(input)) {
+			mController.quitGame();
+			return true;
+		}
+		if("undo".equalsIgnoreCase(input)) {
+			mController.undoLastMove();
 			return true;
 		}
 		if("menu".equalsIgnoreCase(input)) {
 			PrintToConsole.println("Settings:");
 			PrintToConsole.println("Set Auto-[P]romotion on/off");
-			PrintToConsole.println("Set [A]I on/off");
 			PrintToConsole.println("Any input to continue the game");
 			
 			String newInput = mScanner.nextLine();
 			if("p".equalsIgnoreCase(newInput)) {
 				autoPromotion();
-				return true;
-			}
-			if("a".equalsIgnoreCase(newInput)) {
-				aiState();
 				return true;
 			}
 		}
@@ -137,26 +133,15 @@ public class ConsoleUI implements Presenter, Player {
 
     private void autoPromotion() {
     	
-    	if(mGame.getAutoPromotion()) {
-    		mGame.setAutoPromotion(false);
+    	if(mController.getGame().getAutoPromotion()) {
+    		mController.getGame().setAutoPromotion(false);
     		PrintToConsole.println("Auto-Promotion turned off");
     	} else {
-    		mGame.setAutoPromotion(true);
+    		mController.getGame().setAutoPromotion(true);
     		PrintToConsole.println("Auto-Promotion turned on");
     	}
     	
 	}
-    
-    private void aiState() {
-    	if(mGame.getAiState()) {
-    		mGame.setAiState(false);
-    		PrintToConsole.println("AI off");
-    	} else {
-    		mGame.setAiState(true);
-    		PrintToConsole.println("AI on");
-    	}
-    	
-    }
     
     public char setPromotionPiece() {
     	PrintToConsole.println("Please enter the piece you wish to promote to or press any other key");
@@ -179,7 +164,9 @@ public class ConsoleUI implements Presenter, Player {
 	@Override
     public void refreshOutput() {
         printBoard();
-        if (!mGame.isGameRunning()) {
+        if (mController.getGame().isGameRunning()) {
+			PrintToConsole.println(mController.getGame().isItWhitesTurn() ? "It's whites turn" : "It's blacks turn");
+		} else {
             printResult();
         }
     }

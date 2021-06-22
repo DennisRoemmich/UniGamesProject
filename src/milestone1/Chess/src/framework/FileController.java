@@ -3,6 +3,7 @@ package framework;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import sample.PrintToConsole;
 
 import java.io.*;
 
@@ -25,12 +26,12 @@ public final class FileController {
 
     public static JSONObject loadJSon(String fileName) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(fileName)) {
+        try (FileReader reader = new FileReader(fileName + FILEEXTENSION)) {
             Object obj = jsonParser.parse(reader);
             return (JSONObject) obj;
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            PrintToConsole.println("No saved game found.");
             return null;
-        	}
+        }
     }
 }

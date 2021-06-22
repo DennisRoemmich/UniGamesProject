@@ -16,19 +16,20 @@ import java.util.List;
  */
 public class Chess {
 
-    private ChessBoard mBoard = ChessBoard.getStartBoard();
-    private int mCurrentMove = 1;
-    private boolean mIsItWhitesTurn = true;
+    private ChessBoard mBoard;
+    private int mCurrentMove;
+    private boolean mIsItWhitesTurn;
     private char standardPromotionPiece = 'Q';
     private boolean autoPromotion = true;
-    private boolean aiState = false;
     
     public Chess() {
-    	//Unused so far
+    	mBoard = ChessBoard.getStartBoard();
+    	mCurrentMove = 1;
+    	mIsItWhitesTurn = true;
     }
 
-    public void reset() {
-        mBoard = ChessBoard.getStartBoard();
+    public boolean makeMove(ChessMove move) {
+        return makeMove(move.getOrigin(), move.getDestination());
     }
 
     public boolean makeMove(Square origin, Square destination) {
@@ -67,16 +68,7 @@ public class Chess {
 
     private void registerMove(Square square) {
         ChessPiece piece = mBoard.getPiece(square);
-        switch (piece.getType()) {
-            case PAWN:
-                ((Pawn) piece).registerMove(mCurrentMove);
-                break;
-            case KING, ROOK:
-                ((CastlingChessPiece) piece).registerMove();
-                break;
-		default:
-			break;
-        }
+        piece.registerMove();
     }
 
     private void checkForPawnDoubleMove(Square origin, Square destination) {
@@ -98,7 +90,7 @@ public class Chess {
     private void checkForCastling(Square origin, Square destination) {
         Rank backRank = mIsItWhitesTurn ? Rank.M1 : Rank.M8;
         King king = (King) mBoard.findPieces(ChessPieceType.KING, mIsItWhitesTurn).get(0);
-        if (king.hasMoved()) {
+        if (king.getNumberOfMoves() != 0) {
             return;
         }
         Square kingSquare = mBoard.getSquare(king);
@@ -164,10 +156,8 @@ public class Chess {
     }
 
     private void incrementMove() {
+        mIsItWhitesTurn = !mIsItWhitesTurn;
         if (mIsItWhitesTurn) {
-            mIsItWhitesTurn = false;
-        } else {
-            mIsItWhitesTurn = true;
             mCurrentMove++;
         }
     }
@@ -211,13 +201,5 @@ public class Chess {
     public void setAutoPromotion(boolean set) {
     	this.autoPromotion = set;
     }
-    
-    public boolean getAiState() {
-    	return aiState;
-    }
-    public void setAiState(boolean set) {
-    	this.aiState = set;
-    }
-
 
 }

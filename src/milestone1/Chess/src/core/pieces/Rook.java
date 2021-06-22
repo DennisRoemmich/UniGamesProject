@@ -10,7 +10,7 @@ import java.util.List;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class Rook extends CastlingChessPiece  {
+public class Rook extends ChessPiece  {
 
     public Rook(boolean isWhite) {
         super(isWhite, ChessPieceType.ROOK);

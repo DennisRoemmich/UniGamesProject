@@ -16,6 +16,7 @@ public abstract class ChessPiece implements Cloneable {
 
     private final ChessPieceType mType;
     private final boolean mIsWhite;
+    private int numberOfMoves = 0;
 
     /* Constructor */
 
@@ -39,7 +40,19 @@ public abstract class ChessPiece implements Cloneable {
         return validMoves;
     }
 
+    public void registerMove() {
+        numberOfMoves++;
+    }
+
+    public void undoMoveRegistry() {
+        numberOfMoves--;
+    }
+
     /* Getter */
+
+    public final int getNumberOfMoves() {
+        return numberOfMoves;
+    }
 
     public final String getName() {
         return mType.name();

@@ -1,5 +1,7 @@
 package sample;
 
+import core.positioning.File;
+
 /**
  * Main console class that starts the chess game UI.
  * @author Jan de Boer, Dennis Roemmich

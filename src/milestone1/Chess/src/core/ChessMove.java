@@ -31,6 +31,7 @@ public class ChessMove {
 
     public JSONObject toJSon() {
         JSONObject moveObject = new JSONObject();
+        //moveObject.put("isValid", true);
         moveObject.put("origin", mOrigin.toString());
         moveObject.put("destination", mDestination.toString());
         return moveObject;
@@ -45,6 +46,24 @@ public class ChessMove {
             case 5 -> { return decodeLengthFive(shortNotation, game); }
             default -> throw new IllegalArgumentException();
         }
+    }
+
+    public static ChessMove valueOf(JSONObject moveJSON) {
+        if(moveJSON.containsKey("origin") && moveJSON.containsKey("destination")) {
+            Square origin = Square.valueOf(moveJSON.get("origin").toString());
+            Square destination = Square.valueOf((moveJSON.get("destination").toString()));
+            if(moveJSON.containsKey("specialmove")) {
+                switch (moveJSON.get("specialmove").toString()) {
+                    case "castling":
+                        return new CastlingMove(origin, destination);
+                    case "promotion":
+                        ChessPieceType promotionType = ChessPieceType.valueOf(moveJSON.get("type").toString());
+                        return new PromotionChessMove(origin, destination, promotionType);
+                }
+            }
+            return new ChessMove(origin, destination);
+        }
+        throw new IllegalArgumentException();
     }
 
     private static String keepOnlyRequiredChars(String shortNotation) {
@@ -84,11 +103,10 @@ public class ChessMove {
             }
             case 'b' -> {
                 var move = decodeLongPawnMove('b', destination, game);
-                if (move.isEmpty()) {
-                    possibleMoves.addAll(decodeNonPawnMove('B', destination, game));
-                } else {
+                if (!move.isEmpty()) {
                     possibleMoves.add(move.get());
                 }
+                possibleMoves.addAll(decodeNonPawnMove('B', destination, game));
             }
             case 'B' -> {
                 possibleMoves.addAll(decodeNonPawnMove('B', destination, game));

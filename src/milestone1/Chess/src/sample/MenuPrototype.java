@@ -52,7 +52,7 @@ public class MenuPrototype {
 
     private void startChess() {
         ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.startGame();
+        consoleUI.run();
     }
 
     private void quitGame() {

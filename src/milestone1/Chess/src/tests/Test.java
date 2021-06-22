@@ -18,8 +18,8 @@ public abstract class Test {
     public abstract boolean runTest();
 
     public void runMoves() {
-        for (JSONObject move : getMoves()) {
+        /*for (JSONObject move : getMoves()) {
             mTestController.executeMove(move);
-        }
+        }*/
     }
 }

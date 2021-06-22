@@ -12,6 +12,11 @@ public class GameLog {
 	private JSONObject mMetaSettings;
 	private JSONObject mGameSettings;
 
+	public static String idKey = "id";
+	public static String moveLogKey = "moveLog";
+	public static String metaSettingsKey = "metaSettings";
+	public static String gameSettingsKey = "gameSetttings";
+
 	public GameLog(String id) {
 		this.mId = id;
 		this.mMetaSettings = new JSONObject();
@@ -19,11 +24,19 @@ public class GameLog {
 		this.mMoveLog = new ArrayList<>();
 	}
 
-	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, List<JSONObject> moves) {
+	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, List<JSONObject> moveLog) {
 		this.mId = id;
 		this.mMetaSettings = metaSettings;
 		this.mGameSettings = gameSettings;
-		this.mMoveLog = (ArrayList<JSONObject>) moves;
+		this.mMoveLog = (ArrayList<JSONObject>) moveLog;
+	}
+
+	public static GameLog valueOf(JSONObject log) {
+		String id = (String) log.get(idKey);
+		JSONObject metaSettings = (JSONObject) log.get(metaSettingsKey);
+		JSONObject gameSettings = (JSONObject) log.get(gameSettingsKey);
+		List<JSONObject> moveLog = (List<JSONObject>) log.get(moveLogKey);
+		return new GameLog(id, metaSettings, gameSettings, moveLog);
 	}
 
 	public void logMove(JSONObject aMove) {
@@ -59,9 +72,9 @@ public class GameLog {
 
 	public JSONObject getCompleteJSonObject() {
 		HashMap<String, Object> rawComplete = new HashMap<>();
-		rawComplete.put("moveLog", mMoveLog);
-		rawComplete.put("gameSetting", mGameSettings);
-		rawComplete.put("metaSetting", mMetaSettings);
+		rawComplete.put(moveLogKey, mMoveLog);
+		rawComplete.put(gameSettingsKey, mGameSettings);
+		rawComplete.put(metaSettingsKey, mMetaSettings);
 		return new JSONObject(rawComplete);
 	}
 

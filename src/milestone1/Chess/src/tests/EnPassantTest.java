@@ -34,7 +34,7 @@ public class EnPassantTest extends Test {
     }
 
     public boolean runTest() {
-        super.mTestController.createGame();
+        super.mTestController.newGame();
         super.runMoves();
         Square capturedSquare = new Square(Rank.M5, File.F);
         return mTestController.getGame().getBoard().getPiece(capturedSquare) == null;
