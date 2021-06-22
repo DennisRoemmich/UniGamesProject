@@ -18,7 +18,6 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        var test = "test";
 
 
     }

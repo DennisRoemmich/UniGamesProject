@@ -1,6 +1,7 @@
 package JavaFX;
 
 import framework.Player;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.json.simple.JSONObject;
@@ -12,6 +13,7 @@ import java.awt.*;
 public class Controller implements Player {
 
     public AnchorPane anchorPane_contextMenu;
+    public ImageView button_FinishOrDraw;
     private Rummikub rummiGame;
 
     public void acceptButtonClicked(MouseEvent mouseEvent) {
@@ -60,6 +62,9 @@ public class Controller implements Player {
 
     public void closeContextMenu(MouseEvent mouseEvent) {
         anchorPane_contextMenu.setVisible(false);
+
+        button_FinishOrDraw.setVisible(false);
+
     }
 
     public void openContextMenu(MouseEvent mouseEvent) {
