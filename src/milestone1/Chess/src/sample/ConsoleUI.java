@@ -93,25 +93,28 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     public void printBoard() {
-        PrintToConsole.println("   A  B  C  D  E  F  G  H   ");
-        PrintToConsole.println(" ┌────────────────────────┐ ");
+        PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
+        PrintToConsole.println(" ┌───────────────────────────────┐ ");
         for (Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
-        	PrintToConsole.print(rank + "│");
+        	PrintToConsole.print(rank.toString() + "│");
             for (File file : File.values()) {
-            	PrintToConsole.print(' ');
+				PrintToConsole.print(' ');
                 ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
                 if (piece == null) {
                 	PrintToConsole.print(' ');
                 } else {
                 	// .toChar() can be changed to .toSymbol() for Unicode symbols
-                	PrintToConsole.print(piece.toChar());
+                	PrintToConsole.print(piece.toSymbol());
                 }
-                PrintToConsole.print(' ');
+				PrintToConsole.print(" │");
             }
-            PrintToConsole.println("│" + rank);
+            PrintToConsole.println(rank.toString());
+            if(rank != Rank.M1) {
+        PrintToConsole.println(" ├───┼───┼───┼───┼───┼───┼───┼───┤ ");
+			}
         }
-        PrintToConsole.println(" └────────────────────────┘ ");
-        PrintToConsole.println("   A  B  C  D  E  F  G  H   ");
+        PrintToConsole.println(" └───────────────────────────────┘ ");
+        PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
     }
 
     private void printResult() {
