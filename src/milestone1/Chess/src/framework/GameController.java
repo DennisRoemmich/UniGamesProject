@@ -8,14 +8,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public abstract class GameController {
+
 	protected GameLog mGameLog;
 	protected boolean mIsGameRunning;
 	protected List<Player> mPlayers;
-
 	protected Presenter mPresenter;
 	
 	protected GameController() {
 		createNewGameLog();
+	}
+
+	protected abstract JSONObject executeMove(JSONObject move);
+
+	public void callPresenterUpdate() {
+		if (mPresenter != null) {
+			mPresenter.refreshOutput();
+		}
 	}
 
 	// Das sollte noch umbennent werden denke ich
@@ -36,11 +44,30 @@ public abstract class GameController {
 		return reply;
 	}
 
-	public void quitGame() {
-		saveGame(); // Usally it's already saved
-		mIsGameRunning = false;
+	/* Logs & Settings */
+
+	public abstract JSONObject metaSettingsToJSON();
+
+	public abstract JSONObject gameSettingsToJSON();
+
+	public abstract void restoreMetaSettings(JSONObject metaSettings);
+
+	public abstract void restoreGameSettings(JSONObject gameSettings);
+
+	public void logMove(JSONObject move) {
+		mGameLog.logMove(move);
+		saveGame();
 	}
 
+	public void createNewGameLog() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
+		LocalDateTime now = LocalDateTime.now();
+		mGameLog = new GameLog(dateFormatter.format(now));
+	}
+
+	/* Replay & undo */
+
+	// TODO : Wartezeit als Parameter
 	public final void replayLog(GameLog log) {
 		newGame();
 		restoreMetaSettings(log.getMetaSettings());
@@ -48,12 +75,36 @@ public abstract class GameController {
 		for (JSONObject move : log.getMoveLog()) {
 			executeMove(move);
 			callPresenterUpdate();
+			// TODO : Wait funktion für langsames Schritt für Schritt abspielen
 		}
 		mGameLog = log;
 	}
 
-	// JSONObject needs to contain a key "isValid" with a boolean value
-	protected abstract JSONObject executeMove(JSONObject move);
+	public final void undoLastMove() {
+		undoLastMoves(1);
+	}
+
+	public final void undoLastMoves(int amount) {
+		mGameLog.removeLastMoves(amount);
+		replayLog(mGameLog);
+	}
+
+	/* Game Handling / Meta */
+
+	public abstract void newGame();
+
+	public void quitGame() {
+		saveGame(); // Usally it's already saved
+		mIsGameRunning = false;
+	}
+
+	public final void saveGame() {
+		if (mGameLog != null) {
+			FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
+		}
+	}
+
+	/* Helper methods */
 
 	// This template offers easy replies with an ID process it in the UI
 	// It's not required to be used.
@@ -72,46 +123,7 @@ public abstract class GameController {
 		return request;
 	}
 
-	public abstract void newGame();
-	// Die 4 können erstmal leer gelassen werden, bzw. leeres JSONObject zurückgeben
-	public abstract JSONObject metaSettingsToJSON();
-	public abstract JSONObject gameSettingsToJSON();
-	public abstract void restoreMetaSettings(JSONObject metaSettings);
-	public abstract void restoreGameSettings(JSONObject gameSettings);
-
-
-
-	public final void undoLastMove() {
-		undoLastMoves(1);
-	}
-
-	public final void undoLastMoves(int amount) {
-		mGameLog.removeLastMoves(amount);
-		replayLog(mGameLog);
-	}
-
-	public void logMove(JSONObject move) {
-		mGameLog.logMove(move);
-		saveGame();
-	}
-
-	public final void saveGame() {
-		if (mGameLog != null) {
-			FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
-		}
-	}
-
-	public void createNewGameLog() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
-		LocalDateTime now = LocalDateTime.now();
-		mGameLog = new GameLog(dateFormatter.format(now));
-	}
-
-	public void callPresenterUpdate() {
-		if (mPresenter != null) {
-			mPresenter.refreshOutput();
-		}
-	}
+	/* Getter and Setter */
 
 	public Presenter getPresenter() {
 		return mPresenter;

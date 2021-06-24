@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class Chess {
 
-    private ChessBoard mBoard;
-    private int mCurrentMove;
-    private boolean mIsItWhitesTurn;
-    private char standardPromotionPiece = 'Q';
+    protected ChessBoard mBoard;
+    protected int mCurrentMove;
+    protected boolean mIsItWhitesTurn;
+    protected char standardPromotionPiece = 'Q';
     private boolean autoPromotion = true;
     
     public Chess() {
@@ -49,7 +49,7 @@ public class Chess {
         }
     }
 
-    private void handleEnPassantCapture(Square origin, Square destination) {
+    protected void handleEnPassantCapture(Square origin, Square destination) {
         if (mBoard.getPiece(origin).getType() == ChessPieceType.PAWN && origin.getFile() != destination.getFile()
         	&& mBoard.getPiece(destination) == null) {
                     
@@ -59,19 +59,19 @@ public class Chess {
                 }
             }
       
-    private void resetEnPassant() {
+    protected void resetEnPassant() {
         for (ChessPiece piece : mBoard.findPieces(ChessPieceType.PAWN)) {
             Pawn pawn = (Pawn) piece;
             pawn.resetEnPassant();
         }
     }
 
-    private void registerMove(Square square) {
+    protected void registerMove(Square square) {
         ChessPiece piece = mBoard.getPiece(square);
         piece.registerMove();
     }
 
-    private void checkForPawnDoubleMove(Square origin, Square destination) {
+    protected void checkForPawnDoubleMove(Square origin, Square destination) {
         ChessPiece piece = mBoard.getPiece(destination);
         if (piece.getType() == ChessPieceType.PAWN) {
             Direction moveDirection = mIsItWhitesTurn ? Direction.UP : Direction.DOWN;
@@ -87,7 +87,7 @@ public class Chess {
         }
     }
 
-    private void checkForCastling(Square origin, Square destination) {
+    protected void checkForCastling(Square origin, Square destination) {
         Rank backRank = mIsItWhitesTurn ? Rank.M1 : Rank.M8;
         King king = (King) mBoard.findPieces(ChessPieceType.KING, mIsItWhitesTurn).get(0);
         if (king.getNumberOfMoves() != 0) {
@@ -119,7 +119,7 @@ public class Chess {
         mBoard.movePiece(extraMoveOrigin, extraMoveDestination);
     }
     
-    private void checkForPromotion(Square destination, char c) {
+    protected void checkForPromotion(Square destination, char c) {
     	Rank topRank = mIsItWhitesTurn ? Rank.M8 : Rank.M1;   	
     	if (destination.getRank() != topRank) {
     		return;
@@ -139,7 +139,7 @@ public class Chess {
     	mBoard.placePiece(queen, destination);
     }
     
-    private ChessPiece setPromotionPiece(char c) {
+    protected ChessPiece setPromotionPiece(char c) {
         switch (c) {
 
         case 'n', 'N':
@@ -155,7 +155,7 @@ public class Chess {
         }  	
     }
 
-    private void incrementMove() {
+    protected void incrementMove() {
         mIsItWhitesTurn = !mIsItWhitesTurn;
         if (mIsItWhitesTurn) {
             mCurrentMove++;

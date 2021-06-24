@@ -20,11 +20,11 @@ public class ChessBoard implements Cloneable {
         this.mPieces = new ChessPiece[Rank.values().length][File.values().length];
     }
 
-    void placePiece(ChessPiece piece, Square square) {
+    public void placePiece(ChessPiece piece, Square square) {
         mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = piece;
     }
 
-    void removePiece(Square square) {
+    public void removePiece(Square square) {
         mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = null;
     }
 
@@ -32,7 +32,7 @@ public class ChessBoard implements Cloneable {
         return mPieces[square.getRank().getIndex()][square.getFile().getIndex()];
     }
 
-    void movePiece(Square origin, Square destination) {
+    public void movePiece(Square origin, Square destination) {
         ChessPiece piece = getPiece(origin);
         if (piece != null) {
             placePiece(piece, destination);

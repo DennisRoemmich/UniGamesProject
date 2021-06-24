@@ -31,7 +31,7 @@ public class Pawn extends ChessPiece {
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
-            if (getNumberOfMoves() == 0) {
+            if (isDoubleMovePossible()) {
                 squareToTest = squareToTest.getNext(moveDirection);
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
@@ -59,6 +59,10 @@ public class Pawn extends ChessPiece {
         }
 
         return list;
+    }
+
+    protected boolean isDoubleMovePossible() {
+        return getNumberOfMoves() == 0;
     }
 
     public void registerDoubleMove() {

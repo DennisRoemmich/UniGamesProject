@@ -1,5 +1,6 @@
 package sample;
 
+import TorpedoChess.TorpedoChess;
 import core.Chess;
 import core.ChessMove;
 import core.ChessResult;
@@ -56,7 +57,7 @@ public class Controller extends GameController {
 
     @Override
     public void newGame() {
-        mGame = new Chess();
+        mGame = new TorpedoChess();
     }
 
     @Override
