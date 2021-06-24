@@ -1,11 +1,25 @@
 package sample;
 
 import framework.Player;
+import sample.ConsoleUI;
 import org.json.simple.JSONObject;
+
+import core.ChessMove;
 
 public class AiPlayer implements Player {
     @Override
-    public JSONObject requestMove(JSONObject inputType) {
-        return null;
+    public JSONObject requestMove(JSONObject dataType) {
+		if (dataType.get("type") != "move") {
+			return new JSONObject();
+		}
+
+		try {
+			//ChessMove move = ChessMove.valueOf(Ainput, mController);
+			//return move.toJSon();
+			return null;
+		} catch (Exception e) {
+			System.out.println("Unknown Issue.");
+			return new JSONObject();
+		}
     }
 }

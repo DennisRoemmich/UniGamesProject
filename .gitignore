@@ -13,3 +13,4 @@ releases/group/v1/Menü/.idea/encodings.xml
 releases/group/v1/Menü/.idea/misc.xml
 releases/group/v1/Menü/.idea/workspace.xml
 *.class
+/target/

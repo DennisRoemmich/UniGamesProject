@@ -23,33 +23,70 @@ import java.util.Scanner;
  */
 public class ConsoleUI implements Presenter, Player {
     private Scanner mScanner = new Scanner(System.in);
-    private Controller mController = new Controller();
+    protected Controller mController = new Controller();
+    private boolean mAiGame = false;
 
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
-    	// TODO : Hilfe anbieten (z.B. mit Notation)
-		// TODO : Gegener wechselm (Hotseat oder KI)
+    	
+    	boolean gameIsrunning = true;
+    	//while(gameIsrunning) {
+    	
+    		PrintToConsole.println("Replay a save file? (Type [Y] for yes or any key to continue)");
+    		String input = mScanner.nextLine();
+    	
+    		if ("y".equalsIgnoreCase(input)) {
+    			loadGame();
+    		}
+    			else {
+    	    		PrintToConsole.println("Play vs [A]I or any other key to play hotseat.");
+    	    		String inputThree = mScanner.nextLine();
+    	    		if("a".equalsIgnoreCase(input)) {
+    	    			startGame(true);
+    	    		} else {
+    	    			startGame(false);
+    	    		}
+    				
+    			}
+    		}
+	//}
+    
+    public void loadGame() {
+    	try {
+    		PrintToConsole.println("Please enter the save file name or type [A] for Abort. ");
+    		PrintToConsole.println("To replay your last game type \"null\".");
+    		String inputTwo = mScanner.nextLine();
+    		if (!"a".equalsIgnoreCase(inputTwo)) {
+    						
+    				JSONObject loadedGame = FileController.loadJSon(inputTwo);
+    				startGame(GameLog.valueOf(loadedGame), false);
+    			}
+    		} catch(Exception e) {
+    			//will soon be used
+    			}
+    }
 
-		JSONObject loadedGame = FileController.loadJSon("game1");
-		if(loadedGame != null) {
-			startGame(GameLog.valueOf(loadedGame));
-		} else {
-			startGame();
-		}
-	}
-
-	public void startGame(GameLog log) {
+	public void startGame(GameLog log, boolean mAiGame) {
+		PrintToConsole.println("Type \"help\" for information on how to play. \n");
 		mController.setPlayerA(this);
-		mController.setPlayerB(this);
+		if(mAiGame) {
+			mController.setPlayerB(mController.getAiPlayer());
+		} else {
+			mController.setPlayerB(this);
+		}
 		mController.setPresenter(this);
 		mController.replayLog(log);
 		mController.startGame();
 	}
 
-    public void startGame() {
-    	PrintToConsole.println("Type \"exit\" to end the game or \"menu\" to change game settings. \n");
+    public void startGame(boolean mAiGame) {
+    	PrintToConsole.println("Type \"help\" for information on how to play. \n");
         mController.setPlayerA(this);
-        mController.setPlayerB(this);
+		if(mAiGame) {
+			mController.setPlayerB(mController.getAiPlayer());
+		} else {
+			mController.setPlayerB(this);
+		}
 		mController.setPresenter(this);
         mController.newGame();
         mController.startGame();
@@ -90,6 +127,7 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
+    	
 
 		if (dataType.get("type") != "move") {
 			return new JSONObject();
@@ -111,6 +149,24 @@ public class ConsoleUI implements Presenter, Player {
     public boolean checkSpecialInput(String input) {
 		if("exit".equalsIgnoreCase(input)) {
 			mController.quitGame();
+			return true;
+		}
+		if("help".equalsIgnoreCase(input)) {
+			PrintToConsole.println("----------Commands----------");
+			PrintToConsole.println("*help* Prints the current screen with information on commands and how to play the game ");
+			PrintToConsole.println("*menu* Opens the game options menu");
+			PrintToConsole.println("*undo* Undoes the last move ");
+			PrintToConsole.println("*exit* Closes the chess application ");
+			PrintToConsole.println("");
+			PrintToConsole.println("--------How to play---------");
+			PrintToConsole.println("This chess app uses the official chess notation to register moves.");
+			PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row)\"");
+			PrintToConsole.println("In case there are several possible moves (like BISHOP can move to e4 and PAWN can move to e4), you must define the moving piece. ");
+			PrintToConsole.println("This can be done by typing Be4 (BISHOP to e4) ");
+			PrintToConsole.println("For special moves like castling you may either move the king two squares or use the special castling notation (O-O or O-O-O)");
+			PrintToConsole.println("");
+			PrintToConsole.println("For further information please visit https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
+			PrintToConsole.println("");
 			return true;
 		}
 		if("undo".equalsIgnoreCase(input)) {
@@ -159,6 +215,10 @@ public class ConsoleUI implements Presenter, Player {
     		default:
     			return 'Q';
     	}
+    }
+    
+    public Controller getController() {
+    	return this.mController;
     }
 
 	@Override
