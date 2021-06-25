@@ -4,18 +4,18 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public final class FileController {
+
+    public static final String FILEEXTENSION = ".json";
+
     private FileController() {
         // Prevent initialization
     }
 
-    public static void saveJSON(JSONObject object, String fileName) {
-        try (FileWriter file = new FileWriter(fileName)) {
+    public static void saveJSon (JSONObject object, String fileName) {
+        try (FileWriter file = new FileWriter(fileName + FILEEXTENSION)) {
             file.write(object.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -23,20 +23,13 @@ public final class FileController {
         }
     }
 
-    public static JSONObject loadJSON(String fileName) {
+    public static JSONObject loadJSon(String fileName) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(fileName))
-        {
+        try (FileReader reader = new FileReader(fileName + FILEEXTENSION)) {
             Object obj = jsonParser.parse(reader);
-            JSONObject gameLogJSON = (JSONObject) obj;
-            return gameLogJSON;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            return (JSONObject) obj;
+        } catch (IOException | ParseException e) {
+            return null;
         }
-        return null;
     }
 }
