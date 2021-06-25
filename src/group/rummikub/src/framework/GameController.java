@@ -14,6 +14,7 @@ public abstract class GameController {
 	public abstract JSONObject metaSettingsToJSON();
 	public abstract JSONObject gameSettingsToJSON();
 
+
 	public GameController() {
 
 	}
@@ -33,6 +34,8 @@ public abstract class GameController {
 			executeMove(move);
 		}
 	}
+
+
 
 	public void newGameLog(){
 

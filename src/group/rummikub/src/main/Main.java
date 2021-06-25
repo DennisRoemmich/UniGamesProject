@@ -1,6 +1,5 @@
 package main;
 
-import Tests.Test;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,11 +11,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../JavaFX/sample.fxml"));
+
+        Parent root = FXMLLoader.load(getClass().getResource("../JavaFX/rummikubGUI.fxml"));
+
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 595, 502));
         primaryStage.show();
-
 
 
 

@@ -1,10 +1,12 @@
 package Tests;
 
+import framework.GameController;
 import framework.Player;
 import framework.RequestType;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
+import rummikub_controller.RummikubController;
 import rummikub_game.Rummikub;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
@@ -69,6 +71,11 @@ public class Console implements Player<ActionType, GameMove> {
     public void setGameClass(Rummikub game) {
 
         this.game = game;
+
+    }
+
+    @Override
+    public void setGameController(RummikubController gameController) {
 
     }
 

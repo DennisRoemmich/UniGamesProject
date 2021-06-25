@@ -23,6 +23,7 @@ public class RummikubController extends GameController {
     public void addPlayer(Player player){
         players.add(player);
         player.setGameClass(rummiGame);
+        player.setGameController(this);
     }
 
     public void startGame(){

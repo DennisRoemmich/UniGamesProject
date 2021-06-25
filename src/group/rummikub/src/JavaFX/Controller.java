@@ -1,6 +1,8 @@
 package JavaFX;
 
+import framework.GameController;
 import framework.Player;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,12 +10,16 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.json.simple.JSONObject;
+import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
+import rummikub_controller.RummikubController;
 import rummikub_game.Rummikub;
 
 import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Controller implements Player {
+public class Controller implements Player, Initializable {
 
     public ImageView button_sortForGroup;
     public ImageView button_finishOrDraw;
@@ -49,9 +55,15 @@ public class Controller implements Player {
 
     public ImageView board_0201;
     public ImageView board_0204;
+    public ImageView imageView_backGround;
+    public AnchorPane rootAnchorPane;
 
 
     private Rummikub rummiGame;
+    private RummikubController rummikubController;
+
+
+
 
     public void acceptButtonClicked(MouseEvent mouseEvent) {
 
@@ -63,7 +75,16 @@ public class Controller implements Player {
 
     // private Point firstTouch =
 
+
+    Point originPoint = null;
+
     private void boardGridButtonEvent(Point point){
+
+
+        if (originPoint  == null ){
+            // if grid is empty -> return
+            // ...
+        }
 
     }
 
@@ -92,12 +113,23 @@ public class Controller implements Player {
     }
 
     @Override
+    public void setGameController(RummikubController gameController) {
+
+    }
+
+    @Override
     public GameMove requestGameMove() {
         return null;
     }
 
 
     public void sortForGroupClicked(MouseEvent mouseEvent) {
+
+        var move = new GameMove(ActionType.SORTGROUP);
+        rummikubController.makeMove(move);
+
+        //updateGUI()
+
     }
 
     public void finsishOrDrawClicked(MouseEvent mouseEvent) {
@@ -149,4 +181,14 @@ public class Controller implements Player {
 
         board_0201.setVisible(false);
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
+        imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
+
+    }
+
+
 }
