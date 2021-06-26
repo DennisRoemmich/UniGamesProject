@@ -2,8 +2,8 @@ package TorpedoChess;
 
 import core.pieces.Pawn;
 
-public class TorpedePawn extends Pawn {
-    public TorpedePawn(boolean isWhite) {
+public class TorpedoPawn extends Pawn {
+    public TorpedoPawn(boolean isWhite) {
         super(isWhite);
     }
 

@@ -1,2 +1,10 @@
-/sample/
+/.idea/
+/Chess.iml
+/META-INF/
+/TorpedoChess/
+/console/
 /core/
+/framework/
+/game1.json
+/out/
+/tests/
