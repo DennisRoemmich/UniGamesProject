@@ -132,7 +132,7 @@ public class Rummikub {
      */
     public boolean moveTileOnBoard(Point toMove, Point target) {
 
-        return getBoard().moveTile(toMove, target);
+        return getSketchBoard().moveTile(toMove, target);
     }
 
     /**
@@ -168,6 +168,11 @@ public class Rummikub {
      * @return true if successful, false if not
      */
     public boolean moveTileFromBoardToCurrentRack(Point boardPos, Point rackPos) {
+
+
+        // TODO: This Function is not working properly
+
+        System.out.println("here it goes to:" + boardPos.toString() + " - " + rackPos.toString());
 
         var boardGridTile = sketchBoard.getGridTileAt(boardPos);
         var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
@@ -357,8 +362,8 @@ public class Rummikub {
 
         }
 
-        // var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
-        var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
+        var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
+        // var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
 
         var tile = tileStack[randomIndex];
 

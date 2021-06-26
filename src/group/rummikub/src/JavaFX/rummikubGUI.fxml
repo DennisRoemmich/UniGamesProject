@@ -18,6 +18,7 @@
          <image>
             <!-- <Image url="@../../out/production/rummikub/resources/images/background.png" /> -->
             <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/background.png" />
+
                </image>
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
@@ -52,7 +53,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fx:id="board_0201" fitHeight="133.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fx:id="board_0201" fitHeight="133.0" fitWidth="97.0" onMouseClicked="#board0201" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
                   <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/test/tile.png" />
                </image>
@@ -101,7 +102,7 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <ImageView fx:id="button_sortForGroup" fitHeight="158.0" fitWidth="133.0" layoutX="33.0" layoutY="1133.0" onMouseClicked="#sortForGroupClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="245.0" AnchorPane.rightAnchor="1883.4119415283203">
+      <ImageView fx:id="button_sortForGroup" fitHeight="158.0" fitWidth="133.0" layoutX="33.0" layoutY="1133.0" onMouseClicked="#sortForGroupClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="245.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="43.4456787109375">
          <image>
             <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonSortForGroup.jpeg" />
          </image>
@@ -111,7 +112,7 @@
             <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonDraw.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="button_sortForRun" fitHeight="166.0" fitWidth="195.0" layoutX="25.0" layoutY="1321.0" onMouseClicked="#sortForRunClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="49.0" AnchorPane.rightAnchor="1888.125">
+      <ImageView fx:id="button_sortForRun" fitHeight="166.0" fitWidth="195.0" layoutX="25.0" layoutY="1321.0" onMouseClicked="#sortForRunClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="43.4456787109375">
          <image>
             <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonSortForRun.jpeg" />
          </image>

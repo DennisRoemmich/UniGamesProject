@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class GameMove {
 
-    ActionType type;
+    public ActionType type;
 
-    Point pointA;
-    Point pointB;
+    public Point pointA;
+    public Point pointB;
 
     public GameMove(ActionType type) {
         this.type = type;
@@ -31,6 +31,16 @@ public class GameMove {
 
             pointA = new Point(Integer.parseInt(jsn.get("PointAx").toString()),Integer.parseInt(jsn.get("PointAy").toString()));
             pointB = new Point(Integer.parseInt(jsn.get("PointBx").toString()),Integer.parseInt(jsn.get("PointBy").toString()));
+
+            if(pointA == null ||pointB == null){
+
+                System.out.println("Break3: " + type.toString());
+
+            }
+
+        } else {
+
+                System.out.println("Break5: " + type.toString());
 
 
         }

@@ -3,6 +3,7 @@ package rummikub_controller;
 import framework.GameController;
 import framework.GameLog;
 import framework.Player;
+import javafx.scene.chart.Axis;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
 
@@ -79,7 +80,7 @@ public class RummikubController extends GameController {
 
             case SORTGROUP -> {
 
-                if ( state == GameState.RUNNING ) {
+                if ( state == GameState.RUNNING || true ) {
 
                     successful = rummiGame.sortRackForGroup();
                 }
@@ -87,7 +88,7 @@ public class RummikubController extends GameController {
 
             case SORTRUN -> {
 
-                if ( state == GameState.RUNNING ) {
+                if ( state == GameState.RUNNING || true) {
 
                     successful = rummiGame.sortRackForRun();
                 }
@@ -135,6 +136,7 @@ public class RummikubController extends GameController {
         var move = new GameMove(obj);
 
         makeMove(move);
+
 
         printDebugState();
 

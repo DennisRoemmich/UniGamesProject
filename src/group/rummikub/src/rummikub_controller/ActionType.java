@@ -20,7 +20,7 @@ public enum ActionType {
     }
 
     boolean usesPoints() {
-        return (value == 1 || value == 2 || value == 3);
+        return ( value == 1 || value == 2 || value == 3 || value == 8 );
     }
 
 }

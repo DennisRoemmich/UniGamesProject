@@ -61,6 +61,7 @@ public class Board {
     public GridTile getGridTileAt(Point point){
 
         return grid[point.x][point.y];
+
     }
 
     public boolean isOnBoard(Point point) {
