@@ -26,4 +26,12 @@ public enum ChessPieceType {
                 throw new IllegalArgumentException();
         }
     }
+
+    public char toChar() {
+        if(this == KNIGHT) {
+            return 'N';
+        } else {
+            return this.toString().charAt(0);
+        }
+    }
 }

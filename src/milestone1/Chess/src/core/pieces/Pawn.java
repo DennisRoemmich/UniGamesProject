@@ -1,7 +1,9 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.ChessMove;
 import core.positioning.Direction;
+import core.positioning.Rank;
 import core.positioning.Square;
 import framework.WriteError;
 import java.util.ArrayList;
@@ -21,43 +23,47 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
-        List<Square> list = new ArrayList<>();
+    public List<ChessMove> findMoves(ChessBoard board, Square origin) {
+        List<ChessMove> moves = new ArrayList<>();
 
-        Direction moveDirection = isWhite() ? Direction.UP : Direction.DOWN;
+        // Regulär schlagen
+        moves.addAll(super.findMoves(board, origin));
 
-        //Einfacher Zug & Doppelzug
-        Square squareToTest = origin.getNext(moveDirection);
-
+        // Einfacher Zug & Doppelzug
+        Square squareToTest = origin.getNext(getMoveDirection());
         if (board.isFieldFree(squareToTest)) {
-            list.add(squareToTest);
+            if(squareToTest.getRank() == Rank.getBackRank(!isWhite())) {
+                // Das ? steht dafür, dass die gewünschte Figur unbekannt ist
+                moves.add(new ChessMove(origin, squareToTest, "promotion?"));
+            }
+            moves.add(new ChessMove(origin, squareToTest));
             if (isDoubleMovePossible()) {
-                squareToTest = squareToTest.getNext(moveDirection);
+                squareToTest = squareToTest.getNext(getMoveDirection());
                 if (board.isFieldFree(squareToTest)) {
-                    list.add(squareToTest);
+                    moves.add(new ChessMove(origin, squareToTest, "doublemove"));
                 }
             }
         }
+        return moves;
+    }
+
+    @Override
+    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+        List<Square> list = new ArrayList<>();
+        Square squareToTest;
 
         //Schlagen
         for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
             try {
-                squareToTest = origin.getNext(moveDirection);
+                squareToTest = origin.getNext(getMoveDirection());
                 squareToTest = squareToTest.getNext(captureDirection);
-                if (board.isOccupiedByOpponent(squareToTest, isWhite())) {
-                    list.add(squareToTest);
-                    continue;
-                }
-                Square neighbourSquare = origin.getNext(captureDirection);
-                Pawn pawn = (Pawn) board.getPiece(neighbourSquare);
-                if (pawn.mCanBeCapturedEnPassant) {
+                if (board.isOccupiedByOpponentOrFree(squareToTest, isWhite())) {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
             	WriteError.writeErrorLog("");
             }
         }
-
         return list;
     }
 
@@ -71,5 +77,9 @@ public class Pawn extends ChessPiece {
 
     public void resetEnPassant() {
         mCanBeCapturedEnPassant = false;
+    }
+
+    public Direction getMoveDirection() {
+        return isWhite() ? Direction.UP : Direction.DOWN;
     }
 }

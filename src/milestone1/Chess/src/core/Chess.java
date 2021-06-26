@@ -5,7 +5,6 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
-import console.ConsoleUI;
 import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +16,40 @@ import java.util.List;
 public class Chess {
 
     protected ChessBoard mBoard;
+    protected ChessPieceFactory pieceFactory = new ChessPieceFactory();
     protected int mCurrentMove;
     protected boolean mIsItWhitesTurn;
-    protected char standardPromotionPiece = 'Q';
-    private boolean autoPromotion = true;
-    
+
     public Chess() {
-    	mBoard = ChessBoard.getStartBoard();
-    	mCurrentMove = 1;
-    	mIsItWhitesTurn = true;
+        mBoard = ChessBoard.getStartBoard();
+        mCurrentMove = 1;
+        mIsItWhitesTurn = true;
+    }
+
+    public boolean isMoveValid(ChessMove move) {
+        Square origin = move.getOrigin();
+        Square destination = move.getDestination();
+        ChessPieceType pieceType = mBoard.getPiece(origin).getType();
+        ChessPiece piece = mBoard.getPiece(origin);
+        if (piece.findMoves(mBoard, origin).contains(destination)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void fulfillCastling(boolean onKingSide) {
+
+    }
+
+    public void fulfillEnPassant(Square destination) {
+        Direction direction = isItWhitesTurn() ? Direction.DOWN : Direction.UP;
+        mBoard.placePiece(null, destination.getNext(direction));
+    }
+
+    public void movePiece(Square origin, Square destination) {
+        mBoard.movePiece(origin, destination);
+        updatePieceState(destination);
     }
 
     public boolean makeMove(ChessMove move) {
@@ -51,13 +75,13 @@ public class Chess {
 
     protected void handleEnPassantCapture(Square origin, Square destination) {
         if (mBoard.getPiece(origin).getType() == ChessPieceType.PAWN && origin.getFile() != destination.getFile()
-        	&& mBoard.getPiece(destination) == null) {
-                    
-                    Direction direction = mBoard.getPiece(origin).isWhite() ? Direction.DOWN : Direction.UP;
-                    Square squareToRemove = destination.getNext(direction);
-                    mBoard.removePiece(squareToRemove);
-                }
-            }
+                && mBoard.getPiece(destination) == null) {
+
+            Direction direction = mBoard.getPiece(origin).isWhite() ? Direction.DOWN : Direction.UP;
+            Square squareToRemove = destination.getNext(direction);
+            mBoard.removePiece(squareToRemove);
+        }
+    }
       
     protected void resetEnPassant() {
         for (ChessPiece piece : mBoard.findPieces(ChessPieceType.PAWN)) {
@@ -66,7 +90,7 @@ public class Chess {
         }
     }
 
-    protected void registerMove(Square square) {
+    protected void updatePieceState(Square square) {
         ChessPiece piece = mBoard.getPiece(square);
         piece.registerMove();
     }
@@ -117,26 +141,6 @@ public class Chess {
                 return;
         }
         mBoard.movePiece(extraMoveOrigin, extraMoveDestination);
-    }
-    
-    protected void checkForPromotion(Square destination, char c) {
-    	Rank topRank = mIsItWhitesTurn ? Rank.M8 : Rank.M1;   	
-    	if (destination.getRank() != topRank) {
-    		return;
-    	}   	
-    	ChessPiece piece = mBoard.getPiece(destination);    	
-    	if (!piece.getType().equals(ChessPieceType.PAWN)) {
-    		return;
-    	}
-    	if(!autoPromotion) {
-    		ChessPiece promotionPiece;
-    		ConsoleUI newUI = new ConsoleUI();
-    		promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
-    		mBoard.placePiece(promotionPiece, destination);
-    		return;
-    	}
-    	Queen queen = new Queen(mIsItWhitesTurn);
-    	mBoard.placePiece(queen, destination);
     }
     
     protected ChessPiece setPromotionPiece(char c) {

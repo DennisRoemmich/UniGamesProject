@@ -1,7 +1,9 @@
 package core.pieces;
 
 import core.CheckDetector;
+import core.Chess;
 import core.ChessBoard;
+import core.ChessMove;
 import core.positioning.Square;
 import framework.WriteError;
 import java.util.ArrayList;
@@ -29,12 +31,12 @@ public abstract class ChessPiece implements Cloneable {
 
     public abstract List<Square> findCoveredSquares(ChessBoard board, Square origin);
 
-    public List<Square> findMoves(ChessBoard board, Square square) {
-        List<Square> coveredSquares = findCoveredSquares(board, square);
-        List<Square> validMoves = new ArrayList<>();
+    public List<ChessMove> findMoves(ChessBoard board, Square origin) {
+        List<Square> coveredSquares = findCoveredSquares(board, origin);
+        List<ChessMove> validMoves = new ArrayList<>();
         for (Square uncheckedSquare : coveredSquares) {
-            if (!CheckDetector.isInCheckAfterMove(board, mIsWhite, square, uncheckedSquare)) {
-                validMoves.add(uncheckedSquare);
+            if (!CheckDetector.isInCheckAfterMove(board, mIsWhite, origin, uncheckedSquare)) {
+                validMoves.add(new ChessMove(origin, uncheckedSquare));
             }
         }
         return validMoves;

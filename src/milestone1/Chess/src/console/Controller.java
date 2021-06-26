@@ -2,6 +2,12 @@ package console;
 
 import TorpedoChess.TorpedoChess;
 import core.*;
+import core.pieces.ChessPiece;
+import core.pieces.ChessPieceFactory;
+import core.pieces.ChessPieceType;
+import core.pieces.Queen;
+import core.positioning.Rank;
+import core.positioning.Square;
 import framework.GameController;
 import framework.Player;
 import framework.Presenter;
@@ -21,6 +27,10 @@ public class Controller extends GameController {
     private Player mPlayerB;
     private AiPlayer mPlayerAi;
     private boolean mColorSwitch = false;
+
+    protected char standardPromotionPiece = 'Q';
+    protected ChessPieceType mPromotionType = ChessPieceType.QUEEN;
+    protected boolean autoPromotion = true;
     
     public Controller() {
     }
@@ -88,7 +98,6 @@ public class Controller extends GameController {
         mPlayerAi = new AiPlayer();
     	return this.mPlayerAi;
     }
-    
 
     public Chess getGame() {
         return mGame;
@@ -125,6 +134,23 @@ public class Controller extends GameController {
             handleMove(mPlayerB.requestMove(createRequestJSON("move")));
         }
         updateGameState();
+    }
+    protected void checkForPromotion(Square destination, char c) {
+        Rank topRank = mGame.isItWhitesTurn() ? Rank.M8 : Rank.M1;
+        if (destination.getRank() != topRank) {
+            return;
+        }
+        ChessPiece piece = mGame.getBoard().getPiece(destination);
+        if (!piece.getType().equals(ChessPieceType.PAWN)) {
+            return;
+        }
+        if(!autoPromotion) {
+            ChessPieceFactory copyFactory = new ChessPieceFactory();
+            mGame.getBoard().placePiece(copyFactory.valueOf(mPromotionType, mGame.isItWhitesTurn()), destination);
+            return;
+        }
+        Queen queen = new Queen(mGame.isItWhitesTurn());
+        mGame.getBoard().placePiece(queen, destination);
     }
 
     private void updateGameState() {

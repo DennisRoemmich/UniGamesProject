@@ -44,6 +44,10 @@ public enum Rank {
         }
     }
 
+    public static Rank getBackRank(boolean isWhite) {
+        return isWhite ? Rank.M1 : Rank.M8;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(name().charAt(1));

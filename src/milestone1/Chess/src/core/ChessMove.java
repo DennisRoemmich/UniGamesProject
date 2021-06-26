@@ -15,10 +15,17 @@ import org.json.simple.JSONObject;
 public class ChessMove {
     private Square mOrigin;
     private Square mDestination;
+    private Optional<String> mSpecialType = Optional.empty();
 
     public ChessMove(Square origin, Square destination) {
         this.mOrigin = origin;
         this.mDestination = destination;
+    }
+
+    public ChessMove(Square origin, Square destination, String specialType) {
+        this.mOrigin = origin;
+        this.mDestination = destination;
+        this.mSpecialType = Optional.of(specialType);
     }
 
     public Square getOrigin() {
@@ -27,6 +34,10 @@ public class ChessMove {
 
     public Square getDestination() {
         return mDestination;
+    }
+
+    public Optional<String> getSpecialType() {
+        return mSpecialType;
     }
 
     public JSONObject toJSon() {

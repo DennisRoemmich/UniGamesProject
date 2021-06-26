@@ -4,6 +4,8 @@ import core.pieces.*;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
+
+import javax.management.relation.RelationNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
