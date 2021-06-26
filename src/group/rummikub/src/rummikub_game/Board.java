@@ -19,45 +19,73 @@ public class Board {
 
     }
 
-    public void initEmptyBoard(){
+    public int getBoardSize() {
+
+        return GRID_HEIGHT * GRID_WIDTH;
+    }
+
+    public void initEmptyBoard() {
+
         grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+
+        for (var i = 0; i < getBoardSize(); i++) {
 
             grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
 
         }
     }
 
-    public void addTile(Point position, Tile tile){
-        if(position.x < GRID_WIDTH && position.y < GRID_HEIGHT && grid[position.x][position.y].isEmpty()){
-            grid[position.x][position.y].setTile(tile);
-        } else {
-            System.out.println("invalid position");
-        }
-    }
+    public boolean addTile(Point position, Tile tile) {
 
-    public GridTile getGridTileAt(Point point){
-        return grid[point.x][point.y];
-    }
+        if(isOnBoard(position) && getGridTileAt(position).isEmpty()){
 
-    public boolean moveTile(Point from, Point to){
-        if (from.x < GRID_WIDTH && from.y < GRID_HEIGHT && to.x < GRID_WIDTH && to.y < GRID_HEIGHT &&
-        grid[to.x][to.y].isEmpty()){
-            grid [to.x][to.y].setTile(grid[from.x][from.y].getTile());
-            grid[from.x][from.y].removeTile();
+            getGridTileAt(position).setTile(tile);
             return true;
+
         } else {
+
             return false;
         }
     }
 
-    public void clearBoard(){
+    public void removeTile(Point position) {
+
+        getGridTileAt(position).removeTile();
+    }
+
+    public GridTile getGridTileAt(Point point){
+
+        return grid[point.x][point.y];
+    }
+
+    public boolean isOnBoard(Point point) {
+
+        return point.x < GRID_HEIGHT && point.y < GRID_WIDTH;
+    }
+
+    public boolean moveTile(Point from, Point to) {
+
+        if (isOnBoard(from) && isOnBoard(to) && !getGridTileAt(from).isEmpty() && getGridTileAt(to).isEmpty()) {
+
+            getGridTileAt(to).setTile(getGridTileAt(from).getTile());
+            getGridTileAt(from).removeTile();
+
+            return true;
+        }
+        return false;
+    }
+
+    public void clearBoard() {
+
         initEmptyBoard();
     }
 
-    public boolean isValid(){
-        for(var set : createSets()){
-            if(!set.isValid()){
+    public boolean isValid() {
+
+        for (var set : createSets()) {
+
+            if (!set.isValid()) {
+
                 return false;
             }
         }
@@ -67,7 +95,6 @@ public class Board {
     public String toString(){
 
         return toString(false);
-
     }
 
     public String toString(boolean wide){
@@ -91,45 +118,34 @@ public class Board {
             }
 
             strB.append("\n");
-
         }
-
         return strB.toString();
-
     }
 
 
-    private ArrayList<Set> createSets(){
-
-        /* Mit Liste! */
+    private ArrayList<Set> createSets() {
 
         ArrayList<Set> setList = new ArrayList<>();
         var currentSet = new Set();
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getBoardSize(); i++) {
 
             var currentGridTile = grid[i / GRID_WIDTH][i % GRID_WIDTH];
 
-            if (currentGridTile.isEmpty()){
+            if (currentGridTile.isEmpty()) {
 
-               if ( currentSet.getSize() != 0){
+               if (currentSet.getSize() != 0) {
+
                    setList.add(currentSet);
                    currentSet = new Set();
                }
-
             } else {
 
                 currentSet.addTile(currentGridTile.getTile());
-
             }
-
         }
-
         return setList;
     }
-
-
-
 
 }
 

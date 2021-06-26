@@ -1,7 +1,7 @@
 package rummikub_game;
 
 import java.awt.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Rummikub {
@@ -21,21 +21,22 @@ public class Rummikub {
     private Tile[] tileStack;
     private int tilesOnStack = 0;
 
+    private ArrayList<Tile> movedRackTiles = new ArrayList<>();
+
     /**
      * Constructor. Initializes board, players etc.
      * @param playerNumber number of players in the game
      * @param indexStartPlayer must be the arrayindex! (Player 1 means index 0)
      */
-    public Rummikub(int playerNumber, int indexStartPlayer){
+    public Rummikub(int playerNumber, int indexStartPlayer) {
 
 
         this.players = new RummikubPlayer[playerNumber];
 
         /* initialize player array */
-        for(var i = 0; i < playerNumber; i++){
+        for (var i = 0; i < playerNumber; i++) {
 
            players[i] = new RummikubPlayer();
-
         }
 
         this.board = new Board();
@@ -45,41 +46,85 @@ public class Rummikub {
 
         createTileStack();
         handOutTiles();
-
     }
 
+    /**
+     * @return currentPlayer
+     */
     public RummikubPlayer getCurrentPlayer(){
 
-        return players[ ( currentMove + startPlayer ) % players.length ];
-
+        return players[ getCurrentPlayerIndex() ];
     }
 
+    /**
+     * @return currentPlayer index
+     */
     public int getCurrentPlayerIndex(){
+
         return ( currentMove + startPlayer ) % players.length;
     }
 
+    /**
+     * @param index of player
+     * @return player
+     */
     public RummikubPlayer getPlayerAt (int index){
 
         return players[ index ];
-
     }
 
+    /**
+     * @return currentMove
+     */
     public int getCurrentMove(){
 
         return this.currentMove;
-
     }
 
+    /**
+     * @return board
+     */
     public Board getBoard(){
 
         return this.board;
-
     }
 
+    /**
+     * @return sketchboard
+     */
     public Board getSketchBoard(){
 
         return this.sketchBoard;
+    }
 
+    /**
+     * @return amount of players
+     */
+    public int getPlayerAmount() {
+
+        return players.length;
+    }
+
+    /**
+     * moves a tile on current players's rack to an given position
+     * @param toMove position of tile to be moved
+     * @param target target of tile
+     * @return true if successful, false if not
+     */
+    public boolean moveTileOnCurrentRack(Point toMove, Point target) {
+
+        return getCurrentPlayer().getSketchRack().moveTile(toMove, target);
+    }
+
+    /**
+     * moves a tile on the board to an given position
+     * @param toMove position of tile to be moved
+     * @param target target of tile
+     * @return true if successful, false if not
+     */
+    public boolean moveTileOnBoard(Point toMove, Point target) {
+
+        return getBoard().moveTile(toMove, target);
     }
 
     /**
@@ -90,23 +135,90 @@ public class Rummikub {
     public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos){
 
         var currentPlayersRack = getCurrentPlayer().getSketchRack();
-        var rackGridTile = currentPlayersRack.pointToGridTile(rackPos);
+        var rackGridTile = currentPlayersRack.getGridTileAt(rackPos);
         var boardGridTile = sketchBoard.getGridTileAt(boardPos);
 
         if ( rackGridTile.isEmpty() || !boardGridTile.isEmpty() ) {
 
             return false;
-
         }
 
-        sketchBoard.addTile(boardPos, rackGridTile.getTile());
-        currentPlayersRack.removeTile(rackPos);
+        if (sketchBoard.addTile(boardPos, rackGridTile.getTile())) {
 
-        return true;
+            movedRackTiles.add(rackGridTile.getTile());
+            currentPlayersRack.removeTile(rackPos);
+            return true;
+        }
 
+        return false;
     }
 
+    /**
+     * Moves tile from board to rack of current player,
+     * but only if this was already moved to the board in his move
+     * @param boardPos position of tile to be moved
+     * @param rackPos target of tile
+     * @return true if successful, false if not
+     */
+    public boolean moveTileFromBoardToCurrentRack(Point boardPos, Point rackPos) {
 
+        var boardGridTile = sketchBoard.getGridTileAt(boardPos);
+        var currentPlayersRack = getCurrentPlayer().getSketchRack();
+        var rackGridTile = currentPlayersRack.getGridTileAt(rackPos);
+
+        var i = boardRackMoveInvalid(boardGridTile.getTile());
+
+        if (boardGridTile.isEmpty() || !rackGridTile.isEmpty() || i != -1) {
+
+            return false;
+        }
+
+        if (currentPlayersRack.addTileAt(rackPos, rackGridTile.getTile())) {
+
+            movedRackTiles.remove(i);
+            sketchBoard.removeTile(boardPos);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * checks whether tile was already moved in current move
+     * @param tile to be checked
+     * @return position of tile in arraylist which saves moved tiles, or -1 if not moved
+     */
+    private int boardRackMoveInvalid(Tile tile) {
+
+        for (var i = 0; i < movedRackTiles.size(); i++) {
+
+            if (movedRackTiles.get(i) == tile) {
+
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * sorts current player's rack for group
+     * @return true
+     */
+    public boolean sortRackForGroup() {
+
+        getCurrentPlayer().getSketchRack().sortForGroup();
+        return true;
+    }
+
+    /**
+     * sorts current player's rack for run
+     * @return true
+     */
+    public boolean sortRackForRun() {
+
+        getCurrentPlayer().getSketchRack().sortForRun();
+        return true;
+    }
 
 
     /**
@@ -116,7 +228,6 @@ public class Rummikub {
     public boolean isFinished(){
 
         return ( currentMove != 0 && getWinner() != null );
-
     }
 
 
@@ -124,7 +235,6 @@ public class Rummikub {
 
         getCurrentPlayer().resetSketchRack();
         sketchBoard = board;
-
     }
 
     /**
@@ -147,15 +257,14 @@ public class Rummikub {
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
 
                     System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
-
                 }
 
             } else {
 
                 System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
-
             }
 
+            movedRackTiles.clear();
             getCurrentPlayer().acceptSketchRack();
             currentMove++;
 
@@ -294,7 +403,6 @@ public class Rummikub {
 
         return null;
     }
-
 
 }
 

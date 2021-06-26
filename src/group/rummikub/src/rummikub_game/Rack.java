@@ -16,7 +16,7 @@ public class Rack {
     public Rack() {
 
         grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
         }
@@ -29,6 +29,14 @@ public class Rack {
     public int getSize() {
 
         return size;
+    }
+
+    /**
+     * @return total racksize
+     */
+    public int getRackSize() {
+
+        return GRID_HEIGHT * GRID_WIDTH;
     }
 
     /**
@@ -46,7 +54,7 @@ public class Rack {
 
         var sum = 0;
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             sum = sum + positionToGridTile(i).getTile().getValue();
         }
@@ -77,7 +85,7 @@ public class Rack {
      * @param point to convert
      * @return GridTile
      */
-    public GridTile pointToGridTile(Point point) {
+    public GridTile getGridTileAt(Point point) {
 
         return grid[point.x][point.y];
     }
@@ -109,7 +117,7 @@ public class Rack {
      */
     public int gridTileToPosition(GridTile gridTile) {
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             if (grid[i / GRID_WIDTH][i % GRID_WIDTH] == gridTile) {
 
@@ -125,7 +133,7 @@ public class Rack {
      */
     public void addTile(Tile tile) {
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             if (positionToGridTile(i).isEmpty()) {
 
@@ -150,12 +158,28 @@ public class Rack {
     }
 
     /**
+     *
+     * @param pos
+     * @param tile
+     * @return
+     */
+    public boolean addTileAt(Point pos, Tile tile) {
+
+        if (grid[pos.x][pos.y].isEmpty()) {
+
+            getGridTileAt(pos).setTile(tile);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * removes a Tile from the Rack
      * @param pos position
      */
     public void removeTile(Point pos) {
 
-        pointToGridTile(pos).removeTile();
+        getGridTileAt(pos).removeTile();
         size--;
     }
 
@@ -167,8 +191,8 @@ public class Rack {
      */
     public boolean moveTile(Point from, Point to) {
 
-        var toMove = pointToGridTile(from);
-        var target = pointToGridTile(to);
+        var toMove = getGridTileAt(from);
+        var target = getGridTileAt(to);
 
         var m = gridTileToPosition(toMove);
         var t = gridTileToPosition(target);
@@ -201,7 +225,6 @@ public class Rack {
     public String toString(){
 
         return toString(false);
-
     }
 
     public String toString(boolean wide){
@@ -213,16 +236,11 @@ public class Rack {
             for (var o = 0; o < Rack.GRID_WIDTH; o++) {
 
                 var point = new Point(i, o);
-                strB.append(pointToGridTile(point).toString(wide));
-
+                strB.append(getGridTileAt(point).toString(wide));
             }
-
             strB.append("\n");
-
         }
-
         return strB.toString();
-
     }
 
     /**
@@ -282,7 +300,7 @@ public class Rack {
      */
     private GridTile getFirstEmpty(int pos) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = pos + 1; i < getRackSize(); i++) {
 
             if (positionToGridTile(i).isEmpty()) {
 
@@ -299,7 +317,7 @@ public class Rack {
      */
     private GridTile getFirstNonEmpty(int pos) {
 
-        for (int i = pos + 1; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (int i = pos + 1; i < getRackSize(); i++) {
 
             if (!positionToGridTile(i).isEmpty()) {
 
@@ -358,7 +376,7 @@ public class Rack {
      */
     private Tile[] gridToTiles(Tile[] tiles) {
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             if (!positionToGridTile(i).isEmpty()) {
 
@@ -382,7 +400,7 @@ public class Rack {
      */
     private void tilesToGrid(Tile[] tiles) {
 
-        for (var i = 0; i < GRID_HEIGHT * GRID_WIDTH; i++) {
+        for (var i = 0; i < getRackSize(); i++) {
 
             if (i < size) {
 
