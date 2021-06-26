@@ -1,7 +1,7 @@
 package tests;
 
 import org.json.simple.JSONObject;
-import sample.Controller;
+import console.Controller;
 import java.util.List;
 
 /**
