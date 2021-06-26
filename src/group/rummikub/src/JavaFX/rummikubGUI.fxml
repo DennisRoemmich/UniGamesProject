@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.FXController">
+<AnchorPane fx:id="rootAnchorPane" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.FXController">
    <children>
       <ImageView fx:id="imageView_backGround" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -52,13 +52,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
-         <children>
-            <ImageView fx:id="board_0201" fitHeight="133.0" fitWidth="97.0" onMouseClicked="#board0201" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/test/tile.png" />
-               </image>
-            </ImageView>
-         </children>
          <cursor>
             <Cursor fx:constant="DISAPPEAR" />
          </cursor>
@@ -86,20 +79,7 @@
             <RowConstraints maxHeight="184.652099609375" minHeight="0.0" prefHeight="176.78759765625" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="-52.0" layoutY="-26.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                     <image>
-                        <Image url="@../../resources/images/RummikubTile.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="33.0" layoutY="58.0" text="Label">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
          </children>
       </GridPane>
       <ImageView fx:id="button_sortForGroup" fitHeight="158.0" fitWidth="133.0" layoutX="33.0" layoutY="1133.0" onMouseClicked="#sortForGroupClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="245.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="43.4456787109375">

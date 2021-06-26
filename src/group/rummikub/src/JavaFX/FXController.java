@@ -357,7 +357,7 @@ public class FXController implements Player, Initializable {
         /* UI ELEMENTS */
 
         var anchorPane = new AnchorPane();
-        anchorPane.setStyle("-fx-background-color: green;");
+       // anchorPane.setStyle("-fx-background-color: green;");
 
         var imageView = new ImageView();
         var image = new Image("@../../resources/images/RummikubTile.png");
@@ -372,8 +372,17 @@ public class FXController implements Player, Initializable {
         anchorPane.prefHeightProperty().bind(cellHeightProperty);
         anchorPane.prefWidthProperty().bind(cellWidthProperty);
 
+        if (gridName.equals("RACK")) {
 
-        imageView.fitHeightProperty().bind(cellHeightProperty.subtract(2*padding));
+            imageView.fitHeightProperty().bind(cellHeightProperty.subtract(2*padding).multiply(0.8));
+
+        } else {
+
+            imageView.fitHeightProperty().bind(cellHeightProperty.subtract(2*padding));
+        }
+
+
+
         imageView.fitWidthProperty().bind(cellWidthProperty.subtract(2*padding));
 
         imageView.xProperty().set(padding);
@@ -396,8 +405,6 @@ public class FXController implements Player, Initializable {
             currentCell.fill(TileColor.BLUE, 7);
         }
 
-
-        System.out.print(row_y);
 
         if (gridName.equals("RACK")){
             rackCells[column_x][row_y] = currentCell;
@@ -449,10 +456,10 @@ public class FXController implements Player, Initializable {
                     //Put ImageView on dragboard
                     ClipboardContent cbContent = new ClipboardContent();
 
-                    var image = imageView.getImage();
+                    var image = new Image("@../../resources/images/RummikubTile.png", cellWidthProperty.doubleValue(), cellHeightProperty.doubleValue(), false, false);
+                    // Include Number here
 
-                    cbContent.putImage(imageView.getImage());
-                    cbContent.putString("9");
+                    cbContent.putImage(image);
                     //cbContent.put(DataFormat.)
 
                     db.setContent(cbContent);
