@@ -83,12 +83,6 @@ public class Controller extends GameController {
     public void setPlayerB(Player playerB) {
         this.mPlayerB = playerB;
     }
-    
-    public AiPlayer getAiPlayer() {
-        mPlayerAi = new AiPlayer();
-    	return this.mPlayerAi;
-    }
-    
 
     public Chess getGame() {
         return mGame;

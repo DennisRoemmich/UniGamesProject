@@ -1,5 +1,6 @@
 package console;
 
+import core.AiPlayer;
 import core.ChessMove;
 import core.pieces.ChessPiece;
 import core.positioning.File;
@@ -78,7 +79,7 @@ public class ConsoleUI implements Presenter, Player {
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
         mController.setPlayerA(this);
 		if(mAiGame) {
-			mController.setPlayerB(mController.getAiPlayer());
+			mController.setPlayerB(new AiPlayer(mController));
 		} else {
 			mController.setPlayerB(this);
 		}
