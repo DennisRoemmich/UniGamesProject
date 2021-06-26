@@ -1,4 +1,4 @@
-package sample;
+package framework;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

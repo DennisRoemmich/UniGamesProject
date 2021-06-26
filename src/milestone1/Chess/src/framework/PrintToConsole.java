@@ -1,4 +1,4 @@
-package sample;
+package framework;
 
 /**
  * Printing to the console.

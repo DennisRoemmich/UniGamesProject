@@ -1,17 +1,12 @@
-package sample;
+package console;
 
 import TorpedoChess.TorpedoChess;
-import core.Chess;
-import core.ChessMove;
-import core.ChessResult;
-import core.GameOverDetector;
-import core.positioning.Square;
+import core.*;
 import framework.GameController;
 import framework.Player;
 import framework.Presenter;
 
-import java.util.HashMap;
-
+import framework.WriteError;
 import org.json.simple.JSONObject;
 
 /**

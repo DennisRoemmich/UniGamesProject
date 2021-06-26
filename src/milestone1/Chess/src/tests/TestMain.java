@@ -1,6 +1,6 @@
 package tests;
 
-import sample.PrintToConsole;
+import framework.PrintToConsole;
 
 /**
  * Main class for testing.

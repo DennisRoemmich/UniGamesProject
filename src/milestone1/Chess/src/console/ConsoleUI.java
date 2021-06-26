@@ -1,18 +1,13 @@
-package sample;
+package console;
 
-import core.Chess;
 import core.ChessMove;
 import core.pieces.ChessPiece;
-import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
-import framework.FileController;
-import framework.GameLog;
-import framework.Player;
-import framework.Presenter;
+import framework.*;
 import org.json.simple.JSONObject;
-import java.util.List;
+
 import java.util.Scanner;
 
 
