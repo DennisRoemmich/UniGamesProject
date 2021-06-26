@@ -6,54 +6,58 @@ import framework.Player;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class RummikubController extends GameController {
 
     private GameState state = GameState.STARTED;
-    private final Rummikub rummiGame = new Rummikub(4, 0);
-    private ArrayList<Player> players = new ArrayList<>();
+    private Rummikub rummiGame;
+
+    /* CONSTRUCTOR */
 
     public RummikubController(){
 
-        moveLog = new GameLog();
+        this.mPlayers = new ArrayList<Player>();
+
+        var standardPlayerNo = 4;
+        var standardStartPlayer = 0;
+
+        mGameLog = new GameLog("ID");
+        rummiGame = new Rummikub(standardPlayerNo, standardStartPlayer);
 
     }
 
-    public void addPlayer(Player player){
-        players.add(player);
-        player.setGameClass(rummiGame);
-        player.setGameController(this);
+    public RummikubController(int playerNumber, int startPlayer){
+
+        mGameLog = new GameLog("ID");
+        rummiGame = new Rummikub(playerNumber, startPlayer);
+
     }
+
+    /* FUNCTIONS */
 
     public void startGame(){
 
-        ActionType type = null;
+        // Start Game View with button "Start"?
 
-        do {
 
-            for (var player : players){
+            var currentPlayerIdx = rummiGame.getCurrentPlayerIndex();
+            mPlayers.get(currentPlayerIdx).requestMove(new JSONObject());
 
-                var move = player.requestGameMove();
-                boolean result = makeMove(player.requestGameMove());
 
-                if (!result) {
-                    System.out.print("\nThis move is not possible.\n\n");
-                }
-
-            }
-
-        } while (type != ActionType.QUIT);
 
     }
-
-
 
 
     public void gameLoop(){
 
 
 
+    }
+
+    public Rummikub getGame(){
+        return this.rummiGame;
     }
 
     public boolean makeMove(GameMove move){
@@ -91,13 +95,17 @@ public class RummikubController extends GameController {
 
             }
 
+            case BOARDTORACK -> System.out.print("TO IMPLEMENT");// rummiGame.moveTileFromCurrentBoardToRack();
+
+            case UNDOLASTMOVE -> undoLastMove();
+
         }
 
         /* CREATE AND SAVE JSON OBJECT */
 
         if ( successful ) {
 
-            moveLog.logMove(move.toJSON());
+            mGameLog.logMove(move.toJSON());
 
         }
 
@@ -106,33 +114,23 @@ public class RummikubController extends GameController {
     }
 
 
-    private void nextMove(){
 
-
-
+    // @Override
+    public void addPlayer(Player player){
+        mPlayers.add(player);
+        player.setController(this);
     }
 
-    @Override
-    public void executeMove(JSONObject obj) {
-
-        ActionType type = ActionType.valueOf((String) obj.get("actionType"));
-
-        if (type.usesPoints()) {
-
-
-
-        }
-
-
-    }
+    /* Override */
 
     @Override
-    public void resetGame() {
+    public JSONObject executeMove(JSONObject obj) {
 
-    }
+        var move = new GameMove(obj);
 
-    @Override
-    public void addAIPlayer() {
+        makeMove(move);
+
+        return null;
 
     }
 
@@ -144,6 +142,21 @@ public class RummikubController extends GameController {
     @Override
     public JSONObject gameSettingsToJSON() {
         return null;
+    }
+
+    @Override
+    public void restoreMetaSettings(JSONObject metaSettings) {
+
+    }
+
+    @Override
+    public void restoreGameSettings(JSONObject gameSettings) {
+
+    }
+
+    @Override
+    public void newGame() {
+
     }
 
 }

@@ -10,7 +10,8 @@ public enum ActionType {
     SORTRUN(5),
     RESET(6),
     QUIT(7),
-    BOARDTORACK(8);
+    BOARDTORACK(8),
+    UNDOLASTMOVE(9);
 
     int value;
 

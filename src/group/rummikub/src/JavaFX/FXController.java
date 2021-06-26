@@ -19,7 +19,16 @@ import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Player, Initializable {
+public class FXController implements Player, Initializable {
+
+
+    /* VARS */
+
+    private Rummikub rummiGame;
+    private RummikubController rummikubController;
+
+
+    /* OUTLETS */
 
     public ImageView button_sortForGroup;
     public ImageView button_finishOrDraw;
@@ -59,25 +68,15 @@ public class Controller implements Player, Initializable {
     public AnchorPane rootAnchorPane;
 
 
-    private Rummikub rummiGame;
-    private RummikubController rummikubController;
-
-
-
-
-    public void acceptButtonClicked(MouseEvent mouseEvent) {
-
-        System.out.print("hello world");
-
-    }
-
-
-
-    // private Point firstTouch =
+    /* FUNCTIONS */
 
 
     Point originPoint = null;
 
+    /**
+     * Should be triggered when action on cell of grid is triggered
+     * TODO: We need in-game Coordinates with the property Board / Rack
+     */
     private void boardGridButtonEvent(Point point){
 
 
@@ -92,36 +91,20 @@ public class Controller implements Player, Initializable {
 
     }
 
-
-
-
-
-
-    @Override
-    public JSONObject requestJSONMove() {
-        return null;
+    private void makeMove(GameMove move){
+        rummikubController.executeMove(move.toJSON());
     }
 
-    @Override
-    public Object requestMove(Object type) {
-        return null;
-    }
 
-    @Override
-    public void setGameClass(Rummikub game) {
+    /* GUI ACTIONS */
 
-    }
 
-    @Override
-    public void setGameController(RummikubController gameController) {
+
+    public void acceptButtonClicked(MouseEvent mouseEvent) {
+
+        System.out.print("hello world");
 
     }
-
-    @Override
-    public GameMove requestGameMove() {
-        return null;
-    }
-
 
     public void sortForGroupClicked(MouseEvent mouseEvent) {
 
@@ -182,6 +165,8 @@ public class Controller implements Player, Initializable {
         board_0201.setVisible(false);
     }
 
+    /* INTERFACE FUNCTIONS */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -190,5 +175,19 @@ public class Controller implements Player, Initializable {
 
     }
 
+
+    @Override
+    public JSONObject requestMove(JSONObject inputType) {
+        // we don't use that.
+        return null;
+    }
+
+    @Override
+    public void setController(GameController controller) {
+
+        rummikubController = (RummikubController) controller;
+        rummiGame = rummikubController.getGame();
+
+    }
 
 }

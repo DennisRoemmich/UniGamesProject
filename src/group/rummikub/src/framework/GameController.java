@@ -133,3 +133,12 @@ public abstract class GameController {
 		this.mPresenter = mPresenter;
 	}
 }
+
+
+/*
+
+	* Wo ist addPlayer(Player player);
+	* player.setController , zumindest bei uns benötigt
+
+
+ */

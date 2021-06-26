@@ -13,7 +13,7 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.awt.*;
 import java.util.Scanner;
 
-public class Console implements Player<ActionType, GameMove> {
+public class Console implements Player {
 
     private Rummikub game;
 
@@ -22,28 +22,8 @@ public class Console implements Player<ActionType, GameMove> {
     }
 
 
-    @Override
-    public JSONObject requestJSONMove() {
 
-        printBoard();
-        printRack();
 
-        String input = getInputString();
-
-        if (input.equals("q")){
-            return new GameMove(ActionType.QUIT).toJSON();
-        }
-
-        var move = inputToMove(input);
-
-        return move.toJSON();
-
-    }
-
-    @Override
-    public GameMove requestMove(ActionType type) {
-        return null;
-    }
 
     public GameMove requestGameMove() {
 
@@ -65,19 +45,6 @@ public class Console implements Player<ActionType, GameMove> {
 
     }
 
-
-
-    @Override
-    public void setGameClass(Rummikub game) {
-
-        this.game = game;
-
-    }
-
-    @Override
-    public void setGameController(RummikubController gameController) {
-
-    }
 
     private GameMove inputToMove(String input){
 
@@ -151,6 +118,41 @@ public class Console implements Player<ActionType, GameMove> {
 
     }
 
+    @Override
+    public JSONObject requestMove(JSONObject inputType) {
+
+        printBoard();
+        printRack();
+
+        String input = getInputString();
+
+        if (input.equals("q")){
+            return new GameMove(ActionType.QUIT).toJSON();
+        }
+
+        var move = inputToMove(input);
+
+        return move.toJSON();
+
+    }
+
+    @Override
+    public void setController(GameController controller) {
+
+            RummikubController rController = (RummikubController) controller;
+
+
+    }
+
 
 
 }
+
+
+
+
+
+
+
+
+

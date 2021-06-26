@@ -23,6 +23,20 @@ public class GameMove {
 
     }
 
+    public GameMove(JSONObject jsn){
+
+        type = ActionType.valueOf((String) jsn.get("actionType"));
+
+        if ( type.usesPoints() ) {
+
+            pointA = new Point(Integer.parseInt(jsn.get("PointAx").toString()),Integer.parseInt(jsn.get("PointAy").toString()));
+            pointB = new Point(Integer.parseInt(jsn.get("PointBx").toString()),Integer.parseInt(jsn.get("PointBy").toString()));
+
+
+        }
+
+    }
+
     public JSONObject toJSON(){
 
         var obj = new JSONObject();
@@ -31,9 +45,10 @@ public class GameMove {
 
         if ( type.usesPoints() ) {
 
-            obj.put("PointAx", pointA.toString());
-            obj.put("PointAy", pointA.toString());
-            obj.put("PointB", pointB.toString());
+            obj.put("PointAx", Integer.toString(pointA.x) );
+            obj.put("PointAy", Integer.toString(pointA.y));
+            obj.put("PointBx", Integer.toString(pointB.x));
+            obj.put("PointBy", Integer.toString(pointB.y));
 
         }
 
