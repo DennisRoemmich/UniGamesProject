@@ -2,18 +2,24 @@ package JavaFX;
 
 import framework.GameController;
 import framework.Player;
+import javafx.beans.binding.DoubleBinding;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
 import rummikub_controller.RummikubController;
 import rummikub_game.Rummikub;
+import javafx.scene.text.Font;
+import rummikub_game.TileColor;
+
 
 import java.awt.*;
 import java.net.URL;
@@ -21,14 +27,24 @@ import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
 
+    /* CONSTANTS */
+
+    private final int RACK_ROW_AMOUNT = 2;
+    private final int RACK_COLUMN_AMOUNT = 15;
+    private final int BOARD_COLUMN_AMOUNT = 15;
+    private final int BOARD_ROW_AMOUNT = 7;
 
     /* VARS */
+
+    FXGridCell[][] boardCells  = new FXGridCell[BOARD_COLUMN_AMOUNT][BOARD_ROW_AMOUNT];
+    FXGridCell[][] rackCells  = new FXGridCell[RACK_COLUMN_AMOUNT][RACK_ROW_AMOUNT];
 
     private Rummikub rummiGame;
     private RummikubController rummikubController;
 
-
     /* OUTLETS */
+
+    public AnchorPane anchorPaneBoard;
 
     public ImageView button_sortForGroup;
     public ImageView button_finishOrDraw;
@@ -67,27 +83,71 @@ public class FXController implements Player, Initializable {
     public ImageView imageView_backGround;
     public AnchorPane rootAnchorPane;
 
+    public ImageView button_closeContextMenu;
+    public GridPane gridPane_board;
+    public GridPane gridPane_Rack;
 
     /* FUNCTIONS */
 
 
-    Point originPoint = null;
+    GamePoint originPoint = null;
 
     /**
      * Should be triggered when action on cell of grid is triggered
      * TODO: We need in-game Coordinates with the property Board / Rack
      */
-    private void boardGridButtonEvent(Point point){
 
 
-        if (originPoint  == null ){
-            // if grid is empty -> return
-            // ...
+    private void boardCellClicked(Point point){
+
+        // valid start of a move
+        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()){
+            originPoint = new GamePoint(GameArea.BOARD, point);
+            return;
         }
+
+        // valid end of a move
+        if (originPoint != null && boardCells[point.x][point.y].isEmpty()){
+
+            GameMove move;
+
+            // move is board to board
+            if ( originPoint.area == GameArea.BOARD ){
+                move = new GameMove(ActionType.ONBOARD, originPoint.point, point);
+            } else { // move is rack to board
+                move = new GameMove(ActionType.RACKTOBOARD, originPoint.point, point);
+            }
+
+            rummikubController.executeMove(move.toJSON());
+
+        }
+
 
     }
 
-    private void rackGridButtonEvent(Point point){
+    private void rackCellClicked(Point point){
+
+        // valid start of a move
+        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()){
+            originPoint = new GamePoint(GameArea.RACK, point);
+            return;
+        }
+
+        // valid end of a move
+        if (originPoint != null && boardCells[point.x][point.y].isEmpty()){
+
+            GameMove move;
+
+            // move is board to board
+            if ( originPoint.area == GameArea.RACK ){
+                move = new GameMove(ActionType.ONRACK, originPoint.point, point);
+            } else { // move is board to rack
+                move = new GameMove(ActionType.BOARDTORACK, originPoint.point, point);
+            }
+
+            rummikubController.executeMove(move.toJSON());
+
+        }
 
     }
 
@@ -98,7 +158,10 @@ public class FXController implements Player, Initializable {
 
     /* GUI ACTIONS */
 
+    public void gridClicked(MouseEvent mouseEvent) {
 
+
+    }
 
     public void acceptButtonClicked(MouseEvent mouseEvent) {
 
@@ -121,6 +184,16 @@ public class FXController implements Player, Initializable {
     }
 
     public void sortForRunClicked(MouseEvent mouseEvent) {
+
+        var grid = rummiGame.getSketchBoard().grid;
+
+        for(var x = 0; x < 5; x++){
+            for(var y = 0; y < 5; y++){
+                if (!grid[x][y].isEmpty()){
+                    boardCells[x][y].clear();
+                }
+            }
+        }
     }
 
     public void resetClicked(MouseEvent mouseEvent) {
@@ -135,6 +208,11 @@ public class FXController implements Player, Initializable {
 
         anchorPane_gameMessage.setVisible(true);
         label_gameMessage.setText("Main Menu is open");
+
+        var move = new GameMove(ActionType.FINISHMOVE);
+
+        makeMove(move);
+
     }
 
     public void openSettings(MouseEvent mouseEvent) {
@@ -165,7 +243,214 @@ public class FXController implements Player, Initializable {
         board_0201.setVisible(false);
     }
 
+
+    FXGridCell dragActionHappening = null;
+
+    private void setUpGrids(){
+
+
+        // RACK
+
+        var rackCellHeight = gridPane_Rack.heightProperty().divide(2);
+        var rackCellWidth = gridPane_Rack.widthProperty().divide(15);
+
+        var padding = 3; // in px
+
+        for(var row_y = 0; row_y < RACK_ROW_AMOUNT; row_y++){
+            for(var column_x = 0; column_x < RACK_COLUMN_AMOUNT; column_x++){
+
+                addCellTo("RACK", column_x, row_y, padding, rackCellWidth, rackCellHeight);
+
+            }
+        }
+
+
+
+        // BOARD
+
+        var boardCellHeight = gridPane_board.heightProperty().divide(BOARD_ROW_AMOUNT);
+        var boardCellWidth = gridPane_board.widthProperty().divide(BOARD_COLUMN_AMOUNT);
+
+        padding = 2; // in px
+
+        for(var y = 0; y < BOARD_ROW_AMOUNT; y++){
+            for(var x = 0; x < BOARD_COLUMN_AMOUNT; x++){
+
+                addCellTo("BOARD", x, y, padding, boardCellWidth, boardCellHeight);
+
+            }
+        }
+
+
+
+
+
+
+    }
+
+    // Helper Function for setUpGrids
+    private void addCellTo(String gridName, int column_x, int row_y, int padding, DoubleBinding gridWidthProperty, DoubleBinding gridHeightProperty){
+
+        GridPane gridPane;
+
+        if ( gridName == "RACK"){
+            gridPane = gridPane_Rack;
+        } else {
+            gridPane = gridPane_board;
+        }
+
+        /* UI ELEMENTS */
+
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setStyle("-fx-background-color: green;");
+
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image("@../../resources/images/RummikubTile.png"));
+
+        Text text = new Text();
+        text.setText("9");
+        text.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+
+        /* BINDING AND LAYOUT*/
+
+        anchorPane.prefHeightProperty().bind(gridHeightProperty);
+        anchorPane.prefWidthProperty().bind(gridWidthProperty);
+
+
+        imageView.fitHeightProperty().bind(gridHeightProperty.subtract(2*padding));
+        imageView.fitWidthProperty().bind(gridWidthProperty.subtract(2*padding));
+
+        imageView.xProperty().set(padding);
+        imageView.yProperty().set(padding);
+
+        var textWidth = text.getLayoutBounds().getWidth();
+        var textHeigth = text.getLayoutBounds().getHeight();
+
+        text.xProperty().bind(gridWidthProperty.divide(2).subtract(textWidth/2));
+        text.yProperty().bind(gridHeightProperty.divide(2));
+
+        anchorPane.getChildren().add(imageView);
+        anchorPane.getChildren().add(text);
+
+        FXGridCell currentCell = new FXGridCell(imageView, text);
+        // currentCell.fill(TileColor.BLUE, 7);
+
+
+        System.out.print(row_y);
+
+        if ( gridName == "RACK"){
+            rackCells[column_x][row_y] = currentCell;
+        } else {
+            boardCells[column_x][row_y] = currentCell;
+        }
+
+
+
+        int finalY = row_y;
+        int finalX = column_x;
+
+        anchorPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if ( gridName == "RACK"){
+                    rackCellClicked(new Point(finalY, finalX));
+                } else {
+                    boardCellClicked(new Point(finalY, finalX));
+                }
+
+            }
+        });
+
+        anchorPane.setOnDragDetected(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if ( !currentCell.isEmpty() ) {
+
+                    dragActionHappening = currentCell;
+
+                    Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                    //Put ImageView on dragboard
+                    ClipboardContent cbContent = new ClipboardContent();
+
+                    var image = imageView.getImage();
+
+                    cbContent.putImage(imageView.getImage());
+                    cbContent.putString("9");
+                    //cbContent.put(DataFormat.)
+
+                    db.setContent(cbContent);
+                    imageView.setVisible(false);
+                    text.setVisible(false);
+                    mouseEvent.consume();
+
+                    if ( gridName == "RACK"){
+                        rackCellClicked(new Point(finalY, finalX));
+                    } else {
+                        boardCellClicked(new Point(finalY, finalX));
+                    }
+
+                }
+
+            }
+
+        });
+
+        anchorPane.setOnDragOver(new EventHandler<DragEvent>() {
+
+            public void handle(DragEvent event) {
+
+                // This if statement has to be removed if drag&push will be implemented
+                if( currentCell.isEmpty() ){
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                    event.consume();
+                }
+
+            }
+        });
+
+        anchorPane.setOnDragDropped(new EventHandler<DragEvent>() {
+
+
+            @Override
+            public void handle(DragEvent event) {
+                // This if statement has to be removed if drag&push will be implemented
+                if( currentCell.isEmpty() ) {
+                   // System.out.print("Dragged finished: " + finalY + "," + finalX);
+
+                    if ( gridName == "RACK"){
+                        rackCellClicked(new Point(finalY, finalX));
+                    } else {
+                        boardCellClicked(new Point(finalY, finalX));
+                    }
+
+                    event.setDropCompleted(true);
+                    event.consume();
+                }
+            }
+
+        });
+
+        anchorPane.setOnDragExited(new EventHandler<DragEvent>() {
+
+            @Override
+            public void handle(DragEvent event) {
+                dragActionHappening = null;
+            }
+
+        });
+
+
+        gridPane.add(anchorPane, column_x, row_y);
+
+    }
+
     /* INTERFACE FUNCTIONS */
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -173,7 +458,22 @@ public class FXController implements Player, Initializable {
         imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
         imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
 
+        gridPane_board.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.60));
+        gridPane_Rack.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.30));
+
+        button_finishOrDraw.fitHeightProperty().bind(gridPane_Rack.heightProperty().multiply(0.5));
+        button_reset.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_sortForGroup.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_sortForRun.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_reset.yProperty();
+
+        button_reset.yProperty().bind(gridPane_Rack.heightProperty().multiply(0.90));
+
+        setUpGrids();
+
     }
+
+
 
 
     @Override
@@ -190,4 +490,6 @@ public class FXController implements Player, Initializable {
 
     }
 
+
 }
+

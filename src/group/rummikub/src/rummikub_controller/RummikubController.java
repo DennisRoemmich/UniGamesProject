@@ -52,8 +52,6 @@ public class RummikubController extends GameController {
 
     public void gameLoop(){
 
-
-
     }
 
     public Rummikub getGame(){
@@ -121,6 +119,13 @@ public class RummikubController extends GameController {
         player.setController(this);
     }
 
+
+    private void printDebugState(){
+
+        System.out.print(rummiGame.getCurrentPlayer().getSketchRack().toString());
+
+    }
+
     /* Override */
 
     @Override
@@ -129,6 +134,8 @@ public class RummikubController extends GameController {
         var move = new GameMove(obj);
 
         makeMove(move);
+
+        printDebugState();
 
         return null;
 

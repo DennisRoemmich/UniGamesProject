@@ -9,7 +9,7 @@ public class Board {
     public static final int GRID_HEIGHT = 20;
     public static final int GRID_WIDTH = 20;
 
-    GridTile[][] grid;
+    public GridTile[][] grid;
 
     public Board(){
 

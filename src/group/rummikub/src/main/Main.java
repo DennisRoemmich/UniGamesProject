@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import rummikub_controller.RummikubController;
 
@@ -14,11 +15,11 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     private final String APPLICATION_NAME = "Rummikub Alpha";
-    private final int APP_WIDTH = 600;
-    private final int APP_HEIGHT = 600;
+    private final int APP_WIDTH = 1200;
+    private final int APP_HEIGHT = 1200;
 
     Stage stage;
-
+    Scene scene;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,7 +31,9 @@ public class Main extends Application {
         Parent root = loader.load();
 
         primaryStage.setTitle(APPLICATION_NAME);
-        primaryStage.setScene(new Scene(root, APP_HEIGHT, APP_WIDTH));
+
+        scene = new Scene(root, APP_HEIGHT, APP_WIDTH);
+        primaryStage.setScene(scene);
         primaryStage.show();
 
         Player fxController = loader.getController();
@@ -38,6 +41,8 @@ public class Main extends Application {
         initGameController(fxController);
 
     }
+
+
 
     public static void initGameController(Player fxController){
 
