@@ -55,7 +55,7 @@ public class RummikubController extends GameController {
     }
 
     public Rummikub getGame(){
-        return this.rummiGame;
+        return rummiGame;
     }
 
     public boolean makeMove(GameMove move){
@@ -68,9 +68,9 @@ public class RummikubController extends GameController {
 
             case FINISHMOVE -> successful = rummiGame.finishMove();
 
-            case ONRACK -> successful = rummiGame.getCurrentPlayer().getSketchRack().moveTile(move.pointA, move.pointB);
+            case ONRACK -> successful = rummiGame.moveTileOnCurrentRack(move.pointA, move.pointB);
 
-            case ONBOARD -> successful = rummiGame.getSketchBoard().moveTile(move.pointA, move.pointB);
+            case ONBOARD -> successful = rummiGame.moveTileOnBoard(move.pointA, move.pointB);
 
             case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.pointA, move.pointB);
 
@@ -78,22 +78,24 @@ public class RummikubController extends GameController {
 
                 if ( state == GameState.RUNNING ) {
 
-                    rummiGame.getCurrentPlayer().getSketchRack().sortForGroup();
-                    successful = true;
-
+                    successful = rummiGame.sortRackForGroup();
                 }
-
             }
 
-            case SORTRUN -> rummiGame.getCurrentPlayer().getSketchRack().sortForRun();
+            case SORTRUN -> {
+
+                if ( state == GameState.RUNNING ) {
+
+                    successful = rummiGame.sortRackForRun();
+                }
+            }
 
             case RESET -> {
 
                 rummiGame.resetMove();
-
             }
 
-            case BOARDTORACK -> System.out.print("TO IMPLEMENT");// rummiGame.moveTileFromCurrentBoardToRack();
+            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.pointA, move.pointB);
 
             case UNDOLASTMOVE -> undoLastMove();
 

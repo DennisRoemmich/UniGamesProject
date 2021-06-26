@@ -10,15 +10,18 @@ public class Set {
     // private int lastValue;
     // private TileColor color;
 
-    public Set(){
-        tiles = new ArrayList<Tile>();
+    public Set() {
+
+        tiles = new ArrayList<>();
     }
 
-    public void addTile(Tile tile){
+    public void addTile(Tile tile) {
+
         tiles.add(tile);
     }
 
-    public int getSize(){
+    public int getSize() {
+
         return tiles.size();
     }
 
@@ -60,8 +63,10 @@ public class Set {
     }
 */
 
-    public boolean isValid(){
-        if (tiles.size() < 3){
+    public boolean isValid() {
+
+        if (tiles.size() < 3) {
+
             return false;
         }
 
@@ -73,7 +78,8 @@ public class Set {
         return isRun(first,second) || isGroup(first,second);
     }
 
-    public boolean isRun(Tile a, Tile b){
+    public boolean isRun(Tile a, Tile b) {
+
         boolean isRun = true;
 
         if (a.isJoker() && b.isJoker()){ //first 2 tiles are jokers
@@ -179,6 +185,7 @@ public class Set {
 
         return notEqualValues && noSameColors();
     }
+
     public boolean sameColor(Tile a, Tile b){return a.getTileColor() == b.getTileColor(); }
 
     public boolean valueIsEqual(Tile a, Tile b){
@@ -214,7 +221,8 @@ public class Set {
         return noRep;
     }
 
-    public SetType getType(){
+    public SetType getType() {
+
         return this.type;
     }
 
