@@ -565,6 +565,7 @@ public class FXController implements Player, Initializable {
 
                 label.setText(Integer.toString(value));
             }
+            /*
             switch (color) {
                 case BLACK -> label.setTextFill(Color.web("#000000"));
                 case BLUE -> label.setTextFill(Color.web("#0000ff"));
@@ -572,6 +573,8 @@ public class FXController implements Player, Initializable {
                 case YELLOW -> label.setTextFill(Color.web("#ffff00"));
                 default -> label.setText("U+263B");
             }
+            */
+
 
 
         } else {
