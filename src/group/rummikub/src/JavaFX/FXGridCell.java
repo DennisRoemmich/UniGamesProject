@@ -24,7 +24,9 @@ public class FXGridCell {
     }
 
     public void clear() {
-        this.empty = false;
+
+        empty = true;
+
         updateVisibility();
     }
 
@@ -35,32 +37,35 @@ public class FXGridCell {
         createText();
 
         empty = false;
+        tileColor = tColor;
+
         updateVisibility();
 
         switch (tColor) {
             case BLACK -> text.setFill(Color.web("#000000"));
-            case BLUE -> text.setFill(Color.web("#0000ff"));
-            case RED -> text.setFill(Color.web("#ff0000"));
-            case YELLOW -> text.setFill(Color.web("#ffff00"));
+            case BLUE -> text.setFill(Color.web("#0000FF"));
+            case RED -> text.setFill(Color.web("#FF0000"));
+            case YELLOW -> text.setFill(Color.web("#FFFF00"));
             default -> {
-                text.setText("U+263B");
-                text.setFill(Color.web("#ff00ff"));
+                text.setText("J");
+                text.setFill(Color.web("#FF00FF"));
             }
         }
 
     }
 
-    private void createText(){
+    private void createText() {
 
         text.setText(Integer.toString(value));
-
     }
 
-    private void updateVisibility(){
+    private void updateVisibility() {
 
-        if( empty ){
+        if( empty ) {
+
             imgView.setVisible(false);
             text.setVisible(false);
+
         } else {
             imgView.setVisible(true);
             text.setVisible(true);
@@ -69,16 +74,18 @@ public class FXGridCell {
     }
 
     public boolean isEmpty() {
+
         return empty;
     }
 
-    public int getValue(){
+    public int getValue() {
+
         return value;
     }
 
-    public TileColor getTileColor(){
+    public TileColor getTileColor() {
+
         return tileColor;
     }
-
 
 }

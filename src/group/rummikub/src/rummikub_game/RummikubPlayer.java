@@ -47,7 +47,7 @@ public class RummikubPlayer {
      */
     public void setScore(int score){
 
-        score = score;
+        this.score = score;
     }
 
     /**
@@ -55,7 +55,13 @@ public class RummikubPlayer {
      */
     public void resetSketchRack(){
 
-        sketchRack = tileRack;
+        for (var i = 0; i < tileRack.getRackSize(); i++) {
+
+            var s = sketchRack.positionToGridTile(i);
+            var r = tileRack.positionToGridTile(i);
+
+            s.setTile(r.getTile());
+        }
     }
 
     /**
@@ -64,5 +70,13 @@ public class RummikubPlayer {
     public void acceptSketchRack(){
 
         tileRack = sketchRack;
+
+        for (var i = 0; i < sketchRack.getRackSize(); i++) {
+
+            var s = sketchRack.positionToGridTile(i);
+            var r = tileRack.positionToGridTile(i);
+
+            r.setTile(s.getTile());
+        }
     }
 }

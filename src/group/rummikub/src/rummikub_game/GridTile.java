@@ -2,7 +2,6 @@ package rummikub_game;
 
 public class GridTile {
 
-    private boolean isEmpty;
     private Tile tile;
 
     /**
@@ -10,7 +9,6 @@ public class GridTile {
      */
     public GridTile(){
 
-        isEmpty = true;
         tile = null;
     }
 
@@ -19,7 +17,7 @@ public class GridTile {
      */
     public boolean isEmpty() {
 
-        return isEmpty;
+        return tile == null;
     }
 
     /**
@@ -37,7 +35,6 @@ public class GridTile {
     public void setTile(Tile tile) {
 
         this.tile = tile;
-        isEmpty = false;
     }
 
     /**
@@ -46,7 +43,6 @@ public class GridTile {
     public void removeTile() {
 
         tile = null;
-        isEmpty = true;
     }
 
     public String toString() {

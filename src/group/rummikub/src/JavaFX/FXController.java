@@ -19,6 +19,7 @@ import rummikub_controller.RummikubController;
 import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
 import javafx.scene.text.Font;
+import rummikub_game.Tile;
 import rummikub_game.TileColor;
 
 
@@ -89,7 +90,8 @@ public class FXController implements Player, Initializable {
     public GridPane gridPane_board;
     public GridPane gridPane_Rack;
 
-    private boolean finishButtonState = true;
+    // true if board is valid, else false
+    private boolean stateFinishButton = true;
 
     /* FUNCTIONS */
 
@@ -105,7 +107,8 @@ public class FXController implements Player, Initializable {
     private void boardCellClicked(Point point){
 
         // valid start of a move
-        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()){
+        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()) {
+
             originPoint = new GamePoint(GameArea.BOARD, point);
             return;
         }
@@ -116,47 +119,54 @@ public class FXController implements Player, Initializable {
             GameMove move;
 
             // move is board to board
-            if ( originPoint.area == GameArea.BOARD ){
+            if ( originPoint.area == GameArea.BOARD ) {
+
                 move = new GameMove(ActionType.ONBOARD, originPoint.point, point);
+
             } else { // move is rack to board
+
                 move = new GameMove(ActionType.RACKTOBOARD, originPoint.point, point);
             }
 
             rummikubController.executeMove(move.toJSON());
-
         }
-
 
     }
 
     private void rackCellClicked(Point point){
 
         // valid start of a move
-        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()){
+        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()) {
+
             originPoint = new GamePoint(GameArea.RACK, point);
             return;
         }
 
         // valid end of a move
-        if (originPoint != null && boardCells[point.x][point.y].isEmpty()){
+        if (originPoint != null && boardCells[point.x][point.y].isEmpty()) {
 
             GameMove move;
 
             // move is board to board
-            if ( originPoint.area == GameArea.RACK ){
+            if ( originPoint.area == GameArea.RACK ) {
+
                 move = new GameMove(ActionType.ONRACK, originPoint.point, point);
+
             } else { // move is board to rack
+
                 move = new GameMove(ActionType.BOARDTORACK, originPoint.point, point);
             }
 
             rummikubController.executeMove(move.toJSON());
-
         }
 
     }
 
+    // TODO: was macht die method hier? makeMove haben wir auch schon im RummikubController
     private void makeMove(GameMove move){
+
         rummikubController.executeMove(move.toJSON());
+        updateGUI();
     }
 
 
@@ -178,30 +188,36 @@ public class FXController implements Player, Initializable {
         var move = new GameMove(ActionType.SORTGROUP);
         rummikubController.makeMove(move);
 
-        //updateGUI()
-
+        updateGUI();
     }
 
     public void finsishOrDrawClicked(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(false);
+    /*    var move = new GameMove(ActionType.FINISHMOVE);
+        rummikubController.makeMove(move);*/
+
+        rummiGame.getSketchBoard().addTile(new Point(3, 4), new Tile(TileColor.BLUE, 5));
+        rummiGame.getSketchBoard().addTile(new Point(6, 8), new Tile(TileColor.RED, 11));
+
+        updateGUI();
     }
 
     public void sortForRunClicked(MouseEvent mouseEvent) {
 
-        var grid = rummiGame.getSketchBoard().grid;
+        var move = new GameMove(ActionType.SORTRUN);
+        rummikubController.makeMove(move);
 
-        for(var x = 0; x < 5; x++){
-            for(var y = 0; y < 5; y++){
-                if (!grid[x][y].isEmpty()){
-                    boardCells[x][y].clear();
-                }
-            }
-        }
+        updateGUI();
     }
 
     public void resetClicked(MouseEvent mouseEvent) {
+
+        var move = new GameMove(ActionType.RESET);
+        rummikubController.makeMove(move);
+
+        updateGUI();
     }
+
 
     public void openContextMenu(MouseEvent mouseEvent) {
 
@@ -250,13 +266,14 @@ public class FXController implements Player, Initializable {
 
         // RACK
 
-        var rackCellHeight = gridPane_Rack.heightProperty().divide(2);
-        var rackCellWidth = gridPane_Rack.widthProperty().divide(15);
+        var rackCellHeight = gridPane_Rack.heightProperty().divide(RACK_ROW_AMOUNT);
+        var rackCellWidth = gridPane_Rack.widthProperty().divide(RACK_COLUMN_AMOUNT);
 
         var padding = 3; // in px
 
-        for(var row_y = 0; row_y < RACK_ROW_AMOUNT; row_y++){
-            for(var column_x = 0; column_x < RACK_COLUMN_AMOUNT; column_x++){
+        for(var row_y = 0; row_y < RACK_ROW_AMOUNT; row_y++) {
+
+            for(var column_x = 0; column_x < RACK_COLUMN_AMOUNT; column_x++) {
 
                 addCellTo("RACK", column_x, row_y, padding, rackCellWidth, rackCellHeight);
 
@@ -292,19 +309,23 @@ public class FXController implements Player, Initializable {
 
         GridPane gridPane;
 
-        if ( gridName == "RACK"){
+        if (gridName.equals("RACK")) {
+
             gridPane = gridPane_Rack;
+
         } else {
+
             gridPane = gridPane_board;
         }
 
         /* UI ELEMENTS */
 
-        AnchorPane anchorPane = new AnchorPane();
+        var anchorPane = new AnchorPane();
         anchorPane.setStyle("-fx-background-color: green;");
 
-        ImageView imageView = new ImageView();
-        imageView.setImage(new Image("@../../resources/images/RummikubTile.png"));
+        var imageView = new ImageView();
+        var image = new Image("file:../../resources/images/RummikubTile.png");
+        imageView.setImage(image);
 
         Text text = new Text();
         text.setText("9");
@@ -337,7 +358,7 @@ public class FXController implements Player, Initializable {
 
         System.out.print(row_y);
 
-        if ( gridName == "RACK"){
+        if (gridName.equals("RACK")){
             rackCells[column_x][row_y] = currentCell;
         } else {
             boardCells[column_x][row_y] = currentCell;
@@ -488,6 +509,7 @@ public class FXController implements Player, Initializable {
         rummiGame = rummikubController.getGame();
     }
 
+
     public void updateGUI() {
 
         // update board
@@ -507,101 +529,61 @@ public class FXController implements Player, Initializable {
     private void updateGUIBoard() {
 
         var sketchboard = rummiGame.getSketchBoard();
-        var gridWidth = sketchboard.GRID_WIDTH;
 
-        for (var i = 0; i < sketchboard.getBoardSize(); i++) {
+        for (var i = 0; i < BOARD_ROW_AMOUNT; i++) {
 
-            var gridPoint = new Point(i / gridWidth, i % gridWidth);
-            var gridTile = sketchboard.getGridTileAt(gridPoint);
+            for (var j = 0; j < BOARD_COLUMN_AMOUNT; j++) {
 
-            setGridCell(true, gridPoint, gridTile);
+                var gridPoint = new Point(i, j);
+                var gridTile = sketchboard.getGridTileAt(gridPoint);
+
+                var boardTile = boardCells[j][i];
+
+                if (gridTile.isEmpty()) {
+
+                    boardTile.clear();
+
+                } else {
+
+                    if (!gridTile.getTile().isEqualToFX(boardTile) || boardTile.isEmpty()) {
+
+                        boardTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
+                    }
+                }
+
+            }
         }
-        finishButtonState = rummiGame.getSketchBoard().isValid();
+        stateFinishButton = rummiGame.getSketchBoard().isValid();
     }
 
     private void updateGUIRack() {
 
-        var currentPlayersRack = rummiGame.getCurrentPlayer().getSketchRack();
-        var rackWidth = currentPlayersRack.GRID_WIDTH;
+        var currentPlayersRack = rummiGame.getCurrentPlayersSketchRack();
 
-        for (var i = 0; i < currentPlayersRack.getRackSize(); i++) {
+        for (var i = 0; i < RACK_ROW_AMOUNT; i++) {
 
-            var gridPoint = new Point(i / rackWidth, i % rackWidth);
-            var gridTile = currentPlayersRack.getGridTileAt(gridPoint);
+            for (var j = 0; j < RACK_COLUMN_AMOUNT; j++) {
 
-            setGridCell(false, gridPoint, gridTile);
-        }
-    }
+                var gridPoint = new Point(i, j);
+                var gridTile = currentPlayersRack.getGridTileAt(gridPoint);
 
-    private void setGridCell(boolean m, Point position, GridTile gridTile) {
+                System.out.println(i + ", "+ j);
 
-        ImageView imageView;
-        Label label;
+                var rackTile = rackCells[j][i];
 
-        if (m) {
+                if (gridTile.getTile() == null) {
 
-            imageView = getBoardViewAt(position);
-            label = getBoardLabelAt(position);
+                    rackTile.clear();
 
-        } else {
+                } else {
 
-            imageView = getRackViewAt(position);
-            label = getRackLabelAt(position);
-        }
+                    if (!gridTile.getTile().isEqualToFX(rackTile) || rackTile.isEmpty()) {
 
-        var color = gridTile.getTile().getTileColor();
-        var value = gridTile.getTile().getValue();
-
-        // TODO: set corresponding images
-        var nonempty = new Image("");
-        var empty = new Image("");
-
-
-        if (!gridTile.isEmpty()) {
-
-            imageView.setImage(nonempty);
-
-            if (color != TileColor.JOKER) {
-
-                label.setText(Integer.toString(value));
+                        rackTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
+                    }
+                }
             }
-            /*
-            switch (color) {
-                case BLACK -> label.setTextFill(Color.web("#000000"));
-                case BLUE -> label.setTextFill(Color.web("#0000ff"));
-                case RED -> label.setTextFill(Color.web("#ff0000"));
-                case YELLOW -> label.setTextFill(Color.web("#ffff00"));
-                default -> label.setText("U+263B");
-            }
-            */
-
-
-
-        } else {
-
-            imageView.setImage(empty);
-            label.setText("");
         }
-    }
-
-    private ImageView getBoardViewAt(Point position) {
-
-        return new ImageView();
-    }
-
-    private Label getBoardLabelAt(Point position) {
-
-        return new Label();
-    }
-
-    private ImageView getRackViewAt(Point position) {
-
-        return new ImageView();
-    }
-
-    private Label getRackLabelAt(Point position) {
-
-        return new Label();
     }
 
     private void updateGUIPlayers() {
@@ -643,13 +625,13 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIButtons() {
 
-        if (finishButtonState) {
+        if (stateFinishButton) {
 
             button_finishOrDraw.setImage(new Image(""));
 
         } else {
 
-            button_finishOrDraw.setImage(new Image("../../resources/images/buttonDraw.png"));
+            button_finishOrDraw.setImage(new Image("file:../../resources/images/buttonDraw.png"));
         }
         anchorPane_contextMenu.setVisible(false);
         anchorPane_gameMessage.setVisible(false);

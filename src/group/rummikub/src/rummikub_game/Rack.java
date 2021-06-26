@@ -56,7 +56,10 @@ public class Rack {
 
         for (var i = 0; i < getRackSize(); i++) {
 
-            sum = sum + positionToGridTile(i).getTile().getValue();
+            if (!positionToGridTile(i).isEmpty()) {
+
+                sum = sum + positionToGridTile(i).getTile().getValue();
+            }
         }
 
         return sum;

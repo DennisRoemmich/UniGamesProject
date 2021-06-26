@@ -55,6 +55,7 @@ public class RummikubController extends GameController {
     }
 
     public Rummikub getGame(){
+
         return rummiGame;
     }
 
@@ -73,6 +74,8 @@ public class RummikubController extends GameController {
             case ONBOARD -> successful = rummiGame.moveTileOnBoard(move.pointA, move.pointB);
 
             case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.pointA, move.pointB);
+
+            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.pointA, move.pointB);
 
             case SORTGROUP -> {
 
@@ -95,10 +98,7 @@ public class RummikubController extends GameController {
                 rummiGame.resetMove();
             }
 
-            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.pointA, move.pointB);
-
             case UNDOLASTMOVE -> undoLastMove();
-
         }
 
         /* CREATE AND SAVE JSON OBJECT */
@@ -106,17 +106,16 @@ public class RummikubController extends GameController {
         if ( successful ) {
 
             mGameLog.logMove(move.toJSON());
-
         }
 
         return successful;
-
     }
 
 
 
     // @Override
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
+
         mPlayers.add(player);
         player.setController(this);
     }

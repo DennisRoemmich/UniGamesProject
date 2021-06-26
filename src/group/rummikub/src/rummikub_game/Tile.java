@@ -1,5 +1,7 @@
 package rummikub_game;
 
+import JavaFX.FXGridCell;
+
 public class Tile {
 
     TileColor color;
@@ -115,5 +117,15 @@ public class Tile {
 
             return false;
         }
+    }
+
+    public boolean isEqualTo(Tile tile) {
+
+        return color == tile.color && value == tile.value;
+    }
+
+    public boolean isEqualToFX(FXGridCell tile) {
+
+        return color == tile.getTileColor() && value == tile.getValue();
     }
 }

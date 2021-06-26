@@ -98,6 +98,14 @@ public class Rummikub {
     }
 
     /**
+     * @return sketchrack of current player
+     */
+    public Rack getCurrentPlayersSketchRack() {
+
+        return getCurrentPlayer().getSketchRack();
+    }
+
+    /**
      * @return amount of players
      */
     public int getPlayerAmount() {
@@ -113,7 +121,7 @@ public class Rummikub {
      */
     public boolean moveTileOnCurrentRack(Point toMove, Point target) {
 
-        return getCurrentPlayer().getSketchRack().moveTile(toMove, target);
+        return getCurrentPlayersSketchRack().moveTile(toMove, target);
     }
 
     /**
@@ -134,8 +142,7 @@ public class Rummikub {
      */
     public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos){
 
-        var currentPlayersRack = getCurrentPlayer().getSketchRack();
-        var rackGridTile = currentPlayersRack.getGridTileAt(rackPos);
+        var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
         var boardGridTile = sketchBoard.getGridTileAt(boardPos);
 
         if ( rackGridTile.isEmpty() || !boardGridTile.isEmpty() ) {
@@ -146,7 +153,7 @@ public class Rummikub {
         if (sketchBoard.addTile(boardPos, rackGridTile.getTile())) {
 
             movedRackTiles.add(rackGridTile.getTile());
-            currentPlayersRack.removeTile(rackPos);
+            getCurrentPlayersSketchRack().removeTile(rackPos);
             return true;
         }
 
@@ -163,8 +170,7 @@ public class Rummikub {
     public boolean moveTileFromBoardToCurrentRack(Point boardPos, Point rackPos) {
 
         var boardGridTile = sketchBoard.getGridTileAt(boardPos);
-        var currentPlayersRack = getCurrentPlayer().getSketchRack();
-        var rackGridTile = currentPlayersRack.getGridTileAt(rackPos);
+        var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
 
         var i = boardRackMoveInvalid(boardGridTile.getTile());
 
@@ -173,7 +179,7 @@ public class Rummikub {
             return false;
         }
 
-        if (currentPlayersRack.addTileAt(rackPos, rackGridTile.getTile())) {
+        if (getCurrentPlayersSketchRack().addTileAt(rackPos, rackGridTile.getTile())) {
 
             movedRackTiles.remove(i);
             sketchBoard.removeTile(boardPos);
@@ -206,7 +212,7 @@ public class Rummikub {
      */
     public boolean sortRackForGroup() {
 
-        getCurrentPlayer().getSketchRack().sortForGroup();
+        getCurrentPlayersSketchRack().sortForGroup();
         return true;
     }
 
@@ -216,7 +222,7 @@ public class Rummikub {
      */
     public boolean sortRackForRun() {
 
-        getCurrentPlayer().getSketchRack().sortForRun();
+        getCurrentPlayersSketchRack().sortForRun();
         return true;
     }
 
@@ -225,16 +231,16 @@ public class Rummikub {
      *
      * @return true if game is finished, false if not
      */
-    public boolean isFinished(){
+    public boolean isFinished() {
 
         return ( currentMove != 0 && getWinner() != null );
     }
 
 
-    public void resetMove(){
+    public void resetMove() {
 
         getCurrentPlayer().resetSketchRack();
-        sketchBoard = board;
+        boardToSketchBoard();
     }
 
     /**
@@ -246,29 +252,31 @@ public class Rummikub {
         if ( sketchBoard.isValid() ) {
 
             /* true if player didn't play tiles */
-            if ( getCurrentPlayer().getRack().getSize() == getCurrentPlayer().getSketchRack().getSize() ){
+            if ( getCurrentPlayer().getRack().getSize() == getCurrentPlayersSketchRack().getSize() ){
 
                 var nextTile = getRandomTileFromStack();
 
                 if ( nextTile != null ) {
+
                     getCurrentPlayer().getRack().addTile( nextTile );
                 }
 
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
 
-                    System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
+                    sketchBoardToBoard();
                 }
 
             } else {
 
-                System.arraycopy(sketchBoard.grid, 0, board.grid, 0, sketchBoard.grid.length);
+                sketchBoardToBoard();
             }
 
             movedRackTiles.clear();
             getCurrentPlayer().acceptSketchRack();
             currentMove++;
 
-            if( isFinished() ){
+            if( isFinished() ) {
+
                 gameOver();
             }
 
@@ -281,22 +289,23 @@ public class Rummikub {
 
     /**
      * Current player gets (random) Tile from tileStack
-     * @return returns false if there weren't any tiles left on stack.
+     * @return false if there weren't any tiles left on stack.
+     * TODO: where used?? (only not grey bc used in test i guess)
      */
-    public boolean currentPlayerTakeTile(){
+    public void currentPlayerTakeTile(){
 
         var tile = getRandomTileFromStack();
 
         if (tile != null) {
 
             getCurrentPlayer().getRack().addTile(tile);
-            return true;
+        //    return true;
 
-        } else {
+        } /* else {
 
             return false;
 
-        }
+        }*/
 
     }
 
@@ -310,9 +319,7 @@ public class Rummikub {
                 player.getRack().addTile(mytile);
 
             }
-
             player.resetSketchRack();
-
         }
     }
 
@@ -323,7 +330,7 @@ public class Rummikub {
      */
     private void gameOver(){
 
-        RummikubPlayer winner = getWinner();
+        var winner = getWinner();
         var totalSum = 0;
 
         for ( RummikubPlayer player : players ){
@@ -331,15 +338,12 @@ public class Rummikub {
             if ( player != winner ){
 
                 var sum = player.getRack().getSum();
-                player.setScore(sum * -1);
+                player.setScore(player.getScore() - sum);
                 totalSum += sum;
 
             }
-
-                winner.setScore(totalSum);
-
         }
-
+        winner.setScore(winner.getScore() + totalSum);
     }
 
     /**
@@ -397,11 +401,29 @@ public class Rummikub {
             if ( player.getRack().isEmpty() ){
 
                 return player;
-
             }
         }
-
         return null;
+    }
+
+    private void boardToSketchBoard() {
+
+    //    System.arraycopy(sketchBoard.getBoard(), 0, board.getBoard(), 0, sketchBoard.grid.length);
+
+        for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
+
+            sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+        }
+    }
+
+    private void sketchBoardToBoard() {
+
+    //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
+
+        for (var i = 0; i < board.getBoardSize(); i++) {
+
+            board.getBoard()[i / board.GRID_WIDTH][i % board.GRID_WIDTH] = sketchBoard.getBoard()[i / board.GRID_WIDTH][i % board.GRID_WIDTH];
+        }
     }
 
 }
