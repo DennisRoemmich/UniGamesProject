@@ -19,6 +19,11 @@ public class Board {
 
     }
 
+    public GridTile[][] getBoard() {
+
+        return grid;
+    }
+
     public int getBoardSize() {
 
         return GRID_HEIGHT * GRID_WIDTH;

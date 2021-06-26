@@ -51,7 +51,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fx:id="board_0201" fitHeight="35.0" fitWidth="28.0" onMouseClicked="#board0201" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <ImageView fx:id="board_0201" fitHeight="35.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
                   <Image url="@../../resources/images/test/tile.png" />
                </image>

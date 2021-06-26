@@ -6,14 +6,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
 import rummikub_controller.RummikubController;
+import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
+import rummikub_game.TileColor;
 
 import java.awt.*;
 import java.net.URL;
@@ -67,6 +69,8 @@ public class FXController implements Player, Initializable {
     public ImageView imageView_backGround;
     public AnchorPane rootAnchorPane;
 
+
+    private boolean finishButtonState = true;
 
     /* FUNCTIONS */
 
@@ -160,11 +164,6 @@ public class FXController implements Player, Initializable {
         anchorPane_contextMenu.setVisible(false);
     }
 
-    public void board0201(MouseEvent mouseEvent) {
-
-        board_0201.setVisible(false);
-    }
-
     /* INTERFACE FUNCTIONS */
 
     @Override
@@ -187,7 +186,170 @@ public class FXController implements Player, Initializable {
 
         rummikubController = (RummikubController) controller;
         rummiGame = rummikubController.getGame();
+    }
 
+    public void updateGUI() {
+
+        // update board
+        updateGUIBoard();
+
+        // update rack
+        updateGUIRack();
+
+        // update players
+        updateGUIPlayers();
+
+        // update buttons
+        updateGUIButtons();
+
+    }
+
+    private void updateGUIBoard() {
+
+        var sketchboard = rummiGame.getSketchBoard();
+        var gridWidth = sketchboard.GRID_WIDTH;
+
+        for (var i = 0; i < sketchboard.getBoardSize(); i++) {
+
+            var gridPoint = new Point(i / gridWidth, i % gridWidth);
+            var gridTile = sketchboard.getGridTileAt(gridPoint);
+
+            setGridCell(true, gridPoint, gridTile);
+        }
+        finishButtonState = rummiGame.getSketchBoard().isValid();
+    }
+
+    private void updateGUIRack() {
+
+        var currentPlayersRack = rummiGame.getCurrentPlayer().getSketchRack();
+        var rackWidth = currentPlayersRack.GRID_WIDTH;
+
+        for (var i = 0; i < currentPlayersRack.getRackSize(); i++) {
+
+            var gridPoint = new Point(i / rackWidth, i % rackWidth);
+            var gridTile = currentPlayersRack.getGridTileAt(gridPoint);
+
+            setGridCell(false, gridPoint, gridTile);
+        }
+    }
+
+    private void setGridCell(boolean m, Point position, GridTile gridTile) {
+
+        ImageView imageView;
+        Label label;
+
+        if (m) {
+
+            imageView = getBoardViewAt(position);
+            label = getBoardLabelAt(position);
+
+        } else {
+
+            imageView = getRackViewAt(position);
+            label = getRackLabelAt(position);
+        }
+
+        var color = gridTile.getTile().getTileColor();
+        var value = gridTile.getTile().getValue();
+
+        // TODO: set corresponding images
+        var nonempty = new Image("");
+        var empty = new Image("");
+
+
+        if (!gridTile.isEmpty()) {
+
+            imageView.setImage(nonempty);
+
+            if (color != TileColor.JOKER) {
+
+                label.setText(Integer.toString(value));
+            }
+            switch (color) {
+                case BLACK -> label.setTextFill(Color.web("#000000"));
+                case BLUE -> label.setTextFill(Color.web("#0000ff"));
+                case RED -> label.setTextFill(Color.web("#ff0000"));
+                case YELLOW -> label.setTextFill(Color.web("#ffff00"));
+                default -> label.setText("U+263B");
+            }
+
+
+        } else {
+
+            imageView.setImage(empty);
+            label.setText("");
+        }
+    }
+
+    private ImageView getBoardViewAt(Point position) {
+
+        return new ImageView();
+    }
+
+    private Label getBoardLabelAt(Point position) {
+
+        return new Label();
+    }
+
+    private ImageView getRackViewAt(Point position) {
+
+        return new ImageView();
+    }
+
+    private Label getRackLabelAt(Point position) {
+
+        return new Label();
+    }
+
+    private void updateGUIPlayers() {
+
+        // TODO: where are the names of the player?
+
+        var p = rummiGame.getPlayerAmount();
+        var tilesImage = " U+26C1";
+
+        label_nameP1.setText("Player 1");
+        label_rackP1.setText(rummiGame.getPlayerAt(0).getRack().getSize() + tilesImage);
+        label_scoreP1.setText(Integer.toString(rummiGame.getPlayerAt(0).getScore()));
+
+        label_nameP2.setText("Player 2");
+        label_rackP2.setText(rummiGame.getPlayerAt(1).getRack().getSize() + tilesImage);
+        label_scoreP2.setText(Integer.toString(rummiGame.getPlayerAt(1).getScore()));
+
+        if (p >= 3) {
+
+            label_nameP3.setText("Player 3");
+            label_rackP3.setText(rummiGame.getPlayerAt(2).getRack().getSize() + tilesImage);
+            label_scoreP3.setText(Integer.toString(rummiGame.getPlayerAt(2).getScore()));
+
+            if (p == 4) {
+
+                label_nameP4.setText("Player 4");
+                label_rackP4.setText(rummiGame.getPlayerAt(3).getRack().getSize() + tilesImage);
+                label_scoreP4.setText(Integer.toString(rummiGame.getPlayerAt(3).getScore()));
+
+            } else {
+
+                anchorPane_P4.setVisible(false);
+            }
+        } else {
+
+            anchorPane_P3.setVisible(false);
+        }
+    }
+
+    private void updateGUIButtons() {
+
+        if (finishButtonState) {
+
+            button_finishOrDraw.setImage(new Image(""));
+
+        } else {
+
+            button_finishOrDraw.setImage(new Image("../../resources/images/buttonDraw.png"));
+        }
+        anchorPane_contextMenu.setVisible(false);
+        anchorPane_gameMessage.setVisible(false);
     }
 
 }
