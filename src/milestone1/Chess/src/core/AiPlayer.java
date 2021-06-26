@@ -21,11 +21,7 @@ public class AiPlayer implements Player {
 			return new JSONObject();
 		}
 		try {
-			//ChessMove move = ChessMove.valueOf(Ainput, mController);
-
-
-
-			//return move.toJSon();
+				
 			return null;
 		} catch (Exception e) {
 			System.out.println("Unknown Issue.");

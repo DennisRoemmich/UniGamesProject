@@ -25,32 +25,59 @@ public class ConsoleUI implements Presenter, Player {
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
     	
-    	boolean gameIsrunning = true;
-    	//while(gameIsrunning) {
+    	boolean wrongMenuInput = true;
     	
-    		PrintToConsole.println("Replay a save file? (Type [Y] for yes or any key to continue)");
-    		String input = mScanner.nextLine();
+    	while(wrongMenuInput) {
     	
-    		if ("y".equalsIgnoreCase(input)) {
+    	PrintToConsole.println("Please choose your game mode:");
+    	PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay save file, [H]elp, [Q]uit");
+    	String input = mScanner.nextLine();
+    	
+    		if ("r".equalsIgnoreCase(input)) {
+    			wrongMenuInput = false;
     			loadGame();
     		}
-    			else {
-    	    		PrintToConsole.println("Play vs [A]I or any other key to play hotseat.");
-    	    		String inputThree = mScanner.nextLine();
-    	    		if("a".equalsIgnoreCase(input)) {
-    	    			startGame(true);
-    	    		} else {
-    	    			startGame(false);
-    	    		}
-    				
-    			}
+    		
+    		else if ("c".equalsIgnoreCase(input)) {
+    			wrongMenuInput = false;
+    			startGame(false);
     		}
+    		
+    		else if ("a".equalsIgnoreCase(input)) {
+    			wrongMenuInput = false;
+    			startGame(true);
+    		}
+    		else if ("t".equalsIgnoreCase(input)) {
+    			wrongMenuInput = false;
+    			mController.setStandardChess();
+    			startGame(false);
+    		} 
+    		else if ("h".equalsIgnoreCase(input)) {
+    			PrintToConsole.println("--------Classic Chess 1v1---------");
+    			PrintToConsole.println("The classic chess game vs another player via hotseat.");
+    			PrintToConsole.println("");
+    			PrintToConsole.println("--------Classic Chess vs AI---------");
+    			PrintToConsole.println("Challenge the computer");
+    			PrintToConsole.println("");
+    			PrintToConsole.println("--------Torpedo Chess 1v1---------");
+    			PrintToConsole.println("Alternative game mode where your pawns may always move 2 sqaures. En passant rule applies!");
+    			PrintToConsole.println("");
+    		}     		
+    		else if ("q".equalsIgnoreCase(input)) {
+    			wrongMenuInput = false;
+    		}
+    		else {
+    			PrintToConsole.println("Please try again");
+    		}    						   			
+    	}
+    }
+    	
 	//}
     
     public void loadGame() {
     	try {
     		PrintToConsole.println("Please enter the save file name or type [A] for Abort. ");
-    		PrintToConsole.println("To replay your last game type \"null\".");
+    		PrintToConsole.println("To replay your last game type the filename of your newest created save state");
     		String inputTwo = mScanner.nextLine();
     		if (!"a".equalsIgnoreCase(inputTwo)) {
     						
@@ -153,7 +180,7 @@ public class ConsoleUI implements Presenter, Player {
 		if("help".equalsIgnoreCase(input)) {
 			PrintToConsole.println("----------Commands----------");
 			PrintToConsole.println("*help* Prints the current screen with information on commands and how to play the game ");
-			PrintToConsole.println("*menu* Opens the game options menu");
+			PrintToConsole.println("*menu* Opens the game settings menu");
 			PrintToConsole.println("*undo* Undoes the last move ");
 			PrintToConsole.println("*exit* Closes the chess application ");
 			PrintToConsole.println("");

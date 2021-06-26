@@ -21,6 +21,7 @@ public class Controller extends GameController {
     private Player mPlayerB;
     private AiPlayer mPlayerAi;
     private boolean mColorSwitch = false;
+    private boolean standardChess = true;
     
     public Controller() {
     }
@@ -49,10 +50,18 @@ public class Controller extends GameController {
         mGame.makeMove(move);
         return createReply(true, "success");
     }
+    
+    public void setStandardChess() {
+    	this.standardChess = !(this.standardChess);
+    }
 
     @Override
     public void newGame() {
-        mGame = new TorpedoChess();
+    	if(!standardChess) {
+    		mGame = new TorpedoChess();
+    	} else {
+    		mGame = new Chess();    		
+    	}
     }
 
     @Override
@@ -67,12 +76,12 @@ public class Controller extends GameController {
 
     @Override
     public void restoreMetaSettings(JSONObject metaSettings) {
-
+    		//Not used yet
     }
 
     @Override
     public void restoreGameSettings(JSONObject gameSettings) {
-
+    		//Not used yet
     }
 
 

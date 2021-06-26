@@ -22,8 +22,8 @@ public class MenuPrototype {
     }
 
     private void printSelectGame() {
-    	PrintToConsole.println("Please chose a game to play:");
-    	PrintToConsole.println("[C]hess, [R]umikub, [S]kat, Die Siedler von [K]onstanz, [Q]uit");
+    	PrintToConsole.println("Please choose a game to play:");
+    	PrintToConsole.println("[C]hess, [R]ummikub, [S]kat, Die Siedler von [K]onstanz, [Q]uit");
     }
 
     private void handleGameInput() {

@@ -18,8 +18,8 @@ public class TorpedoChess extends Chess {
     protected static ChessBoard getTorpedoBoard() {
         ChessBoard board = ChessBoard.getStartBoard();
         for(File file : File.values()) {
-            board.placePiece(new Pawn(true), new Square(Rank.M2, file));
-            board.placePiece(new Pawn(false), new Square(Rank.M7, file));
+            board.placePiece(new TorpedoPawn(true), new Square(Rank.M2, file));
+            board.placePiece(new TorpedoPawn(false), new Square(Rank.M7, file));
         }
         return board;
     }
