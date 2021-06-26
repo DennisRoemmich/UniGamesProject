@@ -16,7 +16,7 @@
    <children>
       <ImageView fx:id="imageView_backGround" fitHeight="502.0" fitWidth="595.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/background.png" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\background.png" />
          </image>
       </ImageView>
       <GridPane fx:id="gridPane_board" gridLinesVisible="true" layoutX="34.0" layoutY="36.0" prefHeight="332.0" prefWidth="502.0" style="-fx-border-color: orange;">
@@ -53,7 +53,7 @@
          <children>
             <ImageView fx:id="board_0201" fitHeight="35.0" fitWidth="28.0" onMouseClicked="#board0201" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/test/tile.png" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\test/tile.png" />
                </image>
             </ImageView>
          </children>
@@ -84,22 +84,22 @@
       </GridPane>
       <ImageView fx:id="button_sortForGroup" fitHeight="52.0" fitWidth="52.0" layoutX="489.0" layoutY="378.0" onMouseClicked="#sortForGroupClicked" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonSortForGroup.jpeg" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\buttonSortForGroup.jpeg" />
          </image>
       </ImageView>
       <ImageView fx:id="button_finishOrDraw" fitHeight="52.0" fitWidth="52.0" layoutX="536.0" layoutY="378.0" onMouseClicked="#finsishOrDrawClicked" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonDraw.jpg" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\buttonDraw.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="button_sortForRun" fitHeight="52.0" fitWidth="52.0" layoutX="489.0" layoutY="440.0" onMouseClicked="#sortForRunClicked" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonSortForRun.jpeg" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\buttonSortForRun.jpeg" />
          </image>
       </ImageView>
       <ImageView fx:id="button_reset" fitHeight="52.0" fitWidth="52.0" layoutX="536.0" layoutY="440.0" onMouseClicked="#resetClicked" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonReset.jpeg" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\buttonReset.jpeg" />
          </image>
       </ImageView>
       <AnchorPane fx:id="anchorPane_P1" layoutX="10.0" layoutY="376.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="60.0">
@@ -218,14 +218,14 @@
       </AnchorPane>
       <ImageView fx:id="button_openContextMenu" fitHeight="43.0" fitWidth="43.0" layoutX="546.0" layoutY="15.0" onMouseClicked="#openContextMenu" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/buttonContextMenu.jpeg" />
+            <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\buttonContextMenu.jpeg" />
          </image>
       </ImageView>
       <AnchorPane fx:id="anchorPane_contextMenu" layoutX="425.0" prefHeight="260.0" prefWidth="170.0" visible="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="260.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/contextMenu.jpeg" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\contextMenu.jpeg" />
                </image>
             </ImageView>
             <Label fx:id="button_toMainMenu" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="52.0" onMouseClicked="#openMainMenu" prefHeight="22.0" prefWidth="149.0" text="Main menu" textAlignment="RIGHT" textFill="#fdfdfd" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0">
@@ -250,22 +250,22 @@
             </Label>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/icons/Home.png" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\icons\Home.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/icons/Zahnrad.png" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\icons\Zahnrad.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/icons/plus.png" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\icons\plus.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@file:/Users/andreas/Workspaces/IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/icons/Kreuz.png" />
+                  <Image url="@file:\Users\ferna\IdeaProjects\software-projekt-2021-gruppe-03\src\group\rummikub\resources\images\icons\Kreuz.png" />
                </image>
             </ImageView>
             <ImageView fx:id="button_closeContextMenu" fitHeight="36.0" fitWidth="36.0" layoutX="126.0" layoutY="11.0" onMouseClicked="#closeContextMenu" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="11.0" />
