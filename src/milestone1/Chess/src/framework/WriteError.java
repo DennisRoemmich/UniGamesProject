@@ -14,7 +14,10 @@ public final class WriteError {
 		
 	}	
 	
-	public static void writeErrorLog(String errorMessage) {		
+	public static void writeErrorLog(String errorMessage) {
+		if(errorMessage == "") {
+			return;
+		}
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("gamelog.txt"));) {		
 				writer.write(errorMessage);
 		} catch (Exception e) {
