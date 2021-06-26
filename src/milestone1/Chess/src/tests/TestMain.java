@@ -1,5 +1,7 @@
 package tests;
 
+import framework.PrintToConsole;
+
 /**
  * Main class for testing.
  * @author Jan de Boer, Dennis Roemmich
@@ -12,9 +14,9 @@ public class TestMain {
     public static void main(String[] args) {
         for (Test test : tests) {
             if (test.runTest()) {
-                System.out.println("Test succeeded: " + test.getClass().getName());
+                PrintToConsole.println("Test succeeded: " + test.getClass().getName());
             } else {
-                System.out.println("Test failed: " + test.getClass().getName());
+            	PrintToConsole.println("Test failed: " + test.getClass().getName());
             }
         }
     }

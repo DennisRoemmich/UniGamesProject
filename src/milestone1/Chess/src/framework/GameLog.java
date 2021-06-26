@@ -1,44 +1,47 @@
 package framework;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-// TODO : Replace this prototype by the real framework, as soon as it is available
 public class GameLog {
 	private String mId;
-	private JSONArray mMoveLog = new JSONArray();
+	ArrayList<JSONObject> mMoveLog = new ArrayList<>();
 	private JSONObject mMetaSettings;
 	private JSONObject mGameSettings;
 
-	public static final String idKey = "id";
-	public static final String metaSettingsKey = "metaSettings";
-	public static final String gameSettingsKey = "gameSettings";
-	public static final String moveLogKey = "moveLog";
+	public static String idKey = "id";
+	public static String moveLogKey = "moveLog";
+	public static String metaSettingsKey = "metaSettings";
+	public static String gameSettingsKey = "gameSetttings";
 
 	public GameLog(String id) {
 		this.mId = id;
 		this.mMetaSettings = new JSONObject();
 		this.mGameSettings = new JSONObject();
-		this.mMoveLog = new JSONArray();
+		this.mMoveLog = new ArrayList<>();
 	}
 
-	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, JSONArray moves) {
+	public GameLog(String id, JSONObject metaSettings, JSONObject gameSettings, List<JSONObject> moveLog) {
 		this.mId = id;
 		this.mMetaSettings = metaSettings;
 		this.mGameSettings = gameSettings;
-		this.mMoveLog = moves;
+		this.mMoveLog = (ArrayList<JSONObject>) moveLog;
 	}
 
-	public GameLog(JSONObject completeJSon) {
-		this.mId = (String) completeJSon.get(idKey);
-		this.mMetaSettings = (JSONObject) completeJSon.get(metaSettingsKey);
-		this.mGameSettings = (JSONObject) completeJSon.get(gameSettingsKey);
-		this.mMoveLog = (JSONArray) completeJSon.get(moveLogKey);
+	public static GameLog valueOf(JSONObject log) {
+		String id = (String) log.get(idKey);
+		JSONObject metaSettings = (JSONObject) log.get(metaSettingsKey);
+		JSONObject gameSettings = (JSONObject) log.get(gameSettingsKey);
+		List<JSONObject> moveLog = (List<JSONObject>) log.get(moveLogKey);
+		return new GameLog(id, metaSettings, gameSettings, moveLog);
 	}
 
 	public void logMove(JSONObject aMove) {
 		mMoveLog.add(aMove);
+		
 	}
 
 	public void removeLastMove() {
@@ -68,12 +71,11 @@ public class GameLog {
 	}
 
 	public JSONObject getCompleteJSonObject() {
-		JSONObject complete = new JSONObject();
-		complete.put(idKey, mId);
-		complete.put(moveLogKey, mMoveLog);
-		complete.put(gameSettingsKey, mGameSettings);
-		complete.put(metaSettingsKey, mMetaSettings);
-		return complete;
+		HashMap<String, Object> rawComplete = new HashMap<>();
+		rawComplete.put(moveLogKey, mMoveLog);
+		rawComplete.put(gameSettingsKey, mGameSettings);
+		rawComplete.put(metaSettingsKey, mMetaSettings);
+		return new JSONObject(rawComplete);
 	}
 
 }

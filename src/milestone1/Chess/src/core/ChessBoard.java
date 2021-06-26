@@ -20,11 +20,11 @@ public class ChessBoard implements Cloneable {
         this.mPieces = new ChessPiece[Rank.values().length][File.values().length];
     }
 
-    void placePiece(ChessPiece piece, Square square) {
+    public void placePiece(ChessPiece piece, Square square) {
         mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = piece;
     }
 
-    void removePiece(Square square) {
+    public void removePiece(Square square) {
         mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = null;
     }
 
@@ -32,7 +32,7 @@ public class ChessBoard implements Cloneable {
         return mPieces[square.getRank().getIndex()][square.getFile().getIndex()];
     }
 
-    void movePiece(Square origin, Square destination) {
+    public void movePiece(Square origin, Square destination) {
         ChessPiece piece = getPiece(origin);
         if (piece != null) {
             placePiece(piece, destination);
@@ -105,6 +105,7 @@ public class ChessBoard implements Cloneable {
         return  piece;
     }
 
+    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Farbe (weiß/schwarz) stehen
     public List<Square> findSquaresOfPieces(boolean color) {
         ArrayList<Square> list = new ArrayList<>();
         for (ChessPieceType type : ChessPieceType.values()) {
@@ -113,6 +114,7 @@ public class ChessBoard implements Cloneable {
         return list;
     }
 
+    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Art (Bauern, Springer,..) stehen
     public List<Square> findSquaresOfPieces(ChessPieceType type) {
         ArrayList<Square> list = new ArrayList<>();
         list.addAll(findSquaresOfPieces(type, true));
@@ -120,6 +122,7 @@ public class ChessBoard implements Cloneable {
         return list;
     }
 
+    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Art und einer bestimmten Farbe stehen
     public List<Square> findSquaresOfPieces(ChessPieceType type, boolean color) {
         ArrayList<Square> list = new ArrayList<>();
         for (Square square : Square.values()) {

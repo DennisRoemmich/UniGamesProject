@@ -3,7 +3,7 @@ package core.pieces;
 import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.Square;
-import sample.WriteError;
+import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +13,6 @@ import java.util.List;
  *
  */
 public class Pawn extends ChessPiece {
-
-    private int mNumberOfMoves = 0;
-    private int mLastMoved = 0;
 
     private boolean mCanBeCapturedEnPassant = false;
 
@@ -34,7 +31,7 @@ public class Pawn extends ChessPiece {
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
-            if (mNumberOfMoves == 0) {
+            if (isDoubleMovePossible()) {
                 squareToTest = squareToTest.getNext(moveDirection);
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
@@ -64,9 +61,8 @@ public class Pawn extends ChessPiece {
         return list;
     }
 
-    public void registerMove(int moveNumber) {
-        mNumberOfMoves++;
-        mLastMoved = moveNumber;
+    protected boolean isDoubleMovePossible() {
+        return getNumberOfMoves() == 0;
     }
 
     public void registerDoubleMove() {
@@ -75,13 +71,5 @@ public class Pawn extends ChessPiece {
 
     public void resetEnPassant() {
         mCanBeCapturedEnPassant = false;
-    }
-
-    public int getNumberOfMoves() {
-        return mNumberOfMoves;
-    }
-
-    public int getLastMoved() {
-        return mLastMoved;
     }
 }

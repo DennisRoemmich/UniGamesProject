@@ -3,7 +3,7 @@ package core.pieces;
 import core.ChessBoard;
 import core.positioning.File;
 import core.positioning.Square;
-import sample.WriteError;
+import framework.WriteError;
 import core.positioning.Rank;
 import java.util.ArrayList;
 import java.util.List;

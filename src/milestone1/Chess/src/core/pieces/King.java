@@ -1,15 +1,12 @@
 package core.pieces;
 
 import core.CheckDetector;
-import core.Chess;
 import core.ChessBoard;
 import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
-import sample.WriteError;
+import framework.WriteError;
 import core.positioning.Rank;
-
-import javax.swing.filechooser.FileView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class King extends CastlingChessPiece  {
+public class King extends ChessPiece  {
 
     public King(boolean isWhite) {
         super(isWhite, ChessPieceType.KING);
@@ -42,56 +39,37 @@ public class King extends CastlingChessPiece  {
     }
 
     @Override
-    public List<Square> findMoves(Square square, ChessBoard board) {
-        List<Square> moves = super.findMoves(square, board);
+    public List<Square> findMoves(ChessBoard board, Square square) {
+        List<Square> moves = super.findMoves(board, square);
         moves.addAll(findCastlingMoves(board));
         return moves;
     }
     
     private List<Square> findCastlingMoves(ChessBoard board) {
         List<Square> castlingMoves = new ArrayList<>();
-        if (this.hasMoved() || CheckDetector.isInCheck(board, isWhite())) {
+        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(board, isWhite())) {
             return castlingMoves;
         }
         Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
-        if(isQueenSideCastlingPossible(board)) {
-            castlingMoves.add(new Square(backRank, File.C));
-        }
-        if(isKingSideCastlingPossible(board)) {
-            castlingMoves.add(new Square(backRank, File.G));
+        for (Square rookSquare : board.findSquaresOfPieces(ChessPieceType.ROOK, isWhite())) {
+            
+        	Rook rook = (Rook) board.getPiece(rookSquare);
+            
+            if (rook.getNumberOfMoves() == 0) {
+            	Square kingSquare = new Square(backRank, File.E);
+            	Direction kingMoveDirection = rookSquare.getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
+            	List<Square> kingMovementSquares = new ArrayList<>();
+            	
+            	kingMovementSquares.add(kingSquare.getNext(kingMoveDirection));
+            	kingMovementSquares.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));
+            	
+            	if (kingMoveDirection == Direction.LEFT && !board.isFieldFree(new Square(backRank, File.B))) {
+            		continue;
+            	}
+            	castlingMoves.add(kingSquare.getNext(kingMoveDirection).getNext(kingMoveDirection));
+            } 
         }
         return  castlingMoves;
-    }
-
-    private boolean isQueenSideCastlingPossible(ChessBoard board) {
-        if(hasMoved()) return false;
-        Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
-        Rook rook = (Rook) board.getPiece(new Square(backRank, File.A));
-        if(rook == null || rook.hasMoved()) return false;
-        List<Square> squaresToTest = new ArrayList<>();
-        squaresToTest.add(new Square(backRank, File.C));
-        squaresToTest.add(new Square(backRank, File.D));
-        for(Square square : squaresToTest) {
-            if(CheckDetector.isSquareAttacked(board, square, !isWhite())) return false;
-        }
-        squaresToTest.add(new Square(backRank, File.B));
-        for(Square square : squaresToTest) {
-            if(!board.isFieldFree(square)) return false;
-        }
-        return true;
-    }
-
-    private boolean isKingSideCastlingPossible(ChessBoard board) {
-        if(hasMoved()) return false;
-        Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
-        List<Square> squaresToTest = new ArrayList<>();
-        squaresToTest.add(new Square(backRank, File.F));
-        squaresToTest.add(new Square(backRank, File.G));
-        for(Square square : squaresToTest) {
-            if(CheckDetector.isSquareAttacked(board, square, !isWhite())) return false;
-            if(!board.isFieldFree(square)) return false;
-        }
-        return true;
     }
 
 }

@@ -1,7 +1,5 @@
 package core.positioning;
 
-import java.security.InvalidParameterException;
-
 /**
  * Squares represent the possible positions for chess pieces on a chess board.
  *
@@ -20,14 +18,22 @@ public class Square {
         this.mFile = file;
     }
 
-    public Square(String name) {
-        this.mFile = File.valueOf(name.charAt(0));
-        this.mRank = Rank.valueOf(name.charAt(1));
-    }
-
     public Square(Square square) {
         mRank = square.getRank();
         mFile = square.getFile();
+    }
+
+
+    // TODO : Replace usages by valueOf
+    public Square(String name) {
+        this.mRank = Rank.valueOf(name.charAt(1));
+        this.mFile = File.valueOf(name.charAt(0));
+    }
+
+    public static Square valueOf(String name) {
+        Rank rank = Rank.valueOf(name.charAt(1));
+        File file = File.valueOf(name.charAt(0));
+        return new Square(rank, file);
     }
 
     public Rank getRank() {

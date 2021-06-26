@@ -3,7 +3,7 @@ package core.pieces;
 import core.CheckDetector;
 import core.ChessBoard;
 import core.positioning.Square;
-import sample.WriteError;
+import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +16,7 @@ public abstract class ChessPiece implements Cloneable {
 
     private final ChessPieceType mType;
     private final boolean mIsWhite;
+    private int numberOfMoves = 0;
 
     /* Constructor */
 
@@ -28,7 +29,7 @@ public abstract class ChessPiece implements Cloneable {
 
     public abstract List<Square> findCoveredSquares(ChessBoard board, Square origin);
 
-    public List<Square> findMoves(Square square, ChessBoard board) {
+    public List<Square> findMoves(ChessBoard board, Square square) {
         List<Square> coveredSquares = findCoveredSquares(board, square);
         List<Square> validMoves = new ArrayList<>();
         for (Square uncheckedSquare : coveredSquares) {
@@ -39,7 +40,19 @@ public abstract class ChessPiece implements Cloneable {
         return validMoves;
     }
 
+    public void registerMove() {
+        numberOfMoves++;
+    }
+
+    public void undoMoveRegistry() {
+        numberOfMoves--;
+    }
+
     /* Getter */
+
+    public final int getNumberOfMoves() {
+        return numberOfMoves;
+    }
 
     public final String getName() {
         return mType.name();
