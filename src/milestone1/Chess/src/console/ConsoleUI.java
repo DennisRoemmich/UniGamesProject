@@ -30,7 +30,7 @@ public class ConsoleUI implements Presenter, Player {
     	while(wrongMenuInput) {
     	
     	PrintToConsole.println("Please choose your game mode:");
-    	PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay save file, [H]elp, [Q]uit");
+    	PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit");
     	String input = mScanner.nextLine();
     	
     		if ("r".equalsIgnoreCase(input)) {

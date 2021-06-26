@@ -173,6 +173,30 @@ public class Chess {
         }
         return possibleOrigins;
     }
+    
+//    public List<Square> getPossibleDestination(Square origin) {
+//    	ChessPiece piece = mBoard.getPiece(origin);
+//    	List<Square> possibleDestinations = new ArrayList<>();
+//    	
+//    	Rank rank;
+//    	File file;
+//    	
+//    	for (int i = 0; i < 8; i++) {
+//        	for (int j = 0; j < 8; j++) {
+//        		
+//        	}
+//    	}
+//    	//int i = (int) Math.floor(Math.random()*(7));
+//    	//int j = (int) Math.floor(Math.random()*(7));
+//    	
+//    	Square destination = new Square(Rank.valueOf(i), File.valueOf(j));
+//    	
+//    	if (piece.findMoves(mBoard, destination).contains(origin)) {
+//            possibleOrigins.add(origin);
+//            
+//        }
+//        return possibleOrigins;
+//    }
 
     public ChessBoard getBoard() {
         return mBoard;
