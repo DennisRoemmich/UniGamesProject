@@ -371,7 +371,7 @@ public class Test {
         for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
             for (var o = 0; o < Rack.GRID_WIDTH; o++) {
                 var point = new Point(i, o);
-                returnString += rack.pointToGridTile(point).toString();
+                returnString += rack.getGridTileAt(point).toString();
             }
             //    newLine(1);
         }
@@ -417,7 +417,7 @@ public class Test {
         for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
             for (var o = 0; o < Rack.GRID_WIDTH; o++) {
                 var point = new Point(i, o);
-                System.out.print(rummi.getPlayerAt(player).getRack().pointToGridTile(point).toString());
+                System.out.print(rummi.getPlayerAt(player).getRack().getGridTileAt(point).toString());
             }
             //    newLine(1);
         }
@@ -431,7 +431,7 @@ public class Test {
         for (var i = 0; i < Rack.GRID_HEIGHT; i++) {
             for (var o = 0; o < Rack.GRID_WIDTH; o++) {
                 var point = new Point(i, o);
-                System.out.print(rummi.getPlayerAt(player).getSketchRack().pointToGridTile(point).toString());
+                System.out.print(rummi.getPlayerAt(player).getSketchRack().getGridTileAt(point).toString());
             }
             //    newLine(1);
         }

@@ -23,6 +23,10 @@ public class FXGridCell {
         updateVisibility();
     }
 
+    public void show(){
+        updateVisibility();
+    }
+
     public void clear() {
 
         empty = true;

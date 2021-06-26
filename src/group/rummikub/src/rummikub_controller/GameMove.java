@@ -56,4 +56,11 @@ public class GameMove {
 
     }
 
+    public void swapCoordinates(){
+
+        pointA = new Point(pointA.y, pointA.x);
+        pointB = new Point(pointB.y, pointB.x);
+
+    }
+
 }
