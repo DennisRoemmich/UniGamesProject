@@ -2,6 +2,10 @@ package JavaFX;
 
 import framework.GameController;
 import framework.Player;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -12,6 +16,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
@@ -86,7 +91,7 @@ public class FXController implements Player, Initializable {
 
     public ImageView board_0201;
     public ImageView board_0204;
-    // public ImageView imageView_backGround;
+    public ImageView imageView_backGround;
     public AnchorPane rootAnchorPane;
 
     public ImageView button_closeContextMenu;
@@ -224,15 +229,23 @@ public class FXController implements Player, Initializable {
 
     public void finsishOrDrawClicked(MouseEvent mouseEvent) {
 
+        anchorPane_contextMenu.setVisible(false);
+
+        if (!stateFinishButton) {
+
+            setGameMessage("Board is invalid!");
+            return;
+        }
+
+        setGameMessage("Player " + (rummiGame.getCurrentPlayerIndex()+1) + "finished his move!");
+
         var move = new GameMove(ActionType.FINISHMOVE);
         makeMove(move);
-
 
         updateGUI();
     }
 
     public void sortForRunClicked(MouseEvent mouseEvent) {
-
 
         var move = new GameMove(ActionType.SORTRUN);
         makeMove(move);
@@ -256,46 +269,60 @@ public class FXController implements Player, Initializable {
 
     public void openMainMenu(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("Main Menu is open");
+        setGameMessage("Main Menu is open");
 
-        var move = new GameMove(ActionType.FINISHMOVE);
+    /*    var move = new GameMove(ActionType.FINISHMOVE);
 
-        makeMove(move);
+        makeMove(move);*/
 
     }
 
     public void openSettings(MouseEvent mouseEvent) {
 
-
-        // anchorPane_gameMessage.setVisible(true);
-        // label_gameMessage.setText("Settings are open");
-
-        // DEBUG HELP
-
-        System.out.println(rummiGame.getSketchBoard().toString(true));
-        System.out.println("\n");
-        System.out.println(rummiGame.getBoard().toString(true));
-        ///
-
-
+        setGameMessage("Settings are open");
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("New Game started");
+        setGameMessage("New Game started");
     }
 
     public void quit(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("You just quited");
+        setGameMessage("You just quited");
     }
 
     public void closeContextMenu(MouseEvent mouseEvent) {
 
         anchorPane_contextMenu.setVisible(false);
+    }
+
+    public void setGameMessage(String s) {
+
+        anchorPane_gameMessage.setOpacity(1);
+        label_gameMessage.setText(s);
+        anchorPane_gameMessage.setVisible(true);
+
+        KeyValue kv0 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 1, Interpolator.EASE_OUT);
+        KeyFrame kf0 = new KeyFrame(Duration.seconds(1.5), kv0);
+
+        Timeline timeline0 = new Timeline();
+        timeline0.setOnFinished(e -> gameMessageFadeOut());
+
+        timeline0.getKeyFrames().add(kf0);
+
+        timeline0.play();
+    }
+
+    private void gameMessageFadeOut() {
+
+        KeyValue kv1 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf1 = new KeyFrame(Duration.seconds(2), kv1);
+
+        Timeline timeline1 = new Timeline();
+        timeline1.getKeyFrames().add(kf1);
+
+        timeline1.play();
     }
 
 
@@ -420,7 +447,7 @@ public class FXController implements Player, Initializable {
         // currentCell.fill(TileColor.BLUE, 7);
 
         if(gridName.equals("RACK") && column_x == 2 && row_y == 0){
-            currentCell.fill(TileColor.BLUE, 7);
+        //    currentCell.fill(TileColor.BLUE, 7);
         }
 
 
@@ -589,23 +616,19 @@ public class FXController implements Player, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /*
+        imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
+        imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
 
-            imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
-            imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
+        gridPane_board.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.60));
+        gridPane_Rack.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.30));
 
-            gridPane_board.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.60));
-            gridPane_Rack.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.30));
+        button_finishOrDraw.fitHeightProperty().bind(gridPane_Rack.heightProperty().multiply(0.5));
+        button_reset.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_sortForGroup.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_sortForRun.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+        button_reset.yProperty();
 
-            button_finishOrDraw.fitHeightProperty().bind(gridPane_Rack.heightProperty().multiply(0.5));
-            button_reset.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-            button_sortForGroup.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-            button_sortForRun.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-            button_reset.yProperty();
-
-            button_reset.yProperty().bind(gridPane_Rack.heightProperty().multiply(0.90));
-
-        */
+        button_reset.yProperty().bind(gridPane_Rack.heightProperty().multiply(0.90));
 
         setUpGrids();
 
@@ -744,22 +767,26 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIButtons() {
 
-        // * TODO : 3 States* //
+        stateFinishButton = rummiGame.getSketchBoard().isValid();
 
         if (stateFinishButton) {
 
-            button_finishOrDraw.setImage(new Image(buttonFinishURL));
+            if (rummiGame.getCurrentPlayersSketchRack().getSize() == rummiGame.getCurrentPlayer().getRack().getSize()) {
+
+                button_finishOrDraw.setImage(new Image(buttonDrawURL));
+
+            } else {
+
+                button_finishOrDraw.setImage(new Image(buttonFinishURL));
+            }
 
         } else {
 
             button_finishOrDraw.setImage(new Image(buttonFinishNotPossibleURL));
-
         }
 
         anchorPane_contextMenu.setVisible(false);
         anchorPane_gameMessage.setVisible(false);
     }
 
-
 }
-

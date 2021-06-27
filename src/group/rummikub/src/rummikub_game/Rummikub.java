@@ -169,11 +169,6 @@ public class Rummikub {
      */
     public boolean moveTileFromBoardToCurrentRack(Point boardPos, Point rackPos) {
 
-
-        // TODO: This Function is not working properly
-
-        System.out.println("here it goes to:" + boardPos.toString() + " - " + rackPos.toString());
-
         var boardGridTile = sketchBoard.getGridTileAt(boardPos);
         var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
 
@@ -184,10 +179,11 @@ public class Rummikub {
             return false;
         }
 
-        if (getCurrentPlayersSketchRack().addTileAt(rackPos, rackGridTile.getTile())) {
+        if (getCurrentPlayersSketchRack().addTileAt(rackPos, boardGridTile.getTile())) {
 
             movedRackTiles.remove(i);
             sketchBoard.removeTile(boardPos);
+
             return true;
         }
 
@@ -432,11 +428,11 @@ public class Rummikub {
 
     private void sketchBoardToBoard() {
 
-    //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
+        var width = board.GRID_WIDTH;
 
         for (var i = 0; i < board.getBoardSize(); i++) {
 
-            board.getBoard()[i / board.GRID_WIDTH][i % board.GRID_WIDTH] = sketchBoard.getBoard()[i / board.GRID_WIDTH][i % board.GRID_WIDTH];
+            board.getBoard()[i / width][i % width] = sketchBoard.getBoard()[i / width][i % width];
         }
     }
 
