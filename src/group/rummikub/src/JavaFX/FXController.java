@@ -53,6 +53,7 @@ public class FXController implements Player, Initializable {
     public ImageView button_finishOrDraw;
     public ImageView button_sortForRun;
     public ImageView button_reset;
+    public ImageView button_cancel;
 
     public AnchorPane anchorPane_P1;
     public Label label_nameP1;
