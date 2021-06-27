@@ -89,7 +89,8 @@ public class Set {
                         return false;
                     }
                 } else {
-                    check.add(new Tile(check.get(i-1).getTileColor(), check.get(i-1).getValue()+1)); //if the joker is somewhere in the middle of the run, then grab the value from the tile before it from the check list, since it could be that it is a joker
+                    check.add(new Tile(check.get(i-1).getTileColor(), check.get(i-1).getValue()+1));
+                    //if the joker is somewhere in the middle of the run, then grab the value from the tile before it from the check list, since it could be that it is a joker
                 }
             } else {
                 check.add(tiles.get(i));
@@ -249,7 +250,7 @@ public class Set {
     }
 
     public boolean isSmaller(Tile a, Tile b){
-        return a.getValue() < b.getValue();
+        return a.getValue() == b.getValue()-1;
     }
 
     public boolean smallerAndColor(Tile a, Tile b){
