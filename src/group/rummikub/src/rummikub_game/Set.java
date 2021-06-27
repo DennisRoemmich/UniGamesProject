@@ -97,7 +97,7 @@ public class Set {
         }
 
         for(int c = 0; c < check.size()-1; c++){
-            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13){
+            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13 || noSameColors(check)){
                 return false;
             }
         }
