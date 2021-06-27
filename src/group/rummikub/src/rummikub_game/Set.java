@@ -257,20 +257,15 @@ public class Set {
     }
 
     public boolean noSameColors(ArrayList<Tile> list){
-        boolean noRep = true;
-        for(var i = 0; i < list.size() - 1; i++){
-            for(var j = 1; j < list.size(); j++){
-                if(list.get(i).getTileColor() == TileColor.JOKER){
-                    noRep = true;
-                } else if(list.get(i).getTileColor() != list.get(j).getTileColor()){
-                    noRep = true;
-                } else {
-                    noRep = false;
-                    break;
+        boolean noRep = false;
+        for(int i = 0; i < list.size()-1; i++){
+            for(int j = i+1; j < list.size();j++){
+                if(list.get(i).getTileColor() == list.get(j).getTileColor()){
+                    return false;
                 }
             }
         }
-        return noRep;
+        return true;
     }
 
     public SetType getType() {
