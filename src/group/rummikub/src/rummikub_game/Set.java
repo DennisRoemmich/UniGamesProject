@@ -97,7 +97,7 @@ public class Set {
         }
 
         for(int c = 0; c < check.size()-1; c++){
-            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1){
+            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13){
                 return false;
             }
         }
@@ -108,7 +108,7 @@ public class Set {
     public boolean isGroup(){
         ArrayList<Tile> check = new ArrayList<>();
         int jokers = 0;
-        for(int i = 0; i < tiles.size();i++){
+        for(int i = 0; i < tiles.size(); i++){
 
             if(!tiles.get(i).isJoker()){
                 check.add(tiles.get(i));
