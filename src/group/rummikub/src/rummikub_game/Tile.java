@@ -128,4 +128,13 @@ public class Tile {
 
         return color == tile.getTileColor() && value == tile.getValue();
     }
+
+
+    public void copyValuesFrom(Tile tile){
+
+        color = tile.getTileColor();
+        value = tile.value;
+
+    }
+
 }

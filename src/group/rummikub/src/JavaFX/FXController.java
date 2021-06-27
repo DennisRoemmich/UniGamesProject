@@ -2,6 +2,10 @@ package JavaFX;
 
 import framework.GameController;
 import framework.Player;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -12,6 +16,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
@@ -25,6 +30,8 @@ import rummikub_game.TileColor;
 
 import java.awt.*;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
@@ -98,6 +105,8 @@ public class FXController implements Player, Initializable {
     // images
     String emptyTileURL = "./resources/images/RummikubTile.png";
     String buttonDrawURL = "./resources/images/buttonDraw.jpg";
+    String buttonFinishURL = "./resources/images/buttonFinish.jpeg";
+    String buttonFinishNotPossibleURL = "./resources/images/buttonFinishNotPossible.jpeg";
 
     /* FUNCTIONS */
 
@@ -170,9 +179,6 @@ public class FXController implements Player, Initializable {
                 debugPrint("cellTest", "rackCellClicked(): valid end [" + originPoint.point.x + "," + originPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
                 move = new GameMove(ActionType.BOARDTORACK, originPoint.point, point);
 
-                System.out.print("THIS IS CALLEED");
-
-
             }
 
 
@@ -223,9 +229,18 @@ public class FXController implements Player, Initializable {
 
     public void finsishOrDrawClicked(MouseEvent mouseEvent) {
 
+        anchorPane_contextMenu.setVisible(false);
+
+        if (!stateFinishButton) {
+
+            setGameMessage("Board is invalid!");
+            return;
+        }
+
+        setGameMessage("Player " + (rummiGame.getCurrentPlayerIndex()+1) + "finished his move!");
+
         var move = new GameMove(ActionType.FINISHMOVE);
         makeMove(move);
-
 
         updateGUI();
     }
@@ -254,36 +269,60 @@ public class FXController implements Player, Initializable {
 
     public void openMainMenu(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("Main Menu is open");
+        setGameMessage("Main Menu is open");
 
-        var move = new GameMove(ActionType.FINISHMOVE);
+    /*    var move = new GameMove(ActionType.FINISHMOVE);
 
-        makeMove(move);
+        makeMove(move);*/
 
     }
 
     public void openSettings(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("Settings are open");
+        setGameMessage("Settings are open");
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("New Game started");
+        setGameMessage("New Game started");
     }
 
     public void quit(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("You just quited");
+        setGameMessage("You just quited");
     }
 
     public void closeContextMenu(MouseEvent mouseEvent) {
 
         anchorPane_contextMenu.setVisible(false);
+    }
+
+    public void setGameMessage(String s) {
+
+        anchorPane_gameMessage.setOpacity(1);
+        label_gameMessage.setText(s);
+        anchorPane_gameMessage.setVisible(true);
+
+        KeyValue kv0 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 1, Interpolator.EASE_OUT);
+        KeyFrame kf0 = new KeyFrame(Duration.seconds(1.5), kv0);
+
+        Timeline timeline0 = new Timeline();
+        timeline0.setOnFinished(e -> gameMessageFadeOut());
+
+        timeline0.getKeyFrames().add(kf0);
+
+        timeline0.play();
+    }
+
+    private void gameMessageFadeOut() {
+
+        KeyValue kv1 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf1 = new KeyFrame(Duration.seconds(2), kv1);
+
+        Timeline timeline1 = new Timeline();
+        timeline1.getKeyFrames().add(kf1);
+
+        timeline1.play();
     }
 
 
@@ -334,7 +373,7 @@ public class FXController implements Player, Initializable {
 
     private void debugPrint(String identifier, String message){
 
-        if(identifier.equals("cellTest")){
+        if(identifier.equals("cellTest") && false){
 
             System.out.println("CellTest: " + message);
 
@@ -365,6 +404,7 @@ public class FXController implements Player, Initializable {
        // anchorPane.setStyle("-fx-background-color: green;");
 
         var imageView = new ImageView();
+
         var image = new Image(emptyTileURL.toString());
         imageView.setImage(image);
 
@@ -407,7 +447,7 @@ public class FXController implements Player, Initializable {
         // currentCell.fill(TileColor.BLUE, 7);
 
         if(gridName.equals("RACK") && column_x == 2 && row_y == 0){
-            currentCell.fill(TileColor.BLUE, 7);
+        //    currentCell.fill(TileColor.BLUE, 7);
         }
 
 
@@ -727,19 +767,26 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIButtons() {
 
+        stateFinishButton = rummiGame.getSketchBoard().isValid();
+
         if (stateFinishButton) {
 
-    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
+            if (rummiGame.getCurrentPlayersSketchRack().getSize() == rummiGame.getCurrentPlayer().getRack().getSize()) {
+
+                button_finishOrDraw.setImage(new Image(buttonDrawURL));
+
+            } else {
+
+                button_finishOrDraw.setImage(new Image(buttonFinishURL));
+            }
 
         } else {
 
-    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
-            // var image = new Image("@../../resources/images/RummikubTile.png");
+            button_finishOrDraw.setImage(new Image(buttonFinishNotPossibleURL));
         }
+
         anchorPane_contextMenu.setVisible(false);
         anchorPane_gameMessage.setVisible(false);
     }
 
-
 }
-

@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import rummikub_controller.RummikubController;
 
@@ -21,11 +20,13 @@ public class Main extends Application {
     Stage stage;
     Scene scene;
 
+    String fxmlURL = "../JavaFX/rummikubGUI.fxml";
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("../JavaFX/rummikubGUI.fxml")
+                getClass().getResource(fxmlURL)
         );
 
         Parent root = loader.load();

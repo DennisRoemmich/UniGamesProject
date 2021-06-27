@@ -398,9 +398,11 @@ public class Rack {
      */
     private void tilesToGrid(Tile[] tiles) {
 
+        var size = getSize();
+
         for (var i = 0; i < getRackSize(); i++) {
 
-            if (i < getSize()) {
+            if (i < size) {
 
                 positionToGridTile(i).setTile(tiles[i]);
 
