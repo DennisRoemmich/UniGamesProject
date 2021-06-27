@@ -261,6 +261,7 @@ public class FXController implements Player, Initializable {
         }
 
         var p = rummiGame.getCurrentPlayerIndex() + 1;
+        var m = rummiGame.getMovedRackTiles().isEmpty();
 
         var move = new GameMove(ActionType.FINISHMOVE);
 
@@ -272,10 +273,9 @@ public class FXController implements Player, Initializable {
 
             setGameMessage("Game over: Player " + p + " wins!");
 
-
         } else {
 
-            if (rummiGame.getMovedRackTiles().isEmpty()) {
+            if (m) {
 
                 setGameMessage("Player " + p + " finished his move and drew!");
 
