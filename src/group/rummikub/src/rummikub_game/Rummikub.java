@@ -413,12 +413,21 @@ public class Rummikub {
 
     private void boardToSketchBoard() {
 
-    //    System.arraycopy(sketchBoard.getBoard(), 0, board.getBoard(), 0, sketchBoard.grid.length);
-
+        // PASS BY VALUE :
         for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
 
-            sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+            GridTile sourceGridTile = board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+
+            GridTile returnTile = new GridTile();
+
+            if( sourceGridTile.getTile() != null && returnTile.getTile() != null){
+                returnTile.getTile().copyValuesFrom(sourceGridTile.getTile());
+            }
+
+            sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = returnTile;
+
         }
+
     }
 
     private void sketchBoardToBoard() {

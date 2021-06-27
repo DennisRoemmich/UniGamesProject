@@ -25,6 +25,8 @@ import rummikub_game.TileColor;
 
 import java.awt.*;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
@@ -84,7 +86,7 @@ public class FXController implements Player, Initializable {
 
     public ImageView board_0201;
     public ImageView board_0204;
-    public ImageView imageView_backGround;
+    // public ImageView imageView_backGround;
     public AnchorPane rootAnchorPane;
 
     public ImageView button_closeContextMenu;
@@ -98,6 +100,8 @@ public class FXController implements Player, Initializable {
     // images
     String emptyTileURL = "./resources/images/RummikubTile.png";
     String buttonDrawURL = "./resources/images/buttonDraw.jpg";
+    String buttonFinishURL = "./resources/images/buttonFinish.jpeg";
+    String buttonFinishNotPossibleURL = "./resources/images/buttonFinishNotPossible.jpeg";
 
     /* FUNCTIONS */
 
@@ -170,9 +174,6 @@ public class FXController implements Player, Initializable {
                 debugPrint("cellTest", "rackCellClicked(): valid end [" + originPoint.point.x + "," + originPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
                 move = new GameMove(ActionType.BOARDTORACK, originPoint.point, point);
 
-                System.out.print("THIS IS CALLEED");
-
-
             }
 
 
@@ -232,6 +233,7 @@ public class FXController implements Player, Initializable {
 
     public void sortForRunClicked(MouseEvent mouseEvent) {
 
+
         var move = new GameMove(ActionType.SORTRUN);
         makeMove(move);
 
@@ -265,8 +267,18 @@ public class FXController implements Player, Initializable {
 
     public void openSettings(MouseEvent mouseEvent) {
 
-        anchorPane_gameMessage.setVisible(true);
-        label_gameMessage.setText("Settings are open");
+
+        // anchorPane_gameMessage.setVisible(true);
+        // label_gameMessage.setText("Settings are open");
+
+        // DEBUG HELP
+
+        System.out.println(rummiGame.getSketchBoard().toString(true));
+        System.out.println("\n");
+        System.out.println(rummiGame.getBoard().toString(true));
+        ///
+
+
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
@@ -334,7 +346,7 @@ public class FXController implements Player, Initializable {
 
     private void debugPrint(String identifier, String message){
 
-        if(identifier.equals("cellTest")){
+        if(identifier.equals("cellTest") && false){
 
             System.out.println("CellTest: " + message);
 
@@ -365,6 +377,7 @@ public class FXController implements Player, Initializable {
        // anchorPane.setStyle("-fx-background-color: green;");
 
         var imageView = new ImageView();
+
         var image = new Image(emptyTileURL.toString());
         imageView.setImage(image);
 
@@ -576,19 +589,23 @@ public class FXController implements Player, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
-        imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
+        /*
 
-        gridPane_board.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.60));
-        gridPane_Rack.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.30));
+            imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
+            imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
 
-        button_finishOrDraw.fitHeightProperty().bind(gridPane_Rack.heightProperty().multiply(0.5));
-        button_reset.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-        button_sortForGroup.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-        button_sortForRun.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
-        button_reset.yProperty();
+            gridPane_board.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.60));
+            gridPane_Rack.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.30));
 
-        button_reset.yProperty().bind(gridPane_Rack.heightProperty().multiply(0.90));
+            button_finishOrDraw.fitHeightProperty().bind(gridPane_Rack.heightProperty().multiply(0.5));
+            button_reset.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+            button_sortForGroup.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+            button_sortForRun.fitHeightProperty().bind(gridPane_Rack.prefHeightProperty().multiply(0.5));
+            button_reset.yProperty();
+
+            button_reset.yProperty().bind(gridPane_Rack.heightProperty().multiply(0.90));
+
+        */
 
         setUpGrids();
 
@@ -727,15 +744,18 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIButtons() {
 
+        // * TODO : 3 States* //
+
         if (stateFinishButton) {
 
-    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
+            button_finishOrDraw.setImage(new Image(buttonFinishURL));
 
         } else {
 
-    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
-            // var image = new Image("@../../resources/images/RummikubTile.png");
+            button_finishOrDraw.setImage(new Image(buttonFinishNotPossibleURL));
+
         }
+
         anchorPane_contextMenu.setVisible(false);
         anchorPane_gameMessage.setVisible(false);
     }
