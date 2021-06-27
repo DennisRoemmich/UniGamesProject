@@ -97,12 +97,12 @@ public class Set {
         }
 
         for(int c = 0; c < check.size()-1; c++){
-            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13 || noSameColors(check)){
+            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13){
                 return false;
             }
         }
 
-        return true;
+        return sameColors(check);
     }
 
     public boolean isGroup(){
@@ -264,6 +264,16 @@ public class Set {
                 }
             }
         }
+        return true;
+    }
+
+    public boolean sameColors(ArrayList<Tile> list){
+        for(int i = 0; i < list.size()-1; i++){
+            if(list.get(i).getTileColor() != list.get(i+1).getTileColor()){
+                return false;
+            }
+        }
+
         return true;
     }
 
