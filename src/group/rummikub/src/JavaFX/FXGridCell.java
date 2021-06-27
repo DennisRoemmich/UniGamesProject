@@ -59,6 +59,7 @@ public class FXGridCell {
             case YELLOW -> text.setFill(Color.web("#FFA500"));
             default -> {
                 text.setText("♕"); // U+1F921
+            //    text.setText("/U1F921");
                 text.setFill(Color.web("#FF00FF"));
             }
         }

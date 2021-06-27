@@ -16,7 +16,7 @@
    <children>
       <ImageView fx:id="imageView_backGround" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            
+
             <!--@0../../resources/-->
             <!--@0../-->
 
@@ -110,7 +110,7 @@
             <Image url="@../../resources/images/buttonReset.jpeg" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="anchorPane_gameMessage" layoutX="400.0" layoutY="80.0" prefHeight="60.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="anchorPane_gameMessage" layoutX="398.0" layoutY="80.0" prefHeight="60.0" prefWidth="400.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffd68f" height="60.0" stroke="#ff66b2" strokeType="INSIDE" strokeWidth="3.0" width="400.0" />
             <Label fx:id="label_gameMessage" alignment="CENTER" layoutX="50.0" layoutY="11.0" text="This is game message" textFill="#6d6d6d" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

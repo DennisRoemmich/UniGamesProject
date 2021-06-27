@@ -353,12 +353,12 @@ public class Rummikub {
             if ( player != winner ){
 
                 var sum = player.getRack().getSum();
-                player.setScore(player.getScore() - sum);
+                player.setScore(-sum);
                 totalSum += sum;
 
             }
         }
-        winner.setScore(winner.getScore() + totalSum);
+        winner.setScore(totalSum);
     }
 
     /**
@@ -409,7 +409,7 @@ public class Rummikub {
 
     }
 
-    private RummikubPlayer getWinner(){
+    public RummikubPlayer getWinner(){
 
         for ( RummikubPlayer player : players ){
 

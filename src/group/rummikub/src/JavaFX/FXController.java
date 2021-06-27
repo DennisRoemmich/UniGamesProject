@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import rummikub_controller.ActionType;
 import rummikub_controller.GameMove;
+import rummikub_controller.PlayerInfo;
 import rummikub_controller.RummikubController;
 import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
@@ -113,6 +114,23 @@ public class FXController implements Player, Initializable {
     public ImageView button_closeContextMenu;
     public GridPane gridPane_board;
     public GridPane gridPane_Rack;
+
+    public AnchorPane anchorPane_pod1;
+    public Label label_pod1name;
+    public Label label_pod1score;
+    public Label label_pod1totscore;
+    public AnchorPane anchorPane_pod2;
+    public Label label_pod2name;
+    public Label label_pod2score;
+    public Label label_pod2totscore;
+    public AnchorPane anchorPane_pod3;
+    public Label label_pod3name;
+    public Label label_pod3score;
+    public Label label_pod3totscore;
+    public AnchorPane anchorPane_pod4;
+    public Label label_pod4name;
+    public Label label_pod4score;
+    public Label label_pod4totscore;
 
     // true if board is valid, else false
     private boolean stateFinishButton = true;
@@ -265,9 +283,11 @@ public class FXController implements Player, Initializable {
         if ( rummiGame.isFinished() ) {
 
             setGameMessage("Game over: Player " + p + " wins!");
+            setPodium();
 
         } else {
 
+            // TODO: message abändern wenn fertig, zu kürzer
             if (m) {
 
                 setGameMessage("Player " + p + " finished his move and drew!");
@@ -833,31 +853,29 @@ public class FXController implements Player, Initializable {
         var p = rummiGame.getPlayerAmount();
         var tilesImage = "";
 
-        String[] playerNames = {"Mario", "Luigi", "Peach", "Cherry"};
-
-        label_nameP1.setText(playerNames[0]);
+        label_nameP1.setText(rummikubController.getPlayerInfos().get(0).getName());
         label_rackP1.setText(rummiGame.getPlayerAt(0).getRack().getSize() + tilesImage);
         label_scoreP1.setText(Integer.toString(rummiGame.getPlayerAt(0).getScore()));
-        label_LetterP1.setText(Character.toString(playerNames[0].charAt(0)));
+        label_LetterP1.setText(Character.toString(label_nameP1.getText().charAt(0)));
 
-        label_nameP2.setText(playerNames[1]);
+        label_nameP2.setText(rummikubController.getPlayerInfos().get(1).getName());
         label_rackP2.setText(rummiGame.getPlayerAt(1).getRack().getSize() + tilesImage);
         label_scoreP2.setText(Integer.toString(rummiGame.getPlayerAt(1).getScore()));
-        label_LetterP2.setText(Character.toString(playerNames[1].charAt(0)));
+        label_LetterP2.setText(Character.toString(label_nameP2.getText().charAt(0)));
 
         if (p >= 3) {
 
-            label_nameP3.setText(playerNames[2]);
+            label_nameP3.setText(rummikubController.getPlayerInfos().get(2).getName());
             label_rackP3.setText(rummiGame.getPlayerAt(2).getRack().getSize() + tilesImage);
             label_scoreP3.setText(Integer.toString(rummiGame.getPlayerAt(2).getScore()));
-            label_LetterP3.setText(Character.toString(playerNames[2].charAt(0)));
+            label_LetterP3.setText(Character.toString(label_nameP3.getText().charAt(0)));
 
             if (p == 4) {
 
-                label_nameP4.setText(playerNames[3]);
+                label_nameP4.setText(rummikubController.getPlayerInfos().get(3).getName());
                 label_rackP4.setText(rummiGame.getPlayerAt(3).getRack().getSize() + tilesImage);
                 label_scoreP4.setText(Integer.toString(rummiGame.getPlayerAt(3).getScore()));
-                label_LetterP4.setText(Character.toString(playerNames[3].charAt(0)));
+                label_LetterP4.setText(Character.toString(label_nameP4.getText().charAt(0)));
 
             } else {
 
@@ -893,10 +911,49 @@ public class FXController implements Player, Initializable {
         anchorPane_gameMessage.setVisible(false);
     }
 
+    private void setPodium() {
+
+        PlayerInfo[] podium = rummikubController.getPodium();
+
+        for (var i = 0; i < 4; i++) {
+            System.out.println(podium[i].getName() + ", " + podium[i].getLastScore() + ", " + podium[i].getTotalScore());
+        }
+
+        label_pod1name.setText(podium[0].getName());
+        label_pod1score.setText(Integer.toString(podium[0].getLastScore()));
+        label_pod1totscore.setText(Integer.toString(podium[0].getTotalScore()));
+
+        label_pod2name.setText(podium[1].getName());
+        label_pod2score.setText(Integer.toString(podium[1].getLastScore()));
+        label_pod2totscore.setText(Integer.toString(podium[1].getTotalScore()));
+
+        if (podium.length > 3) {
+
+            label_pod1name.setText(podium[2].getName());
+            label_pod1score.setText(Integer.toString(podium[2].getLastScore()));
+            label_pod1totscore.setText(Integer.toString(podium[2].getTotalScore()));
+
+            if (podium.length == 4) {
+
+                label_pod1name.setText(podium[2].getName());
+                label_pod1score.setText(Integer.toString(podium[2].getLastScore()));
+                label_pod1totscore.setText(Integer.toString(podium[2].getTotalScore()));
+
+            } else {
+
+                anchorPane_pod4.setVisible(false);
+            }
+        } else {
+
+            anchorPane_pod3.setVisible(false);
+        }
+    }
+
     public void undoButtonClicked(MouseEvent mouseEvent) {
 
         var move = new GameMove(ActionType.UNDOLASTMOVE);
         makeMove(move);
 
     }
+
 }

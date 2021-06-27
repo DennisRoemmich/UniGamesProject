@@ -5,6 +5,7 @@ import framework.GameLog;
 import framework.Player;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
+import rummikub_game.RummikubPlayer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,6 +14,7 @@ public class RummikubController extends GameController {
 
     private GameState state = GameState.STARTED;
     private Rummikub rummiGame;
+    private ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
 
     int playerNo = 4;
     int startPlayer = 0;
@@ -24,6 +26,18 @@ public class RummikubController extends GameController {
     public RummikubController(){
 
         this.mPlayers = new ArrayList<Player>();
+
+        PlayerInfo player1 = new PlayerInfo("Mario");
+        PlayerInfo player2 = new PlayerInfo("Luigi");
+        PlayerInfo player3 = new PlayerInfo("Peach");
+        PlayerInfo player4 = new PlayerInfo("HuiBuu");
+        playerInfos.add(player1);
+        playerInfos.add(player2);
+        playerInfos.add(player3);
+        playerInfos.add(player4);
+
+        var standardPlayerNo = 4;
+        var standardStartPlayer = 0;
 
         mGameLog = new GameLog("ID");
         rummiGame = new Rummikub(playerNo, startPlayer, seed);
@@ -61,6 +75,11 @@ public class RummikubController extends GameController {
         return rummiGame;
     }
 
+    public ArrayList<PlayerInfo> getPlayerInfos() {
+
+        return playerInfos;
+    }
+
     public boolean makeMove(GameMove move){
 
         /* CHECK IF MOVE IS VALID */
@@ -69,7 +88,14 @@ public class RummikubController extends GameController {
 
         switch (move.type){
 
-            case FINISHMOVE -> successful = rummiGame.finishMove();
+            case FINISHMOVE -> {
+
+                successful = rummiGame.finishMove();
+                if (successful && rummiGame.isFinished()) {
+
+                    gameEnded();
+                }
+            }
 
             case ONRACK -> successful = rummiGame.moveTileOnCurrentRack(move.pointA, move.pointB);
 
@@ -114,6 +140,38 @@ public class RummikubController extends GameController {
         return successful;
     }
 
+    private void gameEnded() {
+
+        for (var i = 0; i < rummiGame.getPlayerAmount(); i++) {
+
+            var score = rummiGame.getPlayerAt(i).getScore();
+            playerInfos.get(i).setLastScore(score);
+            playerInfos.get(i).addToTotalScore(score);
+        }
+    }
+
+    public PlayerInfo[] getPodium() {
+
+        PlayerInfo[] podium = new PlayerInfo[playerInfos.size()];
+        var help = playerInfos.clone();
+
+        for (int i = 0; i < playerInfos.size(); i++) {
+
+            PlayerInfo best = playerInfos.get(0);
+            var bestScore = best.getLastScore();
+            for (PlayerInfo p : playerInfos) {
+
+                if (p.getLastScore() > bestScore) {
+
+                    bestScore = p.getLastScore();
+                    best = p;
+                }
+            }
+            podium[i] = best;
+        }
+
+        return podium;
+    }
 
 
     // @Override
