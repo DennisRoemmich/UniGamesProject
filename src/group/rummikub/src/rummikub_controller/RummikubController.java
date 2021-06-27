@@ -152,22 +152,34 @@ public class RummikubController extends GameController {
 
     public PlayerInfo[] getPodium() {
 
-        PlayerInfo[] podium = new PlayerInfo[playerInfos.size()];
-        var help = playerInfos.clone();
+        var size = playerInfos.size();
+        PlayerInfo[] podium = new PlayerInfo[size];
 
-        for (int i = 0; i < playerInfos.size(); i++) {
+        PlayerInfo pole;
+        PlayerInfo vize;
+        PlayerInfo third;
+        PlayerInfo looser;
 
-            PlayerInfo best = playerInfos.get(0);
-            var bestScore = best.getLastScore();
-            for (PlayerInfo p : playerInfos) {
+        if (size == 2) {
 
-                if (p.getLastScore() > bestScore) {
+            if (playerInfos.get(0).getLastScore() > playerInfos.get(1).getLastScore()) {
 
-                    bestScore = p.getLastScore();
-                    best = p;
-                }
+                pole = playerInfos.get(0);
+                vize = playerInfos.get(1);
+
+            } else {
+
+                vize = playerInfos.get(0);
+                pole = playerInfos.get(1);
             }
-            podium[i] = best;
+
+        } else if (size == 3) {
+
+
+
+        } else if (size == 4) {
+
+
         }
 
         return podium;
@@ -232,6 +244,6 @@ public class RummikubController extends GameController {
 enum GameState {
     STARTED,
     RUNNING,
-    ENDED;
+    FINSIHED;
 }
 

@@ -755,6 +755,9 @@ public class FXController implements Player, Initializable {
 
         System.out.println(anchorPane_P1.prefHeightProperty());
 
+        // update environment
+        updateGUIEnvironment();
+
         // update board
         updateGUIBoard();
 
@@ -768,6 +771,12 @@ public class FXController implements Player, Initializable {
         updateGUIButtons();
 
     }
+
+    private void updateGUIEnvironment() {
+
+
+    }
+
 
     private void updateGUIBoard() {
 
