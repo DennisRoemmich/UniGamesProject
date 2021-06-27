@@ -97,7 +97,7 @@ public class Set {
         }
 
         for(int c = 0; c < check.size()-1; c++){
-            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1){
+            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13){
                 return false;
             }
         }
@@ -108,7 +108,7 @@ public class Set {
     public boolean isGroup(){
         ArrayList<Tile> check = new ArrayList<>();
         int jokers = 0;
-        for(int i = 0; i < tiles.size()-1;i++){
+        for(int i = 0; i < tiles.size(); i++){
 
             if(!tiles.get(i).isJoker()){
                 check.add(tiles.get(i));
@@ -257,20 +257,14 @@ public class Set {
     }
 
     public boolean noSameColors(ArrayList<Tile> list){
-        boolean noRep = true;
-        for(var i = 0; i < list.size() - 1; i++){
-            for(var j = 1; j < list.size(); j++){
-                if(list.get(i).getTileColor() == TileColor.JOKER){
-                    noRep = true;
-                } else if(list.get(i).getTileColor() != list.get(j).getTileColor()){
-                    noRep = true;
-                } else {
-                    noRep = false;
-                    break;
+        for(int i = 0; i < list.size()-1; i++){
+            for(int j = i+1; j < list.size();j++){
+                if(list.get(i).getTileColor() == list.get(j).getTileColor()){
+                    return false;
                 }
             }
         }
-        return noRep;
+        return true;
     }
 
     public SetType getType() {
