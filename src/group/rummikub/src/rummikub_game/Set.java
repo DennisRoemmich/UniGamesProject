@@ -1,5 +1,6 @@
 package rummikub_game;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Set {
@@ -70,14 +71,65 @@ public class Set {
             return false;
         }
 
-        boolean isRun = false;
-        boolean isGroup = false;
-        Tile first = tiles.get(0);
-        Tile second = tiles.get(1);
-
-        return isRun(first,second) || isGroup(first,second);
+        return isRun() || isGroup();
     }
 
+    public boolean isRun(){
+        ArrayList<Tile> check = new ArrayList<>();
+        for(int i = 0; i < tiles.size()-1; i++){
+            int j = i+1;
+
+            if(tiles.get(i).isJoker()){ //If i is a joker save in check list as supposed value to be.
+                if(i == 0){//if the Joker is at the beginning of the run
+                    if(!tiles.get(j).isJoker() && tiles.get(j).getValue() > 1){ //if the tile after the joker is not a joker and it's bigger than 1, since 0 does not exist then add to check list as a value less than the next one
+                        check.add(new Tile(tiles.get(j).getTileColor(), tiles.get(j).getValue()-1));
+                    } else if(tiles.get(j).isJoker() && tiles.get(j+1).getValue() > 2){ //if the next tile is a joker then get the next tile from it, and rest 2 to the value of that tile and add it to the check list.
+                        check.add(new Tile(tiles.get(j+1).getTileColor(), tiles.get(j+1).getValue()-2));
+                    } else{
+                        return false;
+                    }
+                } else {
+                    check.add(new Tile(check.get(i-1).getTileColor(), check.get(i-1).getValue()+1)); //if the joker is somewhere in the middle of the run, then grab the value from the tile before it from the check list, since it could be that it is a joker
+                }
+            } else {
+                check.add(tiles.get(i));
+            }
+        }
+
+        for(int c = 0; c < check.size()-1; c++){
+            if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isGroup(){
+        ArrayList<Tile> check = new ArrayList<>();
+        int jokers = 0;
+        for(int i = 0; i < tiles.size()-1;i++){
+
+            if(!tiles.get(i).isJoker()){
+                check.add(tiles.get(i));
+            } else {
+                jokers++;
+            }
+        }
+
+        if((jokers + check.size()) > 4){
+            return false;
+        }
+
+        for(int j = 0; j < check.size()-1; j++){
+            if(check.get(j).getValue() != check.get(j+1).getValue()){
+                return false;
+            }
+        }
+
+        return noSameColors(check);
+    }
+/*
     public boolean isRun(Tile a, Tile b) {
 
         boolean isRun = true;
@@ -152,7 +204,7 @@ public class Set {
 
         return isRun;
     }
-
+*/ /*
     public boolean isGroup(Tile a, Tile b){
         boolean isGroup = true;
         boolean notEqualValues = true;
@@ -185,7 +237,7 @@ public class Set {
 
         return notEqualValues && noSameColors();
     }
-
+*/
     public boolean sameColor(Tile a, Tile b){return a.getTileColor() == b.getTileColor(); }
 
     public boolean valueIsEqual(Tile a, Tile b){
@@ -204,13 +256,13 @@ public class Set {
         return isSmaller(a, b) && sameColor(a, b);
     }
 
-    public boolean noSameColors(){
+    public boolean noSameColors(ArrayList<Tile> list){
         boolean noRep = true;
-        for(var i = 0; i < tiles.size() - 1; i++){
-            for(var j = 1; j < tiles.size(); j++){
-                if(tiles.get(i).getTileColor() == TileColor.JOKER){
+        for(var i = 0; i < list.size() - 1; i++){
+            for(var j = 1; j < list.size(); j++){
+                if(list.get(i).getTileColor() == TileColor.JOKER){
                     noRep = true;
-                } else if(tiles.get(i).getTileColor() != tiles.get(j).getTileColor()){
+                } else if(list.get(i).getTileColor() != list.get(j).getTileColor()){
                     noRep = true;
                 } else {
                     noRep = false;
