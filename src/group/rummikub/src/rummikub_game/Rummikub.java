@@ -241,7 +241,8 @@ public class Rummikub {
     public void resetMove() {
 
         getCurrentPlayer().resetSketchRack();
-        boardToSketchBoard();
+        resetSketchBoard();
+
     }
 
     /**
@@ -264,12 +265,13 @@ public class Rummikub {
 
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
 
-                    sketchBoardToBoard();
+                    acceptSketchBoard();
+
                 }
 
             } else {
 
-                sketchBoardToBoard();
+                acceptSketchBoard();
             }
 
             movedRackTiles.clear();
@@ -407,7 +409,10 @@ public class Rummikub {
         return null;
     }
 
-    private void boardToSketchBoard() {
+    /**
+     * Copies the Board into the sketchBoard (pass by value)
+     */
+    private void resetSketchBoard() {
 
         // PASS BY VALUE :
         for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
@@ -416,9 +421,13 @@ public class Rummikub {
 
             GridTile returnTile = new GridTile();
 
-            if( sourceGridTile.getTile() != null && returnTile.getTile() != null){
-                returnTile.getTile().copyValuesFrom(sourceGridTile.getTile());
+            if( sourceGridTile.getTile() != null ) {
+
+                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+
             }
+
+
 
             sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = returnTile;
 
@@ -426,13 +435,27 @@ public class Rummikub {
 
     }
 
-    private void sketchBoardToBoard() {
+    /**
+     * Copies the sketchBoard into the Board (pass by value)
+     */
+    private void acceptSketchBoard() {
 
-        var width = board.GRID_WIDTH;
+    //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
 
         for (var i = 0; i < board.getBoardSize(); i++) {
 
-            board.getBoard()[i / width][i % width] = sketchBoard.getBoard()[i / width][i % width];
+
+            GridTile sourceGridTile = sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+
+            GridTile returnTile = new GridTile();
+
+            if( sourceGridTile.getTile() != null ) {
+
+                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+
+            }
+
+            board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = returnTile;
         }
     }
 
