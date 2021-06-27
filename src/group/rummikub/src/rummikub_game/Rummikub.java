@@ -10,7 +10,7 @@ public class Rummikub {
     private static final int START_TILES_AMOUNT = 14;
     private static final boolean ACCEPT_CHANGES_WITHOUT_PUTTING = false;
 
-    private final Random rand = new Random();
+    private Random rand;
 
     private Board board;
     private Board sketchBoard;
@@ -28,8 +28,9 @@ public class Rummikub {
      * @param playerNumber number of players in the game
      * @param indexStartPlayer must be the arrayindex! (Player 1 means index 0)
      */
-    public Rummikub(int playerNumber, int indexStartPlayer) {
+    public Rummikub(int playerNumber, int indexStartPlayer, int seed) {
 
+        this.rand = new Random(seed);
 
         this.players = new RummikubPlayer[playerNumber];
 
