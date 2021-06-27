@@ -102,7 +102,7 @@ public class Set {
             }
         }
 
-        return true;
+        return sameColors(check);
     }
 
     public boolean isGroup(){
@@ -264,6 +264,16 @@ public class Set {
                 }
             }
         }
+        return true;
+    }
+
+    public boolean sameColors(ArrayList<Tile> list){
+        for(int i = 0; i < list.size()-1; i++){
+            if(list.get(i).getTileColor() != list.get(i+1).getTileColor()){
+                return false;
+            }
+        }
+
         return true;
     }
 
