@@ -88,7 +88,7 @@
       </GridPane>
       <ImageView fx:id="button_sortForGroup" fitHeight="158.0" fitWidth="133.0" layoutX="33.0" layoutY="1133.0" onMouseClicked="#sortForGroupClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="245.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="43.4456787109375">
          <image>
-            <Image url="@../../resources/images/buttonSortForRun.jpeg" />
+            <Image url="@../../resources/images/buttonSortForGroup.jpeg" />
          </image>
       </ImageView>
       <ImageView fx:id="button_finishOrDraw" fitHeight="168.0" fitWidth="215.0" layoutX="1875.0" layoutY="1109.0" onMouseClicked="#finishOrDrawClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="259.0" AnchorPane.rightAnchor="38.22563171386719">
@@ -106,12 +106,12 @@
             <Image url="@../../resources/images/buttonReset.jpeg" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="anchorPane_gameMessage" layoutX="198.0" layoutY="80.0" prefHeight="40.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="anchorPane_gameMessage" layoutX="398.0" layoutY="80.0" prefHeight="60.0" prefWidth="300.0" visible="false">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffd68f" height="40.0" stroke="#ff9d00" strokeType="INSIDE" strokeWidth="3.0" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffd68f" height="60.0" stroke="#ff66b2" strokeType="INSIDE" strokeWidth="3.0" width="300.0" />
             <Label fx:id="label_gameMessage" alignment="CENTER" layoutX="50.0" layoutY="11.0" text="This is game message" textFill="#6d6d6d" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
-                  <Font name="Chalkboard" size="13.0" />
+                  <Font name="Chalkboard" size="18.0" />
                </font>
             </Label>
          </children>

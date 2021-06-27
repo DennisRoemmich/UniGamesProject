@@ -95,7 +95,12 @@ public class FXController implements Player, Initializable {
     public Circle circlePlayer_P4;
     public Label label_LetterP4;
 
-
+    private AnchorPane[] playerAnchorPane = new AnchorPane[]{anchorPane_P1, anchorPane_P2, anchorPane_P3, anchorPane_P4};
+    private Label[] playerLabelName = new Label[]{label_nameP1, label_nameP2, label_nameP3, label_nameP4};
+    private Label[] playerLabelRack = new Label[]{label_rackP1, label_rackP2, label_rackP3, label_rackP4};
+    private Label[] playerLabelScore = new Label[]{label_scoreP1, label_scoreP2, label_scoreP3, label_scoreP4};
+    private Rectangle[] playerRectangle = new Rectangle[]{rectanglePlayer_P1, rectanglePlayer_P2, rectanglePlayer_P3, rectanglePlayer_P4};
+    private Circle[] playerCircle = new Circle[]{circlePlayer_P1, circlePlayer_P2, circlePlayer_P3, circlePlayer_P4};
 
     public AnchorPane anchorPane_gameMessage;
     public Label label_gameMessage;
@@ -255,13 +260,30 @@ public class FXController implements Player, Initializable {
             return;
         }
 
-        setGameMessage("Player " + (rummiGame.getCurrentPlayerIndex()+1) + "finished his Move!");
+        var p = rummiGame.getCurrentPlayerIndex() + 1;
 
         var move = new GameMove(ActionType.FINISHMOVE);
 
         makeMove(move);
 
         updateGUI();
+
+        if ( rummiGame.isFinished() ) {
+
+            setGameMessage("Game over: Player " + p + " wins!");
+
+
+        } else {
+
+            if (rummiGame.getMovedRackTiles().isEmpty()) {
+
+                setGameMessage("Player " + p + " finished his move and drew!");
+
+            } else {
+
+                setGameMessage("Player " + p + " finished his move!");
+            }
+        }
     }
 
     public void sortForRunClicked(MouseEvent mouseEvent) {
@@ -327,25 +349,23 @@ public class FXController implements Player, Initializable {
         label_gameMessage.setText(s);
         anchorPane_gameMessage.setVisible(true);
 
-        KeyValue kv0 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 1, Interpolator.EASE_OUT);
-        KeyFrame kf0 = new KeyFrame(Duration.seconds(1.5), kv0);
+        var kv0 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 1, Interpolator.EASE_OUT);
+        var kf0 = new KeyFrame(Duration.seconds(2), kv0);
 
-        Timeline timeline0 = new Timeline();
+        var timeline0 = new Timeline();
         timeline0.setOnFinished(e -> gameMessageFadeOut());
 
         timeline0.getKeyFrames().add(kf0);
 
         timeline0.play();
-
-
     }
 
     private void gameMessageFadeOut() {
 
-        KeyValue kv1 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame kf1 = new KeyFrame(Duration.seconds(2), kv1);
+        var kv1 = new KeyValue(anchorPane_gameMessage.opacityProperty(), 0, Interpolator.EASE_IN);
+        var kf1 = new KeyFrame(Duration.seconds(2), kv1);
 
-        Timeline timeline1 = new Timeline();
+        var timeline1 = new Timeline();
         timeline1.getKeyFrames().add(kf1);
 
         timeline1.play();
@@ -838,7 +858,7 @@ public class FXController implements Player, Initializable {
 
         if (stateFinishButton) {
 
-            if (rummiGame.getCurrentPlayersSketchRack().getSize() == rummiGame.getCurrentPlayer().getRack().getSize()) {
+            if (rummiGame.getMovedRackTiles().isEmpty()) {
 
                 button_finishOrDraw.setImage(new Image(buttonDrawURL));
 

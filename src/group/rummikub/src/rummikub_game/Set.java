@@ -74,9 +74,13 @@ public class Set {
         return isRun() || isGroup();
     }
 
-    public boolean isRun(){
+    public boolean isRun() {
+
         ArrayList<Tile> check = new ArrayList<>();
-        for(int i = 0; i < tiles.size(); i++){
+
+        // TODO i guess the '-1' needs to be deleted
+        for ( int i = 0; i < tiles.size()-1; i++) {
+
             int j = i+1;
 
             if(tiles.get(i).isJoker()){ //If i is a joker save in check list as supposed value to be.

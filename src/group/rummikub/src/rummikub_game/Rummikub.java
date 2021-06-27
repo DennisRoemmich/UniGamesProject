@@ -106,6 +106,14 @@ public class Rummikub {
     }
 
     /**
+     * @return ArrayList with movedRackTiles
+     */
+    public ArrayList<Tile> getMovedRackTiles() {
+
+        return movedRackTiles;
+    }
+
+    /**
      * @return amount of players
      */
     public int getPlayerAmount() {
@@ -253,14 +261,15 @@ public class Rummikub {
 
         if ( sketchBoard.isValid() ) {
 
+            System.out.println(movedRackTiles.size() + " " + getCurrentPlayersSketchRack().getSize());
             /* true if player didn't play tiles */
-            if ( getCurrentPlayer().getRack().getSize() == getCurrentPlayersSketchRack().getSize() ){
+            if ( movedRackTiles.isEmpty() ){
 
                 var nextTile = getRandomTileFromStack();
 
                 if ( nextTile != null ) {
 
-                    getCurrentPlayer().getRack().addTile( nextTile );
+                    getCurrentPlayer().getSketchRack().addTile( nextTile );
                 }
 
                 if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
@@ -274,7 +283,9 @@ public class Rummikub {
                 acceptSketchBoard();
             }
 
+            System.out.println(movedRackTiles.size() + " " + getCurrentPlayersSketchRack().getSize());
             movedRackTiles.clear();
+            System.out.println(movedRackTiles.size() + " " + getCurrentPlayersSketchRack().getSize());
             getCurrentPlayer().acceptSketchRack();
             currentMove++;
 
