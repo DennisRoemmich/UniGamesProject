@@ -13,7 +13,7 @@ public class Test {
 
     public Test(){
 
-        rummi = new Rummikub(4, 0);
+        rummi = new Rummikub(4, 0, 0);
 
     }
 

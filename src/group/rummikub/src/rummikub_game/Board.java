@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Board {
 
-    public static final int GRID_HEIGHT = 20;
-    public static final int GRID_WIDTH = 20;
+    public static final int GRID_HEIGHT = 8;
+    public static final int GRID_WIDTH = 16;
 
     public GridTile[][] grid;
 

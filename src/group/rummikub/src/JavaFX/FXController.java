@@ -41,8 +41,8 @@ public class FXController implements Player, Initializable {
     /* CONSTANTS */
 
     private final int RACK_ROW_AMOUNT = 2;
-    private final int RACK_COLUMN_AMOUNT = 15;
-    private final int BOARD_COLUMN_AMOUNT = 15;
+    private final int RACK_COLUMN_AMOUNT = 16;
+    private final int BOARD_COLUMN_AMOUNT = 16;
     private final int BOARD_ROW_AMOUNT = 7;
 
 
@@ -94,13 +94,6 @@ public class FXController implements Player, Initializable {
     public Rectangle rectanglePlayer_P4;
     public Circle circlePlayer_P4;
     public Label label_LetterP4;
-
-    private AnchorPane[] playerAnchorPane = new AnchorPane[]{anchorPane_P1, anchorPane_P2, anchorPane_P3, anchorPane_P4};
-    private Label[] playerLabelName = new Label[]{label_nameP1, label_nameP2, label_nameP3, label_nameP4};
-    private Label[] playerLabelRack = new Label[]{label_rackP1, label_rackP2, label_rackP3, label_rackP4};
-    private Label[] playerLabelScore = new Label[]{label_scoreP1, label_scoreP2, label_scoreP3, label_scoreP4};
-    private Rectangle[] playerRectangle = new Rectangle[]{rectanglePlayer_P1, rectanglePlayer_P2, rectanglePlayer_P3, rectanglePlayer_P4};
-    private Circle[] playerCircle = new Circle[]{circlePlayer_P1, circlePlayer_P2, circlePlayer_P3, circlePlayer_P4};
 
     public AnchorPane anchorPane_gameMessage;
     public Label label_gameMessage;
@@ -663,36 +656,37 @@ public class FXController implements Player, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+        AnchorPane[] playerAnchorPane = new AnchorPane[]{anchorPane_P1, anchorPane_P2, anchorPane_P3, anchorPane_P4};
+        Label[] playerLabelName = new Label[]{label_nameP1, label_nameP2, label_nameP3, label_nameP4};
+        Label[] playerLabelRack = new Label[]{label_rackP1, label_rackP2, label_rackP3, label_rackP4};
+        Label[] playerLabelScore = new Label[]{label_scoreP1, label_scoreP2, label_scoreP3, label_scoreP4};
+        Rectangle[] playerRectangle = new Rectangle[]{rectanglePlayer_P1, rectanglePlayer_P2, rectanglePlayer_P3, rectanglePlayer_P4};
+        Circle[] playerCircle = new Circle[]{circlePlayer_P1, circlePlayer_P2, circlePlayer_P3, circlePlayer_P4};
+
+
         /* PLAYER BOX BINDINGS */
 
-        anchorPane_P1.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.2));
-        anchorPane_P1.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.1));
+        for(int i = 0; i < 4; i++){
 
-        rectanglePlayer_P1.heightProperty().bind(anchorPane_P1.heightProperty());
-        rectanglePlayer_P1.widthProperty().bind(anchorPane_P1.widthProperty());
+            playerAnchorPane[i].prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.25));
+            playerAnchorPane[i].prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.12));
+
+            playerRectangle[i].heightProperty().bind(playerAnchorPane[i].heightProperty());
+            playerRectangle[i].widthProperty().bind(playerAnchorPane[i].widthProperty());
+
+            playerCircle[i].radiusProperty().bind(playerAnchorPane[i].widthProperty().multiply(0.5).subtract(20));
+            playerCircle[i].centerYProperty().bind(playerAnchorPane[i].heightProperty().multiply(0.4));
+            playerCircle[i].centerXProperty().bind(playerAnchorPane[i].widthProperty().multiply(0.5).subtract(10));
+
+
+        }
+
 
 
 
         // label_LetterP1.prefHeightProperty().bind(rootAnchorPane.widthProperty());
-        circlePlayer_P1.radiusProperty().bind(rectanglePlayer_P1.widthProperty().multiply(0.3));
 
 
-
-
-        anchorPane_P2.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
-        anchorPane_P2.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.15));
-        rectanglePlayer_P2.setVisible(false);
-        circlePlayer_P2.setVisible(false);
-
-        anchorPane_P3.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
-        anchorPane_P3.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.15));
-        rectanglePlayer_P3.setVisible(false);
-        circlePlayer_P3.setVisible(false);
-
-        anchorPane_P4.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
-        anchorPane_P4.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.1));
-        rectanglePlayer_P4.setVisible(false);
-        circlePlayer_P4.setVisible(false);
 
 
 
@@ -730,6 +724,8 @@ public class FXController implements Player, Initializable {
 
         rummikubController = (RummikubController) controller;
         rummiGame = rummikubController.getGame();
+
+        updateGUI();
 
     }
 
@@ -818,29 +814,50 @@ public class FXController implements Player, Initializable {
     private void updateGUIPlayers() {
 
         // TODO: where are the names of the player?
+        // ANSWER: They are in the player class arry of rummikub-controller
+
+        /* Highlight current Player  */
+
+        label_nameP1.setStyle("-fx-background-color: black;");
+        label_nameP2.setStyle("-fx-background-color: black;");
+        label_nameP3.setStyle("-fx-background-color: black;");
+        label_nameP4.setStyle("-fx-background-color: black;");
+
+        switch (rummiGame.getCurrentPlayerIndex()){
+            case 0 -> label_nameP1.setStyle("-fx-background-color: white;");
+            case 1 -> label_nameP2.setStyle("-fx-background-color: white;");
+            case 2 -> label_nameP3.setStyle("-fx-background-color: white;");
+            case 3 -> label_nameP4.setStyle("-fx-background-color: white;");
+        }
 
         var p = rummiGame.getPlayerAmount();
-        var tilesImage = " U+26C1";
+        var tilesImage = "";
 
-        label_nameP1.setText("Player 1");
+        String[] playerNames = {"Mario", "Luigi", "Peach", "Cherry"};
+
+        label_nameP1.setText(playerNames[0]);
         label_rackP1.setText(rummiGame.getPlayerAt(0).getRack().getSize() + tilesImage);
         label_scoreP1.setText(Integer.toString(rummiGame.getPlayerAt(0).getScore()));
+        label_LetterP1.setText(Character.toString(playerNames[0].charAt(0)));
 
-        label_nameP2.setText("Player 2");
+        label_nameP2.setText(playerNames[1]);
         label_rackP2.setText(rummiGame.getPlayerAt(1).getRack().getSize() + tilesImage);
         label_scoreP2.setText(Integer.toString(rummiGame.getPlayerAt(1).getScore()));
+        label_LetterP2.setText(Character.toString(playerNames[1].charAt(0)));
 
         if (p >= 3) {
 
-            label_nameP3.setText("Player 3");
+            label_nameP3.setText(playerNames[2]);
             label_rackP3.setText(rummiGame.getPlayerAt(2).getRack().getSize() + tilesImage);
             label_scoreP3.setText(Integer.toString(rummiGame.getPlayerAt(2).getScore()));
+            label_LetterP3.setText(Character.toString(playerNames[2].charAt(0)));
 
             if (p == 4) {
 
-                label_nameP4.setText("Player 4");
+                label_nameP4.setText(playerNames[3]);
                 label_rackP4.setText(rummiGame.getPlayerAt(3).getRack().getSize() + tilesImage);
                 label_scoreP4.setText(Integer.toString(rummiGame.getPlayerAt(3).getScore()));
+                label_LetterP4.setText(Character.toString(playerNames[3].charAt(0)));
 
             } else {
 
@@ -876,4 +893,10 @@ public class FXController implements Player, Initializable {
         anchorPane_gameMessage.setVisible(false);
     }
 
+    public void undoButtonClicked(MouseEvent mouseEvent) {
+
+        var move = new GameMove(ActionType.UNDOLASTMOVE);
+        makeMove(move);
+
+    }
 }

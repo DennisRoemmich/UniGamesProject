@@ -11,6 +11,8 @@ public class GameMove {
     public Point pointA;
     public Point pointB;
 
+    public boolean toBeRelogged = false;
+
     public GameMove(ActionType type) {
         this.type = type;
     }
@@ -26,6 +28,8 @@ public class GameMove {
     public GameMove(JSONObject jsn){
 
         type = ActionType.valueOf((String) jsn.get("actionType"));
+
+        toBeRelogged = Boolean.parseBoolean((String) jsn.get("toBeRelogged"));
 
         if ( type.usesPoints() ) {
 
@@ -61,6 +65,8 @@ public class GameMove {
             obj.put("PointBy", Integer.toString(pointB.y));
 
         }
+
+        obj.put("toBeRelogged", Boolean.toString(toBeRelogged));
 
         return obj;
 

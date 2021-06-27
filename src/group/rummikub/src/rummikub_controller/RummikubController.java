@@ -3,17 +3,21 @@ package rummikub_controller;
 import framework.GameController;
 import framework.GameLog;
 import framework.Player;
-import javafx.scene.chart.Axis;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RummikubController extends GameController {
 
     private GameState state = GameState.STARTED;
     private Rummikub rummiGame;
+
+    int playerNo = 4;
+    int startPlayer = 0;
+
+    private final int seed = new Random().nextInt();
 
     /* CONSTRUCTOR */
 
@@ -21,18 +25,19 @@ public class RummikubController extends GameController {
 
         this.mPlayers = new ArrayList<Player>();
 
-        var standardPlayerNo = 4;
-        var standardStartPlayer = 0;
-
         mGameLog = new GameLog("ID");
-        rummiGame = new Rummikub(standardPlayerNo, standardStartPlayer);
+        rummiGame = new Rummikub(playerNo, startPlayer, seed);
+
 
     }
 
     public RummikubController(int playerNumber, int startPlayer){
 
+        this.playerNo = playerNumber;
+        this.startPlayer = startPlayer;
+
         mGameLog = new GameLog("ID");
-        rummiGame = new Rummikub(playerNumber, startPlayer);
+        rummiGame = new Rummikub(playerNumber, startPlayer, seed);
 
     }
 
@@ -50,10 +55,6 @@ public class RummikubController extends GameController {
 
     }
 
-
-    public void gameLoop(){
-
-    }
 
     public Rummikub getGame(){
 
@@ -107,6 +108,7 @@ public class RummikubController extends GameController {
         if ( successful ) {
 
             mGameLog.logMove(move.toJSON());
+            System.out.println("Move was logged!");
         }
 
         return successful;
@@ -122,12 +124,6 @@ public class RummikubController extends GameController {
     }
 
 
-    private void printDebugState(){
-
-        System.out.print(rummiGame.getCurrentPlayer().getSketchRack().toString());
-
-    }
-
     /* Override */
 
     @Override
@@ -136,9 +132,6 @@ public class RummikubController extends GameController {
         var move = new GameMove(obj);
 
         makeMove(move);
-
-
-        printDebugState();
 
         return null;
 
@@ -166,6 +159,13 @@ public class RummikubController extends GameController {
 
     @Override
     public void newGame() {
+
+        mGameLog = new GameLog("ID");
+        rummiGame = new Rummikub(playerNo, startPlayer, seed);
+
+        for ( var player : mPlayers ){
+            player.setController(this);
+        }
 
     }
 

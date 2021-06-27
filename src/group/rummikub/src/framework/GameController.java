@@ -72,6 +72,9 @@ public abstract class GameController {
 		newGame();
 		restoreMetaSettings(log.getMetaSettings());
 		restoreGameSettings(log.getGameSettings());
+
+		System.out.println("There are " + log.getMoveLog().size() + " Objects in here");
+
 		for (JSONObject move : log.getMoveLog()) {
 			executeMove(move);
 			callPresenterUpdate();
@@ -85,6 +88,11 @@ public abstract class GameController {
 	}
 
 	public final void undoLastMoves(int amount) {
+
+		if( amount > mGameLog.getMoveLog().size()){
+			return;
+		}
+
 		mGameLog.removeLastMoves(amount);
 		replayLog(mGameLog);
 	}
