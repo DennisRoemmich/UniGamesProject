@@ -76,7 +76,7 @@ public class Set {
 
     public boolean isRun(){
         ArrayList<Tile> check = new ArrayList<>();
-        for(int i = 0; i < tiles.size()-1; i++){
+        for(int i = 0; i < tiles.size(); i++){
             int j = i+1;
 
             if(tiles.get(i).isJoker()){ //If i is a joker save in check list as supposed value to be.
