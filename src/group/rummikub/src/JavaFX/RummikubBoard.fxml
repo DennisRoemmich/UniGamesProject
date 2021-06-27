@@ -14,7 +14,7 @@
    <children>
       <ImageView fx:id="button_openContextMenu" fitHeight="60.0" fitWidth="57.0" layoutX="1209.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@MenuButton.png" />
+            <Image url="/../resources/images/Final/MenuButton.png" />
          </image>
       </ImageView>
       <HBox layoutY="593.0" prefHeight="200.0" prefWidth="1280.0">
@@ -26,12 +26,12 @@
                         <Insets left="24.0" />
                      </VBox.margin>
                      <image>
-                        <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/SortForRunButton.png" />
+                        <Image url="@../../resources/images/Final/SortForRunButton.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="button_sortForGroup" fitHeight="83.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/SortForGroupButton.png" />
+                        <Image url="@../../resources/images/Final/SortForGroupButton.png" />
                      </image>
                      <VBox.margin>
                         <Insets left="24.0" top="20.0" />
@@ -43,7 +43,7 @@
                <children>
                   <ImageView fitHeight="200.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/RummikubRack.png" />
+                        <Image url="@../../resources/images/Final/RummikubRack.png" />
                      </image>
                   </ImageView>
                   <GridPane fx:id="gridPane_Rack" prefHeight="158.0" prefWidth="1000.0">
@@ -81,7 +81,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                            <image>
-                              <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/ResetButton.png" />
+                              <Image url="@../../resources/images/Final/ResetButton.png" />
                            </image>
                         </ImageView>
                         <ImageView fx:id="button_cancel" fitHeight="83.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
@@ -89,7 +89,7 @@
                               <Insets left="7.0" right="10.0" />
                            </HBox.margin>
                            <image>
-                              <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/CancelButton.png" />
+                              <Image url="@../../resources/images/Final/CancelButton.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -99,7 +99,7 @@
                         <Insets left="10.0" top="10.0" />
                      </VBox.margin>
                      <image>
-                        <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/DoneAndDrawButton.png" />
+                        <Image url="@../../resources/images/Final/DoneAndDrawButton.png" />
                      </image>
                   </ImageView>
                </children>
@@ -108,7 +108,7 @@
       </HBox>
       <ImageView fitHeight="119.0" fitWidth="144.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/PlayerLime.png" />
+            <Image url="@../../resources/images/Final/PlayerLime.png" />
          </image>
       </ImageView>
       <GridPane fx:id="gridPane_board" layoutX="158.0" layoutY="26.0" prefHeight="556.0" prefWidth="1035.0">
@@ -143,17 +143,17 @@
       </GridPane>
       <ImageView fitHeight="119.0" fitWidth="144.0" layoutX="14.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/PlayerJeans.png" />
+            <Image url="@../../resources/images/Final/PlayerJeans.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="119.0" fitWidth="144.0" layoutX="14.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/PlayerMinion.png" />
+            <Image url="@../../resources/images/Final/PlayerMinion.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="119.0" fitWidth="144.0" layoutX="14.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../IdeaProjects/software-projekt-2021-gruppe-03/src/group/rummikub/resources/images/Final/PlayerFiery.png" />
+            <Image url="@../../resources/images/Final/PlayerFiery.png" />
          </image>
       </ImageView>
    </children>
