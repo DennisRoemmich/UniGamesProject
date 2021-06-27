@@ -20,10 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.json.simple.JSONObject;
-import rummikub_controller.ActionType;
-import rummikub_controller.GameMove;
-import rummikub_controller.PlayerInfo;
-import rummikub_controller.RummikubController;
+import rummikub_controller.*;
 import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
 import javafx.scene.text.Font;
@@ -114,6 +111,8 @@ public class FXController implements Player, Initializable {
     public ImageView button_closeContextMenu;
     public GridPane gridPane_board;
     public GridPane gridPane_Rack;
+
+    public AnchorPane anchorPanePod;
 
     public AnchorPane anchorPane_pod1;
     public Label label_pod1name;
@@ -756,7 +755,7 @@ public class FXController implements Player, Initializable {
         System.out.println(anchorPane_P1.prefHeightProperty());
 
         // update environment
-        updateGUIEnvironment();
+    //    updateGUIEnvironment();
 
         // update board
         updateGUIBoard();
@@ -774,7 +773,28 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIEnvironment() {
 
+        var state = rummikubController.getGameState();
 
+        if (state == GameState.STARTED) {
+
+            anchorPanePod.setVisible(true);
+            anchorPane_pod1.setVisible(false);
+            anchorPane_pod2.setVisible(false);
+            anchorPane_pod3.setVisible(false);
+            anchorPane_pod4.setVisible(false);
+
+        } else if (state == GameState.RUNNING) {
+
+            anchorPanePod.setVisible(false);
+
+        } else if (state == GameState.FINISHED) {
+
+            anchorPanePod.setVisible(true);
+            anchorPane_pod1.setVisible(true);
+            anchorPane_pod2.setVisible(true);
+            anchorPane_pod3.setVisible(true);
+            anchorPane_pod4.setVisible(true);
+        }
     }
 
 

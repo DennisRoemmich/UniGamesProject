@@ -75,6 +75,11 @@ public class RummikubController extends GameController {
         return rummiGame;
     }
 
+    public GameState getGameState() {
+
+        return state;
+    }
+
     public ArrayList<PlayerInfo> getPlayerInfos() {
 
         return playerInfos;
@@ -239,11 +244,5 @@ public class RummikubController extends GameController {
 
     }
 
-}
-
-enum GameState {
-    STARTED,
-    RUNNING,
-    FINSIHED;
 }
 
