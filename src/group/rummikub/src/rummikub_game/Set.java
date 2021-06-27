@@ -108,7 +108,7 @@ public class Set {
     public boolean isGroup(){
         ArrayList<Tile> check = new ArrayList<>();
         int jokers = 0;
-        for(int i = 0; i < tiles.size()-1;i++){
+        for(int i = 0; i < tiles.size();i++){
 
             if(!tiles.get(i).isJoker()){
                 check.add(tiles.get(i));
@@ -257,7 +257,6 @@ public class Set {
     }
 
     public boolean noSameColors(ArrayList<Tile> list){
-        boolean noRep = false;
         for(int i = 0; i < list.size()-1; i++){
             for(int j = i+1; j < list.size();j++){
                 if(list.get(i).getTileColor() == list.get(j).getTileColor()){
