@@ -7,7 +7,7 @@ public class Rack {
     public static final int GRID_HEIGHT = 2;
     public static final int GRID_WIDTH = 16;
 
-    private GridTile[][] grid;
+    private final GridTile[][] grid;
 
     /**
      * Constructor
@@ -82,16 +82,6 @@ public class Rack {
     }
 
     /**
-     * converts Point into position
-     * @param point to convert
-     * @return position
-     */
-    public int pointToPosition(Point point) {
-
-        return point.x + point.y;
-    }
-
-    /**
      * converts point to GridTile.
      * @param point to convert
      * @return GridTile
@@ -99,16 +89,6 @@ public class Rack {
     public GridTile getGridTileAt(Point point) {
 
         return grid[point.x][point.y];
-    }
-
-    /**
-     * converts GridTile to point
-     * @param gridTile toconvert
-     * @return point
-     */
-    public Point gridTileToPoint(GridTile gridTile) {
-
-        return new Point(gridTileToPosition(gridTile) / GRID_WIDTH, gridTileToPosition(gridTile) % GRID_WIDTH);
     }
 
     /**

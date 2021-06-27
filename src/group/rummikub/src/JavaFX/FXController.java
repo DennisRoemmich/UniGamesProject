@@ -21,17 +21,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import rummikub_controller.*;
-import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
 import javafx.scene.text.Font;
-import rummikub_game.Tile;
-import rummikub_game.TileColor;
 
 
 import java.awt.*;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
@@ -819,7 +814,7 @@ public class FXController implements Player, Initializable {
 
                 } else {
 
-                    if (!gridTile.getTile().isEqualToFX(boardTile) || boardTile.isEmpty()) {
+                    if (gridTile.getTile().isEqualToFX(boardTile) || boardTile.isEmpty()) {
 
                         boardTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
                     }
@@ -851,7 +846,7 @@ public class FXController implements Player, Initializable {
 
                 } else {
 
-                    if (!gridTile.getTile().isEqualToFX(rackTile) || rackTile.isEmpty()) {
+                    if (gridTile.getTile().isEqualToFX(rackTile) || rackTile.isEmpty()) {
 
                         rackTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
                     }
