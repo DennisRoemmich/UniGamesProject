@@ -57,10 +57,17 @@ public class RummikubPlayer {
 
         for (var i = 0; i < tileRack.getRackSize(); i++) {
 
-            var s = sketchRack.positionToGridTile(i);
-            var r = tileRack.positionToGridTile(i);
+            GridTile sourceGridTile = tileRack.getGrid()[i / tileRack.GRID_WIDTH][i % tileRack.GRID_WIDTH];
 
-            s.setTile(r.getTile());
+            GridTile returnTile = new GridTile();
+
+            if( sourceGridTile.getTile() != null ) {
+
+                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+
+            }
+
+            sketchRack.getGrid()[i / sketchRack.GRID_WIDTH][i % sketchRack.GRID_WIDTH] = returnTile;
         }
     }
 
@@ -69,14 +76,22 @@ public class RummikubPlayer {
      */
     public void acceptSketchRack(){
 
-        tileRack = sketchRack;
+        for (var i = 0; i < tileRack.getRackSize(); i++) {
 
-        for (var i = 0; i < sketchRack.getRackSize(); i++) {
 
-            var s = sketchRack.positionToGridTile(i);
-            var r = tileRack.positionToGridTile(i);
+            GridTile sourceGridTile = sketchRack.getGrid()[i / tileRack.GRID_WIDTH][i % tileRack.GRID_WIDTH];
 
-            r.setTile(s.getTile());
+            GridTile returnTile = new GridTile();
+
+            if( sourceGridTile.getTile() != null ) {
+
+                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+
+            }
+
+            tileRack.getGrid()[i / sketchRack.GRID_WIDTH][i % sketchRack.GRID_WIDTH] = returnTile;
         }
+
+
     }
 }

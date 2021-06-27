@@ -280,6 +280,11 @@ public class FXController implements Player, Initializable {
     public void openSettings(MouseEvent mouseEvent) {
 
         setGameMessage("Settings are open");
+
+        System.out.println(rummiGame.getBoard().toString(true));
+        System.out.println(rummiGame.getSketchBoard().toString(true));
+
+
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
@@ -681,6 +686,8 @@ public class FXController implements Player, Initializable {
 
                 var boardTile = boardCells[j][i];
 
+                boardTile.updateVisibility();
+
                 if (gridTile.isEmpty()) {
 
                     boardTile.clear();
@@ -712,6 +719,8 @@ public class FXController implements Player, Initializable {
                // System.out.println(i + ", "+ j);
 
                 var rackTile = rackCells[j][i];
+
+                rackTile.updateVisibility();
 
                 if (gridTile.getTile() == null) {
 
