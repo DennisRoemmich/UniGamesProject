@@ -84,7 +84,7 @@ public class FXGridCell {
 
     }
 
-    private void updateVisibility() {
+    public void updateVisibility() {
 
         if (empty) {
 

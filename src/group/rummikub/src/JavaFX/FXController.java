@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -43,6 +45,8 @@ public class FXController implements Player, Initializable {
     private final int BOARD_COLUMN_AMOUNT = 15;
     private final int BOARD_ROW_AMOUNT = 7;
 
+
+
     /* VARS */
 
     FXGridCell[][] boardCells  = new FXGridCell[BOARD_COLUMN_AMOUNT][BOARD_ROW_AMOUNT];
@@ -66,18 +70,32 @@ public class FXController implements Player, Initializable {
     public Label label_nameP1;
     public Label label_rackP1;
     public Label label_scoreP1;
+    public Rectangle rectanglePlayer_P1;
+    public Circle circlePlayer_P1;
+    public Label label_LetterP1;
     public AnchorPane anchorPane_P2;
     public Label label_nameP2;
     public Label label_rackP2;
     public Label label_scoreP2;
+    public Rectangle rectanglePlayer_P2;
+    public Circle circlePlayer_P2;
+    public Label label_LetterP2;
     public AnchorPane anchorPane_P3;
     public Label label_nameP3;
     public Label label_rackP3;
     public Label label_scoreP3;
+    public Rectangle rectanglePlayer_P3;
+    public Circle circlePlayer_P3;
+    public Label label_LetterP3;
     public AnchorPane anchorPane_P4;
     public Label label_nameP4;
     public Label label_rackP4;
     public Label label_scoreP4;
+    public Rectangle rectanglePlayer_P4;
+    public Circle circlePlayer_P4;
+    public Label label_LetterP4;
+
+
 
     public AnchorPane anchorPane_gameMessage;
     public Label label_gameMessage;
@@ -227,7 +245,7 @@ public class FXController implements Player, Initializable {
         updateGUI();
     }
 
-    public void finsishOrDrawClicked(MouseEvent mouseEvent) {
+    public void finishOrDrawClicked(MouseEvent mouseEvent) {
 
         anchorPane_contextMenu.setVisible(false);
 
@@ -237,9 +255,10 @@ public class FXController implements Player, Initializable {
             return;
         }
 
-        setGameMessage("Player " + (rummiGame.getCurrentPlayerIndex()+1) + "finished his move!");
+        setGameMessage("Player " + (rummiGame.getCurrentPlayerIndex()+1) + "finished his Move!");
 
         var move = new GameMove(ActionType.FINISHMOVE);
+
         makeMove(move);
 
         updateGUI();
@@ -280,6 +299,11 @@ public class FXController implements Player, Initializable {
     public void openSettings(MouseEvent mouseEvent) {
 
         setGameMessage("Settings are open");
+
+        System.out.println(rummiGame.getBoard().toString(true));
+        System.out.println(rummiGame.getSketchBoard().toString(true));
+
+
     }
 
     public void startNewGame(MouseEvent mouseEvent) {
@@ -312,6 +336,8 @@ public class FXController implements Player, Initializable {
         timeline0.getKeyFrames().add(kf0);
 
         timeline0.play();
+
+
     }
 
     private void gameMessageFadeOut() {
@@ -616,6 +642,42 @@ public class FXController implements Player, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
+        /* PLAYER BOX BINDINGS */
+
+        anchorPane_P1.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.2));
+        anchorPane_P1.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.1));
+
+        rectanglePlayer_P1.heightProperty().bind(anchorPane_P1.heightProperty());
+        rectanglePlayer_P1.widthProperty().bind(anchorPane_P1.widthProperty());
+
+
+
+        // label_LetterP1.prefHeightProperty().bind(rootAnchorPane.widthProperty());
+        circlePlayer_P1.radiusProperty().bind(rectanglePlayer_P1.widthProperty().multiply(0.3));
+
+
+
+
+        anchorPane_P2.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
+        anchorPane_P2.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.15));
+        rectanglePlayer_P2.setVisible(false);
+        circlePlayer_P2.setVisible(false);
+
+        anchorPane_P3.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
+        anchorPane_P3.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.15));
+        rectanglePlayer_P3.setVisible(false);
+        circlePlayer_P3.setVisible(false);
+
+        anchorPane_P4.prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.15));
+        anchorPane_P4.prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.1));
+        rectanglePlayer_P4.setVisible(false);
+        circlePlayer_P4.setVisible(false);
+
+
+
+
+
         imageView_backGround.fitWidthProperty().bind(rootAnchorPane.widthProperty());
         imageView_backGround.fitHeightProperty().bind(rootAnchorPane.heightProperty());
 
@@ -654,6 +716,9 @@ public class FXController implements Player, Initializable {
 
     public void updateGUI() {
 
+
+        System.out.println(anchorPane_P1.prefHeightProperty());
+
         // update board
         updateGUIBoard();
 
@@ -680,6 +745,8 @@ public class FXController implements Player, Initializable {
                 var gridTile = sketchboard.getGridTileAt(gridPoint);
 
                 var boardTile = boardCells[j][i];
+
+                boardTile.updateVisibility();
 
                 if (gridTile.isEmpty()) {
 
@@ -709,9 +776,9 @@ public class FXController implements Player, Initializable {
                 var gridPoint = new Point(i, j);
                 var gridTile = currentPlayersRack.getGridTileAt(gridPoint);
 
-               // System.out.println(i + ", "+ j);
-
                 var rackTile = rackCells[j][i];
+
+                rackTile.updateVisibility();
 
                 if (gridTile.getTile() == null) {
 

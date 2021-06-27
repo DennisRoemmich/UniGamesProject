@@ -414,6 +414,8 @@ public class Rummikub {
      */
     private void resetSketchBoard() {
 
+        System.out.println("RESET-SKETCH-BOARD");
+
         // PASS BY VALUE :
         for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
 
@@ -441,6 +443,8 @@ public class Rummikub {
     private void acceptSketchBoard() {
 
     //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
+
+        System.out.println("ACCEPT-SKETCH-BOARD");
 
         for (var i = 0; i < board.getBoardSize(); i++) {
 

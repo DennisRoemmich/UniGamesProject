@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.FXController">
+<AnchorPane fx:id="rootAnchorPane" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.FXController">
    <children>
       <ImageView fx:id="imageView_backGround" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -20,9 +20,9 @@
             <!-- <Image url="@../../out/production/rummikub/resources/images/background.png" /> -->
             <!-- <Image url="@../../rummikub/resources/images/background.png" /> -->
 
-            <Image url="@../../resources/images/background.png" />
+                  <Image url="@../../resources/images/background.png" />
 
-         </image>
+               </image>
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
@@ -30,6 +30,7 @@
 
       <GridPane fx:id="gridPane_board" gridLinesVisible="true" layoutX="204.0" onMouseClicked="#gridClicked" prefHeight="1078.0" prefWidth="1619.0" style="-fx-border-color: orange; -fx-border-width: 10;" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="40.0">
          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
@@ -90,7 +91,7 @@
             <Image url="@../../resources/images/buttonSortForRun.jpeg" />
          </image>
       </ImageView>
-      <ImageView fx:id="button_finishOrDraw" fitHeight="168.0" fitWidth="215.0" layoutX="1875.0" layoutY="1109.0" onMouseClicked="#finsishOrDrawClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="259.0" AnchorPane.rightAnchor="38.22563171386719">
+      <ImageView fx:id="button_finishOrDraw" fitHeight="168.0" fitWidth="215.0" layoutX="1875.0" layoutY="1109.0" onMouseClicked="#finishOrDrawClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="259.0" AnchorPane.rightAnchor="38.22563171386719">
          <image>
             <Image url="@../../resources/images/buttonDraw.jpg" />
          </image>
@@ -105,110 +106,6 @@
             <Image url="@../../resources/images/buttonReset.jpeg" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="anchorPane_P1" layoutX="46.0" layoutY="140.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" AnchorPane.bottomAnchor="1276.0" AnchorPane.leftAnchor="46.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#313f4b" height="120.0" stroke="#dfdfdf" strokeType="INSIDE" width="120.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Circle fill="#40b6ff" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
-            <Label layoutX="26.0" layoutY="3.0" text="P" textFill="WHITE">
-               <font>
-                  <Font name="Chalkboard SE Light" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_nameP1" layoutX="15.0" layoutY="31.0" text="Player1" textFill="#72b4fc">
-               <font>
-                  <Font name="Chalkboard SE Light" size="9.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_rackP1" layoutX="35.0" layoutY="42.0" text="20 🂠" textFill="#aabbc8">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_scoreP1" layoutX="10.0" layoutY="42.0" text="300 P" textFill="#929292">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="anchorPane_P2" layoutX="36.0" layoutY="413.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" AnchorPane.bottomAnchor="1003.0" AnchorPane.leftAnchor="36.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#313f4b" height="120.0" stroke="#dfdfdf" strokeType="INSIDE" width="120.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Circle fill="#40b6ff" layoutX="30.0" layoutY="18.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
-            <Label layoutX="26.0" layoutY="3.0" text="P" textFill="WHITE">
-               <font>
-                  <Font name="Chalkboard SE Light" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_nameP2" layoutX="15.0" layoutY="31.0" text="Player2" textFill="#72b4fc">
-               <font>
-                  <Font name="Chalkboard SE Light" size="9.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_rackP2" layoutX="35.0" layoutY="42.0" text="17 🂠" textFill="#aabbc8">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_scoreP2" layoutX="10.0" layoutY="42.0" text="330 P" textFill="#929292">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="anchorPane_P3" layoutX="1885.0" layoutY="263.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" AnchorPane.bottomAnchor="1153.0" AnchorPane.leftAnchor="1885.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#313f4b" height="120.0" stroke="#dfdfdf" strokeType="INSIDE" width="120.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Circle fill="#40b6ff" layoutX="30.0" layoutY="18.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
-            <Label layoutX="26.0" layoutY="3.0" text="P" textFill="WHITE">
-               <font>
-                  <Font name="Chalkboard SE Light" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_nameP3" layoutX="15.0" layoutY="31.0" text="Player3" textFill="#72b4fc">
-               <font>
-                  <Font name="Chalkboard SE Light" size="9.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_rackP3" layoutX="35.0" layoutY="42.0" text="11 🂠" textFill="#aabbc8">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_scoreP3" layoutX="10.0" layoutY="42.0" text="210 P" textFill="#929292">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="anchorPane_P4" layoutX="1897.0" layoutY="459.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="120.0" AnchorPane.bottomAnchor="957.0" AnchorPane.leftAnchor="1897.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#30b429" height="323.0" layoutX="-38.0" stroke="#dfdfdf" strokeType="INSIDE" width="158.0" AnchorPane.bottomAnchor="-203.0" AnchorPane.leftAnchor="-38.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Circle fill="#40b6ff" layoutX="30.0" layoutY="18.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
-            <Label layoutX="26.0" layoutY="3.0" text="Y" textFill="WHITE">
-               <font>
-                  <Font name="Chalkboard SE Light" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_nameP4" layoutX="15.0" layoutY="31.0" text="You" textFill="#72b4fc">
-               <font>
-                  <Font name="Chalkboard SE Light" size="9.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_rackP4" layoutX="35.0" layoutY="42.0" text="23 🂠" textFill="#aabbc8">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-            <Label fx:id="label_scoreP4" layoutX="10.0" layoutY="42.0" text="410 P" textFill="#929292">
-               <font>
-                  <Font name="Chalkboard SE Light" size="6.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="anchorPane_gameMessage" layoutX="198.0" layoutY="80.0" prefHeight="40.0" prefWidth="200.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffd68f" height="40.0" stroke="#ff9d00" strokeType="INSIDE" strokeWidth="3.0" width="200.0" />
@@ -274,10 +171,114 @@
             <ImageView fx:id="button_closeContextMenu" fitHeight="36.0" fitWidth="36.0" layoutX="126.0" layoutY="11.0" onMouseClicked="#closeContextMenu" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="11.0" />
          </children>
       </AnchorPane>
-      <ImageView fx:id="button_finishOrDraw1" fitHeight="159.0" fitWidth="135.0" layoutX="1877.0" layoutY="912.0" onMouseClicked="#finsishOrDrawClicked" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="button_finishOrDraw1" fitHeight="159.0" fitWidth="135.0" layoutX="1877.0" layoutY="912.0" onMouseClicked="#finishOrDrawClicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/images/buttonDraw.jpg" />
          </image>
       </ImageView>
+      <AnchorPane fx:id="anchorPane_P1" layoutX="22.0" layoutY="140.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="173.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Rectangle fx:id="rectanglePlayer_P1" arcHeight="5.0" arcWidth="5.0" fill="#0f8c83" height="307.0" stroke="#dfdfdf" strokeType="INSIDE" strokeWidth="3.0" width="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Circle fx:id="circlePlayer_P1" fill="#142834" layoutX="99.0" layoutY="120.0" radius="60.0" stroke="#adadad" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="28.0" />
+            <Label fx:id="label_LetterP1" alignment="CENTER" layoutX="4.0" layoutY="73.0" prefHeight="90.0" prefWidth="163.0" text="Z" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="62.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_nameP1" alignment="CENTER" style="-fx-background-color: black;" text="ZUPUJUMA" textAlignment="CENTER" textFill="#b8faf3" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_scoreP1" alignment="CENTER" layoutX="54.0" prefWidth="97.0" text="300 P" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_rackP1" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="11.0" opacity="0.37" style="-fx-background-color: black;" text="20" textFill="#43ff00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPane_P2" layoutX="24.0" layoutY="500.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="173.0" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Rectangle fx:id="rectanglePlayer_P2" arcHeight="5.0" arcWidth="5.0" fill="#0f8c83" height="307.0" stroke="#dfdfdf" strokeType="INSIDE" strokeWidth="3.0" width="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Circle fx:id="circlePlayer_P2" fill="#142834" layoutX="99.0" layoutY="120.0" radius="60.0" stroke="#adadad" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="28.0" />
+            <Label fx:id="label_LetterP2" alignment="CENTER" layoutX="4.0" layoutY="73.0" prefHeight="90.0" prefWidth="163.0" text="Z" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="62.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_nameP2" alignment="CENTER" layoutX="43.0" layoutY="210.0" style="-fx-background-color: black;" text="ZUPUJUMA" textAlignment="CENTER" textFill="#b8faf3" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_scoreP2" alignment="CENTER" layoutX="54.0" layoutY="240.0" prefWidth="97.0" text="300 P" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_rackP2" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="11.0" opacity="0.37" style="-fx-background-color: black;" text="20" textFill="#43ff00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPane_P3" layoutX="1852.0" layoutY="145.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="173.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Rectangle fx:id="rectanglePlayer_P3" arcHeight="5.0" arcWidth="5.0" fill="#0f8c83" height="307.0" stroke="#dfdfdf" strokeType="INSIDE" strokeWidth="3.0" width="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Circle fx:id="circlePlayer_P3" fill="#142834" layoutX="99.0" layoutY="120.0" radius="60.0" stroke="#adadad" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="28.0" />
+            <Label fx:id="label_LetterP3" alignment="CENTER" layoutX="4.0" layoutY="73.0" prefHeight="90.0" prefWidth="163.0" text="Z" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="62.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_nameP3" alignment="CENTER" layoutX="43.0" layoutY="210.0" style="-fx-background-color: black;" text="ZUPUJUMA" textAlignment="CENTER" textFill="#b8faf3" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_scoreP3" alignment="CENTER" layoutX="54.0" layoutY="240.0" prefWidth="97.0" text="300 P" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_rackP3" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="11.0" opacity="0.37" style="-fx-background-color: black;" text="20" textFill="#43ff00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPane_P4" layoutX="1861.0" layoutY="110.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="173.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="500.0">
+         <children>
+            <Rectangle fx:id="rectanglePlayer_P4" arcHeight="5.0" arcWidth="5.0" fill="#0f8c83" height="307.0" stroke="#dfdfdf" strokeType="INSIDE" strokeWidth="3.0" width="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Circle fx:id="circlePlayer_P4" fill="#142834" layoutX="99.0" layoutY="120.0" radius="60.0" stroke="#adadad" strokeType="INSIDE" strokeWidth="3.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="28.0" />
+            <Label fx:id="label_LetterP4" alignment="CENTER" layoutX="4.0" layoutY="73.0" prefHeight="90.0" prefWidth="163.0" text="Z" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="62.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_nameP4" alignment="CENTER" layoutX="43.0" layoutY="210.0" style="-fx-background-color: black;" text="ZUPUJUMA" textAlignment="CENTER" textFill="#b8faf3" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_scoreP4" alignment="CENTER" layoutX="54.0" layoutY="240.0" prefWidth="97.0" text="300 P" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="label_rackP4" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="11.0" opacity="0.37" style="-fx-background-color: black;" text="20" textFill="#43ff00" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Chalkboard SE Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
