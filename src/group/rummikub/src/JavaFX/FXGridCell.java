@@ -25,10 +25,12 @@ public class FXGridCell {
         this.imgView = view;
         this.text = text;
         empty = true;
+
         updateVisibility();
     }
 
-    public void show(){
+    public void show() {
+
         updateVisibility();
     }
 
@@ -56,14 +58,15 @@ public class FXGridCell {
             case RED -> text.setFill(Color.web("#FF0000"));
             case YELLOW -> text.setFill(Color.web("#FFA500"));
             default -> {
-                text.setText("♕");
+                text.setText("♕"); // U+1F921
                 text.setFill(Color.web("#FF00FF"));
             }
         }
 
     }
 
-    public void setCellWidthProperty(DoubleBinding cellWidthProperty){
+    public void setCellWidthProperty(DoubleBinding cellWidthProperty) {
+
         this.cellWidthProperty = cellWidthProperty;
     }
 
@@ -71,11 +74,9 @@ public class FXGridCell {
 
         text.setText(Integer.toString(value));
 
-
-
         if(value >= 10 ) {
             text.xProperty().bind(cellWidthProperty.divide(2).subtract(text.getLayoutBounds().getWidth()*0.45));
-            text.setFont(Font.font("Arial", FontWeight.BOLD, 27));
+            text.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         } else {
             text.xProperty().bind(cellWidthProperty.divide(2).subtract(text.getLayoutBounds().getWidth()*0.5));
             text.setFont(Font.font("Arial", FontWeight.BOLD, 30));
@@ -85,12 +86,13 @@ public class FXGridCell {
 
     private void updateVisibility() {
 
-        if( empty ) {
+        if (empty) {
 
             imgView.setVisible(false);
             text.setVisible(false);
 
         } else {
+
             imgView.setVisible(true);
             text.setVisible(true);
         }

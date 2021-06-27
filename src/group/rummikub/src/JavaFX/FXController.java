@@ -93,6 +93,11 @@ public class FXController implements Player, Initializable {
     // true if board is valid, else false
     private boolean stateFinishButton = true;
 
+
+    // images
+    String emptyTileURL = "./resources/images/RummikubTile.png";
+    String buttonDrawURL = "./resources/images/buttonDraw.jpg";
+
     /* FUNCTIONS */
 
 
@@ -221,7 +226,6 @@ public class FXController implements Player, Initializable {
         makeMove(move);
 
 
-
         updateGUI();
     }
 
@@ -329,7 +333,7 @@ public class FXController implements Player, Initializable {
 
     private void debugPrint(String identifier, String message){
 
-        if(identifier == "cellTest"){
+        if(identifier.equals("cellTest")){
 
             System.out.println("CellTest: " + message);
 
@@ -360,10 +364,10 @@ public class FXController implements Player, Initializable {
        // anchorPane.setStyle("-fx-background-color: green;");
 
         var imageView = new ImageView();
-        var image = new Image("@../../resources/images/RummikubTile.png");
+        var image = new Image(emptyTileURL.toString());
         imageView.setImage(image);
 
-        Text text = new Text();
+        var text = new Text();
         text.setText("9");
         text.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 
@@ -401,7 +405,7 @@ public class FXController implements Player, Initializable {
         currentCell.setCellWidthProperty(cellWidthProperty);
         // currentCell.fill(TileColor.BLUE, 7);
 
-        if(gridName=="RACK" && column_x == 2 && row_y == 0){
+        if(gridName.equals("RACK") && column_x == 2 && row_y == 0){
             currentCell.fill(TileColor.BLUE, 7);
         }
 
@@ -426,7 +430,7 @@ public class FXController implements Player, Initializable {
 
                 debugPrint("cellTest", "MouseClicked: [" + finalX + "][" + finalY + "]");
 
-                if ( gridName == "RACK"){
+                if (gridName.equals("RACK")){
                     rackCellClicked(new Point(finalX, finalY));
                 } else {
                     boardCellClicked(new Point(finalX, finalY));
@@ -456,7 +460,7 @@ public class FXController implements Player, Initializable {
                     //Put ImageView on dragboard
                     ClipboardContent cbContent = new ClipboardContent();
 
-                    var image = new Image("@../../resources/images/RummikubTile.png", cellWidthProperty.doubleValue(), cellHeightProperty.doubleValue(), false, false);
+                    var image = new Image(emptyTileURL.toString(), cellWidthProperty.doubleValue(), cellHeightProperty.doubleValue(), false, false);
                     // Include Number here
 
                     cbContent.putImage(image);
@@ -467,7 +471,7 @@ public class FXController implements Player, Initializable {
                     text.setVisible(false);
                     mouseEvent.consume();
 
-                    if ( gridName == "RACK"){
+                    if (gridName.equals("RACK")){
                         rackCellClicked(new Point(finalX, finalY));
                     } else {
                         boardCellClicked(new Point(finalX, finalY));
@@ -509,7 +513,7 @@ public class FXController implements Player, Initializable {
 
                     debugPrint("cellTest", "dragDropped: [" + finalX + "][" + finalY + "]");
 
-                    if ( gridName == "RACK"){
+                    if (gridName.equals("RACK")){
                         rackCellClicked(new Point(finalX, finalY));
                     } else {
                         boardCellClicked(new Point(finalX, finalY));
@@ -724,11 +728,11 @@ public class FXController implements Player, Initializable {
 
         if (stateFinishButton) {
 
-            button_finishOrDraw.setImage(new Image("@../../resources/images/buttonDraw.jpg"));
+    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
 
         } else {
 
-            button_finishOrDraw.setImage(new Image("@../../resources/images/buttonDraw.jpg"));
+    //        button_finishOrDraw.setImage(new Image(buttonDrawURL));
             // var image = new Image("@../../resources/images/RummikubTile.png");
         }
         anchorPane_contextMenu.setVisible(false);

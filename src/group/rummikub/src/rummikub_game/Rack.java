@@ -8,7 +8,6 @@ public class Rack {
     public static final int GRID_WIDTH = 15;
 
     private GridTile[][] grid;
-    private int size;
 
     /**
      * Constructor
@@ -20,13 +19,22 @@ public class Rack {
 
             grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
         }
-        size = 0;
     }
 
     /**
      * @return size of Rack
      */
     public int getSize() {
+
+        var size = 0;
+
+        for (var i = 0; i < getRackSize(); i++) {
+
+            if (!positionToGridTile(i).isEmpty()) {
+
+                size++;
+            }
+        }
 
         return size;
     }
@@ -44,7 +52,7 @@ public class Rack {
      */
     public boolean isEmpty() {
 
-        return size == 0;
+        return getSize() == 0;
     }
 
     /**
@@ -141,7 +149,6 @@ public class Rack {
             if (positionToGridTile(i).isEmpty()) {
 
                 positionToGridTile(i).setTile(tile);
-                size++;
 
                 return;
             }
@@ -161,16 +168,17 @@ public class Rack {
     }
 
     /**
-     *
+     * adds a tile at a certain point
      * @param pos
      * @param tile
      * @return
      */
     public boolean addTileAt(Point pos, Tile tile) {
 
-        if (grid[pos.x][pos.y].isEmpty()) {
+        if (getGridTileAt(pos).isEmpty()) {
 
             getGridTileAt(pos).setTile(tile);
+
             return true;
         }
         return false;
@@ -183,7 +191,6 @@ public class Rack {
     public void removeTile(Point pos) {
 
         getGridTileAt(pos).removeTile();
-        size--;
     }
 
     /**
@@ -314,23 +321,6 @@ public class Rack {
     }
 
     /**
-     * returns first non-empty GridTile
-     * @param pos position
-     * @return non-empty GridTile
-     */
-    private GridTile getFirstNonEmpty(int pos) {
-
-        for (int i = pos + 1; i < getRackSize(); i++) {
-
-            if (!positionToGridTile(i).isEmpty()) {
-
-                return positionToGridTile(i);
-            }
-        }
-        return new GridTile();
-    }
-
-    /**
      * swaps tiles of two GridTiles
      * @param uno GridTile 1
      * @param dos GridTile 2
@@ -357,7 +347,12 @@ public class Rack {
      */
     public void sortForGroup() {
 
-        var groupSorted = new Tile[size];
+        var groupSorted = new Tile[getSize()];
+
+        for (var i = 0; i < getSize(); i++) {
+
+            groupSorted[i] = null;
+        }
 
         tilesToGrid(sortGroup(gridToTiles(groupSorted), true));
     }
@@ -367,7 +362,7 @@ public class Rack {
      */
     public void sortForRun() {
 
-        var runSorted = new Tile[size];
+        var runSorted = new Tile[getSize()];
 
         tilesToGrid(sortRun(gridToTiles(runSorted), true));
     }
@@ -405,7 +400,7 @@ public class Rack {
 
         for (var i = 0; i < getRackSize(); i++) {
 
-            if (i < size) {
+            if (i < getSize()) {
 
                 positionToGridTile(i).setTile(tiles[i]);
 

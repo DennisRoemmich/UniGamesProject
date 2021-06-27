@@ -179,7 +179,7 @@ public class Rummikub {
 
         var i = boardRackMoveInvalid(boardGridTile.getTile());
 
-        if (boardGridTile.isEmpty() || !rackGridTile.isEmpty() || i != -1) {
+        if (boardGridTile.isEmpty() || !rackGridTile.isEmpty() || i == -1) {
 
             return false;
         }
