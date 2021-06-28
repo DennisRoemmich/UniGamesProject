@@ -1,6 +1,6 @@
 package tests;
 
-import framework.PrintToConsole;
+import frameworkchess.PrintToConsole;
 
 /**
  * Main class for testing.

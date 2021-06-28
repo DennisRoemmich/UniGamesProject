@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TTTDennis">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../latestTTTjars/TTTDennis.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
