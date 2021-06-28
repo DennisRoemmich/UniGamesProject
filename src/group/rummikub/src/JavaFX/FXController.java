@@ -21,17 +21,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import rummikub_controller.*;
-import rummikub_game.GridTile;
 import rummikub_game.Rummikub;
 import javafx.scene.text.Font;
-import rummikub_game.Tile;
-import rummikub_game.TileColor;
 
 
 import java.awt.*;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
@@ -222,20 +217,16 @@ public class FXController implements Player, Initializable {
 
     }
 
-    private void makeMove(GameMove move){
+    private boolean makeMove(GameMove move){
 
-
-        if(move.type == ActionType.ONBOARD){
-
-            System.out.println("A move on board was send to execute");
-
-        }
-
-        rummikubController.executeMove(move.toJSON());
+        var suc = rummikubController.executeMove(move.toJSON());
 
         originPoint = null;
 
         updateGUI();
+
+    //    return suc.get("successful").equals("true");
+        return true;
     }
 
 
@@ -264,14 +255,20 @@ public class FXController implements Player, Initializable {
 
         anchorPane_contextMenu.setVisible(false);
 
+        updateGUIButtons();
+
         if (!stateFinishButton) {
 
-            setGameMessage("Board is invalid!");
+            if (!rummiGame.getSketchBoard().isValid()) {
+
+                setGameMessage("Board is invalid!");
+
+            } else if (!rummiGame.getCurrentPlayer().getCommingOut() && rummiGame.sumMovedRackTiles() <= 30) {
+
+                setGameMessage("30 points needed to finish!");
+            }
             return;
         }
-
-        var p = rummiGame.getCurrentPlayerIndex() + 1;
-        var m = rummiGame.getMovedRackTiles().isEmpty();
 
         var move = new GameMove(ActionType.FINISHMOVE);
 
@@ -279,22 +276,21 @@ public class FXController implements Player, Initializable {
 
         updateGUI();
 
+        validFinishMove();
+    }
+
+    public void validFinishMove() {
+
+        var p = (rummiGame.getCurrentPlayerIndex() + rummiGame.getPlayerAmount() - 1) % rummiGame.getPlayerAmount();
+
         if ( rummiGame.isFinished() ) {
 
-            setGameMessage("Game over: Player " + p + " wins!");
+            setGameMessage("Game over: " + rummikubController.getPlayerInfos().get(p).getName() + " wins!");
             setPodium();
 
         } else {
 
-            // TODO: message abändern wenn fertig, zu kürzer
-            if (m) {
-
-                setGameMessage("Player " + p + " finished his move and drew!");
-
-            } else {
-
-                setGameMessage("Player " + p + " finished his move!");
-            }
+            setGameMessage(rummikubController.getPlayerInfos().get(p).getName() + " finished!");
         }
     }
 
@@ -771,6 +767,19 @@ public class FXController implements Player, Initializable {
 
     }
 
+    private void updateGUIFinishButton() {
+
+        var noTilesMoved = rummiGame.getMovedRackTiles().isEmpty();
+
+        var validBoard = rummiGame.getSketchBoard().isValid();
+
+        var commingOutDone = rummiGame.getCurrentPlayer().getCommingOut();
+
+        var movedTilesOver30 = rummiGame.sumMovedRackTiles() >= 30;
+
+        stateFinishButton = noTilesMoved || (validBoard && (commingOutDone || movedTilesOver30));
+    }
+
     private void updateGUIEnvironment() {
 
         var state = rummikubController.getGameState();
@@ -827,7 +836,7 @@ public class FXController implements Player, Initializable {
 
             }
         }
-        stateFinishButton = rummiGame.getSketchBoard().isValid();
+        stateFinishButton = rummiGame.getSketchBoard().isValid() || rummiGame.sumMovedRackTiles() >= 30;
     }
 
     private void updateGUIRack() {
@@ -918,7 +927,7 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIButtons() {
 
-        stateFinishButton = rummiGame.getSketchBoard().isValid();
+        updateGUIFinishButton();
 
         if (stateFinishButton) {
 

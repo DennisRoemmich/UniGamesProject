@@ -69,7 +69,6 @@ public class GameMove {
         obj.put("toBeRelogged", Boolean.toString(toBeRelogged));
 
         return obj;
-
     }
 
     public void swapCoordinates(){

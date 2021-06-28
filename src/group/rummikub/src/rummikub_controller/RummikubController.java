@@ -206,10 +206,21 @@ public class RummikubController extends GameController {
 
         var move = new GameMove(obj);
 
-        makeMove(move);
+        var successful = makeMove(move);
 
+    /*    var suc = new JSONObject();
+
+        if (successful) {
+
+            obj.put("successful", true);
+
+        } else {
+
+            obj.put("successful", false);
+        }*/
+
+    //    return suc;
         return null;
-
     }
 
     @Override

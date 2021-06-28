@@ -5,6 +5,7 @@ public class RummikubPlayer {
     private Rack tileRack;
     private Rack sketchRack;
     private int score;
+    private boolean commingOut;
 
     /**
      * Constructor
@@ -14,6 +15,7 @@ public class RummikubPlayer {
         tileRack = new Rack();
         sketchRack = new Rack();
         score = 0;
+        commingOut = false;
     }
 
     /**
@@ -48,6 +50,16 @@ public class RummikubPlayer {
     public void setScore(int score){
 
         this.score = score;
+    }
+
+    public void setCommingOut(boolean b) {
+
+        commingOut = b;
+    }
+
+    public boolean getCommingOut() {
+
+        return commingOut;
     }
 
     /**
