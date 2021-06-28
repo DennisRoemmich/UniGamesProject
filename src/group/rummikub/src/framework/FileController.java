@@ -15,7 +15,7 @@ public final class FileController {
     }
 
     public static void saveJSon (JSONObject object, String fileName) {
-        try (FileWriter file = new FileWriter(fileName + FILEEXTENSION)) {
+        try (var file = new FileWriter(fileName + FILEEXTENSION)) {
             file.write(object.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -24,8 +24,8 @@ public final class FileController {
     }
 
     public static JSONObject loadJSon(String fileName) {
-        JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(fileName + FILEEXTENSION)) {
+        var jsonParser = new JSONParser();
+        try (var reader = new FileReader(fileName + FILEEXTENSION)) {
             Object obj = jsonParser.parse(reader);
             return (JSONObject) obj;
         } catch (IOException | ParseException e) {
