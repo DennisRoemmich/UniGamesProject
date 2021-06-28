@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.net.URL;
 
 public final class FileController {
 
@@ -31,6 +32,17 @@ public final class FileController {
         } catch (IOException | ParseException e) {
             PrintToConsole.println("No saved game found.");
             return null;
+        }
+    }
+
+    public static File getFile(String fileName) throws IOException {
+        ClassLoader classLoader = FileController.class.getClassLoader();
+        URL resource = classLoader.getResource(fileName);
+
+        if (resource == null) {
+            throw new IllegalArgumentException("file is not found!");
+        } else {
+            return new File(resource.getFile());
         }
     }
 }

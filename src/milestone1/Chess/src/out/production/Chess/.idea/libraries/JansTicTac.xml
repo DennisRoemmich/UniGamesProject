@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="JansTicTac">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.base" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.controls" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.fxml" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.graphics" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.media" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.swing" />
+      <root url="jar://$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar!/javafx.web" />
+    </SOURCES>
+  </library>
+</component>

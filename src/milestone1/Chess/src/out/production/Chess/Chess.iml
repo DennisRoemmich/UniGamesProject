@@ -10,5 +10,9 @@
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="TicTacToeFX" level="project" />
+    <orderEntry type="library" name="JansTicTac" level="project" />
+    <orderEntry type="library" name="Software Project SS21" level="project" />
+    <orderEntry type="library" name="TicTacToeGUI" level="project" />
+    <orderEntry type="library" name="TicTacToe" level="project" />
   </component>
 </module>
