@@ -6,10 +6,6 @@ public class PlayerInfo {
     private int lastScore;
     private int totalScore;
 
-    public PlayerInfo() {
-
-
-    }
 
     public PlayerInfo(String name) {
 

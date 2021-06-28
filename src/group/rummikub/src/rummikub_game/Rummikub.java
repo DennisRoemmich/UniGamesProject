@@ -454,8 +454,6 @@ public class Rummikub {
      */
     private void acceptSketchBoard() {
 
-    //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
-
         System.out.println("ACCEPT-SKETCH-BOARD");
 
         for (var i = 0; i < board.getBoardSize(); i++) {

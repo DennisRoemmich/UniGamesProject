@@ -8,6 +8,7 @@ import rummikub_game.Rummikub;
 import rummikub_game.RummikubPlayer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RummikubController extends GameController {
@@ -80,7 +81,7 @@ public class RummikubController extends GameController {
         return state;
     }
 
-    public ArrayList<PlayerInfo> getPlayerInfos() {
+    public List<PlayerInfo> getPlayerInfos() {
 
         return playerInfos;
     }
@@ -112,18 +113,12 @@ public class RummikubController extends GameController {
 
             case SORTGROUP -> {
 
-                if ( state == GameState.RUNNING || true ) {
-
-                    successful = rummiGame.sortRackForGroup();
-                }
+                successful = rummiGame.sortRackForGroup();
             }
 
             case SORTRUN -> {
 
-                if ( state == GameState.RUNNING || true) {
-
-                    successful = rummiGame.sortRackForRun();
-                }
+                successful = rummiGame.sortRackForRun();
             }
 
             case RESET -> {
@@ -158,7 +153,7 @@ public class RummikubController extends GameController {
     public PlayerInfo[] getPodium() {
 
         var size = playerInfos.size();
-        PlayerInfo[] podium = new PlayerInfo[size];
+        var podium = new PlayerInfo[size];
 
         PlayerInfo pole;
         PlayerInfo vize;
@@ -224,7 +219,7 @@ public class RummikubController extends GameController {
 
     @Override
     public void restoreMetaSettings(JSONObject metaSettings) {
-
+        //default method
     }
 
     @Override
