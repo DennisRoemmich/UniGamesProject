@@ -10,10 +10,10 @@ public class Rummikub {
     private static final int START_TILES_AMOUNT = 14;
     private static final boolean ACCEPT_CHANGES_WITHOUT_PUTTING = false;
 
-    private Random rand;
+    private final Random rand;
 
-    private Board board;
-    private Board sketchBoard;
+    private final Board board;
+    private final Board sketchBoard;
 
     private final RummikubPlayer[] players;
     private final int startPlayer;
@@ -21,7 +21,7 @@ public class Rummikub {
     private Tile[] tileStack;
     private int tilesOnStack = 0;
 
-    private ArrayList<Tile> movedRackTiles = new ArrayList<>();
+    private final ArrayList<Tile> movedRackTiles = new ArrayList<>();
 
     /**
      * Constructor. Initializes board, players etc.
@@ -464,9 +464,9 @@ public class Rummikub {
         // PASS BY VALUE :
         for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
 
-            GridTile sourceGridTile = board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+            var sourceGridTile = board.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
 
-            GridTile returnTile = new GridTile();
+            var returnTile = new GridTile();
 
             if( sourceGridTile.getTile() != null ) {
 
@@ -476,7 +476,7 @@ public class Rummikub {
 
 
 
-            sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = returnTile;
+            sketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
 
         }
 
@@ -487,16 +487,14 @@ public class Rummikub {
      */
     private void acceptSketchBoard() {
 
-    //    System.arraycopy(board.getBoard(), 0, sketchBoard.getBoard(), 0, board.grid.length);
-
         System.out.println("ACCEPT-SKETCH-BOARD");
 
         for (var i = 0; i < board.getBoardSize(); i++) {
 
 
-            GridTile sourceGridTile = sketchBoard.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH];
+            var sourceGridTile = sketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
 
-            GridTile returnTile = new GridTile();
+            var returnTile = new GridTile();
 
             if( sourceGridTile.getTile() != null ) {
 
@@ -504,7 +502,7 @@ public class Rummikub {
 
             }
 
-            board.getBoard()[i / sketchBoard.GRID_WIDTH][i % sketchBoard.GRID_WIDTH] = returnTile;
+            board.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
         }
     }
 

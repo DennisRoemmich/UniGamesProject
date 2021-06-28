@@ -1,11 +1,11 @@
 package rummikub_game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Set {
 
-    private ArrayList<Tile> tiles;
-    private SetType type;
+    private final ArrayList<Tile> tiles;
 
     public Set() {
 
@@ -58,7 +58,7 @@ public class Set {
             }
         }
 
-        for(int c = 0; c < check.size()-1; c++){
+        for(var c = 0; c < check.size()-1; c++){
             if(!smallerAndColor(check.get(c), check.get(c+1)) || check.get(c).getValue() > 13 || check.get(c).getValue() < 1 || check.get(c+1).getValue() > 13){
                 return false;
             }
@@ -102,7 +102,7 @@ public class Set {
         return isSmaller(a, b) && sameColor(a, b);
     }
 
-    public boolean noSameColors(ArrayList<Tile> list){
+    public boolean noSameColors(List<Tile> list){
         for(var i = 0; i < list.size()-1; i++){
             for(int j = i+1; j < list.size();j++){
                 if(list.get(i).getTileColor() == list.get(j).getTileColor()){
@@ -113,8 +113,8 @@ public class Set {
         return true;
     }
 
-    public boolean sameColors(ArrayList<Tile> list){
-        for(int i = 0; i < list.size()-1; i++){
+    public boolean sameColors(List<Tile> list){
+        for(var i = 0; i < list.size()-1; i++){
             if(list.get(i).getTileColor() != list.get(i+1).getTileColor()){
                 return false;
             }
@@ -122,17 +122,5 @@ public class Set {
 
         return true;
     }
-
-    public SetType getType() {
-
-        return this.type;
-    }
-
-    private enum SetType {
-        GROUP,
-        RUN,
-        INVALID
-    }
-
 }
 

@@ -828,7 +828,7 @@ public class FXController implements Player, Initializable {
 
                 } else {
 
-                    if (!gridTile.getTile().isEqualToFX(boardTile) || boardTile.isEmpty()) {
+                    if (gridTile.getTile().isEqualToFX(boardTile) || boardTile.isEmpty()) {
 
                         boardTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
                     }
@@ -860,7 +860,7 @@ public class FXController implements Player, Initializable {
 
                 } else {
 
-                    if (!gridTile.getTile().isEqualToFX(rackTile) || rackTile.isEmpty()) {
+                    if (gridTile.getTile().isEqualToFX(rackTile) || rackTile.isEmpty()) {
 
                         rackTile.fill(gridTile.getTile().getTileColor(), gridTile.getTile().getValue());
                     }

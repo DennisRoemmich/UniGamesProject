@@ -1,3 +1,5 @@
+package JavaFX;
+
 import javafx.fxml.FXML;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;

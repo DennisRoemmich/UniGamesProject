@@ -10,7 +10,7 @@ public enum TileColor {
 
     public final int value;
 
-    private TileColor(int value) {
+    TileColor(int value) {
 
         this.value = value;
     }

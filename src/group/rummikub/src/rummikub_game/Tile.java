@@ -126,7 +126,7 @@ public class Tile {
 
     public boolean isEqualToFX(FXGridCell tile) {
 
-        return color == tile.getTileColor() && value == tile.getValue();
+        return color != tile.getTileColor() || value != tile.getValue();
     }
 
 

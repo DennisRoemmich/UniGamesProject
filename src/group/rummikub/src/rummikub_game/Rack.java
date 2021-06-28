@@ -7,7 +7,7 @@ public class Rack {
     public static final int GRID_HEIGHT = 2;
     public static final int GRID_WIDTH = 16;
 
-    private GridTile[][] grid;
+    private final GridTile[][] grid;
 
     /**
      * Constructor

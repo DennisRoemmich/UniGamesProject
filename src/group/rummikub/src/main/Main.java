@@ -8,16 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import rummikub_controller.RummikubController;
 
-import java.util.ArrayList;
-
-
 public class Main extends Application {
 
-    private final String APPLICATION_NAME = "Rummikub Alpha";
-    private final int APP_WIDTH = 1200;
-    private final int APP_HEIGHT = 1200;
-
-    Stage stage;
     Scene scene;
 
     String fxmlURL = "../JavaFX/rummikubGUI.fxml";
@@ -25,15 +17,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(
+        var loader = new FXMLLoader(
                 getClass().getResource(fxmlURL)
         );
 
         Parent root = loader.load();
 
-        primaryStage.setTitle(APPLICATION_NAME);
+        var applicationName = "Rummikub Alpha";
+        primaryStage.setTitle(applicationName);
 
-        scene = new Scene(root, APP_HEIGHT, APP_WIDTH);
+        var appHeight = 1200;
+        var appWidth = 1200;
+        scene = new Scene(root, appHeight, appWidth);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -47,7 +42,7 @@ public class Main extends Application {
 
     public static void initGameController(Player fxController){
 
-        RummikubController rController = new RummikubController();
+        var rController = new RummikubController();
         rController.addPlayer(fxController);
 
     }
@@ -56,14 +51,6 @@ public class Main extends Application {
     public static void main(String[] args) {
 
         launch(args);
-
-        // var test = new Test();
-
-        //  test.maik();
-
-        // test.andreas();
-
-        //test.fer();
 
     }
 }
