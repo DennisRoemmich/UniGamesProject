@@ -9,11 +9,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
-    <orderEntry type="library" name="TicTacToeFX" level="project" />
-    <orderEntry type="library" name="JansTicTac" level="project" />
-    <orderEntry type="library" name="Software Project SS21" level="project" />
-    <orderEntry type="library" name="TicTacToeGUI" level="project" />
-    <orderEntry type="library" name="rummikub" level="project" />
+    <orderEntry type="library" name="FXRummikub" level="project" />
+    <orderEntry type="library" name="TTTAndreas" level="project" />
+    <orderEntry type="library" name="TTTDennis" level="project" />
     <orderEntry type="library" name="TTTFernanda" level="project" />
+    <orderEntry type="library" name="TTTMaik" level="project" />
+    <orderEntry type="library" name="TTTJan" level="project" />
   </component>
 </module>

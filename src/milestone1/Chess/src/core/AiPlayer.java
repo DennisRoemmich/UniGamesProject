@@ -6,11 +6,10 @@ import core.pieces.ChessPiece;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
-import framework.Player;
+import frameworkchess.Player;
 import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class AiPlayer implements Player {
 

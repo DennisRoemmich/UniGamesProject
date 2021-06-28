@@ -6,7 +6,8 @@ import core.pieces.ChessPiece;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
-import framework.*;
+import frameworkchess.FileController;
+import frameworkchess.PrintToConsole;
 import org.json.simple.JSONObject;
 
 import java.util.Scanner;
@@ -17,7 +18,7 @@ import java.util.Scanner;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class ConsoleUI implements Presenter, Player {
+public class ConsoleUI implements frameworkchess.Presenter, frameworkchess.Player {
     private Scanner mScanner = new Scanner(System.in);
     protected Controller mController = new Controller();
     private boolean mAiGame = false;
@@ -82,14 +83,14 @@ public class ConsoleUI implements Presenter, Player {
     		if (!"a".equalsIgnoreCase(inputTwo)) {
     						
     				JSONObject loadedGame = FileController.loadJSon(inputTwo);
-    				startGame(GameLog.valueOf(loadedGame), false);
+    				startGame(frameworkchess.GameLog.valueOf(loadedGame), false);
     			}
     		} catch(Exception e) {
     			//will soon be used
     			}
     }
 
-	public void startGame(GameLog log, boolean mAiGame) {
+	public void startGame(frameworkchess.GameLog log, boolean mAiGame) {
 		PrintToConsole.println("Type \"help\" for information on how to play. \n");
 		mController.setPlayerA(this);
 		if(mAiGame) {

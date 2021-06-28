@@ -6,7 +6,7 @@ import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 import console.ConsoleUI;
-import framework.WriteError;
+import frameworkchess.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
