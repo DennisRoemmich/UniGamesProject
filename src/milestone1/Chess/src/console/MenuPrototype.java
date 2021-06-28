@@ -5,7 +5,7 @@ import framework.JarExecutor;
 import framework.OSDetector;
 import framework.PrintToConsole;
 import framework.StreamController;
-import game.TicTacToe;
+import main.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +44,7 @@ public class MenuPrototype {
                 PrintToConsole.println("You finished the game.");
                 break;
             case "R", "r":
+                //main.Main.main(new String[0]);
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "S", "s":
@@ -53,13 +54,13 @@ public class MenuPrototype {
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "T1", "t1":
-                TicTacToe.main(new String[0]);
+                game.TicTacToe.main(new String[0]);
                 break;
             case "T2", "t2":
                 graphicalUI.GUIStarter.main(new String[0]);
                 break;
             case "T3", "t3":
-                TicTacToeFX.Main.main(new String[0]);
+                TicTacToeFX.GUIStarter.main(new String[0]);
                 break;
             case "T4", "t4":
                 tictactoe.GUIStarter.main(new String[0]);

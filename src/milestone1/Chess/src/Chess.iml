@@ -13,6 +13,7 @@
     <orderEntry type="library" name="JansTicTac" level="project" />
     <orderEntry type="library" name="Software Project SS21" level="project" />
     <orderEntry type="library" name="TicTacToeGUI" level="project" />
-    <orderEntry type="library" name="TicTacToe" level="project" />
+    <orderEntry type="library" name="rummikub" level="project" />
+    <orderEntry type="library" name="TTTFernanda" level="project" />
   </component>
 </module>
