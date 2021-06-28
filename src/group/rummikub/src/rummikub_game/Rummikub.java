@@ -252,6 +252,9 @@ public class Rummikub {
         getCurrentPlayer().resetSketchRack();
         resetSketchBoard();
         movedRackTiles.clear();
+
+        return true;
+
     }
 
     /**
@@ -480,7 +483,7 @@ public class Rummikub {
 
         }
 
-        return true;
+        return;
 
     }
 

@@ -796,8 +796,6 @@ public class FXController implements Player, Initializable {
 
         var state = rummikubController.getGameState();
 
-        state = GameState.FINISHED;
-
         if (state == GameState.STARTING) {
 
             anchorPanePod.setVisible(true);
