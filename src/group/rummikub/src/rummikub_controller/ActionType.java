@@ -11,7 +11,8 @@ public enum ActionType {
     RESET(6),
     QUIT(7),
     BOARDTORACK(8),
-    UNDOLASTMOVE(9);
+    UNDOLASTMOVE(9),
+    STARTGAME(10);
 
     int value;
 

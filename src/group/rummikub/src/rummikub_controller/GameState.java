@@ -2,7 +2,7 @@ package rummikub_controller;
 
 public enum GameState {
 
-    STARTED,
+    STARTING,
     RUNNING,
     FINISHED;
 }

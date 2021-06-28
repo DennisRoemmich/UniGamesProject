@@ -245,7 +245,7 @@ public class Test {
             controller.addPlayer(console);
         }
 
-        controller.startGame();
+       // controller.startGame();
 
     }
 

@@ -5,7 +5,6 @@ import framework.GameLog;
 import framework.Player;
 import org.json.simple.JSONObject;
 import rummikub_game.Rummikub;
-import rummikub_game.RummikubPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,15 @@ import java.util.Random;
 
 public class RummikubController extends GameController {
 
-    private GameState state = GameState.STARTED;
+    private GameState state = GameState.STARTING;
     private Rummikub rummiGame;
     private ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
 
     int playerNo = 4;
     int startPlayer = 0;
 
-    private final int seed = new Random().nextInt();
+    private final Random rand = new Random();
+    private int seed = rand.nextInt();
 
     /* CONSTRUCTOR */
 
@@ -58,18 +58,6 @@ public class RummikubController extends GameController {
 
     /* FUNCTIONS */
 
-    public void startGame(){
-
-        // Start Game View with button "Start"?
-
-
-            var currentPlayerIdx = rummiGame.getCurrentPlayerIndex();
-            mPlayers.get(currentPlayerIdx).requestMove(new JSONObject());
-
-
-
-    }
-
 
     public Rummikub getGame(){
 
@@ -87,6 +75,8 @@ public class RummikubController extends GameController {
     }
 
     public boolean makeMove(GameMove move){
+
+        System.out.println(move.type.toString() + " : " + state.toString());
 
         /* CHECK IF MOVE IS VALID */
 
@@ -123,10 +113,17 @@ public class RummikubController extends GameController {
 
             case RESET -> {
 
-                rummiGame.resetMove();
+                successful = rummiGame.resetMove();
             }
 
-            case UNDOLASTMOVE -> undoLastMove();
+            case UNDOLASTMOVE -> undoLastMove();    // wont be logged
+
+            case STARTGAME -> {  // wont be logged, creates new gameLOg
+
+                seed = rand.nextInt();
+                newGame();
+            }
+
         }
 
         /* CREATE AND SAVE JSON OBJECT */
@@ -141,6 +138,8 @@ public class RummikubController extends GameController {
     }
 
     private void gameEnded() {
+
+        state = GameState.FINISHED;
 
         for (var i = 0; i < rummiGame.getPlayerAmount(); i++) {
 
@@ -240,6 +239,10 @@ public class RummikubController extends GameController {
 
     @Override
     public void newGame() {
+
+
+        state = GameState.RUNNING;
+        System.out.println("state is now running");
 
         mGameLog = new GameLog("ID");
         rummiGame = new Rummikub(playerNo, startPlayer, seed);

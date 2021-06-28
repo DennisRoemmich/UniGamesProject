@@ -37,6 +37,8 @@ public class FXController implements Player, Initializable {
     private final int RACK_COLUMN_AMOUNT = 16;
     private final int BOARD_COLUMN_AMOUNT = 16;
     private final int BOARD_ROW_AMOUNT = 7;
+    public AnchorPane anchorPanePod;
+    public ImageView imageView_startNewGame;
 
 
 
@@ -107,21 +109,21 @@ public class FXController implements Player, Initializable {
     public GridPane gridPane_board;
     public GridPane gridPane_Rack;
 
-    public AnchorPane anchorPanePod;
 
-    public AnchorPane anchorPane_pod1;
+
+    public AnchorPane anchorpane_pod1;
     public Label label_pod1name;
     public Label label_pod1score;
     public Label label_pod1totscore;
-    public AnchorPane anchorPane_pod2;
+    public AnchorPane anchorpane_pod2;
     public Label label_pod2name;
     public Label label_pod2score;
     public Label label_pod2totscore;
-    public AnchorPane anchorPane_pod3;
+    public AnchorPane anchorpane_pod3;
     public Label label_pod3name;
     public Label label_pod3score;
     public Label label_pod3totscore;
-    public AnchorPane anchorPane_pod4;
+    public AnchorPane anchorpane_pod4;
     public Label label_pod4name;
     public Label label_pod4score;
     public Label label_pod4totscore;
@@ -671,6 +673,18 @@ public class FXController implements Player, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+        /* Podium */
+
+        imageView_startNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
+        imageView_startNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageView_startNewGame.fitWidthProperty().multiply(0.5)));
+
+        anchorpane_pod1.layoutXProperty().set(40);
+        anchorpane_pod1.layoutYProperty().set(20);
+        anchorpane_pod1.prefHeightProperty().bind(anchorPanePod.heightProperty().multiply(0.6));
+        anchorpane_pod1.prefWidthProperty().bind(anchorPanePod.widthProperty().multiply(0.2));
+
+        /* */
+
         AnchorPane[] playerAnchorPane = new AnchorPane[]{anchorPane_P1, anchorPane_P2, anchorPane_P3, anchorPane_P4};
         Label[] playerLabelName = new Label[]{label_nameP1, label_nameP2, label_nameP3, label_nameP4};
         Label[] playerLabelRack = new Label[]{label_rackP1, label_rackP2, label_rackP3, label_rackP4};
@@ -748,10 +762,8 @@ public class FXController implements Player, Initializable {
     public void updateGUI() {
 
 
-        System.out.println(anchorPane_P1.prefHeightProperty());
-
         // update environment
-    //    updateGUIEnvironment();
+        updateGUIEnvironment();
 
         // update board
         updateGUIBoard();
@@ -784,13 +796,15 @@ public class FXController implements Player, Initializable {
 
         var state = rummikubController.getGameState();
 
-        if (state == GameState.STARTED) {
+        state = GameState.FINISHED;
+
+        if (state == GameState.STARTING) {
 
             anchorPanePod.setVisible(true);
-            anchorPane_pod1.setVisible(false);
-            anchorPane_pod2.setVisible(false);
-            anchorPane_pod3.setVisible(false);
-            anchorPane_pod4.setVisible(false);
+            anchorpane_pod1.setVisible(false);
+            anchorpane_pod2.setVisible(false);
+            anchorpane_pod3.setVisible(false);
+            anchorpane_pod4.setVisible(false);
 
         } else if (state == GameState.RUNNING) {
 
@@ -799,10 +813,10 @@ public class FXController implements Player, Initializable {
         } else if (state == GameState.FINISHED) {
 
             anchorPanePod.setVisible(true);
-            anchorPane_pod1.setVisible(true);
-            anchorPane_pod2.setVisible(true);
-            anchorPane_pod3.setVisible(true);
-            anchorPane_pod4.setVisible(true);
+            anchorpane_pod1.setVisible(true);
+            anchorpane_pod2.setVisible(true);
+            anchorpane_pod3.setVisible(true);
+            anchorpane_pod4.setVisible(true);
         }
     }
 
@@ -979,11 +993,11 @@ public class FXController implements Player, Initializable {
 
             } else {
 
-                anchorPane_pod4.setVisible(false);
+                anchorpane_pod4.setVisible(false);
             }
         } else {
 
-            anchorPane_pod3.setVisible(false);
+            anchorpane_pod3.setVisible(false);
         }
     }
 
@@ -994,4 +1008,11 @@ public class FXController implements Player, Initializable {
 
     }
 
+    public void buttonStartNewGameClicked(MouseEvent mouseEvent) {
+
+        var move = new GameMove(ActionType.STARTGAME);
+
+        makeMove(move);
+
+    }
 }
