@@ -1,17 +1,13 @@
-package sample;
+package console;
 
 import TorpedoChess.TorpedoChess;
-import core.Chess;
-import core.ChessMove;
-import core.ChessResult;
-import core.GameOverDetector;
-import core.positioning.Square;
+import core.*;
+import core.pieces.ChessPieceType;
 import framework.GameController;
 import framework.Player;
 import framework.Presenter;
 
-import java.util.HashMap;
-
+import framework.WriteError;
 import org.json.simple.JSONObject;
 
 /**
@@ -37,16 +33,20 @@ public class Controller extends GameController {
     }
 
 
-    protected JSONObject executeMove(JSONObject moveJSON) {
+    protected boolean executeMove(JSONObject moveJSON) {
     	if (moveJSON == null) {
-    		return createReply(false, "NullInput");
+    	    WriteError.writeErrorLog("No JSON passed in.");
+    		return false;
     	}
-    	if (!moveJSON.containsKey("origin") || !moveJSON.containsKey("destination")) {
-            return createReply(false, "InvalidInput");
-        }
-    	ChessMove move;
-        try {
+    	if (moveJSON.containsKey("origin") && moveJSON.containsKey("destination")) {
+            ChessMove move;
             move = ChessMove.valueOf(moveJSON);
+            return mGame.makeMove(move);
+        } else if(moveJSON.containsKey("promotion")) {
+    	    String typeString = moveJSON.get("promotion").toString();
+
+        }
+        try {
         } catch (Exception e) {
             WriteError.writeErrorLog("");
             return createReply(false, "unknown");
@@ -125,9 +125,9 @@ public class Controller extends GameController {
     public void gameStep() {
     	boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
         if (isTurnOfPlayerA) {
-            handleMove(mPlayerA.requestMove(createRequestJSON("move")));
+            mPlayerA.requestMove("move");
         } else {
-            handleMove(mPlayerB.requestMove(createRequestJSON("move")));
+            mPlayerB.requestMove("move");
         }
         updateGameState();
     }

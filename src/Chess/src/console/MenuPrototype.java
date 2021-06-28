@@ -1,4 +1,6 @@
-package sample;
+package console;
+
+import framework.PrintToConsole;
 
 import java.util.Scanner;
 

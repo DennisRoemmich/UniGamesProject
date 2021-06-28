@@ -3,7 +3,6 @@ package framework;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import sample.PrintToConsole;
 
 import java.io.*;
 

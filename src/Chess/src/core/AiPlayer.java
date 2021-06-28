@@ -1,7 +1,6 @@
-package sample;
+package core;
 
 import framework.Player;
-import sample.ConsoleUI;
 import org.json.simple.JSONObject;
 
 import core.ChessMove;

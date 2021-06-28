@@ -1,4 +1,4 @@
-package sample;
+package console;
 
 import core.Chess;
 import core.ChessMove;
@@ -7,13 +7,11 @@ import core.pieces.ChessPieceType;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
-import framework.FileController;
-import framework.GameLog;
-import framework.Player;
-import framework.Presenter;
+import framework.*;
 import org.json.simple.JSONObject;
-import java.util.List;
+
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -129,12 +127,22 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     @Override
-    public JSONObject requestMove(JSONObject dataType) {
-    	
-
-		if (dataType.get("type") != "move") {
-			return new JSONObject();
+    public void requestMove(String moveType) {
+    	if(mController == null) {
+    		WriteError.writeErrorLog("Controller not specified.");
+    		return;
 		}
+		switch (moveType) {
+			case "move":
+				mController.handleMove(requestPieceMove());
+				return;
+			case "promotionPiece":
+				mController.handleMove(requestPromotionPiece());
+				return;
+		}
+	}
+
+	private JSONObject requestPieceMove() {
 		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 		String input = mScanner.nextLine();
 		if(checkSpecialInput(input)) {
@@ -146,6 +154,36 @@ public class ConsoleUI implements Presenter, Player {
 		} catch (Exception e) {
 			System.out.println("Unknown Issue.");
 			return new JSONObject();
+		}
+	}
+
+	private JSONObject requestPromotionPiece() {
+		JSONObject promotionAction = new JSONObject();
+		PrintToConsole.println("Please enter the piece you wish to promote to or press any other key:");
+		PrintToConsole.println("[Q]ueen, [R]ook, [B]ishop, K[n]ight");
+		String input = mScanner.nextLine();
+		if(input.length() != 1) {
+			PrintToConsole.println("Please enter only one character.");
+			return requestPieceMove();
+		}
+		ChessPieceType type;
+		try{
+			type = ChessPieceType.valueOf(input.charAt(0));
+		} catch (IllegalArgumentException e) {
+			PrintToConsole.println("Please enter one of the characters Q,R,B or N.");
+			return requestPromotionPiece();
+		}
+		switch (type) {
+			case KNIGHT, BISHOP, ROOK, QUEEN:
+				promotionAction.put("promotion",type.toString());
+				return promotionAction;
+			case PAWN, KING:
+				PrintToConsole.println("You can't promote to a King or a Pawn");
+				return requestPromotionPiece();
+			default:
+				PrintToConsole.println("An error occurred. Please try again.");
+				WriteError.writeErrorLog("Unexpected ChessPieceType in promotion request.");
+				return requestPromotionPiece();
 		}
 	}
 
@@ -203,21 +241,6 @@ public class ConsoleUI implements Presenter, Player {
 	}
     
     public char setPromotionPiece() {
-    	PrintToConsole.println("Please enter the piece you wish to promote to or press any other key");
-    	String input = mScanner.nextLine();
-    	
-    	switch (input.charAt(0)) {
-    		case 'q', 'Q':
-    			return 'Q';
-    		case 'r', 'R':
-    			return 'R';
-    		case 'b', 'B':
-    			return 'B';
-    		case 'n', 'N':
-    			return 'N';
-    		default:
-    			return 'Q';
-    	}
     }
     
     public Controller getController() {

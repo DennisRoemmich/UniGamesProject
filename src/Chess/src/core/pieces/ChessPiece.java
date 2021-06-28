@@ -3,7 +3,7 @@ package core.pieces;
 import core.CheckDetector;
 import core.ChessBoard;
 import core.positioning.Square;
-import sample.WriteError;
+import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package sample;
+package console;
 
 import core.positioning.File;
 

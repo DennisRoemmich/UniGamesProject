@@ -5,8 +5,7 @@ import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
-import sample.ConsoleUI;
-import sample.WriteError;
+import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
 
