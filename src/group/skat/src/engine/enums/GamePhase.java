@@ -1,4 +1,4 @@
-package gameEngine.enums;
+package engine.enums;
 
 public enum GamePhase {
 }

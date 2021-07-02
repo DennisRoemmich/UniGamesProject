@@ -1,4 +1,4 @@
-package gameEngine;
+package engine;
 
 public class Card {
 }
