@@ -45,4 +45,16 @@ public class Card {
 
         return colorStrength + valueStrength;
     }
+
+    /* ELSE */
+
+    public boolean isTrump(Trump trump) {
+
+        return switch ( trump.getGameMode() ) {
+
+            case SUIT -> value == CardValue.JACK || color == trump.getColor();
+            case GRAND -> value == CardValue.JACK;
+            case NULL -> false;
+        };
+    }
 }

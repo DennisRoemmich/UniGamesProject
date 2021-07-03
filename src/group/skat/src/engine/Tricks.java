@@ -11,7 +11,6 @@ public class Tricks {
 
     public Tricks() {
 
-        skat = null;
     }
 
     public Tricks(Card[] skat) {

@@ -28,12 +28,14 @@ public enum CardColor {
         var heartsValue = 10;
         var diamondsValue = 0;
 
-        switch ( trickColor ) {
+        if ( trickColor != null ) {
+            switch (trickColor) {
 
-            case CLUBS -> clubsValue = 40;
-            case SPADES -> spadesValue = 40;
-            case HEARTS -> heartsValue = 40;
-            case DIAMONDS -> diamondsValue = 40;
+                case CLUBS -> clubsValue = 40;
+                case SPADES -> spadesValue = 40;
+                case HEARTS -> heartsValue = 40;
+                case DIAMONDS -> diamondsValue = 40;
+            }
         }
 
         switch ( trump.getColor() ) {

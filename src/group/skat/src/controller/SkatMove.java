@@ -1,10 +1,37 @@
 package controller;
 
+import controller.enums.ActionType;
+import engine.Card;
+import engine.Trump;
 import framework.GameController;
 import org.json.simple.JSONObject;
 
+import java.awt.*;
+
 public class SkatMove extends GameController {
 
+    private ActionType type;
+
+    public Card Card1;
+    public Card Card2;
+
+    public Trump trump;
+
+    public Card card;
+
+    /* CONSTRUCTOR */
+
+    public SkatMove() {
+
+
+    }
+
+    /* GETTER */
+
+    public ActionType getType() {
+
+        return type;
+    }
 
     @Override
     protected JSONObject executeMove(JSONObject move) {

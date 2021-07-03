@@ -21,6 +21,28 @@ public class Trick {
 
     /* GETTER */
 
+    public Card getCardAt(int index) {
+
+        return cards[index];
+    }
+
+    public int getSize() {
+
+        for ( var i = 0; i < cards.length; i++ ) {
+
+            if ( cards[i] == null ) {
+
+                return i;
+            }
+        }
+        return cards.length;
+    }
+
+    public CardColor getColor() {
+
+        return color;
+    }
+
     public int getValue() {
 
         var sum = 0;

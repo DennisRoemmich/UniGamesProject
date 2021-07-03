@@ -1,18 +1,37 @@
 package engine;
 
+import engine.enums.CardColor;
+import engine.enums.GameMode;
+
 public class Hand {
 
     private Card[] cards;
     private Trump trump;
+
+    private Trump sorting;
 
     /* CONSTRUCTOR */
 
     public Hand() {
 
         cards = new Card[12];
+
+        sorting = new Trump(GameMode.GRAND);
     }
 
     /* GETTER */
+
+    public int getSize() {
+
+        for ( var i = 0; i < cards.length; i++ ) {
+
+            if ( cards[i] == null ) {
+
+                return i;
+            }
+        }
+        return cards.length;
+    }
 
     public Card getCardAt(int index) {
 
@@ -44,8 +63,11 @@ public class Hand {
                 return;
             }
         }
+
+        sort(sorting);
     }
 
+    // evtl unnötig wenn nicht onHand verschiebungen
     public void addCardAt(int index, Card card) {
 
         var firstEmpty = index + 1;
@@ -72,11 +94,57 @@ public class Hand {
 
             cards[i] = cards[i + 1];
         }
+
+        sort(sorting);
     }
 
-    // TODO: sort hand
-    public void sort() {
+    public void sort(Trump trump) {
 
+        var size = getSize();
 
+        for ( var i = 0; i < cards.length; i++ ) {
+
+            var maxCardIndex = i;
+
+            for ( var j = i + 1; j < cards.length; j++ ) {
+
+                if ( cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null) ) {
+
+                    maxCardIndex = j;
+                }
+            }
+            swap(i, maxCardIndex);
+        }
+    }
+
+    private void swap(int index1, int index2) {
+
+        var help = cards[index1];
+        cards[index1] = cards[index2];
+        cards[index2] = help;
+    }
+
+    public boolean canFollowTrump() {
+
+        for ( Card card : cards ) {
+
+            if ( card.isTrump(trump) ) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canFollowSuit(CardColor color) {
+
+        for ( Card card : cards ) {
+
+            if ( card.getCardColor() == color && !card.isTrump(trump) ) {
+
+                return true;
+            }
+        }
+        return false;
     }
 }

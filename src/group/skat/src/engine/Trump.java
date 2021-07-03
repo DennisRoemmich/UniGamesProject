@@ -1,6 +1,7 @@
 package engine;
 
 import engine.enums.CardColor;
+import engine.enums.CardValue;
 import engine.enums.GameMode;
 
 public class Trump {
@@ -13,7 +14,6 @@ public class Trump {
     public Trump(GameMode mode) {
 
         gameMode = mode;
-        color = null;
     }
 
     public Trump(CardColor color) {
@@ -32,5 +32,17 @@ public class Trump {
     public CardColor getColor() {
 
         return color;
+    }
+
+    /* ELSE */
+
+    public boolean isTrump(Card card) {
+
+        return switch ( gameMode ) {
+
+            case SUIT -> card.getCardValue() == CardValue.JACK || card.getCardColor() == color;
+            case GRAND -> card.getCardValue() == CardValue.JACK;
+            case NULL -> false;
+        };
     }
 }
