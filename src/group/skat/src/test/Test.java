@@ -6,6 +6,8 @@ import org.json.simple.JSONObject;
 
 public class Test implements Player {
 
+
+
     @Override
     public JSONObject requestMove(JSONObject inputType) {
         return null;

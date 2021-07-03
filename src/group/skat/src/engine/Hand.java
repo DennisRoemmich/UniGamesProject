@@ -1,6 +1,7 @@
 package engine;
 
 import engine.enums.CardColor;
+import engine.enums.CardValue;
 import engine.enums.GameMode;
 
 public class Hand {
@@ -39,9 +40,90 @@ public class Hand {
     }
 
     // TODO: getMaxGameValue of hand
-    public int getMaxGameValue() {
+    public int getMaxSuitGameValue() {
 
-        return 0;
+        var clubsJack = false;
+        var spadesJack = false;
+        var heartsJack = false;
+        var diamondsJack = false;
+
+        for ( var i = 0; i < cards.length; i++ ) {
+
+            if ( cards[i].getCardValue() == CardValue.JACK ) {
+
+                switch ( cards[i].getCardColor() ) {
+
+                    case CLUBS -> clubsJack = true;
+                    case SPADES -> spadesJack = true;
+                    case HEARTS -> heartsJack = true;
+                    case DIAMONDS -> diamondsJack = true;
+                }
+            }
+        }
+
+        var jacks = 0;
+
+        if ( clubsJack == spadesJack ) {
+
+            if ( spadesJack == heartsJack ) {
+
+                if (heartsJack == diamondsJack ) {
+
+                    jacks = 4;
+
+                } else {
+
+                    jacks = 3;
+                }
+            } else {
+
+                jacks = 2;
+            }
+        } else {
+
+            jacks = 1;
+        }
+
+        return (1 + jacks) * CardColor.CLUBS.getCardColorValue();
+    }
+
+    // only for endresult, funzt not yet - vlt starthand merken
+    public int getResultValue(boolean declarerWon, boolean isSchneider, boolean isSchwarz) {
+
+        if ( trump.getGameMode() == GameMode.NULL ) {
+
+            return GameMode.NULL.getModeValue();
+        }
+
+        var trumpLine = getTrumpLine(trump);
+
+        var win = -2;
+        var schneider = 0;
+
+        if ( declarerWon ) {
+
+            win = 1;
+        }
+        if ( isSchneider ) {
+
+            schneider = 1;
+        }
+        if ( isSchwarz ) {
+
+            schneider = 2;
+        }
+
+        int gameValue;
+        if ( trump.getGameMode() == GameMode.GRAND ) {
+
+            gameValue = win * (1 + trumpLine + schneider) * GameMode.GRAND.getModeValue();
+
+        } else {
+
+            gameValue = win *  (1 + trumpLine + schneider) * trump.getColor().getCardColorValue();
+        }
+
+        return gameValue;
     }
 
     /* SETTER */
@@ -100,15 +182,14 @@ public class Hand {
 
     public void sort(Trump trump) {
 
-        var size = getSize();
-
         for ( var i = 0; i < cards.length; i++ ) {
 
             var maxCardIndex = i;
 
             for ( var j = i + 1; j < cards.length; j++ ) {
 
-                if ( cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null) ) {
+                if ( cards[j] != null && cards[maxCardIndex] != null
+                        && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null) ) {
 
                     maxCardIndex = j;
                 }
@@ -146,5 +227,70 @@ public class Hand {
             }
         }
         return false;
+    }
+
+    public int getTrumpLine(Trump trump) {
+
+        var trumps = 0;
+        var jacks = 0;
+
+
+        var clubsJack = false;
+        var spadesJack = false;
+        var heartsJack = false;
+        var diamondsJack = false;
+
+        var trumpAce = false;
+        var trumpTen = false;
+        var trumpKing = false;
+        var trumpQueen = false;
+        var trumpNine = false;
+        var trumpEight = false;
+        var trumpSeven = false;
+
+        for ( Card card : cards ) {
+
+            if ( card.getCardValue() == CardValue.JACK ) {
+
+                switch ( card.getCardColor() ) {
+
+                    case CLUBS -> clubsJack = true;
+                    case SPADES -> spadesJack = true;
+                    case HEARTS -> heartsJack = true;
+                    case DIAMONDS -> diamondsJack = true;
+                }
+            }
+        }
+
+        if ( clubsJack == spadesJack ) {
+
+            if ( spadesJack == heartsJack ) {
+
+                if (heartsJack == diamondsJack ) {
+
+                    jacks = 4;
+
+                } else {
+
+                    jacks = 3;
+                }
+            } else {
+
+                jacks = 2;
+            }
+        } else {
+
+            jacks = 1;
+        }
+
+    /*    if ( trump.getGameMode() == GameMode.SUIT && jacks == 4 ) {
+
+
+        } else {
+
+            return jacks;
+        }*/
+
+        return jacks;
     }
 }

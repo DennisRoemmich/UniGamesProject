@@ -12,4 +12,9 @@ public enum GameMode {
 
         this.value = value;
     }
+
+    public int getModeValue() {
+
+        return value;
+    }
 }
