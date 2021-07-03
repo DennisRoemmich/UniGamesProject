@@ -1,4 +1,48 @@
 package engine;
 
+import engine.enums.CardColor;
+import engine.enums.CardValue;
+
 public class Card {
+
+    private CardColor color;
+    private CardValue value;
+
+    /* CONSTRUCTOR */
+
+    public Card(CardColor color, CardValue value) {
+
+        this.color = color;
+        this.value = value;
+    }
+
+    /* GETTER */
+
+    public CardColor getCardColor() {
+
+        return color;
+    }
+
+    public int getColorValue() {
+
+        return color.getCardColorValue();
+    }
+
+    public CardValue getCardValue() {
+
+        return value;
+    }
+
+    public int getPoints() {
+
+        return value.getCardValue();
+    }
+
+    public int getStrength(Trump trump, CardColor color) {
+
+        var colorStrength = this.color.getColorStrength(trump, color);
+        var valueStrength = this.value.getValueStrength(trump);
+
+        return colorStrength + valueStrength;
+    }
 }

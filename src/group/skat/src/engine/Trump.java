@@ -6,35 +6,31 @@ import engine.enums.GameMode;
 public class Trump {
 
     private final GameMode gameMode;
-    private CardColor cardColor;
+    private CardColor color;
 
     /* CONSTRUCTOR */
 
-    public Trump(GameMode mode){
-        this.gameMode = mode;
+    public Trump(GameMode mode) {
+
+        gameMode = mode;
+        color = null;
     }
 
-    Trump(CardColor color){
+    public Trump(CardColor color) {
 
-        this.cardColor = color;
-        this.gameMode = GameMode.SUIT;
-
+        gameMode = GameMode.SUIT;
+        this.color = color;
     }
 
     /* GETTER */
 
-    public GameMode getGameMode(){
+    public GameMode getGameMode() {
+
         return gameMode;
     }
 
-    public CardColor getCardColor(){
-        return cardColor;
+    public CardColor getColor() {
+
+        return color;
     }
-
-
-
-
-
-
-
 }

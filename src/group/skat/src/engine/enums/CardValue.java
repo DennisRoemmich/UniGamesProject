@@ -15,51 +15,49 @@ public enum CardValue {
 
     final int value;
 
-    CardValue(int value){
+    CardValue(int value) {
+
         this.value = value;
     }
-
 
     /**
      * Returns the card value that is used to calculate the sum of the points at the end of game.
      */
-    public int getCardValue(){
+    public int getCardValue() {
 
         return value;
-
     }
 
     /**
      * This value can be used to calculate the strength of two card-colors in dependence of a given trump.
      * CardColor is not taken into account.
      */
-    public int getStrengthValue(Trump trump){
+    public int getValueStrength(Trump trump) {
 
-        var tenValue = 8;
-        var jackValue = 10;
+        var tenValue = 7;
+        var jackValue = 9;
 
         if ( trump.getGameMode() == GameMode.NULL ) {
 
-            tenValue = 4;
-            jackValue = 5;
-
+            tenValue = 3;
+            jackValue = 4;
         }
 
+        if ( trump.getGameMode() == GameMode.GRAND ) {
 
+            jackValue = 60;
+        }
 
         return switch ( this ) {
 
-            case ACE -> 9;
+            case ACE -> 8;
             case TEN -> tenValue;
-            case KING -> 7;
-            case QUEEN -> 6;
+            case KING -> 6;
+            case QUEEN -> 5;
             case JACK -> jackValue;
-            case NINE -> 3;
-            case EIGHT -> 2;
-            case SEVEN -> 1;
-
+            case NINE -> 2;
+            case EIGHT -> 1;
+            case SEVEN -> 0;
         };
-
     }
-
 }

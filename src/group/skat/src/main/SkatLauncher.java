@@ -13,7 +13,7 @@ public class SkatLauncher {
 
     public static void print(String key, String str){
 
-        if(key == "mainTest") {
+        if(key.equals("mainTest")) {
 
             System.out.println(str);
 

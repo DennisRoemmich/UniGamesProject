@@ -4,6 +4,5 @@ public enum GameMode {
 
     SUIT,
     GRAND,
-    NULL;
-
+    NULL
 }
