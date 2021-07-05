@@ -18,7 +18,6 @@ public class GameResult {
         this.declarer = declarer;
         this.trump = trump;
 
-        calculateFinalScores();
         for ( var i = 0; i < points.length; i++ ) {
 
             points[i] = players[i].getFinalScore();
@@ -45,6 +44,11 @@ public class GameResult {
     }
 
     /* ELSE */
+
+    public void gameHasEnded() {
+
+
+    }
 
     private void calculateFinalScores() {
 

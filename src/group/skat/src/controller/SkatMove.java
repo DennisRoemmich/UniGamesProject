@@ -18,6 +18,7 @@ public class SkatMove extends GameController {
     public Trump trump;
 
     public Card card;
+    public int index;
 
     /* CONSTRUCTOR */
 

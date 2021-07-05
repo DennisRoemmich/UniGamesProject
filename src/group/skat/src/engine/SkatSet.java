@@ -17,11 +17,10 @@ public class SkatSet {
 
     public SkatSet(int gameAmount, String[] playerNames) {
 
-        players = new ArrayList<SkatSetPlayer>();
+        this.gameAmount = gameAmount;
         gameResults = new ArrayList<GameResult>();
 
-        this.gameAmount = gameAmount;
-
+        players = new ArrayList<SkatSetPlayer>();
         for ( String name : playerNames ) {
 
             players.add(new SkatSetPlayer(name));
@@ -61,7 +60,24 @@ public class SkatSet {
         }
     }
 
-    public void startNewGame() {
+    public void exeMove(SkatMove move) {
+
+        switch ( move.getType() ) {
+
+            case NEW_GAME -> startNewGame();
+            case SORT -> currentGame.sort();
+            case RAISE_OR_ACCEPT -> currentGame.raiseOrAcceptBid();
+            case PASS -> currentGame.passBid();
+            case SKAT_TO_HAND -> currentGame.moveCardFromSkatToHand(move.card, move.index);
+            case HAND_TO_SKAT -> currentGame.moveCardFromHandToSkat(move.card, move.index);
+            case DROP_SKAT -> currentGame.dropSkat();
+            case SET_TRUMP -> currentGame.setTrump(move.trump);
+            case PLAY_CARD -> currentGame.playCard(move.card);
+            default -> System.out.println("MASSIVE ERROR! - SkatSet");
+        }
+    }
+
+    private void startNewGame() {
 
         if ( gameResults.size() < gameAmount || gameAmount == -1 ) {
 

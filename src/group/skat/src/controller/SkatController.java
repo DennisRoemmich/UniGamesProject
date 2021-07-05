@@ -24,74 +24,29 @@ public class SkatController extends GameController {
 
     }
 
-  /*  public void makeMove(SkatMove move) {
+    public void makeMove(SkatMove move) {
 
         switch ( move.getType() ) {
 
-            case RAISE_OR_ACCEPT -> {
+            case NEW_SET -> skatSet = new SkatSet(gameAmount, new String[]{"Räuber Hotzenplotz", "Schneewitchen", "Rotkäppchen"});
+        //    case ON_HAND ->
+            case NEW_GAME, SORT, RAISE_OR_ACCEPT, PASS, SKAT_TO_HAND, HAND_TO_SKAT, DROP_SKAT, SET_TRUMP, PLAY_CARD -> {
 
                 if ( moveIsValid(move) ) {
 
-                    auction.raiseOrAcceptBid(getCurrentPlayer());
+                    skatSet.exeMove(move);
                 }
             }
-
-            case PASS -> {
-
-                if ( moveIsValid(move) ) {
-
-                    auction.passBid(getCurrentPlayer());
-                }
-            }
-
-            case SKAT_TO_HAND -> {
-
-                if ( moveIsValid(move) ) {
-
-                    moveCardFromSkatToHand(move.card);
-                }
-            }
-
-            case HAND_TO_SKAT -> {
-
-                if ( moveIsValid(move) ) {
-
-                    moveCardFromHandToSkat(move.card);
-                }
-            }
-
-            case DROP_SKAT -> {
-
-                if ( moveIsValid(move) ) {
-
-                    setPlayerTricks();
-                }
-            }
-
-            case SET_TRUMP -> {
-
-                if ( moveIsValid(move) ) {
-
-                    setTrump(move.trump);
-                }
-            }
-
-            case PLAY_CARD -> {
-
-                if ( cardPlayIsValid(move.card) ) {
-
-                    playCard(move.card);
-                }
-            }
+            default -> System.out.println("MASSIVE ERROR! - SkatController");
         }
-    }*/
+    }
 
     public boolean moveIsValid(SkatMove move) {
 
         return switch ( move.getType() ) {
 
             case NEW_SET -> false; // ??
-            case SORT -> true;
+        //    case SORT -> true;
             case ON_HAND -> true;
             default -> skatSet.moveIsValid(move);
         };

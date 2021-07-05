@@ -140,6 +140,11 @@ public class Hand {
         return gameValue;
     }
 
+    public int getGameValue() {
+
+        return 0;
+    }
+
     /* SETTER */
 
     /* ELSE */

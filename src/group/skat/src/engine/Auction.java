@@ -6,7 +6,7 @@ public class Auction {
     private SkatPlayer middleHand;
     private SkatPlayer rearHand;
 
-    private int currentAuctioneerIndex;
+    private SkatPlayer currentAuctioneer;
 
     private int[] auctionLvL;
     private int currentBidLvL;
@@ -25,12 +25,19 @@ public class Auction {
         middleHand.setAsking(true);
         rearHand.setAsking(false);
 
+        currentAuctioneer = middleHand;
+
         auctionLvL = new int[]{18, 20, 22, 23, 24, 27, 30, 33, 36, 40, 44, 45, 48, 50, 54, 55, 60,
                             63, 66, 70, 72, 77, 80, 81, 84, 88, 90, 96, 99, 100, 108, 110, 120, 121, 132};
         currentBidLvL = -1;
     }
 
     /* GETTER */
+
+    public SkatPlayer getCurrentAuctioneer() {
+
+        return currentAuctioneer;
+    }
 
     public SkatPlayer getAuctionWinner() {
 
@@ -39,78 +46,143 @@ public class Auction {
 
     public boolean isRunning() {
 
-        return auctionWinner == null;
-    }
-
-    public SkatPlayer getCurrentAuctioneer() {
-        
-        var p = currentAuctioneerIndex % 3;
-        
-        if ( p == 0 ) {
-
-            return foreHand;
-
-        } else if ( p == 1 ) {
-
-            return middleHand;
-
-        } else {
-
-            return rearHand;
-        }
+        return checkWinner() && !passedOut();
     }
 
     /* ELSE */
 
+    public void nextTurn() {
+
+        var last = currentAuctioneer;
+
+        if ( last == foreHand ) {
+
+            if ( middleHand.isBidding() ) {
+
+                currentAuctioneer = middleHand;
+
+            } else {
+
+                currentAuctioneer = rearHand;
+            }
+
+        } else if ( last == middleHand ) {
+
+            if ( foreHand.isBidding() ) {
+
+                currentAuctioneer = foreHand;
+
+            } else {
+
+                currentAuctioneer = rearHand;
+            }
+
+        } else if ( last == rearHand ) {
+
+            if ( middleHand.isBidding() ) {
+
+                currentAuctioneer = middleHand;
+
+            } else {
+
+                currentAuctioneer = foreHand;
+            }
+        }
+    }
+
     public void raiseOrAcceptBid() {
 
-        if ( getCurrentAuctioneer().isAsking() ) {
+        if ( currentAuctioneer.isAsking() ) {
 
             currentBidLvL++;
         }
-        currentAuctioneerIndex++;
+
+        if ( isRunning() ) {
+
+            nextTurn();
+        }
     }
 
     public void passBid() {
 
-        if ( getCurrentAuctioneer() == foreHand ) {
+        if ( currentAuctioneer == foreHand ) {
 
             foreHand.setBidding(false);
 
-            if ( rearHand.isAsking() ) {
+            if ( isRunning() ) {
 
-                rearHand.setDeclarer(true);
-                auctionWinner = rearHand;
+                nextTurn();
             }
 
-        } else if ( getCurrentAuctioneer() == middleHand ) {
+        } else if ( currentAuctioneer == middleHand ) {
 
             middleHand.setBidding(false);
 
-            if ( foreHand.isBidding() ) {
+            rearHand.setAsking(true);
 
-                rearHand.setAsking(true);
+            if ( isRunning() ) {
 
-            } else {
-
-                rearHand.setDeclarer(true);
-                auctionWinner = rearHand;
+                nextTurn();
             }
 
-        } else if ( getCurrentAuctioneer() == rearHand ) {
+        } else if ( currentAuctioneer == rearHand ) {
 
             rearHand.setBidding(false);
 
-            if ( foreHand.isAsking() ) {
+            if ( foreHand.isBidding() ) {
 
-                foreHand.setDeclarer(true);
-                auctionWinner = foreHand;
+                foreHand.setAsking(true);
+            }
 
-            } else if ( middleHand.isAsking() ) {
+            if ( isRunning() ) {
 
-                middleHand.setDeclarer(true);
-                auctionWinner = middleHand;
+                nextTurn();
             }
         }
+    }
+
+    private boolean checkWinner() {
+
+        if ( isOnlyOneBidding(foreHand) && currentBidLvL != -1 ) {
+
+            foreHand.setDeclarer(true);
+            auctionWinner = foreHand;
+            return true;
+
+        } else if ( isOnlyOneBidding(middleHand) && currentBidLvL != -1 ) {
+
+            middleHand.setDeclarer(true);
+            auctionWinner = middleHand;
+            return true;
+
+        } else if ( isOnlyOneBidding(rearHand) && currentBidLvL != -1 ) {
+
+            rearHand.setDeclarer(true);
+            auctionWinner = rearHand;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isOnlyOneBidding(SkatPlayer auctioneer) {
+
+        if ( auctioneer == foreHand ) {
+
+            return !middleHand.isBidding() && !rearHand.isBidding();
+
+        } else if ( auctioneer == middleHand ) {
+
+            return !foreHand.isBidding() && !rearHand.isBidding();
+
+        } else if ( auctioneer == rearHand ) {
+
+            return !foreHand.isBidding() && !middleHand.isBidding();
+        }
+        return false;
+    }
+
+    public boolean passedOut() {
+
+        return !foreHand.isBidding() && !middleHand.isBidding() && !rearHand.isBidding();
     }
 }

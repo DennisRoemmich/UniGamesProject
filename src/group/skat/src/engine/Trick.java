@@ -10,6 +10,13 @@ public class Trick {
 
     /* CONSTRUCTOR */
 
+    public Trick(Trump trump) {
+
+        this.trump = trump;
+
+        cards = new Card[3];
+    }
+
     public Trick(Trump trump, Card card) {
 
         this.trump = trump;
@@ -74,12 +81,17 @@ public class Trick {
 
     public void addCard(Card card) {
 
+        if ( getSize() == 0) {
+
+            color = card.getCardColor();
+        }
+
         for ( var i = 0; i < cards.length; i++ ) {
 
             if ( cards[i] == null ) {
 
                 cards[i] = card;
-                return;
+                break;
             }
         }
     }
