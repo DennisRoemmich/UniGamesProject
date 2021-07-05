@@ -17,5 +17,5 @@
 
 ###NOTES
 
-* in schleifen oder statements mit `()` innerhalb der Klammern immer ein leer lassen - oder vlt doch nicht?
+* in Schleifen oder statements mit `()` innerhalb der Klammern immer ein leer lassen - oder vlt doch nicht?
 * isTrump in Card class und Trump class

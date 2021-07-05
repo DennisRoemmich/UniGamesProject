@@ -36,9 +36,21 @@ public class Hand {
         return cards.length;
     }
 
+    public boolean isEmpty(){
+
+        return getSize() == 0;
+
+    }
+
     public Card getCardAt(int index) {
 
         return cards[index];
+    }
+
+    public Card[] getCardsArray(){
+
+        return cards;
+
     }
 
     // TODO: getMaxGameValue of hand

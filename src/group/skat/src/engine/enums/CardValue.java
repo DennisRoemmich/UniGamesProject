@@ -60,4 +60,23 @@ public enum CardValue {
             case SEVEN -> 0;
         };
     }
+
+    public String getSymbol(){
+
+        return switch ( this ){
+
+            case ACE -> "·A·";
+            case TEN -> "·10";
+            case KING -> "·K·";
+            case QUEEN -> "·Q·";
+            case JACK -> "·J·";
+            case NINE -> "·9·";
+            case EIGHT -> "·8·";
+            case SEVEN -> "·7·";
+
+        };
+
+    }
+
+
 }

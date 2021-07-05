@@ -17,6 +17,9 @@ public class SkatSet {
 
     public SkatSet(int gameAmount, String[] playerNames) {
 
+        players = new ArrayList<SkatSetPlayer>();
+        gameResults = new ArrayList<GameResult>();
+
         this.gameAmount = gameAmount;
 
         for ( String name : playerNames ) {

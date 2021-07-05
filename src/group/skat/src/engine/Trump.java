@@ -50,7 +50,7 @@ public class Trump {
         this.color = color;
     }
 
-    /* ELSE */
+    /* OTHER */
 
     public boolean isTrump(Card card) {
 

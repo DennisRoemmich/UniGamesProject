@@ -38,7 +38,13 @@ public class SkatGame {
     public SkatGame() {
 
         gamePhase = GamePhase.AUCTION;
+
         players = new SkatPlayer[3];
+
+        for ( var i = 0; i < players.length; i++ ) {
+
+            players[i] = new SkatPlayer(trump);
+        }
 
         cardStack = new ArrayList<>();
 
@@ -52,12 +58,6 @@ public class SkatGame {
 
         result = new GameResult(players, declarer, trump);
 
-
-        for ( var i = 0; i < players.length; i++ ) {
-
-            players[i] = new SkatPlayer(trump);
-        }
-
         createCardStack();
         dealCards();
     }
@@ -70,6 +70,10 @@ public class SkatGame {
     }
 
     public SkatPlayer getCurrentPlayer() {
+
+        if ( currentTrick == null ){
+            return players[0];
+        }
 
         var i = currentLeaderIndex + currentTrick.getSize();
 

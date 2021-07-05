@@ -46,7 +46,7 @@ public class Card {
         return colorStrength + valueStrength;
     }
 
-    /* ELSE */
+    /* OTHER */
 
     public boolean isTrump(Trump trump) {
 
@@ -57,4 +57,5 @@ public class Card {
             case NULL -> false;
         };
     }
+
 }

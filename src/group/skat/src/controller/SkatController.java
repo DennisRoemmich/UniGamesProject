@@ -1,5 +1,6 @@
 package controller;
 
+import engine.SkatGame;
 import engine.SkatSet;
 import framework.GameController;
 import org.json.simple.JSONObject;
@@ -11,9 +12,16 @@ public class SkatController extends GameController {
 
     public SkatController(int gameAmount, String[] names) {
 
-        this.gameAmount = gameAmount;
 
+        this.gameAmount = gameAmount;
         skatSet = new SkatSet(gameAmount, names);
+
+    }
+
+    public SkatGame getGame(){
+
+        return skatSet.getSkatGame();
+
     }
 
   /*  public void makeMove(SkatMove move) {
