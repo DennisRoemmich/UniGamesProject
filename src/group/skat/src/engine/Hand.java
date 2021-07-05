@@ -13,9 +13,11 @@ public class Hand {
 
     /* CONSTRUCTOR */
 
-    public Hand() {
+    public Hand(Trump trump) {
 
         cards = new Card[12];
+
+        this.trump = trump;
 
         sorting = new Trump(GameMode.GRAND);
     }
@@ -127,11 +129,6 @@ public class Hand {
     }
 
     /* SETTER */
-
-    public void setTrump(Trump trump) {
-
-        this.trump = trump;
-    }
 
     /* ELSE */
 

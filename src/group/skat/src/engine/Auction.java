@@ -6,6 +6,8 @@ public class Auction {
     private SkatPlayer middleHand;
     private SkatPlayer rearHand;
 
+    private int currentAuctioneerIndex;
+
     private int[] auctionLvL;
     private int currentBidLvL;
 
@@ -19,7 +21,9 @@ public class Auction {
         middleHand = players[1];
         rearHand = players[2];
 
+        foreHand.setAsking(false);
         middleHand.setAsking(true);
+        rearHand.setAsking(false);
 
         auctionLvL = new int[]{18, 20, 22, 23, 24, 27, 30, 33, 36, 40, 44, 45, 48, 50, 54, 55, 60,
                             63, 66, 70, 72, 77, 80, 81, 84, 88, 90, 96, 99, 100, 108, 110, 120, 121, 132};
@@ -38,19 +42,38 @@ public class Auction {
         return auctionWinner == null;
     }
 
-    /* ELSE */
+    public SkatPlayer getCurrentAuctioneer() {
+        
+        var p = currentAuctioneerIndex % 3;
+        
+        if ( p == 0 ) {
 
-    public void raiseOrAcceptBid(SkatPlayer currentPlayer) {
+            return foreHand;
 
-        if ( currentPlayer.isAsking() ) {
+        } else if ( p == 1 ) {
 
-            currentBidLvL++;
+            return middleHand;
+
+        } else {
+
+            return rearHand;
         }
     }
 
-    public void passBid(SkatPlayer currentPlayer) {
+    /* ELSE */
 
-        if ( foreHand == currentPlayer ) {
+    public void raiseOrAcceptBid() {
+
+        if ( getCurrentAuctioneer().isAsking() ) {
+
+            currentBidLvL++;
+        }
+        currentAuctioneerIndex++;
+    }
+
+    public void passBid() {
+
+        if ( getCurrentAuctioneer() == foreHand ) {
 
             foreHand.setBidding(false);
 
@@ -60,7 +83,7 @@ public class Auction {
                 auctionWinner = rearHand;
             }
 
-        } else if ( middleHand == currentPlayer ) {
+        } else if ( getCurrentAuctioneer() == middleHand ) {
 
             middleHand.setBidding(false);
 
@@ -74,7 +97,7 @@ public class Auction {
                 auctionWinner = rearHand;
             }
 
-        } else if ( rearHand == currentPlayer ) {
+        } else if ( getCurrentAuctioneer() == rearHand ) {
 
             rearHand.setBidding(false);
 

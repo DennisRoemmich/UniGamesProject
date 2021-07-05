@@ -4,8 +4,8 @@ public enum ActionType {
 
     NEW_SET,
     NEW_GAME,
+    SORT,
     ON_HAND,
-    // SORT_GRAND, SORT_NULL, SORT_CLUBS, SORT_SPADES, SORT_HEARTS, SORT_DIAMONDS
     RAISE_OR_ACCEPT,
     PASS,
     SKAT_TO_HAND,

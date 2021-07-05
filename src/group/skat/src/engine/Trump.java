@@ -6,10 +6,14 @@ import engine.enums.GameMode;
 
 public class Trump {
 
-    private final GameMode gameMode;
+    private GameMode gameMode;
     private CardColor color;
 
     /* CONSTRUCTOR */
+
+    public Trump() {
+
+    }
 
     public Trump(GameMode mode) {
 
@@ -32,6 +36,18 @@ public class Trump {
     public CardColor getColor() {
 
         return color;
+    }
+
+    /* SETTER */
+
+    public void setGameMode(GameMode gameMode) {
+
+        this.gameMode = gameMode;
+    }
+
+    public void setColor(CardColor color) {
+
+        this.color = color;
     }
 
     /* ELSE */

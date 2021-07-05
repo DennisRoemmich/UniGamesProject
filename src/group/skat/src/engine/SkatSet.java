@@ -1,5 +1,8 @@
 package engine;
 
+import controller.SkatMove;
+import controller.enums.ActionType;
+
 import java.util.ArrayList;
 
 public class SkatSet {
@@ -42,6 +45,18 @@ public class SkatSet {
     }
 
     /* ELSE */
+
+    public boolean moveIsValid(SkatMove move) {
+
+        if ( move.getType() == ActionType.NEW_GAME ) {
+
+            return gameResults.size() < gameAmount || gameAmount == -1;
+
+        } else {
+
+            return currentGame.moveIsValid(move);
+        }
+    }
 
     public void startNewGame() {
 

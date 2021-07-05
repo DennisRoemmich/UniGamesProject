@@ -13,12 +13,12 @@ public class SkatPlayer {
 
     /* CONSTRUCTOR */
 
-    public SkatPlayer() {
+    public SkatPlayer(Trump trump) {
 
-        hand = new Hand();
+        hand = new Hand(trump);
+        tricks = new Tricks();
 
         isBidding = true;
-        isAsking = false;
         isDeclarer = false;
     }
 
@@ -69,11 +69,6 @@ public class SkatPlayer {
     public void setDeclarer(boolean b) {
 
         isDeclarer = b;
-    }
-
-    public void setTrump(Trump trump) {
-
-        hand.setTrump(trump);
     }
 
     public void setTricks(Tricks tricks) {

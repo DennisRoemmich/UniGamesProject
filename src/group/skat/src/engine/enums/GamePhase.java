@@ -4,6 +4,8 @@ public enum GamePhase {
 
     NOT_STARTED,
     AUCTION,
+    DECLARING,
     PLAYING,
-    ENDED
+    ENDED,
+    ABORTED
 }

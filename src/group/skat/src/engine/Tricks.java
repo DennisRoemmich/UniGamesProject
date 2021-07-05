@@ -11,6 +11,7 @@ public class Tricks {
 
     public Tricks() {
 
+        skat = null;
     }
 
     public Tricks(Card[] skat) {
@@ -37,7 +38,17 @@ public class Tricks {
         return sum;
     }
 
+    public boolean skatIsDropped() {
+
+        return skat != null;
+    }
+
     /* ELSE */
+
+    public void addSkat(Card[] skat) {
+
+        this.skat = skat;
+    }
 
     public void addTrick(Trick trick) {
 
