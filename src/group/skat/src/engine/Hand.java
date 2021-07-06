@@ -9,6 +9,7 @@ public class Hand {
     private Card[] cards;
     private Trump trump;
 
+    // TODO remove
     private Trump sorting;
 
     /* CONSTRUCTOR */
@@ -101,7 +102,7 @@ public class Hand {
         return (1 + jacks) * CardColor.CLUBS.getCardColorValue();
     }
 
-    // only for endresult, funzt not yet - vlt starthand merken
+    // TODO fix it // only for endresult, funzt not yet - vlt starthand merken
     public int getResultValue(boolean declarerWon, boolean isSchneider, boolean isSchwarz) {
 
         if ( trump.getGameMode() == GameMode.NULL ) {
@@ -109,7 +110,7 @@ public class Hand {
             return GameMode.NULL.getModeValue();
         }
 
-        var trumpLine = getTrumpLine(trump);
+        var trumpLine = getTrumpLine();
 
         var win = -2;
         var schneider = 0;
@@ -163,7 +164,6 @@ public class Hand {
         sort(sorting);
     }
 
-    // evtl unnötig wenn nicht onHand verschiebungen
     public void addCardAt(int index, Card card) {
 
         var firstEmpty = index + 1;
@@ -194,6 +194,7 @@ public class Hand {
         sort(sorting);
     }
 
+    // TODO auch ohne trump
     public void sort(Trump trump) {
 
         for ( var i = 0; i < cards.length; i++ ) {
@@ -243,7 +244,13 @@ public class Hand {
         return false;
     }
 
-    public int getTrumpLine(Trump trump) {
+    // TODO
+    public int getTrumpLine() {
+
+        if (trump.getGameMode() == GameMode.NULL) {
+
+            return 0;
+        }
 
         var trumps = 0;
         var jacks = 0;

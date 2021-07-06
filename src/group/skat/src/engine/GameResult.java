@@ -17,11 +17,6 @@ public class GameResult {
 
         this.declarer = declarer;
         this.trump = trump;
-
-        for ( var i = 0; i < points.length; i++ ) {
-
-            points[i] = players[i].getFinalScore();
-        }
     }
 
     /* GETTER */
@@ -47,22 +42,9 @@ public class GameResult {
 
     public void gameHasEnded() {
 
+        for ( var i = 0; i < points.length; i++ ) {
 
-    }
-
-    private void calculateFinalScores() {
-
-        for ( SkatPlayer player : players ) {
-
-            player.calculateFinalScore();
+            points[i] = players[i].getFinalScore();
         }
-    }
-
-    private boolean declarerDidWin() {
-
-        var declarerPoints = points[getDeclarerIndex()];
-        var opponentsPoints = points[(getDeclarerIndex() + 1) % points.length];
-
-        return declarerPoints > opponentsPoints;
     }
 }

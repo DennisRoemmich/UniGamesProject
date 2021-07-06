@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 
 public class GameMove {
 
-    ActionType type;
+    private ActionType type;
 
 
     public ActionType getType() {

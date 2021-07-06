@@ -1,5 +1,6 @@
 package engine;
 
+import controller.GameMove;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import test.Print;
@@ -32,7 +33,7 @@ public class SkatSet {
 
     /* GETTER */
 
-    public SkatGame getSkatGame() {
+    public SkatGame getCurrentSkatGame() {
 
         return currentGame;
     }
@@ -56,38 +57,14 @@ public class SkatSet {
 
     /* OTHER */
 
-    public boolean moveIsValid(SkatMove move) {
+    public boolean moveIsValid(GameMove move) {
 
         if ( move.getType() == ActionType.NEW_GAME ) {
 
             return gameResults.size() < gameAmount || gameAmount == -1;
 
-        } else {
-
-            return currentGame.moveIsValid(move);
         }
-    }
-
-    /**
-     * TODO : Einfacher Index bei Playcard
-     * TODO : SkatMove subclass of GameMove
-     * TODO : Discuss : move that in SkatClass? Maybe differ between GameMove and SkatMove? SkatMove as subclass?
-     */
-    public void makeMove(SkatMove move) {
-
-        switch ( move.getType() ) {
-
-            case NEW_GAME -> startNewGame();
-            case SORT -> currentGame.sort();
-            case RAISE_OR_ACCEPT -> currentGame.raiseOrAcceptBid();
-            case PASS -> currentGame.passBid();
-            case SKAT_TO_HAND -> currentGame.moveCardFromSkatToHand(new Card(null, null), -1);
-            case HAND_TO_SKAT -> currentGame.moveCardFromHandToSkat(new Card(null, null), -1);
-            case DROP_SKAT -> currentGame.dropSkat();
-            case SET_TRUMP -> currentGame.setTrump(move.trump);
-            case PLAY_CARD -> currentGame.playCard(new Card(null, null));
-            default -> Print.debug("ERROR", "in SkatSet -> exeMove");
-        }
+        return false;
     }
 
     public void startNewGame() {

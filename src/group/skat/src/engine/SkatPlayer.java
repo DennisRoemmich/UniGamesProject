@@ -49,6 +49,16 @@ public class SkatPlayer {
         return isDeclarer;
     }
 
+    public int getTricksScore() {
+
+        return tricks.getValue();
+    }
+
+    public int getTricksAmount() {
+
+        return tricks.getSize();
+    }
+
     public int getFinalScore() {
 
         return finalScore;
@@ -76,10 +86,12 @@ public class SkatPlayer {
         this.tricks = tricks;
     }
 
-    /* ELSE */
+    public void setFinalScore(int score) {
 
-    public void calculateFinalScore() {
-
-        finalScore = tricks.getValue();
+        finalScore = score;
     }
+
+    /* OTHER */
+
+
 }

@@ -38,6 +38,11 @@ public class Tricks {
         return sum;
     }
 
+    public int getSize() {
+
+        return tricks.size();
+    }
+
     public boolean skatIsDropped() {
 
         return skat != null;

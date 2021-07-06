@@ -106,7 +106,7 @@ public class Print {
                     } else {
 
                         var nameMargin = 5 + marginSize;
-                        var game = set.getSkatGame();
+                        var game = set.getCurrentSkatGame();
                         var playerIndex = (game.getCurrentLeaderIndex() + o) % 3 ;
                         returnString.append(times(nameMargin + (nameMargin % 2), " ")).append(set.getSkatPlayerName(playerIndex)).append(times(nameMargin, " "));
 

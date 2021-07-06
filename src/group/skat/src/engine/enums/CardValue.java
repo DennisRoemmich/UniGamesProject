@@ -34,6 +34,7 @@ public enum CardValue {
      */
     public int getValueStrength(Trump trump) {
 
+        // TODO: eigene value für werte
         var tenValue = 7;
         var jackValue = 9;
 
@@ -43,6 +44,7 @@ public enum CardValue {
             jackValue = 4;
         }
 
+        // TODO: SUIT jacks nach links
         if ( trump.getGameMode() == GameMode.GRAND ) {
 
             jackValue = 60;
@@ -75,8 +77,6 @@ public enum CardValue {
             case SEVEN -> "·7·";
 
         };
-
     }
-
 
 }

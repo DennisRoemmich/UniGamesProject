@@ -54,6 +54,18 @@ public class Trump {
         return color;
     }
 
+    public int getTrumpValue() {
+
+        if (gameMode != GameMode.SUIT) {
+
+            return gameMode.getModeValue();
+
+        } else {
+
+            return color.getCardColorValue();
+        }
+    }
+
     /* SETTER */
 
     public void setGameMode(GameMode gameMode) {

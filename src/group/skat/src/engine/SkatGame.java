@@ -5,6 +5,7 @@ import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
+import test.Print;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,7 +43,7 @@ public class SkatGame {
         currentLeaderIndex = 0; // right?
 
         players = new SkatPlayer[3];
-        for ( var i = 0; i < players.length; i++ ) {
+        for (var i = 0; i < players.length; i++) {
 
             players[i] = new SkatPlayer(trump);
         }
@@ -67,13 +68,13 @@ public class SkatGame {
 
     public SkatPlayer getCurrentPlayer() {
 
-        if ( currentTrick == null ){
+        if (currentTrick == null){
             return players[0];
         }
 
         var i = currentLeaderIndex + currentTrick.getSize();
 
-        return switch ( gamePhase ) {
+        return switch (gamePhase) {
 
             case AUCTION -> auction.getCurrentAuctioneer();
             case DECLARING -> declarer;
@@ -114,9 +115,9 @@ public class SkatGame {
 
     private void createCardStack() {
 
-        for ( CardColor color : CardColor.values() ) {
+        for (CardColor color : CardColor.values()) {
 
-            for (CardValue value : CardValue.values() ) {
+            for (CardValue value : CardValue.values()) {
 
                 cardStack.add(new Card(color, value));
             }
@@ -125,12 +126,12 @@ public class SkatGame {
 
     private void dealCards() {
 
-        for ( var i = 0; i < skat.length; i++ ) {
+        for (var i = 0; i < skat.length; i++) {
 
             skat[i] = getRandomCardFromStack();
         }
 
-        for ( SkatPlayer player : players) {
+        for (SkatPlayer player : players) {
 
             for (var j = 0; j < 10; j++) {
 
@@ -155,13 +156,15 @@ public class SkatGame {
 
     public boolean moveIsValid(SkatMove move) {
 
-        return switch ( move.getType() ) {
+        return switch (move.getType()) {
+
+            case SORT, ON_HAND -> true;
 
             case RAISE_OR_ACCEPT, PASS -> gamePhase == GamePhase.AUCTION;
 
             case SKAT_TO_HAND, HAND_TO_SKAT -> gamePhase == GamePhase.DECLARING;
 
-            case DROP_SKAT -> gamePhase == GamePhase.DECLARING && skatIsValid();
+            case DROP_SKAT -> gamePhase == GamePhase.DECLARING && skatIsValid() && !declarer.getTricks().skatIsDropped();
 
             case SET_TRUMP -> declarer.getTricks().skatIsDropped() && currentRoundNo == -1;
 
@@ -171,21 +174,41 @@ public class SkatGame {
         };
     }
 
-    public void raiseOrAcceptBid() {
+    public boolean makeSkatMove(SkatMove move) {
+
+        if (moveIsValid(move)) {
+            switch (move.getType()) {
+
+                case SORT -> sort();
+                case RAISE_OR_ACCEPT -> raiseOrAcceptBid();
+                case PASS -> passBid();
+                case SKAT_TO_HAND -> moveCardFromSkatToHand(new Card(null, null), -1);
+                case HAND_TO_SKAT -> moveCardFromHandToSkat(new Card(null, null), -1);
+                case DROP_SKAT -> dropSkat();
+                case SET_TRUMP -> setTrump(move.trump);
+                case PLAY_CARD -> playCard(new Card(null, null));
+                default -> Print.debug("ERROR", "in SkatGame -> makeMove");
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void raiseOrAcceptBid() {
 
         auction.raiseOrAcceptBid();
 
-        if ( !auction.isRunning() ) {
+        if (!auction.isRunning()) {
 
             finishAuction();
         }
     }
 
-    public void passBid() {
+    private void passBid() {
 
         auction.passBid();
 
-        if ( !auction.isRunning() ) {
+        if (!auction.isRunning()) {
 
             finishAuction();
         }
@@ -201,9 +224,9 @@ public class SkatGame {
 
     private void setPlayerTricks() {
 
-        if ( players[2] != declarer ) {
+        if (players[2] != declarer) {
 
-            if ( players[1] != declarer ) {
+            if (players[1] != declarer) {
 
                 players[2].setTricks(players[1].getTricks());
 
@@ -218,13 +241,13 @@ public class SkatGame {
         }
     }
 
-    public void moveCardFromSkatToHand(Card card, int index) {
+    private void moveCardFromSkatToHand(Card card, int index) {
 
         getCurrentPlayer().getHand().addCardAt(index, card);
 
-        for ( var i = 0; i < skat.length; i++ ) {
+        for (var i = 0; i < skat.length; i++) {
 
-            if ( skat[i] == card ) {
+            if (skat[i] == card) {
 
                 skat[i] = null;
                 break;
@@ -232,22 +255,22 @@ public class SkatGame {
         }
     }
 
-    public void moveCardFromHandToSkat(Card card, int index) {
+    private void moveCardFromHandToSkat(Card card, int index) {
 
         var currentPlayersHand = getCurrentPlayer().getHand();
 
-        for ( var i = 0; i < skat.length; i++ ) {
+        for (var i = 0; i < skat.length; i++) {
 
-            if ( skat[index] == null ) {
+            if (skat[index] == null) {
 
                 skat[index] = card;
                 break;
             }
         }
 
-        for ( var i = 0; i < currentPlayersHand.getSize(); i++ ) {
+        for (var i = 0; i < currentPlayersHand.getSize(); i++) {
 
-            if ( currentPlayersHand.getCardAt(i) == card ) {
+            if (currentPlayersHand.getCardAt(i) == card) {
 
                 currentPlayersHand.removeCard(i);
                 break;
@@ -257,9 +280,9 @@ public class SkatGame {
 
     private boolean skatIsValid() {
 
-        for ( Card card : skat ) {
+        for (Card card : skat) {
 
-            if ( card == null ) {
+            if (card == null) {
 
                 return false;
             }
@@ -287,14 +310,14 @@ public class SkatGame {
         var trickColor = currentTrick.getColor();
         var currentPlayersHand = getCurrentPlayer().getHand();
 
-        if ( currentTrick == null ) {
+        if (currentTrick.getSize() == 0) {
 
             return true;
         }
 
-        if ( currentTrick.getCardAt(0).isTrump(trump) ) {
+        if (currentTrick.getCardAt(0).isTrump(trump)) {
 
-            if ( card.isTrump(trump) ) {
+            if (card.isTrump(trump)) {
 
                 return true;
 
@@ -312,15 +335,11 @@ public class SkatGame {
 
         var currentTrickSize = currentTrick.getSize();
 
-        if ( currentTrickSize == 0 ) {
+        if (currentTrickSize < 2) {
 
             currentTrick.addCard(card);
 
-        } else if ( currentTrickSize == 1 ) {
-
-            currentTrick.addCard(card);
-
-        } else if ( currentTrickSize == 2 ) {
+        } else if (currentTrickSize == 2) {
 
             currentTrick.addCard(card);
 
@@ -338,7 +357,7 @@ public class SkatGame {
         currentTrick = null;
         currentLeaderIndex = nextLeaderIndex;
 
-        if ( currentRoundNo == 9 ) {
+        if (currentRoundNo == 9) {
 
             gameOver();
             return;
@@ -348,26 +367,51 @@ public class SkatGame {
         currentTrick = new Trick(trump);
     }
 
-    // TODO: gameOver - egtl im Gameresult oder?
     private void gameOver() {
 
-    /*    for ( SkatPlayer player : players ) {
+        var trumpLine = declarer.getHand().getTrumpLine();
 
-            player.calculateFinalScore();
+        var finalScore = getWinFactor() * ((trumpLine + getSchneider()) * trump.getTrumpValue());
+
+        declarer.setFinalScore(finalScore);
+        result.gameHasEnded();
+    }
+
+    private int getWinFactor() {
+
+        var declarerPoints = declarer.getTricksScore();
+        var declarerTricks = declarer.getTricksAmount();
+
+        if (trump.getGameMode() == GameMode.NULL && declarerTricks == 0) {
+
+            return 1;
+
+        }
+        if ((trump.getGameMode() == GameMode.GRAND || trump.getGameMode() == GameMode.SUIT)
+                && declarerPoints >= 60) {
+
+            return 1;
         }
 
-        var declarerPoints = declarer.getFinalScore();
-        var gameValue = declarer.getHand().getGameValue();
+        return -2;
+    }
 
-        if ( declarerPoints > 60 ) {
+    private int getSchneider() {
 
-            System.out.println("Declarer won!");
+        var declarerPoints = declarer.getTricksScore();
+        var declarerTricks = declarer.getTricksAmount();
 
-        } else {
+        if (trump.getGameMode() == GameMode.GRAND || trump.getGameMode() == GameMode.SUIT) {
 
-            System.out.println("Declarer lost!");
-        }*/
+            if (declarerTricks == 10 || declarerTricks == 0) {
 
-        result.gameHasEnded();
+                return 3;
+            }
+            if (declarerPoints >= 90 || declarerPoints <= 30) {
+
+                return 2;
+            }
+        }
+        return 1;
     }
 }

@@ -34,24 +34,24 @@ public class Test {
     void andi(){
 
         var move = new SkatMove(ActionType.NEW_GAME);
-        controller.forwardMove(move);
+        controller.makeMove(move);
 
         move = new SkatMove(ActionType.PASS);
-        controller.forwardMove(move);
+        controller.makeMove(move);
         move = new SkatMove(ActionType.PASS);
-        controller.forwardMove(move);
+        controller.makeMove(move);
         move = new SkatMove(ActionType.RAISE_OR_ACCEPT);
-        controller.forwardMove(move);
+        controller.makeMove(move);
         move = new SkatMove(ActionType.DROP_SKAT);
-        controller.forwardMove(move);
+        controller.makeMove(move);
 
         var trump = new Trump(GameMode.GRAND);
 
         move = new SkatMove(trump);
-        controller.forwardMove(move);
+        controller.makeMove(move);
 
         move = new SkatMove(0);
-        controller.forwardMove(move);
+        controller.makeMove(move);
 
 
     }

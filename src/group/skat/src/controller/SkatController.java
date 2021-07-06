@@ -27,41 +27,41 @@ public class SkatController extends GameController {
 
     public SkatGame getGame(){
 
-        return skatSet.getSkatGame();
-
+        return skatSet.getCurrentSkatGame();
     }
 
     /* OTHER */
 
-    public void forwardMove(GameMove move) {
+    public boolean makeMove(GameMove move) {
 
-        if ( !move.getType().isSkatMove() ){
+        if (!move.getType().isSkatMove()) {
 
-            if(move.getType() == ActionType.NEW_SET) {
+            if (move.getType() == ActionType.NEW_SET && moveIsValid(move)) {
+
                 skatSet = new SkatSet(gameAmount, playerNames);
+                return true;
             }
 
-            if(move.getType() == ActionType.NEW_GAME) {
+            if (move.getType() == ActionType.NEW_GAME && moveIsValid(move)) {
+
                 skatSet.startNewGame();
+                return true;
             }
-
+            return false;
 
         } else {
 
-            skatSet.makeMove((SkatMove) move);
-
+            return skatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move);
         }
-
     }
 
-    public boolean moveIsValid(SkatMove move) {
+    public boolean moveIsValid(GameMove move) {
 
-        return switch ( move.getType() ) {
+        return switch (move.getType()) {
 
             case NEW_SET -> false; // ??
-        //    case SORT -> true;
-            case ON_HAND -> true;
-            default -> skatSet.moveIsValid(move);
+            case NEW_GAME -> skatSet.moveIsValid(move);
+            default -> skatSet.getCurrentSkatGame().moveIsValid((SkatMove) move);
         };
     }
 
@@ -72,10 +72,9 @@ public class SkatController extends GameController {
     @Override
     protected JSONObject executeMove(JSONObject jsnMove) {
 
-        forwardMove(new SkatMove(jsnMove));
+        makeMove(new SkatMove(jsnMove));
 
         return null;
-
     }
 
     @Override
