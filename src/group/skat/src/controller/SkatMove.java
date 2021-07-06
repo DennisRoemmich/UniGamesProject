@@ -30,14 +30,20 @@ public class SkatMove extends GameMove {
         type = ActionType.valueOf((String) obj.get(TYPE_KEY));
         toBeRelogged = (boolean) obj.get(TOBERELOGGED_KEY);
 
-        if (type.usesIndices() ) {
+        if ( type.usesIndices() ) {
 
             indexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
             indexTo = Integer.parseInt((String) obj.get(INDEXTO_KEY));
 
         }
 
-        if ( type == ActionType.SET_TRUMP ) {
+        if ( type.usesIndex() ){
+
+            indexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
+
+        }
+
+        if ( type.usesTrump() ) {
 
             trump = new Trump(obj);
 
@@ -103,7 +109,13 @@ public class SkatMove extends GameMove {
 
         }
 
-        if ( type == ActionType.SET_TRUMP ) {
+        if ( type.usesIndex() ) {
+
+            obj.put(INDEXFROM_KEY, Integer.toString(indexFrom) );
+
+        }
+
+        if ( type.usesTrump() ) {
 
             obj.put(TRUMP_KEY,  trump.toJSON());
 

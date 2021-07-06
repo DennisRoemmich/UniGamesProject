@@ -1,4 +1,4 @@
-package test;
+package console;
 
 import engine.Card;
 import engine.Hand;
@@ -69,7 +69,7 @@ public class Print {
 
         returnString.append(times(20, "⋯"));
         returnString.append("  " + message + "  ");
-        returnString.append(times(40-(message.length() + 4), "⋯"));
+        returnString.append(times(40 - (message.length() + 4), "⋯"));
         returnString.append("\n");
 
         if (trick == null || trick.getSize() == 0) {

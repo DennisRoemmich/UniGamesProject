@@ -1,0 +1,17 @@
+package console.enums;
+
+public enum ConsoleState {
+
+    SHOW_INSTRUCTIONS,
+    NOT_STARTED,
+    AUCTION_WATCHING,
+    AUCTION_ASKING,
+    AUCTION_HEARING,
+    WAIT_FOR_DECLARER,
+    DECLARE_SKAT,
+    DECLARE_TRUMP,
+    PLAYING_YOUR_MOVE,
+    PLAYING_NOT_YOUR_MOVE,
+    GAME_FINISHED;
+
+}

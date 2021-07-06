@@ -1,11 +1,11 @@
 package engine;
 
+import console.Print;
 import controller.SkatMove;
 import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
-import test.Print;
 
 import java.util.ArrayList;
 import java.util.Random;

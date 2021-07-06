@@ -1,12 +1,13 @@
 package controller;
 
+import console.enums.ConsoleActionType;
 import controller.enums.ActionType;
 import org.json.simple.JSONObject;
 
 public class GameMove {
 
-    private ActionType type;
-
+    protected ActionType type;
+    ConsoleActionType consoleType;
 
     public ActionType getType() {
         return type;

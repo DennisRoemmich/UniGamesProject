@@ -3,7 +3,7 @@ package engine;
 import controller.GameMove;
 import controller.SkatMove;
 import controller.enums.ActionType;
-import test.Print;
+import console.Print;
 
 import java.util.ArrayList;
 
