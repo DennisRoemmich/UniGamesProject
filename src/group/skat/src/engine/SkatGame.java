@@ -38,9 +38,10 @@ public class SkatGame {
     public SkatGame() {
 
         gamePhase = GamePhase.AUCTION;
+        currentRoundNo = -1;
+        currentLeaderIndex = 0; // right?
 
         players = new SkatPlayer[3];
-
         for ( var i = 0; i < players.length; i++ ) {
 
             players[i] = new SkatPlayer(trump);
@@ -48,18 +49,13 @@ public class SkatGame {
 
         cardStack = new ArrayList<>();
         skat = new Card[2];
-
         auction = new Auction(players);
-        gamePhase = GamePhase.AUCTION;
-
         trump = new Trump();
-
-        currentRoundNo = -1;
-
         result = new GameResult(players, declarer, trump);
 
         createCardStack();
         dealCards();
+
     }
 
     /* GETTER */
@@ -84,6 +80,14 @@ public class SkatGame {
             case PLAYING -> players[i % players.length];
             default -> null;
         };
+    }
+
+    /**
+     * needed to print a trick properly
+     */
+    public int getCurrentLeaderIndex() {
+
+        return currentLeaderIndex;
     }
 
     public int getCurrentRoundNo() {
@@ -161,7 +165,7 @@ public class SkatGame {
 
             case SET_TRUMP -> declarer.getTricks().skatIsDropped() && currentRoundNo == -1;
 
-            case PLAY_CARD -> cardPlayIsValid(move.card);
+            case PLAY_CARD -> cardPlayIsValid(new Card(null, null));
 
             default -> false;
         };

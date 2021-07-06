@@ -3,8 +3,12 @@ package engine;
 import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
+import org.json.simple.JSONObject;
 
 public class Trump {
+
+    private static final String GAMEMODE_KEY = "gameMode";
+    private static final String COLOR_KEY = "color";
 
     private GameMode gameMode;
     private CardColor color;
@@ -24,6 +28,18 @@ public class Trump {
 
         gameMode = GameMode.SUIT;
         this.color = color;
+    }
+
+    public Trump(JSONObject obj) {
+
+        gameMode = GameMode.valueOf((String) obj.get(GAMEMODE_KEY));
+
+        if ( gameMode == GameMode.SUIT ){
+
+            color = CardColor.valueOf((String) obj.get(COLOR_KEY));
+
+        }
+
     }
 
     /* GETTER */
@@ -61,4 +77,30 @@ public class Trump {
             case NULL -> false;
         };
     }
+
+    public JSONObject toJSON(){
+
+        var obj = new JSONObject();
+
+        obj.put(GAMEMODE_KEY, gameMode.toString());
+
+        if ( gameMode == GameMode.SUIT ){
+
+            obj.put(COLOR_KEY, color.toString());
+
+        }
+
+        return obj;
+
+    }
+
+
 }
+
+
+
+
+
+
+
+

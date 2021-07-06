@@ -7,6 +7,10 @@ import org.json.simple.JSONObject;
 public class ConsolePlayer implements Player {
 
 
+
+
+
+
     @Override
     public JSONObject requestMove(JSONObject inputType) {
         return null;

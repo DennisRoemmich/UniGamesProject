@@ -77,7 +77,7 @@ public class Trick {
         return pole;
     }
 
-    /* ELSE */
+    /* OTHER */
 
     public void addCard(Card card) {
 

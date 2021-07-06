@@ -1,5 +1,7 @@
 package javaFX;
 
+import controller.SkatController;
+import engine.SkatGame;
 import framework.GameController;
 import framework.Player;
 import javafx.fxml.Initializable;
@@ -10,6 +12,20 @@ import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
 
+    SkatController controller;
+
+
+
+
+    private SkatGame game(){
+
+       return controller.getGame();
+
+    }
+
+
+    /* OVERRIDE */
+
     @Override
     public JSONObject requestMove(JSONObject inputType) {
         return null;
@@ -17,6 +33,8 @@ public class FXController implements Player, Initializable {
 
     @Override
     public void setController(GameController controller) {
+
+        this.controller = (SkatController) controller;
 
     }
 

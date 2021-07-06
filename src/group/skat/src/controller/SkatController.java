@@ -1,5 +1,6 @@
 package controller;
 
+import controller.enums.ActionType;
 import engine.SkatGame;
 import engine.SkatSet;
 import framework.GameController;
@@ -9,14 +10,20 @@ public class SkatController extends GameController {
 
     private int gameAmount;
     private SkatSet skatSet;
+    private String[] playerNames;
+
+    /* CONSTRUCTOR */
 
     public SkatController(int gameAmount, String[] names) {
 
 
         this.gameAmount = gameAmount;
+        this.playerNames = names;
         skatSet = new SkatSet(gameAmount, names);
 
     }
+
+    /* GETTER */
 
     public SkatGame getGame(){
 
@@ -24,21 +31,27 @@ public class SkatController extends GameController {
 
     }
 
-    public void makeMove(SkatMove move) {
+    /* OTHER */
 
-        switch ( move.getType() ) {
+    public void forwardMove(GameMove move) {
 
-            case NEW_SET -> skatSet = new SkatSet(gameAmount, new String[]{"Räuber Hotzenplotz", "Schneewitchen", "Rotkäppchen"});
-        //    case ON_HAND ->
-            case NEW_GAME, SORT, RAISE_OR_ACCEPT, PASS, SKAT_TO_HAND, HAND_TO_SKAT, DROP_SKAT, SET_TRUMP, PLAY_CARD -> {
+        if ( !move.getType().isSkatMove() ){
 
-                if ( moveIsValid(move) ) {
-
-                    skatSet.exeMove(move);
-                }
+            if(move.getType() == ActionType.NEW_SET) {
+                skatSet = new SkatSet(gameAmount, playerNames);
             }
-            default -> System.out.println("MASSIVE ERROR! - SkatController");
+
+            if(move.getType() == ActionType.NEW_GAME) {
+                skatSet.startNewGame();
+            }
+
+
+        } else {
+
+            skatSet.makeMove((SkatMove) move);
+
         }
+
     }
 
     public boolean moveIsValid(SkatMove move) {
@@ -52,9 +65,17 @@ public class SkatController extends GameController {
         };
     }
 
+
+
+    /* OVERRIDE */
+
     @Override
-    protected JSONObject executeMove(JSONObject move) {
+    protected JSONObject executeMove(JSONObject jsnMove) {
+
+        forwardMove(new SkatMove(jsnMove));
+
         return null;
+
     }
 
     @Override

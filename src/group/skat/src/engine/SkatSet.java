@@ -2,6 +2,7 @@ package engine;
 
 import controller.SkatMove;
 import controller.enums.ActionType;
+import test.Print;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,14 @@ public class SkatSet {
         return currentGame.getPlayerAt(index);
     }
 
-    /* ELSE */
+    public String getSkatPlayerName(int atIndex){
+
+        return players.get(atIndex).getName();
+
+    }
+
+
+    /* OTHER */
 
     public boolean moveIsValid(SkatMove move) {
 
@@ -60,7 +68,12 @@ public class SkatSet {
         }
     }
 
-    public void exeMove(SkatMove move) {
+    /**
+     * TODO : Einfacher Index bei Playcard
+     * TODO : SkatMove subclass of GameMove
+     * TODO : Discuss : move that in SkatClass? Maybe differ between GameMove and SkatMove? SkatMove as subclass?
+     */
+    public void makeMove(SkatMove move) {
 
         switch ( move.getType() ) {
 
@@ -68,16 +81,16 @@ public class SkatSet {
             case SORT -> currentGame.sort();
             case RAISE_OR_ACCEPT -> currentGame.raiseOrAcceptBid();
             case PASS -> currentGame.passBid();
-            case SKAT_TO_HAND -> currentGame.moveCardFromSkatToHand(move.card, move.index);
-            case HAND_TO_SKAT -> currentGame.moveCardFromHandToSkat(move.card, move.index);
+            case SKAT_TO_HAND -> currentGame.moveCardFromSkatToHand(new Card(null, null), -1);
+            case HAND_TO_SKAT -> currentGame.moveCardFromHandToSkat(new Card(null, null), -1);
             case DROP_SKAT -> currentGame.dropSkat();
             case SET_TRUMP -> currentGame.setTrump(move.trump);
-            case PLAY_CARD -> currentGame.playCard(move.card);
-            default -> System.out.println("MASSIVE ERROR! - SkatSet");
+            case PLAY_CARD -> currentGame.playCard(new Card(null, null));
+            default -> Print.debug("ERROR", "in SkatSet -> exeMove");
         }
     }
 
-    private void startNewGame() {
+    public void startNewGame() {
 
         if ( gameResults.size() < gameAmount || gameAmount == -1 ) {
 
@@ -85,4 +98,5 @@ public class SkatSet {
             gameResults.add(currentGame.getGameResult());
         }
     }
+
 }
