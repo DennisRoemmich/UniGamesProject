@@ -5,11 +5,10 @@ public enum ActionType {
     NEW_SET,
     NEW_GAME,
     SORT,
-    ON_HAND,
     RAISE_OR_ACCEPT,
     PASS,
-    SKAT_TO_HAND,
-    HAND_TO_SKAT,
+    ON_HAND,
+    ON_SKATHAND, // TODO: Discuss: we don't need skat_to_hand and hand_to_skat and if we do, we'd also need on_skat. Just see Skat as Hand 11 & 12.
     DROP_SKAT,
     SET_TRUMP,
     PLAY_CARD;
@@ -22,7 +21,7 @@ public enum ActionType {
 
     public boolean usesIndices(){
 
-        return ( this == ON_HAND || this == SKAT_TO_HAND || this == HAND_TO_SKAT );
+        return ( this == ON_HAND || this == ON_SKATHAND );
 
     }
 

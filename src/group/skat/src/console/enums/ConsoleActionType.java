@@ -4,6 +4,8 @@ public enum ConsoleActionType {
 
     INVALID_INPUT,
     HELP,
-    QUIT;
+    QUIT,
+    CARD_SELECTION,
+    SKATMOVE;
 
 }

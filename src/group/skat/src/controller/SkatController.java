@@ -65,7 +65,9 @@ public class SkatController extends GameController {
         };
     }
 
-
+    public SkatSet getSkatSet() {
+        return skatSet;
+    }
 
     /* OVERRIDE */
 

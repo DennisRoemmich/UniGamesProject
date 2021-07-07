@@ -9,11 +9,15 @@ public class SkatPlayer {
     private boolean isAsking;
     private boolean isDeclarer;
 
+    private int gameIndex;
+
     private int finalScore;
 
     /* CONSTRUCTOR */
 
-    public SkatPlayer(Trump trump) {
+    public SkatPlayer(Trump trump, int gameIndex) {
+
+        this.gameIndex = gameIndex;
 
         hand = new Hand(trump);
         tricks = new Tricks();
@@ -62,6 +66,11 @@ public class SkatPlayer {
     public int getFinalScore() {
 
         return finalScore;
+    }
+
+    public int getGameIndex() {
+
+        return gameIndex;
     }
 
     /* SETTER */

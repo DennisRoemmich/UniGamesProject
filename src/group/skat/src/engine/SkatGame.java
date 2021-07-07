@@ -38,14 +38,14 @@ public class SkatGame {
 
     public SkatGame() {
 
-        gamePhase = GamePhase.AUCTION;
+        gamePhase = GamePhase.AUCTION; // Todo: GamePhase = Not started ?
         currentRoundNo = -1;
-        currentLeaderIndex = 0; // right?
+        currentLeaderIndex = 0;
 
         players = new SkatPlayer[3];
         for (var i = 0; i < players.length; i++) {
 
-            players[i] = new SkatPlayer(trump);
+            players[i] = new SkatPlayer(trump, i);
         }
 
         cardStack = new ArrayList<>();
@@ -53,6 +53,7 @@ public class SkatGame {
         auction = new Auction(players);
         trump = new Trump();
         result = new GameResult(players, declarer, trump);
+        currentTrick = new Trick(trump);
 
         createCardStack();
         dealCards();
@@ -68,19 +69,18 @@ public class SkatGame {
 
     public SkatPlayer getCurrentPlayer() {
 
-        if (currentTrick == null){
-            return players[0];
-        }
-
-        var i = currentLeaderIndex + currentTrick.getSize();
 
         return switch (gamePhase) {
 
             case AUCTION -> auction.getCurrentAuctioneer();
             case DECLARING -> declarer;
-            case PLAYING -> players[i % players.length];
+            case PLAYING -> players[(currentLeaderIndex + currentTrick.getSize()) % players.length];
             default -> null;
         };
+    }
+
+    public Auction getAuction() {
+        return auction;
     }
 
     /**
@@ -162,7 +162,7 @@ public class SkatGame {
 
             case RAISE_OR_ACCEPT, PASS -> gamePhase == GamePhase.AUCTION;
 
-            case SKAT_TO_HAND, HAND_TO_SKAT -> gamePhase == GamePhase.DECLARING;
+            case ON_SKATHAND -> gamePhase == GamePhase.DECLARING;
 
             case DROP_SKAT -> gamePhase == GamePhase.DECLARING && skatIsValid() && !declarer.getTricks().skatIsDropped();
 
@@ -182,8 +182,7 @@ public class SkatGame {
                 case SORT -> sort();
                 case RAISE_OR_ACCEPT -> raiseOrAcceptBid();
                 case PASS -> passBid();
-                case SKAT_TO_HAND -> moveCardFromSkatToHand(new Card(null, null), -1);
-                case HAND_TO_SKAT -> moveCardFromHandToSkat(new Card(null, null), -1);
+                case ON_HAND, ON_SKATHAND -> moveCard(move.getIndexFrom(), move.getIndexTo());
                 case DROP_SKAT -> dropSkat();
                 case SET_TRUMP -> setTrump(move.trump);
                 case PLAY_CARD -> playCard(new Card(null, null));
@@ -192,6 +191,14 @@ public class SkatGame {
             return true;
         }
         return false;
+    }
+
+    private void moveCard(int indexFrom, int indexTo) {
+        // TODO : implement
+    }
+
+    public boolean skatIsDropped(){
+        return declarer != null && declarer.getTricks().skatIsDropped();
     }
 
     private void raiseOrAcceptBid() {

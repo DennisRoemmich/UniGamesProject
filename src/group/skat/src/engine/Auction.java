@@ -1,12 +1,16 @@
 package engine;
 
+import console.Print;
+
 public class Auction {
 
     private SkatPlayer foreHand;
     private SkatPlayer middleHand;
     private SkatPlayer rearHand;
 
-    private SkatPlayer currentAuctioneer;
+    private SkatPlayer currentAuctioneer; // Todo : i need to print this. Is current Auctioneer the asking Player? Also : is SkatPlayer.isBidding true when player is not bidding yet?
+    private SkatPlayer currentQuestioner; // Todo : make this Player the player who is being asked
+    private SkatPlayer currentHearer;
 
     private int[] auctionLvL;
     private int currentBidLvL;
@@ -39,14 +43,75 @@ public class Auction {
         return currentAuctioneer;
     }
 
+    public SkatPlayer getQuestioner() {
+
+        for(var player : new SkatPlayer[]{foreHand, middleHand, rearHand}){
+
+            if (player.isAsking()) {
+                return player;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public SkatPlayer getInactivePlayer() {
+
+        for(var player : new SkatPlayer[]{foreHand, middleHand, rearHand}){
+
+            if (player != getQuestioner() && player != getHearer()) {
+                return player;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public SkatPlayer getHearer() {
+
+        if(foreHand.isBidding() && !isOnlyOneBidding(foreHand)){
+            return foreHand;
+        } else if (isOnlyOneBidding(foreHand)) {
+            return null;
+        } else {
+            return rearHand;
+        }
+
+    }
+
     public SkatPlayer getAuctionWinner() {
 
         return auctionWinner;
     }
 
+    public int getAuctionValue() {
+
+        if(currentBidLvL == -1){
+            return 0;
+        }
+
+        return auctionLvL[currentBidLvL];
+    }
+
+    public int getNextAuctionValue() {
+
+        if(currentBidLvL != -1 && auctionLvL[currentBidLvL] == 132){
+
+            Print.debug("ERROR", "max auction level reached (getNextAuctionLevel)");
+
+            return -1;
+        }
+
+        return auctionLvL[currentBidLvL+1];
+    }
+
     public boolean isRunning() {
 
-        return checkWinner() && !passedOut();
+        return !checkWinner() && !passedOut();
     }
 
     /* ELSE */
@@ -70,7 +135,11 @@ public class Auction {
 
             if ( foreHand.isBidding() ) {
 
-                currentAuctioneer = foreHand;
+                if( middleHand.isBidding() ){
+                    currentAuctioneer = foreHand;
+                } else {
+                    currentAuctioneer = rearHand;
+                }
 
             } else {
 
@@ -108,6 +177,7 @@ public class Auction {
         if ( currentAuctioneer == foreHand ) {
 
             foreHand.setBidding(false);
+            foreHand.setAsking(false);
 
             if ( isRunning() ) {
 
@@ -117,7 +187,7 @@ public class Auction {
         } else if ( currentAuctioneer == middleHand ) {
 
             middleHand.setBidding(false);
-
+            middleHand.setAsking(false);
             rearHand.setAsking(true);
 
             if ( isRunning() ) {
@@ -128,6 +198,7 @@ public class Auction {
         } else if ( currentAuctioneer == rearHand ) {
 
             rearHand.setBidding(false);
+            rearHand.setAsking(false);
 
             if ( foreHand.isBidding() ) {
 
@@ -142,6 +213,8 @@ public class Auction {
     }
 
     private boolean checkWinner() {
+
+        // TODO : Abbruch bei 132, Hearer macht das game
 
         if ( isOnlyOneBidding(foreHand) && currentBidLvL != -1 ) {
 

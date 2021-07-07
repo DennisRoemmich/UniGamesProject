@@ -2,7 +2,6 @@ package console.enums;
 
 public enum ConsoleState {
 
-    SHOW_INSTRUCTIONS,
     NOT_STARTED,
     AUCTION_WATCHING,
     AUCTION_ASKING,

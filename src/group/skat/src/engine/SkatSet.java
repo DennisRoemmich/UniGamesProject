@@ -28,7 +28,6 @@ public class SkatSet {
             players.add(new SkatSetPlayer(name));
         }
 
-        startNewGame();
     }
 
     /* GETTER */
@@ -54,8 +53,28 @@ public class SkatSet {
 
     }
 
+    /** This funtion returns the name at a given index of the players that are actually playing right now*/
+    public String getPlayingPlayerName(int atIndex){
+
+        return playingPlayer(getCurrentGameNo())[atIndex].getName();
+    }
+
 
     /* OTHER */
+
+    /** This function returns an array of the 3 players that are playing in the current game. It works based on the assumption that the players shift after every game, if there are more then 3*/
+    private SkatSetPlayer[] playingPlayer(int forGameNo){
+
+        var mod3 = forGameNo % 3;
+        var size = players.size();
+
+        return new SkatSetPlayer[]{players.get(mod3 % size), players.get((mod3 + 1) % size), players.get((mod3 + 2) % size)};
+
+    }
+
+    public int getCurrentGameNo(){
+        return gameResults.size()-1;
+    }
 
     public boolean moveIsValid(GameMove move) {
 

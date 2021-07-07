@@ -1,9 +1,7 @@
 package console;
 
-import engine.Card;
-import engine.Hand;
-import engine.SkatSet;
-import engine.Trick;
+import controller.SkatController;
+import engine.*;
 import framework.Player;
 
 public class Print {
@@ -58,6 +56,38 @@ public class Print {
 
     }
 
+    /** perspective must be either 0 (forehand), 1(middlehand) or 2(rearhand) */
+    public static String auctionToString(SkatController controller, int perspective) {
+
+        var game = controller.getGame();
+        var auction = controller.getGame().getAuction();
+
+        var returnString = new StringBuilder();
+
+        var questionerIndex = auction.getQuestioner().getGameIndex();
+        var askedPlayerIndex = auction.getHearer().getGameIndex();
+        var auctionLevel = auction.getAuctionValue();
+        var nextAuctionLevel = auction.getNextAuctionValue();
+
+
+
+        if (!game.getPlayerAt(perspective).isBidding()) { // is bidding true when player is forehand at the beginning?
+            returnString.append("You passed! Wait for the other players.\n");
+        } else if (auction.getInactivePlayer().getGameIndex() == perspective) {
+            returnString.append("The other player are bidding. Wait for your turn.\n");
+        } else if (auction.getQuestioner().getGameIndex() == perspective){
+            returnString.append("Do you want to raise on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(askedPlayerIndex) + "? (y/n)\n");
+            returnString.append("\n       ⎨ " + nextAuctionLevel + " ⎬\n");
+        } else { // player is being asked
+            returnString.append(controller.getSkatSet().getPlayingPlayerName(questionerIndex) + " has raised to " + auctionLevel + "!\nDo you want to call? (y/n)\n");
+            returnString.append("\n       ⎨ " + auctionLevel + " ⎬\n");
+        }
+
+
+
+        return returnString.toString();
+
+    }
 
     private static String trickToString(Trick trick, SkatSet set, String message) {
 
@@ -101,7 +131,7 @@ public class Print {
 
                     if ( i != 4 ){
 
-                        returnString.append(cardToString(trick.getCardAt(o),i, arrowPart));
+                        returnString.append(cardToString(trick.getCardAt(o),i, arrowPart, "0", false));
 
                     } else {
 
@@ -127,9 +157,11 @@ public class Print {
     }
 
 
-
-
     private static String handToString(Hand playerHand, String message) {
+        return handToString(playerHand, message, -1);
+    }
+
+    private static String handToString(Hand playerHand, String message, int indexSelected) {
 
 
         if (playerHand.isEmpty()) {
@@ -143,13 +175,14 @@ public class Print {
         returnString.append(times(40-(message.length() + 4), "⋯"));
         returnString.append("\n");
 
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 6; i++) {
 
             returnString.append("     ");
 
+            int o = 0;
             for (Card card : playerHand.getCardsArray()) {
-
-                returnString.append(cardToString(card, i));
+                o++;
+                returnString.append(cardToString(card, i, " ", Integer.toString(o), o == indexSelected));
 
             }
 
@@ -176,14 +209,22 @@ public class Print {
      */
     public static String cardToString(Card card, int line) {
 
-        return cardToString(card, line, "");
+        return cardToString(card, line, "", "",  false);
 
     }
 
-    public static String cardToString(Card card, int line, String margin) {
+    public static String cardToString(Card card, int line, String margin, String subTitle, boolean selected) {
 
         if (card == null || card.getCardValue() == null) {
             return "";
+        }
+
+        String selector;
+
+        if(selected){
+            selector = "·◈·";
+        } else {
+            selector = " ◇ ";
         }
 
         return switch (line) {
@@ -198,9 +239,15 @@ public class Print {
 
             case 3 -> "╚═══╝";
 
+            case 4 -> "╚═══╝";
+
+            case 5 -> " " + selector + " ";
+
+            case 6 -> times((5 - subTitle.length())/2," ") + subTitle + times(((5 - subTitle.length())/2) + ((5 - subTitle.length())/2) % 2," ");
+
             default -> throw new IllegalStateException("Unexpected value: " + line);
 
-        };
+        } + margin;
 
     }
 

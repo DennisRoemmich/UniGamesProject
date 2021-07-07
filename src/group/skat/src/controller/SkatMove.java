@@ -1,5 +1,6 @@
 package controller;
 
+import console.enums.ConsoleActionType;
 import controller.enums.ActionType;
 import engine.Trump;
 import org.json.simple.JSONObject;
@@ -79,6 +80,18 @@ public class SkatMove extends GameMove {
 
     }
 
+    public SkatMove(ConsoleActionType consType) {
+
+        this.consoleType = consType;
+
+    }
+
+    public SkatMove(ConsoleActionType consType, int indexSelection) {
+
+        this.consoleType = consType;
+        this.indexFrom = indexSelection;
+
+    }
 
     /* GETTER */
 

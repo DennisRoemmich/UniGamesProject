@@ -1,5 +1,6 @@
 package test;
 
+import console.Console;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
@@ -33,25 +34,7 @@ public class Test {
 
     void andi(){
 
-        var move = new SkatMove(ActionType.NEW_GAME);
-        controller.makeMove(move);
-
-        move = new SkatMove(ActionType.PASS);
-        controller.makeMove(move);
-        move = new SkatMove(ActionType.PASS);
-        controller.makeMove(move);
-        move = new SkatMove(ActionType.RAISE_OR_ACCEPT);
-        controller.makeMove(move);
-        move = new SkatMove(ActionType.DROP_SKAT);
-        controller.makeMove(move);
-
-        var trump = new Trump(GameMode.GRAND);
-
-        move = new SkatMove(trump);
-        controller.makeMove(move);
-
-        move = new SkatMove(0);
-        controller.makeMove(move);
+        var console = new Console(controller);
 
 
     }
