@@ -1,5 +1,6 @@
 package engine;
 
+import console.Print;
 import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
@@ -51,6 +52,17 @@ public class Hand {
     public Card[] getCardsArray(){
 
         return cards;
+
+    }
+
+    public Card[] getSkat(){
+
+        if(getSize() != 12){
+            Print.debug("WARNING", "getSkat() was called on a player that doesn't have the skat on his hand.");
+            return null;
+        }
+
+        return new Card[]{cards[10], cards[11]};
 
     }
 

@@ -6,6 +6,7 @@ public enum ConsoleActionType {
     HELP,
     QUIT,
     CARD_SELECTION,
+    DECLARE_SUIT,
     SKATMOVE;
 
 }

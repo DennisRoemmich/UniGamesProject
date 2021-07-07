@@ -17,12 +17,19 @@ public class Test {
         this.controller = controller;
         this.game = controller.getGame();
 
-        mainTest();
+    }
+
+    public void consoleSetUp() {
+
+        controller.makeMove(new SkatMove(ActionType.NEW_GAME));
+        controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+        controller.makeMove(new SkatMove(ActionType.PASS));
 
     }
 
 
-    void mainTest(){
+    public void mainTest(){
 
         andi();
 

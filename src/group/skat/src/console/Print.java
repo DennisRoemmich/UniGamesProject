@@ -72,15 +72,15 @@ public class Print {
 
 
         if (!game.getPlayerAt(perspective).isBidding()) { // is bidding true when player is forehand at the beginning?
-            returnString.append("You passed! Wait for the other players.\n");
+            returnString.append("\n\n\n      YOU PASSED! Wait for the other players.\n");
         } else if (auction.getInactivePlayer().getGameIndex() == perspective) {
-            returnString.append("The other player are bidding. Wait for your turn.\n");
+            returnString.append("\n\n\n      The other player are bidding. Wait for your turn.\n");
         } else if (auction.getQuestioner().getGameIndex() == perspective){
-            returnString.append("Do you want to raise on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(askedPlayerIndex) + "? (y/n)\n");
-            returnString.append("\n       ⎨ " + nextAuctionLevel + " ⎬\n");
+            returnString.append("\n\n\n      Do you want to RAISE on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(askedPlayerIndex) + "? (y/n)\n");
+            returnString.append("\n\n                           ⎨ " + nextAuctionLevel + " ⎬\n\n\n");
         } else { // player is being asked
             returnString.append(controller.getSkatSet().getPlayingPlayerName(questionerIndex) + " has raised to " + auctionLevel + "!\nDo you want to call? (y/n)\n");
-            returnString.append("\n       ⎨ " + auctionLevel + " ⎬\n");
+            returnString.append("\n                               ⎨ " + auctionLevel + " ⎬\n\n");
         }
 
 
@@ -88,6 +88,9 @@ public class Print {
         return returnString.toString();
 
     }
+
+
+
 
     private static String trickToString(Trick trick, SkatSet set, String message) {
 
@@ -157,40 +160,77 @@ public class Print {
     }
 
 
-    private static String handToString(Hand playerHand, String message) {
+    public static String handToString(Hand playerHand, String message) {
         return handToString(playerHand, message, -1);
     }
 
-    private static String handToString(Hand playerHand, String message, int indexSelected) {
-
-
-        if (playerHand.isEmpty()) {
-            return "\n  Players hand\n  is empty.\n";
-        }
+    public static String skatToString(Card[] cards, int indexSelected) {
 
         var returnString = new StringBuilder();
-
-        returnString.append(times(20, "⋯"));
-        returnString.append("  " + message + "  ");
-        returnString.append(times(40-(message.length() + 4), "⋯"));
-        returnString.append("\n");
+        var margin = times(8, " ") + " ⌾ " + times(8, " ");
 
         for (var i = 0; i < 6; i++) {
 
-            returnString.append("     ");
+            returnString.append("                    ");
 
             int o = 0;
-            for (Card card : playerHand.getCardsArray()) {
+            for (Card card : cards) {
+                var marg = margin;
+                if(o == 1){
+                    marg = "";
+                }
+                if(i > 3){
+                    marg = times(19, " ");
+                }
+                returnString.append(cardToString(card, i, marg, Integer.toString(o+11), o == indexSelected+1));
                 o++;
-                returnString.append(cardToString(card, i, " ", Integer.toString(o), o == indexSelected));
-
             }
 
             returnString.append("\n");
 
         }
 
-        returnString.append(times(60, "⋯"));
+        return returnString.toString();
+
+    }
+
+    public static String handToString(Hand playerHand, String message, int indexSelected) {
+
+
+        if (playerHand.isEmpty()) {
+            return "\n~  Players hand\n  is empty. ~\n";
+        }
+
+        var returnString = new StringBuilder();
+
+        if(!message.equals("")){
+
+            returnString.append(times(20, "⋯"));
+            returnString.append("  " + message + "  ");
+            returnString.append(times(40-(message.length() + 4), "⋯"));
+            returnString.append("\n");
+
+        }
+
+
+
+        for (var i = 0; i < 6; i++) {
+
+            returnString.append("       ");
+
+            int o = 0;
+            for (Card card : playerHand.getCardsArray()) {
+
+                if(o < 10) {
+                    returnString.append(cardToString(card, i, " ", Integer.toString(o + 1), o == indexSelected));
+                }
+                o++;
+
+            }
+
+            returnString.append("\n");
+
+        }
 
         return returnString.toString();
 
@@ -239,11 +279,9 @@ public class Print {
 
             case 3 -> "╚═══╝";
 
-            case 4 -> "╚═══╝";
+            case 4 -> times((5 - subTitle.length())/2," ") + subTitle + times(((5 - subTitle.length())/2) + ((5 - subTitle.length())/2) % 2," ");
 
             case 5 -> " " + selector + " ";
-
-            case 6 -> times((5 - subTitle.length())/2," ") + subTitle + times(((5 - subTitle.length())/2) + ((5 - subTitle.length())/2) % 2," ");
 
             default -> throw new IllegalStateException("Unexpected value: " + line);
 

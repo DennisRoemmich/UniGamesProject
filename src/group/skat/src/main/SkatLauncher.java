@@ -13,6 +13,7 @@ public class SkatLauncher {
 
         var controller = new SkatController(12, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
         var test = new Test(controller);
+        test.mainTest();
 
     }
 

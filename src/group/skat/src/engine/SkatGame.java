@@ -231,6 +231,9 @@ public class SkatGame {
 
     private void setPlayerTricks() {
 
+        declarer.getHand().addCard(skat[0]);
+        declarer.getHand().addCard(skat[1]);
+
         if (players[2] != declarer) {
 
             if (players[1] != declarer) {
@@ -246,6 +249,7 @@ public class SkatGame {
 
             players[1].setTricks(players[0].getTricks());
         }
+
     }
 
     private void moveCardFromSkatToHand(Card card, int index) {

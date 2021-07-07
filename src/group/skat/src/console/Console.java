@@ -6,33 +6,52 @@ import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.SkatGame;
+import engine.SkatPlayer;
 import engine.Trump;
 import engine.enums.CardColor;
+import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
 import org.json.simple.JSONObject;
+import test.Test;
 
 import java.util.Scanner;
+
+/*
+ *TODO :
+ * - [S]ort Hand
+ * - Always be able to move on hand
+ * - Make this class less ugly
+ * - display end of the game
+ * - test class and GameClass
+ *
+ */
 
 public class Console implements Player {
 
     /* CONST */
 
-    static final int BORDER_WIDTH = 70;
+    static final int BORDER_WIDTH = 90;
 
-    static final String WELCOME_MESSAGE = "Welcome to Skat!";
-    static final String HELP_MESSAGE = "[Q] - Quit game    ·    [U] - Undo move\n[S] - Sort         ·    [1-12] - Select Card ";
+    static final String WELCOME_MESSAGE = "SKAT - CONSOLE VERSION";
+    static final String HELP_MESSAGE = """
+                                       
+                                            [Q] - Quit game    ·    [U] - Undo move          ·    [A] - Accept selection    
+                                            [S] - Sort         ·    [1-12] - Select Card     .    [S] - Sort Hand                       
+                                       """;
     static final String INSTR_START = "Welcome to Skat!";
 
     static final String WARNING_DEL = "!: ";
     static final String DEFAULT_DEL = ":: ";
-    static final String INPUT_DEL = ":↢ ";
+    static final String INPUT_DEL = "::⌲ ";
     static final String INSTR_DEL = "⌯: ";
     static final String DEBUG_DEL = "☕︎: ";
     static final String NL = "\n";
 
     /* VARS */
+
+    boolean suitGame = false;
 
     SkatController controller;
     int indexCardSelected = -1;
@@ -47,6 +66,9 @@ public class Console implements Player {
 
         this.controller = controller;
 
+        var test = new Test(controller);
+        // test.consoleSetUp();
+
         gameLoop();
 
     }
@@ -56,6 +78,7 @@ public class Console implements Player {
 
         this.controller = controller;
         this.playerGameIndex = playerGameIndex;
+
 
         gameLoop();
 
@@ -80,16 +103,21 @@ public class Console implements Player {
                     case HELP -> {
                         printHardBorder();
                         printSoftBorder("Instructions");
+                        println(1);
                         print(HELP_MESSAGE, INSTR_DEL);
                         printSoftBorder("Debug Information");
                         printDebugInfo();
-                        printHardBorder();
                         println(1);
                     }
 
-                    case CARD_SELECTION -> indexCardSelected = move.getIndexFrom();
+                    case CARD_SELECTION -> indexCardSelected = move.getIndexFrom()-1;
 
-                    case SKATMOVE -> controller.makeMove(move);
+                    case SKATMOVE -> {
+                        controller.makeMove(move);
+                        indexCardSelected = -1;
+                    }
+
+                    case DECLARE_SUIT -> suitGame = true;
 
                     default -> throw new IllegalStateException("Unexpected value: " + move.getConsoleType());
                 }
@@ -143,9 +171,19 @@ public class Console implements Player {
                 }
 
             }
-            case DECLARE_TRUMP -> {
+            case DECLARE_TRUMPCOLOR -> {
                 var trump = new Trump(CardColor.valueOf((input + "s").toUpperCase()));
                 consoleMove = new SkatMove(trump);
+            }
+            case DECLARE_TRUMPTYPE -> {
+                GameMode mode = GameMode.valueOf(input.toUpperCase());
+                if (mode != GameMode.SUIT) {
+                    var trump = new Trump(GameMode.valueOf(input.toUpperCase()));
+                    consoleMove = new SkatMove(trump);
+                } else {
+                    consoleMove = new SkatMove(ConsoleActionType.DECLARE_SUIT);
+                }
+
             }
             case PLAYING_YOUR_MOVE -> {
 
@@ -206,14 +244,17 @@ public class Console implements Player {
 
         while (!isValidInput(input)){ // !
 
-            print("This is not a valid input. For Help type [H]elp.", WARNING_DEL);
+            print(WARNING_DEL + "This is not a valid input. For Help type [H]elp.");
             print("\n", INPUT_DEL);
             input = (in.nextLine()).toLowerCase();
 
         }
 
+        if(input.isEmpty()){
+            input = "x";
+        }
 
-        if(!input.matches("diamond|heart|spade|club")){
+        if(!input.matches("diamond|heart|spade|club|suit|grand|null")){
             input = String.valueOf(input.charAt(0));
         }
 
@@ -228,26 +269,29 @@ public class Console implements Player {
             return true;
         }
 
-
+        var state = getState();
         int number;
         try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
 
-        return switch (getState()){
+        if((number >= 1 && number < 11) && state != ConsoleState.DECLARE_TRUMPCOLOR && state != ConsoleState.DECLARE_TRUMPTYPE){
+            return true;
+        }
 
-            case WAIT_FOR_DECLARER, AUCTION_WATCHING -> false;
+        return switch (state){
 
             case NOT_STARTED -> true;
 
             case AUCTION_ASKING, AUCTION_HEARING, GAME_FINISHED ->  input.equals("y") || input.equals("n");
 
-            case DECLARE_SKAT -> (number >= 0 && number < 13) || (input.equals("a") && indexCardSelected >= 0);
+            case DECLARE_SKAT -> (input.equals("a") && indexCardSelected >= 0);
 
-            case DECLARE_TRUMP -> input.matches("diamond|heart|spade|club");
+            case DECLARE_TRUMPCOLOR -> input.matches("diamond|heart|spade|club");
 
-            case PLAYING_YOUR_MOVE -> (number >= 1 && number < 11) || (input.equals("a") && indexCardSelected >= 0);
+            case DECLARE_TRUMPTYPE -> input.matches("suit|grand|null");
 
-            case PLAYING_NOT_YOUR_MOVE -> (number >= 1 && number < 11);
+            case PLAYING_YOUR_MOVE -> (input.equals("a") && indexCardSelected >= 0);
 
+            default -> throw new IllegalStateException("Unexpected value: " + getState());
         };
 
     }
@@ -270,9 +314,10 @@ public class Console implements Player {
     private void display(){
 
         if (playerDidChange()) {
-            var message = controller.getSkatSet().getPlayingPlayerName(getPlayerGameIndex()) + " [" + getPlayerGameIndex() + "]";
-            printHardBorder(message);
-            println(2);
+            printHardBorder();
+            var message = controller.getSkatSet().getPlayingPlayerName(getPlayerGameIndex()) + " is now playing. [P" + getPlayerGameIndex() + "]";
+            printSoftBorder(message);
+
         }
 
         switch (getState()){
@@ -280,15 +325,22 @@ public class Console implements Player {
             case NOT_STARTED -> {
 
                 printHardBorder();
-                println(WELCOME_MESSAGE); // PlayerName
-                printSoftBorder();
+                printSoftBorder(WELCOME_MESSAGE); // PlayerName
+                printHardBorder();
+                printSoftBorder("Instructions");
                 println(HELP_MESSAGE, INSTR_DEL);
                 printSoftBorder();
-                println("Enter any key to start the game.", INSTR_DEL);
-                println(1);
+                println("  ♢  Enter ANY KEY to start the game.", INSTR_DEL);
+
 
             }
-            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> print(Print.auctionToString(controller, getPlayerGameIndex()));
+            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
+                printHardBorder();
+                println(2);
+                print(Print.auctionToString(controller, getPlayerGameIndex()));
+                printHand();
+
+            }
 
             case WAIT_FOR_DECLARER -> {
 
@@ -298,12 +350,44 @@ public class Console implements Player {
             }
             case DECLARE_SKAT -> {
 
-                /* Print.skatToString */
+                printHardBorder();
+                printSoftBorder("SKAT");
+                println(2);
+                print(Print.skatToString(getPlayer().getHand().getSkat(),indexCardSelected-10), DEFAULT_DEL);
+                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                printSoftBorder();
 
             }
-            case DECLARE_TRUMP -> {
+            case DECLARE_TRUMPTYPE -> {
+
+                println("""
+                        
+                        You are declarer. Choose what your want to play:
+                        
+                             SUIT     ·     GRAND     ·     NULL
+                             
+                        """);
+
             }
+
+            case DECLARE_TRUMPCOLOR -> {
+
+                println("""
+                        
+                        Sweet! You did choose suit. Choose your color:
+                        
+                             Diamond     ·     Heart     ·     Spade     ·     Club
+                                ◈                ♥               ♠               ♣
+                             
+                        """);
+
+            }
+
             case PLAYING_YOUR_MOVE -> {
+
+                println(1);
+                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+
             }
             case PLAYING_NOT_YOUR_MOVE -> {
             }
@@ -342,7 +426,11 @@ public class Console implements Player {
                     if (!game().skatIsDropped()){
                         return ConsoleState.DECLARE_SKAT;
                     } else {
-                        return ConsoleState.DECLARE_TRUMP;
+                        if(suitGame){
+                            return ConsoleState.DECLARE_TRUMPCOLOR;
+                        } else {
+                            return ConsoleState.DECLARE_TRUMPTYPE;
+                        }
                     }
 
                 }
@@ -364,6 +452,13 @@ public class Console implements Player {
     }
 
 
+    private SkatPlayer getPlayer(){
+        if(playerGameIndex == -1){
+            return game().getCurrentPlayer();
+        } else {
+            return game().getPlayerAt(playerGameIndex);
+        }
+    }
 
     private int getPlayerGameIndex(){
 
@@ -380,6 +475,14 @@ public class Console implements Player {
     }
 
     /* PRINT */
+
+    private void printHand(){
+
+        printSoftBorder("YOUR HAND");
+        println(2);
+        print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+
+    }
 
     private void printDebugInfo(){
 
