@@ -10,8 +10,7 @@ public class Hand {
     private Card[] cards;
     private Trump trump;
 
-    // TODO remove
-    private Trump sorting;
+    private int gameValue;
 
     /* CONSTRUCTOR */
 
@@ -21,7 +20,7 @@ public class Hand {
 
         this.trump = trump;
 
-        sorting = new Trump(GameMode.GRAND);
+        gameValue = -1;
     }
 
     /* GETTER */
@@ -52,7 +51,6 @@ public class Hand {
     public Card[] getCardsArray(){
 
         return cards;
-
     }
 
     public Card[] getSkat(){
@@ -63,7 +61,6 @@ public class Hand {
         }
 
         return new Card[]{cards[10], cards[11]};
-
     }
 
     // TODO: getMaxGameValue of hand
@@ -160,6 +157,11 @@ public class Hand {
 
     /* SETTER */
 
+    public void calculateGameValue() {
+
+        // TODO
+    }
+
     /* ELSE */
 
     public void addCard(Card card) {
@@ -172,8 +174,6 @@ public class Hand {
                 return;
             }
         }
-
-        sort(sorting);
     }
 
     public void addCardAt(int index, Card card) {
@@ -202,11 +202,8 @@ public class Hand {
 
             cards[i] = cards[i + 1];
         }
-
-        sort(sorting);
     }
 
-    // TODO auch ohne trump
     public void sort(Trump trump) {
 
         for ( var i = 0; i < cards.length; i++ ) {
@@ -325,5 +322,61 @@ public class Hand {
         }*/
 
         return jacks;
+    }
+
+    public boolean moveCardIsValid(int indexFrom, int indexTo) {
+
+        return indexFrom < 10 && indexTo < 10 && indexFrom != indexTo;
+    }
+
+    public boolean moveSkatCardIsValid(int indexFrom, int indexTo) {
+
+        return indexFrom < 12 && indexTo < 12 && indexFrom != indexTo;
+    }
+
+    public void moveCardOnHand(int indexFrom, int indexTo) {
+
+        var indexTarget = indexTo;
+        if (indexTo >= getSize()) {
+
+            indexTarget = getSize() - 1;
+        }
+
+        if (indexFrom < indexTarget) {
+
+            for (var i = indexFrom; i < indexTarget; i++) {
+
+                swap(i, i + 1);
+            }
+        } else {
+
+            for (var i = indexFrom; i > indexTarget; i--) {
+
+                swap(i, i - 1);
+            }
+        }
+    }
+
+    public void moveCardOnSkatHand(int indexFrom, int indexTo) {
+
+        if (indexFrom < 10 && indexTo < 10) {
+
+            moveCardOnHand(indexFrom, indexTo);
+
+        } else if (indexFrom > 9 && indexTo > 9) {
+
+            swap(10, 11);
+
+        } else if (indexFrom > 9) {
+
+            addCardAt(indexFrom, cards[indexFrom]);
+
+            cards[indexFrom] = null;
+
+        } else {
+
+            addCardAt(indexTo, cards[indexFrom]);
+            removeCard(indexFrom);
+        }
     }
 }
