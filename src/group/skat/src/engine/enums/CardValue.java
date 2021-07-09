@@ -34,28 +34,35 @@ public enum CardValue {
      */
     public int getValueStrength(Trump trump) {
 
-        // TODO: eigene value für werte
-        var tenValue = 7;
-        var jackValue = 9;
+    //    var tenValue = 7;
+    //    var jackValue = 9;
+
+        var jackValue = 4;
+
+        var aceValue = 6;
+        var tenValue = 5;
+        var kingValue = 4;
+        var queenValue = 3;
 
         if ( trump.getGameMode() == GameMode.NULL ) {
 
             tenValue = 3;
-            jackValue = 4;
+            queenValue = 5;
+            kingValue = 6;
+            aceValue = 7;
         }
 
-        // TODO: SUIT jacks nach links
-        if ( trump.getGameMode() == GameMode.GRAND ) {
+        if ( trump.getGameMode() == GameMode.GRAND || trump.getGameMode() == GameMode.SUIT) {
 
             jackValue = 60;
         }
 
         return switch ( this ) {
 
-            case ACE -> 8;
+            case ACE -> aceValue;
             case TEN -> tenValue;
-            case KING -> 6;
-            case QUEEN -> 5;
+            case KING -> kingValue;
+            case QUEEN -> queenValue;
             case JACK -> jackValue;
             case NINE -> 2;
             case EIGHT -> 1;

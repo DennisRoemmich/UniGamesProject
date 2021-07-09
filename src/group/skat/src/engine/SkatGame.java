@@ -38,7 +38,7 @@ public class SkatGame {
 
     public SkatGame() {
 
-        gamePhase = GamePhase.AUCTION; // Todo: GamePhase = Not started ?
+        gamePhase = GamePhase.AUCTION;
         currentRoundNo = -1;
         currentLeaderIndex = 0;
 
@@ -57,7 +57,6 @@ public class SkatGame {
 
         createCardStack();
         dealCards();
-
     }
 
     /* GETTER */
@@ -311,7 +310,7 @@ public class SkatGame {
         this.trump.setGameMode(trump.getGameMode());
         this.trump.setColor(trump.getColor());
 
-        declarer.getHand().calculateGameValue();
+        declarer.getHand().setTrumpLine();
 
         gamePhase = GamePhase.PLAYING;
         currentRoundNo++;

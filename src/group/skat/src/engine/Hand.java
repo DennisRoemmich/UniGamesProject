@@ -10,7 +10,7 @@ public class Hand {
     private Card[] cards;
     private Trump trump;
 
-    private int gameValue;
+    private int trumpLine;
 
     /* CONSTRUCTOR */
 
@@ -20,7 +20,7 @@ public class Hand {
 
         this.trump = trump;
 
-        gameValue = -1;
+        trumpLine = -1;
     }
 
     /* GETTER */
@@ -63,104 +63,12 @@ public class Hand {
         return new Card[]{cards[10], cards[11]};
     }
 
-    // TODO: getMaxGameValue of hand
-    public int getMaxSuitGameValue() {
+    public int getTrumpLine() {
 
-        var clubsJack = false;
-        var spadesJack = false;
-        var heartsJack = false;
-        var diamondsJack = false;
-
-        for ( var i = 0; i < cards.length; i++ ) {
-
-            if ( cards[i].getCardValue() == CardValue.JACK ) {
-
-                switch ( cards[i].getCardColor() ) {
-
-                    case CLUBS -> clubsJack = true;
-                    case SPADES -> spadesJack = true;
-                    case HEARTS -> heartsJack = true;
-                    case DIAMONDS -> diamondsJack = true;
-                }
-            }
-        }
-
-        var jacks = 0;
-
-        if ( clubsJack == spadesJack ) {
-
-            if ( spadesJack == heartsJack ) {
-
-                if (heartsJack == diamondsJack ) {
-
-                    jacks = 4;
-
-                } else {
-
-                    jacks = 3;
-                }
-            } else {
-
-                jacks = 2;
-            }
-        } else {
-
-            jacks = 1;
-        }
-
-        return (1 + jacks) * CardColor.CLUBS.getCardColorValue();
-    }
-
-    // TODO fix it // only for endresult, funzt not yet - vlt starthand merken
-    public int getResultValue(boolean declarerWon, boolean isSchneider, boolean isSchwarz) {
-
-        if ( trump.getGameMode() == GameMode.NULL ) {
-
-            return GameMode.NULL.getModeValue();
-        }
-
-        var trumpLine = getTrumpLine();
-
-        var win = -2;
-        var schneider = 0;
-
-        if ( declarerWon ) {
-
-            win = 1;
-        }
-        if ( isSchneider ) {
-
-            schneider = 1;
-        }
-        if ( isSchwarz ) {
-
-            schneider = 2;
-        }
-
-        int gameValue;
-        if ( trump.getGameMode() == GameMode.GRAND ) {
-
-            gameValue = win * (1 + trumpLine + schneider) * GameMode.GRAND.getModeValue();
-
-        } else {
-
-            gameValue = win *  (1 + trumpLine + schneider) * trump.getColor().getCardColorValue();
-        }
-
-        return gameValue;
-    }
-
-    public int getGameValue() {
-
-        return 0;
+        return trumpLine;
     }
 
     /* SETTER */
-
-    public void calculateGameValue() {
-
-        // TODO
-    }
 
     /* ELSE */
 
@@ -206,14 +114,14 @@ public class Hand {
 
     public void sort(Trump trump) {
 
-        for ( var i = 0; i < cards.length; i++ ) {
+        for (var i = 0; i < cards.length; i++) {
 
             var maxCardIndex = i;
 
-            for ( var j = i + 1; j < cards.length; j++ ) {
+            for (var j = i + 1; j < cards.length; j++) {
 
-                if ( cards[j] != null && cards[maxCardIndex] != null
-                        && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null) ) {
+                if (cards[j] != null && cards[maxCardIndex] != null
+                        && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null)) {
 
                     maxCardIndex = j;
                 }
@@ -253,12 +161,11 @@ public class Hand {
         return false;
     }
 
-    // TODO
-    public int getTrumpLine() {
+    public void setTrumpLine() {
 
         if (trump.getGameMode() == GameMode.NULL) {
 
-            return 0;
+            trumpLine = 0;
         }
 
         var trumps = 0;
@@ -270,27 +177,44 @@ public class Hand {
         var heartsJack = false;
         var diamondsJack = false;
 
-        var trumpAce = false;
-        var trumpTen = false;
-        var trumpKing = false;
-        var trumpQueen = false;
-        var trumpNine = false;
-        var trumpEight = false;
-        var trumpSeven = false;
+        for (Card card : cards) {
 
-        for ( Card card : cards ) {
+            if (card.getCardValue() == CardValue.JACK) {
 
-            if ( card.getCardValue() == CardValue.JACK ) {
+                var cardColor = card.getCardColor();
 
-                switch ( card.getCardColor() ) {
+                if (cardColor == CardColor.CLUBS) {
 
-                    case CLUBS -> clubsJack = true;
-                    case SPADES -> spadesJack = true;
-                    case HEARTS -> heartsJack = true;
-                    case DIAMONDS -> diamondsJack = true;
+                    clubsJack = true;
+
+                } else if (cardColor == CardColor.SPADES) {
+
+                    spadesJack = true;
+
+                } else if (cardColor == CardColor.HEARTS) {
+
+                    heartsJack = true;
+
+                } else if (cardColor == CardColor.DIAMONDS) {
+
+                    diamondsJack = true;
                 }
             }
         }
+
+        jacks = setJacks(clubsJack, spadesJack, heartsJack, diamondsJack);
+
+        if (trump.getGameMode() == GameMode.SUIT && jacks == 4) {
+
+            trumps = setFurtherTrumps(diamondsJack);
+        }
+
+        trumpLine = jacks + trumps;
+    }
+
+    private int setJacks(boolean clubsJack, boolean spadesJack, boolean heartsJack, boolean diamondsJack) {
+
+        var jacks = 0;
 
         if ( clubsJack == spadesJack ) {
 
@@ -312,16 +236,75 @@ public class Hand {
 
             jacks = 1;
         }
-
-    /*    if ( trump.getGameMode() == GameMode.SUIT && jacks == 4 ) {
-
-
-        } else {
-
-            return jacks;
-        }*/
-
         return jacks;
+    }
+
+    private int setFurtherTrumps(boolean diamondsJack) {
+
+        var trumps = 0;
+
+        var trumpAce = false;
+        var trumpTen = false;
+        var trumpKing = false;
+        var trumpQueen = false;
+        var trumpNine = false;
+        var trumpEight = false;
+        var trumpSeven = false;
+
+        for (Card card : cards) {
+
+            if (card.isTrump(trump) && card.getCardValue() != CardValue.JACK) {
+
+                switch (card.getCardValue()) {
+
+                    case ACE -> trumpAce = true;
+                    case TEN -> trumpTen = true;
+                    case KING -> trumpKing = true;
+                    case QUEEN -> trumpQueen = true;
+                    case NINE -> trumpNine = true;
+                    case EIGHT -> trumpEight = true;
+                    case SEVEN -> trumpSeven = true;
+                    default -> Print.debug("ERROR", "jack in trumpCheck, somehow?!");
+                }
+            }
+        }
+
+        if (diamondsJack == trumpAce) {
+
+            if (trumpAce == trumpTen) {
+
+                if (trumpTen == trumpKing) {
+
+                    if (trumpKing == trumpQueen) {
+
+                        if (trumpQueen == trumpNine) {
+
+                            if (trumpNine == trumpEight) {
+
+                                if (trumpEight == trumpSeven) {
+
+                                    trumps = 7;
+
+                                } else {
+                                    trumps = 6;
+                                }
+                            } else {
+                                trumps = 5;
+                            }
+                        } else {
+                            trumps = 4;
+                        }
+                    } else {
+                        trumps = 3;
+                    }
+                } else {
+                    trumps = 2;
+                }
+            } else {
+                trumps = 1;
+            }
+        }
+        return trumps;
     }
 
     public boolean moveCardIsValid(int indexFrom, int indexTo) {
