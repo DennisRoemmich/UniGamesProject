@@ -366,9 +366,9 @@ public class Hand {
 
     public boolean canFollowTrump() {
 
-        for (Card card : cards) {
+        for (var i = 0; i < getSize(); i++) {
 
-            if (card.isTrump(trump)) {
+            if (cards[i].isTrump(trump)) {
 
                 return true;
             }
@@ -378,7 +378,7 @@ public class Hand {
 
     public boolean canFollowSuit(CardColor color) {
 
-        for (var i = 0; i < cards.length - 2; i++) {
+        for (var i = 0; i < getSize(); i++) {
 
             if (cards[i].getCardColor() == color && !cards[i].isTrump(trump)) {
 
@@ -387,4 +387,6 @@ public class Hand {
         }
         return false;
     }
+
+    // TODO herz bube zählt bei herz-angabe obwohl herz-queen da ist bei grand
 }

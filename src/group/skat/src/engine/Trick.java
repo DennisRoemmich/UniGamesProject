@@ -1,5 +1,6 @@
 package engine;
 
+import console.Print;
 import engine.enums.CardColor;
 
 public class Trick {
@@ -54,7 +55,7 @@ public class Trick {
 
         var sum = 0;
 
-        for ( Card card : cards ) {
+        for (Card card : cards) {
 
             sum += card.getPoints();
         }
@@ -66,9 +67,9 @@ public class Trick {
 
         var pole = 0;
 
-        for ( var i = 1; i < cards.length; i++ ) {
+        for (var i = 1; i < cards.length; i++) {
 
-            if ( isStrongerCard(cards[pole], cards[i]) ) {
+            if (isStrongerCard(cards[pole], cards[i])) {
 
                 pole = i;
             }
@@ -81,12 +82,12 @@ public class Trick {
 
     public void addCard(Card card) {
 
-        if ( getSize() == 0) {
+        if (getSize() == 0) {
 
             color = card.getCardColor();
         }
 
-        for ( var i = 0; i < cards.length; i++ ) {
+        for (var i = 0; i < cards.length; i++) {
 
             if ( cards[i] == null ) {
 

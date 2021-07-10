@@ -119,7 +119,6 @@ public class Console implements Player {
 
                         } else {
                             Print.debug("ANDI", "This move didn't work! With this card:");
-                            println(Print.cardToString(getPlayer().getHand().getCardAt(move.getIndexFrom())));
                         }
 
 

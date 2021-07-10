@@ -29,9 +29,9 @@ public class GameResult {
 
     public int getDeclarerIndex() {
 
-        for ( var i = 0; i < players.length; i++ ) {
+        for (var i = 0; i < players.length; i++) {
 
-            if ( players[i] == declarer ) {
+            if (players[i] == declarer) {
 
                 return i;
             }

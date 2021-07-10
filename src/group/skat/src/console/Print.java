@@ -7,7 +7,7 @@ import framework.Player;
 public class Print {
 
 
-    private static final String ACTIVE = "ANDI;MAIK;WARNING;ERROR;CONSOLE";
+    private static final String ACTIVE = "MAIK;WARNING;ERROR;CONSOLE";
 
     public static void debug(String key, Object obj) {
 
@@ -69,7 +69,7 @@ public class Print {
         var hearer = auction.getHearer();
 
         if(hearer == null){
-            return "\n\n\n      Do you want to make the game?\n";
+            return "\n\n\n      Do you want to make the game? (y/n)\n";
         }
 
         var hearerIndex = hearer.getGameIndex();

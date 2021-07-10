@@ -13,6 +13,8 @@ public class SkatSet {
 
     private SkatGame currentGame;
 
+    private boolean isFinished;
+
     /* CONSTRUCTOR */
 
     public SkatSet(int gameAmount, String[] playerNames) {
@@ -25,7 +27,6 @@ public class SkatSet {
 
             players.add(new SkatSetPlayer(name));
         }
-
     }
 
     /* GETTER */
@@ -40,12 +41,17 @@ public class SkatSet {
         return currentGame.getGameResult();
     }
 
+    public boolean isFinished() {
+
+        return isFinished;
+    }
+
     public SkatSetPlayer getSkatSetPlayerAt(int index) {
 
         return players.get(index);
     }
 
-    public SkatPlayer getSkatPlayer(int index) {
+    public SkatPlayer getSkatPlayerAt(int index) {
 
         return currentGame.getPlayerAt(index);
     }
@@ -65,19 +71,17 @@ public class SkatSet {
     /* OTHER */
 
     /** This function returns an array of the 3 players that are playing in the current game. It works based on the assumption that the players shift after every game, if there are more then 3*/
-    private SkatSetPlayer[] playingPlayer(int forGameNo){
+    private SkatSetPlayer[] playingPlayer(int gameNo){
 
         var size = players.size();
-        var modSize = forGameNo % size; // startPlayer index
-
+        var modSize = gameNo % size;
 
         return new SkatSetPlayer[]{players.get(modSize), players.get((modSize + 1) % size), players.get((modSize + 2) % size)};
-
     }
 
     public int currentGameNo() {
 
-        return gameResults.size()-1;
+        return gameResults.size() - 1;
     }
 
     public boolean moveIsValid(GameMove move) {
@@ -103,17 +107,17 @@ public class SkatSet {
 
         gameResults.remove(gameResults.size() - 1);
         currentGame = null;
+
+        startNewGame();
     }
 
     public void gameIsFinished() {
 
         currentGame = null;
+
+        if (gameResults.size() == gameAmount || gameAmount == -1) {
+
+            isFinished = true;
+        }
     }
-
-    public boolean isFinished(){
-
-        return false;
-    }
-
-
 }

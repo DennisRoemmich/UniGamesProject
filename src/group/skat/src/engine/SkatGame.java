@@ -207,7 +207,6 @@ public class SkatGame {
         }
     }
 
-    // TODO: entcomment
     private boolean moveCardIsValid(int indexFrom, int indexTo) {
 
         return getCurrentPlayer().getHand().moveCardIsValid(indexFrom, indexTo);
@@ -332,6 +331,11 @@ public class SkatGame {
                 return !currentPlayersHand.canFollowTrump();
             }
         } else {
+
+            if (currentPlayersHand.getCardAt(cardIndex).getCardColor() == trickColor) {
+
+                return true;
+            }
 
             return !currentPlayersHand.canFollowSuit(trickColor);
         }

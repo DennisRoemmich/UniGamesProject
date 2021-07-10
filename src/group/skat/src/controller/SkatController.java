@@ -35,15 +35,15 @@ public class SkatController extends GameController {
 
     public boolean makeMove(GameMove move) {
 
-        if (!move.getType().isSkatMove()) {
+        if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
-            if (move.getType() == ActionType.NEW_SET && moveIsValid(move)) {
+            if (move.getType() == ActionType.NEW_SET) {
 
                 skatSet = new SkatSet(gameAmount, playerNames);
                 return true;
             }
 
-            if (move.getType() == ActionType.NEW_GAME && moveIsValid(move)) {
+            if (move.getType() == ActionType.NEW_GAME) {
 
                 skatSet.startNewGame();
                 return true;
@@ -62,11 +62,8 @@ public class SkatController extends GameController {
 
                     Print.debug("MAIK", "GAME IS FINISHED");
                     skatSet.gameIsFinished();
-
-                } else {
-
-                    return true;
                 }
+                return true;
             }
             return false;
         }

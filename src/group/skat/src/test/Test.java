@@ -25,6 +25,8 @@ public class Test {
         controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
         controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
+        controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
 
     }
 

@@ -24,6 +24,8 @@ public class SkatPlayer {
 
         isBidding = true;
         isDeclarer = false;
+
+        finalScore = 0;
     }
 
     /* GETTER */
