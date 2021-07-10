@@ -20,7 +20,7 @@
 * ✅ reihenfolge bei declare trump ändern? clubs-spades-hearts-diamonds
 * ✅ currentTrick printen
 * ✅ playCard wird nicht akzeptiert (außer beim ertsen play)
-* ❕ Zeige beendetes Set an
+* ❕ Zeige beendetes Trick an
 * ❕ Übersicht am Spielende
 * StartScreen: Übersicht über Skat(Set)Spieler
 

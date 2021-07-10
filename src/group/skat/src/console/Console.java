@@ -287,7 +287,7 @@ public class Console implements Player {
 
     private boolean playerDidChange(){
 
-        if (game().getCurrentPlayer() == null){
+        if (game() == null || game().getCurrentPlayer() == null){
             return false;
         }
 
