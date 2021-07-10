@@ -48,7 +48,6 @@ public class SkatController extends GameController {
                 skatSet.startNewGame();
                 return true;
             }
-            return false;
 
         } else {
 
@@ -62,11 +61,18 @@ public class SkatController extends GameController {
 
                     Print.debug("MAIK", "GAME IS FINISHED");
                     skatSet.gameIsFinished();
+
+                    if (skatSet.isFinished()) {
+
+                        Print.debug("MAIK", "\n  SET IS FINISHED");
+
+                        skatSet.printSkatSetStats();
+                    }
                 }
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     public boolean moveIsValid(GameMove move) {

@@ -264,8 +264,6 @@ public class SkatGame {
         result.setDeclarer();
         setPlayerTricks();
 
-        Print.debug("MAIK", "Declarer is: " + declarer.getGameIndex());
-
         gamePhase = GamePhase.DECLARING;
     }
 
@@ -314,7 +312,6 @@ public class SkatGame {
         currentRoundNo++;
     }
 
-    // TODO: bei NULL, out of bounce
     private boolean cardPlayIsValid(int cardIndex) {
 
         var trickColor = currentTrick.getColor();
@@ -393,6 +390,7 @@ public class SkatGame {
         currentTrick = new Trick(trump);
     }
 
+    // TODO: comment: gameValue
     private void gameOver() {
 
         gamePhase = GamePhase.ENDED;
@@ -400,6 +398,8 @@ public class SkatGame {
         var trumpLine = declarer.getHand().getTrumpLine();
 
         var finalScore = getWinFactor() * ((trumpLine + getSchneider()) * trump.getTrumpValue());
+
+        Print.debug("MAIK", getWinFactor() + " * ((" + trumpLine + " + " + getSchneider() + ") * " + trump.getTrumpValue() + "))");
 
         declarer.setFinalScore(finalScore);
         result.gameHasEnded();

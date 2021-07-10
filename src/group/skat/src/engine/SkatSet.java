@@ -95,6 +95,7 @@ public class SkatSet {
         return false;
     }
 
+    // TODO: comment: new Game started
     public void startNewGame() {
 
         if (gameResults.size() < gameAmount || gameAmount == -1) {
@@ -102,27 +103,48 @@ public class SkatSet {
             currentGame = new SkatGame();
             gameResults.add(currentGame.getGameResult());
         }
+
+        Print.debug("MAIK", "\n  NEW GAME STARTED");
     }
 
+    // TODO: comment: game aborted
     public void abortGame() {
 
-        Print.debug("MAIK", "Game abortet - new Game started");
+        Print.debug("MAIK", "Game aborted - new Game started");
 
         gameResults.remove(gameResults.size() - 1);
-        currentGame = null;
 
         startNewGame();
     }
 
+    // TODO: comment: finalScore
     public void gameIsFinished() {
 
         Print.debug("MAIK", getPlayingPlayerName(getCurrentGameResult().getDeclarerIndex()) + " gets " + getCurrentGameResult().getGameValue());
 
-        /// currentGame = null;
+        overridePoints();
 
-        if (gameResults.size() == gameAmount || gameAmount == -1) {
+        if (gameResults.size() == gameAmount) {
 
             isFinished = true;
+        }
+    }
+
+    private void overridePoints() {
+
+        var played = playingPlayer(currentGameNo());
+        for (var i = 0; i < played.length; i++) {
+
+            played[i].addToScore(getSkatPlayerAt(i).getFinalScore());
+        }
+
+    }
+
+    public void printSkatSetStats() {
+
+        for (SkatSetPlayer player : players) {
+
+            Print.debug("MAIK", player.getName() + ": " + player.getTotalScore());
         }
     }
 }

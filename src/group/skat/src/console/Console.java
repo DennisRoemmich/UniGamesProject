@@ -135,7 +135,7 @@ public class Console implements Player {
 
 
 
-        }while (move.getConsoleType() != ConsoleActionType.QUIT );
+        } while (move.getConsoleType() != ConsoleActionType.QUIT );
 
     }
 

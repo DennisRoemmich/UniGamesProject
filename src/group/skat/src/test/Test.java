@@ -1,6 +1,7 @@
 package test;
 
 import console.Console;
+import console.Print;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
@@ -9,6 +10,8 @@ import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.GameController;
+
+import java.util.Random;
 
 public class Test {
 
@@ -24,17 +27,26 @@ public class Test {
 
     public void consoleSetUp() {
 
-        controller.makeMove(new SkatMove(ActionType.NEW_GAME));
-    //    controller.makeMove(new SkatMove(ActionType.PASS));
-        controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
-        controller.makeMove(new SkatMove(ActionType.PASS));
-        controller.makeMove(new SkatMove(ActionType.PASS));
-        controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
-        controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
-        controller.makeMove(new SkatMove(ActionType.SORT));
+        for (var g = 0; g < 12; g++) {
 
+            controller.makeMove(new SkatMove(ActionType.NEW_GAME));
+        //    controller.makeMove(new SkatMove(ActionType.PASS));
+            controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+            controller.makeMove(new SkatMove(ActionType.PASS));
+            controller.makeMove(new SkatMove(ActionType.PASS));
+            controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
+        //    controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+            randomTrump();
+            controller.makeMove(new SkatMove(ActionType.SORT));
 
-        var moveNotValid = true;
+            simulatePlaying();
+        }
+
+    }
+
+    private void simulatePlaying() {
+
+        boolean moveNotValid;
 
         do {
 
@@ -47,7 +59,39 @@ public class Test {
             }
 
         } while (controller.getGame().getGamePhase() == GamePhase.PLAYING);
+    }
 
+    private void randomTrump() {
+
+        var rand = new Random();
+
+        switch (rand.nextInt(6)) {
+
+            case 0 -> {
+                controller.makeMove(new SkatMove(new Trump(GameMode.NULL)));
+                Print.debug("MAIK", "Trump: NULL");
+            }
+            case 1 -> {
+                controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+                Print.debug("MAIK", "Trump: GRAND");
+            }
+            case 2 -> {
+                controller.makeMove(new SkatMove(new Trump(CardColor.CLUBS)));
+                Print.debug("MAIK", "Trump: CLUBS");
+            }
+            case 3 -> {
+                controller.makeMove(new SkatMove(new Trump(CardColor.SPADES)));
+                Print.debug("MAIK", "Trump: SPADES");
+            }
+            case 4 -> {
+                controller.makeMove(new SkatMove(new Trump(CardColor.HEARTS)));
+                Print.debug("MAIK", "Trump: HEARTS");
+            }
+            default -> {
+                controller.makeMove(new SkatMove(new Trump(CardColor.DIAMONDS)));
+                Print.debug("MAIK", "Trump: DIAMONDS");
+            }
+        }
     }
 
 
@@ -63,7 +107,7 @@ public class Test {
 
     void andi(){
 
-        consoleSetUp();
+        //consoleSetUp();
         var console = new Console(controller);
 
 

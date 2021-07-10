@@ -41,4 +41,9 @@ public class SkatSetPlayer {
 
         skatPlayer = player;
     }
+
+    public void addToScore(int score) {
+
+        totalScore += score;
+    }
 }

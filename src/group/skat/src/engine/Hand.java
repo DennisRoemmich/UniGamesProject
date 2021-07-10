@@ -387,6 +387,4 @@ public class Hand {
         }
         return false;
     }
-
-    // TODO herz bube zählt bei herz-angabe obwohl herz-queen da ist bei grand
 }
