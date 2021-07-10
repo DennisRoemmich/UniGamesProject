@@ -151,6 +151,8 @@ public class SkatGame {
 
     public void sort() {
 
+        Print.debug("WARNING", "heyho sein Vater");
+
         if (gamePhase == GamePhase.PLAYING) {
 
             players[currentPlayerIndex].getHand().sort(trump);

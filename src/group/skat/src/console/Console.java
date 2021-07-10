@@ -142,6 +142,11 @@ public class Console implements Player {
             return new SkatMove(ConsoleActionType.HELP);
         }
 
+        if (input.equals("s")){
+            Print.debug("WARNING","Heyho");
+            return new SkatMove(ActionType.SORT);
+        }
+
         switch (getState()){
 
             case NOT_STARTED -> consoleMove = new SkatMove(ActionType.NEW_GAME);
@@ -273,7 +278,7 @@ public class Console implements Player {
         int number;
         try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
 
-        if((number >= 1 && number < 11) && state != ConsoleState.DECLARE_TRUMPCOLOR && state != ConsoleState.DECLARE_TRUMPTYPE){
+        if(((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != ConsoleState.DECLARE_TRUMPCOLOR && state != ConsoleState.DECLARE_TRUMPTYPE){
             return true;
         }
 
@@ -283,7 +288,7 @@ public class Console implements Player {
 
             case AUCTION_ASKING, AUCTION_HEARING, GAME_FINISHED ->  input.equals("y") || input.equals("n");
 
-            case DECLARE_SKAT -> (input.equals("a") && indexCardSelected >= 0);
+            case DECLARE_SKAT -> input.equals("a") || (number >= 1 && number < 13) ;
 
             case DECLARE_TRUMPCOLOR -> input.matches("diamond|heart|spade|club");
 

@@ -9,11 +9,11 @@
 
 * Test class
 
-
-
-
-
 `✅ ❕ ❌`
+
+###BUGS
+__
+* Enter `a` in Console at stat -> Crash
 
 ###NOTES
 
