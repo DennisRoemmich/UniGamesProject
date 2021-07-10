@@ -1,5 +1,6 @@
 package controller;
 
+import console.Print;
 import controller.enums.ActionType;
 import engine.SkatGame;
 import engine.SkatSet;
@@ -51,7 +52,23 @@ public class SkatController extends GameController {
 
         } else {
 
-            return skatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move);
+            if (skatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
+
+                if (skatSet.getCurrentGameResult().isAborted()) {
+
+                    skatSet.abortGame();
+
+                } else if (skatSet.getCurrentGameResult().isFinished()) {
+
+                    Print.debug("MAIK", "GAME IS FINISHED");
+                    skatSet.gameIsFinished();
+
+                } else {
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

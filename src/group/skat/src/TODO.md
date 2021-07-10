@@ -7,6 +7,13 @@
 
 * @Maik : Spielabbruch nach 3 mal pass; GameResult nicht auf die Liste!
 
+* StartScreen: Übersicht über Skat(Set)Spieler
+* "do you want to make the game '? (y/n)' statt '!'
+* console.gameloop state entsprechend setzen bei finished und aborted
+* reihenfolge bei declare trump ändern? clubs-spades-hearts-diamonds
+* currentTrick printen
+* playCard wird nicht akzeptiert (außer beim ertsen play)
+
 `✅ ❕ ❌`
 
 ###BUGS

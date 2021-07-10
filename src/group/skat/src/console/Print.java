@@ -7,7 +7,7 @@ import framework.Player;
 public class Print {
 
 
-    private static final String ACTIVE = "ERROR;CONSOLE";
+    private static final String ACTIVE = "MAIK;WARNING;ERROR;CONSOLE"; //SORT_TEST
 
     public static void debug(String key, Object obj) {
 

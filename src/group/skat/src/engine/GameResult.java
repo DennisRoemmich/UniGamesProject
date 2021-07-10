@@ -8,6 +8,9 @@ public class GameResult {
     private SkatPlayer declarer;
     private Trump trump;
 
+    private boolean isAborted;
+    private boolean isFinished;
+
     /* CONSTRUCTOR */
 
     public GameResult(SkatPlayer[] players, SkatPlayer declarer, Trump trump) {
@@ -17,6 +20,9 @@ public class GameResult {
 
         this.declarer = declarer;
         this.trump = trump;
+
+        isAborted = false;
+        isFinished = false;
     }
 
     /* GETTER */
@@ -38,6 +44,16 @@ public class GameResult {
         return trump;
     }
 
+    public boolean isAborted() {
+
+        return isAborted;
+    }
+
+    public boolean isFinished() {
+
+        return isFinished;
+    }
+
     /* ELSE */
 
     public void gameHasEnded() {
@@ -46,5 +62,11 @@ public class GameResult {
 
             points[i] = players[i].getFinalScore();
         }
+        isFinished = true;
+    }
+
+    public void setAborted(boolean isAborted) {
+
+        this.isAborted = isAborted;
     }
 }

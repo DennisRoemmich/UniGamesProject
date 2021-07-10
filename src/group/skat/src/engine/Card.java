@@ -44,7 +44,7 @@ public class Card {
         var colorStrength = this.color.getColorStrength(trump, color);
         var valueStrength = this.value.getValueStrength(trump);
 
-        Print.debug("WARNING", "colorS: " + colorStrength + " valueS: " + valueStrength);
+        Print.debug("SORT_TEST", "colorS: " + colorStrength + " valueS: " + valueStrength);
 
         return colorStrength + valueStrength;
     }

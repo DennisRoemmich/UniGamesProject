@@ -175,7 +175,7 @@ public class Console implements Player {
                 consoleMove = new SkatMove(trump);
             }
             case DECLARE_TRUMPTYPE -> {
-                GameMode mode = GameMode.valueOf(input.toUpperCase());
+                var mode = GameMode.valueOf(input.toUpperCase());
                 if (mode != GameMode.SUIT) {
                     var trump = new Trump(GameMode.valueOf(input.toUpperCase()));
                     consoleMove = new SkatMove(trump);
@@ -188,7 +188,7 @@ public class Console implements Player {
 
             case GAME_FINISHED -> {
 
-                if( input == "y"){
+                if(input.equals("y")){
                     consoleMove = new SkatMove(ActionType.NEW_GAME);
                 } else {
                     consoleMove = new SkatMove(ConsoleActionType.QUIT);

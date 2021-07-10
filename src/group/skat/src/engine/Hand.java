@@ -106,36 +106,23 @@ public class Hand {
 
         cards[index] = null;
 
-        for (int i = index; i < cards.length; i++) {
+        if (index < cards.length - 3) {
 
-            cards[i] = cards[i + 1];
+            for (var i = index; i <= cards.length - 3; i++) {
+
+                swap(i, i + 1);
+            }
+            cards[cards.length - 2] = null;
         }
     }
 
     public void sort(Trump trump) {
 
-        Print.debug("WARNING", "sort in Hand entered");
-
-        Print.debug("WARNING", cards[0].getStrength(trump, null) + ", " +
-                cards[1].getStrength(trump, null) + ", " +
-                cards[2].getStrength(trump, null) + ", " +
-                cards[3].getStrength(trump, null) + ", " +
-                cards[4].getStrength(trump, null) + ", " +
-                cards[5].getStrength(trump, null) + ", " +
-                cards[6].getStrength(trump, null) + ", " +
-                cards[7].getStrength(trump, null) + ", " +
-                cards[8].getStrength(trump, null) + ", " +
-                cards[9].getStrength(trump, null) + ", ");
-
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < cards.length - 2; i++) {
 
             var maxCardIndex = i;
 
-            for (var j = i + 1; j < 10; j++) {
-
-                Print.debug("WARNING", "second for-loop " + maxCardIndex + ", " + j);
-
-                Print.debug("WARNING", cards[j].getStrength(trump, null) + " vs " + cards[maxCardIndex].getStrength(trump, null));
+            for (var j = i + 1; j < cards.length - 2; j++) {
 
                 if (cards[j] != null && cards[maxCardIndex] != null
                         && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null)) {
@@ -149,38 +136,9 @@ public class Hand {
 
     private void swap(int index1, int index2) {
 
-        Print.debug("WARNING", "index1: " + cards[index1].getColorValue() + " " + cards[index1].getPoints() + " index2: " + cards[index1].getColorValue() + " " + cards[index1].getPoints());
-
         var help = cards[index1];
         cards[index1] = cards[index2];
         cards[index2] = help;
-
-        Print.debug("WARNING", "swaped: " + index1 + " and " + index2);
-        Print.debug("WARNING", "index1: " + cards[index1].getColorValue() + " " + cards[index1].getPoints() + " index2: " + cards[index1].getColorValue() + " " + cards[index1].getPoints());
-    }
-
-    public boolean canFollowTrump() {
-
-        for ( Card card : cards ) {
-
-            if ( card.isTrump(trump) ) {
-
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean canFollowSuit(CardColor color) {
-
-        for ( Card card : cards ) {
-
-            if ( card.getCardColor() == color && !card.isTrump(trump) ) {
-
-                return true;
-            }
-        }
-        return false;
     }
 
     public void setTrumpLine() {
@@ -236,7 +194,7 @@ public class Hand {
 
     private int setJacks(boolean clubsJack, boolean spadesJack, boolean heartsJack, boolean diamondsJack) {
 
-        var jacks = 0;
+        var jacks = 1;
 
         if ( clubsJack == spadesJack ) {
 
@@ -254,16 +212,11 @@ public class Hand {
 
                 jacks = 2;
             }
-        } else {
-
-            jacks = 1;
         }
         return jacks;
     }
 
     private int setFurtherTrumps(boolean diamondsJack) {
-
-        var trumps = 0;
 
         var trumpAce = false;
         var trumpTen = false;
@@ -277,19 +230,50 @@ public class Hand {
 
             if (card.isTrump(trump) && card.getCardValue() != CardValue.JACK) {
 
-                switch (card.getCardValue()) {
+                if (card.getCardValue() == CardValue.ACE) {
 
-                    case ACE -> trumpAce = true;
-                    case TEN -> trumpTen = true;
-                    case KING -> trumpKing = true;
-                    case QUEEN -> trumpQueen = true;
-                    case NINE -> trumpNine = true;
-                    case EIGHT -> trumpEight = true;
-                    case SEVEN -> trumpSeven = true;
-                    default -> Print.debug("ERROR", "jack in trumpCheck, somehow?!");
+                    trumpAce = true;
+
+                } else if (card.getCardValue() == CardValue.TEN) {
+
+                    trumpTen = true;
+
+                } else if (card.getCardValue() == CardValue.KING) {
+
+                    trumpKing = true;
+
+                } else if (card.getCardValue() == CardValue.QUEEN) {
+
+                    trumpQueen = true;
+
+                } else if (card.getCardValue() == CardValue.NINE) {
+
+                    trumpNine = true;
+
+                } else if (card.getCardValue() == CardValue.EIGHT) {
+
+                    trumpEight = true;
+
+                } else if (card.getCardValue() == CardValue.SEVEN) {
+
+                    trumpSeven = true;
                 }
             }
         }
+
+        var trumps = setFurtherTrumpsUno(diamondsJack, trumpAce, trumpTen, trumpKing);
+
+        if (trumps == 3) {
+
+            trumps += setFurtherTrumpsDos(trumpKing, trumpQueen, trumpNine, trumpEight, trumpSeven);
+        }
+
+        return trumps;
+    }
+
+    private int setFurtherTrumpsUno(boolean diamondsJack, boolean trumpAce, boolean trumpTen, boolean trumpKing) {
+
+        var trumps = 0;
 
         if (diamondsJack == trumpAce) {
 
@@ -297,25 +281,35 @@ public class Hand {
 
                 if (trumpTen == trumpKing) {
 
-                    if (trumpKing == trumpQueen) {
+                    trumps = 3;
 
-                        if (trumpQueen == trumpNine) {
+                } else {
 
-                            if (trumpNine == trumpEight) {
+                    trumps = 2;
+                }
+            } else {
 
-                                if (trumpEight == trumpSeven) {
+                trumps = 1;
+            }
+        }
 
-                                    trumps = 7;
+        return trumps;
+    }
 
-                                } else {
-                                    trumps = 6;
-                                }
-                            } else {
-                                trumps = 5;
-                            }
-                        } else {
-                            trumps = 4;
-                        }
+    private int setFurtherTrumpsDos(boolean trumpKing, boolean trumpQueen, boolean trumpNine, boolean trumpEight, boolean trumpSeven) {
+
+        var trumps = 0;
+
+        if (trumpKing == trumpQueen) {
+
+            if (trumpQueen == trumpNine) {
+
+                if (trumpNine == trumpEight) {
+
+                    if (trumpEight == trumpSeven) {
+
+                        trumps = 4;
+
                     } else {
                         trumps = 3;
                     }
@@ -331,12 +325,7 @@ public class Hand {
 
     public boolean moveCardIsValid(int indexFrom, int indexTo) {
 
-        return indexFrom < 10 && indexTo < 10 && indexFrom != indexTo;
-    }
-
-    public boolean moveSkatCardIsValid(int indexFrom, int indexTo) {
-
-        return indexFrom < 12 && indexTo < 12 && indexFrom != indexTo;
+        return cards[indexFrom] != null && cards[indexTo] != null && indexFrom != indexTo;
     }
 
     public void moveCardOnHand(int indexFrom, int indexTo) {
@@ -353,6 +342,7 @@ public class Hand {
 
                 swap(i, i + 1);
             }
+
         } else {
 
             for (var i = indexFrom; i > indexTarget; i--) {
@@ -368,20 +358,33 @@ public class Hand {
 
             moveCardOnHand(indexFrom, indexTo);
 
-        } else if (indexFrom > 9 && indexTo > 9) {
-
-            swap(10, 11);
-
-        } else if (indexFrom > 9) {
-
-            addCardAt(indexFrom, cards[indexFrom]);
-
-            cards[indexFrom] = null;
-
         } else {
 
-            addCardAt(indexTo, cards[indexFrom]);
-            removeCard(indexFrom);
+            swap(indexFrom, indexTo);
         }
+    }
+
+    public boolean canFollowTrump() {
+
+        for (Card card : cards) {
+
+            if (card.isTrump(trump)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canFollowSuit(CardColor color) {
+
+        for (var i = 0; i < cards.length - 2; i++) {
+
+            if (cards[i].getCardColor() == color && !cards[i].isTrump(trump)) {
+
+                return true;
+            }
+        }
+        return false;
     }
 }

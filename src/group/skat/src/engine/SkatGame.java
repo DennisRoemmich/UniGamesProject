@@ -41,6 +41,8 @@ public class SkatGame {
         currentRoundNo = -1;
         currentLeaderIndex = 0;
 
+        trump = new Trump();
+
         players = new SkatPlayer[3];
         for (var i = 0; i < players.length; i++) {
 
@@ -50,7 +52,6 @@ public class SkatGame {
         cardStack = new ArrayList<>();
         skat = new Card[2];
         auction = new Auction(players);
-        trump = new Trump();
         result = new GameResult(players, declarer, trump);
         currentTrick = new Trick(trump);
 
@@ -117,7 +118,6 @@ public class SkatGame {
             for (CardValue value : CardValue.values()) {
 
                 cardStack.add(new Card(color, value));
-            //    Print.debug("WARNING", color.getCardColorValue() + ", " + value.getCardValue()); TODO: delete
             }
         }
     }
@@ -145,23 +145,7 @@ public class SkatGame {
         var randomCard = cardStack.get(randomIndex);
         cardStack.remove(randomIndex);
 
-    //    Print.debug("WARNING", randomCard.getColorValue() + ", " + randomCard.getPoints()); TODO: delete
-
         return randomCard;
-    }
-
-    public void sort() {
-
-        Print.debug("WARNING", "heyho sein Vater");
-
-        if (gamePhase == GamePhase.PLAYING) {
-
-            getCurrentPlayer().getHand().sort(trump);
-
-        } else {
-
-            getCurrentPlayer().getHand().sort(new Trump(GameMode.GRAND));
-        }
     }
 
     public boolean moveIsValid(SkatMove move) {
@@ -174,11 +158,11 @@ public class SkatGame {
 
             case RAISE_OR_ACCEPT, PASS -> gamePhase == GamePhase.AUCTION;
 
-            case DROP_SKAT -> gamePhase == GamePhase.DECLARING && skatIsValid() && !declarer.getTricks().skatIsDropped();
+            case DROP_SKAT -> gamePhase == GamePhase.DECLARING && !declarer.getTricks().skatIsDropped();
 
-            case SET_TRUMP -> declarer.getTricks().skatIsDropped() && currentRoundNo == -1;
+            case SET_TRUMP -> gamePhase == GamePhase.DECLARING && declarer.getTricks().skatIsDropped();
 
-            case PLAY_CARD -> cardPlayIsValid(move.getIndexFrom());
+            case PLAY_CARD -> gamePhase == GamePhase.PLAYING && cardPlayIsValid(move.getIndexFrom());
 
             default -> false;
         };
@@ -192,11 +176,11 @@ public class SkatGame {
 
                 case SORT -> sort();
 
+                case ON_HAND, ON_SKATHAND -> moveCard(move.getIndexFrom(), move.getIndexTo());
+
                 case RAISE_OR_ACCEPT -> raiseOrAcceptBid();
 
                 case PASS -> passBid();
-
-                case ON_HAND, ON_SKATHAND -> moveCard(move.getIndexFrom(), move.getIndexTo());
 
                 case DROP_SKAT -> dropSkat();
 
@@ -211,16 +195,23 @@ public class SkatGame {
         return false;
     }
 
-    private boolean moveCardIsValid(int indexFrom, int indexTo) {
+    public void sort() {
 
-        if (gamePhase == GamePhase.DECLARING) {
+        if (gamePhase == GamePhase.PLAYING) {
 
-            return getCurrentPlayer().getHand().moveSkatCardIsValid(indexFrom, indexTo);
+            getCurrentPlayer().getHand().sort(trump);
 
         } else {
 
-            return getCurrentPlayer().getHand().moveCardIsValid(indexFrom, indexTo);
+            getCurrentPlayer().getHand().sort(new Trump(GameMode.GRAND));
         }
+    }
+
+    // TODO: entcomment
+    private boolean moveCardIsValid(int indexFrom, int indexTo) {
+
+        return getCurrentPlayer().getHand().moveCardIsValid(indexFrom, indexTo);
+
     }
 
     private void moveCard(int indexFrom, int indexTo) {
@@ -235,7 +226,8 @@ public class SkatGame {
         }
     }
 
-    public boolean skatIsDropped(){
+    public boolean skatIsDropped() {
+
         return declarer != null && declarer.getTricks().skatIsDropped();
     }
 
@@ -260,6 +252,13 @@ public class SkatGame {
     }
 
     private void finishAuction() {
+
+        if (auction.passedOut()) {
+
+            gamePhase = GamePhase.ABORTED;
+            result.setAborted(true);
+            return;
+        }
 
         declarer = auction.getAuctionWinner();
         setPlayerTricks();
@@ -290,18 +289,6 @@ public class SkatGame {
 
     }
 
-    private boolean skatIsValid() {
-
-        for (Card card : skat) {
-
-            if (card == null) {
-
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void dropSkat() {
 
         declarer.getTricks().addSkat(skat);
@@ -314,6 +301,11 @@ public class SkatGame {
         this.trump.setColor(trump.getColor());
 
         declarer.getHand().setTrumpLine();
+
+        for (var i = declarer.getHand().getSize() - 2; i < declarer.getHand().getSize(); i++) {
+
+            declarer.getHand().removeCard(i);
+        }
 
         gamePhase = GamePhase.PLAYING;
         currentRoundNo++;
@@ -386,6 +378,8 @@ public class SkatGame {
     }
 
     private void gameOver() {
+
+        gamePhase = GamePhase.ENDED;
 
         var trumpLine = declarer.getHand().getTrumpLine();
 

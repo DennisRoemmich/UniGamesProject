@@ -37,6 +37,11 @@ public class SkatSet {
         return currentGame;
     }
 
+    public GameResult getCurrentGameResult() {
+
+        return currentGame.getGameResult();
+    }
+
     public SkatSetPlayer getSkatSetPlayerAt(int index) {
 
         return players.get(index);
@@ -50,10 +55,9 @@ public class SkatSet {
     public String getSkatPlayerName(int atIndex){
 
         return players.get(atIndex).getName();
-
     }
 
-    /** This funtion returns the name at a given index of the players that are actually playing right now*/
+    /** This function returns the name at a given index of the players that are actually playing right now*/
     public String getPlayingPlayerName(int atIndex){
 
         return playingPlayer(getCurrentGameNo())[atIndex].getName();
@@ -72,13 +76,14 @@ public class SkatSet {
 
     }
 
-    public int getCurrentGameNo(){
+    public int getCurrentGameNo() {
+
         return gameResults.size()-1;
     }
 
     public boolean moveIsValid(GameMove move) {
 
-        if ( move.getType() == ActionType.NEW_GAME ) {
+        if (move.getType() == ActionType.NEW_GAME) {
 
             return gameResults.size() < gameAmount || gameAmount == -1;
 
@@ -88,11 +93,22 @@ public class SkatSet {
 
     public void startNewGame() {
 
-        if ( gameResults.size() < gameAmount || gameAmount == -1 ) {
+        if (gameResults.size() < gameAmount || gameAmount == -1) {
 
             currentGame = new SkatGame();
             gameResults.add(currentGame.getGameResult());
         }
+    }
+
+    public void abortGame() {
+
+        gameResults.remove(gameResults.size() - 1);
+        currentGame = null;
+    }
+
+    public void gameIsFinished() {
+
+        currentGame = null;
     }
 
 }

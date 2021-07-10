@@ -47,20 +47,10 @@ public class Auction {
 
     public SkatPlayer getQuestioner() {
 
-        for(var player : players) {
+        for (var player : players) {
 
             if (player.isAsking()) {
-                return player;
-            }
-        }
-        return null;
-    }
 
-    public SkatPlayer getInactivePlayer() {
-
-        for(var player : players) {
-
-            if (player != getQuestioner() && player != getHearer()) {
                 return player;
             }
         }
@@ -81,6 +71,18 @@ public class Auction {
 
             return rearHand;
         }
+    }
+
+    public SkatPlayer getInactivePlayer() {
+
+        for (var player : players) {
+
+            if (player != getQuestioner() && player != getHearer()) {
+
+                return player;
+            }
+        }
+        return null;
     }
 
     public SkatPlayer getAuctionWinner() {
@@ -122,7 +124,7 @@ public class Auction {
 
         if ( last == foreHand ) {
 
-            if ( middleHand.isBidding() ) {
+            if ( middleHand.isBidding() && foreHand.isBidding()) {
 
                 currentAuctioneer = middleHand;
 
@@ -133,13 +135,9 @@ public class Auction {
 
         } else if ( last == middleHand ) {
 
-            if ( foreHand.isBidding() ) {
+            if ( foreHand.isBidding() && middleHand.isBidding() ) {
 
-                if( middleHand.isBidding() ){
-                    currentAuctioneer = foreHand;
-                } else {
-                    currentAuctioneer = rearHand;
-                }
+                currentAuctioneer = foreHand;
 
             } else {
 
