@@ -1,5 +1,6 @@
 package engine;
 
+import console.Print;
 import engine.enums.CardColor;
 import engine.enums.CardValue;
 
@@ -42,6 +43,8 @@ public class Card {
 
         var colorStrength = this.color.getColorStrength(trump, color);
         var valueStrength = this.value.getValueStrength(trump);
+
+        Print.debug("WARNING", "colorS: " + colorStrength + " valueS: " + valueStrength);
 
         return colorStrength + valueStrength;
     }

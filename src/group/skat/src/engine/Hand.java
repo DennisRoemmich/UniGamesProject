@@ -114,11 +114,28 @@ public class Hand {
 
     public void sort(Trump trump) {
 
-        for (var i = 0; i < cards.length; i++) {
+        Print.debug("WARNING", "sort in Hand entered");
+
+        Print.debug("WARNING", cards[0].getStrength(trump, null) + ", " +
+                cards[1].getStrength(trump, null) + ", " +
+                cards[2].getStrength(trump, null) + ", " +
+                cards[3].getStrength(trump, null) + ", " +
+                cards[4].getStrength(trump, null) + ", " +
+                cards[5].getStrength(trump, null) + ", " +
+                cards[6].getStrength(trump, null) + ", " +
+                cards[7].getStrength(trump, null) + ", " +
+                cards[8].getStrength(trump, null) + ", " +
+                cards[9].getStrength(trump, null) + ", ");
+
+        for (var i = 0; i < 10; i++) {
 
             var maxCardIndex = i;
 
-            for (var j = i + 1; j < cards.length; j++) {
+            for (var j = i + 1; j < 10; j++) {
+
+                Print.debug("WARNING", "second for-loop " + maxCardIndex + ", " + j);
+
+                Print.debug("WARNING", cards[j].getStrength(trump, null) + " vs " + cards[maxCardIndex].getStrength(trump, null));
 
                 if (cards[j] != null && cards[maxCardIndex] != null
                         && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null)) {
@@ -132,9 +149,14 @@ public class Hand {
 
     private void swap(int index1, int index2) {
 
+        Print.debug("WARNING", "index1: " + cards[index1].getColorValue() + " " + cards[index1].getPoints() + " index2: " + cards[index1].getColorValue() + " " + cards[index1].getPoints());
+
         var help = cards[index1];
         cards[index1] = cards[index2];
         cards[index2] = help;
+
+        Print.debug("WARNING", "swaped: " + index1 + " and " + index2);
+        Print.debug("WARNING", "index1: " + cards[index1].getColorValue() + " " + cards[index1].getPoints() + " index2: " + cards[index1].getColorValue() + " " + cards[index1].getPoints());
     }
 
     public boolean canFollowTrump() {

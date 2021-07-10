@@ -26,7 +26,6 @@ public class SkatGame {
     private GameMode gameMode;
     private Trump trump;
 
-    private int currentPlayerIndex;
     private int currentRoundNo;
     private int currentLeaderIndex;
 
@@ -67,7 +66,6 @@ public class SkatGame {
     }
 
     public SkatPlayer getCurrentPlayer() {
-
 
         return switch (gamePhase) {
 
@@ -119,6 +117,7 @@ public class SkatGame {
             for (CardValue value : CardValue.values()) {
 
                 cardStack.add(new Card(color, value));
+            //    Print.debug("WARNING", color.getCardColorValue() + ", " + value.getCardValue()); TODO: delete
             }
         }
     }
@@ -146,6 +145,8 @@ public class SkatGame {
         var randomCard = cardStack.get(randomIndex);
         cardStack.remove(randomIndex);
 
+    //    Print.debug("WARNING", randomCard.getColorValue() + ", " + randomCard.getPoints()); TODO: delete
+
         return randomCard;
     }
 
@@ -155,11 +156,11 @@ public class SkatGame {
 
         if (gamePhase == GamePhase.PLAYING) {
 
-            players[currentPlayerIndex].getHand().sort(trump);
+            getCurrentPlayer().getHand().sort(trump);
 
         } else {
 
-            players[currentPlayerIndex].getHand().sort(new Trump(GameMode.GRAND));
+            getCurrentPlayer().getHand().sort(new Trump(GameMode.GRAND));
         }
     }
 
@@ -226,11 +227,11 @@ public class SkatGame {
 
         if (gamePhase == GamePhase.DECLARING) {
 
-            players[currentPlayerIndex].getHand().moveCardOnSkatHand(indexFrom, indexTo);
+            getCurrentPlayer().getHand().moveCardOnSkatHand(indexFrom, indexTo);
 
         } else {
 
-            players[currentPlayerIndex].getHand().moveCardOnHand(indexFrom, indexTo);
+            getCurrentPlayer().getHand().moveCardOnHand(indexFrom, indexTo);
         }
     }
 

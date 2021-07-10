@@ -23,11 +23,6 @@ public enum CardColor {
 
     public int getColorStrength(Trump trump, CardColor trickColor) {
 
-        if (trump.getGameMode() != GameMode.SUIT){
-
-            return value;
-        }
-
         var clubsValue = 30;
         var spadesValue = 20;
         var heartsValue = 10;
@@ -53,22 +48,24 @@ public enum CardColor {
             }
         }
 
-        if (trump.getColor() == CLUBS) {
+        if (trump.getGameMode() == GameMode.SUIT) {
 
-            clubsValue = 50;
+            if (trump.getColor() == CLUBS) {
 
-        } else if (trump.getColor() == SPADES) {
+                clubsValue = 50;
 
-            spadesValue = 50;
+            } else if (trump.getColor() == SPADES) {
 
-        } else if (trump.getColor() == HEARTS) {
+                spadesValue = 50;
 
-            heartsValue = 50;
+            } else if (trump.getColor() == HEARTS) {
 
-        } else if (trump.getColor() == DIAMONDS) {
+                heartsValue = 50;
 
-            diamondsValue = 50;
+            } else if (trump.getColor() == DIAMONDS) {
 
+                diamondsValue = 50;
+            }
         }
 
         return switch ( this ) {
@@ -91,7 +88,5 @@ public enum CardColor {
             case DIAMONDS -> "·♦·️";
 
         };
-
     }
-
 }
