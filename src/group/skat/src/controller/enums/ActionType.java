@@ -8,7 +8,7 @@ public enum ActionType {
     RAISE_OR_ACCEPT,
     PASS,
     ON_HAND,
-    ON_SKATHAND, // TODO: Discuss: we don't need skat_to_hand and hand_to_skat and if we do, we'd also need on_skat. Just see Skat as Hand 11 & 12.
+    ON_SKATHAND,
     DROP_SKAT,
     SET_TRUMP,
     PLAY_CARD;

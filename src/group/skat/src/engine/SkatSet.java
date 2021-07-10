@@ -1,9 +1,7 @@
 package engine;
 
 import controller.GameMove;
-import controller.SkatMove;
 import controller.enums.ActionType;
-import console.Print;
 
 import java.util.ArrayList;
 
@@ -60,7 +58,7 @@ public class SkatSet {
     /** This function returns the name at a given index of the players that are actually playing right now*/
     public String getPlayingPlayerName(int atIndex){
 
-        return playingPlayer(getCurrentGameNo())[atIndex].getName();
+        return playingPlayer(currentGameNo())[atIndex].getName();
     }
 
 
@@ -69,14 +67,15 @@ public class SkatSet {
     /** This function returns an array of the 3 players that are playing in the current game. It works based on the assumption that the players shift after every game, if there are more then 3*/
     private SkatSetPlayer[] playingPlayer(int forGameNo){
 
-        var mod3 = forGameNo % 3;
         var size = players.size();
+        var modSize = forGameNo % size; // startPlayer index
 
-        return new SkatSetPlayer[]{players.get(mod3 % size), players.get((mod3 + 1) % size), players.get((mod3 + 2) % size)};
+
+        return new SkatSetPlayer[]{players.get(modSize), players.get((modSize + 1) % size), players.get((modSize + 2) % size)};
 
     }
 
-    public int getCurrentGameNo() {
+    public int currentGameNo() {
 
         return gameResults.size()-1;
     }
@@ -110,5 +109,11 @@ public class SkatSet {
 
         currentGame = null;
     }
+
+    public boolean isFinished(){
+
+        return false;
+    }
+
 
 }

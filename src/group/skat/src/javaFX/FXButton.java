@@ -1,14 +1,21 @@
 package javaFX;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+
 public class FXButton {
+
+    public static FXController controller;
 
     ImageView imageView;
 
     Image imgDefault;
     Image imgHighlighted;
+
+    Label label;
 
     /* CONSTRUCTOR */
 
@@ -26,6 +33,13 @@ public class FXButton {
         this.imgDefault = imgDefault;
 
     }
+
+    public FXButton(Label label){
+
+
+
+    }
+
 
     /* SETTER */
 

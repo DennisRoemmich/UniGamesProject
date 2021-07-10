@@ -1,8 +1,38 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="javaFX.FXController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="javaFX.FXController">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: darkblue;">
+         <children>
+            <AnchorPane fx:id="anchor_DebugView" layoutX="91.0" layoutY="828.0" prefHeight="216.0" prefWidth="384.0" style="-fx-background-color: orange; -fx-opacity: 0.8; -fx-border-radius: 5; -fx-border-width: 4; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <Label fx:id="label_WindowSize" alignment="TOP_LEFT" layoutX="32.0" layoutY="32.0" prefHeight="61.0" prefWidth="334.0" text="WINDOW     height: 0     width: 0" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="28.0">
+                     <font>
+                        <Font name="Avenir Book" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Label fx:id="label_ShowHideDebugView" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showHidedebugView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 4; -fx-opacity: 0.7;" text="⌗" textFill="#5c5c5c" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font name="Avenir Book" size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
 </GridPane>

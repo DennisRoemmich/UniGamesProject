@@ -1,6 +1,6 @@
-package console.enums;
+package javaFX.enums;
 
-public enum ConsoleState {
+public enum GUIState {
 
     NOT_STARTED,
     AUCTION_WATCHING,
@@ -12,6 +12,8 @@ public enum ConsoleState {
     DECLARE_TRUMPCOLOR,
     PLAYING_YOUR_MOVE,
     PLAYING_NOT_YOUR_MOVE,
-    GAME_FINISHED;
+    GAME_ABORTED,
+    GAME_FINISHED,
+    SET_FINISHED;
 
 }

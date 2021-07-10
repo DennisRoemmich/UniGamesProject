@@ -22,8 +22,8 @@ public class Test {
     public void consoleSetUp() {
 
         controller.makeMove(new SkatMove(ActionType.NEW_GAME));
-        controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+        controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.PASS));
 
     }
@@ -41,7 +41,9 @@ public class Test {
 
     void andi(){
 
+        consoleSetUp();
         var console = new Console(controller);
+
 
 
     }

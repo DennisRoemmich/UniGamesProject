@@ -6,14 +6,25 @@ import test.Test;
 
 public class SkatLauncher {
 
+    private static final boolean FX_LAUNCHER = false;
+
     public static void main(String[] args){
 
-        // var fxLauncher = new FXLauncher();
-        // fxLauncher.launchFX();
+        // TODO: make arguments decide whether console or FX is opened
 
         var controller = new SkatController(12, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
-        var test = new Test(controller);
-        test.mainTest();
+
+        if( FX_LAUNCHER ){
+
+            var fxLauncher = new FXLauncher();
+            fxLauncher.launchFX(controller);
+
+        } else {
+
+            var test = new Test(controller);
+            test.mainTest();
+
+        }
 
     }
 

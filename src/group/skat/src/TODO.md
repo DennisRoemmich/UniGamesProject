@@ -8,7 +8,7 @@
 * @Maik : Spielabbruch nach 3 mal pass; GameResult nicht auf die Liste!
 
 * StartScreen: Übersicht über Skat(Set)Spieler
-* "do you want to make the game '? (y/n)' statt '!'
+* KONSOLE
 * console.gameloop state entsprechend setzen bei finished und aborted
 * reihenfolge bei declare trump ändern? clubs-spades-hearts-diamonds
 * currentTrick printen
@@ -19,6 +19,10 @@
 ###BUGS
 __
 * -
+
+###MAYDO
+
+* Durch klicken: Karten vertauschen; Durch ziehen, Karten "einfügen"
 
 ###NOTES
 

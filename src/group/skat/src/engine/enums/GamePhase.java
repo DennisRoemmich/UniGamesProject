@@ -7,5 +7,5 @@ public enum GamePhase {
     DECLARING,
     PLAYING,
     ENDED,
-    ABORTED
+    ABORTED;
 }

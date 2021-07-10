@@ -1,7 +1,7 @@
 package console;
 
 import console.enums.ConsoleActionType;
-import console.enums.ConsoleState;
+import javaFX.enums.GUIState;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
@@ -113,11 +113,22 @@ public class Console implements Player {
                     case CARD_SELECTION -> indexCardSelected = move.getIndexFrom();
 
                     case SKATMOVE -> {
-                        controller.makeMove(move);
+
+                        if( controller.makeMove(move) ){
+                            Print.debug("ANDI", "This move worked!");
+
+                        } else {
+                            Print.debug("ANDI", "This move didn't work! With this card:");
+                            println(Print.cardToString(getPlayer().getHand().getCardAt(move.getIndexFrom())));
+                        }
+
+
                         indexCardSelected = -1;
                     }
 
                     case DECLARE_SUIT -> suitGame = true;
+
+                    case QUIT -> { }
 
                     default -> throw new IllegalStateException("Unexpected value: " + move.getConsoleType());
                 }
@@ -171,7 +182,7 @@ public class Console implements Player {
             case DECLARE_SKAT -> consoleMove = new SkatMove(ActionType.DROP_SKAT);
 
             case DECLARE_TRUMPCOLOR -> {
-                var trump = new Trump(CardColor.valueOf((input + "s").toUpperCase()));
+                var trump = new Trump(CardColor.valueOf((input).toUpperCase()));
                 consoleMove = new SkatMove(trump);
             }
             case DECLARE_TRUMPTYPE -> {
@@ -224,11 +235,11 @@ public class Console implements Player {
         try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
 
 
-        if(input.isEmpty() || getState() == ConsoleState.NOT_STARTED){
+        if(input.isEmpty() || getState() == GUIState.NOT_STARTED){
             input = "x";
         }
 
-        if(!input.matches("diamond|heart|spade|club|suit|grand|null") && number == 0){
+        if(!input.matches("diamonds|hearts|spades|clubs|suit|grand|null") && number == 0){
             input = String.valueOf(input.charAt(0));
         }
 
@@ -247,7 +258,7 @@ public class Console implements Player {
         int number;
         try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
 
-        if(((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != ConsoleState.DECLARE_TRUMPCOLOR && state != ConsoleState.DECLARE_TRUMPTYPE){
+        if(((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != GUIState.DECLARE_TRUMPCOLOR && state != GUIState.DECLARE_TRUMPTYPE){
             return true;
         }
 
@@ -261,7 +272,7 @@ public class Console implements Player {
 
             case DECLARE_SKAT -> input.equals("a") || (number >= 1 && number < 13) ;
 
-            case DECLARE_TRUMPCOLOR -> input.matches("diamond|heart|spade|club");
+            case DECLARE_TRUMPCOLOR -> input.matches("diamonds|hearts|spades|clubs");
 
             case DECLARE_TRUMPTYPE -> input.matches("suit|grand|null");
 
@@ -352,8 +363,8 @@ public class Console implements Player {
                         
                         Sweet! You did choose suit. Choose your color:
                         
-                             Diamond     ·     Heart     ·     Spade     ·     Club
-                                ◈                ♥               ♠               ♣
+                             Diamonds     ·     Hearts    ·     Spades     ·      Clubs
+                             ♦      ♦           ♥    ♥          ♠    ♠            ♣   ♣
                              
                         """);
 
@@ -373,26 +384,26 @@ public class Console implements Player {
 
     }
 
-    private ConsoleState getState(){
+    private GUIState getState(){
 
         if(game() == null){
-            return ConsoleState.NOT_STARTED;
+            return GUIState.NOT_STARTED;
         }
 
         switch ( game().getGamePhase() ){
 
             case NOT_STARTED -> {
-                return ConsoleState.NOT_STARTED;
+                return GUIState.NOT_STARTED;
             }
             case AUCTION -> {
                 if ( game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
-                    return ConsoleState.AUCTION_ASKING;
+                    return GUIState.AUCTION_ASKING;
                 }
                 if ( game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
-                    return ConsoleState.AUCTION_HEARING;
+                    return GUIState.AUCTION_HEARING;
                 }
 
-                return ConsoleState.AUCTION_WATCHING;
+                return GUIState.AUCTION_WATCHING;
 
             }
             case DECLARING -> {
@@ -400,12 +411,12 @@ public class Console implements Player {
                 if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()){
 
                     if (!game().skatIsDropped()){
-                        return ConsoleState.DECLARE_SKAT;
+                        return GUIState.DECLARE_SKAT;
                     } else {
                         if(suitGame){
-                            return ConsoleState.DECLARE_TRUMPCOLOR;
+                            return GUIState.DECLARE_TRUMPCOLOR;
                         } else {
-                            return ConsoleState.DECLARE_TRUMPTYPE;
+                            return GUIState.DECLARE_TRUMPTYPE;
                         }
                     }
 
@@ -415,15 +426,30 @@ public class Console implements Player {
             case PLAYING -> {
 
                 if(game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()){
-                    return ConsoleState.PLAYING_YOUR_MOVE;
+                    return GUIState.PLAYING_YOUR_MOVE;
                 } else {
-                    return ConsoleState.PLAYING_NOT_YOUR_MOVE;
+                    return GUIState.PLAYING_NOT_YOUR_MOVE;
                 }
 
             }
+
+
+            case ENDED -> {
+                return GUIState.GAME_FINISHED; // TODO : hier weitermachen
+
+                // if set enden -> GUIState.SetFinished
+
+
+            }
+            case ABORTED -> {
+                return GUIState.GAME_ABORTED;
+
+
+            }
+
         }
 
-        return ConsoleState.GAME_FINISHED;
+        return GUIState.GAME_FINISHED;
 
     }
 
@@ -566,10 +592,6 @@ public class Console implements Player {
         return null;
     }
 
-    @Override
-    public void setController(GameController controller) {
-
-    }
 }
 
 
