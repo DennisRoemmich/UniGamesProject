@@ -14,6 +14,13 @@
 * currentTrick printen
 * playCard wird nicht akzeptiert (außer beim ertsen play)
 
+#### auf lange sicht
+
+* option für karten sortieren, jack - seven oder anders rum
+* null abbrechen sobald ein stich gemacht wurde
+* ramsch
+* kontra und re
+
 `✅ ❕ ❌`
 
 ###BUGS

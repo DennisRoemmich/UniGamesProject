@@ -24,11 +24,13 @@ public class Test {
     public void consoleSetUp() {
 
         controller.makeMove(new SkatMove(ActionType.NEW_GAME));
+    //    controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
         controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
-        controller.makeMove(new SkatMove(new Trump(CardColor.HEARTS)));
+        controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+        controller.makeMove(new SkatMove(ActionType.SORT));
 
     }
 

@@ -373,7 +373,7 @@ public class Console implements Player {
                 println("""
                                  
                                            
-                             Diamonds ♦    ·     Hearts ♥   ·     Spades ♠    ·      Clubs ♣
+                             Clubs ♣    ·    Spades ♠    ·    Hearts ♥    ·    Diamonds ♦
                              
                         """);
                 printSoftBorder("Your Hand:");
@@ -382,6 +382,7 @@ public class Console implements Player {
 
             }
 
+            // TODO: while PLAYING only select cards [1 - 10]; [1 - 12] only while DECLARE SKAT
             case PLAYING_YOUR_MOVE -> {
 
                 printHardBorder();

@@ -107,7 +107,6 @@ public class Auction {
 
             return -1;
         }
-
         return auctionLvL[currentBidLvL+1];
     }
 

@@ -42,6 +42,7 @@ public class SkatGame {
         currentLeaderIndex = 0;
 
         trump = new Trump();
+        declarer = null;
 
         players = new SkatPlayer[3];
         for (var i = 0; i < players.length; i++) {
@@ -260,7 +261,10 @@ public class SkatGame {
         }
 
         declarer = auction.getAuctionWinner();
+        result.setDeclarer();
         setPlayerTricks();
+
+        Print.debug("MAIK", "Declarer is: " + declarer.getGameIndex());
 
         gamePhase = GamePhase.DECLARING;
     }
@@ -310,10 +314,17 @@ public class SkatGame {
         currentRoundNo++;
     }
 
+    // TODO: bei NULL, out of bounce
     private boolean cardPlayIsValid(int cardIndex) {
 
         var trickColor = currentTrick.getColor();
         var currentPlayersHand = getCurrentPlayer().getHand();
+
+        if (cardIndex >= currentPlayersHand.getSize()) {
+
+            return false;
+        }
+
         var card = currentPlayersHand.getCardAt(cardIndex);
 
         if (currentTrick.getSize() == 0) {

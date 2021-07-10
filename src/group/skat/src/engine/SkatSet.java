@@ -1,5 +1,6 @@
 package engine;
 
+import console.Print;
 import controller.GameMove;
 import controller.enums.ActionType;
 
@@ -105,6 +106,8 @@ public class SkatSet {
 
     public void abortGame() {
 
+        Print.debug("MAIK", "Game abortet - new Game started");
+
         gameResults.remove(gameResults.size() - 1);
         currentGame = null;
 
@@ -112,6 +115,8 @@ public class SkatSet {
     }
 
     public void gameIsFinished() {
+
+        Print.debug("MAIK", getPlayingPlayerName(getCurrentGameResult().getDeclarerIndex()) + " gets " + getCurrentGameResult().getGameValue());
 
         currentGame = null;
 

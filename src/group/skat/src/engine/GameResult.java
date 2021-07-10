@@ -11,6 +11,8 @@ public class GameResult {
     private boolean isAborted;
     private boolean isFinished;
 
+    private int gameValue;
+
     /* CONSTRUCTOR */
 
     public GameResult(SkatPlayer[] players, SkatPlayer declarer, Trump trump) {
@@ -54,7 +56,23 @@ public class GameResult {
         return isFinished;
     }
 
+    public int getGameValue() {
+
+        return gameValue;
+    }
+
     /* ELSE */
+
+    public void setDeclarer() {
+
+        for (SkatPlayer player : players) {
+
+            if (player.isDeclarer()) {
+
+                declarer = player;
+            }
+        }
+    }
 
     public void gameHasEnded() {
 
@@ -63,6 +81,7 @@ public class GameResult {
             points[i] = players[i].getFinalScore();
         }
         isFinished = true;
+        gameValue = declarer.getFinalScore();
     }
 
     public void setAborted(boolean isAborted) {
