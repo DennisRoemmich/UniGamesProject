@@ -287,6 +287,10 @@ public class Console implements Player {
 
     private boolean playerDidChange(){
 
+        if (game().getCurrentPlayer() == null){
+            return false;
+        }
+
         var index = getPlayerGameIndex();
 
         if (index != lastCurPlayerIndex){
@@ -302,7 +306,7 @@ public class Console implements Player {
 
         if (playerDidChange()) {
             printHardBorder();
-            var message = controller.getSkatSet().getPlayingPlayerName(getPlayerGameIndex()) + " is now playing. [P" + getPlayerGameIndex() + "]";
+            var message = getCurrentPlayerName() + " is now playing. [P" + getPlayerGameIndex() + "]";
             printSoftBorder(message);
             printHardBorder();
 
@@ -334,7 +338,7 @@ public class Console implements Player {
 
                 printHardBorder();
                 /* be able to sort cards here and maybe other passive states*/
-                println("Waiting for " + controller.getSkatSet().getPlayingPlayerName(game().getAuction().getAuctionWinner().getGameIndex()) + " to declare the game.");
+                println("Waiting for " + getCurrentPlayerName() + " to declare the game.");
 
             }
             case DECLARE_SKAT -> {
@@ -397,9 +401,14 @@ public class Console implements Player {
             case PLAYING_NOT_YOUR_MOVE -> {
             }
             case GAME_FINISHED -> {
+                print("\n\n Game is finished. " + getCurrentPlayerName() + " won! \nStart new game?\n\n");
             }
         }
 
+    }
+
+    private String getCurrentPlayerName(){
+        return controller.getSkatSet().getPlayingPlayerName(getPlayer().getGameIndex());
     }
 
     private GUIState getState(){
@@ -508,7 +517,7 @@ public class Console implements Player {
 
         println("current State.........: " + getState().toString(), DEBUG_DEL);
         println("current Player........: " + Integer.toString(getPlayerGameIndex()), DEBUG_DEL);
-        println("current Player Name...: " + controller.getSkatSet().getPlayingPlayerName(game().getCurrentPlayer().getGameIndex()), DEBUG_DEL);
+        println("current Player Name...: " + getCurrentPlayerName(), DEBUG_DEL);
 
         if(game().getGamePhase() == GamePhase.AUCTION){
             println("isAuctioneer..........: " + String.valueOf(game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getCurrentAuctioneer()), DEBUG_DEL);

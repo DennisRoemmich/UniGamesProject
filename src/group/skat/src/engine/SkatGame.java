@@ -72,7 +72,7 @@ public class SkatGame {
         return switch (gamePhase) {
 
             case AUCTION -> auction.getCurrentAuctioneer();
-            case DECLARING -> declarer;
+            case DECLARING, ENDED -> declarer;
             case PLAYING -> players[(currentLeaderIndex + currentTrick.getSize()) % players.length];
             default -> null;
         };

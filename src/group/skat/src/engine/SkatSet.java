@@ -118,7 +118,7 @@ public class SkatSet {
 
         Print.debug("MAIK", getPlayingPlayerName(getCurrentGameResult().getDeclarerIndex()) + " gets " + getCurrentGameResult().getGameValue());
 
-        currentGame = null;
+        /// currentGame = null;
 
         if (gameResults.size() == gameAmount || gameAmount == -1) {
 

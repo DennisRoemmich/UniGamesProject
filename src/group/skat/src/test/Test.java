@@ -7,6 +7,7 @@ import controller.enums.ActionType;
 import engine.*;
 import engine.enums.CardColor;
 import engine.enums.GameMode;
+import engine.enums.GamePhase;
 import framework.GameController;
 
 public class Test {
@@ -31,6 +32,21 @@ public class Test {
         controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
         controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
         controller.makeMove(new SkatMove(ActionType.SORT));
+
+
+        var moveNotValid = true;
+
+        do {
+
+            moveNotValid = true;
+
+            for (var i = 0; i < 10 && moveNotValid; i++) {
+
+                moveNotValid = !controller.makeMove(new SkatMove(i));
+
+            }
+
+        } while (controller.getGame().getGamePhase() == GamePhase.PLAYING);
 
     }
 
