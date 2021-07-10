@@ -1,5 +1,10 @@
 package map;
 
+import positions.EdgePosition;
+import positions.EdgePositionZCord;
+import positions.NodePosition;
+import positions.TilePosition;
+
 public final class MapTools {
 
     // Tile -> Tiles
@@ -70,7 +75,7 @@ public final class MapTools {
         NodePosition[] nodePositions = new NodePosition[2];
         int x = edgePosition.getX();
         int y = edgePosition.getY();
-        switch (edgePosition.z) {
+        switch (edgePosition.getZ()) {
             case A -> {
                 nodePositions[0] = new NodePosition(x + 1, y, true);
                 nodePositions[1] = new NodePosition(x, y - 1, false);
@@ -93,7 +98,7 @@ public final class MapTools {
         EdgePosition[] edgePositions = new EdgePosition[4];
         int x = edgePosition.getX();
         int y = edgePosition.getY();
-        switch (edgePosition.z) {
+        switch (edgePosition.getZ()) {
             case A -> {
                 edgePositions[0] = new EdgePosition(x+1,y-1,EdgePositionZCord.B);
                 edgePositions[1] = new EdgePosition(x+1,y-1,EdgePositionZCord.C);
