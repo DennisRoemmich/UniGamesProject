@@ -394,6 +394,15 @@ public class SkatGame {
         result.gameHasEnded();
     }
 
+
+    public Trump getTrump(){
+        return trump;
+    }
+
+    public Trick getCurrentTrick(){
+        return currentTrick;
+    }
+
     private int getWinFactor() {
 
         var declarerPoints = declarer.getTricksScore();

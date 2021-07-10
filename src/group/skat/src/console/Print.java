@@ -2,6 +2,7 @@ package console;
 
 import controller.SkatController;
 import engine.*;
+import engine.enums.GameMode;
 import framework.Player;
 
 public class Print {
@@ -100,13 +101,27 @@ public class Print {
 
 
 
-    private static String trickToString(Trick trick, SkatSet set, String message) {
+    public static String trickToString(Trick trick, SkatController controller) {
+
+        SkatSet set = controller.getSkatSet();
 
         var returnString = new StringBuilder();
-        final var marginSize = 20;
+        final var marginSize = 10;
         final var upperArrow = "⎼⎼⎼⎼⟍⟍";
         final var lowerArrow = "⎺⎺⎺⎺⟋⟋";
         final var arrowMargin = marginSize-upperArrow.length() / 2;
+
+        String message;
+        if(controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
+            var clr = controller.getGame().getCurrentTrick().getColor();
+            if (clr != null) {
+                message = clr.getSymbol();
+            } else {
+                message = " ? ";
+            }
+        } else {
+            message = controller.getGame().getTrump().getGameMode().toString();
+        }
 
         returnString.append(times(20, "⋯"));
         returnString.append("  " + message + "  ");
@@ -114,8 +129,10 @@ public class Print {
         returnString.append("\n");
 
         if (trick == null || trick.getSize() == 0) {
-            return "\n  No card played yet. It's [players] move.\n";
+            return "\n\n  Play the first card.\n\n";
         } else {
+
+            var del = times(arrowMargin + (arrowMargin % 2), " ") +  upperArrow + times(arrowMargin, " ");
 
             for ( var i = 0; i < 5; i++ ) {
 
@@ -129,9 +146,9 @@ public class Print {
 
                         arrowPart = switch ( i ) {
 
-                            case 0,3 -> times(marginSize, " ");
+                            case 0,3 -> times(del.length()+1, " ");
 
-                            case 1 -> times(arrowMargin + (arrowMargin % 2), " ") +  upperArrow + times(arrowMargin, " ");
+                            case 1 -> del;
 
                             case 2 -> times(arrowMargin + (arrowMargin % 2), " ") +  lowerArrow + times(arrowMargin, " ");
 
@@ -146,10 +163,12 @@ public class Print {
 
                     } else {
 
-                        var nameMargin = 5 + marginSize;
                         var game = set.getCurrentSkatGame();
                         var playerIndex = (game.getCurrentLeaderIndex() + o) % 3 ;
-                        returnString.append(times(nameMargin + (nameMargin % 2), " ")).append(set.getSkatPlayerName(playerIndex)).append(times(nameMargin, " "));
+                        var name = set.getSkatPlayerName(playerIndex);
+                        var nameMargin = 5-name.length();
+
+                        returnString.append(times(nameMargin, " ")).append(name).append(times(del.length()+nameMargin, " "));
 
                     }
 
@@ -168,10 +187,7 @@ public class Print {
     }
 
 
-    public static String handToString(Hand playerHand, String message) {
 
-        return handToString(playerHand, message, -1);
-    }
 
     public static String skatToString(Card[] cards, int indexSelected) {
 
@@ -201,6 +217,11 @@ public class Print {
 
         return returnString.toString();
 
+    }
+
+    public static String handToString(Hand playerHand, String message) {
+
+        return handToString(playerHand, message, -1);
     }
 
     public static String handToString(Hand playerHand, String message, int indexSelected) {

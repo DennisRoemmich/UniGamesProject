@@ -5,7 +5,9 @@ import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.*;
+import engine.enums.CardColor;
 import engine.enums.GameMode;
+import framework.GameController;
 
 public class Test {
 
@@ -26,7 +28,7 @@ public class Test {
         controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.PASS));
         controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
-        controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+        controller.makeMove(new SkatMove(new Trump(CardColor.HEARTS)));
 
     }
 

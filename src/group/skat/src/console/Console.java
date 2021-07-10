@@ -35,6 +35,7 @@ public class Console implements Player {
     static final int BORDER_WIDTH = 90;
 
     static final String WELCOME_MESSAGE = "SKAT - CONSOLE VERSION";
+    static final String MOVE_NOT_VALID_MESSAGE = "\nOops - you can't play this card. Maybe look on your hand again and THINK this time!";
     static final String HELP_MESSAGE = """
                                        
                                             [Q] - Quit game    ·    [U] - Undo move          ·    [A] - Accept selection    
@@ -114,13 +115,13 @@ public class Console implements Player {
 
                     case SKATMOVE -> {
 
-                        if( controller.makeMove(move) ){
-                            Print.debug("ANDI", "This move worked!");
+                        if( !controller.makeMove(move) ){
 
-                        } else {
-                            Print.debug("ANDI", "This move didn't work! With this card:");
+                            printSoftBorder();
+                            print(MOVE_NOT_VALID_MESSAGE, WARNING_DEL);
+                            printSoftBorder();
+
                         }
-
 
                         indexCardSelected = -1;
                     }
@@ -303,6 +304,7 @@ public class Console implements Player {
             printHardBorder();
             var message = controller.getSkatSet().getPlayingPlayerName(getPlayerGameIndex()) + " is now playing. [P" + getPlayerGameIndex() + "]";
             printSoftBorder(message);
+            printHardBorder();
 
         }
 
@@ -330,6 +332,7 @@ public class Console implements Player {
 
             case WAIT_FOR_DECLARER -> {
 
+                printHardBorder();
                 /* be able to sort cards here and maybe other passive states*/
                 println("Waiting for " + controller.getSkatSet().getPlayingPlayerName(game().getAuction().getAuctionWinner().getGameIndex()) + " to declare the game.");
 
@@ -337,42 +340,57 @@ public class Console implements Player {
             case DECLARE_SKAT -> {
 
                 printHardBorder();
-                printSoftBorder("SKAT");
+                printSoftBorder("DECLARE SKAT");
                 println(2);
                 print(Print.skatToString(getPlayer().getHand().getSkat(),indexCardSelected-10), DEFAULT_DEL);
+                printSoftBorder("Your Hand:");
+                println(2);
                 print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
-                printSoftBorder();
+                print("\n [A]ccept or swap cards [1 - 12]");
 
             }
             case DECLARE_TRUMPTYPE -> {
 
+                printHardBorder();
+                printSoftBorder("CHOOSE GAME TYPE");
                 println("""
                         
-                        You are declarer. Choose what your want to play:
                         
                              SUIT     ·     GRAND     ·     NULL
                              
                         """);
+                printSoftBorder("Your Hand:");
+                println(2);
+                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+
 
             }
 
             case DECLARE_TRUMPCOLOR -> {
 
+                printHardBorder();
+                printSoftBorder("CHOOSE GAME COLOR");
                 println("""
-                        
-                        Sweet! You did choose suit. Choose your color:
-                        
-                             Diamonds     ·     Hearts    ·     Spades     ·      Clubs
-                             ♦      ♦           ♥    ♥          ♠    ♠            ♣   ♣
+                                 
+                                           
+                             Diamonds ♦    ·     Hearts ♥   ·     Spades ♠    ·      Clubs ♣
                              
                         """);
+                printSoftBorder("Your Hand:");
+                println(2);
+                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
 
             }
 
             case PLAYING_YOUR_MOVE -> {
 
+                printHardBorder();
                 println(1);
+                print(Print.trickToString(game().getCurrentTrick(), controller));
+                printSoftBorder("Your Hand:");
+                println(2);
                 print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                print("\n Select cards [1 - 12] and [a]ccept, switch or [s]ort.");
 
             }
             case PLAYING_NOT_YOUR_MOVE -> {
