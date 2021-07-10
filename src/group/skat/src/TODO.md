@@ -2,19 +2,38 @@
 ###TODO
 
 
+* ALLGEMEIN
 * ✅ Set up Project Structure
-* Set up FX Structure
+* Settings:
+    * Klasse anlegen
+    * Unterstützung einfach Game-Settings die als JSON-Objekt ggbf. über das Menü übergeben werden aber auch geändert werden können.
+    * Spiel mit offenen Karten; ...
+    * Hier auch die ganzen static finals die Einstellungen darstellen. z.B. MinWindowSize
 
-* @Maik : Spielabbruch nach 3 mal pass; GameResult nicht auf die Liste!
 
-* StartScreen: Übersicht über Skat(Set)Spieler
+* ENGINE
+* ✅@Maik : Spielabbruch nach 3 mal pass; GameResult nicht auf die Liste!
+
+
 * KONSOLE
-* console.gameloop state entsprechend setzen bei finished und aborted
-* reihenfolge bei declare trump ändern? clubs-spades-hearts-diamonds
-* currentTrick printen
-* playCard wird nicht akzeptiert (außer beim ertsen play)
+* ✅ console.gameloop state entsprechend setzen bei finished und aborted
+* ✅ reihenfolge bei declare trump ändern? clubs-spades-hearts-diamonds
+* ✅ currentTrick printen
+* ✅ playCard wird nicht akzeptiert (außer beim ertsen play)
+* ❕ Zeige beendetes Set an
+* ❕ Übersicht am Spielende
+* StartScreen: Übersicht über Skat(Set)Spieler
 
-#### auf lange sicht
+  
+* GUI - DESIGN
+* Goldene Ablage wegmachen, ist iwie ohne schöner
+  
+
+* GUI - CODE
+* (✅)Set up FX Structure
+* ...
+
+#### Auf lange Sicht
 
 * option für karten sortieren, jack - seven oder anders rum
 * null abbrechen sobald ein stich gemacht wurde
