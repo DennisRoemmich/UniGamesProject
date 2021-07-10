@@ -110,7 +110,7 @@ public class Console implements Player {
                         println(1);
                     }
 
-                    case CARD_SELECTION -> indexCardSelected = move.getIndexFrom()-1;
+                    case CARD_SELECTION -> indexCardSelected = move.getIndexFrom();
 
                     case SKATMOVE -> {
                         controller.makeMove(move);
@@ -143,8 +143,18 @@ public class Console implements Player {
         }
 
         if (input.equals("s")){
-            Print.debug("WARNING","Heyho");
             return new SkatMove(ActionType.SORT);
+        }
+
+        int number;
+        try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
+
+        if (number != 0 && indexCardSelected == -1){
+            return new SkatMove(ConsoleActionType.CARD_SELECTION, Integer.parseInt(input)-1);
+        } else if (number != 0) {
+
+            return new SkatMove(ActionType.ON_SKATHAND, indexCardSelected, Integer.parseInt(input)-1);
+
         }
 
         switch (getState()){
@@ -158,24 +168,8 @@ public class Console implements Player {
                     consoleMove = new SkatMove(ActionType.PASS);
                 }
             }
-            case DECLARE_SKAT -> {
+            case DECLARE_SKAT -> consoleMove = new SkatMove(ActionType.DROP_SKAT);
 
-                if(input.equals("a")){  // accept current skat
-
-                    consoleMove = new SkatMove(ActionType.DROP_SKAT);
-
-                } else if (indexCardSelected >= 0){ // switch cards on hand+skat
-
-                    consoleMove = new SkatMove(ActionType.ON_SKATHAND, indexCardSelected, Integer.parseInt(input));
-                    indexCardSelected = -1;
-
-                } else { // select card
-
-                    consoleMove = new SkatMove(ConsoleActionType.CARD_SELECTION, Integer.parseInt(input));
-
-                }
-
-            }
             case DECLARE_TRUMPCOLOR -> {
                 var trump = new Trump(CardColor.valueOf((input + "s").toUpperCase()));
                 consoleMove = new SkatMove(trump);
@@ -190,37 +184,8 @@ public class Console implements Player {
                 }
 
             }
-            case PLAYING_YOUR_MOVE -> {
+            case PLAYING_YOUR_MOVE -> consoleMove = new SkatMove(indexCardSelected);
 
-                if(input.equals("a")){  // play selected card
-
-                    consoleMove = new SkatMove(indexCardSelected);
-                    indexCardSelected = -1;
-
-                } else if (indexCardSelected >= 0){ // switch cards on hand
-
-                    consoleMove = new SkatMove(ActionType.ON_HAND, indexCardSelected, Integer.parseInt(input));
-                    indexCardSelected = -1;
-
-                } else { // select card
-
-                    consoleMove = new SkatMove(ConsoleActionType.CARD_SELECTION, Integer.parseInt(input));
-                }
-
-            }
-            case PLAYING_NOT_YOUR_MOVE -> {
-
-                if (indexCardSelected >= 0){ // switch cards on hand
-
-                    consoleMove = new SkatMove(ActionType.ON_HAND, indexCardSelected, Integer.parseInt(input));
-                    indexCardSelected = -1;
-
-                } else { // select card
-
-                    indexCardSelected = Integer.parseInt(input);
-                }
-
-            }
             case GAME_FINISHED -> {
 
                 if( input == "y"){
@@ -230,7 +195,7 @@ public class Console implements Player {
                 }
 
             }
-            case AUCTION_WATCHING, WAIT_FOR_DECLARER -> consoleMove = null;
+            case AUCTION_WATCHING, WAIT_FOR_DECLARER, PLAYING_NOT_YOUR_MOVE -> consoleMove = null;
         }
 
         return consoleMove;
@@ -255,11 +220,15 @@ public class Console implements Player {
 
         }
 
-        if(input.isEmpty()){
+        int number;
+        try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
+
+
+        if(input.isEmpty() || getState() == ConsoleState.NOT_STARTED){
             input = "x";
         }
 
-        if(!input.matches("diamond|heart|spade|club|suit|grand|null")){
+        if(!input.matches("diamond|heart|spade|club|suit|grand|null") && number == 0){
             input = String.valueOf(input.charAt(0));
         }
 
@@ -281,6 +250,8 @@ public class Console implements Player {
         if(((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != ConsoleState.DECLARE_TRUMPCOLOR && state != ConsoleState.DECLARE_TRUMPTYPE){
             return true;
         }
+
+
 
         return switch (state){
 

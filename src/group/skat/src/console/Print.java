@@ -7,7 +7,7 @@ import framework.Player;
 public class Print {
 
 
-    private static final String ACTIVE = "WARNING;ERROR;CONSOLE";
+    private static final String ACTIVE = "ERROR;CONSOLE";
 
     public static void debug(String key, Object obj) {
 
@@ -65,7 +65,15 @@ public class Print {
         var returnString = new StringBuilder();
 
         var questionerIndex = auction.getQuestioner().getGameIndex();
-        var askedPlayerIndex = auction.getHearer().getGameIndex();
+
+        var hearer = auction.getHearer();
+
+        if(hearer == null){
+            return "\n\n\n      Do you want to make the game!\n";
+        }
+
+        var hearerIndex = hearer.getGameIndex();
+
         var auctionLevel = auction.getAuctionValue();
         var nextAuctionLevel = auction.getNextAuctionValue();
 
@@ -76,7 +84,7 @@ public class Print {
         } else if (auction.getInactivePlayer().getGameIndex() == perspective) {
             returnString.append("\n\n\n      The other player are bidding. Wait for your turn.\n");
         } else if (auction.getQuestioner().getGameIndex() == perspective){
-            returnString.append("\n\n\n      Do you want to RAISE on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(askedPlayerIndex) + "? (y/n)\n");
+            returnString.append("\n\n\n      Do you want to RAISE on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(hearerIndex) + "? (y/n)\n");
             returnString.append("\n\n                           ⎨ " + nextAuctionLevel + " ⎬\n\n\n");
         } else { // player is being asked
             returnString.append(controller.getSkatSet().getPlayingPlayerName(questionerIndex) + " has raised to " + auctionLevel + "!\nDo you want to call? (y/n)\n");
@@ -183,7 +191,7 @@ public class Print {
                 if(i > 3){
                     marg = times(19, " ");
                 }
-                returnString.append(cardToString(card, i, marg, Integer.toString(o+11), o == indexSelected+1));
+                returnString.append(cardToString(card, i, marg, Integer.toString(o+11), o == indexSelected));
                 o++;
             }
 

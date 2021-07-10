@@ -5,15 +5,13 @@
 * ✅ Set up Project Structure
 * Set up FX Structure
 
-* makeMove in SkatGame bitte bereden
-
-* Test class
+* @Maik : Spielabbruch nach 3 mal pass; GameResult nicht auf die Liste!
 
 `✅ ❕ ❌`
 
 ###BUGS
 __
-* Enter `a` in Console at stat -> Crash
+* -
 
 ###NOTES
 
