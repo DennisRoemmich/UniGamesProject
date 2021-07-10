@@ -314,6 +314,7 @@ public class SkatGame {
 
         var trickColor = currentTrick.getColor();
         var currentPlayersHand = getCurrentPlayer().getHand();
+        var card = currentPlayersHand.getCardAt(cardIndex);
 
         if (currentTrick.getSize() == 0) {
 
@@ -322,7 +323,7 @@ public class SkatGame {
 
         if (currentTrick.getCardAt(0).isTrump(trump)) {
 
-            if (currentPlayersHand.getCardAt(cardIndex).isTrump(trump)) {
+            if (card.isTrump(trump)) {
 
                 return true;
 
@@ -332,7 +333,7 @@ public class SkatGame {
             }
         } else {
 
-            if (currentPlayersHand.getCardAt(cardIndex).getCardColor() == trickColor) {
+            if (!card.isTrump(trump) && card.getCardColor() == trickColor) {
 
                 return true;
             }
