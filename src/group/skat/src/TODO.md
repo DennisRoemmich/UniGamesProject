@@ -23,8 +23,9 @@
 * ❕ Zeige beendetes Trick an
 * ❕ Übersicht am Spielende
 * StartScreen: Übersicht über Skat(Set)Spieler
+* Wahlweise ersetzen der Unicode-Sonderzeichen mit Ascii-Sonderzeichen
 
-  
+
 * GUI - DESIGN
 * Goldene Ablage wegmachen, ist iwie ohne schöner
   
@@ -49,6 +50,7 @@ __
 ###MAYDO
 
 * Durch klicken: Karten vertauschen; Durch ziehen, Karten "einfügen"
+* Mit Pfeilen Karten auswählen können, mit Enter spielen, mit Leerzeichen auswählen, mit Leerzeichen halten Groß anzeigen
 
 ###NOTES
 
