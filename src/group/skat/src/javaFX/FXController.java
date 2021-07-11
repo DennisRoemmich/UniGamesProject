@@ -2,6 +2,7 @@ package javaFX;
 
 import controller.SkatController;
 import engine.SkatGame;
+import engine.SkatPlayer;
 import framework.GameController;
 import framework.Player;
 import javaFX.enums.GUIState;
@@ -93,7 +94,11 @@ public class FXController implements Player, Initializable {
 
     /* GETTER */
 
+    // TODO: @andi NOT FINISHED!!!
+    public SkatPlayer getPlayer() {
 
+        return controller.getGame().getCurrentPlayer();
+    }
 
 
 

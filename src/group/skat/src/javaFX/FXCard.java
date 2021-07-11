@@ -1,11 +1,16 @@
 package javaFX;
 
 import engine.Card;
+import engine.enums.CardValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.event.MouseEvent;
+
 public class FXCard {
+
+    private FXController fxController;
 
     private boolean isOpen;
     private boolean isHighlighted;
@@ -23,29 +28,40 @@ public class FXCard {
 
     // Images
 
-    private static final String TURNED_DOWN_URL = ".resources/images/cards/turned_down";
+    // TODO: update URL
+    private static final String TURNED_DOWN_URL = ".resources/images/Cards/turned_down";
     private static final Image turnedDown = new Image(TURNED_DOWN_URL);
 
-    private static final String HIGHLIGHT_URL = ".resources/images/cards/highlight";
+    // TODO: update URL
+    private static final String HIGHLIGHT_URL = ".resources/images/Cards/highlight";
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
-    private static final String CLUBS_URL = ".resources/images/cards/clubs";
-    private static final String SPADES_URL = ".resources/images/cards/spades";
-    private static final String HEARTS_URL = ".resources/images/cards/hearts";
-    private static final String DIAMONDS_URL = ".resources/images/cards/diamonds";
-    private static final String ACE_URL = ".resources/images/cards/ace";
-    private static final String KING_URL = ".resources/images/cards/king";
-    private static final String QUEEN_URL = ".resources/images/cards/queen";
-    private static final String JACK_URL = ".resources/images/cards/jack";
-    private static final String TEN_URL = ".resources/images/cards/ten";
-    private static final String NINE_URL = ".resources/images/cards/nine";
-    private static final String EIGHT_URL = ".resources/images/cards/eight";
-    private static final String SEVEN_URL = ".resources/images/cards/seven";
+    // TODO: update URLs
+    private static final String CLUBS_I_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String CLUBS_N_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String SPADES_I_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String SPADES_N_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String HEARTS_I_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String HEARTS_N_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String DIAMONDS_I_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String DIAMONDS_N_URL = ".resources/images/Cards/CardClubsColor.png";
+    private static final String ACE_URL = ".resources/images/Cards/CardAce";
+    private static final String KING_URL = ".resources/images/Cards/CardKing";
+    private static final String QUEEN_URL = ".resources/images/Cards/CardQueen";
+    private static final String JACK_URL = ".resources/images/Cards/CardJack";
+    private static final String TEN_URL = ".resources/images/Cards/CardTen";
+    private static final String NINE_URL = ".resources/images/Cards/CardNine";
+    private static final String EIGHT_URL = ".resources/images/Cards/CardEight";
+    private static final String SEVEN_URL = ".resources/images/Cards/CardSeven";
 
-    private static final Image clubs = new Image(CLUBS_URL);
-    private static final Image spades = new Image(SPADES_URL);
-    private static final Image hearts = new Image(HEARTS_URL);
-    private static final Image diamonds = new Image(DIAMONDS_URL);
+    private static final Image clubsI = new Image(CLUBS_I_URL);
+    private static final Image clubsN = new Image(CLUBS_N_URL);
+    private static final Image spadesI = new Image(SPADES_I_URL);
+    private static final Image spadesN = new Image(SPADES_N_URL);
+    private static final Image heartsI = new Image(HEARTS_I_URL);
+    private static final Image heartsN = new Image(HEARTS_N_URL);
+    private static final Image diamondsI = new Image(DIAMONDS_I_URL);
+    private static final Image diamondsN = new Image(DIAMONDS_N_URL);
     private static final Image ace = new Image(ACE_URL);
     private static final Image king = new Image(KING_URL);
     private static final Image queen = new Image(QUEEN_URL);
@@ -57,7 +73,16 @@ public class FXCard {
 
     /* CONSTRUCTOR */
 
-    public FXCard(Card card, int index) {
+    public FXCard(AnchorPane anchorCard, FXController fxcontroller) {
+
+        fxController = fxcontroller;
+
+        this.anchorCard = anchorCard;
+    }
+
+    public FXCard(Card card, int index, FXController fxcontroller) {
+
+        fxController = fxcontroller;
 
         this.index = index;
         this.card = card;
@@ -73,14 +98,15 @@ public class FXCard {
         imageCardHighlighted = new ImageView(highlight);
         imageCardHighlighted.setVisible(false);
 
-        imageCardBackground.setFitWidth(119);
-        imageCardBackground.setFitWidth(206);
-        imageCardColor.setFitWidth(119);
-        imageCardColor.setFitWidth(206);
-        imageCardValue.setFitWidth(119);
-        imageCardValue.setFitWidth(206);
-
         anchorCard.getChildren().addAll(imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted);
+
+        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardColor, imageCardHighlighted}) {
+
+            pane.setFitWidth(119);
+            pane.setFitHeight(206);
+            pane.setLayoutX(0);
+            pane.setLayoutY(0);
+        }
     }
 
     /* GETTER */
@@ -105,11 +131,57 @@ public class FXCard {
         return isSelected;
     }
 
+    public AnchorPane getAnchorCard() {
+
+        return anchorCard;
+    }
+
     /* SETTER */
 
     private void setImageCardColor() {
 
-        imageCardColor = new ImageView(
+        if (card == null) {
+
+            imageCardColor.setVisible(false);
+            return;
+        }
+
+        var value = card.getCardValue();
+        Image image;
+
+        if (value == CardValue.KING || value == CardValue.QUEEN || value == CardValue.JACK) {
+
+            image = switch (card.getCardColor()) {
+
+                case CLUBS -> clubsI;
+                case SPADES -> spadesI;
+                case HEARTS -> heartsI;
+                case DIAMONDS -> diamondsI;
+            };
+
+        } else {
+
+            image = switch (card.getCardColor()) {
+
+                case CLUBS -> clubsN;
+                case SPADES -> spadesN;
+                case HEARTS -> heartsN;
+                case DIAMONDS -> diamondsN;
+            };
+        }
+
+        imageCardColor = new ImageView(image);
+    }
+
+    private void setImageCardValue() {
+
+        if (card == null) {
+
+            imageCardValue.setVisible(false);
+            return;
+        }
+
+        imageCardValue = new ImageView(
 
                 switch (card.getCardValue()) {
 
@@ -121,20 +193,6 @@ public class FXCard {
                     case NINE -> nine;
                     case EIGHT -> eight;
                     case SEVEN -> seven;
-                }
-        );
-    }
-
-    private void setImageCardValue() {
-
-        imageCardValue = new ImageView(
-
-                switch (card.getCardColor()) {
-
-                    case CLUBS -> clubs;
-                    case SPADES -> spades;
-                    case HEARTS -> hearts;
-                    case DIAMONDS -> diamonds;
                 }
         );
     }
@@ -158,30 +216,38 @@ public class FXCard {
 
     public void update() {
 
-        if (isOpen) {
+        imageCardBackground.setVisible(!isOpen);
+        imageCardColor.setVisible(isOpen);
+        imageCardValue.setVisible(isOpen);
 
-            imageCardBackground.setVisible(false);
-            imageCardColor.setVisible(true);
-            imageCardValue.setVisible(true);
+        imageCardHighlighted.setVisible(isHighlighted);
 
-        } else {
-
-            imageCardBackground.setImage(turnedDown);
-            imageCardColor.setVisible(false);
-            imageCardValue.setVisible(false);
-
-            isHighlighted = false;
-            isSelected = false;
-        }
-
-        if (isHighlighted) {
-
-            imageCardHighlighted.setVisible(true);
-        }
+        // TODO: selected
     }
 
     public boolean isEqualTo(Card card) {
 
         return this.card == card;
+    }
+
+    public void changeCard(Card card) {
+
+        this.card = card;
+
+        setImageCardColor();
+        setImageCardValue();
+
+        if (card == null) {
+
+            anchorCard.setVisible(false);
+        }
+    }
+
+    /*  */
+
+    // TODO: mouseClick
+    public void selectCard(MouseEvent e) {
+
+
     }
 }
