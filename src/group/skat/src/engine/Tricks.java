@@ -48,7 +48,7 @@ public class Tricks {
         return skat != null;
     }
 
-    /* ELSE */
+    /* OTHER */
 
     public void addSkat(Card[] skat) {
 
@@ -58,5 +58,10 @@ public class Tricks {
     public void addTrick(Trick trick) {
 
         tricks.add(trick);
+    }
+
+    public Trick getTrickAt(int index) {
+
+        return tricks.get(index);
     }
 }

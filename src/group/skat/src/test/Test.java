@@ -25,7 +25,17 @@ public class Test {
 
     }
 
-    public void consoleSetUp() {
+    public void consoleSetUpUno() {
+
+        controller.makeMove(new SkatMove(ActionType.NEW_GAME));
+        controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+        controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
+        controller.makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+    }
+
+    public void consoleSetUpDos() {
 
         for (var g = 0; g < 12; g++) {
 
@@ -107,7 +117,7 @@ public class Test {
 
     void andi(){
 
-        //consoleSetUp();
+        consoleSetUpUno();
         var console = new Console(controller);
 
 
