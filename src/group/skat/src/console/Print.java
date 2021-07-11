@@ -8,7 +8,14 @@ import framework.Player;
 public class Print {
 
 
-    private static final String ACTIVE = "MAIK;WARNING;ERROR;CONSOLE";
+    private static final String ACTIVE = "WARNING;ERROR;CONSOLE"; //MAIK
+
+    private static boolean WINDOWS;
+
+    public static void setWINDOWS(boolean b) {
+
+        WINDOWS = b;
+    }
 
     public static void debug(String key, Object obj) {
 
@@ -46,7 +53,25 @@ public class Print {
 
     private static void print(Object obj) {
 
-        System.out.print(obj);
+        var string = (String) obj;
+
+        if (WINDOWS) {
+            var symbols = "♣♠♥♦⌲⌯⎨⎬⋯⌾♢◇◈";
+            var replace = "CSHD>-{}-|·ox";
+
+            for (var c = 0; c < string.length(); c++) {
+
+                for (var s = 0; s < symbols.length(); s++) {
+
+                    if (string.charAt(c) == symbols.charAt(s)) {
+
+                        string = string.replace(string.charAt(c), replace.charAt(s));
+                    }
+                }
+            }
+        }
+
+        System.out.print(string);
 
     }
 
@@ -109,32 +134,40 @@ public class Print {
         final var marginSize = 10;
         final var upperArrow = "⎼⎼⎼⎼\\\\";
         final var lowerArrow = "⎺⎺⎺⎺//";
-        final var arrowMargin = marginSize-upperArrow.length() / 2;
+        final var arrowMargin = (marginSize-upperArrow.length()) / 2 + 5;
 
         String message;
+        var declarer = controller.getSkatSet().getSkatSetPlayerAt(controller.getGame().getDeclarer().getGameIndex());
         if(controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
-            var clr = controller.getGame().getCurrentTrick().getColor();
+            var clr = controller.getGame().getTrump().getColor();
             if (clr != null) {
-                message = clr.getSymbol();
+                message = declarer.getName() + clr.getSymbol();
             } else {
                 message = " ? ";
             }
         } else {
-            message = controller.getGame().getTrump().getGameMode().toString();
+            message = declarer.getName() + " · " + controller.getGame().getTrump().getGameMode().toString();
         }
 
-        returnString.append(times(20, "⋯"));
+        returnString.append(times(25, "⋯"));
         returnString.append("  " + message + "  ");
-        returnString.append(times(40 - (message.length() + 4), "⋯"));
+        returnString.append(times(45 - (message.length() + 4), "⋯"));
         returnString.append("\n");
 
         if (trick == null || trick.getSize() == 0) {
 
-            return "\n\n  Play the first card.\n\n";
+            var trump = "";
+            if (controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
+                trump = controller.getGame().getTrump().getColor().getSymbol();
+            } else {
+                trump = controller.getGame().getTrump().getGameMode().toString();
+            }
+
+            return times(20, " ") + declarer.getName() + " plays " + trump + "\n\n" + times(20, " ") + "Play the first card!\n";
 
         } else {
 
-            var del = times(arrowMargin + (arrowMargin % 2), " ") +  upperArrow + times(arrowMargin, " ");
+            var del = times(arrowMargin, " ") +  upperArrow + times(arrowMargin, " ");
 
             for ( var i = 0; i < 5; i++ ) {
 
@@ -144,15 +177,16 @@ public class Print {
 
                     var arrowPart = "";
 
-                    if ( o != trick.getSize() && i != 4 ){
+                    if ( o != trick.getSize() && i != 4 && o != 2){
 
-                        arrowPart = switch ( i ) {
 
-                            case 0,3 -> times(del.length()+1, " ");
+                        arrowPart = switch (i) {
+
+                            case 0, 3 -> times(del.length(), " ");
 
                             case 1 -> del;
 
-                            case 2 -> times(arrowMargin + (arrowMargin % 2), " ") +  lowerArrow + times(arrowMargin, " ");
+                            case 2 -> times(arrowMargin, " ") + lowerArrow + times(arrowMargin, " ");
 
                             default -> throw new IllegalStateException("Unexpected value: " + i);
                         };
@@ -168,6 +202,11 @@ public class Print {
                         var game = set.getCurrentSkatGame();
                         var playerIndex = (game.getCurrentLeaderIndex() + o) % 3 ;
                         var name = set.getSkatPlayerName(playerIndex);
+                        if (trick.getSize() == 3) {
+                            var lastWinnerTrickIndex = game.getPlayerAt(game.getCurrentLeaderIndex()).getTricks().getTrickAt(game.getPlayerAt(game.getCurrentLeaderIndex()).getTricksAmount() - 1).getWinnerIndex();
+                            var playerIndexPlus = (game.getCurrentLeaderIndex() - lastWinnerTrickIndex + o + 3) % 3;
+                            name = set.getSkatPlayerName(playerIndexPlus);
+                        }
                         var nameMargin = 5-name.length();
 
                         returnString.append(times(nameMargin, " ")).append(name).append(times(del.length()+nameMargin, " "));
@@ -182,7 +221,19 @@ public class Print {
 
         }
 
-        returnString.append(times(60, "⋯"));
+        returnString.append(times(70, "⋯"));
+
+        if (trick.getSize() == 3) {
+
+            var endCart = "\n";
+
+            var winnerIndex = controller.getGame().getPlayerAt(controller.getGame().getCurrentLeaderIndex()).getGameIndex();
+            var winner = controller.getSkatSet().getSkatSetPlayerAt(winnerIndex).getName();
+
+            endCart += times(18, " ") + winner + " has won the last trick!\n\n";
+
+            returnString.append(endCart);
+        }
 
         return returnString.toString();
 
@@ -321,7 +372,44 @@ public class Print {
 
     }
 
+    public static String resultToString(SkatController controller) {
 
+        var string = new StringBuilder();
+
+        var set = controller.getSkatSet();
+        var game = controller.getGame();
+        var result =game.getGameResult();
+        var lastTrick = game.getPlayerAt(game.getCurrentLeaderIndex()).getTricks().getTrickAt(game.getPlayerAt(game.getCurrentLeaderIndex()).getTricksAmount() - 1);
+        string.append(trickToString(lastTrick, controller));
+
+        String trump;
+        if (result.getTrump().getGameMode() == GameMode.SUIT) {
+            trump = result.getTrump().getColor().getSymbol();
+        } else {
+            trump = result.getTrump().getGameMode().toString();
+        }
+
+        var decTricks = game.getDeclarer().getTricks().getSize();
+        var decPoints = game.getDeclarer().getTricks().getValue();
+
+        string.append("\n" + times(10, " ") + "Declarer has " + decTricks + " tricks with value of " + decPoints + "!");
+
+        if (game.getDeclarer().getFinalScore() > 0) {
+            string.append("\n" + times(10, " ") + set.getPlayingPlayerName(game.getDeclarer().getGameIndex()) + " has won a game of " + trump + "\n\n");
+        } else {
+            string.append("\n" + times(10, " ") + set.getPlayingPlayerName(game.getDeclarer().getGameIndex()) + " has lost a game of " + trump + "\n\n");
+        }
+        string.append(times(10, " ") + "He gets " + game.getDeclarer().getFinalScore() + " points!");
+
+        string.append(times(10, " ") + "\n\nAfter Game No " + (set.currentGameNo() + 1) + " of " + set.getGameAmount() + ", these are the standings: \n\n\n");
+
+        for (var a = 0; a < set.getSkatSetPlayerAmount(); a++) {
+
+            string.append(times(10, " ") + set.getSkatPlayerName(a) + ": " + set.getSkatSetPlayerAt(a).getTotalScore() + " points\n\n");
+        }
+
+        return string.toString();
+    }
 
 
 

@@ -1,13 +1,18 @@
 package javaFX;
 
+import javaFX.enums.HandShelfPosition;
+
 public class FXHandShelf {
 
-    FXController fxController;
+    private FXController fxController;
 
-    public FXHandShelf(FXController fxController){
+    private HandShelfPosition position;
+
+    public FXHandShelf(FXController fxController, HandShelfPosition pos){
 
         this.fxController = fxController;
 
+        position = pos;
     }
 
     public void init(){

@@ -303,12 +303,14 @@ public class Console implements Player {
 
     private void display(){
 
-        if (playerDidChange()) {
-            printHardBorder();
-            var message = getCurrentPlayerName() + " is now playing. [P" + getPlayerGameIndex() + "]";
-            printSoftBorder(message);
-            printHardBorder();
+        if (getState() != GUIState.GAME_FINISHED) {
+            if (playerDidChange()) {
+                printHardBorder();
+                var message = getCurrentPlayerName() + " is now playing. [P" + getPlayerGameIndex() + "]";
+                printSoftBorder(message);
+                printHardBorder();
 
+            }
         }
 
         switch (getState()){
@@ -383,8 +385,6 @@ public class Console implements Player {
 
             }
 
-            // TODO: while PLAYING only select cards [1 - 10]; [1 - 12] only while DECLARE SKAT
-            // TODO: third arrow muss weg, abstände korrigieren
             case PLAYING_YOUR_MOVE -> {
 
                 printHardBorder();
@@ -403,7 +403,9 @@ public class Console implements Player {
             case PLAYING_NOT_YOUR_MOVE -> {
             }
             case GAME_FINISHED -> {
-                print("\n\n Game is finished. " + getCurrentPlayerName() + " won! \nStart new game?\n\n");
+
+                print(Print.resultToString(controller));
+                print("\n\nWant to start the next game?\n\n");
             }
         }
 

@@ -1,5 +1,7 @@
 package engine;
 
+import console.Print;
+
 import java.util.ArrayList;
 
 public class Tricks {
@@ -32,7 +34,7 @@ public class Tricks {
 
         for ( Trick trick : tricks ) {
 
-            sum += sum += trick.getValue();
+            sum += trick.getValue();
         }
 
         return sum;

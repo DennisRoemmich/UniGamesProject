@@ -47,6 +47,16 @@ public class SkatSet {
         return isFinished;
     }
 
+    public int getSkatSetPlayerAmount() {
+
+        return players.size();
+    }
+
+    public int getGameAmount() {
+
+        return gameAmount;
+    }
+
     public SkatSetPlayer getSkatSetPlayerAt(int index) {
 
         return players.get(index);
@@ -122,7 +132,7 @@ public class SkatSet {
 
         Print.debug("MAIK", getPlayingPlayerName(getCurrentGameResult().getDeclarerIndex()) + " gets " + getCurrentGameResult().getGameValue());
 
-        overridePoints();
+        updatePoints();
 
         if (gameResults.size() == gameAmount) {
 
@@ -130,7 +140,7 @@ public class SkatSet {
         }
     }
 
-    private void overridePoints() {
+    private void updatePoints() {
 
         var played = playingPlayer(currentGameNo());
         for (var i = 0; i < played.length; i++) {

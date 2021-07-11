@@ -54,6 +54,18 @@ public class Test {
 
     }
 
+    public void consoleSetUpTres() {
+
+        controller.makeMove(new SkatMove(ActionType.NEW_GAME));
+        controller.makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+        controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.PASS));
+        controller.makeMove(new SkatMove(ActionType.DROP_SKAT));
+        randomTrump();
+
+        simulateRounds(10);
+    }
+
     private void simulatePlaying() {
 
         boolean moveNotValid;
@@ -69,6 +81,21 @@ public class Test {
             }
 
         } while (controller.getGame().getGamePhase() == GamePhase.PLAYING);
+    }
+
+    private void simulateRounds(int n) {
+
+        boolean moveNotValid;
+        for (var j = 0; j < n * 3; j++) {
+
+            moveNotValid = true;
+
+            for (var i = 0; i < 10 && moveNotValid; i++) {
+
+                moveNotValid = !controller.makeMove(new SkatMove(i));
+
+            }
+        }
     }
 
     private void randomTrump() {
@@ -117,7 +144,7 @@ public class Test {
 
     void andi(){
 
-        consoleSetUpUno();
+        consoleSetUpTres();
         var console = new Console(controller);
 
 

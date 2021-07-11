@@ -146,6 +146,7 @@ public class Hand {
         if (trump.getGameMode() == GameMode.NULL) {
 
             trumpLine = 0;
+            return;
         }
 
         var trumps = 0;
