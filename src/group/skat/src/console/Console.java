@@ -11,7 +11,6 @@ import engine.Trump;
 import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
-import framework.GameController;
 import framework.Player;
 import org.json.simple.JSONObject;
 import test.Test;
@@ -333,7 +332,6 @@ public class Console implements Player {
                 printHand();
 
             }
-
             case WAIT_FOR_DECLARER -> {
 
                 printHardBorder();
@@ -369,7 +367,6 @@ public class Console implements Player {
 
 
             }
-
             case DECLARE_TRUMPCOLOR -> {
 
                 printHardBorder();
@@ -387,15 +384,20 @@ public class Console implements Player {
             }
 
             // TODO: while PLAYING only select cards [1 - 10]; [1 - 12] only while DECLARE SKAT
+            // TODO: third arrow muss weg, abstände korrigieren
             case PLAYING_YOUR_MOVE -> {
 
                 printHardBorder();
                 println(1);
-                print(Print.trickToString(game().getCurrentTrick(), controller));
+                if (game().getCurrentTrick().getSize() != 0 || game().getCurrentRoundNo() == 0) {
+                    print(Print.trickToString(game().getCurrentTrick(), controller));
+                } else {
+                    print(Print.trickToString(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricks().getTrickAt(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricksAmount() - 1), controller));
+                }
                 printSoftBorder("Your Hand:");
                 println(2);
                 print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
-                print("\n Select cards [1 - 12] and [a]ccept, switch or [s]ort.");
+                print("\n Select cards [1 - 10] and [a]ccept, switch or [s]ort.");
 
             }
             case PLAYING_NOT_YOUR_MOVE -> {

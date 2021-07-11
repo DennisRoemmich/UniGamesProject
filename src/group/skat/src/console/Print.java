@@ -103,12 +103,12 @@ public class Print {
 
     public static String trickToString(Trick trick, SkatController controller) {
 
-        SkatSet set = controller.getSkatSet();
+        var set = controller.getSkatSet();
 
         var returnString = new StringBuilder();
         final var marginSize = 10;
-        final var upperArrow = "⎼⎼⎼⎼⟍⟍";
-        final var lowerArrow = "⎺⎺⎺⎺⟋⟋";
+        final var upperArrow = "⎼⎼⎼⎼\\\\";
+        final var lowerArrow = "⎺⎺⎺⎺//";
         final var arrowMargin = marginSize-upperArrow.length() / 2;
 
         String message;
@@ -129,7 +129,9 @@ public class Print {
         returnString.append("\n");
 
         if (trick == null || trick.getSize() == 0) {
+
             return "\n\n  Play the first card.\n\n";
+
         } else {
 
             var del = times(arrowMargin + (arrowMargin % 2), " ") +  upperArrow + times(arrowMargin, " ");
