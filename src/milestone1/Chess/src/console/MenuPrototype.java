@@ -2,6 +2,7 @@ package console;
 
 import frameworkchess.PrintToConsole;
 import main.GUIStarter;
+import main.SkatLauncher;
 
 import java.util.Scanner;
 
@@ -42,12 +43,10 @@ public class MenuPrototype {
                 GUIStarter.main(new String[0]);
                 break;
             case "S", "s":
-                // TODO : Skat einbinden (mit GUI - Standard), Fehler Print entfernen
-                PrintToConsole.println("This game isn't implemented yet :(");
+                SkatLauncher.main(new String[]{"gui"});
                 break;
             case "Sc", "SC", "sc", "sC":
-                // TODO : Skat einbinden mit Konsole, Fehler Print entfernen
-                PrintToConsole.println("This game isn't implemented yet :(");
+                SkatLauncher.main(new String[]{"windows"});
                 break;
             case "K", "k":
                 PrintToConsole.println("This game isn't implemented yet :(");

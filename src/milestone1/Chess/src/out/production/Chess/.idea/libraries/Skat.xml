@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Skat">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.base" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.controls" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.fxml" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.graphics" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.media" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.swing" />
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/Skat.jar!/javafx.web" />
+    </SOURCES>
+  </library>
+</component>
