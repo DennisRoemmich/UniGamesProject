@@ -1,28 +1,36 @@
 package javaFX;
 
 
+import com.sun.javafx.tk.ImageLoader;
+import com.sun.javafx.tk.PlatformImage;
 import console.Print;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+
+import java.net.URL;
 
 
 public class FXPresenter {
 
     private static FXController fxController;
 
-    private static Image viewNewGame = new Image("./images/Views/ViewNewGame.png");
-    private static Image viewResult = new Image("./images/Views/ResultView.png");
+    private static Image viewNewGame = new Image("file:/./ViewNewGame.png");
+    private static Image viewResult = new Image("file:/./images/Views/ResultView.png");
 
-    private static Image backGroundBlank = new Image("./images/Views/ViewBackgroundBlank.png");
-    private static Image backGroundShelfs = new Image("./images/Views/ViewBackgroundShelfs.png");
+    private static Image backGroundBlank = new Image("file:/./images/Views/ViewBackgroundBlank.png");
+    private static Image backGroundShelfs = new Image("file:/./images/Views/ViewBackgroundShelfs.png");
 
-    private static Image acceptButton = new Image("./images/Buttons/Button2Accept.png");
-    private static Image greyButton = new Image("./images/Buttons/Button3GameColor.png");
-    private static Image cancelButton = new Image("./images/Buttons/Button4Cancel.png");
+    private static Image acceptButton = new Image("file:/./images/Buttons/Button2Accept.png");
+    private static Image greyButton = new Image("file:/./images/Buttons/Button3GameColor.png");
+    private static Image cancelButton = new Image("file:/./images/Buttons/Button4Cancel.png");
+    private static Image suitButton = new Image("file:/./images/Buttons/Button2GameType.png");
+    private static Image grandButton = new Image("file:/./images/Buttons/Button3GameType.png");
+    private static Image nullButton = new Image("file:/./images/Buttons/Button4GameType.png");
 
     public static void setFxController(FXController fxController){
 
         FXPresenter.fxController = fxController;
+
 
     }
 
@@ -73,8 +81,15 @@ public class FXPresenter {
             case WAIT_FOR_DECLARER -> {
             }
             case DECLARE_SKAT -> {
+
+                buttonsAccept();
+                skatView(true);
+
             }
             case DECLARE_TRUMPTYPE -> {
+
+                buttonsChooseMode();
+
             }
             case DECLARE_TRUMPCOLOR -> {
             }
@@ -97,6 +112,7 @@ public class FXPresenter {
 
         resultView(false);
         newGameView(false);
+        skatView(false);
 
     }
 
@@ -113,6 +129,23 @@ public class FXPresenter {
 
     }
 
+    private static void buttonsAccept(){
+
+        var buttonDict = fxController.buttonDict;
+
+        fxController.anchorButtonsPlayActions.setVisible(true);
+
+        buttonDict.get("PA1").hide();
+        buttonDict.get("PA2").hide();
+
+        buttonDict.get("PA3").show();
+        buttonDict.get("PA3").setImage(acceptButton);
+
+        buttonDict.get("PA4").hide();
+        buttonDict.get("PA5").hide();
+
+    }
+
     private static void buttonsAcceptCancel(){
 
         var buttonDict = fxController.buttonDict;
@@ -120,18 +153,40 @@ public class FXPresenter {
         fxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA1").hide();
+
         buttonDict.get("PA2").setImage(acceptButton);
+        buttonDict.get("PA2").show();
+
         buttonDict.get("PA3").hide();
+
         buttonDict.get("PA4").setImage(cancelButton);
+        buttonDict.get("PA4").show();
+
         buttonDict.get("PA5").hide();
 
     }
 
     private static void buttonsChooseMode(){
 
+        var buttonDict = fxController.buttonDict;
+
+        fxController.anchorButtonsPlayActions.setVisible(true);
+
+        buttonDict.get("PA1").hide();
+        buttonDict.get("PA2").setImage(suitButton);
+        buttonDict.get("PA3").setImage(grandButton);
+        buttonDict.get("PA4").setImage(nullButton);
+        buttonDict.get("PA5").hide();
+
     }
 
     private static void buttonsChooseColor(){
+
+    }
+
+    private static void skatView(boolean visible){
+
+        fxController.AnchorViewSkat.setVisible(true);
 
     }
 
