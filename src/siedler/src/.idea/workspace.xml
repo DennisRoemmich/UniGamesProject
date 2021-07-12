@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4b204e3f-f1d4-437c-946f-a950637bfee2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../group/Framework/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../group/Framework/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/compiler 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/encodings 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/json_simple_1_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/sonarlint/issuestore/index.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/core/AiPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/core/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/core/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/core/OptionalAdder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/core/sample.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/diceRolling/DiceRolling.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/diceRolling/HitnumberLookupTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/FileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/GameLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/Presenter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/PrintToConsole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/framework/WriteError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/Building.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/BuildingType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/Map.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/MapGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/MapTools$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/MapTools.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/NeutralTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/ResourceTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/Street.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/StreetType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/Tile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/map/WaterTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/oldstuff/Direction$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/oldstuff/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/oldstuff/OldTilePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/oldstuff/TileRow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/player/PlayerColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/player/SiedlerPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/positions/EdgePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/positions/EdgePositionZCord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/positions/NodePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/positions/TilePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/rohstoffe/ResourceSet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/rohstoffe/ResourceType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/rules/BuildRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/tests/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/siedler/tests/TestMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../siedler.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/AiPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/OptionalAdder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/diceRolling/DiceRolling.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/diceRolling/HitnumberLookupTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/FileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/GameController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/GameLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/Presenter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/PrintToConsole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/framework/WriteError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/Building.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/BuildingType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/MapGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/MapTools.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/NeutralTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/ResourceTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/Street.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/StreetType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/Tile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/map/WaterTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/player/PlayerColor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/player/SiedlerPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/positions/EdgePosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/positions/EdgePositionZCord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/positions/NodePosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/positions/TilePosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/rohstoffe/ResourceSet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/rohstoffe/ResourceType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/sample.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/BuildingNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/GuiPosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/MapNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/RoadNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/TileNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oldstuff/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oldstuff/OldTilePosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oldstuff/SiedlerMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/oldstuff/TileRow.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/libraries/json_simple_1_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/AiPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/OptionalAdder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/diceRolling/DiceRolling.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/diceRolling/HitnumberLookupTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/FileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/GameLog.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/Presenter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/PrintToConsole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/framework/WriteError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/Building.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/BuildingType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/Map.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/MapGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/MapTools$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/MapTools.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/NeutralTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/ResourceTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/Street.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/StreetType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/Tile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/map/WaterTile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/player/PlayerColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/player/SiedlerPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/positions/EdgePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/positions/EdgePositionZCord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/positions/NodePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/positions/TilePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/rohstoffe/ResourceSet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/rohstoffe/ResourceType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/core/sample.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/gui/GuiPosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/gui/MapNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/gui/TileNode$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/gui/TileNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/oldstuff/Direction$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/oldstuff/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/oldstuff/OldTilePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/oldstuff/TileRow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/rules/BuildRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/siedler.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/tests/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/siedler/tests/TestMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rules/BuildRules.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/siedler.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/TestMain.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1vDKaR7KXnXZPBfwM2ysvHvp6FS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15601023" />
+    <property name="project.structure.side.proportion" value="0.19746122" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="core.Main" />
+      <module name="siedler" />
+      <option name="VM_PARAMETERS" value="--module-path /Library/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b204e3f-f1d4-437c-946f-a950637bfee2" name="Default Changelist" comment="" />
+      <created>1626091282405</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626091282405</updated>
+      <workItem from="1626091283689" duration="10139000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/gui/TileNode.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/gui/TileNode.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/gui/TileNode.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="centerX" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
