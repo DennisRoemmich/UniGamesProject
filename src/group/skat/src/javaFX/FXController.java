@@ -31,6 +31,9 @@ import java.util.*;
 
 public class FXController implements Player, Initializable {
 
+    public AnchorPane AnchorGameMessage;
+    public Label LabelGameMessage;
+
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
     boolean suitGame = false;

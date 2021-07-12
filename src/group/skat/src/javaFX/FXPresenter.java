@@ -24,6 +24,8 @@ public class FXPresenter {
 
     public static void update(){
 
+        hideAll();
+
         switch (fxController.getState()) {
 
             case NOT_STARTED -> {
@@ -35,27 +37,30 @@ public class FXPresenter {
             }
             case AUCTION_WATCHING -> {
 
-                resultView(false);
-                newGameView(false);
-
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
 
 
             }
             case AUCTION_ASKING -> {
 
-                resultView(false);
-                newGameView(false);
-
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
+
+                var auctionValue = fxController.getController().getGame().getAuction().getNextAuctionValue();
+                String message = "Do you want to raise on " + Integer.toString(auctionValue) + "?";
+                fxController.LabelGameMessage.setText(message);
+
+                buttonsAcceptCancel();
 
             }
             case AUCTION_HEARING -> {
 
-                resultView(false);
-                newGameView(false);
-
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
+
+                var auctionValue = fxController.getController().getGame().getAuction().getAuctionValue();
+                String message = "Your opponenent raised to " + Integer.toString(auctionValue) + "? Do you wanna accept?";
+                fxController.LabelGameMessage.setText(message);
+
+                buttonsAcceptCancel();
 
             }
             case WAIT_FOR_DECLARER -> {
@@ -81,6 +86,20 @@ public class FXPresenter {
     }
 
 
+    private static void Auction(){
+
+        resultView(false);
+        newGameView(false);
+
+    }
+
+    private static void hideAll(){
+
+        resultView(false);
+        newGameView(false);
+
+    }
+
     private static void buttonsHide(){
 
         fxController.anchorButtonsPlayActions.setVisible(false);
@@ -93,7 +112,7 @@ public class FXPresenter {
 
         fxController.anchorButtonsPlayActions.setVisible(false);
 
-        // buttonDict.get("PA1")
+        buttonDict.get("PA1").se
 
 
     }

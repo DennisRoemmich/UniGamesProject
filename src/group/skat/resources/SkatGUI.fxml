@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -239,6 +240,23 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorGameMessage" layoutX="547.0" layoutY="-14.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="71.0">
+               <children>
+                  <Label fx:id="LabelGameMessage" alignment="CENTER" contentDisplay="CENTER" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Avenir Book" size="42.0" />
+                     </font>
+                     <effect>
+                        <Glow level="1.0" />
+                     </effect>
+                  </Label>
+                  <ImageView fitHeight="146.0" fitWidth="751.0" layoutX="64.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewGameMessage.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
