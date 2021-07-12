@@ -7,6 +7,9 @@ import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.SkatGame;
 import engine.SkatPlayer;
+import engine.Trump;
+import engine.enums.CardColor;
+import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
@@ -367,7 +370,63 @@ public class FXController implements Player, Initializable {
 
     private void PAButtonClicked(String identifier){
 
+        switch ( getState() ){
 
+            case AUCTION_ASKING, AUCTION_HEARING -> {
+
+                if (identifier.equals("PA2")){
+                    makeMove(new SkatMove(ActionType.RAISE_OR_ACCEPT));
+                }
+
+                if (identifier.equals("PA4")){
+                    makeMove(new SkatMove(ActionType.PASS));
+                }
+
+            }
+
+            case DECLARE_SKAT -> {
+
+                if (identifier.equals("PA3")){
+                    makeMove(new SkatMove(ActionType.DROP_SKAT));
+                }
+
+            }
+            case DECLARE_TRUMPTYPE -> {
+
+                if ( identifier.equals("PA2") ){
+                    suitGame = true;
+                }
+
+                if ( identifier.equals("PA3") ){
+                    makeMove(new SkatMove(new Trump(GameMode.GRAND)));
+                }
+
+                if ( identifier.equals("PA4") ){
+                    makeMove(new SkatMove(new Trump(GameMode.NULL)));
+                }
+
+            }
+            case DECLARE_TRUMPCOLOR -> {
+
+                makeMove( switch ( identifier ) {
+
+                    case "PA1" -> new SkatMove(new Trump(CardColor.CLUBS));
+
+                    case "PA2" -> new SkatMove(new Trump(CardColor.SPADES));
+
+                    case "PA4" -> new SkatMove(new Trump(CardColor.HEARTS));
+
+                    case "PA5" -> new SkatMove(new Trump(CardColor.DIAMONDS));
+
+                    default -> null;
+
+                        });
+                
+
+
+            }
+
+        }
 
 
     }

@@ -16,6 +16,10 @@ public class FXPresenter {
     private static Image backGroundBlank = new Image("./images/Views/ViewBackgroundBlank.png");
     private static Image backGroundShelfs = new Image("./images/Views/ViewBackgroundShelfs.png");
 
+    private static Image acceptButton = new Image("./images/Buttons/Button2Accept.png");
+    private static Image greyButton = new Image("./images/Buttons/Button3GameColor.png");
+    private static Image cancelButton = new Image("./images/Buttons/Button4Cancel.png");
+
     public static void setFxController(FXController fxController){
 
         FXPresenter.fxController = fxController;
@@ -38,12 +42,14 @@ public class FXPresenter {
             case AUCTION_WATCHING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
+                fxController.AnchorGameMessage.setVisible(true);
 
 
             }
             case AUCTION_ASKING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
+                fxController.AnchorGameMessage.setVisible(true);
 
                 var auctionValue = fxController.getController().getGame().getAuction().getNextAuctionValue();
                 String message = "Do you want to raise on " + Integer.toString(auctionValue) + "?";
@@ -55,9 +61,10 @@ public class FXPresenter {
             case AUCTION_HEARING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
+                fxController.AnchorGameMessage.setVisible(true);
 
                 var auctionValue = fxController.getController().getGame().getAuction().getAuctionValue();
-                String message = "Your opponenent raised to " + Integer.toString(auctionValue) + "? Do you wanna accept?";
+                String message = "Your opponenent raised to " + Integer.toString(auctionValue) + ".\nDo you wanna accept?";
                 fxController.LabelGameMessage.setText(message);
 
                 buttonsAcceptCancel();
@@ -110,10 +117,13 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
-        fxController.anchorButtonsPlayActions.setVisible(false);
+        fxController.anchorButtonsPlayActions.setVisible(true);
 
-        buttonDict.get("PA1").se
-
+        buttonDict.get("PA1").hide();
+        buttonDict.get("PA2").setImage(acceptButton);
+        buttonDict.get("PA3").setImage(greyButton);
+        buttonDict.get("PA4").setImage(cancelButton);
+        buttonDict.get("PA5").hide();
 
     }
 

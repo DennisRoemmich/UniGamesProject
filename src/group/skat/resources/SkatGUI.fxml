@@ -242,7 +242,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorGameMessage" layoutX="547.0" layoutY="-14.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="71.0">
+            <AnchorPane fx:id="AnchorGameMessage" layoutX="547.0" layoutY="-14.0" visible="false" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="71.0">
                <children>
                   <Label fx:id="LabelGameMessage" alignment="CENTER" contentDisplay="CENTER" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
