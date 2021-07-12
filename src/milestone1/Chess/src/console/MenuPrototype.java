@@ -41,6 +41,7 @@ public class MenuPrototype {
                 GUIStarter.main(new String[0]);
                 break;
             case "S", "s":
+                // TODO : Skat einbinden, Fehler Print entfernen
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "K", "k":
