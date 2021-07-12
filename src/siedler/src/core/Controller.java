@@ -1,6 +1,6 @@
 package core;
 
-import framework.GameController;
+import core.framework.GameController;
 import org.json.simple.JSONObject;
 
 public class Controller extends GameController {

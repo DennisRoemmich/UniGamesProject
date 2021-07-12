@@ -1,6 +1,6 @@
 package oldstuff;
 
-import map.Tile;
+import core.map.Tile;
 
 import java.util.ArrayList;
 import java.util.Optional;

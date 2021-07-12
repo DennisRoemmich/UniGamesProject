@@ -1,6 +1,6 @@
 package core;
 
-import framework.Player;
+import core.framework.Player;
 import org.json.simple.JSONObject;
 
 public class AiPlayer implements Player {

@@ -2,26 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54cdd75f-0756-4832-9d00-47efaa19cbd5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/core/AiPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/core/OptionalAdder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/FileController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/GameController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/GameLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/Presenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/PrintToConsole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/framework/WriteError.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../siedler/src/gui/TileNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milestone1/Chess/src/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milestone1/Chess/src/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/diceRolling/DiceRolling.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/out/production/siedler/diceRolling/DiceRolling.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/ResourceTile.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/ResourceTile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/out/production/siedler/map/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/sample/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/sample/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/out/production/siedler/sample/sample.fxml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../siedler/src/gui/GuiPosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../siedler/src/gui/MapNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/core/AiPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/AiPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../siedler/src/core/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/diceRolling/DiceRolling.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/diceRolling/DiceRolling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/diceRolling/HitnumberLookupTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/diceRolling/HitnumberLookupTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/GameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/GameLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/Presenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/PrintToConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/PrintToConsole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/framework/WriteError.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/framework/WriteError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/gui/TileNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/gui/TileNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/BuildingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/MapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/MapGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/MapTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/MapTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/NeutralTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/NeutralTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/ResourceTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/ResourceTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/Street.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/Street.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/StreetType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/StreetType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/map/WaterTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/map/WaterTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/oldstuff/TileRow.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/oldstuff/TileRow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/player/PlayerColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/player/PlayerColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/player/SiedlerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/player/SiedlerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/positions/EdgePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/positions/EdgePosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/positions/EdgePositionZCord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/positions/EdgePositionZCord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/positions/NodePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/positions/NodePosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/positions/TilePosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/positions/TilePosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/rohstoffe/ResourceSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/rohstoffe/ResourceSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/rohstoffe/ResourceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/core/rohstoffe/ResourceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../siedler/src/tests/TestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../siedler/src/tests/TestMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
