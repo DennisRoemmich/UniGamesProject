@@ -1,7 +1,7 @@
 package javaFX;
 
+import console.Print;
 import controller.SkatController;
-import framework.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,14 +12,14 @@ import java.net.URL;
 
 public class FXLauncher extends Application {
 
-    static final int MINWIDTH = 1280;
-    static final int MINHEIGHT = 720;
+    static final int MINWIDTH = 1365;
+    static final int MINHEIGHT = 1024;
 
 
-    static final int MAXWIDTH = 1280;
-    static final int MAXHEIGHT = 720 + 28;
+    static final int MAXWIDTH = 1365;
+    static final int MAXHEIGHT = 1024 + 28;
 
-    SkatController controller;
+    static SkatController skatController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -42,7 +42,9 @@ public class FXLauncher extends Application {
         primaryStage.show();
 
         var FXController = (FXController) loader.getController();
-        FXController.setController(controller);
+
+        Print.debug("WARNING", "Whuup, Controller : " + FXLauncher.skatController.toString());
+        FXController.setController(FXLauncher.skatController);
         FXController.setScene(scene);
 
     }
@@ -50,7 +52,9 @@ public class FXLauncher extends Application {
 
     public void launchFX(SkatController controller){
 
-        this.controller = controller;
+
+        FXLauncher.skatController = controller;
+        Print.debug("WARNING", "Controller : " + FXLauncher.skatController.toString());
         launch();
 
     }

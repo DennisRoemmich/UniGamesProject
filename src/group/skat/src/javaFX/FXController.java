@@ -1,6 +1,7 @@
 package javaFX;
 
 import controller.GameMove;
+import console.Print;
 import controller.SkatController;
 import engine.SkatGame;
 import engine.SkatPlayer;
@@ -12,6 +13,8 @@ import javaFX.enums.FXHandShelfPosition;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -26,9 +29,13 @@ import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
 
+    /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
+    int playerGameIndex = -1;
+    boolean suitGame = false;
+
     private SkatController controller;
     private Scene scene;
-    private Presenter presenter;
+    private FXPresenter presenter;
 
     Map<String, FXButton> buttonDict;
 
@@ -36,12 +43,15 @@ public class FXController implements Player, Initializable {
     private FXHandShelf leftHandShelf;
     private FXHandShelf rightHandShelf;
 
+
+
    /* INITIALIZE */
 
     /** This is called after initialize and after the initialization of the controller object*/
     private void init(){
 
-        Presenter.setFxController(this);
+        FXButton.setFXController(this);
+        FXPresenter.setFxController(this);
 
         createHandShelfs();
 
@@ -59,14 +69,42 @@ public class FXController implements Player, Initializable {
 
     public void createButtons(){
 
-        FXButton.controller = this;
-
-
         // work with dictionary of buttons
 
         buttonDict = new HashMap<String, FXButton>();
 
-        buttonDict.put("DEBUG_VIEW", new FXButton(label_ShowHideDebugView));
+        // buttonDict.put("DEBUG_VIEW", new FXButton(label_ShowHideDebugView));
+
+
+
+        String identifier;
+
+        identifier = "SORT";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("./images/Buttons/ButtonSort.png"), new Image("./images/Buttons/ButtonSortHighlighted.png"), false));
+
+        Image placeholder = new Image("./images/Buttons/Button1GameColor.png");
+        Image highlight = new Image("./images/Buttons/ButtonSelectedForeground.png");
+
+        identifier = "PA1";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, highlight, true));
+
+        identifier = "PA2";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA2, placeholder, highlight, true));
+
+        identifier = "PA3";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA3, placeholder, highlight, true));
+
+        identifier = "PA4";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA4, placeholder, highlight, true));
+
+        identifier = "PA5";
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, highlight, true));
+
+        identifier = "PLAY";
+        buttonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("./images/Buttons/ButtonPlay.png"), new Image("./images/Buttons/ButtonPlayHighlighted.png")));
+
+        identifier = "NEXT";
+        buttonDict.put(identifier, new FXButton(identifier, IVButtonNext, new Image("./images/Buttons/ButtonNext.png"), new Image("./images/Buttons/ButtonNextHighlighted.png")));
 
 
     }
@@ -83,6 +121,89 @@ public class FXController implements Player, Initializable {
 
     }
 
+    public GUIState getState(){
+
+        if (game() == null) {
+            return GUIState.NOT_STARTED;
+        }
+
+        switch (game().getGamePhase()) {
+
+            case NOT_STARTED -> {
+                return GUIState.NOT_STARTED;
+            }
+
+            case AUCTION -> {
+                if ( game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
+                    return GUIState.AUCTION_ASKING;
+                }
+                if ( game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+                    return GUIState.AUCTION_HEARING;
+                }
+
+                return GUIState.AUCTION_WATCHING;
+
+            }
+            case DECLARING -> {
+
+                if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()){
+
+                    if (!game().skatIsDropped()){
+                        return GUIState.DECLARE_SKAT;
+                    } else {
+                        if(suitGame){
+                            return GUIState.DECLARE_TRUMPCOLOR;
+                        } else {
+                            return GUIState.DECLARE_TRUMPTYPE;
+                        }
+                    }
+
+                }
+
+            }
+            case PLAYING -> {
+
+                if(game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()){
+                    return GUIState.PLAYING_YOUR_MOVE;
+                } else {
+                    return GUIState.PLAYING_NOT_YOUR_MOVE;
+                }
+
+            }
+
+
+            case ENDED -> {
+                return GUIState.GAME_FINISHED;
+
+                // TODO : hier weitermachen; if set ended -> GUIState.SetFinished
+
+            }
+            case ABORTED -> {
+                return GUIState.GAME_ABORTED;
+
+
+            }
+
+        }
+
+        return GUIState.GAME_FINISHED;
+
+    }
+
+
+    private int getPlayerGameIndex(){
+
+        if( game() == null ){
+            return 0;
+        }
+
+        if(playerGameIndex == -1){
+            return game().getCurrentPlayer().getGameIndex();
+        } else {
+            return playerGameIndex;
+        }
+
+    }
 
     /* LAYOUT */
 
@@ -95,6 +216,7 @@ public class FXController implements Player, Initializable {
     /* SETTER */
 
     public void setController(GameController controller) {
+
 
         this.controller = (SkatController) controller;
         init();
@@ -112,13 +234,29 @@ public class FXController implements Player, Initializable {
     // TODO: @andi NOT FINISHED!!!
     public SkatPlayer getPlayer() {
 
-        return controller.getGame().getCurrentPlayer();
+        var curGame = controller.getGame();
+
+        if ( controller.getGame() == null ){
+            return null;
+        }
+
+        return curGame.getCurrentPlayer();
     }
 
     public SkatController getController() {
 
         return controller;
     }
+
+    /* GETTER */
+
+    /**  Use this Function to set the (Game)Index of the player who is playing in the FXClass if hotseat is NOT played */
+    public void setPlayerGameIndex(int playerGameIndex){
+
+        this.playerGameIndex = playerGameIndex;
+
+    }
+
 
     /* OVERRIDE */
 
@@ -151,8 +289,13 @@ public class FXController implements Player, Initializable {
         return controller.makeMove(move);
     }
 
+    /* EVENT ABSTRACTIONS */
+
+
     /* FX EVENTS */
 
+
+    /** This should be an FXButton */
     public void showHidedebugView(MouseEvent mouseEvent) {
 
        if( anchor_DebugView.isVisible() ){
@@ -167,9 +310,51 @@ public class FXController implements Player, Initializable {
            label_ShowHideDebugView.setText("⤫");
        }
 
+    }
+
+    public void buttonClicked(String identifier){
+
+        switch (identifier){
+
+            case "SORT" -> {
+
+
+
+            }
+
+            case "PA1", "PA2", "PA3", "PA4", "PA5" -> {
+
+                PAButtonClicked(identifier);
+
+            }
+
+            case "PLAY" -> {
+
+            }
+
+            case "NEXT" -> {
+
+            }
+
+            default -> {
+
+                Print.debug("WARNING", "(FXController.buttonClicked) There is no handling for Button " + identifier);
+
+            }
+
+        }
 
 
     }
+
+    private void PAButtonClicked(String identifier){
+
+
+
+
+    }
+
+
 
     public void fxCardClicked(FXCardPosition pos, int index) {
 
@@ -195,5 +380,51 @@ public class FXController implements Player, Initializable {
     public AnchorPane anchor_DebugView;
     public Label label_ShowHideDebugView;
     public Label label_WindowSize;
+    public ImageView ImageViewBackground;
+    public AnchorPane AnchorPlayerHand;
+    public AnchorPane AnchorCardEx;
+    public ImageView BackgroundCard;
+    public ImageView CardForeground;
+    public ImageView CardForeground1;
+    public AnchorPane AnchorViewSkat;
+    public AnchorPane AnchorSkatCardLeft;
+    public AnchorPane AnchorSkatCardRight;
+    public AnchorPane anchorButtonsPlayActions;
+    public AnchorPane AnchorButtonPA1;
+    public AnchorPane AnchorButtonPA2;
+    public AnchorPane AnchorButtonPA3;
+    public AnchorPane AnchorButtonPA4;
+    public AnchorPane AnchorButtonPA5;
+    public AnchorPane AnchorButtonSort;
+    public AnchorPane AnchorWelcomeResultNewGameView;
+    public ImageView ImageViewWRNBackground;
+    public Label LabelResultNewGame1;
+    public Label LabelResultNewGame2;
+    public Label LabelResultNewGame21;
+    public Label LabelResultNewGame211;
+    public Label LabelResultNewGame2111;
+    public Label LabelResultNewGame3;
+    public Label LabelResultNewGame4;
+    public Label LabelResultNewGame5;
+    public Label LabelGameNo;
+    public ImageView IVButtonPlay;
+    public ImageView IVButtonNext;
 
+    public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
+    }
+
+    public void AnchorButtonPA5Clicked(MouseEvent mouseEvent) {
+    }
+
+    public void AnchorButtonPA4Clicked(MouseEvent mouseEvent) {
+    }
+
+    public void AnchorButtonPA3Clicked(MouseEvent mouseEvent) {
+    }
+
+    public void AnchorButtonPA2Clicked(MouseEvent mouseEvent) {
+    }
+
+    public void AnchorButtonPA1Clicked(MouseEvent mouseEvent) {
+    }
 }

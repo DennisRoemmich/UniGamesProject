@@ -1,43 +1,177 @@
 package javaFX;
 
+import console.Print;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 
 public class FXButton {
 
-    public static FXController controller;
+    private static FXController controller;
 
     ImageView imageView;
+    ImageView imageViewOverlay = null;
 
     Image imgDefault;
     Image imgHighlighted;
 
+    boolean highlighted = false;
+
+    String identifier;
+
+    Node rootObject;
+
     Label label;
+
+    /* STATIC */
+
+    public static void setFXController(FXController controller){
+
+        FXButton.controller = controller;
+
+    }
 
     /* CONSTRUCTOR */
 
-    public FXButton(ImageView imgView, Image imgDefault, Image imgHighlighted){
+    public FXButton(String id, ImageView imgView, Image imgDefault, Image imgHighlighted){
+
+        this.rootObject = imgView;
+
+        this.identifier = id;
+        this.imageView = imgView;
+        this.imgDefault = imgDefault;
+        this.imgHighlighted = imgHighlighted;
+
+        setActions();
+
+    }
+
+    public FXButton(String id, ImageView imgView, Image imgDefault){
+
+        this.rootObject = imgView;
+
+        this.identifier = id;
+        this.imageView = imgView;
+        this.imgDefault = imgDefault;
+
+        setActions();
+
+    }
+
+    public FXButton(String id, AnchorPane anchor, Image imgDefault, Image imgHighlighted, boolean highlightWithOverlay){
+
+        this.rootObject = anchor;
+
+        this.identifier = id;
+
+        ImageView imgView = null;
+
+        if (highlightWithOverlay) {
+
+            var firstChild = anchor.getChildren().get(0);
+            var secondChild = anchor.getChildren().get(1);
+
+            if ( firstChild.getId() != null && firstChild.getId().equals("Overlay") ) {
+                this.imageViewOverlay = (ImageView) anchor.getChildren().get(0);
+                imgView = (ImageView) anchor.getChildren().get(1);
+            } else if ( secondChild.getId() != null && secondChild.getId().equals("Overlay") ) {
+                imgView = (ImageView) anchor.getChildren().get(0);
+                this.imageViewOverlay = (ImageView) anchor.getChildren().get(1);
+            } else {
+                Print.debug("WARNING", "Something went wrong here. None of two childs is with identifier Overlay");
+            }
+
+            imageViewOverlay.setImage(imgHighlighted);
+
+        } else {
+
+            imgView = (ImageView) anchor.getChildren().get(0);
+
+        }
 
         this.imageView = imgView;
         this.imgDefault = imgDefault;
         this.imgHighlighted = imgHighlighted;
 
-    }
-
-    public FXButton(ImageView imgView,Image imgDefault){
-
-        this.imageView = imgView;
-        this.imgDefault = imgDefault;
+        setActions();
 
     }
 
-    public FXButton(Label label){
+    /* OTHER */
+
+
+    private void setActions(){
 
 
 
+        rootObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                controller.buttonClicked(identifier);
+
+            }
+        });
+
+        rootObject.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if (!highlighted){
+
+                    if ( imageViewOverlay != null ){
+
+                        imageViewOverlay.setVisible(true);
+
+                    } else {
+
+                        imageView.setImage(imgHighlighted);
+
+                    }
+
+                    highlighted = true;
+
+                }
+
+            }
+        });
+
+        rootObject.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                if (highlighted){
+
+                    if ( imageViewOverlay != null ){
+
+                        imageViewOverlay.setVisible(false);
+
+                    } else {
+
+                        imageView.setImage(imgDefault);
+
+                    }
+
+                    highlighted = false;
+
+                }
+
+            }
+        });
+
+    }
+
+    public void hide(){
+        rootObject.setVisible(false);
+    }
+
+    public void show(){
+        rootObject.setVisible(true);
     }
 
 
