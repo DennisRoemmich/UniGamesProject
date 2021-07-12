@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="54cdd75f-0756-4832-9d00-47efaa19cbd5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../milestone1/Chess/src/console/MenuPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milestone1/Chess/src/console/MenuPrototype.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milestone1/Chess/src/out/production/Chess/.idea/libraries/json_simple_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milestone1/Chess/src/out/production/Chess/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milestone1/Chess/src/out/production/Chess/Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milestone1/Chess/src/out/production/Chess/Chess.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

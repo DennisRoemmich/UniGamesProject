@@ -26,7 +26,7 @@ public class MenuPrototype {
     private void printSelectGame() {
         PrintToConsole.println("Please choose a game to play:");
         PrintToConsole.println("[C]hess, [R]ummikub, [S]kat, Die Siedler von [K]onstanz, [Q]uit");
-        PrintToConsole.println("Or play TicTacToe by entering \"T\" + the number of the team member (e.g. \"T1\")");
+        PrintToConsole.println("Or play TicTacToe by entering \"T\" + the first letter of the team member ([F],[J],[A],[D],[M])");
         PrintToConsole.println("The inputs are not case-sensitive.");
     }
 
@@ -47,19 +47,19 @@ public class MenuPrototype {
             case "K", "k":
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
-            case "T1", "t1":
+            case "tf", "Tf", "TF":
                 game.TicTacToe.main(new String[0]);
                 break;
-            case "T2", "t2":
+            case "tj", "Tj", "TJ":
                 graphicalUI.GUIStarter.main(new String[0]);
                 break;
-            case "T3", "t3":
+            case "ta", "Ta", "TA":
                 TicTacToeFX.GUIStarter.main(new String[0]);
                 break;
-            case "T4", "t4":
+            case "tm", "Tm", "TM":
                 tictactoe.GUIStarter.main(new String[0]);
                 break;
-            case "T5", "t5":
+            case "td", "Td", "TD":
                 application.Main.main(new String[0]);
                 break;
             case "Q", "q":
