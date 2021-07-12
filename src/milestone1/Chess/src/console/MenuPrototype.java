@@ -26,6 +26,7 @@ public class MenuPrototype {
     private void printSelectGame() {
         PrintToConsole.println("Please choose a game to play:");
         PrintToConsole.println("[C]hess, [R]ummikub, [S]kat, Die Siedler von [K]onstanz, [Q]uit");
+        PrintToConsole.println("You can access a console version of Skat by entering \"SC\"");
         PrintToConsole.println("Or play TicTacToe by entering \"T\" + the first letter of the team member ([F],[J],[A],[D],[M])");
         PrintToConsole.println("The inputs are not case-sensitive.");
     }
@@ -41,25 +42,29 @@ public class MenuPrototype {
                 GUIStarter.main(new String[0]);
                 break;
             case "S", "s":
-                // TODO : Skat einbinden, Fehler Print entfernen
+                // TODO : Skat einbinden (mit GUI - Standard), Fehler Print entfernen
+                PrintToConsole.println("This game isn't implemented yet :(");
+                break;
+            case "Sc", "SC", "sc", "sC":
+                // TODO : Skat einbinden mit Konsole, Fehler Print entfernen
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
             case "K", "k":
                 PrintToConsole.println("This game isn't implemented yet :(");
                 break;
-            case "tf", "Tf", "TF":
+            case "tf", "Tf", "TF", "tF":
                 game.TicTacToe.main(new String[0]);
                 break;
-            case "tj", "Tj", "TJ":
+            case "tj", "Tj", "TJ", "tJ":
                 graphicalUI.GUIStarter.main(new String[0]);
                 break;
-            case "ta", "Ta", "TA":
+            case "ta", "Ta", "TA", "tA":
                 TicTacToeFX.GUIStarter.main(new String[0]);
                 break;
-            case "tm", "Tm", "TM":
+            case "tm", "Tm", "TM", "tM":
                 tictactoe.GUIStarter.main(new String[0]);
                 break;
-            case "td", "Td", "TD":
+            case "td", "Td", "TD", "tD":
                 application.Main.main(new String[0]);
                 break;
             case "Q", "q":
