@@ -24,7 +24,7 @@
                   <Image url="@images/Views/ViewBackgroundShelfs.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="AnchorPlayerHand" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
                <children>
                   <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                      <children>
@@ -42,7 +42,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="84.0" layoutY="249.0" prefHeight="200.0" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="-73.0" AnchorPane.topAnchor="189.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="200.0" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="-73.0" AnchorPane.topAnchor="189.0">
                <children>
                   <ImageView fx:id="CardForeground1" fitHeight="119.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <image>
@@ -51,7 +51,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane AnchorPane.bottomAnchor="323.0" AnchorPane.rightAnchor="-81.0" AnchorPane.topAnchor="196.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfRight" AnchorPane.bottomAnchor="323.0" AnchorPane.rightAnchor="-81.0" AnchorPane.topAnchor="196.0">
                <children>
                   <ImageView fitHeight="119.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <image>
@@ -184,7 +184,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorWelcomeResultNewGameView" layoutX="175.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="121.0">
+            <AnchorPane fx:id="AnchorWelcomeResultNewGameView" layoutX="175.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="121.0">
                <children>
                   <ImageView fx:id="ImageViewWRNBackground" fitHeight="751.0" fitWidth="1125.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -221,9 +221,9 @@
                         <Font name="Avenir Book" size="55.0" />
                      </font>
                   </Label>
-                  <AnchorPane layoutX="427.0" layoutY="188.0" visible="false" AnchorPane.leftAnchor="470.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="220.0">
+                  <AnchorPane layoutX="427.0" layoutY="188.0" AnchorPane.leftAnchor="470.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="220.0">
                      <children>
-                        <ImageView fx:id="IVButtonPlay" fitHeight="163.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ImageView fx:id="IVButtonPlay" fitHeight="163.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
                               <Image url="@images/Buttons/ButtonPlay.png" />
                            </image>

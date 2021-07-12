@@ -10,6 +10,7 @@ import engine.SkatPlayer;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
+import framework.Presenter;
 import javaFX.enums.FXCardPosition;
 import javaFX.enums.GUIState;
 import javaFX.enums.FXHandShelfPosition;
@@ -26,9 +27,7 @@ import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class FXController implements Player, Initializable {
 
@@ -40,7 +39,7 @@ public class FXController implements Player, Initializable {
     private Scene scene;
     private FXPresenter presenter;
 
-    Map<String, FXButton> buttonDict;
+    HashMap<String, FXButton> buttonDict;
 
     private FXHandShelf midHandShelf;
     private FXHandShelf leftHandShelf;
@@ -48,8 +47,6 @@ public class FXController implements Player, Initializable {
 
     private FXSkat fxSkat;
     private FXCurrentTrick fxCurrentTrick;
-
-
 
    /* INITIALIZE */
 
@@ -59,21 +56,26 @@ public class FXController implements Player, Initializable {
         FXButton.setFXController(this);
         FXPresenter.setFxController(this);
 
-        // TODO: erst nachdem new game started
+        bindings();
+        createButtons();
+
+        FXPresenter.update();
+        
+    }
+
+    private void initGameStart(){
+
         initHandShelfs();
         fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
         fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
 
-        bindings();
-        createButtons();
-        
     }
 
     private void initHandShelfs() {
 
-        leftHandShelf = new FXHandShelf(AnchorHandShelfLeft, this, FXHandShelfPosition.LEFT_PLAYER);
-        midHandShelf = new FXHandShelf(AnchorHandShelfMid, this, FXHandShelfPosition.MID_PLAYER);
-        rightHandShelf = new FXHandShelf(AnchorHandShelfRight, this, FXHandShelfPosition.RIGHT_PLAYER);
+        leftHandShelf = new FXHandShelf(AnchorPlayerhandShelfLeft, this, FXHandShelfPosition.LEFT_PLAYER);
+        midHandShelf = new FXHandShelf(AnchorPlayerhandShelfMid, this, FXHandShelfPosition.MID_PLAYER);
+        rightHandShelf = new FXHandShelf(AnchorPlayerhandShelfRight, this, FXHandShelfPosition.RIGHT_PLAYER);
     }
 
     public void createButtons(){
@@ -81,10 +83,6 @@ public class FXController implements Player, Initializable {
         // work with dictionary of buttons
 
         buttonDict = new HashMap<String, FXButton>();
-
-        // buttonDict.put("DEBUG_VIEW", new FXButton(label_ShowHideDebugView));
-
-
 
         String identifier;
 
@@ -339,6 +337,13 @@ public class FXController implements Player, Initializable {
 
             case "PLAY" -> {
 
+                if (makeMove(new SkatMove(ActionType.NEW_GAME))){
+
+                    initGameStart();
+
+                }
+
+
             }
 
             case "NEXT" -> {
@@ -353,6 +358,7 @@ public class FXController implements Player, Initializable {
 
         }
 
+        FXPresenter.update();
 
     }
 
@@ -366,8 +372,6 @@ public class FXController implements Player, Initializable {
 
 
     public void fxCardClicked(FXCardPosition pos, int index) {
-
-        // TODO: wenn skat clicked, make move, else card is selected true, dass handshelf manipulated ist
 
         if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
 
@@ -413,9 +417,9 @@ public class FXController implements Player, Initializable {
     public Label label_ShowHideDebugView;
     public Label label_WindowSize;
     public ImageView ImageViewBackground;
-    public AnchorPane AnchorHandShelfMid;
-    public AnchorPane AnchorHandShelfLeft;
-    public AnchorPane AnchorHandShelfRight;
+    public AnchorPane AnchorPlayerhandShelfMid;
+    public AnchorPane AnchorPlayerhandShelfLeft;
+    public AnchorPane AnchorPlayerhandShelfRight;
     public AnchorPane AnchorCardEx;
     public ImageView BackgroundCard;
     public ImageView CardForeground;
@@ -434,9 +438,6 @@ public class FXController implements Player, Initializable {
     public ImageView ImageViewWRNBackground;
     public Label LabelResultNewGame1;
     public Label LabelResultNewGame2;
-    public Label LabelResultNewGame21;
-    public Label LabelResultNewGame211;
-    public Label LabelResultNewGame2111;
     public Label LabelResultNewGame3;
     public Label LabelResultNewGame4;
     public Label LabelResultNewGame5;
@@ -444,9 +445,9 @@ public class FXController implements Player, Initializable {
     public ImageView IVButtonPlay;
     public ImageView IVButtonNext;
 
-    public AnchorPane AnchorTrickOne;
-    public AnchorPane AnchorTrickTwo;
-    public AnchorPane AnchorTrickThree;
+    public AnchorPane AnchorTrickOne = new AnchorPane();
+    public AnchorPane AnchorTrickTwo = new AnchorPane();
+    public AnchorPane AnchorTrickThree = new AnchorPane();
 
     public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
     }

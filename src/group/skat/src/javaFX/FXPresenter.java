@@ -1,15 +1,20 @@
 package javaFX;
 
 
+import console.Print;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+
 
 public class FXPresenter {
 
     private static FXController fxController;
 
-    private static Image viewNewGame = new Image("ViewNewGame");
+    private static Image viewNewGame = new Image("./images/Views/ViewNewGame.png");
+    private static Image viewResult = new Image("./images/Views/ResultView.png");
 
-
+    private static Image backGroundBlank = new Image("./images/Views/ViewBackgroundBlank.png");
+    private static Image backGroundShelfs = new Image("./images/Views/ViewBackgroundShelfs.png");
 
     public static void setFxController(FXController fxController){
 
@@ -23,14 +28,35 @@ public class FXPresenter {
 
             case NOT_STARTED -> {
 
-
+                fxController.ImageViewBackground.setImage(backGroundBlank);
+                resultView(false);
+                newGameView(true);
 
             }
             case AUCTION_WATCHING -> {
+
+                resultView(false);
+                newGameView(false);
+
+                fxController.ImageViewBackground.setImage(backGroundShelfs);
+
+
             }
             case AUCTION_ASKING -> {
+
+                resultView(false);
+                newGameView(false);
+
+                fxController.ImageViewBackground.setImage(backGroundShelfs);
+
             }
             case AUCTION_HEARING -> {
+
+                resultView(false);
+                newGameView(false);
+
+                fxController.ImageViewBackground.setImage(backGroundShelfs);
+
             }
             case WAIT_FOR_DECLARER -> {
             }
@@ -54,21 +80,155 @@ public class FXPresenter {
 
     }
 
+
+    private static void buttonsHide(){
+
+        fxController.anchorButtonsPlayActions.setVisible(false);
+
+    }
+
+    private static void buttonsAcceptCancel(){
+
+        var buttonDict = fxController.buttonDict;
+
+        fxController.anchorButtonsPlayActions.setVisible(false);
+
+        // buttonDict.get("PA1")
+
+
+    }
+
+    private static void buttonsChooseMode(){
+
+    }
+
+    private static void buttonsChooseColor(){
+
+    }
+
     private static void newGameView(boolean visible){
 
-
+        var set = fxController.getController().getSkatSet();
 
         fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
 
-        if (visible) {
-            fxController.ImageViewWRNBackground.setImage(viewNewGame);
+        var labelArray = new Label[]{
+            fxController.LabelResultNewGame1,
+            fxController.LabelResultNewGame2,
+            fxController.LabelResultNewGame3,
+            fxController.LabelResultNewGame4,
+            fxController.LabelResultNewGame5,
+        };
+
+        if ( visible ) {
+
+            var curGameNo = Integer.toString(set.currentGameNo());
+            var gameAm = Integer.toString(set.getGameAmount());
+
+            if (gameAm.equals("-1")){
+                gameAm = "∞";
+            }
+
+            fxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
+
         }
 
-        fxController.LabelResultNewGame1.setVisible(visible);
-        fxController.LabelResultNewGame2.setVisible(visible);
-        fxController.LabelResultNewGame3.setVisible(visible);
+        fxController.LabelGameNo.setVisible(visible);
 
-        fxController.IVButtonNext.setVisible(visible);
+        if( visible ){
+            fxController.buttonDict.get("PLAY").show();
+        } else {
+            fxController.buttonDict.get("PLAY").hide();
+        }
+
+
+            fxController.ImageViewWRNBackground.setImage(viewNewGame);
+
+            var playerNo = set.getSkatSetPlayerAmount();
+
+            for(var i = 0; i < playerNo; i++){
+
+                labelArray[i].setVisible(visible);
+
+                if (visible) {  // change labels
+
+                    var player = set.getSkatSetPlayerAt(i);
+
+                    var score = player.getTotalScore();
+                    var scoreString = Integer.toString(score);
+                    scoreString = Print.times(9-scoreString.length(), "") + scoreString;
+
+                    var labelText = "P" + Integer.toString(i+1) + " " + player.getName() + " " + Print.times(21 - player.getName().length(),".") + " " + scoreString;
+
+                    labelArray[i].setText(labelText);
+
+                }
+
+            }
+
+            fxController.LabelResultNewGame1.setText("");
+
+
+    }
+
+    private static void resultView(boolean visible){
+
+        var set = fxController.getController().getSkatSet();
+
+        fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
+
+
+
+        var labelArray = new Label[]{
+                fxController.LabelResultNewGame1,
+                fxController.LabelResultNewGame2,
+                fxController.LabelResultNewGame3,
+        };
+
+
+        if( visible ){
+            fxController.buttonDict.get("NEXT").show();
+        } else {
+            fxController.buttonDict.get("NEXT").hide();
+        }
+
+
+
+        fxController.ImageViewWRNBackground.setImage(viewResult);
+
+        for(var i = 0; i < 3; i++){
+
+            labelArray[i].setVisible(visible);
+
+            if (visible) {  // change labels
+
+                var gamePlayer = set.getSkatPlayerAt(i);
+                var setPlayer = set.currentSkatSetPlayer()[i];
+
+                var score = setPlayer.getTotalScore();
+                var name = setPlayer.getName();
+                var scoreString = Integer.toString(score);
+                scoreString = Print.times(9-scoreString.length(), "") + scoreString;
+
+                String declarer = "  ";
+                int gameScore = 0;
+
+                if ( gamePlayer.isDeclarer() ){
+                    declarer = "S ";
+                    gameScore = set.getCurrentGameResult().getGameValue();
+                }
+
+                var labelText = declarer + "P" + Integer.toString(i+1) + setPlayer.getName() + " " + Print.times(14 - setPlayer.getName().length(),"." + " " + Integer.toString(gameScore) + scoreString);
+
+                labelArray[i].setText(labelText);
+
+            }
+
+        }
+
+        fxController.LabelResultNewGame1.setText("");
+
+
 
     }
 

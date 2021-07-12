@@ -81,6 +81,16 @@ public class SkatSet {
 
     /* OTHER */
 
+    public SkatSetPlayer[] currentSkatSetPlayer(){
+
+        var gameNo = currentGameNo();
+
+        var size = players.size();
+        var modSize = gameNo % size;
+
+        return new SkatSetPlayer[]{players.get(modSize), players.get((modSize + 1) % size), players.get((modSize + 2) % size)};
+    }
+
     /** This function returns an array of the 3 players that are playing in the current game. It works based on the assumption that the players shift after every game, if there are more then 3*/
     private SkatSetPlayer[] playingPlayer(int gameNo){
 

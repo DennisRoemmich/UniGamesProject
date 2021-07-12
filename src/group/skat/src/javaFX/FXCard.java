@@ -34,30 +34,30 @@ public class FXCard {
     // Images
 
     // TODO: update URL
-    private static final String TURNED_DOWN_URL = ".resources/images/Cards/turned_down";
+    private static final String TURNED_DOWN_URL = "./images/Cards/CardBack.png";
     private static final Image turnedDown = new Image(TURNED_DOWN_URL);
 
     // TODO: update URL
-    private static final String HIGHLIGHT_URL = ".resources/images/Cards/highlight";
+    private static final String HIGHLIGHT_URL = "./images/Cards/CardBack.png"; // TODO: !
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
     // TODO: update URLs
-    private static final String CLUBS_I_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String CLUBS_N_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String SPADES_I_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String SPADES_N_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String HEARTS_I_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String HEARTS_N_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String DIAMONDS_I_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String DIAMONDS_N_URL = ".resources/images/Cards/CardClubsColor.png";
-    private static final String ACE_URL = ".resources/images/Cards/CardAce";
-    private static final String KING_URL = ".resources/images/Cards/CardKing";
-    private static final String QUEEN_URL = ".resources/images/Cards/CardQueen";
-    private static final String JACK_URL = ".resources/images/Cards/CardJack";
-    private static final String TEN_URL = ".resources/images/Cards/CardTen";
-    private static final String NINE_URL = ".resources/images/Cards/CardNine";
-    private static final String EIGHT_URL = ".resources/images/Cards/CardEight";
-    private static final String SEVEN_URL = ".resources/images/Cards/CardSeven";
+    private static final String CLUBS_I_URL = "./images/Cards/CardClubsColor.png";
+    private static final String CLUBS_N_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String SPADES_I_URL = "./images/Cards/CardClubsColor.png";
+    private static final String SPADES_N_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String HEARTS_I_URL = "./images/Cards/CardClubsColor.png";
+    private static final String HEARTS_N_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String DIAMONDS_I_URL = "./images/Cards/CardClubsColor.png";
+    private static final String DIAMONDS_N_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String ACE_URL = "./images/Cards/CardAce.png";
+    private static final String KING_URL = "./images/Cards/CardKing.png";
+    private static final String QUEEN_URL = "./images/Cards/CardQueen.png";
+    private static final String JACK_URL = "./images/Cards/CardAce.png";
+    private static final String TEN_URL = "./images/Cards/CardAce.png";
+    private static final String NINE_URL = "./images/Cards/CardAce.png";
+    private static final String EIGHT_URL = "./images/Cards/CardAce.png";
+    private static final String SEVEN_URL = "./images/Cards/CardAce.png";  // TODO: !
 
     private static final Image clubsI = new Image(CLUBS_I_URL);
     private static final Image clubsN = new Image(CLUBS_N_URL);
@@ -104,7 +104,7 @@ public class FXCard {
         this.index = index;
         this.card = null;
 
-        isOpen = false;
+        isOpen = true;
         isHighlighted = false;
         isSelected = false;
 
@@ -218,6 +218,10 @@ public class FXCard {
     /* OTHER */
 
     private void init() {
+
+
+        imageCardColor = new ImageView();
+        imageCardValue = new ImageView();
 
         imageCardBackground = new ImageView(turnedDown);
         imageCardBackground.setVisible(false);
