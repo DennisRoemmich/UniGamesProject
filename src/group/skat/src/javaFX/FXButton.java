@@ -65,7 +65,6 @@ public class FXButton {
 
     public void setImage(Image image){
 
-        return null;
     }
 
     public FXButton(String id, AnchorPane anchor, Image imgDefault, Image imgHighlighted, boolean highlightWithOverlay){
