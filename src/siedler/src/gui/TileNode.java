@@ -5,6 +5,7 @@ import core.map.NeutralTile;
 import core.map.ResourceTile;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -12,6 +13,7 @@ import core.map.Tile;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.util.Optional;
 
@@ -78,6 +80,7 @@ public class TileNode extends Region {
                 int hitnumber = resourceTile.getHitnumber();
                 Font font = new Font("Tahoma", 48 * width / 250);
                 Text hitnumberLabel = new Text(111 * width / 250 ,143 * width / 250, String.valueOf(hitnumber));
+                hitnumberLabel.setTextAlignment(TextAlignment.CENTER);
                 if(hitnumber == 6 || hitnumber == 8) {
                     hitnumberLabel.setFill(Color.INDIANRED);
                     hitnumberLabel.setStroke(Color.INDIANRED);
