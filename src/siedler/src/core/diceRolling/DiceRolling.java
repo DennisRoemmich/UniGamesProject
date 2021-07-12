@@ -7,12 +7,16 @@ import core.player.SiedlerPlayer;
 import core.positions.NodePosition;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DiceRolling {
 
     public static int getNumber() {
-        // TODO : Zahl von 2-12 Generieren, auf Wahrscheinlichkeitsverteilung achten
-        return 2;
+    	
+    	int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+    	int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+       
+    	return dice1 + dice2;
     }
 
     public static void handOutResources(int number, Map map, List<SiedlerPlayer> players) {

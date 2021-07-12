@@ -11,7 +11,7 @@ import core.map.Map;
 public class MapNode extends Region {
     private Map map = MapGenerator.generateBasicMap();
 
-    private double tileWidth = 200;
+    private double tileWidth = 100;
 
     // TODO : Dynamically calculate offset
     private double xOffset = 150;

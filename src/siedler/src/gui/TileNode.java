@@ -66,7 +66,7 @@ public class TileNode extends Region {
                 if(neutralTile.isWater()) {
                     hexagonShape.setFill(Color.SKYBLUE);
                 } else {
-                    hexagonShape.setFill(Color.BEIGE);
+                    hexagonShape.setFill(Color.SANDYBROWN);
                 }
                 return;
             } catch (Exception e) {
@@ -89,19 +89,19 @@ public class TileNode extends Region {
                 this.getChildren().add(hitnumberLabel);
                 switch (resourceTile.getResourceType()) {
                     case WOOD -> {
-                        hexagonShape.setFill(Color.BURLYWOOD);
+                        hexagonShape.setFill(Color.SADDLEBROWN);
                     }
                     case CLAY -> {
-                        hexagonShape.setFill(Color.ORANGE);
+                        hexagonShape.setFill(Color.TOMATO);
                     }
                     case WHEAT -> {
-                        hexagonShape.setFill(Color.WHEAT);
+                        hexagonShape.setFill(Color.GOLD);
                     }
                     case WOOL -> {
-                        hexagonShape.setFill(Color.GREEN);
+                        hexagonShape.setFill(Color.LIMEGREEN);
                     }
                     case ORE -> {
-                        hexagonShape.setFill(Color.GREY);
+                        hexagonShape.setFill(Color.DARKGREY);
                     }
                 }
             } catch (Exception e) {
