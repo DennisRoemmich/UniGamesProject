@@ -110,6 +110,11 @@ public class SkatGame {
         return result;
     }
 
+    public Card[] getSkat() {
+
+        return skat;
+    }
+
     /* ELSE */
 
     private void createCardStack() {

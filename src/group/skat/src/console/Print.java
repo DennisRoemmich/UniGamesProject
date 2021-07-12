@@ -56,23 +56,17 @@ public class Print {
         var string = (String) obj;
 
         if (WINDOWS) {
-            var symbols = "♣♠♥♦⌲⌯⎨⎬⋯⌾♢◇◈";
-            var replace = "CSHD>-{}-|·ox";
 
-            for (var c = 0; c < string.length(); c++) {
+            var symbols = new String[][]{{"⎼", "️·♣·", "·♠·", "·♥·", "·♦·", "⌲", "⌯", "⎨", "⎬", "⋯", "⌾", "♢", "◇", "◈", "⎺"},
+                                         {"-", ":C:", ":S:", ":H:", ":D:", ">", "-", "{", "}", "-", "|", "·", "o", "x", "-"}};
 
-                for (var s = 0; s < symbols.length(); s++) {
+            for (var i = 0; i < symbols[0].length; i++) {
 
-                    if (string.charAt(c) == symbols.charAt(s)) {
-
-                        string = string.replace(string.charAt(c), replace.charAt(s));
-                    }
-                }
+                string = string.replace(symbols[0][i], symbols[1][i]);
             }
         }
 
         System.out.print(string);
-
     }
 
 
@@ -358,7 +352,7 @@ public class Print {
 
             case 1 -> "║" + card.getCardValue().getSymbol() + "║";
 
-            case 2 -> "║" + card.getCardColor().getSymbol() + "️║";
+            case 2 -> "║" + card.getCardColor().getSymbol() + "║";
 
             case 3 -> "╚═══╝";
 

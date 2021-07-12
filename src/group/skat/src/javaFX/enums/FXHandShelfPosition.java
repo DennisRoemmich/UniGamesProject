@@ -1,8 +1,8 @@
 package javaFX.enums;
 
-public enum HandShelfPosition {
+public enum FXHandShelfPosition {
 
-    MAIN_PLAYER,
+    MID_PLAYER,
     LEFT_PLAYER,
     RIGHT_PLAYER
 }

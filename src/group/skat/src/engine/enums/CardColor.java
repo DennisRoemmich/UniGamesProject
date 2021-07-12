@@ -82,10 +82,10 @@ public enum CardColor {
 
         return switch ( this ){
 
-            case CLUBS -> "️·️♣·";
+            case CLUBS -> "️·♣·";
             case SPADES -> "·♠·";
             case HEARTS -> "·♥·";
-            case DIAMONDS -> "·♦·️";
+            case DIAMONDS -> "·♦·";
 
         };
     }

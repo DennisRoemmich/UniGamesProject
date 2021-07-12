@@ -1,11 +1,14 @@
 package javaFX;
 
+import controller.GameMove;
 import controller.SkatController;
 import engine.SkatGame;
 import engine.SkatPlayer;
 import framework.GameController;
 import framework.Player;
+import javaFX.enums.FXCardPosition;
 import javaFX.enums.GUIState;
+import javaFX.enums.FXHandShelfPosition;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,11 +26,15 @@ import java.util.ResourceBundle;
 
 public class FXController implements Player, Initializable {
 
-    SkatController controller;
-    Scene scene;
-    Presenter presenter;
+    private SkatController controller;
+    private Scene scene;
+    private Presenter presenter;
 
     Map<String, FXButton> buttonDict;
+
+    private FXHandShelf midHandShelf;
+    private FXHandShelf leftHandShelf;
+    private FXHandShelf rightHandShelf;
 
    /* INITIALIZE */
 
@@ -36,11 +43,19 @@ public class FXController implements Player, Initializable {
 
         Presenter.setFxController(this);
 
+        createHandShelfs();
+
         bindings();
         createButtons();
         
     }
 
+    private void createHandShelfs() {
+
+        leftHandShelf = new FXHandShelf(this, FXHandShelfPosition.LEFT_PLAYER);
+        midHandShelf = new FXHandShelf(this, FXHandShelfPosition.MID_PLAYER);
+        rightHandShelf = new FXHandShelf(this, FXHandShelfPosition.RIGHT_PLAYER);
+    }
 
     public void createButtons(){
 
@@ -100,7 +115,10 @@ public class FXController implements Player, Initializable {
         return controller.getGame().getCurrentPlayer();
     }
 
+    public SkatController getController() {
 
+        return controller;
+    }
 
     /* OVERRIDE */
 
@@ -126,6 +144,13 @@ public class FXController implements Player, Initializable {
 
     }
 
+    /* SKATMOVES */
+
+    public boolean makeMove(GameMove move) {
+
+        return controller.makeMove(move);
+    }
+
     /* FX EVENTS */
 
     public void showHidedebugView(MouseEvent mouseEvent) {
@@ -144,6 +169,24 @@ public class FXController implements Player, Initializable {
 
 
 
+    }
+
+    public void fxCardClicked(FXCardPosition pos, int index) {
+
+        // TODO: wenn skat clicked, make move, else card is selected true, dass handshelf manipulated ist
+
+        if (pos == FXCardPosition.HANDSHELF_MID) {
+
+            midHandShelf.cardClickedAt(index);
+
+        } else if (pos == FXCardPosition.SKAT) {
+
+
+
+        } else {
+
+
+        }
     }
 
     /* OUTLETS */

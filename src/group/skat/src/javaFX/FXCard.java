@@ -2,11 +2,13 @@ package javaFX;
 
 import engine.Card;
 import engine.enums.CardValue;
+import javaFX.enums.FXCardPosition;
+import javaFX.enums.FXHandShelfPosition;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
-import java.awt.event.MouseEvent;
 
 public class FXCard {
 
@@ -16,6 +18,7 @@ public class FXCard {
     private boolean isHighlighted;
     private boolean isSelected;
 
+    private FXCardPosition position;
     private int index;
     private Card card;
 
@@ -73,17 +76,29 @@ public class FXCard {
 
     /* CONSTRUCTOR */
 
-    public FXCard(AnchorPane anchorCard, FXController fxcontroller) {
+    public FXCard(AnchorPane anchorCard, FXCardPosition pos, FXController fxcontroller) {
 
         fxController = fxcontroller;
 
         this.anchorCard = anchorCard;
+
+        position = pos;
+
+        init();
+        update();
     }
 
-    public FXCard(Card card, int index, FXController fxcontroller) {
+    public FXCard(Card card, int index, FXController fxcontroller, FXHandShelfPosition pos) {
 
         fxController = fxcontroller;
+        anchorCard = new AnchorPane();
 
+        position = switch (pos) {
+
+            case LEFT_PLAYER -> FXCardPosition.HANDSHELF_LEFT;
+            case MID_PLAYER -> FXCardPosition.HANDSHELF_MID;
+            case RIGHT_PLAYER -> FXCardPosition.HANDSHELF_RIGHT;
+        };
         this.index = index;
         this.card = card;
 
@@ -91,22 +106,8 @@ public class FXCard {
         isHighlighted = false;
         isSelected = false;
 
-        imageCardBackground = new ImageView(turnedDown);
-        imageCardBackground.setVisible(false);
-        setImageCardColor();
-        setImageCardValue();
-        imageCardHighlighted = new ImageView(highlight);
-        imageCardHighlighted.setVisible(false);
-
-        anchorCard.getChildren().addAll(imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted);
-
-        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardColor, imageCardHighlighted}) {
-
-            pane.setFitWidth(119);
-            pane.setFitHeight(206);
-            pane.setLayoutX(0);
-            pane.setLayoutY(0);
-        }
+        init();
+        update();
     }
 
     /* GETTER */
@@ -214,13 +215,43 @@ public class FXCard {
 
     /* OTHER */
 
-    public void update() {
+    private void init() {
+
+        imageCardBackground = new ImageView(turnedDown);
+        imageCardBackground.setVisible(false);
+        setImageCardColor();
+        setImageCardValue();
+        imageCardHighlighted = new ImageView(highlight);
+        imageCardHighlighted.setVisible(false);
+
+        anchorCard.getChildren().addAll(imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted);
+
+        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardColor, imageCardHighlighted}) {
+
+            pane.setFitWidth(119);
+            pane.setFitHeight(206);
+            pane.setLayoutX(0);
+            pane.setLayoutY(0);
+        }
+
+
+        anchorCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                fxController.fxCardClicked(position, index);
+            }
+        });
+    }
+
+    private void update() {
 
         imageCardBackground.setVisible(!isOpen);
         imageCardColor.setVisible(isOpen);
         imageCardValue.setVisible(isOpen);
 
-        imageCardHighlighted.setVisible(isHighlighted);
+        imageCardHighlighted.setVisible(isSelected); // egtl isHighLighted
 
         // TODO: selected
     }
@@ -243,11 +274,4 @@ public class FXCard {
         }
     }
 
-    /*  */
-
-    // TODO: mouseClick
-    public void selectCard(MouseEvent e) {
-
-
-    }
 }

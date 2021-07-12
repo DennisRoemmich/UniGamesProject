@@ -4,11 +4,12 @@ import console.Console;
 import console.Print;
 import controller.SkatController;
 import javaFX.FXLauncher;
+import jdk.jshell.EvalException;
 import test.Test;
 
 public class SkatLauncher {
 
-    private static final boolean FX_LAUNCHER = false;
+    private static final boolean FX_LAUNCHER = true;
     private static boolean WINDOWS = false;
 
     public static void main(String[] args){
@@ -16,15 +17,6 @@ public class SkatLauncher {
         // TODO: make arguments decide whether console or FX is opened
 
         var gameAmount = 12;
-
-        try {
-
-            if (args[0].equals("windows")) {
-
-                WINDOWS = true;
-            }
-
-        } catch (Exception e) {}
 
         var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
 
@@ -38,7 +30,17 @@ public class SkatLauncher {
         /*    var test = new Test(controller);
             test.mainTest();//*/
 
+            try {
+
+                if (args[0].equals("windows")) {
+
+                    WINDOWS = true;
+                }
+
+            } catch (Exception ignored) {}
+
             Print.setWINDOWS(WINDOWS);
+
             var console = new Console(controller);
 
         }
