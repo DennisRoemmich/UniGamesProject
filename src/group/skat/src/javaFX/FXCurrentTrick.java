@@ -32,7 +32,10 @@ public class FXCurrentTrick {
         trickFXCards[1] = new FXCard(two, FXCardPosition.TRICK, fxController);
         trickFXCards[2] = new FXCard(three, FXCardPosition.TRICK, fxController);
 
+        for (var i = 0; i < 3; i++) {
 
+
+        }
     }
 
     public void update() {

@@ -11,40 +11,37 @@ public class FXHandShelf {
 
     private FXHandShelfPosition position;
 
-    private AnchorPane anchorHand;
     private FXCard[] handFXCards;
 
     private int selectedCardIndex;
 
     /* CONSTRUCTOR */
 
-    public FXHandShelf(FXController fxController, FXHandShelfPosition pos){
+    public FXHandShelf(AnchorPane pane, FXController fxController, FXHandShelfPosition pos){
 
         this.fxController = fxController;
 
         position = pos;
-        anchorHand = new AnchorPane();
 
         selectedCardIndex = -1;
 
-        init();
+        init(pane);
         update();
     }
 
     /* OTHER */
 
-    public void init(){
+    public void init(AnchorPane pane){
 
-        var playersHand = fxController.getPlayer().getHand();
         handFXCards = new FXCard[10];
 
         for (var i = 0; i < 10; i++) {
 
-            var card = new FXCard(playersHand.getCardAt(i), i, fxController, position);
+            var card = new FXCard(i, fxController, position);
 
             handFXCards[i] = card;
 
-            anchorHand.getChildren().add(card.getAnchorCard());
+            pane.getChildren().add(card.getAnchorCard());
             AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 70.0);
         }
     }
@@ -104,6 +101,18 @@ public class FXHandShelf {
         return false;
     }
 
+    /* OTHER */
+
+    public int getSelectedCardIndex() {
+
+        return selectedCardIndex;
+    }
+
+    public void setSelectedCardIndex(int index) {
+
+        selectedCardIndex = index;
+    }
+
     /* ACTIONHANDLING */
 
     public void cardClickedAt(int index) {
@@ -124,6 +133,11 @@ public class FXHandShelf {
 
                 selectedCardIndex = index;
                 handFXCards[index].setSelected(true);
+
+            } else {
+
+                handFXCards[selectedCardIndex].setSelected(false);
+                selectedCardIndex = -1;
             }
         }
 

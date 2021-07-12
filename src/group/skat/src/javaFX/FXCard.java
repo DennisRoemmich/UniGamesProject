@@ -22,6 +22,8 @@ public class FXCard {
     private int index;
     private Card card;
 
+    private boolean isEmpty;
+
     public AnchorPane anchorCard;
 
     public ImageView imageCardBackground;
@@ -88,7 +90,7 @@ public class FXCard {
         update();
     }
 
-    public FXCard(Card card, int index, FXController fxcontroller, FXHandShelfPosition pos) {
+    public FXCard(int index, FXController fxcontroller, FXHandShelfPosition pos) {
 
         fxController = fxcontroller;
         anchorCard = new AnchorPane();
@@ -100,7 +102,7 @@ public class FXCard {
             case RIGHT_PLAYER -> FXCardPosition.HANDSHELF_RIGHT;
         };
         this.index = index;
-        this.card = card;
+        this.card = null;
 
         isOpen = false;
         isHighlighted = false;
@@ -253,6 +255,8 @@ public class FXCard {
 
         imageCardHighlighted.setVisible(isSelected); // egtl isHighLighted
 
+        isEmpty = (card == null);
+
         // TODO: selected
     }
 
@@ -272,6 +276,8 @@ public class FXCard {
 
             anchorCard.setVisible(false);
         }
+
+        update();
     }
 
 }

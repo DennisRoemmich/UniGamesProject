@@ -1,5 +1,7 @@
 package javaFX;
 
+import controller.SkatMove;
+import controller.enums.ActionType;
 import javaFX.enums.FXCardPosition;
 import javafx.scene.layout.AnchorPane;
 
@@ -7,7 +9,6 @@ public class FXSkat {
 
     private FXController fxController;
 
-    public AnchorPane anchorSkat;
     private FXCard[] skatFXCards;
 
     private int selectedCardIndex;
@@ -17,8 +18,6 @@ public class FXSkat {
     public FXSkat(FXController fxController, AnchorPane left, AnchorPane right) {
 
         this.fxController = fxController;
-
-        anchorSkat = new AnchorPane();
 
         selectedCardIndex = -1;
 
@@ -40,6 +39,8 @@ public class FXSkat {
         for (var i = 0; i < skat.length; i++) {
 
             skatFXCards[i].setOpen(false);
+
+
         }
     }
 
@@ -56,10 +57,46 @@ public class FXSkat {
         }
     }
 
+    /* OTHER */
+
+    public int getSelectedCardIndex() {
+
+        return selectedCardIndex;
+    }
+
+    public void setSelectedCardIndex(int index) {
+
+        selectedCardIndex = index;
+    }
+
     /* ACTIONHANDLING */
 
     public void cardClickedAt(int index) {
 
+        if (selectedCardIndex == -1) {
 
+            selectedCardIndex = index;
+
+        } else if (selectedCardIndex == index || skatFXCards[index].isSelected()) {
+
+            selectedCardIndex = -1;
+
+        } else {
+
+            var move = new SkatMove(ActionType.ON_SKATHAND, selectedCardIndex, index);
+
+            if (!fxController.makeMove(move)) {
+
+                selectedCardIndex = index;
+                skatFXCards[index].setSelected(true);
+
+            } else {
+
+                skatFXCards[selectedCardIndex].setSelected(false);
+                selectedCardIndex = -1;
+            }
+        }
+
+        update();
     }
 }

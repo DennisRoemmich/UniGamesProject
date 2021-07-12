@@ -3,8 +3,11 @@ package javaFX;
 import controller.GameMove;
 import console.Print;
 import controller.SkatController;
+import controller.SkatMove;
+import controller.enums.ActionType;
 import engine.SkatGame;
 import engine.SkatPlayer;
+import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
 import javaFX.enums.FXCardPosition;
@@ -43,6 +46,9 @@ public class FXController implements Player, Initializable {
     private FXHandShelf leftHandShelf;
     private FXHandShelf rightHandShelf;
 
+    private FXSkat fxSkat;
+    private FXCurrentTrick fxCurrentTrick;
+
 
 
    /* INITIALIZE */
@@ -53,18 +59,21 @@ public class FXController implements Player, Initializable {
         FXButton.setFXController(this);
         FXPresenter.setFxController(this);
 
-        createHandShelfs();
+        // TODO: erst nachdem new game started
+        initHandShelfs();
+        fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
+        fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
 
         bindings();
         createButtons();
         
     }
 
-    private void createHandShelfs() {
+    private void initHandShelfs() {
 
-        leftHandShelf = new FXHandShelf(this, FXHandShelfPosition.LEFT_PLAYER);
-        midHandShelf = new FXHandShelf(this, FXHandShelfPosition.MID_PLAYER);
-        rightHandShelf = new FXHandShelf(this, FXHandShelfPosition.RIGHT_PLAYER);
+        leftHandShelf = new FXHandShelf(AnchorHandShelfLeft, this, FXHandShelfPosition.LEFT_PLAYER);
+        midHandShelf = new FXHandShelf(AnchorHandShelfMid, this, FXHandShelfPosition.MID_PLAYER);
+        rightHandShelf = new FXHandShelf(AnchorHandShelfRight, this, FXHandShelfPosition.RIGHT_PLAYER);
     }
 
     public void createButtons(){
@@ -360,15 +369,38 @@ public class FXController implements Player, Initializable {
 
         // TODO: wenn skat clicked, make move, else card is selected true, dass handshelf manipulated ist
 
-        if (pos == FXCardPosition.HANDSHELF_MID) {
+        if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
 
-            midHandShelf.cardClickedAt(index);
+            var skatSelectedIndex = fxSkat.getSelectedCardIndex();
+            var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
 
-        } else if (pos == FXCardPosition.SKAT) {
+            if (pos == FXCardPosition.HANDSHELF_MID) {
 
+                if (skatSelectedIndex != -1) {
 
+                    var move = new SkatMove(ActionType.ON_SKATHAND, 10 + skatSelectedIndex, index);
 
-        } else {
+                    if (makeMove(move)) {
+
+                        midHandShelf.setSelectedCardIndex(index);
+                    }
+                }
+                midHandShelf.cardClickedAt(index);
+
+            } else if (pos == FXCardPosition.SKAT) {
+
+                if (shelfSelectedCardIndex != -1) {
+
+                    var move = new SkatMove(ActionType.ON_SKATHAND, shelfSelectedCardIndex, 10 + index);
+
+                    if (makeMove(move)) {
+
+                        fxSkat.setSelectedCardIndex(index);
+                    }
+                }
+                fxSkat.cardClickedAt(index);
+            }
+        } else if (controller.getGame().getGamePhase() == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
 
 
         }
@@ -381,7 +413,9 @@ public class FXController implements Player, Initializable {
     public Label label_ShowHideDebugView;
     public Label label_WindowSize;
     public ImageView ImageViewBackground;
-    public AnchorPane AnchorPlayerHand;
+    public AnchorPane AnchorHandShelfMid;
+    public AnchorPane AnchorHandShelfLeft;
+    public AnchorPane AnchorHandShelfRight;
     public AnchorPane AnchorCardEx;
     public ImageView BackgroundCard;
     public ImageView CardForeground;
@@ -409,6 +443,10 @@ public class FXController implements Player, Initializable {
     public Label LabelGameNo;
     public ImageView IVButtonPlay;
     public ImageView IVButtonNext;
+
+    public AnchorPane AnchorTrickOne;
+    public AnchorPane AnchorTrickTwo;
+    public AnchorPane AnchorTrickThree;
 
     public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
     }
