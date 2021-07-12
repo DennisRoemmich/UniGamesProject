@@ -121,7 +121,7 @@ public class FXPresenter {
 
         buttonDict.get("PA1").hide();
         buttonDict.get("PA2").setImage(acceptButton);
-        buttonDict.get("PA3").setImage(greyButton);
+        buttonDict.get("PA3").hide();
         buttonDict.get("PA4").setImage(cancelButton);
         buttonDict.get("PA5").hide();
 

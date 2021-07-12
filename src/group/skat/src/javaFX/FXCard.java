@@ -41,14 +41,14 @@ public class FXCard {
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
     // TODO: update URLs
-    private static final String CLUBS_I_URL = "./images/Cards/CardClubsColor.png";
-    private static final String CLUBS_N_URL = "./images/Cards/CardClubsEmpty.png";
-    private static final String SPADES_I_URL = "./images/Cards/CardClubsColor.png";
-    private static final String SPADES_N_URL = "./images/Cards/CardClubsEmpty.png";
-    private static final String HEARTS_I_URL = "./images/Cards/CardClubsColor.png";
-    private static final String HEARTS_N_URL = "./images/Cards/CardClubsEmpty.png";
-    private static final String DIAMONDS_I_URL = "./images/Cards/CardClubsColor.png";
-    private static final String DIAMONDS_N_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String CLUBS_N_URL = "./images/Cards/CardClubsColor.png";
+    private static final String CLUBS_I_URL = "./images/Cards/CardClubsEmpty.png";
+    private static final String SPADES_N_URL = "./images/Cards/CardSpadesColor.png";
+    private static final String SPADES_I_URL = "./images/Cards/CardSpadesEmpty.png";
+    private static final String HEARTS_N_URL = "./images/Cards/CardHeartsColor.png";
+    private static final String HEARTS_I_URL = "./images/Cards/CardHeartsEmpty.png";
+    private static final String DIAMONDS_N_URL = "./images/Cards/CardDiamondsColor.png";
+    private static final String DIAMONDS_I_URL = "./images/Cards/CardDiamondsEmpty.png";
     private static final String ACE_URL = "./images/Cards/CardAce.png";
     private static final String KING_URL = "./images/Cards/CardKing.png";
     private static final String QUEEN_URL = "./images/Cards/CardQueen.png";
@@ -180,7 +180,7 @@ public class FXCard {
             };
         }
 
-        imageCardColor = new ImageView(image);
+        imageCardColor.setImage(image);
         imageCardColor.setVisible(true);
     }
 
@@ -192,8 +192,7 @@ public class FXCard {
             return;
         }
 
-        imageCardValue = new ImageView(
-
+        imageCardValue.setImage(
                 switch (card.getCardValue()) {
 
                     case ACE -> ace;
@@ -206,6 +205,8 @@ public class FXCard {
                     case SEVEN -> seven;
                 }
         );
+
+
         imageCardValue.setVisible(true);
     }
 

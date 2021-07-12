@@ -331,7 +331,7 @@ public class FXController implements Player, Initializable {
 
             case "SORT" -> {
 
-
+                makeMove(new SkatMove(ActionType.SORT));
 
             }
 
