@@ -58,8 +58,7 @@ public class FXHandShelf {
 
                 handFXCards[i].changeCard(playersHand.getCardAt(i));
             }
-            Print.debug("maik", "open: " + handFXCards[i].isOpen());
-            Print.debug("maik", "empty: " + handFXCards[i].isEmpty());
+
             if (shiftRight) {
 
                 AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 70.0));

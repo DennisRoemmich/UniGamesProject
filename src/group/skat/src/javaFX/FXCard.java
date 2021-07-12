@@ -266,6 +266,7 @@ public class FXCard {
         } else if (position == FXCardPosition.HANDSHELF_LEFT || position == FXCardPosition.HANDSHELF_RIGHT) {
 
             isOpen = false;
+            anchorCard.setVisible(false);
         }
 
         imageCardBackground.setVisible(!isOpen);
