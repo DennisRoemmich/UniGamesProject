@@ -45,6 +45,7 @@ public class ChessMove {
         //moveObject.put("isValid", true);
         moveObject.put("origin", mOrigin.toString());
         moveObject.put("destination", mDestination.toString());
+        // TODO : Add special Type
         return moveObject;
     }
 
