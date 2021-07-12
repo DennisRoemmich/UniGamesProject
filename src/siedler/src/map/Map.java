@@ -1,5 +1,6 @@
 package map;
 
+import core.OptionalAdder;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -98,5 +99,15 @@ public class Map {
         if(!streets.stream().map(Street::getPosition).toList().contains(newStreet.getPosition())) {
             streets.add(newStreet);
         }
+    }
+
+    /* MapTool-Funktionalität integriert für geschickteren Zugriff */
+
+    public List<Tile> getTiles(NodePosition nodePosition) {
+        List<Tile> tiles = new ArrayList<>();
+        for(TilePosition tilePosition : MapTools.getTilesPositions(nodePosition)) {
+            OptionalAdder.add(getTile(tilePosition), tiles);
+        }
+        return tiles;
     }
 }

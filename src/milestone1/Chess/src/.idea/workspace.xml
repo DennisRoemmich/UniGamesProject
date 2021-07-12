@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65a09091-b678-486c-87a4-af740ea5493c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/core/AiPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/core/OptionalAdder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/FileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/GameLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/Presenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/PrintToConsole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/WriteError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../siedler/src/core/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../siedler/src/core/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../siedler/src/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../siedler/src/map/Map.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
