@@ -43,7 +43,6 @@ public class FXLauncher extends Application {
 
         var FXController = (FXController) loader.getController();
 
-        Print.debug("WARNING", "Whuup, Controller : " + FXLauncher.skatController.toString());
         FXController.setController(FXLauncher.skatController);
         FXController.setScene(scene);
 
@@ -52,9 +51,7 @@ public class FXLauncher extends Application {
 
     public void launchFX(SkatController controller){
 
-
         FXLauncher.skatController = controller;
-        Print.debug("WARNING", "Controller : " + FXLauncher.skatController.toString());
         launch();
 
     }

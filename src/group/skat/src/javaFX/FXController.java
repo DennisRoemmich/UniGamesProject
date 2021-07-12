@@ -73,7 +73,7 @@ public class FXController implements Player, Initializable {
 
         initHandShelfs();
         fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
-        fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
+    //    fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
 
     }
 
@@ -435,10 +435,10 @@ public class FXController implements Player, Initializable {
 
     public void fxCardClicked(FXCardPosition pos, int index) {
 
-        if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
+        var skatSelectedIndex = fxSkat.getSelectedCardIndex();
+        var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
 
-            var skatSelectedIndex = fxSkat.getSelectedCardIndex();
-            var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
+        if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
 
             if (pos == FXCardPosition.HANDSHELF_MID) {
 
@@ -468,7 +468,16 @@ public class FXController implements Player, Initializable {
             }
         } else if (controller.getGame().getGamePhase() == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
 
+            if (shelfSelectedCardIndex != -1) {
 
+                var move = new SkatMove(shelfSelectedCardIndex);
+
+                if (makeMove(move)) {
+
+                    midHandShelf.update();
+                    fxCurrentTrick.update();
+                }
+            }
         }
     }
 

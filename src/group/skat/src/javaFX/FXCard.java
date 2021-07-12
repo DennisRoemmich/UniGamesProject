@@ -1,5 +1,6 @@
 package javaFX;
 
+import console.Print;
 import engine.Card;
 import engine.enums.CardValue;
 import javaFX.enums.FXCardPosition;
@@ -21,8 +22,6 @@ public class FXCard {
     private FXCardPosition position;
     private int index;
     private Card card;
-
-    private boolean isEmpty;
 
     public AnchorPane anchorCard;
 
@@ -83,6 +82,7 @@ public class FXCard {
         fxController = fxcontroller;
 
         this.anchorCard = anchorCard;
+        this.anchorCard.setVisible(true);
 
         position = pos;
 
@@ -94,6 +94,7 @@ public class FXCard {
 
         fxController = fxcontroller;
         anchorCard = new AnchorPane();
+        anchorCard.setVisible(true);
 
         position = switch (pos) {
 
@@ -104,7 +105,7 @@ public class FXCard {
         this.index = index;
         this.card = null;
 
-        isOpen = true;
+        isOpen = false;
         isHighlighted = false;
         isSelected = false;
 
@@ -139,6 +140,11 @@ public class FXCard {
         return anchorCard;
     }
 
+    public boolean isEmpty() {
+
+        return card == null;
+    }
+
     /* SETTER */
 
     private void setImageCardColor() {
@@ -146,6 +152,7 @@ public class FXCard {
         if (card == null) {
 
             imageCardColor.setVisible(false);
+            Print.debug("maik", "hey, card is null");
             return;
         }
 
@@ -174,6 +181,7 @@ public class FXCard {
         }
 
         imageCardColor = new ImageView(image);
+        imageCardColor.setVisible(true);
     }
 
     private void setImageCardValue() {
@@ -198,6 +206,7 @@ public class FXCard {
                     case SEVEN -> seven;
                 }
         );
+        imageCardValue.setVisible(true);
     }
 
     public void setOpen(boolean open) {
@@ -219,21 +228,17 @@ public class FXCard {
 
     private void init() {
 
-
         imageCardColor = new ImageView();
         imageCardValue = new ImageView();
 
         imageCardBackground = new ImageView(turnedDown);
         imageCardBackground.setVisible(false);
-        setImageCardColor();
-        setImageCardValue();
         imageCardHighlighted = new ImageView(highlight);
         imageCardHighlighted.setVisible(false);
 
-        anchorCard.getChildren().addAll(imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted);
+        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted}) {
 
-        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardColor, imageCardHighlighted}) {
-
+            anchorCard.getChildren().add(pane);
             pane.setFitWidth(119);
             pane.setFitHeight(206);
             pane.setLayoutX(0);
@@ -253,13 +258,20 @@ public class FXCard {
 
     private void update() {
 
+        if (position == FXCardPosition.HANDSHELF_MID) {
+
+            isOpen = true;
+
+        } else if (position == FXCardPosition.HANDSHELF_LEFT || position == FXCardPosition.HANDSHELF_RIGHT) {
+
+            isOpen = false;
+        }
+
         imageCardBackground.setVisible(!isOpen);
         imageCardColor.setVisible(isOpen);
         imageCardValue.setVisible(isOpen);
 
         imageCardHighlighted.setVisible(isSelected); // egtl isHighLighted
-
-        isEmpty = (card == null);
 
         // TODO: selected
     }
@@ -275,11 +287,6 @@ public class FXCard {
 
         setImageCardColor();
         setImageCardValue();
-
-        if (card == null) {
-
-            anchorCard.setVisible(false);
-        }
 
         update();
     }
