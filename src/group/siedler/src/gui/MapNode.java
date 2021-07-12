@@ -6,6 +6,7 @@ import positions.NodePosition;
 import positions.TilePosition;
 import javafx.scene.layout.Region;
 import map.Map;
+import streets.Street;
 import tiles.Tile;
 
 public class MapNode extends Region {
@@ -35,6 +36,13 @@ public class MapNode extends Region {
             newNode.setLayoutY(position.getY());
             this.getChildren().add(newNode);
         }
+        for(Street street : map.getStreets()) {
+            Region newNode = new RoadNode(tileWidth, street);
+            GuiPosition position = convertPosition(street.getPosition());
+            newNode.setLayoutX(position.getX());
+            newNode.setLayoutY(position.getY());
+            this.getChildren().add(newNode);
+        }
     }
 
     private GuiPosition convertPosition(TilePosition tilePosition) {
@@ -49,7 +57,57 @@ public class MapNode extends Region {
     }
 
     private GuiPosition convertPosition(EdgePosition edgePosition) {
-        // TODO : Implement calculation
-        return null;
+        double x, y;
+        switch(edgePosition.getZ()) {
+            case A -> {
+                x = (xOffset * 1.35) + (edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
+                y = (yOffset * 1.12) + edgePosition.getY() * tileWidth * 0.6;
+            }
+            case B -> {
+                x = (xOffset * 1.35) + (edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
+                y = (yOffset * 1.52) + edgePosition.getY() * tileWidth * 0.6;
+            }
+            case C -> {
+                x = xOffset + (edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
+                y = (yOffset * 1.32) + edgePosition.getY() * tileWidth * 0.6;
+            }
+            default -> {
+                x = 0;
+                y = 0;
+            }
+        }
+        return new GuiPosition(x,y);
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public double getTileWidth() {
+        return tileWidth;
+    }
+
+    public void setTileWidth(double tileWidth) {
+        this.tileWidth = tileWidth;
+    }
+
+    public double getxOffset() {
+        return xOffset;
+    }
+
+    public void setxOffset(double xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public double getyOffset() {
+        return yOffset;
+    }
+
+    public void setyOffset(double yOffset) {
+        this.yOffset = yOffset;
     }
 }

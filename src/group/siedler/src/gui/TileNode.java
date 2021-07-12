@@ -20,7 +20,7 @@ import java.util.Optional;
 public class TileNode extends Region {
 
     protected Optional<Tile> tile = Optional.empty();
-    protected double width = 250;
+    protected double width = 100;
 
     public static final double angle30degree = Math.PI / 6;
 
