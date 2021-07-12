@@ -20,16 +20,18 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Pane mainPane = new Pane();
         MapNode mapNode = new MapNode();
-        int x = 1;
-        int y = -1;
+        int x = 0;
+        int y = 0;
         for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
             EdgePosition position = new EdgePosition(x,y,zCord);
             Street street = new Street(position, StreetType.ROAD, PlayerColor.BLUE);
             mapNode.getMap().addStreet(street);
         }
         mapNode.refreshOutput();
+        mapNode.setLayoutX(300);;
+        mapNode.setLayoutY(150);
         mainPane.getChildren().add(mapNode);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(new Scene(mainPane, 700, 500));
         primaryStage.show();
     }

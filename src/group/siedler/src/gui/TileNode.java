@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.geometry.Pos;
 import tiles.Tile;
 import tiles.NeutralTile;
 import tiles.ResourceTile;
@@ -41,6 +42,10 @@ public class TileNode extends Region {
     private void refreshOutput() {
         this.getChildren().clear();
 
+        StackPane stack = new StackPane();
+        stack.setAlignment(Pos.CENTER);
+        this.getChildren().add(stack);
+
         Polygon hexagonShape = new Polygon();
 
         double centerX = width / 2;
@@ -54,7 +59,7 @@ public class TileNode extends Region {
             list.add(centerY - radius * Math.sin((1 + 2 * i) * angle30degree));
         }
 
-        this.getChildren().add(hexagonShape);
+        stack.getChildren().add(hexagonShape);
         hexagonShape.setStroke(Color.BLACK);
 
         if(tile.isEmpty()) {
@@ -74,19 +79,19 @@ public class TileNode extends Region {
             }
             try {
                 ResourceTile resourceTile = (ResourceTile) extractedTile;
-                Shape circle = new Circle(width / 2 ,width / 2, 35 * width / 250, Color.BEIGE);
+                Shape circle = new Circle(7 * width / 50, Color.BEIGE);
                 circle.setStroke(Color.BLACK);
-                this.getChildren().add(circle);
+                stack.getChildren().add(circle);
                 int hitnumber = resourceTile.getHitnumber();
-                Font font = new Font("Tahoma", 48 * width / 250);
-                Text hitnumberLabel = new Text(111 * width / 250 ,143 * width / 250, String.valueOf(hitnumber));
+                Font font = new Font("Tahoma", width / 5);
+                Text hitnumberLabel = new Text(String.valueOf(hitnumber));
                 hitnumberLabel.setTextAlignment(TextAlignment.CENTER);
                 if(hitnumber == 6 || hitnumber == 8) {
                     hitnumberLabel.setFill(Color.INDIANRED);
                     hitnumberLabel.setStroke(Color.INDIANRED);
                 }
                 hitnumberLabel.setFont(font);
-                this.getChildren().add(hitnumberLabel);
+                stack.getChildren().add(hitnumberLabel);
                 switch (resourceTile.getResourceType()) {
                     case WOOD -> {
                         hexagonShape.setFill(Color.SADDLEBROWN);
