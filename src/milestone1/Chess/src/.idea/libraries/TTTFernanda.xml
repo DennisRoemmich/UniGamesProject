@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="TTTFernanda">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/TTTFernanda.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../latestTTTjars/TTTFernanda.jar!/" />
+    </SOURCES>
+  </library>
+</component>
