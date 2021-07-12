@@ -8,7 +8,7 @@ import framework.Player;
 public class Print {
 
 
-    private static final String ACTIVE = "WARNING;ERROR;CONSOLE"; //MAIK
+    private static final String ACTIVE = "maik;WARNING;ERROR;CONSOLE"; //MAIK
 
     private static boolean WINDOWS;
 

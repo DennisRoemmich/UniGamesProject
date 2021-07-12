@@ -112,7 +112,7 @@ public class FXPresenter {
 
         fxController.anchorButtonsPlayActions.setVisible(false);
 
-        buttonDict.get("PA1").se
+
 
 
     }
