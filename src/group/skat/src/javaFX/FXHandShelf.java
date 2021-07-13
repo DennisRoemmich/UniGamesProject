@@ -107,6 +107,8 @@ public class FXHandShelf {
                     shiftRight = true;
                 }
             }
+
+            handFXCards[i].update();
         }
     }
 

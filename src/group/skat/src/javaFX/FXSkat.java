@@ -25,6 +25,13 @@ public class FXSkat {
         update();
     }
 
+    /* GETTER */
+
+    public FXCard getFXCardAt(int index) {
+
+        return skatFXCards[index];
+    }
+
     /* OTHER */
 
     private void init(AnchorPane left, AnchorPane right) {
@@ -33,15 +40,14 @@ public class FXSkat {
 
         skatFXCards = new FXCard[2];
 
-        skatFXCards[0] = new FXCard(left, FXCardPosition.SKAT, fxController);
-        skatFXCards[1] = new FXCard(right, FXCardPosition.SKAT, fxController);
+        skatFXCards[0] = new FXCard(left, FXCardPosition.SKAT, 0, fxController);
+        skatFXCards[1] = new FXCard(right, FXCardPosition.SKAT, 1, fxController);
 
 
 
         for (var i = 0; i < skat.length; i++) {
 
-            skatFXCards[i].setOpen(false);
-
+            skatFXCards[i].setOpen(true);
         }
     }
 
@@ -55,6 +61,7 @@ public class FXSkat {
 
                 skatFXCards[i].changeCard(skat[i]);
             }
+
         }
     }
 
@@ -76,22 +83,24 @@ public class FXSkat {
 
         if (selectedCardIndex == -1) {
 
+            for (FXCard card : skatFXCards) {
+
+                card.setSelected(false);
+            }
+
+            skatFXCards[index].setSelected(true);
             selectedCardIndex = index;
 
-        } else if (selectedCardIndex == index || skatFXCards[index].isSelected()) {
+        } else if (selectedCardIndex == index) {
 
+            skatFXCards[index].setSelected(false);
             selectedCardIndex = -1;
 
         } else {
 
             var move = new SkatMove(ActionType.ON_SKATHAND, selectedCardIndex, index);
 
-            if (!fxController.makeMove(move)) {
-
-                selectedCardIndex = index;
-                skatFXCards[index].setSelected(true);
-
-            } else {
+            if (fxController.makeMove(move)) {
 
                 skatFXCards[selectedCardIndex].setSelected(false);
                 selectedCardIndex = -1;

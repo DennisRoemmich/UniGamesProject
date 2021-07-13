@@ -472,6 +472,8 @@ public class FXController implements Player, Initializable {
 
     public void fxCardClicked(FXCardPosition pos, int index) {
 
+        Print.debug("maik", "card clicked at: " + index);
+
         var gamePhase = controller.getGame().getGamePhase();
 
         var skatSelectedIndex = fxSkat.getSelectedCardIndex();
@@ -487,9 +489,7 @@ public class FXController implements Player, Initializable {
 
         } else if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
 
-        // TODO cardClickedAT darf nicht aufgerufen werden wenn move mit skat
-
-        if (pos == FXCardPosition.HANDSHELF_MID) {
+            if (pos == FXCardPosition.HANDSHELF_MID) {
 
                 midHandShelf.cardClickedAt(index);
             }
@@ -498,7 +498,7 @@ public class FXController implements Player, Initializable {
 
     private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {
 
-            if (pos == FXCardPosition.HANDSHELF_MID) {
+        if (pos == FXCardPosition.HANDSHELF_MID) {
 
             if (skatSelectedIndex != -1) {
 
@@ -506,10 +506,17 @@ public class FXController implements Player, Initializable {
 
                 if (makeMove(move)) {
 
-                    midHandShelf.setSelectedCardIndex(index);
+                    fxSkat.getFXCardAt(skatSelectedIndex).setSelected(false);
+                    fxSkat.setSelectedCardIndex(-1);
+
+                    midHandShelf.getFXCardAt(index).setSelected(true);
+                    midHandShelf.setSelectedCardIndex(-1);
                 }
+
+            } else if (shelfSelectedCardIndex != -1) {
+
+                midHandShelf.cardClickedAt(index);
             }
-            midHandShelf.cardClickedAt(index);
 
         } else if (pos == FXCardPosition.SKAT) {
 
@@ -519,11 +526,20 @@ public class FXController implements Player, Initializable {
 
                 if (makeMove(move)) {
 
-                    fxSkat.setSelectedCardIndex(index);
+                    midHandShelf.getFXCardAt(skatSelectedIndex).setSelected(false);
+                    midHandShelf.setSelectedCardIndex(-1);
+
+                    fxSkat.getFXCardAt(index).setSelected(false);
+                    fxSkat.setSelectedCardIndex(-1);
                 }
+
+            } else if (skatSelectedIndex != -1) {
+
+                fxSkat.cardClickedAt(index);
             }
-            fxSkat.cardClickedAt(index);
         }
+        fxSkat.update();
+        midHandShelf.update();
     }
 
     private void possibleTrickMove(int shelfSelectedCardIndex) {

@@ -28,9 +28,9 @@ public class FXCurrentTrick {
 
         trickFXCards = new FXCard[3];
 
-        trickFXCards[0] = new FXCard(one, FXCardPosition.TRICK, fxController);
-        trickFXCards[1] = new FXCard(two, FXCardPosition.TRICK, fxController);
-        trickFXCards[2] = new FXCard(three, FXCardPosition.TRICK, fxController);
+        trickFXCards[0] = new FXCard(one, FXCardPosition.TRICK, 0, fxController);
+        trickFXCards[1] = new FXCard(two, FXCardPosition.TRICK, 1, fxController);
+        trickFXCards[2] = new FXCard(three, FXCardPosition.TRICK, 2, fxController);
 
         for (var i = 0; i < 3; i++) {
 

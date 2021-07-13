@@ -239,7 +239,6 @@ public class FXPresenter {
     private static void skatView(boolean visible){
 
         fxController.AnchorViewSkat.setVisible(visible);
-
     }
 
     private static void newGameView(boolean visible){

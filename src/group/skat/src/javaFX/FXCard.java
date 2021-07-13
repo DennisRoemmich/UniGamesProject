@@ -77,7 +77,7 @@ public class FXCard {
 
     /* CONSTRUCTOR */
 
-    public FXCard(AnchorPane anchorCard, FXCardPosition pos, FXController fxcontroller) {
+    public FXCard(AnchorPane anchorCard, FXCardPosition pos, int index, FXController fxcontroller) {
 
         fxController = fxcontroller;
 
@@ -85,6 +85,7 @@ public class FXCard {
         this.anchorCard.setVisible(true);
 
         position = pos;
+        this.index = index;
 
         init();
         update();
@@ -257,19 +258,20 @@ public class FXCard {
         anchorCard.setOnMouseClicked(mouseEvent -> fxController.fxCardClicked(position, index));
     }
 
-    private void update() {
+    public void update() {
 
         // TODO: entcomment, hide left and right
-    //    isOpen = position != FXCardPosition.HANDSHELF_LEFT && position != FXCardPosition.HANDSHELF_RIGHT;
+    //    isOpen = position == FXCardPosition.HANDSHELF_MID;
         isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
 
         imageCardBackground.setVisible(!isOpen);
         imageCardColor.setVisible(isOpen);
         imageCardValue.setVisible(isOpen);
+        imageCardHighlighted.setVisible(isSelected);
 
-        imageCardHighlighted.setVisible(isHighlighted); // egtl isHighLighted
+    //    imageCardHighlighted.setVisible(isHighlighted);
 
-        // TODO: selected, highlighted
+        // TODO: highlighted
 
 
     }
