@@ -42,7 +42,8 @@ public class BuildingNode extends Region {
         double height = tileWidth * 0.05;
         
         Circle circle = new Circle();
-        circle.setRadius(9);
+        circle.setRadius(tileWidth * 0.075);
+        circle.setStroke(Color.BLACK);
         
         this.getChildren().add(circle);
         circle.setStroke(Color.BLACK);

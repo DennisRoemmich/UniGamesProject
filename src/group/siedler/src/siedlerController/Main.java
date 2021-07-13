@@ -31,12 +31,16 @@ public class Main extends Application {
             mapNode.getMap().addStreet(street);         
         }
         
+        //Initialize 2 test buildings
         NodePosition positionNode = new NodePosition(x, y, true);
+        NodePosition positionNode2 = new NodePosition(x, y, false);
         Building building = new Building(positionNode, PlayerColor.BLUE);
+        Building building2 = new Building(positionNode2, PlayerColor.BLUE);
         mapNode.getMap().addBuilding(building);
+        mapNode.getMap().addBuilding(building2);
         
         mapNode.refreshOutput();
-        mapNode.setLayoutX(300);;
+        mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
         mainPane.getChildren().add(mapNode);
         primaryStage.setTitle("Die Siedler von Konstanz");
