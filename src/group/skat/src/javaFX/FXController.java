@@ -59,15 +59,20 @@ public class FXController implements Player, Initializable {
     private void init(){
 
 
+
+        // URL resource = getClass().getResource("/path/to/image.jpg");
+
+
         var classLoader = FXController.class.getClassLoader();
         URL resource = classLoader.getResource("images/Views/ViewBackgroundBlank.png");
 
-        if(resource == null){
+        if (resource == null) {
 
             Print.debug("ERROR","This is null!");
-        }else {
 
-            Print.debug("WARNING",resource.getPath());
+        } else {
+
+        //    Print.debug("WARNING",resource.getPath());
         }
 
         var bgImage = new Image("images/Views/ViewBackgroundBlank.png");
@@ -79,7 +84,6 @@ public class FXController implements Player, Initializable {
         createButtons();
 
         FXPresenter.update();
-        
     }
 
     private void initGameStart(){
@@ -88,6 +92,7 @@ public class FXController implements Player, Initializable {
         fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
     //    fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
 
+        FXPresenter.update();
     }
 
     private void initHandShelfs() {
@@ -137,82 +142,90 @@ public class FXController implements Player, Initializable {
     private SkatGame game(){
 
        return controller.getGame();
-
     }
 
     private GUIState guiState(){ // zu Klasse machen?
 
         return GUIState.NOT_STARTED;
-
     }
 
     public GUIState getState(){
 
         if (game() == null) {
+
             return GUIState.NOT_STARTED;
         }
 
         switch (game().getGamePhase()) {
 
             case NOT_STARTED -> {
+
                 return GUIState.NOT_STARTED;
             }
 
             case AUCTION -> {
-                if ( game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
+
+                if (game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
+
                     return GUIState.AUCTION_ASKING;
                 }
-                if ( game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+                if (game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+
                     return GUIState.AUCTION_HEARING;
                 }
 
                 return GUIState.AUCTION_WATCHING;
-
             }
+
             case DECLARING -> {
 
-                if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()){
+                if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()) {
 
-                    if (!game().skatIsDropped()){
+                    if (!game().skatIsDropped()) {
+
                         return GUIState.DECLARE_SKAT;
+
                     } else {
-                        if(suitGame){
+                        if (suitGame) {
+
                             return GUIState.DECLARE_TRUMPCOLOR;
+
                         } else {
+
                             return GUIState.DECLARE_TRUMPTYPE;
                         }
                     }
-
                 }
-
             }
+
             case PLAYING -> {
 
-                if(game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()){
-                    return GUIState.PLAYING_YOUR_MOVE;
-                } else {
-                    return GUIState.PLAYING_NOT_YOUR_MOVE;
-                }
+                if (game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()) {
 
+                    return GUIState.PLAYING_YOUR_MOVE;
+
+                } else {
+
+                    return GUIState.PLAYING_NOT_YOUR_MOVE;
+
+                }
             }
 
-
             case ENDED -> {
+
                 return GUIState.GAME_FINISHED;
 
                 // TODO : hier weitermachen; if set ended -> GUIState.SetFinished
 
             }
+
             case ABORTED -> {
+
                 return GUIState.GAME_ABORTED;
-
-
             }
-
         }
 
         return GUIState.GAME_FINISHED;
-
     }
 
 
@@ -261,7 +274,7 @@ public class FXController implements Player, Initializable {
 
         var curGame = controller.getGame();
 
-        if ( controller.getGame() == null ){
+        if ( curGame == null ){
             return null;
         }
 
@@ -356,11 +369,9 @@ public class FXController implements Player, Initializable {
             case "PLAY" -> {
 
                 if (makeMove(new SkatMove(ActionType.NEW_GAME))){
+
                     initGameStart();
-
                 }
-
-
             }
 
             case "NEXT" -> {
@@ -376,7 +387,6 @@ public class FXController implements Player, Initializable {
         }
 
         FXPresenter.update();
-
     }
 
     private void PAButtonClicked(String identifier){
@@ -402,6 +412,7 @@ public class FXController implements Player, Initializable {
                 }
 
             }
+
             case DECLARE_TRUMPTYPE -> {
 
                 if ( identifier.equals("PA2") ){
@@ -417,6 +428,7 @@ public class FXController implements Player, Initializable {
                 }
 
             }
+
             case DECLARE_TRUMPCOLOR -> {
 
                 makeMove( switch ( identifier ) {
@@ -431,9 +443,7 @@ public class FXController implements Player, Initializable {
 
                     default -> null;
 
-                        });
-                
-
+                });
 
             }
 
@@ -446,48 +456,84 @@ public class FXController implements Player, Initializable {
 
     public void fxCardClicked(FXCardPosition pos, int index) {
 
+        var gamePhase = controller.getGame().getGamePhase();
+
         var skatSelectedIndex = fxSkat.getSelectedCardIndex();
         var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
 
-        if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
+        if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
 
-            if (pos == FXCardPosition.HANDSHELF_MID) {
+            possibleOnHandMove(pos, shelfSelectedCardIndex, index);
 
-                if (skatSelectedIndex != -1) {
+        } else if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
 
-                    var move = new SkatMove(ActionType.ON_SKATHAND, 10 + skatSelectedIndex, index);
+            possibleSkatHandMove(pos, skatSelectedIndex, shelfSelectedCardIndex, index);
 
-                    if (makeMove(move)) {
-
-                        midHandShelf.setSelectedCardIndex(index);
-                    }
-                }
-                midHandShelf.cardClickedAt(index);
-
-            } else if (pos == FXCardPosition.SKAT) {
-
-                if (shelfSelectedCardIndex != -1) {
-
-                    var move = new SkatMove(ActionType.ON_SKATHAND, shelfSelectedCardIndex, 10 + index);
-
-                    if (makeMove(move)) {
-
-                        fxSkat.setSelectedCardIndex(index);
-                    }
-                }
-                fxSkat.cardClickedAt(index);
-            }
         } else if (controller.getGame().getGamePhase() == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
+
+            possibleTrickMove(shelfSelectedCardIndex);
+        }
+    }
+
+    private void possibleOnHandMove(FXCardPosition pos, int shelfSelectedCardIndex, int index) {
+
+        if (pos == FXCardPosition.HANDSHELF_MID) {
 
             if (shelfSelectedCardIndex != -1) {
 
-                var move = new SkatMove(shelfSelectedCardIndex);
+                var move = new SkatMove(ActionType.ON_HAND, shelfSelectedCardIndex, index);
 
                 if (makeMove(move)) {
 
-                    midHandShelf.update();
-                    fxCurrentTrick.update();
+                    midHandShelf.setSelectedCardIndex(index);
                 }
+
+            }
+            midHandShelf.cardClickedAt(index);
+        }
+    }
+
+    private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {
+
+        if (pos == FXCardPosition.HANDSHELF_MID) {
+
+            if (skatSelectedIndex != -1) {
+
+                var move = new SkatMove(ActionType.ON_SKATHAND, 10 + skatSelectedIndex, index);
+
+                if (makeMove(move)) {
+
+                    midHandShelf.setSelectedCardIndex(index);
+                }
+            }
+            midHandShelf.cardClickedAt(index);
+
+        } else if (pos == FXCardPosition.SKAT) {
+
+            if (shelfSelectedCardIndex != -1) {
+
+                var move = new SkatMove(ActionType.ON_SKATHAND, shelfSelectedCardIndex, 10 + index);
+
+                if (makeMove(move)) {
+
+                    fxSkat.setSelectedCardIndex(index);
+                }
+            }
+            fxSkat.cardClickedAt(index);
+        }
+    }
+
+    private void possibleTrickMove(int shelfSelectedCardIndex) {
+
+        if (shelfSelectedCardIndex != -1) {
+
+            var move = new SkatMove(shelfSelectedCardIndex);
+
+            if (makeMove(move)) {
+
+                midHandShelf.setSelectedCardIndex(-1);
+                midHandShelf.update();
+                fxCurrentTrick.update();
             }
         }
     }

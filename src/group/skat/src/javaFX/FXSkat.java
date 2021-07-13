@@ -40,7 +40,6 @@ public class FXSkat {
 
             skatFXCards[i].setOpen(false);
 
-
         }
     }
 

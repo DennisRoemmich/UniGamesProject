@@ -18,7 +18,7 @@ public class FXPresenter {
     private static Image viewResult = new Image("images/Views/ResultView.png");
 
     private static Image backGroundBlank = new Image("images/Views/ViewBackgroundBlank.png");
-   private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundShelfs.png");
+    private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundShelfs.png");
 
     private static Image acceptButton = new Image("images/Buttons/Button2Accept.png");
     private static Image greyButton = new Image("images/Buttons/Button3GameColor.png");
@@ -45,15 +45,14 @@ public class FXPresenter {
                 fxController.ImageViewBackground.setImage(backGroundBlank);
                 resultView(false);
                 newGameView(true);
-
             }
+
             case AUCTION_WATCHING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
                 fxController.AnchorGameMessage.setVisible(true);
-
-
             }
+
             case AUCTION_ASKING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
@@ -64,8 +63,8 @@ public class FXPresenter {
                 fxController.LabelGameMessage.setText(message);
 
                 buttonsAcceptCancel();
-
             }
+
             case AUCTION_HEARING -> {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
@@ -78,29 +77,38 @@ public class FXPresenter {
                 buttonsAcceptCancel();
 
             }
+
             case WAIT_FOR_DECLARER -> {
             }
+
             case DECLARE_SKAT -> {
 
                 buttonsAccept();
                 skatView(true);
 
             }
+
             case DECLARE_TRUMPTYPE -> {
 
                 buttonsChooseMode();
 
             }
+
             case DECLARE_TRUMPCOLOR -> {
             }
+
             case PLAYING_YOUR_MOVE -> {
             }
+
             case PLAYING_NOT_YOUR_MOVE -> {
             }
+
             case GAME_ABORTED -> {
             }
+
             case GAME_FINISHED -> {
             }
+
             case SET_FINISHED -> {
             }
         }
@@ -113,20 +121,17 @@ public class FXPresenter {
         resultView(false);
         newGameView(false);
         skatView(false);
-
     }
 
     private static void hideAll(){
 
         resultView(false);
         newGameView(false);
-
     }
 
     private static void buttonsHide(){
 
         fxController.anchorButtonsPlayActions.setVisible(false);
-
     }
 
     private static void buttonsAccept(){
@@ -204,54 +209,56 @@ public class FXPresenter {
             fxController.LabelResultNewGame5,
         };
 
-        if ( visible ) {
+        if (visible) {
 
             var curGameNo = Integer.toString(set.currentGameNo());
             var gameAm = Integer.toString(set.getGameAmount());
 
-            if (gameAm.equals("-1")){
+            if (gameAm.equals("-1")) {
+
                 gameAm = "∞";
             }
 
             fxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
-
         }
 
         fxController.LabelGameNo.setVisible(visible);
 
-        if( visible ){
+        if (visible) {
+
             fxController.buttonDict.get("PLAY").show();
+
         } else {
+
             fxController.buttonDict.get("PLAY").hide();
         }
 
 
-            fxController.ImageViewWRNBackground.setImage(viewNewGame);
+        fxController.ImageViewWRNBackground.setImage(viewNewGame);
 
-            var playerNo = set.getSkatSetPlayerAmount();
+        var playerNo = set.getSkatSetPlayerAmount();
 
-            for(var i = 0; i < playerNo; i++){
+        for(var i = 0; i < playerNo; i++){
 
-                labelArray[i].setVisible(visible);
+            labelArray[i].setVisible(visible);
 
-                if (visible) {  // change labels
+            if (visible) {  // change labels
 
-                    var player = set.getSkatSetPlayerAt(i);
+                var player = set.getSkatSetPlayerAt(i);
 
-                    var score = player.getTotalScore();
-                    var scoreString = Integer.toString(score);
-                    scoreString = Print.times(9-scoreString.length(), "") + scoreString;
+                var score = player.getTotalScore();
+                var scoreString = Integer.toString(score);
+                scoreString = Print.times(9-scoreString.length(), "") + scoreString;
 
-                    var labelText = "P" + Integer.toString(i+1) + " " + player.getName() + " " + Print.times(21 - player.getName().length(),".") + " " + scoreString;
+                var labelText = "P" + Integer.toString(i+1) + " " + player.getName() + " " + Print.times(21 - player.getName().length(),".") + " " + scoreString;
 
-                    labelArray[i].setText(labelText);
-
-                }
+                labelArray[i].setText(labelText);
 
             }
 
-            fxController.LabelResultNewGame1.setText("");
+        }
 
+        fxController.LabelResultNewGame1.setText("");
 
     }
 
@@ -261,8 +268,6 @@ public class FXPresenter {
 
         fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
 
-
-
         var labelArray = new Label[]{
                 fxController.LabelResultNewGame1,
                 fxController.LabelResultNewGame2,
@@ -270,12 +275,14 @@ public class FXPresenter {
         };
 
 
-        if( visible ){
+        if (visible) {
+
             fxController.buttonDict.get("NEXT").show();
+
         } else {
+
             fxController.buttonDict.get("NEXT").hide();
         }
-
 
 
         fxController.ImageViewWRNBackground.setImage(viewResult);
@@ -311,8 +318,6 @@ public class FXPresenter {
         }
 
         fxController.LabelResultNewGame1.setText("");
-
-
 
     }
 

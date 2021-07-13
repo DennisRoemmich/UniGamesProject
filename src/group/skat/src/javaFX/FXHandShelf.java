@@ -18,7 +18,7 @@ public class FXHandShelf {
 
     /* CONSTRUCTOR */
 
-    public FXHandShelf(AnchorPane pane, FXController fxController, FXHandShelfPosition pos){
+    public FXHandShelf(AnchorPane pane, FXController fxController, FXHandShelfPosition pos) {
 
         this.fxController = fxController;
 
@@ -32,7 +32,7 @@ public class FXHandShelf {
 
     /* OTHER */
 
-    public void init(AnchorPane pane){
+    public void init(AnchorPane pane) {
 
         handFXCards = new FXCard[10];
 
@@ -67,7 +67,6 @@ public class FXHandShelf {
 
                 shiftRight = true;
             }
-
         }
     }
 
@@ -123,6 +122,7 @@ public class FXHandShelf {
         if (selectedCardIndex == -1) {
 
             selectedCardIndex = index;
+        //    handFXCards[index].setSelected(true);
 
         } else if (selectedCardIndex == index || handFXCards[index].isSelected()) {
 
@@ -135,7 +135,7 @@ public class FXHandShelf {
             if (!fxController.makeMove(move)) {
 
                 selectedCardIndex = index;
-                handFXCards[index].setSelected(true);
+            //    handFXCards[index].setSelected(true);
 
             } else {
 

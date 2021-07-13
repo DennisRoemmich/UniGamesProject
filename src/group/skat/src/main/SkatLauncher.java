@@ -9,7 +9,7 @@ import test.Test;
 
 public class SkatLauncher {
 
-    private static final boolean FX_LAUNCHER = true;
+    private static boolean FX_LAUNCHER = true;
     private static boolean WINDOWS = false;
 
     public static void main(String[] args){
@@ -18,9 +18,15 @@ public class SkatLauncher {
 
         var gameAmount = 12;
 
+        try {
+
+            FX_LAUNCHER = args[0].equals("gui");
+
+        } catch (Exception ignored) {}
+
         var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
 
-        if( FX_LAUNCHER ){
+        if(FX_LAUNCHER){
 
             var fxLauncher = new FXLauncher();
             fxLauncher.launchFX(controller);

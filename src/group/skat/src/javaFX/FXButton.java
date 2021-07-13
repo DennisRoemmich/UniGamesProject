@@ -140,9 +140,9 @@ public class FXButton {
 
         rootObject.setOnMouseExited(mouseEvent -> {
 
-            if (highlighted){
+            if (highlighted) {
 
-                if ( imageViewOverlay != null ){
+                if (imageViewOverlay != null) {
 
                     imageViewOverlay.setVisible(false);
 
@@ -155,7 +155,6 @@ public class FXButton {
                 highlighted = false;
 
             }
-
         });
 
     }

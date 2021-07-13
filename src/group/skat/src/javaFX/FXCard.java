@@ -152,7 +152,6 @@ public class FXCard {
         if (card == null) {
 
             imageCardColor.setVisible(false);
-            Print.debug("maik", "hey, card is null");
             return;
         }
 
@@ -193,6 +192,7 @@ public class FXCard {
         }
 
         imageCardValue.setImage(
+
                 switch (card.getCardValue()) {
 
                     case ACE -> ace;
@@ -205,7 +205,6 @@ public class FXCard {
                     case SEVEN -> seven;
                 }
         );
-
 
         imageCardValue.setVisible(true);
     }
@@ -246,36 +245,24 @@ public class FXCard {
             pane.setLayoutY(0);
         }
 
-
-        anchorCard.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-                fxController.fxCardClicked(position, index);
-            }
-        });
+        anchorCard.setOnMouseClicked(mouseEvent -> fxController.fxCardClicked(position, index));
     }
 
     private void update() {
 
-        if (position == FXCardPosition.HANDSHELF_MID) {
-
-            isOpen = true;
-
-        } else if (position == FXCardPosition.HANDSHELF_LEFT || position == FXCardPosition.HANDSHELF_RIGHT) {
-
-            isOpen = false;
-            anchorCard.setVisible(false);
-        }
+        // TODO: entcomment, hide left and right
+    //    isOpen = position != FXCardPosition.HANDSHELF_LEFT && position != FXCardPosition.HANDSHELF_RIGHT;
+        isOpen = true;
 
         imageCardBackground.setVisible(!isOpen);
         imageCardColor.setVisible(isOpen);
         imageCardValue.setVisible(isOpen);
 
-        imageCardHighlighted.setVisible(isSelected); // egtl isHighLighted
+        imageCardHighlighted.setVisible(isHighlighted); // egtl isHighLighted
 
-        // TODO: selected
+        // TODO: selected, highlighted
+
+
     }
 
     public boolean isEqualTo(Card card) {
