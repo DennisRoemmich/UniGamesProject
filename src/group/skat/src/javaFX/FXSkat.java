@@ -36,6 +36,8 @@ public class FXSkat {
         skatFXCards[0] = new FXCard(left, FXCardPosition.SKAT, fxController);
         skatFXCards[1] = new FXCard(right, FXCardPosition.SKAT, fxController);
 
+
+
         for (var i = 0; i < skat.length; i++) {
 
             skatFXCards[i].setOpen(false);

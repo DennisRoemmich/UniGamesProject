@@ -240,8 +240,16 @@ public class FXCard {
         for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted}) {
 
             anchorCard.getChildren().add(pane);
-            pane.setFitWidth(119);
-            pane.setFitHeight(206);
+
+            if (position == FXCardPosition.SKAT) {
+
+                pane.setFitWidth(anchorCard.getWidth());
+                pane.setFitHeight(anchorCard.getHeight());
+
+            } else {
+                pane.setFitWidth(119);
+                pane.setFitHeight(206);
+            }
             pane.setLayoutX(0);
             pane.setLayoutY(0);
         }
@@ -253,7 +261,7 @@ public class FXCard {
 
         // TODO: entcomment, hide left and right
     //    isOpen = position != FXCardPosition.HANDSHELF_LEFT && position != FXCardPosition.HANDSHELF_RIGHT;
-        isOpen = true;
+        isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
 
         imageCardBackground.setVisible(!isOpen);
         imageCardColor.setVisible(isOpen);

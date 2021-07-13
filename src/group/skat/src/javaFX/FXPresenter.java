@@ -1,13 +1,9 @@
 package javaFX;
 
 
-import com.sun.javafx.tk.ImageLoader;
-import com.sun.javafx.tk.PlatformImage;
 import console.Print;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-
-import java.net.URL;
 
 
 public class FXPresenter {
@@ -51,6 +47,8 @@ public class FXPresenter {
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
                 fxController.AnchorGameMessage.setVisible(true);
+
+                updateHandShelfs();
             }
 
             case AUCTION_ASKING -> {
@@ -63,6 +61,8 @@ public class FXPresenter {
                 fxController.LabelGameMessage.setText(message);
 
                 buttonsAcceptCancel();
+
+                updateHandShelfs();
             }
 
             case AUCTION_HEARING -> {
@@ -76,9 +76,13 @@ public class FXPresenter {
 
                 buttonsAcceptCancel();
 
+                updateHandShelfs();
             }
 
             case WAIT_FOR_DECLARER -> {
+
+                updateHandShelfs();
+                fxController.getFxSkat().update();
             }
 
             case DECLARE_SKAT -> {
@@ -86,21 +90,27 @@ public class FXPresenter {
                 buttonsAccept();
                 skatView(true);
 
+                updateHandShelfs();
+                fxController.getFxSkat().update();
             }
 
             case DECLARE_TRUMPTYPE -> {
 
                 buttonsChooseMode();
 
+                updateHandShelfs();
             }
 
             case DECLARE_TRUMPCOLOR -> {
+                updateHandShelfs();
             }
 
             case PLAYING_YOUR_MOVE -> {
+                updateHandShelfs();
             }
 
             case PLAYING_NOT_YOUR_MOVE -> {
+                updateHandShelfs();
             }
 
             case GAME_ABORTED -> {
@@ -328,7 +338,16 @@ public class FXPresenter {
 
     private static void updateHandShelfs(){
 
+        for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
 
+            shelf.update();
+
+            if (shelf.getSelectedCardIndex() != -1) {
+
+                shelf.getFXCardAt(shelf.getSelectedCardIndex()).setSelected(false);
+                shelf.setSelectedCardIndex(-1);
+            }
+        }
     }
 
 

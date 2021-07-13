@@ -3,6 +3,8 @@ package javaFX;
 import console.Print;
 import controller.SkatMove;
 import controller.enums.ActionType;
+import engine.Card;
+import engine.Hand;
 import javaFX.enums.FXHandShelfPosition;
 import javafx.scene.layout.AnchorPane;
 
@@ -30,6 +32,13 @@ public class FXHandShelf {
         update();
     }
 
+    /* GETTER */
+
+    public FXCard getFXCardAt(int index) {
+
+        return handFXCards[index];
+    }
+
     /* OTHER */
 
     public void init(AnchorPane pane) {
@@ -43,13 +52,36 @@ public class FXHandShelf {
             handFXCards[i] = card;
 
             pane.getChildren().add(card.getAnchorCard());
-            AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 70.0);
+
+            if (position == FXHandShelfPosition.MID_PLAYER) {
+
+                AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 70.0);
+
+            } else {
+
+                // TODO: das stimmt noch nich ganz, muss noch geändert werden - andere anker vlt?
+                AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 50.0);
+            }
         }
     }
 
     public void update(){
 
-        var playersHand = fxController.getPlayer().getHand();
+        var curIndex = fxController.getPlayerGameIndex();
+        Hand playersHand;
+
+        if (position == FXHandShelfPosition.LEFT_PLAYER) {
+
+            playersHand = fxController.getController().getGame().getPlayerAt((curIndex + 1) % 3).getHand();
+
+        } else if (position == FXHandShelfPosition.RIGHT_PLAYER) {
+
+            playersHand = fxController.getController().getGame().getPlayerAt((curIndex + 2) % 3).getHand();
+
+        } else {
+
+            playersHand = fxController.getController().getGame().getPlayerAt(curIndex).getHand();
+        }
 
         var shiftRight = false;
         for (var i = 0; i < handFXCards.length; i++) {
@@ -59,13 +91,21 @@ public class FXHandShelf {
                 handFXCards[i].changeCard(playersHand.getCardAt(i));
             }
 
-            if (shiftRight) {
+            if (position == FXHandShelfPosition.MID_PLAYER) {
 
-                AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 70.0));
-            }
-            if (handFXCards[i].isSelected()) {
+                if (shiftRight) {
 
-                shiftRight = true;
+                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 70.0));
+
+                } else {
+
+                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0);
+                }
+
+                if (handFXCards[i].isSelected()) {
+
+                    shiftRight = true;
+                }
             }
         }
     }
@@ -121,25 +161,27 @@ public class FXHandShelf {
 
         if (selectedCardIndex == -1) {
 
-            selectedCardIndex = index;
+            for (FXCard card : handFXCards) {
+
+                card.setSelected(false);
+            }
+
             handFXCards[index].setSelected(true);
+            selectedCardIndex = index;
 
-        } else if (selectedCardIndex == index || handFXCards[index].isSelected()) {
+        } else if (selectedCardIndex == index) {
 
+            handFXCards[index].setSelected(false);
             selectedCardIndex = -1;
 
         } else {
 
             var move = new SkatMove(ActionType.ON_HAND, selectedCardIndex, index);
 
-            if (!fxController.makeMove(move)) {
-
-                selectedCardIndex = index;
-            //    handFXCards[index].setSelected(true);
-
-            } else {
+            if (fxController.makeMove(move)) {
 
                 handFXCards[selectedCardIndex].setSelected(false);
+                handFXCards[index].setSelected(true);
                 selectedCardIndex = -1;
             }
         }

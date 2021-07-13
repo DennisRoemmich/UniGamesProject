@@ -87,9 +87,7 @@ public class FXController implements Player, Initializable {
 
         initHandShelfs();
         fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
-    //    fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
-
-        FXPresenter.update();
+        fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
     }
 
     private void initHandShelfs() {
@@ -226,18 +224,36 @@ public class FXController implements Player, Initializable {
     }
 
 
-    private int getPlayerGameIndex(){
+    public int getPlayerGameIndex(){
 
-        if( game() == null ){
+        if (game() == null) {
+
             return 0;
         }
 
-        if(playerGameIndex == -1){
+        if (playerGameIndex == -1) {
+
             return game().getCurrentPlayer().getGameIndex();
+
         } else {
+
             return playerGameIndex;
         }
+    }
 
+    public FXHandShelf[] getFxHandShelfs() {
+
+        return new FXHandShelf[]{leftHandShelf, midHandShelf, rightHandShelf};
+    }
+
+    public FXSkat getFxSkat() {
+
+        return fxSkat;
+    }
+
+    public FXCurrentTrick getFxCurrentTrick() {
+
+        return fxCurrentTrick;
     }
 
     /* LAYOUT */
@@ -353,8 +369,10 @@ public class FXController implements Player, Initializable {
 
             case "SORT" -> {
 
-                makeMove(new SkatMove(ActionType.SORT));
+                if (makeMove(new SkatMove(ActionType.SORT))) {
 
+                    FXPresenter.update();
+                }
             }
 
             case "PA1", "PA2", "PA3", "PA4", "PA5" -> {
@@ -368,6 +386,7 @@ public class FXController implements Player, Initializable {
                 if (makeMove(new SkatMove(ActionType.NEW_GAME))){
 
                     initGameStart();
+                    FXPresenter.update();
                 }
             }
 
@@ -458,41 +477,28 @@ public class FXController implements Player, Initializable {
         var skatSelectedIndex = fxSkat.getSelectedCardIndex();
         var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
 
-        if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
-
-            possibleOnHandMove(pos, shelfSelectedCardIndex, index);
-
-        } else if (controller.getGame().getGamePhase() == GamePhase.DECLARING) {
+        if (gamePhase == GamePhase.DECLARING) {
 
             possibleSkatHandMove(pos, skatSelectedIndex, shelfSelectedCardIndex, index);
 
-        } else if (controller.getGame().getGamePhase() == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
+        } else if (gamePhase == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
 
             possibleTrickMove(shelfSelectedCardIndex);
-        }
-    }
 
-    private void possibleOnHandMove(FXCardPosition pos, int shelfSelectedCardIndex, int index) {
+        } else if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
+
+        // TODO cardClickedAT darf nicht aufgerufen werden wenn move mit skat
 
         if (pos == FXCardPosition.HANDSHELF_MID) {
 
-            if (shelfSelectedCardIndex != -1) {
-
-                var move = new SkatMove(ActionType.ON_HAND, shelfSelectedCardIndex, index);
-
-                if (makeMove(move)) {
-
-                    midHandShelf.setSelectedCardIndex(index);
-                }
-
+                midHandShelf.cardClickedAt(index);
             }
-            midHandShelf.cardClickedAt(index);
         }
     }
 
     private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {
 
-        if (pos == FXCardPosition.HANDSHELF_MID) {
+            if (pos == FXCardPosition.HANDSHELF_MID) {
 
             if (skatSelectedIndex != -1) {
 
