@@ -2,6 +2,7 @@ package javaFX;
 
 
 import console.Print;
+import javaFX.enums.GUIState;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
@@ -34,50 +35,54 @@ public class FXPresenter {
 
         hideAll();
 
-        switch (fxController.getState()) {
+        var state = fxController.getState();
+
+        switch (state) {
 
             case NOT_STARTED -> {
 
                 fxController.ImageViewBackground.setImage(backGroundBlank);
-                resultView(false);
                 newGameView(true);
+
             }
 
-            case AUCTION_WATCHING -> {
-
-                fxController.ImageViewBackground.setImage(backGroundShelfs);
-                fxController.AnchorGameMessage.setVisible(true);
+            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
 
                 updateHandShelfs();
-            }
-
-            case AUCTION_ASKING -> {
-
-                fxController.ImageViewBackground.setImage(backGroundShelfs);
-                fxController.AnchorGameMessage.setVisible(true);
-
-                var auctionValue = fxController.getController().getGame().getAuction().getNextAuctionValue();
-                String message = "Do you want to raise on " + Integer.toString(auctionValue) + "?";
-                fxController.LabelGameMessage.setText(message);
-
                 buttonsAcceptCancel();
 
-                updateHandShelfs();
-            }
-
-            case AUCTION_HEARING -> {
-
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
-                fxController.AnchorGameMessage.setVisible(true);
 
-                var auctionValue = fxController.getController().getGame().getAuction().getAuctionValue();
-                String message = "Your opponenent raised to " + Integer.toString(auctionValue) + ".\nDo you wanna accept?";
-                fxController.LabelGameMessage.setText(message);
+                String message = "";
+                var controller = fxController.getController();
+                var auction = controller.getGame().getAuction();
 
-                buttonsAcceptCancel();
+                if (state == GUIState.AUCTION_ASKING){
 
-                updateHandShelfs();
+                    var auctionValue = auction.getNextAuctionValue();
+                    var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
+                    message = "Do you want to raise on " + Integer.toString(auctionValue) + " against " + name + "?";
+
+                } else if (state == GUIState.AUCTION_HEARING) {
+
+                    var auctionValue = auction.getAuctionValue();
+                    var name = controller.getSkatSet().getPlayingPlayerName(auction.getQuestioner().getGameIndex());
+                    message = name + " raised to " + Integer.toString(auctionValue) + ".\nDo you wanna accept?";
+
+                } else {
+
+                    Print.debug("WARNING", "FX: GUIState AUCTION_ASKING was demanded but there is no implementation yet.");
+
+                }
+
+
+                auctionView("Bidding", message);
+
+
+
+
             }
+
 
             case WAIT_FOR_DECLARER -> {
 
@@ -96,9 +101,16 @@ public class FXPresenter {
 
             case DECLARE_TRUMPTYPE -> {
 
+                auctionView("Game Type", """
+                Declare the type of the Game
+                S = Suit    [Default mode - You can coose trump color next]
+                G = Grand   [Only jacks are trump]
+                N = Null    [You only win if you lose every single trick]
+           
+                        """);
                 buttonsChooseMode();
-
                 updateHandShelfs();
+
             }
 
             case DECLARE_TRUMPCOLOR -> {
@@ -126,17 +138,34 @@ public class FXPresenter {
     }
 
 
-    private static void Auction(){
+    private static void auctionView(String title, String text){
 
-        resultView(false);
-        newGameView(false);
-        skatView(false);
+
+        fxController.LabelAuctionViewTitle.setText(title);
+        fxController.LabelAuctionViewText.setText(text);
+        auctionView(true);
+
     }
+
+    private static void auctionView(boolean visible){
+
+        fxController.AnchorAuctionDialog.setVisible(visible);
+
+    }
+
 
     private static void hideAll(){
 
         resultView(false);
         newGameView(false);
+        skatView(false);
+        auctionView(false);
+
+        buttonsHide();
+
+        fxController.AnchorGameMessage.setVisible(false); // this will probably collide with fade out -> delete later
+
+
     }
 
     private static void buttonsHide(){
@@ -188,9 +217,17 @@ public class FXPresenter {
         fxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA1").hide();
+
         buttonDict.get("PA2").setImage(suitButton);
+        buttonDict.get("PA2").show();
+
         buttonDict.get("PA3").setImage(grandButton);
+        buttonDict.get("PA3").show();
+
         buttonDict.get("PA4").setImage(nullButton);
+        buttonDict.get("PA4").show();
+
+
         buttonDict.get("PA5").hide();
 
     }
@@ -201,7 +238,7 @@ public class FXPresenter {
 
     private static void skatView(boolean visible){
 
-        fxController.AnchorViewSkat.setVisible(true);
+        fxController.AnchorViewSkat.setVisible(visible);
 
     }
 

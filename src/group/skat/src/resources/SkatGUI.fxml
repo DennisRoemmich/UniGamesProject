@@ -25,6 +25,9 @@
                   <Image url="@images/Views/ViewBackgroundShelfs.png" />
                </image>
             </ImageView>
+            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="305.0" />
+            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="315.0" />
+            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="325.0" />
             <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
                <children>
                   <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -43,7 +46,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-340.0" AnchorPane.topAnchor="470.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-250.0" AnchorPane.topAnchor="470.0">
                <children>
                   <ImageView fx:id="CardForeground1" fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
                      <image>
@@ -52,7 +55,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorPlayerhandShelfRight" prefHeight="197.0" prefWidth="505.0" rotate="270.0" AnchorPane.rightAnchor="-350.0" AnchorPane.topAnchor="400.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfRight" prefHeight="197.0" prefWidth="505.0" rotate="270.0" AnchorPane.rightAnchor="-275.0" AnchorPane.topAnchor="400.0">
                <children>
                   <ImageView fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <image>
@@ -259,7 +262,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
+            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
                <children>
                   <ImageView fitHeight="392.0" fitWidth="734.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-9.5" AnchorPane.rightAnchor="-9.5" AnchorPane.topAnchor="0.0">
                      <image>
@@ -268,17 +271,16 @@
                   </ImageView>
                   <Label fx:id="LabelAuctionViewTitle" alignment="CENTER" layoutX="343.0" layoutY="75.0" text="Label" textAlignment="CENTER" textFill="#ffc68e" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0">
                      <font>
-                        <Font name="Avenir Book" size="28.0" />
+                        <Font name="Avenir Book" size="29.0" />
                      </font>
                   </Label>
                   <Label fx:id="LabelAuctionViewText" alignment="TOP_LEFT" layoutX="22.0" layoutY="162.0" text="Label" textFill="#93dbd4" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="150.0">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="Avenir Book" size="24.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="593.0" layoutY="285.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
    </children>
