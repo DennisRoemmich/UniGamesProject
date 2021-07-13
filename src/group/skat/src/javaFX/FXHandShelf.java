@@ -122,7 +122,7 @@ public class FXHandShelf {
         if (selectedCardIndex == -1) {
 
             selectedCardIndex = index;
-        //    handFXCards[index].setSelected(true);
+            handFXCards[index].setSelected(true);
 
         } else if (selectedCardIndex == index || handFXCards[index].isSelected()) {
 

@@ -259,6 +259,26 @@
                   </ImageView>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
+               <children>
+                  <ImageView fitHeight="392.0" fitWidth="734.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-9.5" AnchorPane.rightAnchor="-9.5" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewAuctionDialog.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="LabelAuctionViewTitle" alignment="CENTER" layoutX="343.0" layoutY="75.0" text="Label" textAlignment="CENTER" textFill="#ffc68e" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0">
+                     <font>
+                        <Font name="Avenir Book" size="28.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelAuctionViewText" alignment="TOP_LEFT" layoutX="22.0" layoutY="162.0" text="Label" textFill="#93dbd4" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="593.0" layoutY="285.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
    </children>

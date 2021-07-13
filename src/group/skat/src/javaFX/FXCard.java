@@ -37,7 +37,7 @@ public class FXCard {
     private static final Image turnedDown = new Image(TURNED_DOWN_URL);
 
     // TODO: update URL
-    private static final String HIGHLIGHT_URL = "images/Cards/CardBack.png"; // TODO: !
+    private static final String HIGHLIGHT_URL = "images/Cards/CardHighlighted.png";
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
     // TODO: update URLs
@@ -52,11 +52,11 @@ public class FXCard {
     private static final String ACE_URL = "images/Cards/CardAce.png";
     private static final String KING_URL = "images/Cards/CardKing.png";
     private static final String QUEEN_URL = "images/Cards/CardQueen.png";
-    private static final String JACK_URL = "images/Cards/CardAce.png";
-    private static final String TEN_URL = "images/Cards/CardAce.png";
-    private static final String NINE_URL = "images/Cards/CardAce.png";
-    private static final String EIGHT_URL = "images/Cards/CardAce.png";
-    private static final String SEVEN_URL = "images/Cards/CardAce.png";  // TODO: !
+    private static final String JACK_URL = "images/Cards/CardJack.png";
+    private static final String TEN_URL = "images/Cards/Card10.png";
+    private static final String NINE_URL = "images/Cards/Card9.png";
+    private static final String EIGHT_URL = "images/Cards/Card8.png";
+    private static final String SEVEN_URL = "images/Cards/Card7.png";  // TODO: !
 
     private static final Image clubsI = new Image(CLUBS_I_URL);
     private static final Image clubsN = new Image(CLUBS_N_URL);
@@ -222,6 +222,7 @@ public class FXCard {
     public void setSelected(boolean selected) {
 
         isSelected = selected;
+        update();
     }
 
     /* OTHER */

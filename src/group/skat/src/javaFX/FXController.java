@@ -33,9 +33,6 @@ import java.util.*;
 
 public class FXController implements Player, Initializable {
 
-    public AnchorPane AnchorGameMessage;
-    public Label LabelGameMessage;
-
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
     boolean suitGame = false;
@@ -540,18 +537,19 @@ public class FXController implements Player, Initializable {
 
     /* OUTLETS */
 
-    public AnchorPane anchor_root;
+
+
     public AnchorPane anchor_DebugView;
-    public Label label_ShowHideDebugView;
-    public Label label_WindowSize;
-    public ImageView ImageViewBackground;
+    public AnchorPane AnchorGameMessage;
+    public AnchorPane AnchorAuctionDialog;
+    public AnchorPane anchor_root;
     public AnchorPane AnchorPlayerhandShelfMid;
     public AnchorPane AnchorPlayerhandShelfLeft;
     public AnchorPane AnchorPlayerhandShelfRight;
     public AnchorPane AnchorCardEx;
-    public ImageView BackgroundCard;
-    public ImageView CardForeground;
-    public ImageView CardForeground1;
+    public AnchorPane AnchorTrickOne = new AnchorPane();
+    public AnchorPane AnchorTrickTwo = new AnchorPane();
+    public AnchorPane AnchorTrickThree = new AnchorPane();
     public AnchorPane AnchorViewSkat;
     public AnchorPane AnchorSkatCardLeft;
     public AnchorPane AnchorSkatCardRight;
@@ -563,19 +561,28 @@ public class FXController implements Player, Initializable {
     public AnchorPane AnchorButtonPA5;
     public AnchorPane AnchorButtonSort;
     public AnchorPane AnchorWelcomeResultNewGameView;
-    public ImageView ImageViewWRNBackground;
+
+    public Label label_ShowHideDebugView;
+    public Label label_WindowSize;
+    public Label LabelGameMessage;
+    public Label LabelAuctionViewText;
+    public Label LabelAuctionViewTitle;
     public Label LabelResultNewGame1;
     public Label LabelResultNewGame2;
     public Label LabelResultNewGame3;
     public Label LabelResultNewGame4;
     public Label LabelResultNewGame5;
     public Label LabelGameNo;
+
+    public ImageView ImageViewWRNBackground;
     public ImageView IVButtonPlay;
     public ImageView IVButtonNext;
+    public ImageView ImageViewBackground;
+    public ImageView BackgroundCard;
+    public ImageView CardForeground;
+    public ImageView CardForeground1;
 
-    public AnchorPane AnchorTrickOne = new AnchorPane();
-    public AnchorPane AnchorTrickTwo = new AnchorPane();
-    public AnchorPane AnchorTrickThree = new AnchorPane();
+
 
     public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
     }
