@@ -485,6 +485,7 @@ public class FXController implements Player, Initializable {
 
         } else if (gamePhase == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
 
+            Print.debug("WARNING", "HEY");
             possibleTrickMove(shelfSelectedCardIndex);
 
         } else if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
@@ -553,6 +554,10 @@ public class FXController implements Player, Initializable {
                 midHandShelf.setSelectedCardIndex(-1);
                 midHandShelf.update();
                 fxCurrentTrick.update();
+            } else {
+
+                Print.debug("WARNING", "invalid move (TrickMove)");
+
             }
         }
     }
@@ -622,5 +627,11 @@ public class FXController implements Player, Initializable {
     }
 
     public void AnchorButtonPA1Clicked(MouseEvent mouseEvent) {
+    }
+
+    public void thisIsTest(MouseEvent mouseEvent) {
+
+        Print.debug("WARNING", "This is it");
+
     }
 }

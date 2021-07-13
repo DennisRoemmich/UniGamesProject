@@ -18,11 +18,16 @@ public class FXPresenter {
     private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundShelfs.png");
 
     private static Image acceptButton = new Image("images/Buttons/Button2Accept.png");
-    private static Image greyButton = new Image("images/Buttons/Button3GameColor.png");
     private static Image cancelButton = new Image("images/Buttons/Button4Cancel.png");
     private static Image suitButton = new Image("images/Buttons/Button2GameType.png");
     private static Image grandButton = new Image("images/Buttons/Button3GameType.png");
     private static Image nullButton = new Image("images/Buttons/Button4GameType.png");
+
+    private static Image clubsButton = new Image("images/Buttons/Button1GameColor.png");
+    private static Image spadesButton = new Image("images/Buttons/Button2GameColor.png");
+    private static Image greyButton = new Image("images/Buttons/Button3GameColor.png");
+    private static Image heartsButton = new Image("images/Buttons/Button4GameColor.png");
+    private static Image diamondsButton = new Image("images/Buttons/Button5GameColor.png");
 
     public static void setFxController(FXController fxController){
 
@@ -114,10 +119,17 @@ public class FXPresenter {
             }
 
             case DECLARE_TRUMPCOLOR -> {
+
+                auctionView("Game Color", """
+                Declare the color of the Game.
+                        """);
+                buttonsChooseColor();
                 updateHandShelfs();
             }
 
             case PLAYING_YOUR_MOVE -> {
+
+                fxController.getFxCurrentTrick().update();
                 updateHandShelfs();
             }
 
@@ -233,6 +245,24 @@ public class FXPresenter {
     }
 
     private static void buttonsChooseColor(){
+        var buttonDict = fxController.buttonDict;
+
+        fxController.anchorButtonsPlayActions.setVisible(true);
+
+        buttonDict.get("PA1").setImage(clubsButton);
+        buttonDict.get("PA1").show();
+
+        buttonDict.get("PA2").setImage(spadesButton);
+        buttonDict.get("PA2").show();
+
+        buttonDict.get("PA3").setImage(greyButton);
+        buttonDict.get("PA3").show();
+
+        buttonDict.get("PA4").setImage(heartsButton);
+        buttonDict.get("PA4").show();
+
+        buttonDict.get("PA5").setImage(heartsButton);
+        buttonDict.get("PA5").show();
 
     }
 

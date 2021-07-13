@@ -1,12 +1,10 @@
 package javaFX;
 
 import console.Print;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 
@@ -21,6 +19,8 @@ public class FXButton {
     Image imgHighlighted;
 
     boolean highlighted = false;
+
+    private boolean isHightlightable = true;
 
     String identifier;
 
@@ -94,6 +94,7 @@ public class FXButton {
             }
 
             imageViewOverlay.setImage(imgHighlighted);
+            imageViewOverlay.setVisible(false);
 
         } else {
 
@@ -106,6 +107,7 @@ public class FXButton {
         this.imgHighlighted = imgHighlighted;
 
         setActions();
+
 
     }
 
@@ -120,7 +122,7 @@ public class FXButton {
 
         rootObject.setOnMouseEntered(mouseEvent -> {
 
-            if (!highlighted) {
+            if (!highlighted && isHightlightable) {
 
                 if (imageViewOverlay != null) {
 

@@ -25,9 +25,10 @@
                   <Image url="@images/Views/ViewBackgroundShelfs.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="305.0" />
-            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="315.0" />
-            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" prefHeight="206.0" prefWidth="119.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="325.0" />
+            <AnchorPane fx:id="AnchorTrickDrop" layoutX="365.0" layoutY="146.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="250.0" />
+            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="230.0" prefWidth="140.0" rotate="15.0" AnchorPane.leftAnchor="633.0" AnchorPane.rightAnchor="613.0" AnchorPane.topAnchor="305.0" />
+            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" prefHeight="230.0" prefWidth="140.0" rotate="-30.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="290.0" />
+            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" onMouseClicked="#thisIsTest" prefHeight="230.0" prefWidth="140.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="295.0" />
             <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
                <children>
                   <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -262,7 +263,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
+            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
                <children>
                   <ImageView fitHeight="392.0" fitWidth="734.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-9.5" AnchorPane.rightAnchor="-9.5" AnchorPane.topAnchor="0.0">
                      <image>

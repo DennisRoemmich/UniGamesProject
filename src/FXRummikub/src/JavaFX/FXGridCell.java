@@ -1,4 +1,4 @@
-package JavaFX;
+package javaFX;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.ImageView;
