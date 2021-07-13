@@ -407,12 +407,6 @@ public class FXPresenter {
         for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
 
             shelf.update();
-
-            if (shelf.getSelectedCardIndex() != -1) {
-
-                shelf.getFXCardAt(shelf.getSelectedCardIndex()).setSelected(false);
-                shelf.setSelectedCardIndex(-1);
-            }
         }
     }
 

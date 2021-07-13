@@ -26,9 +26,9 @@
                </image>
             </ImageView>
             <AnchorPane fx:id="AnchorTrickDrop" layoutX="365.0" layoutY="146.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="250.0" />
+            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" onMouseClicked="#thisIsTest" prefHeight="230.0" prefWidth="140.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="295.0" />
             <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="230.0" prefWidth="140.0" rotate="15.0" AnchorPane.leftAnchor="633.0" AnchorPane.rightAnchor="613.0" AnchorPane.topAnchor="305.0" />
             <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" prefHeight="230.0" prefWidth="140.0" rotate="-30.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="290.0" />
-            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" onMouseClicked="#thisIsTest" prefHeight="230.0" prefWidth="140.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" AnchorPane.topAnchor="295.0" />
             <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
                <children>
                   <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -67,6 +67,11 @@
             </AnchorPane>
             <AnchorPane fx:id="AnchorViewSkat" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="436.0" AnchorPane.topAnchor="220.0">
                <children>
+                  <ImageView fitHeight="351.0" fitWidth="493.0" layoutX="84.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewSkat.png" />
+                     </image>
+                  </ImageView>
                   <AnchorPane fx:id="AnchorSkatCardLeft" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="61.0">
                      <children>
                         <ImageView fitHeight="245.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -76,11 +81,6 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <ImageView fitHeight="351.0" fitWidth="493.0" layoutX="84.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <image>
-                        <Image url="@images/Views/ViewSkat.png" />
-                     </image>
-                  </ImageView>
                   <AnchorPane fx:id="AnchorSkatCardRight" layoutX="110.0" layoutY="71.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="61.0">
                      <children>
                         <ImageView fitHeight="245.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

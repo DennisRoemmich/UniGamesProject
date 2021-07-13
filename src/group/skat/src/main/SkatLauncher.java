@@ -24,9 +24,16 @@ public class SkatLauncher {
 
         } catch (Exception ignored) {}
 
+        try {
+
+            WINDOWS = args[0].equals("windows");
+
+        } catch (Exception ignored) {}
+
+
         var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
 
-        if(FX_LAUNCHER){
+        if (FX_LAUNCHER) {
 
             var fxLauncher = new FXLauncher();
             fxLauncher.launchFX(controller);
@@ -35,15 +42,6 @@ public class SkatLauncher {
 
         /*    var test = new Test(controller);
             test.mainTest();//*/
-
-            try {
-
-                if (args[0].equals("windows")) {
-
-                    WINDOWS = true;
-                }
-
-            } catch (Exception ignored) {}
 
             Print.setWINDOWS(WINDOWS);
 

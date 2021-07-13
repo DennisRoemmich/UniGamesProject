@@ -146,6 +146,11 @@ public class FXCard {
         return card == null;
     }
 
+    public Card getCard() {
+
+        return card;
+    }
+
     /* SETTER */
 
     private void setImageCardColor() {
@@ -260,8 +265,12 @@ public class FXCard {
 
     public void update() {
 
-        // TODO: entcomment, hide left and right
-    //    isOpen = position == FXCardPosition.HANDSHELF_MID;
+        isOpen = switch (position) {
+
+            case HANDSHELF_MID, SKAT, TRICK -> true;
+            case HANDSHELF_LEFT, HANDSHELF_RIGHT, TRICKS_DECLARER, TRICKS_OPPONENTS -> false;
+        };
+
         isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
 
         imageCardBackground.setVisible(!isOpen);
@@ -288,6 +297,12 @@ public class FXCard {
         setImageCardColor();
         setImageCardValue();
 
+        update();
+    }
+
+    public void removeCard() {
+
+        card = null;
         update();
     }
 

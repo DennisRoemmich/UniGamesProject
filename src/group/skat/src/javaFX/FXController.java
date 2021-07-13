@@ -181,6 +181,7 @@ public class FXController implements Player, Initializable {
                         return GUIState.DECLARE_SKAT;
 
                     } else {
+
                         if (suitGame) {
 
                             return GUIState.DECLARE_TRUMPCOLOR;
@@ -287,7 +288,8 @@ public class FXController implements Player, Initializable {
 
         var curGame = controller.getGame();
 
-        if ( curGame == null ){
+        if (curGame == null) {
+
             return null;
         }
 
@@ -370,6 +372,12 @@ public class FXController implements Player, Initializable {
             case "SORT" -> {
 
                 if (makeMove(new SkatMove(ActionType.SORT))) {
+
+                    for (FXCard card : midHandShelf.getHandFXCards()) {
+
+                        card.setSelected(false);
+                    }
+                    midHandShelf.setSelectedCardIndex(-1);
 
                     FXPresenter.update();
                 }
@@ -472,8 +480,6 @@ public class FXController implements Player, Initializable {
 
     public void fxCardClicked(FXCardPosition pos, int index) {
 
-        Print.debug("maik", "card clicked at: " + index);
-
         var gamePhase = controller.getGame().getGamePhase();
 
         var skatSelectedIndex = fxSkat.getSelectedCardIndex();
@@ -485,7 +491,6 @@ public class FXController implements Player, Initializable {
 
         } else if (gamePhase == GamePhase.PLAYING && pos == FXCardPosition.TRICK) {
 
-            Print.debug("WARNING", "HEY");
             possibleTrickMove(shelfSelectedCardIndex);
 
         } else if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
@@ -514,9 +519,10 @@ public class FXController implements Player, Initializable {
                     midHandShelf.setSelectedCardIndex(-1);
                 }
 
-            } else if (shelfSelectedCardIndex != -1) {
+            } else {
 
                 midHandShelf.cardClickedAt(index);
+
             }
 
         } else if (pos == FXCardPosition.SKAT) {
@@ -527,14 +533,14 @@ public class FXController implements Player, Initializable {
 
                 if (makeMove(move)) {
 
-                    midHandShelf.getFXCardAt(skatSelectedIndex).setSelected(false);
-                    midHandShelf.setSelectedCardIndex(-1);
-
                     fxSkat.getFXCardAt(index).setSelected(false);
                     fxSkat.setSelectedCardIndex(-1);
+
+                    midHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
+                    midHandShelf.setSelectedCardIndex(-1);
                 }
 
-            } else if (skatSelectedIndex != -1) {
+            } else {
 
                 fxSkat.cardClickedAt(index);
             }
@@ -551,15 +557,16 @@ public class FXController implements Player, Initializable {
 
             if (makeMove(move)) {
 
+                midHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
                 midHandShelf.setSelectedCardIndex(-1);
-                midHandShelf.update();
-                fxCurrentTrick.update();
+
             } else {
 
                 Print.debug("WARNING", "invalid move (TrickMove)");
-
             }
         }
+        midHandShelf.update();
+        fxCurrentTrick.update();
     }
 
     /* OUTLETS */
@@ -574,9 +581,9 @@ public class FXController implements Player, Initializable {
     public AnchorPane AnchorPlayerhandShelfLeft;
     public AnchorPane AnchorPlayerhandShelfRight;
     public AnchorPane AnchorCardEx;
-    public AnchorPane AnchorTrickOne = new AnchorPane();
-    public AnchorPane AnchorTrickTwo = new AnchorPane();
-    public AnchorPane AnchorTrickThree = new AnchorPane();
+    public AnchorPane AnchorTrickOne;
+    public AnchorPane AnchorTrickTwo;
+    public AnchorPane AnchorTrickThree;
     public AnchorPane AnchorViewSkat;
     public AnchorPane AnchorSkatCardLeft;
     public AnchorPane AnchorSkatCardRight;

@@ -39,6 +39,11 @@ public class FXHandShelf {
         return handFXCards[index];
     }
 
+    public FXCard[] getHandFXCards() {
+
+        return handFXCards;
+    }
+
     /* OTHER */
 
     public void init(AnchorPane pane) {
