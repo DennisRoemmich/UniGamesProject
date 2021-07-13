@@ -33,30 +33,30 @@ public class FXCard {
     // Images
 
     // TODO: update URL
-    private static final String TURNED_DOWN_URL = "file:/./images/Cards/CardBack.png";
+    private static final String TURNED_DOWN_URL = "images/Cards/CardBack.png";
     private static final Image turnedDown = new Image(TURNED_DOWN_URL);
 
     // TODO: update URL
-    private static final String HIGHLIGHT_URL = "file:/./images/Cards/CardBack.png"; // TODO: !
+    private static final String HIGHLIGHT_URL = "images/Cards/CardBack.png"; // TODO: !
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
     // TODO: update URLs
-    private static final String CLUBS_N_URL = "file:/./images/Cards/CardClubsColor.png";
-    private static final String CLUBS_I_URL = "file:/./images/Cards/CardClubsEmpty.png";
-    private static final String SPADES_N_URL = "file:/./images/Cards/CardSpadesColor.png";
-    private static final String SPADES_I_URL = "file:/./images/Cards/CardSpadesEmpty.png";
-    private static final String HEARTS_N_URL = "file:/./images/Cards/CardHeartsColor.png";
-    private static final String HEARTS_I_URL = "file:/./images/Cards/CardHeartsEmpty.png";
-    private static final String DIAMONDS_N_URL = "file:/./images/Cards/CardDiamondsColor.png";
-    private static final String DIAMONDS_I_URL = "file:/./images/Cards/CardDiamondsEmpty.png";
-    private static final String ACE_URL = "file:/./images/Cards/CardAce.png";
-    private static final String KING_URL = "file:/./images/Cards/CardKing.png";
-    private static final String QUEEN_URL = "file:/./images/Cards/CardQueen.png";
-    private static final String JACK_URL = "file:/./images/Cards/CardAce.png";
-    private static final String TEN_URL = "file:/./images/Cards/CardAce.png";
-    private static final String NINE_URL = "file:/./images/Cards/CardAce.png";
-    private static final String EIGHT_URL = "file:/./images/Cards/CardAce.png";
-    private static final String SEVEN_URL = "file:/./images/Cards/CardAce.png";  // TODO: !
+    private static final String CLUBS_N_URL = "images/Cards/CardClubsColor.png";
+    private static final String CLUBS_I_URL = "images/Cards/CardClubsEmpty.png";
+    private static final String SPADES_N_URL = "images/Cards/CardSpadesColor.png";
+    private static final String SPADES_I_URL = "images/Cards/CardSpadesEmpty.png";
+    private static final String HEARTS_N_URL = "images/Cards/CardHeartsColor.png";
+    private static final String HEARTS_I_URL = "images/Cards/CardHeartsEmpty.png";
+    private static final String DIAMONDS_N_URL = "images/Cards/CardDiamondsColor.png";
+    private static final String DIAMONDS_I_URL = "images/Cards/CardDiamondsEmpty.png";
+    private static final String ACE_URL = "images/Cards/CardAce.png";
+    private static final String KING_URL = "images/Cards/CardKing.png";
+    private static final String QUEEN_URL = "images/Cards/CardQueen.png";
+    private static final String JACK_URL = "images/Cards/CardAce.png";
+    private static final String TEN_URL = "images/Cards/CardAce.png";
+    private static final String NINE_URL = "images/Cards/CardAce.png";
+    private static final String EIGHT_URL = "images/Cards/CardAce.png";
+    private static final String SEVEN_URL = "images/Cards/CardAce.png";  // TODO: !
 
     private static final Image clubsI = new Image(CLUBS_I_URL);
     private static final Image clubsN = new Image(CLUBS_N_URL);

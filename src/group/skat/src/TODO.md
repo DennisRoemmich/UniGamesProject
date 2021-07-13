@@ -11,6 +11,7 @@
   * `A→` Action Dialog
   * Redo-Button
   * Highlight von Karten
+  * `LATER` Schöneres Button-Highlight
 * **FXController**
   * `MAIK` Presenter Klasse abschließen 
     * Player View (Score, Name, Totalscore, Declarer)
