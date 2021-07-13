@@ -4,6 +4,7 @@ import map.MapGenerator;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
+import buildings.Building;
 import javafx.scene.layout.Region;
 import map.Map;
 import streets.Street;
@@ -41,6 +42,14 @@ public class MapNode extends Region {
             GuiPosition position = convertPosition(street.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
+            this.getChildren().add(newNode);
+        }
+        for(Building building : map.getBuildings()) {
+            Region newNode = new BuildingNode(tileWidth, building);
+           // GuiPosition position = convertPosition(building.getPosition());
+            //newNode.setLayoutX(position.getX());
+           // newNode.setLayoutY(position.getY());
+           // newNode.set
             this.getChildren().add(newNode);
         }
     }

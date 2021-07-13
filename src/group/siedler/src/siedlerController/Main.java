@@ -1,5 +1,7 @@
 package siedlerController;
 
+import buildings.Building;
+import buildings.BuildingType;
 import gui.MapNode;
 import gui.RoadNode;
 import javafx.application.Application;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.EdgePositionZCord;
+import positions.NodePosition;
 import streets.Street;
 import streets.StreetType;
 
@@ -23,10 +26,15 @@ public class Main extends Application {
         int x = 0;
         int y = 0;
         for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
-            EdgePosition position = new EdgePosition(x,y,zCord);
-            Street street = new Street(position, StreetType.ROAD, PlayerColor.BLUE);
-            mapNode.getMap().addStreet(street);
+            EdgePosition positionEdge = new EdgePosition(x,y,zCord);
+            Street street = new Street(positionEdge, StreetType.ROAD, PlayerColor.BLUE);
+            mapNode.getMap().addStreet(street);         
         }
+        
+        NodePosition positionNode = new NodePosition(x, y, true);
+        Building building = new Building(positionNode, PlayerColor.BLUE);
+        mapNode.getMap().addBuilding(building);
+        
         mapNode.refreshOutput();
         mapNode.setLayoutX(300);;
         mapNode.setLayoutY(150);
