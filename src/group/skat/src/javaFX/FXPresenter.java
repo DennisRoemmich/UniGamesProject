@@ -14,18 +14,18 @@ public class FXPresenter {
 
     private static FXController fxController;
 
-    private static Image viewNewGame = new Image("file:/./ViewNewGame.png");
-    private static Image viewResult = new Image("file:/./images/Views/ResultView.png");
+    private static Image viewNewGame = new Image("images/Views/ViewNewGame.png");
+    private static Image viewResult = new Image("images/Views/ResultView.png");
 
-    private static Image backGroundBlank = new Image("file:/./images/Views/ViewBackgroundBlank.png");
-    private static Image backGroundShelfs = new Image("file:/./images/Views/ViewBackgroundShelfs.png");
+    private static Image backGroundBlank = new Image("images/Views/ViewBackgroundBlank.png");
+   private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundShelfs.png");
 
-    private static Image acceptButton = new Image("file:/./images/Buttons/Button2Accept.png");
-    private static Image greyButton = new Image("file:/./images/Buttons/Button3GameColor.png");
-    private static Image cancelButton = new Image("file:/./images/Buttons/Button4Cancel.png");
-    private static Image suitButton = new Image("file:/./images/Buttons/Button2GameType.png");
-    private static Image grandButton = new Image("file:/./images/Buttons/Button3GameType.png");
-    private static Image nullButton = new Image("file:/./images/Buttons/Button4GameType.png");
+    private static Image acceptButton = new Image("images/Buttons/Button2Accept.png");
+    private static Image greyButton = new Image("images/Buttons/Button3GameColor.png");
+    private static Image cancelButton = new Image("images/Buttons/Button4Cancel.png");
+    private static Image suitButton = new Image("images/Buttons/Button2GameType.png");
+    private static Image grandButton = new Image("images/Buttons/Button3GameType.png");
+    private static Image nullButton = new Image("images/Buttons/Button4GameType.png");
 
     public static void setFxController(FXController fxController){
 

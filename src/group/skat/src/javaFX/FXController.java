@@ -13,7 +13,6 @@ import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
-import framework.Presenter;
 import javaFX.enums.FXCardPosition;
 import javaFX.enums.GUIState;
 import javaFX.enums.FXHandShelfPosition;
@@ -59,8 +58,26 @@ public class FXController implements Player, Initializable {
     /** This is called after initialize and after the initialization of the controller object*/
     private void init(){
 
-        FXButton.setFXController(this);
+
+
+        // URL resource = getClass().getResource("/path/to/image.jpg");
+
+
+        var classLoader = FXController.class.getClassLoader();
+        URL resource = classLoader.getResource("images/Views/ViewBackgroundBlank.png");
+
+        if(resource == null){
+
+            Print.debug("ERROR","This is null!");
+        }else {
+
+            Print.debug("WARNING",resource.getPath());
+        }
+
+        var bgImage = new Image("images/Views/ViewBackgroundBlank.png");
+
         FXPresenter.setFxController(this);
+        FXButton.setFXController(this);
 
         bindings();
         createButtons();
@@ -93,10 +110,10 @@ public class FXController implements Player, Initializable {
         String identifier;
 
         identifier = "SORT";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("file:/./images/Buttons/ButtonSort.png"), new Image("file:/./images/Buttons/ButtonSortHighlighted.png"), false));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("images/Buttons/ButtonSort.png"), new Image("images/Buttons/ButtonSortHighlighted.png"), false));
 
-        Image placeholder = new Image("file:/./images/Buttons/Button1GameColor.png");
-        Image highlight = new Image("file:/./images/Buttons/ButtonSelectedForeground.png");
+        Image placeholder = new Image("images/Buttons/Button1GameColor.png");
+        Image highlight = new Image("images/Buttons/ButtonSelectedForeground.png");
 
         identifier = "PA1";
         buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, highlight, true));
@@ -114,11 +131,10 @@ public class FXController implements Player, Initializable {
         buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, highlight, true));
 
         identifier = "PLAY";
-        buttonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("file:/./images/Buttons/ButtonPlay.png"), new Image("file:/./images/Buttons/ButtonPlayHighlighted.png")));
+        buttonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("images/Buttons/ButtonPlay.png"), new Image("images/Buttons/ButtonPlayHighlighted.png")));
 
         identifier = "NEXT";
-        buttonDict.put(identifier, new FXButton(identifier, IVButtonNext, new Image("file:/./images/Buttons/ButtonNext.png"), new Image("file:/./images/Buttons/ButtonNextHighlighted.png")));
-
+        buttonDict.put(identifier, new FXButton(identifier, IVButtonNext, new Image("images/Buttons/ButtonNext.png"), new Image("images/Buttons/ButtonNextHighlighted.png")));
 
     }
 

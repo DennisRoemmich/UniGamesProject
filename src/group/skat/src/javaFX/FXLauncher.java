@@ -1,6 +1,5 @@
 package javaFX;
 
-import console.Print;
 import controller.SkatController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +24,7 @@ public class FXLauncher extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         var classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("SkatGUI.fxml");
+        URL resource = classLoader.getResource("resources/SkatGUI.fxml");
 
         var loader = new FXMLLoader(resource);
 

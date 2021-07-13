@@ -14,7 +14,6 @@ public class SkatMove extends GameMove {
     private static final String TOBERELOGGED_KEY = "toBeRelogged";
 
 
-
     private int indexFrom;
     private int indexTo;
     /** This value is used to be able to play moves from log without logging them again but actually it shouldn't be that way*/

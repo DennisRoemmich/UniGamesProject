@@ -116,59 +116,46 @@ public class FXButton {
 
 
 
-        rootObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+        rootObject.setOnMouseClicked(mouseEvent -> controller.buttonClicked(identifier));
 
-                controller.buttonClicked(identifier);
+        rootObject.setOnMouseEntered(mouseEvent -> {
 
-            }
-        });
+            if (!highlighted) {
 
-        rootObject.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+                if (imageViewOverlay != null) {
 
-                if (!highlighted){
+                    imageViewOverlay.setVisible(true);
 
-                    if ( imageViewOverlay != null ){
+                } else {
 
-                        imageViewOverlay.setVisible(true);
-
-                    } else {
-
-                        imageView.setImage(imgHighlighted);
-
-                    }
-
-                    highlighted = true;
+                    imageView.setImage(imgHighlighted);
 
                 }
 
+                highlighted = true;
+
             }
+
         });
 
-        rootObject.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+        rootObject.setOnMouseExited(mouseEvent -> {
 
-                if (highlighted){
+            if (highlighted){
 
-                    if ( imageViewOverlay != null ){
+                if ( imageViewOverlay != null ){
 
-                        imageViewOverlay.setVisible(false);
+                    imageViewOverlay.setVisible(false);
 
-                    } else {
+                } else {
 
-                        imageView.setImage(imgDefault);
-
-                    }
-
-                    highlighted = false;
+                    imageView.setImage(imgDefault);
 
                 }
 
+                highlighted = false;
+
             }
+
         });
 
     }
