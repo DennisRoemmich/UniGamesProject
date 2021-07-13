@@ -59,10 +59,6 @@ public class FXController implements Player, Initializable {
     private void init(){
 
 
-
-        // URL resource = getClass().getResource("/path/to/image.jpg");
-
-
         var classLoader = FXController.class.getClassLoader();
         URL resource = classLoader.getResource("images/Views/ViewBackgroundBlank.png");
 
@@ -360,7 +356,6 @@ public class FXController implements Player, Initializable {
             case "PLAY" -> {
 
                 if (makeMove(new SkatMove(ActionType.NEW_GAME))){
-
                     initGameStart();
 
                 }
