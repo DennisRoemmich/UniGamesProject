@@ -17,11 +17,22 @@ import positions.NodePosition;
 import streets.Street;
 import streets.StreetType;
 
+import java.io.File;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Pane mainPane = new Pane();
+
+        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1000,600);
+        primaryStage.setTitle("hi");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        /* Pane mainPane = new Pane();
         MapNode mapNode = new MapNode();
         int x = 0;
         int y = 0;
@@ -45,7 +56,7 @@ public class Main extends Application {
         mainPane.getChildren().add(mapNode);
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(new Scene(mainPane, 700, 500));
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
 
