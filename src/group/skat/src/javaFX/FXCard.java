@@ -32,15 +32,12 @@ public class FXCard {
 
     // Images
 
-    // TODO: update URL
     private static final String TURNED_DOWN_URL = "images/Cards/CardBack.png";
     private static final Image turnedDown = new Image(TURNED_DOWN_URL);
 
-    // TODO: update URL
     private static final String HIGHLIGHT_URL = "images/Cards/CardHighlighted.png";
     private static final Image highlight = new Image(HIGHLIGHT_URL);
 
-    // TODO: update URLs
     private static final String CLUBS_N_URL = "images/Cards/CardClubsColor.png";
     private static final String CLUBS_I_URL = "images/Cards/CardClubsEmpty.png";
     private static final String SPADES_N_URL = "images/Cards/CardSpadesColor.png";
@@ -56,7 +53,7 @@ public class FXCard {
     private static final String TEN_URL = "images/Cards/Card10.png";
     private static final String NINE_URL = "images/Cards/Card9.png";
     private static final String EIGHT_URL = "images/Cards/Card8.png";
-    private static final String SEVEN_URL = "images/Cards/Card7.png";  // TODO: !
+    private static final String SEVEN_URL = "images/Cards/Card7.png";
 
     private static final Image clubsI = new Image(CLUBS_I_URL);
     private static final Image clubsN = new Image(CLUBS_N_URL);

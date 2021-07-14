@@ -65,7 +65,6 @@ public class FXCurrentTrick {
 
             if (!trickFXCards[i].isEqualTo(currentTrick.getCardAt(i))) {
 
-                Print.debug("maik", "trick unequal");
                 trickFXCards[i].changeCard(currentTrick.getCardAt(i));
             }
             trickFXCards[i].getAnchorCard().setOpacity(1);
