@@ -98,7 +98,11 @@ public class FXHandShelf {
 
             if (position == FXHandShelfPosition.MID_PLAYER) {
 
-                if (shiftRight) {
+                if (handFXCards[i].getCard() == null) {
+
+                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), 9 * 70.0 + 2 * (119.0 - 70.0));
+
+                } else if (shiftRight) {
 
                     AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 70.0));
 
@@ -168,10 +172,7 @@ public class FXHandShelf {
 
         if (selectedCardIndex == -1) {
 
-            for (FXCard card : handFXCards) {
-
-                card.setSelected(false);
-            }
+            deselectAll();
 
             handFXCards[index].setSelected(true);
             selectedCardIndex = index;
@@ -194,6 +195,14 @@ public class FXHandShelf {
         }
 
         update();
+    }
+
+    public void deselectAll() {
+
+        for (FXCard card : handFXCards) {
+
+            card.setSelected(false);
+        }
     }
 
 

@@ -84,14 +84,14 @@ public class FXSkat {
 
             skatFXCards[i].update();
 
-            if (skatFXCards[i].getCard().getCardValue() == CardValue.JACK) {
+        /*    if (skatFXCards[i].getCard().getCardValue() == CardValue.JACK) {
 
                 someMagic(skatFXCards[i].getAnchorCard());
 
             } else {
 
                 skatFXCards[i].getAnchorCard().setOpacity(1);
-            }
+            }//*/
         }
     }
 

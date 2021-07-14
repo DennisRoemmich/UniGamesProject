@@ -16,6 +16,7 @@ import framework.Player;
 import javaFX.enums.FXCardPosition;
 import javaFX.enums.GUIState;
 import javaFX.enums.FXHandShelfPosition;
+import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -485,6 +486,11 @@ public class FXController implements Player, Initializable {
         var skatSelectedIndex = fxSkat.getSelectedCardIndex();
         var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
 
+        if (pos == FXCardPosition.HANDSHELF_MID && index != -1 && midHandShelf.getFXCardAt(index).getCard() == null) {
+
+            return;
+        }
+
         if (gamePhase == GamePhase.DECLARING) {
 
             possibleSkatHandMove(pos, skatSelectedIndex, shelfSelectedCardIndex, index);
@@ -515,6 +521,7 @@ public class FXController implements Player, Initializable {
                     fxSkat.getFXCardAt(skatSelectedIndex).setSelected(false);
                     fxSkat.setSelectedCardIndex(-1);
 
+                    midHandShelf.deselectAll();
                     midHandShelf.getFXCardAt(index).setSelected(true);
                     midHandShelf.setSelectedCardIndex(-1);
                 }
@@ -552,6 +559,14 @@ public class FXController implements Player, Initializable {
     private void possibleTrickMove(int shelfSelectedCardIndex) {
 
         if (shelfSelectedCardIndex != -1) {
+
+            for (Timeline tl : fxCurrentTrick.getTimelines()) {
+
+                if (tl != null) {
+
+                    tl.stop();
+                }
+            }
 
             var move = new SkatMove(shelfSelectedCardIndex);
 

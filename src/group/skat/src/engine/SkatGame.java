@@ -115,6 +115,23 @@ public class SkatGame {
         return skat;
     }
 
+    public Trump getTrump() {
+
+        return trump;
+    }
+
+    public Trick getCurrentTrick() {
+
+        return currentTrick;
+    }
+
+    public Trick getLastTrick() {
+
+        var tricks = players[currentLeaderIndex].getTricks();
+
+        return tricks.getTrickAt(tricks.getSize() - 1);
+    }
+
     /* ELSE */
 
     private void createCardStack() {
@@ -408,15 +425,6 @@ public class SkatGame {
 
         declarer.setFinalScore(finalScore);
         result.gameHasEnded();
-    }
-
-
-    public Trump getTrump(){
-        return trump;
-    }
-
-    public Trick getCurrentTrick(){
-        return currentTrick;
     }
 
     private int getWinFactor() {

@@ -247,7 +247,7 @@ public class FXCard {
 
             anchorCard.getChildren().add(pane);
 
-            if (position == FXCardPosition.SKAT) {
+            if (position == FXCardPosition.SKAT || position == FXCardPosition.TRICK) {
 
                 pane.setFitWidth(anchorCard.getWidth());
                 pane.setFitHeight(anchorCard.getHeight());
@@ -272,11 +272,12 @@ public class FXCard {
         };
 
         isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
+        var notnull = card != null;
 
-        imageCardBackground.setVisible(!isOpen);
-        imageCardColor.setVisible(isOpen);
-        imageCardValue.setVisible(isOpen);
-        imageCardHighlighted.setVisible(isSelected);
+        imageCardBackground.setVisible(!isOpen && notnull);
+        imageCardColor.setVisible(isOpen && notnull);
+        imageCardValue.setVisible(isOpen && notnull);
+        imageCardHighlighted.setVisible(isSelected && notnull);
 
     //    imageCardHighlighted.setVisible(isHighlighted);
 
