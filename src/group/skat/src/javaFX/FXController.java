@@ -515,8 +515,6 @@ public class FXController implements Player, Initializable {
             }
         }
 
-     // FXPresenter.update();
-
     }
 
     private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {
@@ -533,7 +531,6 @@ public class FXController implements Player, Initializable {
                     fxSkat.setSelectedCardIndex(-1);
 
                     midHandShelf.deselectAll();
-                    midHandShelf.getFXCardAt(index).setSelected(true);
                     midHandShelf.setSelectedCardIndex(-1);
                 }
 
@@ -563,8 +560,7 @@ public class FXController implements Player, Initializable {
                 fxSkat.cardClickedAt(index);
             }
         }
-        fxSkat.update();
-        midHandShelf.update();
+        FXPresenter.update();
     }
 
     private void possibleTrickMove(int shelfSelectedCardIndex) {
@@ -587,8 +583,16 @@ public class FXController implements Player, Initializable {
                 midHandShelf.setSelectedCardIndex(-1);
             }
         }
-        FXPresenter.updateHandShelfs();
-        fxCurrentTrick.update();
+
+        if (getController().getGame().getGamePhase() == GamePhase.ENDED) {
+
+            FXPresenter.updateHandShelfs();
+            fxCurrentTrick.update();
+
+        } else {
+
+            FXPresenter.update();
+        }
     }
 
 
@@ -623,6 +627,7 @@ public class FXController implements Player, Initializable {
         switch (key) {
 
             case SPACE -> keySpaceReleased();
+            default -> Print.debug("maik", "Not a valid keyEvent: " + key);
         }
     }
 

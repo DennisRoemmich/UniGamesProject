@@ -399,15 +399,13 @@ public class SkatGame {
 
         players[nextLeaderIndex].getTricks().addTrick(currentTrick);
 
-        currentTrick = null;
-        currentLeaderIndex = nextLeaderIndex;
-
         if (currentRoundNo == 9) {
 
             gameOver();
             return;
         }
 
+        currentLeaderIndex = nextLeaderIndex;
         currentRoundNo++;
         currentTrick = new Trick(trump);
     }

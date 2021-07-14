@@ -190,13 +190,12 @@ public class FXHandShelf {
 
             if (fxController.makeMove(move)) {
 
-                handFXCards[selectedCardIndex].setSelected(false);
-                handFXCards[index].setSelected(true);
+                deselectAll();
                 selectedCardIndex = -1;
             }
         }
 
-        update();
+        FXPresenter.update();
     }
 
     public void deselectAll() {

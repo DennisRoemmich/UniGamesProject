@@ -2,6 +2,7 @@ package javaFX;
 
 import console.Print;
 import engine.Trick;
+import engine.enums.GamePhase;
 import javaFX.enums.FXCardPosition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -76,47 +77,53 @@ public class FXCurrentTrick {
 
         if (currentTrick.getSize() == 3 && !timelineShown) {
 
-            someMagic();
+            var ended = game.getGamePhase() == GamePhase.ENDED;
+
+            someMagic(ended);
             timelineShown = true;
         }
         if (currentTrick.getSize() == 1) {
 
             timelineShown = false;
         }
-
     }
 
-    public void someMagic() {
+    public void someMagic(boolean ended) {
 
         var kv00 = new KeyValue(trickFXCards[0].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
         var kv01 = new KeyValue(trickFXCards[1].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
         var kv02 = new KeyValue(trickFXCards[2].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
 
-        var kf00 = new KeyFrame(Duration.seconds(3), kv00);
-        var kf01 = new KeyFrame(Duration.seconds(3), kv01);
-        var kf02 = new KeyFrame(Duration.seconds(3), kv02);
+        var kf00 = new KeyFrame(Duration.seconds(2), kv00);
+        var kf01 = new KeyFrame(Duration.seconds(2), kv01);
+        var kf02 = new KeyFrame(Duration.seconds(2), kv02);
 
         timeline0 = new Timeline();
         timeline0.getKeyFrames().addAll(kf00, kf01, kf02);
 
-        timeline0.setOnFinished(e -> fadeOut());
+        timeline0.setOnFinished(e -> fadeOut(ended));
 
         timeline0.play();
     }
 
-    private void fadeOut() {
+    private void fadeOut(boolean ended) {
 
         var kv10 = new KeyValue(trickFXCards[0].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
         var kv11 = new KeyValue(trickFXCards[1].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
         var kv12 = new KeyValue(trickFXCards[2].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
 
-        var kf10 = new KeyFrame(Duration.seconds(2), kv10);
-        var kf11 = new KeyFrame(Duration.seconds(2), kv11);
-        var kf12 = new KeyFrame(Duration.seconds(2), kv12);
+        var kf10 = new KeyFrame(Duration.seconds(1.5), kv10);
+        var kf11 = new KeyFrame(Duration.seconds(1.5), kv11);
+        var kf12 = new KeyFrame(Duration.seconds(1.5), kv12);
 
         timeline1 = new Timeline();
 
         timeline1.getKeyFrames().addAll(kf10, kf11, kf12);
+
+        if (ended) {
+
+            timeline1.setOnFinished(e -> FXPresenter.update());
+        }
 
         timeline1.play();
     }

@@ -109,6 +109,7 @@ public class FXPresenter {
 
             case WAIT_FOR_DECLARER -> {
 
+                // TODO: egtl ja nich oder? nur wenn der declarer was macht das updaten
                 updateHandShelfs();
                 fxController.getFxSkat().update();
 
@@ -116,12 +117,10 @@ public class FXPresenter {
 
             case DECLARE_SKAT -> {
 
-
                 skatView(true);
                 updateHandShelfs();
-                buttonsAcceptSkat();// call last
-
                 fxController.getFxSkat().update();
+                buttonsAcceptSkat();// call last
             }
 
             case DECLARE_TRUMPTYPE -> {
@@ -165,6 +164,8 @@ public class FXPresenter {
             }
 
             case GAME_FINISHED -> {
+
+                resultView(true);
             }
 
             case SET_FINISHED -> {
