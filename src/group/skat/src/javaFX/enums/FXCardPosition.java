@@ -8,5 +8,6 @@ public enum FXCardPosition {
     SKAT,
     TRICK,
     TRICKS_DECLARER,
-    TRICKS_OPPONENTS
+    TRICKS_OPPONENTS,
+    PREVIEW
 }

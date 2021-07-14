@@ -20,6 +20,8 @@ public class FXCurrentTrick {
     private Timeline timeline0;
     private Timeline timeline1;
 
+    private boolean timelineShown;
+
     /* CONSTRUCTOR */
 
     public FXCurrentTrick(FXController fxController, AnchorPane one, AnchorPane two, AnchorPane three) {
@@ -27,6 +29,8 @@ public class FXCurrentTrick {
         this.fxController = fxController;
 
         anchorCurrentTrick = new AnchorPane();
+
+        timelineShown = false;
 
         init(one, two, three);
         update();
@@ -66,13 +70,18 @@ public class FXCurrentTrick {
             if (!trickFXCards[i].isEqualTo(currentTrick.getCardAt(i))) {
 
                 trickFXCards[i].changeCard(currentTrick.getCardAt(i));
+                trickFXCards[i].getAnchorCard().setOpacity(1);
             }
-            trickFXCards[i].getAnchorCard().setOpacity(1);
         }
 
-        if (currentTrick.getSize() == 3) {
+        if (currentTrick.getSize() == 3 && !timelineShown) {
 
             someMagic();
+            timelineShown = true;
+        }
+        if (currentTrick.getSize() == 1) {
+
+            timelineShown = false;
         }
 
     }

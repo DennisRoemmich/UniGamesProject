@@ -65,7 +65,7 @@ public class FXHandShelf {
             } else {
 
                 // TODO: das stimmt noch nich ganz, muss noch geändert werden - andere anker vlt?
-                AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 50.0);
+                AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 45.0);
             }
         }
     }
@@ -100,11 +100,13 @@ public class FXHandShelf {
 
                 if (handFXCards[i].getCard() == null) {
 
-                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), 9 * 70.0 + 2 * (119.0 - 70.0));
+                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), 9 * 70.0 + 2 * (119.0 - 74.0));
 
-                } else if (shiftRight) {
+                } else
 
-                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 70.0));
+                if (shiftRight) {
+
+                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 74.0));
 
                 } else {
 

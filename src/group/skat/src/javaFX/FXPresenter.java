@@ -402,7 +402,7 @@ public class FXPresenter {
 
     }
 
-    private static void updateHandShelfs(){
+    public static void updateHandShelfs(){
 
         for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
 

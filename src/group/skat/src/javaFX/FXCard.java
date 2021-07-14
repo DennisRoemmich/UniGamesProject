@@ -244,7 +244,7 @@ public class FXCard {
 
             anchorCard.getChildren().add(pane);
 
-            if (position == FXCardPosition.SKAT || position == FXCardPosition.TRICK) {
+            if (position == FXCardPosition.SKAT || position == FXCardPosition.TRICK || position == FXCardPosition.PREVIEW) {
 
                 pane.setFitWidth(anchorCard.getWidth());
                 pane.setFitHeight(anchorCard.getHeight());
@@ -264,7 +264,7 @@ public class FXCard {
 
         isOpen = switch (position) {
 
-            case HANDSHELF_MID, SKAT, TRICK -> true;
+            case HANDSHELF_MID, SKAT, TRICK, PREVIEW -> true;
             case HANDSHELF_LEFT, HANDSHELF_RIGHT, TRICKS_DECLARER, TRICKS_OPPONENTS -> false;
         };
 
@@ -275,6 +275,7 @@ public class FXCard {
         imageCardColor.setVisible(isOpen && notnull);
         imageCardValue.setVisible(isOpen && notnull);
         imageCardHighlighted.setVisible(isSelected && notnull);
+
 
     //    imageCardHighlighted.setVisible(isHighlighted);
 

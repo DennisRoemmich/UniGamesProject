@@ -22,7 +22,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -88,8 +87,6 @@ public class FXController implements Player, Initializable {
         initHandShelfs();
         fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
         fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
-
-        scene.setOnKeyPressed(this::keyboardClicked);
     }
 
     private void initHandShelfs() {
@@ -281,6 +278,8 @@ public class FXController implements Player, Initializable {
 
         this.scene = scene;
 
+        scene.setOnKeyPressed(this::keyboardPressed);
+        scene.setOnKeyReleased(this::keyboardReleased);
     }
 
     /* GETTER */
@@ -378,7 +377,8 @@ public class FXController implements Player, Initializable {
                     midHandShelf.deselectAll();
                     midHandShelf.setSelectedCardIndex(-1);
 
-                    FXPresenter.update();
+                    FXPresenter.updateHandShelfs();
+                    fxSkat.update();
                 }
             }
 
@@ -580,14 +580,14 @@ public class FXController implements Player, Initializable {
                 midHandShelf.setSelectedCardIndex(-1);
             }
         }
-        midHandShelf.update();
+        FXPresenter.updateHandShelfs();
         fxCurrentTrick.update();
     }
 
 
 
 
-    public void keyboardClicked(KeyEvent e) {
+    public void keyboardPressed(KeyEvent e) {
 
         var key = e.getCode();
 
@@ -601,8 +601,21 @@ public class FXController implements Player, Initializable {
         //    case DOWN -> keyDownClicked();
             case SPACE -> keySpaceClicked();
             case ENTER -> keyEnterClicked();
+            case BACK_SLASH -> keyHashTagClicked();
             case S -> keySClicked();
             default -> Print.debug("maik", "Not a valid keyEvent: " + key);
+        }
+    }
+
+    public void keyboardReleased(KeyEvent e) {
+
+        var key = e.getCode();
+
+        Print.debug("maik", "Key released: " + key);
+
+        switch (key) {
+
+            case SPACE -> keySpaceReleased();
         }
     }
 
@@ -675,14 +688,47 @@ public class FXController implements Player, Initializable {
 
     private void keySpaceClicked() {
 
+        var selIndex = midHandShelf.getSelectedCardIndex();
+        var selCard = midHandShelf.getFXCardAt(selIndex).getCard();
 
+        if (selIndex != -1) {
+
+            var preview = new FXCard(AnchorPreview, FXCardPosition.PREVIEW, 0, this);
+
+            if (!preview.isEqualTo(selCard)) {
+
+                preview.changeCard(selCard);
+            }
+
+            AnchorPreview.setVisible(true);
+        }
+    }
+
+    private void keySpaceReleased() {
+
+        AnchorPreview.setVisible(false);
     }
 
     private void keyEnterClicked() {
 
-        var gamePhase = getController().getGame().getGamePhase();
+        var guiState = getState();
+        GamePhase gamePhase;
 
-        if (gamePhase == GamePhase.AUCTION) {
+        if (guiState == GUIState.NOT_STARTED) {
+
+            gamePhase = GamePhase.NOT_STARTED;
+
+        } else {
+
+            gamePhase = getController().getGame().getGamePhase();
+        }
+
+
+        if (guiState == GUIState.NOT_STARTED) {
+
+            buttonClicked("PLAY");
+
+        } else if (gamePhase == GamePhase.AUCTION) {
 
             buttonClicked("PA2");
 
@@ -695,6 +741,16 @@ public class FXController implements Player, Initializable {
             var selIndex = midHandShelf.getSelectedCardIndex();
 
             fxCardClicked(FXCardPosition.TRICK, selIndex);
+        }
+    }
+
+    private void keyHashTagClicked() {
+
+        var gamePhase = getController().getGame().getGamePhase();
+
+        if (gamePhase == GamePhase.AUCTION) {
+
+            buttonClicked("PA4");
         }
     }
 
@@ -750,7 +806,7 @@ public class FXController implements Player, Initializable {
     public ImageView CardForeground;
     public ImageView CardForeground1;
 
-
+    public AnchorPane AnchorPreview = new AnchorPane();
 
     public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
     }
