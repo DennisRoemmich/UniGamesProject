@@ -48,6 +48,7 @@ public class FXButton {
         this.imgHighlighted = imgHighlighted;
 
         setActions();
+        imageView.setVisible(true);
 
     }
 
@@ -60,13 +61,7 @@ public class FXButton {
         this.imgDefault = imgDefault;
 
         setActions();
-
-    }
-
-    public void setImage(Image image){
-
-        imageView.setImage(image);
-
+        imageView.setVisible(true);
 
     }
 
@@ -107,12 +102,29 @@ public class FXButton {
         this.imgHighlighted = imgHighlighted;
 
         setActions();
+        imageView.setVisible(true);
 
 
     }
 
     /* OTHER */
 
+
+    public void setImages(Image[] images){
+
+        imgDefault = images[0];
+        imgHighlighted = images[1];
+
+        imageView.setImage(imgDefault);
+
+    }
+
+
+    public void setImage(Image image){
+
+        imageView.setImage(image);
+
+    }
 
     private void setActions(){
 
@@ -167,6 +179,7 @@ public class FXButton {
 
     public void show(){
         rootObject.setVisible(true);
+        imageView.setVisible(true);
     }
 
 

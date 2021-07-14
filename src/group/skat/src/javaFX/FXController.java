@@ -35,6 +35,11 @@ import java.util.*;
 
 public class FXController implements Player, Initializable {
 
+    public Label LabelAuctionValue;
+    public AnchorPane AnchorMarker;
+
+    /** ↑ This is eviil, put it down! */
+
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
     boolean suitGame = false;
@@ -107,23 +112,22 @@ public class FXController implements Player, Initializable {
         identifier = "SORT";
         buttonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("images/Buttons/ButtonSort.png"), new Image("images/Buttons/ButtonSortHighlighted.png"), false));
 
-        Image placeholder = new Image("images/Buttons/Button1GameColor.png");
-        Image highlight = new Image("images/Buttons/ButtonSelectedForeground.png");
+        Image placeholder = new Image("images/Buttons/ButtonGameColor1.png");
 
         identifier = "PA1";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, highlight, true));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, placeholder, false));
 
         identifier = "PA2";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA2, placeholder, highlight, true));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA2, placeholder, placeholder, false));
 
         identifier = "PA3";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA3, placeholder, highlight, true));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA3, placeholder, placeholder, false));
 
         identifier = "PA4";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA4, placeholder, highlight, true));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA4, placeholder, placeholder, false));
 
         identifier = "PA5";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, highlight, true));
+        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, placeholder, false));
 
         identifier = "PLAY";
         buttonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("images/Buttons/ButtonPlay.png"), new Image("images/Buttons/ButtonPlayHighlighted.png")));
@@ -510,6 +514,9 @@ public class FXController implements Player, Initializable {
                 midHandShelf.cardClickedAt(index);
             }
         }
+
+     // FXPresenter.update();
+
     }
 
     private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {

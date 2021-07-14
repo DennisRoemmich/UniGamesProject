@@ -2,9 +2,11 @@ package javaFX;
 
 
 import console.Print;
+import engine.enums.GameMode;
 import javaFX.enums.GUIState;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 public class FXPresenter {
@@ -15,19 +17,30 @@ public class FXPresenter {
     private static Image viewResult = new Image("images/Views/ResultView.png");
 
     private static Image backGroundBlank = new Image("images/Views/ViewBackgroundBlank.png");
-    private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundShelfs.png");
+    private static Image backGroundShelfs = new Image("images/Views/ViewBackgroundPlay.png");
 
-    private static Image acceptButton = new Image("images/Buttons/Button2Accept.png");
-    private static Image cancelButton = new Image("images/Buttons/Button4Cancel.png");
-    private static Image suitButton = new Image("images/Buttons/Button2GameType.png");
-    private static Image grandButton = new Image("images/Buttons/Button3GameType.png");
-    private static Image nullButton = new Image("images/Buttons/Button4GameType.png");
+    private static Image markerClubs = new Image("images/Other/MarkerClubs.png");
+    private static Image markerSpades = new Image("images/Other/MarkerSpades.png");
+    private static Image markerHearts = new Image("images/Other/MarkerHearts.png");
+    private static Image markerDiamonds = new Image("images/Other/MarkerDiamonds.png");
 
-    private static Image clubsButton = new Image("images/Buttons/Button1GameColor.png");
-    private static Image spadesButton = new Image("images/Buttons/Button2GameColor.png");
-    private static Image greyButton = new Image("images/Buttons/Button3GameColor.png");
-    private static Image heartsButton = new Image("images/Buttons/Button4GameColor.png");
-    private static Image diamondsButton = new Image("images/Buttons/Button5GameColor.png");
+    private static Image[] acceptButton2 = new Image[]{ new Image ("images/Buttons/ButtonAcceptCancel2.png"), new Image ("images/Buttons/ButtonAcceptCancel2Highlighted.png") };
+    private static Image[] cancelButton4 = new Image[]{ new Image ("images/Buttons/ButtonAcceptCancel4.png"), new Image ("images/Buttons/ButtonAcceptCancel4Highlighted.png") };
+
+    private static Image[] acceptButton3 = new Image[]{ new Image ("images/Buttons/ButtonAcceptSkat.png"), new Image ("images/Buttons/ButtonAcceptSkatHighlighted.png") };
+
+    private static Image[] suitButton = new Image[]{ new Image ("images/Buttons/ButtonGameType2.png"), new Image ("images/Buttons/ButtonGameType2Highlighted.png") };
+    private static Image[] grandButton = new Image[]{ new Image ("images/Buttons/ButtonGameType3.png"), new Image ("images/Buttons/ButtonGameType3Highlighted.png") };
+    private static Image[] nullButton = new Image[]{ new Image ("images/Buttons/ButtonGameType4.png"), new Image ("images/Buttons/ButtonGameType4Highlighted.png") };
+
+    private static Image[] clubsButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor1.png"), new Image ("images/Buttons/ButtonGameColor1Highlighted.png") };
+    private static Image[] spadesButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor2.png"), new Image ("images/Buttons/ButtonGameColor2Highlighted.png") };
+    private static Image[] greyButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor3.png"), new Image ("images/Buttons/ButtonGameColor3Highlighted.png") };
+    private static Image[] heartsButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor4.png"), new Image ("images/Buttons/ButtonGameColor4Highlighted.png") };
+    private static Image[] diamondsButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor5.png"), new Image ("images/Buttons/ButtonGameColor5Highlighted.png") };
+
+
+
 
     public static void setFxController(FXController fxController){
 
@@ -54,7 +67,7 @@ public class FXPresenter {
             case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
 
                 updateHandShelfs();
-                buttonsAcceptCancel();
+
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
 
@@ -66,23 +79,28 @@ public class FXPresenter {
 
                     var auctionValue = auction.getNextAuctionValue();
                     var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
-                    message = "Do you want to raise on " + Integer.toString(auctionValue) + " against " + name + "?";
+                    message = "Raise against " + name + "?";
+                    fxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
 
                 } else if (state == GUIState.AUCTION_HEARING) {
 
                     var auctionValue = auction.getAuctionValue();
                     var name = controller.getSkatSet().getPlayingPlayerName(auction.getQuestioner().getGameIndex());
-                    message = name + " raised to " + Integer.toString(auctionValue) + ".\nDo you wanna accept?";
+                    message = name + " raised. Call?";
+                    fxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
 
                 } else {
+
 
                     Print.debug("WARNING", "FX: GUIState AUCTION_ASKING was demanded but there is no implementation yet.");
 
                 }
 
 
-                auctionView("Bidding", message);
 
+                declareGameTypeView("Auction", message);
+                fxController.LabelAuctionValue.setVisible(true);
+                buttonsAcceptCancel(); // call last
 
 
 
@@ -93,47 +111,53 @@ public class FXPresenter {
 
                 updateHandShelfs();
                 fxController.getFxSkat().update();
+
             }
 
             case DECLARE_SKAT -> {
 
-                buttonsAccept();
-                skatView(true);
 
+                skatView(true);
                 updateHandShelfs();
+                buttonsAcceptSkat();// call last
+
                 fxController.getFxSkat().update();
             }
 
             case DECLARE_TRUMPTYPE -> {
 
-                auctionView("Game Type", """
-                Declare the type of the Game
-                S = Suit    [Default mode - You can coose trump color next]
-                G = Grand   [Only jacks are trump]
-                N = Null    [You only win if you lose every single trick]
-           
+                declareGameTypeView("Game Type", """
+                Declare Game Type.
                         """);
-                buttonsChooseMode();
+
                 updateHandShelfs();
+                buttonsChooseMode(); // call last
 
             }
 
             case DECLARE_TRUMPCOLOR -> {
 
-                auctionView("Game Color", """
-                Declare the color of the Game.
+                declareGameTypeView("Game Color", """
+                Declare Game Color.
                         """);
-                buttonsChooseColor();
                 updateHandShelfs();
+                buttonsChooseColor(); // call last
             }
 
             case PLAYING_YOUR_MOVE -> {
 
                 fxController.getFxCurrentTrick().update();
+
+
+                markerView(true);
+                trickView(true);
                 updateHandShelfs();
             }
 
             case PLAYING_NOT_YOUR_MOVE -> {
+
+                markerView(true);
+                trickView(true);
                 updateHandShelfs();
             }
 
@@ -150,21 +174,54 @@ public class FXPresenter {
     }
 
 
-    private static void auctionView(String title, String text){
+    private static void declareGameTypeView(String title, String text){
 
 
         fxController.LabelAuctionViewTitle.setText(title);
         fxController.LabelAuctionViewText.setText(text);
         auctionView(true);
+        fxController.LabelAuctionValue.setVisible(false);
 
     }
 
     private static void auctionView(boolean visible){
 
         fxController.AnchorAuctionDialog.setVisible(visible);
+        fxController.LabelAuctionValue.setVisible(visible);
 
     }
 
+    public static void markerView(boolean visible){
+
+
+
+        var anchor = fxController.AnchorMarker;
+        var color = fxController.getController().getGame().getCurrentTrick().getColor();
+
+        if (color != null){
+
+            var imgView = (ImageView) fxController.AnchorMarker.getChildren().get(0);
+
+            imgView.setImage( switch (color){
+
+                case CLUBS -> markerClubs;
+                case SPADES -> markerSpades;
+                case HEARTS -> markerHearts;
+                case DIAMONDS -> markerDiamonds;
+
+            } );
+
+            anchor.setVisible(visible);
+
+        } else {
+
+            anchor.setVisible(false);
+
+        }
+
+
+
+    }
 
     private static void hideAll(){
 
@@ -172,6 +229,7 @@ public class FXPresenter {
         newGameView(false);
         skatView(false);
         auctionView(false);
+        trickView(false);
 
         buttonsHide();
 
@@ -182,23 +240,26 @@ public class FXPresenter {
 
     private static void buttonsHide(){
 
-        fxController.anchorButtonsPlayActions.setVisible(false);
-    }
-
-    private static void buttonsAccept(){
-
         var buttonDict = fxController.buttonDict;
-
-        fxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA1").hide();
         buttonDict.get("PA2").hide();
-
-        buttonDict.get("PA3").show();
-        buttonDict.get("PA3").setImage(acceptButton);
-
+        buttonDict.get("PA3").hide();
         buttonDict.get("PA4").hide();
         buttonDict.get("PA5").hide();
+        fxController.anchorButtonsPlayActions.setVisible(false);
+    }
+
+    private static void buttonsAcceptSkat(){
+
+        var buttonDict = fxController.buttonDict;
+
+        buttonsHide();
+        fxController.anchorButtonsPlayActions.setVisible(true);
+
+        buttonDict.get("PA3").setImages(acceptButton3);
+        buttonDict.get("PA3").show();
+
 
     }
 
@@ -206,19 +267,16 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
+        buttonsHide();
         fxController.anchorButtonsPlayActions.setVisible(true);
 
-        buttonDict.get("PA1").hide();
-
-        buttonDict.get("PA2").setImage(acceptButton);
+        buttonDict.get("PA2").setImages(acceptButton2);
         buttonDict.get("PA2").show();
 
-        buttonDict.get("PA3").hide();
 
-        buttonDict.get("PA4").setImage(cancelButton);
+        buttonDict.get("PA4").setImages(cancelButton4);
         buttonDict.get("PA4").show();
 
-        buttonDict.get("PA5").hide();
 
     }
 
@@ -226,21 +284,20 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
+        buttonsHide();
         fxController.anchorButtonsPlayActions.setVisible(true);
 
-        buttonDict.get("PA1").hide();
 
-        buttonDict.get("PA2").setImage(suitButton);
+        buttonDict.get("PA2").setImages(suitButton);
         buttonDict.get("PA2").show();
 
-        buttonDict.get("PA3").setImage(grandButton);
+        buttonDict.get("PA3").setImages(grandButton);
         buttonDict.get("PA3").show();
 
-        buttonDict.get("PA4").setImage(nullButton);
+        buttonDict.get("PA4").setImages(nullButton);
         buttonDict.get("PA4").show();
 
 
-        buttonDict.get("PA5").hide();
 
     }
 
@@ -249,26 +306,37 @@ public class FXPresenter {
 
         fxController.anchorButtonsPlayActions.setVisible(true);
 
-        buttonDict.get("PA1").setImage(clubsButton);
+        buttonDict.get("PA1").setImages(clubsButton);
         buttonDict.get("PA1").show();
 
-        buttonDict.get("PA2").setImage(spadesButton);
+        buttonDict.get("PA2").setImages(spadesButton);
         buttonDict.get("PA2").show();
 
-        buttonDict.get("PA3").setImage(greyButton);
+        buttonDict.get("PA3").setImages(greyButton);
         buttonDict.get("PA3").show();
 
-        buttonDict.get("PA4").setImage(heartsButton);
+        buttonDict.get("PA4").setImages(heartsButton);
         buttonDict.get("PA4").show();
 
-        buttonDict.get("PA5").setImage(heartsButton);
+        buttonDict.get("PA5").setImages(diamondsButton);
         buttonDict.get("PA5").show();
 
     }
 
+    private static void trickView(boolean visible){
+
+        fxController.AnchorTrickOne.setVisible(true);
+        fxController.AnchorTrickTwo.setVisible(true);
+        fxController.AnchorTrickTwo.setVisible(true);
+
+    }
+
+
     private static void skatView(boolean visible){
 
         fxController.AnchorViewSkat.setVisible(visible);
+        buttonsAcceptSkat();
+
     }
 
     private static void newGameView(boolean visible){
@@ -293,6 +361,12 @@ public class FXPresenter {
             if (gameAm.equals("-1")) {
 
                 gameAm = "∞";
+            }
+
+            if (curGameNo.equals("-1")) {
+
+                curGameNo = "-";
+                gameAm = "-";
             }
 
             fxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
