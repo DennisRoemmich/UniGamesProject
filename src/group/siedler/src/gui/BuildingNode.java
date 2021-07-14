@@ -11,21 +11,12 @@ import javafx.scene.shape.Rectangle;
 public class BuildingNode extends Region {
 	
 	protected Optional<Building> building = Optional.empty();
-	protected double tileWidth = 100;
-	
-	public static final double angle30degree = Math.PI / 6;
 	
     public BuildingNode() {
         refreshOutput();
     }
     
-    public BuildingNode(double width) {
-        this.tileWidth = width;
-        refreshOutput();
-    }
-    
-    public BuildingNode(double width, Building building) {
-        this.tileWidth = width;
+    public BuildingNode(Building building) {
         this.building = Optional.of(building);
         refreshOutput();
     }
@@ -38,11 +29,11 @@ public class BuildingNode extends Region {
         
         this.getChildren().clear();
         
-        double width = tileWidth * 0.3;
-        double height = tileWidth * 0.05;
+        double width = 30;
+        double height = 5;
         
         Circle circle = new Circle();
-        circle.setRadius(tileWidth * 0.075);
+        circle.setRadius(7.5);
         circle.setStroke(Color.BLACK);
         
         this.getChildren().add(circle);

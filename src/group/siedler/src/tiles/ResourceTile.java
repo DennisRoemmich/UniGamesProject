@@ -1,23 +1,23 @@
 package tiles;
 
 import positions.TilePosition;
-import materials.ResourceType;
+import materials.MaterialType;
 
 public class ResourceTile extends Tile {
-    private ResourceType resourceType;
+    private MaterialType resourceType;
     private int hitnumber;
 
     protected ResourceTile(TilePosition position) {
         super(position);
     }
 
-    public ResourceTile(TilePosition position, ResourceType type, int hitnumber) {
+    public ResourceTile(TilePosition position, MaterialType type, int hitnumber) {
         super(position);
         this.resourceType = type;
         this.hitnumber = hitnumber;
     }
 
-    public ResourceType getResourceType() {
+    public MaterialType getResourceType() {
         return resourceType;
     }
 
@@ -26,7 +26,7 @@ public class ResourceTile extends Tile {
         return hitnumber;
     }
 
-    public void setResourceType(ResourceType resourceType) {
+    public void setResourceType(MaterialType resourceType) {
         this.resourceType = resourceType;
     }
 

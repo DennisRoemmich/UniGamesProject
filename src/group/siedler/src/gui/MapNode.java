@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.scene.image.Image;
 import map.MapGenerator;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -18,7 +19,6 @@ public class MapNode extends Region {
     // TODO : Dynamically calculate offset
     private double xOffset = 150;
     private double yOffset = 150;
-
 
     public MapNode() {
         refreshOutput();
@@ -45,7 +45,7 @@ public class MapNode extends Region {
             this.getChildren().add(newNode);
         }
         for(Building building : map.getBuildings()) {
-            Region newNode = new BuildingNode(tileWidth, building);
+            Region newNode = new BuildingNode(building);
             GuiPosition position = convertPosition(building.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
@@ -61,19 +61,14 @@ public class MapNode extends Region {
 
     private GuiPosition convertPosition(NodePosition nodePosition) {
     	double x, y;
-    	
     	if(nodePosition.isZ()) {
-
             x = tileWidth * 0.36 + (nodePosition.getX() * 2 + nodePosition.getY()) * tileWidth * 0.35;
             y = tileWidth * 0.04 + nodePosition.getY() * tileWidth * 0.6;
         } else {
-
             x = tileWidth * 0.36 + (nodePosition.getX() * 2 + nodePosition.getY()) * tileWidth * 0.35;
             y = tileWidth * 0.79 + nodePosition.getY() * tileWidth * 0.6;
         }
-    
-    return new GuiPosition(x,y);
-
+        return new GuiPosition(x,y);
     }
 
     private GuiPosition convertPosition(EdgePosition edgePosition) {

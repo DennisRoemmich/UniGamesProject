@@ -2,18 +2,18 @@ package materials;
 
 import org.json.simple.JSONObject;
 
-public class ResourceSet {
+public class MaterialSet {
     JSONObject resources;
 
-    public ResourceSet() {
+    public MaterialSet() {
         resources = new JSONObject();
-        for(ResourceType type : ResourceType.values()) {
+        for(MaterialType type : MaterialType.values()) {
             resources.put(type.toString(), 0);
         }
     }
 
-    public boolean isSubset(ResourceSet superset) {
-        for(ResourceType type : ResourceType.values()) {
+    public boolean isSubset(MaterialSet superset) {
+        for(MaterialType type : MaterialType.values()) {
             if(getAmount(type) > superset.getAmount(type)) {
                 return false;
             }
@@ -21,8 +21,8 @@ public class ResourceSet {
         return true;
     }
 
-    public boolean isSuperset(ResourceSet subset) {
-        for(ResourceType type : ResourceType.values()) {
+    public boolean isSuperset(MaterialSet subset) {
+        for(MaterialType type : MaterialType.values()) {
             if(getAmount(type) < subset.getAmount(type)) {
                 return false;
             }
@@ -30,17 +30,17 @@ public class ResourceSet {
         return true;
     }
 
-    public boolean removeResourceSet(ResourceSet set){
+    public boolean removeResourceSet(MaterialSet set){
         if(!isSuperset(set))  {
             return false;
         }
-        for(ResourceType type : ResourceType.values()) {
+        for(MaterialType type : MaterialType.values()) {
             removeResources(type, set.getAmount(type));
         }
         return true;
     }
 
-    public boolean removeResources(ResourceType type, int amount) {
+    public boolean removeResources(MaterialType type, int amount) {
         if(getAmount(type) >= amount) {
             addResources(type, amount * -1);
             return true;
@@ -49,11 +49,11 @@ public class ResourceSet {
         }
     }
 
-    public void addResources(ResourceType type, int amount) {
+    public void addResources(MaterialType type, int amount) {
         resources.put(type.toString(), getAmount(type) + amount);
     }
 
-    public int getAmount(ResourceType type) {
+    public int getAmount(MaterialType type) {
         return (int) resources.get(type.toString());
     }
 }

@@ -40,4 +40,8 @@ public class Controller extends GameController {
     public void newGame() {
 
     }
+
+    public void startDiceRolling() {
+
+    }
 }

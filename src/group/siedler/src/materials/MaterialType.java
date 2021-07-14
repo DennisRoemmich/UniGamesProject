@@ -1,5 +1,5 @@
 package materials;
 
-public enum ResourceType {
+public enum MaterialType {
     WOOD, CLAY, WHEAT, WOOL, ORE
 }

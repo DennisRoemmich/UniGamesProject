@@ -1,7 +1,7 @@
 package map;
 
 import positions.TilePosition;
-import materials.ResourceType;
+import materials.MaterialType;
 import tiles.NeutralTile;
 import tiles.ResourceTile;
 import tiles.Tile;
@@ -21,7 +21,7 @@ public class MapGenerator {
         Tile desertTile = new NeutralTile(desertPosition, false);
         map.addTile(desertTile);
 
-        LinkedList<ResourceType> types = getBasicTypes();
+        LinkedList<MaterialType> types = getBasicTypes();
         LinkedList<Integer> hitnumbers = getBasicHitnumbers();
 
         int x, y;
@@ -36,7 +36,7 @@ public class MapGenerator {
                     continue;
                 }
                 TilePosition position = new TilePosition(x,y);
-                ResourceType type = types.pop();
+                MaterialType type = types.pop();
                 int hitnumber = hitnumbers.pop();
                 ResourceTile tile = new ResourceTile(position, type, hitnumber);
                 map.addTile(tile);
@@ -49,10 +49,10 @@ public class MapGenerator {
     /*
     Generierung der Rohstofftypen (in zufälliger Reihenfolge) eines Spielfelds in Standardgröße.
      */
-    private static LinkedList<ResourceType> getBasicTypes() {
-        LinkedList<ResourceType> resourceTypes = new LinkedList<>();
-        for(ResourceType type : ResourceType.values()) {
-            int amount = type == ResourceType.CLAY || type == ResourceType.ORE ? 3 : 4;
+    private static LinkedList<MaterialType> getBasicTypes() {
+        LinkedList<MaterialType> resourceTypes = new LinkedList<>();
+        for(MaterialType type : MaterialType.values()) {
+            int amount = type == MaterialType.CLAY || type == MaterialType.ORE ? 3 : 4;
             for(int i = 0; i < amount; i++) {
                 resourceTypes.add(type);
             }

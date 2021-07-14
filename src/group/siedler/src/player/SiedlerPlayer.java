@@ -1,15 +1,28 @@
 package player;
 
-import materials.ResourceSet;
+import materials.MaterialSet;
 
 public abstract class SiedlerPlayer {
-    protected ResourceSet hand;
+    protected MaterialSet hand;
+    protected PlayerColor color;
 
     public SiedlerPlayer() {
-        this.hand = new ResourceSet();
+        this.hand = new MaterialSet();
     }
 
-    public void setHand(ResourceSet hand) {
+    public void setHand(MaterialSet hand) {
         this.hand = hand;
+    }
+
+    public MaterialSet getHand() {
+        return hand;
+    }
+
+    public PlayerColor getColor() {
+        return color;
+    }
+
+    public void setColor(PlayerColor color) {
+        this.color = color;
     }
 }
