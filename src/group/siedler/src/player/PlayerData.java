@@ -2,11 +2,12 @@ package player;
 
 import materials.MaterialSet;
 
-public abstract class SiedlerPlayer {
+public class PlayerData {
     protected MaterialSet hand;
     protected PlayerColor color;
 
-    public SiedlerPlayer() {
+    public PlayerData(PlayerColor color) {
+        this.color = color;
         this.hand = new MaterialSet();
     }
 

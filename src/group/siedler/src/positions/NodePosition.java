@@ -10,6 +10,8 @@ public class NodePosition {
     private int x;
     private int y;
     private boolean z;
+    // z == true  -> A
+    // z == false -> B
 
     public NodePosition(int x, int y, boolean z) {
         this.x = x;
