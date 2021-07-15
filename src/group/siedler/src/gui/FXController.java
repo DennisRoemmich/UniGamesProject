@@ -42,6 +42,9 @@ public class FXController implements Initializable {
         mapNode.refreshOutput();
         mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
+
+        mapNode.addPlaceholderNodes(PlayerColor.BLUE);
+
         back.getChildren().add(mapNode);
     }
 }

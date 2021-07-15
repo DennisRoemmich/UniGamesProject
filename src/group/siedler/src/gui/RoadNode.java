@@ -10,6 +10,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import positions.EdgePosition;
 import streets.Street;
 import tiles.NeutralTile;
 import tiles.ResourceTile;
@@ -18,66 +19,43 @@ import java.util.Optional;
 
 public class RoadNode extends Region  {
     protected Optional<Street> street = Optional.empty();
-    protected double tileWidth = 100;
+    protected EdgePosition position;
 
     public static final double angle30degree = Math.PI / 6;
 
-    public RoadNode() {
+    public RoadNode(EdgePosition position) {
+        this.position = position;
         refreshOutput();
     }
 
-    public RoadNode(double width) {
-        this.tileWidth = width;
-        refreshOutput();
-    }
-
-    public  RoadNode(double width, Street street) {
-        this.tileWidth = width;
+    public  RoadNode(Street street) {
         this.street = Optional.of(street);
+        this.position = street.getPosition();
         refreshOutput();
     }
 
     private void refreshOutput() {
 
-        if(street.isEmpty()) {
-            return;
-        }
-
-        this.getChildren().clear();
-
-        double width = tileWidth * 0.3;
-        double height = tileWidth * 0.05;
+        double width = 30;
+        double height = 5;
 
         Rectangle rectangle = new Rectangle(width, height);
 
-        rectangle.setRotate(30 + 120 * street.get().getPosition().getZ().ordinal());
-
-        this.getChildren().add(rectangle);
         rectangle.setStroke(Color.BLACK);
 
-        switch (street.get().getColor()) {
-            case BLUE -> {
-                rectangle.setFill(Color.BLUE);
-            }
-            case GREEN -> {
-                rectangle.setFill(Color.GREEN);
-            }
-            case YELLOW -> {
-                rectangle.setFill(Color.YELLOW);
-            }
-            case RED -> {
-                rectangle.setFill(Color.RED);
-            }
-            case PURPLE -> {
-                rectangle.setFill(Color.PURPLE);
-            }
-            case BLACK -> {
-                rectangle.setFill(Color.BLACK);
-            }
-            case WHITE -> {
-                rectangle.setFill(Color.WHITE);
-            }
+        if(street.isEmpty()) {
+            rectangle.setFill(Color.TRANSPARENT);
+            rectangle.setStrokeWidth(3);
+        } else {
+            rectangle.setFill(street.get().getColor().getColor());
+            rectangle.setStrokeWidth(2);
         }
+
+        rectangle.setRotate(30 + 120 * street.get().getPosition().getZ().ordinal());
+
+        this.getChildren().clear();
+        this.getChildren().add(rectangle);
+
     }
 
     public Optional<Street> getStreet() {
