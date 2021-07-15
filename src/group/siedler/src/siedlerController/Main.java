@@ -25,7 +25,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
-
         Parent root = loader.load();
         Scene scene = new Scene(root, 700,500);
         primaryStage.setTitle("Die Siedler von Konstanz");

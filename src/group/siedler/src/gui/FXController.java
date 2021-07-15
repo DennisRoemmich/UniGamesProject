@@ -1,10 +1,10 @@
 package gui;
 
-import buildings.Building;
 import diceRolling.DiceRolling;
+import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.Initializable;
-import buildings.BuildingType;
+
 import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -14,17 +14,18 @@ import javafx.scene.layout.AnchorPane;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
-import positions.EdgePositionZCord;
-import positions.NodePosition;
+import siedlerController.Controller;
+import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
-import streets.Street;
-import streets.StreetType;
 
 import java.util.ResourceBundle;
 
-public class FXController implements Initializable {
+public class FXController implements Initializable, Player {
+
+    private Controller controller = new Controller();
 
     @FXML
     private AnchorPane back;
@@ -37,7 +38,21 @@ public class FXController implements Initializable {
 
     Roller clock = new Roller();
 
-    String finishButton = "./resources/FinishButton.png";
+    public final static Image finishButtonImage = new Image("./resources/FinishButton.png");
+    public final static Image diceButtonImage = new Image("./resources/DiceButton.png");
+
+    @Override
+    public JSONObject requestMove(JSONObject inputType) {
+        if(!inputType.containsKey("type")) {
+            return QuickJSON.create("reply", "invalid input");
+        }
+        switch (inputType.get("type").toString()) {
+            case "rollDices":
+                diceButton.setImage(diceButtonImage);
+                diceButton.setVisible(true);
+        }
+        return QuickJSON.create("reply", "valid");
+    }
 
 
     private class Roller extends AnimationTimer{
@@ -60,7 +75,7 @@ public class FXController implements Initializable {
                 count++;
                 if (count > MAX_ROLLS){
                     clock.stop();
-                    roll();
+                    finishRoll();
                     count = 0;
                 }
             }
@@ -72,19 +87,24 @@ public class FXController implements Initializable {
         setDiceImage(DiceRolling.dice2, dice2);
     }
 
-    public void roll(){
+    public void finishRoll(){
         int n = DiceRolling.getNumber();
         System.out.println(n);
         updateDiceViews(n);
+        controller.handleRoll(n);
     }
 
     public void diceButtonClicked(MouseEvent mouseEvent){
-        diceButton.setImage(new Image(finishButton));
-        clock.start();
+        if(controller.isItMyTurn(this)) {
+            if(controller.hasCurrentPlayerRolled()) {
+                diceButton.setVisible(false);
+                controller.endMove();
+            } else {
+                diceButton.setImage(finishButtonImage);
+                clock.start();
+            }
+        }
     }
-
-
-
 
     public void setDiceImage(int n, ImageView dice){
         String diceImage = "./resources/Dice" + n + ".png";
@@ -93,10 +113,12 @@ public class FXController implements Initializable {
 
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        controller = new Controller();
+        controller.addPlayer(this, PlayerColor.BLUE);
+        controller.startGame();
+
         Map map = MapGenerator.generateTestMap();
         MapNode mapNode = new MapNode();
 
