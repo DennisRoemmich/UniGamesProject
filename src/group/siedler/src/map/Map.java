@@ -56,6 +56,10 @@ public class Map {
         return streets;
     }
 
+    public List<Street> getStreets(PlayerColor color) {
+        return streets.stream().filter(street -> street.getColor() == color).toList();
+    }
+
     public Optional<Tile> getTile(TilePosition position) {
         return tiles.stream().filter(tile -> tile.getPosition().equals(position)).findFirst();
     }

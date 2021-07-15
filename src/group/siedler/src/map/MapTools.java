@@ -1,9 +1,14 @@
 package map;
 
+import org.w3c.dom.Node;
+import player.PlayerColor;
 import positions.EdgePosition;
 import positions.EdgePositionZCord;
 import positions.NodePosition;
 import positions.TilePosition;
+
+import java.util.List;
+import java.util.Optional;
 
 public final class MapTools {
 
@@ -26,7 +31,20 @@ public final class MapTools {
     }
 
     // Tile -> Edges
-    // Bisher kein Verwendungszweck bekannt
+    // Für Bauregeln: Schiff vs Straße
+    public static TilePosition[] getTilesPositions(EdgePosition position) {
+        TilePosition[] tilePositions = new TilePosition[2];
+        int x = position.getX();
+        int y = position.getY();
+
+        tilePositions[0] = new TilePosition(x, y);
+        tilePositions[1] = switch (position.getZ()) {
+            case A -> new TilePosition(x + 1, y - 1);
+            case B -> new TilePosition(x, y + 1);
+            case C -> new TilePosition(x - 1, y);
+        };
+        return tilePositions;
+    }
 
     // Node -> Tiles
     // Kann für Rohstoffverteilung benutzt werden
@@ -47,6 +65,14 @@ public final class MapTools {
 
     // Node -> Nodes
     // Notwendig für Bauregeln (keine Siedlung direkt neben der nächsten)
+    public static NodePosition[] getNodePositions(NodePosition nodePosition) {
+        NodePosition[] nodePositions = new NodePosition[3];
+        int step = nodePosition.isZ() ? -1 : 1;
+        nodePositions[0] = new NodePosition(nodePosition.getX() + step, nodePosition.getY(), !nodePosition.isZ());
+        nodePositions[1] = new NodePosition(nodePosition.getX(), nodePosition.getY() + step, !nodePosition.isZ());
+        nodePositions[2] = new NodePosition(nodePosition.getX() + step, nodePosition.getY() + step, !nodePosition.isZ());
+        return nodePositions;
+    }
 
     // Node -> Edges
     // Notwendig für Bauregeln
@@ -121,4 +147,30 @@ public final class MapTools {
         return edgePositions;
     }
 
+    public static List<EdgePosition> getEdges(Map map, Optional<PlayerColor> colorIfOccupied) {
+        return null;
+    }
+
+    /*
+    Checks if an edgePosition lays on a map (or if its ot of bound).
+     */
+    public static boolean isPositionValid(Map map, EdgePosition position) {
+        var neighbourTiles = getTilesPositions(position);
+        for(TilePosition tilePosition : neighbourTiles) {
+            if(map.getTiles().stream().anyMatch(t -> t.getPosition() == tilePosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isPositionValid(Map map, NodePosition position) {
+        var neighbourTiles = getTilesPositions(position);
+        for(TilePosition tilePosition : neighbourTiles) {
+            if(map.getTiles().stream().anyMatch(t -> t.getPosition() == tilePosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

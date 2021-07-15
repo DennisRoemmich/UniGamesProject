@@ -4,10 +4,9 @@ import buildings.Building;
 import buildings.BuildingType;
 import map.Map;
 import map.MapTools;
-import siedlerFramework.Player;
 import tiles.ResourceTile;
 import tiles.Tile;
-import player.SiedlerPlayer;
+import player.PlayerData;
 import positions.NodePosition;
 
 import java.util.List;
@@ -24,13 +23,13 @@ public class DiceRolling {
     	return dice1 + dice2;
     }
 
-    public static void handOutResources(int number, Map map, List<SiedlerPlayer> players) {
+    public static void handOutResources(int number, Map map, List<PlayerData> players) {
         List<Tile> tilesWithNumber = map.getTiles().stream().filter(tile -> tile.getHitnumber() == number).toList();
         for(Tile tile : tilesWithNumber) {
             for(NodePosition buildingPosition : MapTools.getNodePositions(tile.getPosition())) {
                 Optional<Building> building = map.getBuilding(buildingPosition);
                 if(building.isPresent()) {
-                    Optional<SiedlerPlayer> player = players.stream().filter(p -> p.getColor() == building.get().getColor()).findFirst();
+                    Optional<PlayerData> player = players.stream().filter(p -> p.getColor() == building.get().getColor()).findFirst();
                     if(player.isPresent()) {
                         int amount = building.get().getType() == BuildingType.TOWN ? 2 : 1;
                         ResourceTile resourceTile = (ResourceTile) tile;
