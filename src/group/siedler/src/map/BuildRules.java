@@ -21,17 +21,17 @@ public class BuildRules {
     public static List<NodePosition> getValidPositions(Map map, PlayerColor color, BuildingType buildingType) {
         List<NodePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color);
-        var playersBuildings = map.getBuildings(color);
         for(Street street : playersStreets) {
             var nodes = MapTools.getNodePositions(street.getPosition());
-            var filtered = Arrays.stream(nodes).filter(nodePosition -> MapTools.isPositionValid(map, nodePosition));
+            //var filtered = Arrays.stream(nodes).filter(nodePosition -> MapTools.isPositionValid(map, nodePosition));
+            var filtered = Arrays.stream(nodes).toList();
             if(buildingType == BuildingType.VILLAGE) {
-                filtered = filtered.filter(nodePosition -> map.getBuilding(nodePosition).isEmpty());
-                filtered = filtered.filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition));
+                filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
+                filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
             } else {
-                filtered = filtered.filter(nodePosition -> canBeUpgradedToTown(map, color, nodePosition));
+                filtered = filtered.stream().filter(nodePosition -> canBeUpgradedToTown(map, color, nodePosition)).toList();
             }
-            ListCombiner.addAllWithoutDuplicates(filtered.toList(), validPositions);
+            ListCombiner.addAllWithoutDuplicates(filtered, validPositions);
         }
         return validPositions;
     }
@@ -49,7 +49,7 @@ public class BuildRules {
             var neighbourStreets = MapTools.getEdgePositions(building.getPosition());
             ListCombiner.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
-        validPositions = validPositions.stream().filter(ep -> MapTools.isPositionValid(map, ep)).toList();
+        //validPositions = validPositions.stream().filter(ep -> MapTools.isPositionValid(map, ep)).toList();
         validPositions = validPositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
         return validPositions;
     }

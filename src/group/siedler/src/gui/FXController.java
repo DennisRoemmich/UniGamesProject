@@ -7,10 +7,14 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import map.BuildRules;
+import map.Map;
+import map.MapGenerator;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.EdgePositionZCord;
 import positions.NodePosition;
+import siedlerFramework.PrintToConsole;
 import streets.Street;
 import streets.StreetType;
 
@@ -23,28 +27,26 @@ public class FXController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Map map = MapGenerator.generateTestMap();
         MapNode mapNode = new MapNode();
-        int x = 0;
-        int y = 0;
-        for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
-            EdgePosition positionEdge = new EdgePosition(x,y,zCord);
-            Street street = new Street(positionEdge, StreetType.ROAD, PlayerColor.BLUE);
-            mapNode.getMap().addStreet(street);
-        }
 
-        //Initialize 2 test buildings
-        NodePosition positionNode = new NodePosition(x, y, true);
-        NodePosition positionNode2 = new NodePosition(x, y, false);
-        Building building = new Building(positionNode, PlayerColor.BLUE);
-        Building building2 = new Building(positionNode2, PlayerColor.BLUE);
-        mapNode.getMap().addBuilding(building);
-        mapNode.getMap().addBuilding(building2);
-        
-        building.upgrade();
-
+        mapNode.setMap(map);
         mapNode.refreshOutput();
         mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
+
         back.getChildren().add(mapNode);
+
+        var possibleStreets = BuildRules.getValidPositions(map, PlayerColor.BLUE);
+        for(EdgePosition position : possibleStreets) {
+            S
+        }
+        /*var possibleBuildings = BuildRules.getValidPositions(map, PlayerColor.BLUE, BuildingType.VILLAGE);
+        while(possibleBuildings.size() != 0) {
+            map.addBuilding(new Building(possibleBuildings.get(0), PlayerColor.BLUE));
+            possibleBuildings = BuildRules.getValidPositions(map, PlayerColor.BLUE, BuildingType.VILLAGE);
+        }*/
+        mapNode.refreshOutput();
+        PrintToConsole.println(possibleStreets.toString());
     }
 }

@@ -1,7 +1,14 @@
 package map;
 
+import buildings.Building;
+import player.PlayerColor;
+import positions.EdgePosition;
+import positions.EdgePositionZCord;
+import positions.NodePosition;
 import positions.TilePosition;
 import materials.MaterialType;
+import streets.Street;
+import streets.StreetType;
 import tiles.NeutralTile;
 import tiles.ResourceTile;
 import tiles.Tile;
@@ -43,6 +50,31 @@ public class MapGenerator {
             }
         }
 
+        return map;
+    }
+
+    public static Map generateTestMap() {
+        Map map = generateBasicMap();
+        //map.addBuilding(new Building(new NodePosition(0,0,true), PlayerColor.BLUE));
+        //map.addStreet(new Street(new EdgePosition(0,0, EdgePositionZCord.C), StreetType.ROAD, PlayerColor.BLUE));
+
+        int x = 0;
+        int y = 0;
+        for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
+            EdgePosition positionEdge = new EdgePosition(x,y,zCord);
+            Street street = new Street(positionEdge, StreetType.ROAD, PlayerColor.BLUE);
+            map.addStreet(street);
+        }
+
+        //Initialize 2 test buildings
+        NodePosition positionNode = new NodePosition(x, y, true);
+        NodePosition positionNode2 = new NodePosition(x, y, false);
+        Building building = new Building(positionNode, PlayerColor.BLUE);
+        Building building2 = new Building(positionNode2, PlayerColor.BLUE);
+        map.addBuilding(building);
+        map.addBuilding(building2);
+
+        building.upgrade();
         return map;
     }
 
