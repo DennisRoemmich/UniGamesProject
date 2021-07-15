@@ -7,7 +7,6 @@ import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import streets.Street;
-import streets.StreetType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +22,8 @@ public class BuildRules {
         var playersStreets = map.getStreets(color);
         for(Street street : playersStreets) {
             var nodes = MapTools.getNodePositions(street.getPosition());
-<<<<<<< HEAD
-            //var filtered = Arrays.stream(nodes).filter(nodePosition -> MapTools.isPositionValid(map, nodePosition));
             var filtered = Arrays.stream(nodes).toList();
-=======
-            var filtered = Arrays.stream(nodes).toList();//filter(nodePosition -> MapTools.isPositionValid(map, nodePosition)).toList();
->>>>>>> scheisGit
+
             if(buildingType == BuildingType.VILLAGE) {
                 filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
                 filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
@@ -53,7 +48,6 @@ public class BuildRules {
             var neighbourStreets = MapTools.getEdgePositions(building.getPosition());
             ListCombiner.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
-        //validPositions = validPositions.stream().filter(ep -> MapTools.isPositionValid(map, ep)).toList();
         validPositions = validPositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
         return validPositions;
     }

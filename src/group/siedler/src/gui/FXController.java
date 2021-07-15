@@ -99,13 +99,6 @@ public class FXController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Map map = MapGenerator.generateTestMap();
         MapNode mapNode = new MapNode();
-        int x = 0;
-        int y = 0;
-        for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
-            EdgePosition positionEdge = new EdgePosition(x,y,zCord);
-            Street street = new Street(positionEdge, StreetType.ROAD, PlayerColor.BLUE);
-            mapNode.getMap().addStreet(street);
-        }
 
         mapNode.setMap(map);
         mapNode.refreshOutput();

@@ -21,6 +21,10 @@ public class Controller extends GameController {
     public int getNumberOfPlayers() {
         return mPlayers.size();
     }
+    
+    public List<PlayerData> getPlayerData() {
+    	return playerData;
+    }
     private boolean isRunning = false;
 
     public void addPlayer(Player player, PlayerColor color) {
@@ -63,7 +67,7 @@ public class Controller extends GameController {
 
     @Override
     public void newGame() {
-
+    	isRunning = true;
     }
 
     public void placeBuilding(Player player, NodePosition position, BuildingType type) {
@@ -71,9 +75,21 @@ public class Controller extends GameController {
             PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
             if(canPlayerTakeAction(color)) {
                 if(preparationPhaseActive()) {
-                    // Ignore the type, it's always a village
                     type = BuildingType.VILLAGE;
-
+                    playerData.get(mPlayers.indexOf(player)).increaseNumberOfTowns();
+                }
+            }
+        }
+    }
+    
+    //
+    public void upgradeBuilding(Player player, NodePosition position, BuildingType type) {
+    	if(mPlayers.contains(player)){
+            PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
+            if(canPlayerTakeAction(color)) {
+                if(preparationPhaseActive()) {
+                	type = BuildingType.TOWN;
+                   // playerData.get(mPlayers.indexOf(player)).increaseNumberOfTowns();
                 }
             }
         }
@@ -101,4 +117,14 @@ public class Controller extends GameController {
         }
         return false;
     }
+    
+    private void checkForWinner() {
+    	for (int i = 0; i < getNumberOfPlayers(); i++) {
+    		if (playerData.get(i).getNumberOfVillages() + (playerData.get(i).getNumberOfTowns())/2 >= 10) {
+    			System.out.println("Current player wins!");
+    			isRunning = false;
+    		}
+    	}
+    }
+    
 }
