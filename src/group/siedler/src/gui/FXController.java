@@ -35,6 +35,11 @@ public class FXController implements Initializable {
         mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
 
+<<<<<<< HEAD
+=======
+        mapNode.addPlaceholderNodes(PlayerColor.BLUE);
+
+>>>>>>> scheisGit
         back.getChildren().add(mapNode);
 
         var possibleStreets = BuildRules.getValidPositions(map, PlayerColor.BLUE);

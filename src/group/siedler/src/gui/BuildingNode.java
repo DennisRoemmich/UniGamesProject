@@ -9,17 +9,22 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import positions.NodePosition;
 
 public class BuildingNode extends Region {
 	
 	protected Optional<Building> building = Optional.empty();
+	protected NodePosition position;
 	
-    public BuildingNode() {
+    public BuildingNode(NodePosition position) {
+        this.position = position;
         refreshOutput();
     }
     
     public BuildingNode(Building building) {
         this.building = Optional.of(building);
+        this.position = building.getPosition();
         refreshOutput();
     }
     

@@ -23,8 +23,12 @@ public class BuildRules {
         var playersStreets = map.getStreets(color);
         for(Street street : playersStreets) {
             var nodes = MapTools.getNodePositions(street.getPosition());
+<<<<<<< HEAD
             //var filtered = Arrays.stream(nodes).filter(nodePosition -> MapTools.isPositionValid(map, nodePosition));
             var filtered = Arrays.stream(nodes).toList();
+=======
+            var filtered = Arrays.stream(nodes).toList();//filter(nodePosition -> MapTools.isPositionValid(map, nodePosition)).toList();
+>>>>>>> scheisGit
             if(buildingType == BuildingType.VILLAGE) {
                 filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
                 filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
