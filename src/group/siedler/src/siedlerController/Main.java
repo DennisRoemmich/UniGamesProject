@@ -27,7 +27,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
 
         Parent root = loader.load();
-        Scene scene = new Scene(root, 1000,600);
+        Scene scene = new Scene(root, 700,500);
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);
         primaryStage.show();

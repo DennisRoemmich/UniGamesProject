@@ -15,11 +15,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class DiceRolling {
 
+    public static int dice1 = 1;
+    public static int dice2 = 1;
+
     public static int getNumber() {
-    	
-    	int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-    	int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-       
+
+    	dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+    	dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
     	return dice1 + dice2;
     }
 

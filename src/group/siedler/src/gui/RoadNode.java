@@ -51,7 +51,7 @@ public class RoadNode extends Region  {
             rectangle.setStrokeWidth(2);
         }
 
-        rectangle.setRotate(30 + 120 * street.get().getPosition().getZ().ordinal());
+        rectangle.setRotate(30 + 120 * position.getZ().ordinal());
 
         this.getChildren().clear();
         this.getChildren().add(rectangle);

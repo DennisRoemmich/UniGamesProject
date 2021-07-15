@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FXController" />
+<AnchorPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FXController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/Background.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="diceButton" fitHeight="86.0" fitWidth="79.0" layoutX="621.0" layoutY="413.0" onMouseClicked="#diceButtonClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/DiceButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dice1" fitHeight="60.0" fitWidth="60.0" layoutX="571.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dice2" fitHeight="60.0" fitWidth="60.0" layoutX="631.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
