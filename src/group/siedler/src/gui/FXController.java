@@ -1,6 +1,7 @@
 package gui;
 
 import buildings.Building;
+import buildings.BuildingType;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -38,6 +39,8 @@ public class FXController implements Initializable {
         Building building2 = new Building(positionNode2, PlayerColor.BLUE);
         mapNode.getMap().addBuilding(building);
         mapNode.getMap().addBuilding(building2);
+        
+        building.upgrade();
 
         mapNode.refreshOutput();
         mapNode.setLayoutX(300);
