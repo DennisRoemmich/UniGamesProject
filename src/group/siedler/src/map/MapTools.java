@@ -22,8 +22,8 @@ public final class MapTools {
         nodePositions[1] = new NodePosition(x,y, NodePositionZCord.B);
         nodePositions[2] = new NodePosition(x,y+1,NodePositionZCord.A);
         nodePositions[3] = new NodePosition(x,y-1,NodePositionZCord.B);
-        nodePositions[4] = new NodePosition(x+1,y,NodePositionZCord.B);
-        nodePositions[5] = new NodePosition(x-1,y,NodePositionZCord.A);
+        nodePositions[4] = new NodePosition(x+1,y,NodePositionZCord.A);
+        nodePositions[5] = new NodePosition(x-1,y,NodePositionZCord.B);
         return nodePositions;
     }
 
