@@ -6,6 +6,7 @@ import positions.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class MapTools {
 
@@ -13,7 +14,8 @@ public final class MapTools {
     // Bisher kein Verwendungszweck bekannt
 
     // Tile -> Nodes
-    // Kann für Rohstoffverteilung benutzt werden
+    // Kann für Rohstoffverteilung benutzt werden (edit: wird es auch)
+    // TODO : Testen
     public static NodePosition[] getNodePositions(TilePosition tilePosition) {
         int x = tilePosition.getX();
         int y = tilePosition.getY();
@@ -29,6 +31,7 @@ public final class MapTools {
 
     // Tile -> Edges
     // Für Bauregeln: Schiff vs Straße
+    // TODO : Testen
     public static TilePosition[] getTilesPositions(EdgePosition position) {
         TilePosition[] tilePositions = new TilePosition[2];
         int x = position.getX();
@@ -44,7 +47,8 @@ public final class MapTools {
     }
 
     // Node -> Tiles
-    // Kann für Rohstoffverteilung benutzt werden
+    // Kann für Rohstoffverteilung benutzt werden (edit: wird es nicht)
+    // TODO : Testen oder Löschen
     public static TilePosition[] getTilesPositions(NodePosition nodePosition) {
         TilePosition[] tilePositions = new TilePosition[3];
         int x = nodePosition.getX();
@@ -60,7 +64,7 @@ public final class MapTools {
         return tilePositions;
     }
 
-    // Node -> Nodes
+    // Node -> Nodes (vollständig getestet)
     // Notwendig für Bauregeln (keine Siedlung direkt neben der nächsten)
     public static NodePosition[] getNodePositions(NodePosition nodePosition) {
         NodePosition[] nodePositions = new NodePosition[3];
@@ -71,7 +75,7 @@ public final class MapTools {
         return nodePositions;
     }
 
-    // Node -> Edges
+    // Node -> Edges (vollständig getestet)
     // Notwendig für Bauregeln
     public static EdgePosition[] getEdgePositions(NodePosition nodePosition) {
         EdgePosition[] edgePositions = new EdgePosition[3];
@@ -92,7 +96,7 @@ public final class MapTools {
     // Edge -> Tiles
     // Notwendig für Bauregeln (Schiff/Straße)
 
-    // Edge -> Node
+    // Edge -> Node (vollständig getestet)
     // Notwendig für Bauregeln
     public static NodePosition[] getNodePositions(EdgePosition edgePosition) {
         NodePosition[] nodePositions = new NodePosition[2];
@@ -115,7 +119,7 @@ public final class MapTools {
         return nodePositions;
     }
 
-    // Edge -> Edges
+    // Edge -> Edges (vollständig getestet)
     // Notwendig für Bauregeln & für längste Handelsstraße
     public static EdgePosition[] getEdgePositions(EdgePosition edgePosition) {
         EdgePosition[] edgePositions = new EdgePosition[4];
@@ -144,10 +148,6 @@ public final class MapTools {
         return edgePositions;
     }
 
-    public static List<EdgePosition> getEdges(Map map, Optional<PlayerColor> colorIfOccupied) {
-        return null;
-    }
-
     /*
     Checks if an edgePosition lays on a map (or if its ot of bound).
      */
@@ -169,5 +169,20 @@ public final class MapTools {
             }
         }
         return false;
+    }
+
+    public static NodePosition getRandomNodePosition(Map map) {
+        int xMin = map.getTiles().stream().map(t -> t.getPosition().getX()).min(Integer::compareTo).get() - 1;
+        int xMax = map.getTiles().stream().map(t -> t.getPosition().getX()).max(Integer::compareTo).get() + 1;
+        int yMin = map.getTiles().stream().map(t -> t.getPosition().getY()).min(Integer::compareTo).get() - 1;
+        int yMax = map.getTiles().stream().map(t -> t.getPosition().getY()).max(Integer::compareTo).get() + 1;
+        NodePosition position;
+        do {
+            int x = ThreadLocalRandom.current().nextInt(xMin, xMax + 1);
+            int y = ThreadLocalRandom.current().nextInt(yMin, yMax + 1);
+            boolean z = ThreadLocalRandom.current().nextBoolean();
+            position = new NodePosition(x,y,z);
+        } while (!isPositionValid(map, position));
+        return position;
     }
 }

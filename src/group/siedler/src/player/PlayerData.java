@@ -21,11 +21,12 @@ public class PlayerData {
     public MaterialSet getHand() {
         return hand;
     }
-    
+
     public int getNumberOfVillages() {
-    	return this.getNumberOfVillages();
+    	return numberOfVillages;
     }
-    
+
+    // Redundant : Can be read of the map
     public void increaseNumberOfVillages() {
     	this.numberOfVillages++; 
     }
@@ -37,9 +38,9 @@ public class PlayerData {
     public void increaseNumberOfTowns() {
     	this.numberOfTowns++; 
     }
-    
+
     public int getNumberOfTowns() {
-    	return this.getNumberOfTowns();
+    	return numberOfTowns;
     }
 
     public PlayerColor getColor() {

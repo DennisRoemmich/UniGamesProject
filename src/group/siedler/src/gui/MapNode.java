@@ -1,10 +1,8 @@
 package gui;
 
 import buildings.BuildingType;
-import javafx.scene.image.Image;
 import map.BuildRules;
 import map.MapGenerator;
-import map.MapTools;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -14,9 +12,6 @@ import javafx.scene.layout.Region;
 import map.Map;
 import streets.Street;
 import tiles.Tile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapNode extends Region {
     private Map map = MapGenerator.generateBasicMap();
@@ -67,10 +62,10 @@ public class MapNode extends Region {
     private GuiPosition convertPosition(NodePosition nodePosition) {
     	double x, y;
     	if(nodePosition.isZ()) {
-            x = 2 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
+            x = 1 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
             y = 20 + nodePosition.getY() * 60;
         } else {
-            x = 70 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
+            x = 71 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
             y = 62 + nodePosition.getY() * 60;
         }
         return new GuiPosition(x,y);
@@ -128,9 +123,9 @@ public class MapNode extends Region {
     }
 
     public void addPlaceholderNodes(PlayerColor color) {
-        var possibleStreets = BuildRules.getValidPositions(map, color);
-        var possibleBuildings = BuildRules.getValidPositions(map, color, BuildingType.VILLAGE);
-        possibleBuildings.addAll(BuildRules.getValidPositions(map, color, BuildingType.TOWN));
+        var possibleStreets = BuildRules.getValidEdgePositions(map, color);
+        var possibleBuildings = BuildRules.getValidNodePositions(map, color, BuildingType.VILLAGE);
+        possibleBuildings.addAll(BuildRules.getValidNodePositions(map, color, BuildingType.TOWN));
         for(EdgePosition position : possibleStreets) {
             RoadNode roadNode = new RoadNode(position);
             this.getChildren().add(roadNode);

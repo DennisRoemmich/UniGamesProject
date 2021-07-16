@@ -16,10 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import map.MapTools;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
-import positions.EdgePosition;
-import positions.NodePosition;
+import positions.*;
+import siedlerController.AiPlayer;
 import siedlerController.Controller;
 import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
@@ -59,7 +60,6 @@ public class FXController implements Initializable, Player {
         }
         return QuickJSON.create("reply", "valid");
     }
-
 
     private class Roller extends AnimationTimer{
 
@@ -124,9 +124,13 @@ public class FXController implements Initializable, Player {
 
         int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
         var colors = PlayerColor.values();
-        PlayerColor color = colors[colorIndex];
 
-        controller.addPlayer(this, color);
+        AiPlayer aiPlayer = new AiPlayer(controller);
+
+        controller.addPlayer(this, PlayerColor.BLUE);
+        controller.addPlayer(aiPlayer, PlayerColor.RED);
+        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
+        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
         //controller.startGame();
 
         MapNode mapNode = new MapNode();
@@ -136,12 +140,19 @@ public class FXController implements Initializable, Player {
         mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
 
-        mapNode.addPlaceholderNodes(PlayerColor.BLUE);
+        //mapNode.addPlaceholderNodes(PlayerColor.BLUE);
 
         back.getChildren().add(mapNode);
 
-        var firstBuilding = new Building(new NodePosition(-2,1,true), color);
-        controller.getMap().addBuilding(firstBuilding);
+        /*
+        int x = ThreadLocalRandom.current().nextInt(-2, 3);
+        int y = ThreadLocalRandom.current().nextInt(-2, 3);
+        var z = NodePositionZCord.valueOf(ThreadLocalRandom.current().nextBoolean());
+        var position = new NodePosition(x,y,z);
+        if(MapTools.isPositionValid(controller.getMap(), position) && BuildRules.isNodeValidForNewBuilding(controller.getMap(), position)) {
+            var building = new Building(position, color);
+            controller.getMap().addBuilding(building);
+        }
 
         var possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
         for(int i = 0; i < 10 && possibleStreets.size() != 0; i++) {
@@ -156,7 +167,7 @@ public class FXController implements Initializable, Player {
             controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
             possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
         }
-        mapNode.refreshOutput();
+        mapNode.refreshOutput();*/
         //PrintToConsole.println(possibleStreets.toString());
     }
 

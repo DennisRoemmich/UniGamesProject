@@ -1,18 +1,23 @@
 package siedlerController;
 
+import buildings.Building;
 import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import map.Map;
 import map.MapGenerator;
+import materials.MaterialSet;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import player.PlayerData;
+import positions.EdgePosition;
 import positions.NodePosition;
 import siedlerFramework.GameController;
 import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
 import siedlerFramework.WriteError;
+import streets.Street;
+import streets.StreetType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,18 +104,27 @@ public class Controller extends GameController {
         }
     }
 
-    public void placeBuilding(Player player, NodePosition position, BuildingType type) {
-        if(mPlayers.contains(player)){
-            PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
-            if(canPlayerTakeAction(color)) {
-                if(preparationPhaseActive()) {
-                    type = BuildingType.VILLAGE;
-                    playerData.get(mPlayers.indexOf(player)).increaseNumberOfTowns();
-                }
+    public void placeBuilding(NodePosition position, BuildingType type) {
+        if(type == BuildingType.VILLAGE) {
+            Building building = new Building(position, getCurrentPlayerColor());
+            map.addBuilding(building);
+            getCurrentPlayerHand().removeResourceSet(Building.getCost(type));
+        } else {
+            Optional<Building> building = map.getBuilding(position);
+            if(building.isPresent()) {
+                building.get().upgrade();
+                getCurrentPlayerHand().removeResourceSet(Building.getCost(type));
             }
         }
     }
 
+    public void placeStreet(EdgePosition position, StreetType type) {
+        Street street = new Street(position, type, getCurrentPlayerColor());
+        map.addStreet(street);
+        getCurrentPlayerHand().removeResourceSet(Street.getCost(type));
+    }
+
+    // Not needed anymore
     public void upgradeBuilding(Player player, NodePosition position, BuildingType type) {
     	if(mPlayers.contains(player)){
             PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
@@ -172,6 +186,14 @@ public class Controller extends GameController {
 
     public boolean hasCurrentPlayerRolled() {
         return currentPlayerHasRolled;
+    }
+
+    public PlayerColor getCurrentPlayerColor() {
+        return playerData.get(currentPlayer).getColor();
+    }
+
+    public MaterialSet getCurrentPlayerHand() {
+        return playerData.get(currentPlayer).getHand();
     }
 
     public Map getMap() {
