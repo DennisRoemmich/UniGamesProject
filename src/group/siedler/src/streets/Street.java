@@ -1,5 +1,7 @@
 package streets;
 
+import materials.MaterialSet;
+import materials.MaterialType;
 import player.PlayerColor;
 import positions.EdgePosition;
 
@@ -36,5 +38,20 @@ public class Street {
 
     public void setColor(PlayerColor color) {
         this.color = color;
+    }
+
+    public static MaterialSet getCost(StreetType type) {
+        MaterialSet materials = new MaterialSet();
+        switch (type) {
+            case ROAD -> {
+                materials.addResources(MaterialType.WOOD, 1);
+                materials.addResources(MaterialType.CLAY, 1);
+            }
+            case SHIP -> {
+                materials.addResources(MaterialType.WOOD, 1);
+                materials.addResources(MaterialType.WOOL, 1);
+            }
+        }
+        return materials;
     }
 }

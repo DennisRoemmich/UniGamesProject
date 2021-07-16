@@ -1,9 +1,19 @@
 package siedlerController;
 
-import diceRolling.DiceRolling;
+import buildings.Building;
+import buildings.BuildingType;
 import helper.QuickJSON;
+import map.BuildRules;
 import org.json.simple.JSONObject;
+import player.PlayerColor;
+import positions.EdgePosition;
+import positions.NodePosition;
 import siedlerFramework.Player;
+import streets.Street;
+import streets.StreetType;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AiPlayer implements Player {
 
@@ -20,9 +30,39 @@ public class AiPlayer implements Player {
         }
         switch (inputType.get("move").toString()) {
             case "diceRolling":
-                DiceRolling.reRoll();
-
+                controller.handleRoll();
+                break;
+            case "optionalMove":
+                for(int i = 0; i < 3; i++) {
+                    tryCreatingBuilding(BuildingType.VILLAGE);
+                    tryCreatingBuilding(BuildingType.TOWN);
+                    tryCreatingStreet(StreetType.ROAD);
+                    tryCreatingStreet(StreetType.SHIP);
+                }
+                break;
         }
         return QuickJSON.create("reply", "valid");
+    }
+
+    public void tryCreatingBuilding(BuildingType type) {
+        if(controller.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
+            PlayerColor color = controller.getCurrentPlayerColor();
+            List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(controller.getMap(), color, type);
+            if (possiblePositions.size() > 0) {
+                int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
+                controller.placeBuilding(possiblePositions.get(index), type);
+            }
+        }
+    }
+
+    public void tryCreatingStreet(StreetType type) {
+        if(controller.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
+            PlayerColor color = controller.getCurrentPlayerColor();
+            List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(controller.getMap(), color, type);
+            if (possiblePositions.size() > 0) {
+                int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
+                controller.placeStreet(possiblePositions.get(index), type);
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package map;
 import buildings.Building;
 import buildings.BuildingType;
 import player.PlayerColor;
+import player.PlayerData;
 import positions.*;
 import materials.MaterialType;
 import streets.Street;
@@ -13,6 +14,7 @@ import tiles.Tile;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 public class MapGenerator {
 
@@ -51,31 +53,26 @@ public class MapGenerator {
         return map;
     }
 
-    public static Map generateHugeMap() {
-        Map map = new Map();
-        TilePosition desertPosition = new TilePosition(0,0);
-        Tile desertTile = new NeutralTile(desertPosition, false);
-        map.addTile(desertTile);
+    public static Map generateMap(List<PlayerColor> colors) {
+        Map map = generateBasicMap();
 
-        LinkedList<MaterialType> types = getBasicTypes();
-        LinkedList<Integer> hitnumbers = getBasicHitnumbers();
-
-        int x, y;
-        for(x = -2; x <= 2; x++) {
-            for(y = -2; y <= 2; y++) {
-                // Die Wüste in der Mitte wird übersprungen
-                if(x == 0 && y == 0) {
-                    continue;
+        for(PlayerColor color : colors) {
+            for(int i = 0; i < 2; i++) {
+                NodePosition nodePosition;
+                do {
+                    nodePosition = MapTools.getRandomNodePosition(map);
+                } while (!BuildRules.isNodeValidForNewBuilding(map, nodePosition));
+                Building newBuilding = new Building(nodePosition, color);
+                map.addBuilding(newBuilding);
+                List<EdgePosition> edgePositions = Arrays.stream(MapTools.getEdgePositions(nodePosition)).toList();
+                edgePositions = edgePositions.stream().filter(ep -> MapTools.isPositionValid(map, ep)).toList();
+                edgePositions = edgePositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
+                Collections.shuffle(edgePositions);
+                Optional<EdgePosition> edgeOfStreet = edgePositions.stream().findFirst();
+                if(edgeOfStreet.isPresent()) {
+                    StreetType type = BuildRules.getPossibleStreetType(map, edgeOfStreet.get()).get(0);
+                    Street newStreet = new Street(edgeOfStreet.get(), type, color);
                 }
-                // Um den Sinn dahinter zu verstehen muss die Karte visualisiert betrachtet werden
-                if(Math.abs(x + y) >= 3) {
-                    continue;
-                }
-                TilePosition position = new TilePosition(x,y);
-                MaterialType type = types.pop();
-                int hitnumber = hitnumbers.pop();
-                ResourceTile tile = new ResourceTile(position, type, hitnumber);
-                map.addTile(tile);
             }
         }
 

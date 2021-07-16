@@ -6,18 +6,22 @@ import helper.ListCombiner;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
+import positions.TilePosition;
 import streets.Street;
+import streets.StreetType;
+import tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class BuildRules {
     public static boolean isValid(Map map, PlayerColor color, NodePosition position, BuildingType type) {
-        return getValidPositions(map, color, type).contains(position);
+        return getValidNodePositions(map, color, type).contains(position);
     }
 
-    public static List<NodePosition> getValidPositions(Map map, PlayerColor color, BuildingType buildingType) {
+    public static List<NodePosition> getValidNodePositions(Map map, PlayerColor color, BuildingType buildingType) {
         List<NodePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color);
         for(Street street : playersStreets) {
@@ -34,8 +38,27 @@ public class BuildRules {
         return validPositions;
     }
 
+    public static List<EdgePosition> getValidEdgePositions(Map map, PlayerColor color, StreetType type) {
+        return getValidEdgePositions(map, color).stream().filter(ep -> getPossibleStreetType(map, ep).contains(type)).toList();
+    }
 
-    public static List<EdgePosition> getValidPositions(Map map, PlayerColor color) {
+    public static List<StreetType> getPossibleStreetType(Map map, EdgePosition position) {
+        List<StreetType> types = new ArrayList<>();
+        TilePosition[] tilePositions = MapTools.getTilesPositions(position);
+        List<Tile> tiles = Arrays.stream(tilePositions).map(tp -> map.getTile(tp)).filter(Optional::isPresent).map(t -> t.get()).toList();
+
+        if(tiles.stream().anyMatch(tile -> !tile.toString().contains("WATER"))) {
+            types.add(StreetType.ROAD);
+        }
+
+        if(tiles.stream().anyMatch(tile -> tile.toString().contains("WATER"))) {
+            types.add(StreetType.SHIP);
+        }
+
+        return types;
+    }
+
+    public static List<EdgePosition> getValidEdgePositions(Map map, PlayerColor color) {
         List<EdgePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color);
         var playersBuildings = map.getBuildings(color);
