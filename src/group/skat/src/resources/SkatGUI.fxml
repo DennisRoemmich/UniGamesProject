@@ -21,7 +21,7 @@
    <children>
       <AnchorPane fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1024.0" minWidth="1365.0" prefHeight="1024.0" prefWidth="1365.0" style="-fx-background-color: darkblue;">
          <children>
-            <ImageView fx:id="ImageViewBackground" fitHeight="1024.0" fitWidth="1365.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="ImageViewBackground" fitHeight="1024.0" fitWidth="1365.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/Views/ViewBackgroundPlay.png" />
                </image>
@@ -29,7 +29,7 @@
             <AnchorPane fx:id="AnchorMarker" layoutX="641.0" layoutY="157.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="752.0" AnchorPane.leftAnchor="637.0" AnchorPane.rightAnchor="618.0" AnchorPane.topAnchor="162.0">
                <children>
                   <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
                      <image>
                         <Image url="@images/Other/MarkerTrump.png" />
                      </image>
@@ -230,9 +230,14 @@
                         <Font name="Courier New" size="42.0" />
                      </font>
                   </Label>
-                  <Label fx:id="LabelGameNo" alignment="CENTER" contentDisplay="CENTER" style="visibility: false;" text="21       ∞  " textAlignment="CENTER" textFill="#3ad8ff" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+                  <Label fx:id="LabelGameNo" alignment="CENTER" contentDisplay="CENTER" style="visibility: false;" text="21       ∞  " textAlignment="CENTER" textFill="#3ad8ff" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
                      <font>
                         <Font name="Avenir Book" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelWinner" alignment="CENTER" contentDisplay="CENTER" text="Winner" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+                     <font>
+                        <Font name="Chalkboard" size="68.0" />
                      </font>
                   </Label>
                   <AnchorPane layoutX="427.0" layoutY="188.0" AnchorPane.leftAnchor="470.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="220.0">
@@ -319,7 +324,7 @@
                         </ImageView>
                         <Label fx:id="LabelPlayerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="Avenir Book" size="30.0" />
+                              <Font name="Chalkboard" size="31.0" />
                            </font>
                         </Label>
                         <Label fx:id="LabelPlayerPoints1" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
@@ -351,7 +356,7 @@
                         </ImageView>
                         <Label fx:id="LabelPlayerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="Avenir Book" size="30.0" />
+                              <Font name="Chalkboard" size="32.0" />
                            </font>
                         </Label>
                         <Label fx:id="LabelPlayerPoints2" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
@@ -383,7 +388,7 @@
                         </ImageView>
                         <Label fx:id="LabelPlayerName3" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="Avenir Book" size="30.0" />
+                              <Font name="Chalkboard" size="33.0" />
                            </font>
                         </Label>
                         <Label fx:id="LabelPlayerPoints3" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
@@ -395,9 +400,28 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="207.0" layoutY="31.0" prefHeight="88.0" prefWidth="276.0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="40.0">
+            <AnchorPane fx:id="anchorGameInfoView" layoutX="207.0" layoutY="31.0" prefHeight="88.0" prefWidth="306.0" visible="false" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="40.0">
                <children>
-                  <ImageView fitHeight="88.0" fitWidth="276.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="88.0" fitWidth="306.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewGameInfo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="IVGameInfoColor" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="19.0">
+                     <image>
+                        <Image url="@images/Other/Diamond.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="LabelGameInfoRound" alignment="CENTER" layoutX="18.0" layoutY="18.0" prefHeight="88.0" prefWidth="130.0" text="Game&#10;1 / 12" textAlignment="CENTER" textFill="#dcdcdc" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Chalkboard" size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelGameInfoMode" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="88.0" prefWidth="94.0" text="SUIT" textAlignment="CENTER" textFill="#dcdcdc" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>

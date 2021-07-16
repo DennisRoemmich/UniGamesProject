@@ -27,6 +27,11 @@ public class FXPresenter {
     private static Image markerHearts = new Image("images/Other/MarkerHearts.png");
     private static Image markerDiamonds = new Image("images/Other/MarkerDiamonds.png");
 
+    private static Image club = new Image("images/Other/Club.png");
+    private static Image spade = new Image("images/Other/Spade.png");
+    private static Image heart = new Image("images/Other/Heart.png");
+    private static Image diamond = new Image("images/Other/Diamond.png");
+
     private static Image iconDeclarer = new Image("images/Other/PlayerIconDeclarer.png");
     private static Image iconTogether = new Image("images/Other/PlayerIconTogether.png");
 
@@ -73,7 +78,8 @@ public class FXPresenter {
             case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
 
                 updateHandShelfs();
-
+                playerViews(true);
+                gameInfo(true);
 
                 fxController.ImageViewBackground.setImage(backGroundShelfs);
 
@@ -124,6 +130,8 @@ public class FXPresenter {
             case WAIT_FOR_DECLARER -> {
 
                 // TODO: egtl ja nich oder? nur wenn der declarer was macht das updaten
+                playerViews(true);
+                gameInfo(true);
                 updateHandShelfs();
                 fxController.getFxSkat().update();
             }
@@ -132,6 +140,7 @@ public class FXPresenter {
 
                 skatView(true);
                 playerViews(true);
+                gameInfo(true);
                 updateHandShelfs();
                 fxController.getFxSkat().update();
                 buttonsAcceptSkat();// call last
@@ -145,6 +154,7 @@ public class FXPresenter {
 
                 updateHandShelfs();
                 playerViews(true);
+                gameInfo(true);
                 fxController.setKeyPositionSkat(false);
                 buttonsChooseMode(); // call last
             }
@@ -152,6 +162,7 @@ public class FXPresenter {
             case DECLARE_TRUMPCOLOR -> {
 
                 playerViews(true);
+                gameInfo(true);
                 declareGameTypeView("Game Color", """
                 Declare Game Color.
                         """);
@@ -164,6 +175,7 @@ public class FXPresenter {
                 fxController.setKeyPositionSkat(false);
                 fxController.getFxCurrentTrick().update();
 
+                gameInfo(true);
                 playerViews(true);
                 markerView(true);
                 trickView(true);
@@ -172,6 +184,7 @@ public class FXPresenter {
 
             case PLAYING_NOT_YOUR_MOVE -> {
 
+                gameInfo(true);
                 playerViews(true);
                 markerView(true);
                 trickView(true);
@@ -305,7 +318,70 @@ public class FXPresenter {
         buttonDict.get("PA3").hide();
         buttonDict.get("PA4").hide();
         buttonDict.get("PA5").hide();
+        buttonDict.get("SORT").hide();
         fxController.anchorButtonsPlayActions.setVisible(false);
+    }
+
+
+    private static void gameInfo(boolean visible){
+
+        if (!visible){
+
+            fxController.anchorGameInfoView.setVisible(false);
+            return;
+
+        }
+
+        fxController.anchorGameInfoView.setVisible(true);
+
+        var game = fxController.getController().getGame();
+        var trump = game.getTrump();
+
+        if ( trump != null  && trump.getGameMode() != null ){
+
+            fxController.LabelGameInfoMode.setText(trump.getGameMode().toString().toUpperCase());
+            fxController.LabelGameInfoMode.setVisible(true);
+
+            var IV = fxController.IVGameInfoColor;
+
+            if (trump.getGameMode() == GameMode.SUIT){
+
+                IV.setImage( switch (trump.getColor()){
+
+                  case CLUBS -> club;
+                  case SPADES -> spade;
+                  case HEARTS -> heart;
+                  case DIAMONDS -> diamond;
+
+              });
+
+                IV.setVisible(true);
+
+            } else {
+
+               IV.setVisible(false);
+
+            }
+
+
+        } else {
+
+            fxController.IVGameInfoColor.setVisible(false);
+            fxController.LabelGameInfoMode.setVisible(false);
+
+        }
+
+        var set = fxController.getController().getSkatSet();
+
+        var gameAmount = Integer.toString(set.getGameAmount());
+
+        if (gameAmount.equals("-1")){
+            gameAmount = "∞";
+        }
+
+        fxController.LabelGameInfoRound.setText("Game\n" + Integer.toString(set.currentGameNo()+1) + " / " + gameAmount);
+
+
     }
 
 
@@ -407,6 +483,11 @@ public class FXPresenter {
 
     }
 
+    private static void buttonSort(){
+        var buttonDict = fxController.buttonDict;
+        buttonDict.get("SORT").show();
+    }
+
     private static void buttonsChooseColor(){
         var buttonDict = fxController.buttonDict;
 
@@ -461,18 +542,12 @@ public class FXPresenter {
 
         if (visible) {
 
-            var curGameNo = Integer.toString(set.currentGameNo());
-            var gameAm = Integer.toString(set.getGameAmount());
+            var curGameNo = Integer.toString(set.currentGameNo() + 2);
+            var gameAm = Integer.toString(set.getGameAmount()) + "  ";
 
             if (gameAm.equals("-1")) {
 
                 gameAm = "∞";
-            }
-
-            if (curGameNo.equals("-1")) {
-
-                curGameNo = "-";
-                gameAm = "-";
             }
 
             fxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
@@ -496,7 +571,7 @@ public class FXPresenter {
 
         for(var i = 0; i < playerNo; i++){
 
-            labelArray[i].setVisible(visible);
+            labelArray[4-i].setVisible(visible);
 
             if (visible) {  // change labels
 
@@ -506,15 +581,14 @@ public class FXPresenter {
                 var scoreString = Integer.toString(score);
                 scoreString = Print.times(9-scoreString.length(), "") + scoreString;
 
-                var labelText = "P" + Integer.toString(i+1) + " " + player.getName() + " " + Print.times(21 - player.getName().length(),".") + " " + scoreString;
+                var labelText = "P" + Integer.toString(i+1) + "   " + player.getName() + " " + Print.times(25 - player.getName().length(),".") + " " + scoreString + "P";
 
-                labelArray[i].setText(labelText);
+                labelArray[4-i].setText(labelText);
 
             }
 
         }
 
-        fxController.LabelResultNewGame1.setText("");
 
     }
 
@@ -534,6 +608,7 @@ public class FXPresenter {
         if (visible) {
 
             fxController.buttonDict.get("NEXT").show();
+            fxController.LabelWinner.setText("Winner"); // TODO : @Maik Wie bekommt man hier den Gewinner?
 
         } else {
 
@@ -545,7 +620,7 @@ public class FXPresenter {
 
         for(var i = 0; i < 3; i++){
 
-            labelArray[i].setVisible(visible);
+            labelArray[2-i].setVisible(visible);
 
             if (visible) {  // change labels
 
@@ -555,19 +630,19 @@ public class FXPresenter {
                 var score = setPlayer.getTotalScore();
                 var name = setPlayer.getName();
                 var scoreString = Integer.toString(score);
-                scoreString = Print.times(9-scoreString.length(), "") + scoreString;
+                scoreString = Print.times(9-scoreString.length(), " ") + scoreString;
 
                 String declarer = "  ";
                 int gameScore = 0;
 
                 if ( gamePlayer.isDeclarer() ){
-                    declarer = "S ";
+                    declarer = "D ";
                     gameScore = set.getCurrentGameResult().getGameValue();
                 }
 
-                var labelText = declarer + "P" + Integer.toString(i+1) + setPlayer.getName() + " " + Print.times(14 - setPlayer.getName().length(),"." + " " + Integer.toString(gameScore) + scoreString);
+                var labelText = declarer + "P" + Integer.toString(i+1) + "  " + setPlayer.getName() + " " + Print.times(16 - setPlayer.getName().length(),".") + " " + Integer.toString(gameScore) + "P" + "  -> " + scoreString + "P";
 
-                labelArray[i].setText(labelText);
+                labelArray[2-i].setText(labelText);
 
             }
 
@@ -588,6 +663,8 @@ public class FXPresenter {
     }
 
     public static void updateHandShelfs(){
+
+        buttonSort();
 
         for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
 

@@ -55,14 +55,20 @@ public class FXController implements Player, Initializable {
     public AnchorPane AnchorPlayerInfo3;
     public Label LabelPlayerName3;
     public Label LabelPlayerPoints3;
+    public ImageView IVGameInfoColor;
+    public Label LabelGameInfoRound;
+    public Label LabelGameInfoMode;
+    public AnchorPane anchorGameInfoView;
+    public Label LabelWinner;
 
     /** ↑ This is eviil, somebody put it down! */
 
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
-    boolean suitGame = false;
 
-    boolean keyPositionSkat = false;
+    private boolean suitGame = false;
+    private boolean keyPositionSkat = false;
+    private boolean nextClicked = false;
 
     private SkatController controller;
     private Scene scene;
@@ -232,7 +238,17 @@ public class FXController implements Player, Initializable {
 
             case ENDED -> {
 
-                return GUIState.GAME_FINISHED;
+                if(nextClicked){
+
+                    return GUIState.NOT_STARTED;
+
+                } else {
+
+                    return GUIState.GAME_FINISHED;
+
+                }
+
+
 
                 // TODO : hier weitermachen; if set ended -> GUIState.SetFinished
 
@@ -428,9 +444,14 @@ public class FXController implements Player, Initializable {
                     initGameStart();
                     FXPresenter.update();
                 }
+
+                nextClicked = false;
+
             }
 
             case "NEXT" -> {
+
+                nextClicked = true;
 
             }
 

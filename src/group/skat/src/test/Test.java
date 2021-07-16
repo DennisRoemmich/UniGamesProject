@@ -23,6 +23,9 @@ public class Test {
         this.controller = controller;
         this.game = controller.getGame();
 
+       // consoleSetUpUno();
+       // consoleSetUpDos();
+
     }
 
     public void consoleSetUpUno() {

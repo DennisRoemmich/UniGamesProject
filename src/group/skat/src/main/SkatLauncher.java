@@ -33,15 +33,14 @@ public class SkatLauncher {
 
         var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
 
+        var test = new Test(controller);
+
         if (FX_LAUNCHER) {
 
             var fxLauncher = new FXLauncher();
             fxLauncher.launchFX(controller);
 
         } else {
-
-        /*    var test = new Test(controller);
-            test.mainTest();//*/
 
             Print.setWINDOWS(WINDOWS);
 

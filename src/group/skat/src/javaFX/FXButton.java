@@ -115,7 +115,17 @@ public class FXButton {
         imgDefault = images[0];
         imgHighlighted = images[1];
 
-        imageView.setImage(imgDefault);
+        if ( highlighted ){
+
+            imageView.setImage(imgHighlighted);
+
+        } else {
+
+            imageView.setImage(imgDefault);
+
+        }
+
+
 
     }
 
