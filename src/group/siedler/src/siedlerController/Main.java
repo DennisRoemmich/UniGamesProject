@@ -26,10 +26,21 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
         Parent root = loader.load();
-        Scene scene = new Scene(root, 700,500);
+        Scene scene = new Scene(root, 700,499.1);
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);
+        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
+        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
+        primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                primaryStage.setMaximized(false);
+            }
+        });
+        //primaryStage.minWidthProperty().set(700);
+        //primaryStage.minHeightProperty().set(500);
         primaryStage.show();
+
+
     }
 
 

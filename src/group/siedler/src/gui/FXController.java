@@ -19,6 +19,7 @@ import map.MapGenerator;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
+import positions.EdgePositionZCord;
 import positions.NodePosition;
 import siedlerController.Controller;
 import siedlerFramework.Player;
@@ -35,6 +36,8 @@ public class FXController implements Initializable, Player {
 
     @FXML
     private AnchorPane back;
+    @FXML
+    private ImageView background;
     @FXML
     private ImageView diceButton;
     @FXML
@@ -108,7 +111,14 @@ public class FXController implements Initializable, Player {
                 clock.start();
             }
         }
+
+        System.out.println(back.getWidth());
+        System.out.println(back.getHeight());
+        System.out.println(diceButton.getFitHeight());
     }
+
+
+
 
     public void setDiceImage(int n, ImageView dice){
         String diceImage = "./resources/Dice" + n + ".png";
@@ -116,6 +126,8 @@ public class FXController implements Initializable, Player {
         dice.setImage(new Image(diceImage));
 
     }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,7 +140,33 @@ public class FXController implements Initializable, Player {
 
         controller.addPlayer(this, color);
         //controller.startGame();
+        System.out.println(background.fitHeightProperty());
+        System.out.println(background.fitWidthProperty());
+        /*DO NOT DELETE; BINDING IS BEING IMPLEMENTED HERE BUT IS A PAIN IN THE ASS*/
 
+
+        background.fitHeightProperty().bind(back.heightProperty());
+        background.fitWidthProperty().bind(back.widthProperty());
+
+        //diceButton.yProperty().bind(back.heightProperty().subtract(100));
+        //diceButton.xProperty().bind(back.widthProperty().subtract(100));
+        diceButton.fitHeightProperty().bind(back.heightProperty().multiply(0.2));
+
+        dice1.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
+        //dice1.xProperty().bind(back.widthProperty().multiply(0.75));
+
+        dice2.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
+        dice2.yProperty().bind(back.heightProperty().multiply(0.62));
+
+        dice1.yProperty().bind(dice2.yProperty());
+        dice1.xProperty().bind(back.widthProperty().multiply(0.79));
+        //diceButton.fitHeightProperty().bind(back.heightProperty().divide(4));
+
+        //dice1.fitHeightProperty().bind(back.heightProperty().divide(5));
+        //dice1.yProperty().bind(diceButton.layoutYProperty().subtract(100));
+        //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
+
+        Map map = MapGenerator.generateTestMap(PlayerColor.BLUE);
         MapNode mapNode = new MapNode();
 
         mapNode.setMap(controller.getMap());
