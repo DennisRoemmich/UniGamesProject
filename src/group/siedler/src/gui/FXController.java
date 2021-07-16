@@ -21,8 +21,10 @@ import player.PlayerColor;
 import positions.EdgePosition;
 import positions.EdgePositionZCord;
 import positions.NodePosition;
+import siedlerController.AiPlayer;
 import siedlerController.Controller;
 import siedlerFramework.Player;
+import siedlerFramework.Presenter;
 import siedlerFramework.PrintToConsole;
 import streets.Street;
 import streets.StreetType;
@@ -30,7 +32,7 @@ import streets.StreetType;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class FXController implements Initializable, Player {
+public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
 
@@ -63,6 +65,10 @@ public class FXController implements Initializable, Player {
         return QuickJSON.create("reply", "valid");
     }
 
+    @Override
+    public void refreshOutput() {
+
+    }
 
     private class Roller extends AnimationTimer{
 
@@ -117,9 +123,6 @@ public class FXController implements Initializable, Player {
         System.out.println(diceButton.getFitHeight());
     }
 
-
-
-
     public void setDiceImage(int n, ImageView dice){
         String diceImage = "./resources/Dice" + n + ".png";
 
@@ -138,12 +141,18 @@ public class FXController implements Initializable, Player {
         var colors = PlayerColor.values();
         PlayerColor color = colors[colorIndex];
 
-        controller.addPlayer(this, color);
-        //controller.startGame();
         System.out.println(background.fitHeightProperty());
         System.out.println(background.fitWidthProperty());
         /*DO NOT DELETE; BINDING IS BEING IMPLEMENTED HERE BUT IS A PAIN IN THE ASS*/
 
+        AiPlayer aiPlayer = new AiPlayer(controller);
+
+        controller.addPlayer(this, PlayerColor.BLUE);
+        controller.addPlayer(aiPlayer, PlayerColor.RED);
+        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
+        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
+
+        controller.newGame();
 
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
@@ -166,8 +175,7 @@ public class FXController implements Initializable, Player {
         //dice1.yProperty().bind(diceButton.layoutYProperty().subtract(100));
         //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
 
-        Map map = MapGenerator.generateTestMap(PlayerColor.BLUE);
-        MapFrame mapFrame = new MapFrame(map);
+        MapFrame mapFrame = new MapFrame(controller.getMap());
 
         mapFrame.getMapNode().refreshOutput();
         mapFrame.setLayoutX(300);
@@ -175,25 +183,23 @@ public class FXController implements Initializable, Player {
 
         mapFrame.getMapNode().addPlaceholderNodes(PlayerColor.BLUE);
 
-        mapFrame.setRelativeWidth(200);
-
         back.getChildren().add(mapFrame);
 
         var firstBuilding = new Building(new NodePosition(-2,1,true), color);
         controller.getMap().addBuilding(firstBuilding);
 
-        var possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
+        var possibleStreets = BuildRules.getValidEdgePositions(controller.getMap(), color);
         for(int i = 0; i < 10 && possibleStreets.size() != 0; i++) {
             int streetIndex = ThreadLocalRandom.current().nextInt(0, possibleStreets.size());
             var newStreet = new Street(possibleStreets.get(streetIndex), StreetType.ROAD, color);
             controller.getMap().addStreet(newStreet);
-            possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
+            possibleStreets = BuildRules.getValidEdgePositions(controller.getMap(), color);
         }
-        var possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
+        var possibleBuildings = BuildRules.getValidNodePositions(controller.getMap(), color, BuildingType.VILLAGE);
         while(possibleBuildings.size() != 0) {
             int buildingIndex = ThreadLocalRandom.current().nextInt(0, possibleBuildings.size());
             controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
-            possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
+            possibleBuildings = BuildRules.getValidNodePositions(controller.getMap(), color, BuildingType.VILLAGE);
         }
         mapFrame.getMapNode().refreshOutput();
         //PrintToConsole.println(possibleStreets.toString());

@@ -25,10 +25,10 @@ public class AiPlayer implements Player {
 
     @Override
     public JSONObject requestMove(JSONObject inputType) {
-        if (!inputType.containsKey("move")) {
+        if (!inputType.containsKey("type")) {
             return QuickJSON.create("reply", "invalid input");
         }
-        switch (inputType.get("move").toString()) {
+        switch (inputType.get("type").toString()) {
             case "diceRolling":
                 controller.handleRoll();
                 break;
@@ -39,6 +39,7 @@ public class AiPlayer implements Player {
                     tryCreatingStreet(StreetType.ROAD);
                     tryCreatingStreet(StreetType.SHIP);
                 }
+                controller.endMove();
                 break;
         }
         return QuickJSON.create("reply", "valid");

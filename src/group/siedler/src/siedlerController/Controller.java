@@ -85,22 +85,19 @@ public class Controller extends GameController {
 
     @Override
     public void newGame() {
-    	isRunning = true;
-    }
-
-    public void startGame() {
         if(playerData.size() == 0) {
             WriteError.writeErrorLog("No player added to game.");
             return;
         }
         isRunning = true;
+    	map = MapGenerator.generateMap(playerData.stream().map(PlayerData::getColor).toList());
     }
 
     private void gameStep() {
         if(currentPlayerHasRolled) {
             mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "optionalMove"));
         } else {
-            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("move", "diceRolling"));
+            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "diceRolling"));
         }
     }
 
@@ -151,14 +148,14 @@ public class Controller extends GameController {
         return false;
     }
     
-    private void checkForWinner() {
+    /*private void checkForWinner() {
     	for (int i = 0; i < getNumberOfPlayers(); i++) {
     		if (playerData.get(i).getNumberOfVillages() + (playerData.get(i).getNumberOfTowns())/2 >= 10) {
     			System.out.println("Current player wins!");
     			isRunning = false;
     		}
     	}
-    }
+    }*/
 
     public void handleRoll() {
         DiceRolling.reRoll();
@@ -169,6 +166,7 @@ public class Controller extends GameController {
             DiceRolling.handOutResources(rolledNumber, map, playerData);
             PrintToConsole.println(playerData.get(0).getHand().toString());
         }
+        currentPlayerHasRolled = true;
         gameStep();
     }
 
@@ -177,6 +175,7 @@ public class Controller extends GameController {
         if(currentPlayer >= mPlayers.size()) {
             currentPlayer = 0;
         }
+        currentPlayerHasRolled = false;
         gameStep();
     }
 

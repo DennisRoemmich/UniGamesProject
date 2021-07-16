@@ -59,19 +59,23 @@ public class MapGenerator {
         for(PlayerColor color : colors) {
             for(int i = 0; i < 2; i++) {
                 NodePosition nodePosition;
+
                 do {
                     nodePosition = MapTools.getRandomNodePosition(map);
                 } while (!BuildRules.isNodeValidForNewBuilding(map, nodePosition));
-                Building newBuilding = new Building(nodePosition, color);
-                map.addBuilding(newBuilding);
-                List<EdgePosition> edgePositions = Arrays.stream(MapTools.getEdgePositions(nodePosition)).toList();
+
+
+                List<EdgePosition> edgePositions = new ArrayList<>(Arrays.stream(MapTools.getEdgePositions(nodePosition)).toList());
                 edgePositions = edgePositions.stream().filter(ep -> MapTools.isPositionValid(map, ep)).toList();
                 edgePositions = edgePositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
-                Collections.shuffle(edgePositions);
                 Optional<EdgePosition> edgeOfStreet = edgePositions.stream().findFirst();
                 if(edgeOfStreet.isPresent()) {
                     StreetType type = BuildRules.getPossibleStreetType(map, edgeOfStreet.get()).get(0);
                     Street newStreet = new Street(edgeOfStreet.get(), type, color);
+                    map.addStreet(newStreet);
+
+                    Building newBuilding = new Building(nodePosition, color);
+                    map.addBuilding(newBuilding);
                 }
             }
         }
