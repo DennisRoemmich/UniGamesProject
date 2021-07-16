@@ -16,11 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
-import map.MapTools;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
-import positions.*;
-import siedlerController.AiPlayer;
+import positions.EdgePosition;
+import positions.EdgePositionZCord;
+import positions.NodePosition;
 import siedlerController.Controller;
 import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
@@ -36,6 +36,8 @@ public class FXController implements Initializable, Player {
 
     @FXML
     private AnchorPane back;
+    @FXML
+    private ImageView background;
     @FXML
     private ImageView diceButton;
     @FXML
@@ -60,6 +62,7 @@ public class FXController implements Initializable, Player {
         }
         return QuickJSON.create("reply", "valid");
     }
+
 
     private class Roller extends AnimationTimer{
 
@@ -108,7 +111,14 @@ public class FXController implements Initializable, Player {
                 clock.start();
             }
         }
+
+        System.out.println(back.getWidth());
+        System.out.println(back.getHeight());
+        System.out.println(diceButton.getFitHeight());
     }
+
+
+
 
     public void setDiceImage(int n, ImageView dice){
         String diceImage = "./resources/Dice" + n + ".png";
@@ -117,6 +127,8 @@ public class FXController implements Initializable, Player {
 
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
@@ -124,35 +136,51 @@ public class FXController implements Initializable, Player {
 
         int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
         var colors = PlayerColor.values();
+        PlayerColor color = colors[colorIndex];
 
-        AiPlayer aiPlayer = new AiPlayer(controller);
-
-        controller.addPlayer(this, PlayerColor.BLUE);
-        controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
-        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
+        controller.addPlayer(this, color);
         //controller.startGame();
+        System.out.println(background.fitHeightProperty());
+        System.out.println(background.fitWidthProperty());
+        /*DO NOT DELETE; BINDING IS BEING IMPLEMENTED HERE BUT IS A PAIN IN THE ASS*/
 
-        MapNode mapNode = new MapNode();
 
-        mapNode.setMap(controller.getMap());
-        mapNode.refreshOutput();
-        mapNode.setLayoutX(300);
-        mapNode.setLayoutY(150);
+        background.fitHeightProperty().bind(back.heightProperty());
+        background.fitWidthProperty().bind(back.widthProperty());
 
-        //mapNode.addPlaceholderNodes(PlayerColor.BLUE);
+        //diceButton.yProperty().bind(back.heightProperty().subtract(100));
+        //diceButton.xProperty().bind(back.widthProperty().subtract(100));
+        diceButton.fitHeightProperty().bind(back.heightProperty().multiply(0.2));
 
-        back.getChildren().add(mapNode);
+        dice1.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
+        //dice1.xProperty().bind(back.widthProperty().multiply(0.75));
 
-        /*
-        int x = ThreadLocalRandom.current().nextInt(-2, 3);
-        int y = ThreadLocalRandom.current().nextInt(-2, 3);
-        var z = NodePositionZCord.valueOf(ThreadLocalRandom.current().nextBoolean());
-        var position = new NodePosition(x,y,z);
-        if(MapTools.isPositionValid(controller.getMap(), position) && BuildRules.isNodeValidForNewBuilding(controller.getMap(), position)) {
-            var building = new Building(position, color);
-            controller.getMap().addBuilding(building);
-        }
+        dice2.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
+        dice2.yProperty().bind(back.heightProperty().multiply(0.62));
+
+        dice1.yProperty().bind(dice2.yProperty());
+        dice1.xProperty().bind(back.widthProperty().multiply(0.79));
+        //diceButton.fitHeightProperty().bind(back.heightProperty().divide(4));
+
+        //dice1.fitHeightProperty().bind(back.heightProperty().divide(5));
+        //dice1.yProperty().bind(diceButton.layoutYProperty().subtract(100));
+        //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
+
+        Map map = MapGenerator.generateTestMap(PlayerColor.BLUE);
+        MapFrame mapFrame = new MapFrame(map);
+
+        mapFrame.getMapNode().refreshOutput();
+        mapFrame.setLayoutX(300);
+        mapFrame.setLayoutY(150);
+
+        mapFrame.getMapNode().addPlaceholderNodes(PlayerColor.BLUE);
+
+        mapFrame.setRelativeWidth(200);
+
+        back.getChildren().add(mapFrame);
+
+        var firstBuilding = new Building(new NodePosition(-2,1,true), color);
+        controller.getMap().addBuilding(firstBuilding);
 
         var possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
         for(int i = 0; i < 10 && possibleStreets.size() != 0; i++) {
@@ -167,7 +195,7 @@ public class FXController implements Initializable, Player {
             controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
             possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
         }
-        mapNode.refreshOutput();*/
+        mapFrame.getMapNode().refreshOutput();
         //PrintToConsole.println(possibleStreets.toString());
     }
 
