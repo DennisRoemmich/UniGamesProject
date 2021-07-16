@@ -51,6 +51,37 @@ public class MapGenerator {
         return map;
     }
 
+    public static Map generateHugeMap() {
+        Map map = new Map();
+        TilePosition desertPosition = new TilePosition(0,0);
+        Tile desertTile = new NeutralTile(desertPosition, false);
+        map.addTile(desertTile);
+
+        LinkedList<MaterialType> types = getBasicTypes();
+        LinkedList<Integer> hitnumbers = getBasicHitnumbers();
+
+        int x, y;
+        for(x = -2; x <= 2; x++) {
+            for(y = -2; y <= 2; y++) {
+                // Die Wüste in der Mitte wird übersprungen
+                if(x == 0 && y == 0) {
+                    continue;
+                }
+                // Um den Sinn dahinter zu verstehen muss die Karte visualisiert betrachtet werden
+                if(Math.abs(x + y) >= 3) {
+                    continue;
+                }
+                TilePosition position = new TilePosition(x,y);
+                MaterialType type = types.pop();
+                int hitnumber = hitnumbers.pop();
+                ResourceTile tile = new ResourceTile(position, type, hitnumber);
+                map.addTile(tile);
+            }
+        }
+
+        return map;
+    }
+
     public static Map generateTestMap(PlayerColor color) {
         Map map = generateBasicMap();
         //map.addBuilding(new Building(new NodePosition(0,0,true), PlayerColor.BLUE));

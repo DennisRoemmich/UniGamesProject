@@ -21,20 +21,14 @@ import java.util.Optional;
 public class TileNode extends Region {
 
     protected Optional<Tile> tile = Optional.empty();
-    protected double width = 100;
 
     public static final double angle30degree = Math.PI / 6;
 
     public TileNode() {
         refreshOutput();
     }
-    public TileNode(double width) {
-        this.width = width;
-        refreshOutput();
-    }
 
     public  TileNode(double width, Tile tile) {
-        this.width = width;
         this.tile = Optional.of(tile);
         refreshOutput();
     }
@@ -48,9 +42,9 @@ public class TileNode extends Region {
 
         Polygon hexagonShape = new Polygon();
 
-        double centerX = width / 2;
-        double centerY = width / 2;
-        double radius = width * 0.4;
+        double centerX = 50;
+        double centerY = 50;
+        double radius = 40;
 
         ObservableList<Double> list = hexagonShape.getPoints();
         // Add points to the polygon list
@@ -79,11 +73,11 @@ public class TileNode extends Region {
             }
             try {
                 ResourceTile resourceTile = (ResourceTile) extractedTile;
-                Shape circle = new Circle(7 * width / 50, Color.BEIGE);
+                Shape circle = new Circle(14, Color.BEIGE);
                 circle.setStroke(Color.BLACK);
                 stack.getChildren().add(circle);
                 int hitnumber = resourceTile.getHitnumber();
-                Font font = new Font("Tahoma", width / 5);
+                Font font = new Font("Tahoma", 20);
                 Text hitnumberLabel = new Text(String.valueOf(hitnumber));
                 hitnumberLabel.setTextAlignment(TextAlignment.CENTER);
                 if(hitnumber == 6 || hitnumber == 8) {

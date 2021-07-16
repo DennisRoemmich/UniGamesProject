@@ -25,6 +25,7 @@ public class MapNode extends Region {
     private double xOffset = 150;
     private double yOffset = 150;
 
+
     public MapNode() {
         refreshOutput();
     }

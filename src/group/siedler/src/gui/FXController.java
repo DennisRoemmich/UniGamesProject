@@ -167,16 +167,17 @@ public class FXController implements Initializable, Player {
         //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
 
         Map map = MapGenerator.generateTestMap(PlayerColor.BLUE);
-        MapNode mapNode = new MapNode();
+        MapFrame mapFrame = new MapFrame(map);
 
-        mapNode.setMap(controller.getMap());
-        mapNode.refreshOutput();
-        mapNode.setLayoutX(300);
-        mapNode.setLayoutY(150);
+        mapFrame.getMapNode().refreshOutput();
+        mapFrame.setLayoutX(300);
+        mapFrame.setLayoutY(150);
 
-        mapNode.addPlaceholderNodes(PlayerColor.BLUE);
+        mapFrame.getMapNode().addPlaceholderNodes(PlayerColor.BLUE);
 
-        back.getChildren().add(mapNode);
+        mapFrame.setRelativeWidth(200);
+
+        back.getChildren().add(mapFrame);
 
         var firstBuilding = new Building(new NodePosition(-2,1,true), color);
         controller.getMap().addBuilding(firstBuilding);
@@ -194,7 +195,7 @@ public class FXController implements Initializable, Player {
             controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
             possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
         }
-        mapNode.refreshOutput();
+        mapFrame.getMapNode().refreshOutput();
         //PrintToConsole.println(possibleStreets.toString());
     }
 
