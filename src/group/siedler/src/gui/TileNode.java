@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.geometry.Pos;
+import player.PlayerColor;
 import tiles.Tile;
 import tiles.NeutralTile;
 import tiles.ResourceTile;
@@ -17,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TileNode extends Region {
 
@@ -77,12 +79,14 @@ public class TileNode extends Region {
                 circle.setStroke(Color.BLACK);
                 stack.getChildren().add(circle);
                 int hitnumber = resourceTile.getHitnumber();
-                Font font = new Font("Tahoma", 20);
+                Font font = new Font("Tahoma", getFontSize(hitnumber));
                 Text hitnumberLabel = new Text(String.valueOf(hitnumber));
                 hitnumberLabel.setTextAlignment(TextAlignment.CENTER);
                 if(hitnumber == 6 || hitnumber == 8) {
-                    hitnumberLabel.setFill(Color.INDIANRED);
-                    hitnumberLabel.setStroke(Color.INDIANRED);
+                    Color hitnumberColor = Color.INDIANRED;
+                    //PlayerColor.values()[ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length)].getColor();
+                    hitnumberLabel.setFill(hitnumberColor);
+                    hitnumberLabel.setStroke(hitnumberColor);
                 }
                 hitnumberLabel.setFont(font);
                 stack.getChildren().add(hitnumberLabel);
@@ -107,6 +111,17 @@ public class TileNode extends Region {
 
             }
         }
+    }
+
+    public static int getFontSize(int hitnumber) {
+        return switch (hitnumber) {
+            case 2, 12 -> 10;
+            case 3, 11 -> 14;
+            case 4, 10 -> 18;
+            case 5, 9 -> 20;
+            case 6, 8 -> 20;
+            default -> 20;
+        };
     }
 
     public Optional<Tile> getTile() {

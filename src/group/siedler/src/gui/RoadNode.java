@@ -45,10 +45,10 @@ public class RoadNode extends Region  {
 
         if(street.isEmpty()) {
             rectangle.setFill(Color.TRANSPARENT);
-            rectangle.setStrokeWidth(3);
+            //rectangle.setStrokeWidth(3);
         } else {
             rectangle.setFill(street.get().getColor().getColor());
-            rectangle.setStrokeWidth(2);
+            //rectangle.setStrokeWidth(2);
         }
 
         rectangle.setRotate(30 + 120 * position.getZ().ordinal());

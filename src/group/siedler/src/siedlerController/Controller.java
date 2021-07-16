@@ -53,7 +53,9 @@ public class Controller extends GameController {
             return;
         }
         mPlayers.add(player);
-        playerData.add(new PlayerData(color));
+        PlayerData data = new PlayerData(color);
+        data.setHand(MaterialSet.getFullHand());
+        playerData.add(data);
     }
 
     @Override
@@ -94,31 +96,37 @@ public class Controller extends GameController {
     }
 
     private void gameStep() {
+        if(!isRunning) {
+            return;
+        }
         if(currentPlayerHasRolled) {
             mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "optionalMove"));
         } else {
-            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "diceRolling"));
+            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "rollDices"));
         }
     }
 
-    public void placeBuilding(NodePosition position, BuildingType type) {
-        if(type == BuildingType.VILLAGE) {
+    public void placeBuilding(NodePosition position) {
+        if(map.getBuilding(position).isEmpty()) {
             Building building = new Building(position, getCurrentPlayerColor());
             map.addBuilding(building);
-            getCurrentPlayerHand().removeResourceSet(Building.getCost(type));
+            getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.VILLAGE));
         } else {
             Optional<Building> building = map.getBuilding(position);
             if(building.isPresent()) {
                 building.get().upgrade();
-                getCurrentPlayerHand().removeResourceSet(Building.getCost(type));
+                getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.TOWN));
             }
         }
+        handleWinner();
+        mPresenter.refreshOutput();
     }
 
     public void placeStreet(EdgePosition position, StreetType type) {
         Street street = new Street(position, type, getCurrentPlayerColor());
         map.addStreet(street);
         getCurrentPlayerHand().removeResourceSet(Street.getCost(type));
+        mPresenter.refreshOutput();
     }
 
     // Not needed anymore
@@ -148,14 +156,18 @@ public class Controller extends GameController {
         return false;
     }
     
-    /*private void checkForWinner() {
-    	for (int i = 0; i < getNumberOfPlayers(); i++) {
-    		if (playerData.get(i).getNumberOfVillages() + (playerData.get(i).getNumberOfTowns())/2 >= 10) {
-    			System.out.println("Current player wins!");
-    			isRunning = false;
+    private void handleWinner() {
+    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
+    	    List<Building> buildings = map.getBuildings(playerColor);
+            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
+            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
+    		if (villagePoints + townPoints >= 10) {
+    		    System.out.println(playerColor + " player wins!");
+    		    isRunning = false;
+                mPresenter.refreshOutput();
     		}
     	}
-    }*/
+    }
 
     public void handleRoll() {
         DiceRolling.reRoll();
@@ -167,6 +179,7 @@ public class Controller extends GameController {
             PrintToConsole.println(playerData.get(0).getHand().toString());
         }
         currentPlayerHasRolled = true;
+        mPresenter.refreshOutput();
         gameStep();
     }
 
@@ -176,6 +189,7 @@ public class Controller extends GameController {
             currentPlayer = 0;
         }
         currentPlayerHasRolled = false;
+        handleWinner();
         gameStep();
     }
 
@@ -197,5 +211,9 @@ public class Controller extends GameController {
 
     public Map getMap() {
         return map;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 }

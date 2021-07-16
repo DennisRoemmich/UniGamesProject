@@ -7,7 +7,7 @@ public class MaterialSet {
 
     public MaterialSet() {
         resources = new JSONObject();
-        for(MaterialType type : MaterialType.values()) {
+        for (MaterialType type : MaterialType.values()) {
             resources.put(type.toString(), 0);
         }
     }
@@ -63,5 +63,13 @@ public class MaterialSet {
             output += type.toString() + ": " + String.valueOf(getAmount(type)) + ", ";
         }
         return output;
+    }
+
+    public static MaterialSet getFullHand() {
+        MaterialSet materialSet = new MaterialSet();
+        for(MaterialType type : MaterialType.values()) {
+            materialSet.addResources(type, 22);
+        }
+        return materialSet;
     }
 }

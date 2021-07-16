@@ -5,6 +5,8 @@ import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -35,6 +37,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
+    private MapNode mapNode = new MapNode();
+
+    private boolean animationStopFlag = false;
 
     @FXML
     private AnchorPane back;
@@ -61,13 +66,29 @@ public class FXController implements Initializable, Player, Presenter {
             case "rollDices":
                 diceButton.setImage(diceButtonImage);
                 diceButton.setVisible(true);
+            case "optionalMove":
+                refreshOutput();
         }
         return QuickJSON.create("reply", "valid");
     }
 
     @Override
     public void refreshOutput() {
-
+        if(mapNode != null) {
+            mapNode.refreshOutput();
+            updateDiceViews();
+            if(!controller.isRunning()) {
+                diceButton.setVisible(false);
+                dice1.setVisible(false);
+                dice2.setVisible(false);
+            } else {
+                dice1.setVisible(true);
+                dice2.setVisible(true);
+                if(controller.isItMyTurn(this) && controller.hasCurrentPlayerRolled()) {
+                    mapNode.addPlaceholderNodes(controller.getCurrentPlayerColor(), controller);
+                }
+            }
+        }
     }
 
     private class Roller extends AnimationTimer{
@@ -79,8 +100,11 @@ public class FXController implements Initializable, Player, Presenter {
         private long last = 0;
         private int count = 0;
 
+        private boolean isRunning = false;
+
         @Override
         public void handle(long l) {
+            isRunning = true;
             if(l - last > INTERVAL){
                 int r = 2 + (int)(Math.random() * 5);
                 setDiceImage(r, dice1);
@@ -88,12 +112,17 @@ public class FXController implements Initializable, Player, Presenter {
                 setDiceImage(j, dice2);
                 last = l;
                 count++;
-                if (count > MAX_ROLLS){
+                if (count > MAX_ROLLS || animationStopFlag){
                     clock.stop();
                     finishRoll();
                     count = 0;
+                    isRunning = false;
                 }
             }
+        }
+
+        public boolean isRunning() {
+            return isRunning;
         }
     }
 
@@ -112,6 +141,7 @@ public class FXController implements Initializable, Player, Presenter {
             if(controller.hasCurrentPlayerRolled()) {
                 diceButton.setVisible(false);
                 controller.endMove();
+                mapNode.clearPlaceholderNodes();
             } else {
                 diceButton.setImage(finishButtonImage);
                 clock.start();
@@ -135,6 +165,7 @@ public class FXController implements Initializable, Player, Presenter {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
+        controller.setPresenter(this);
 
 
         int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
@@ -149,10 +180,13 @@ public class FXController implements Initializable, Player, Presenter {
 
         controller.addPlayer(this, PlayerColor.BLUE);
         controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
+        controller.addPlayer(this, PlayerColor.BLACK);
+        controller.addPlayer(aiPlayer, PlayerColor.WHITE);
+        controller.addPlayer(this, PlayerColor.PURPLE);
         controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
 
         controller.newGame();
+        mapNode.setMap(controller.getMap());
 
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
@@ -175,17 +209,15 @@ public class FXController implements Initializable, Player, Presenter {
         //dice1.yProperty().bind(diceButton.layoutYProperty().subtract(100));
         //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
 
-        MapFrame mapFrame = new MapFrame(controller.getMap());
+        MapFrame mapFrame = new MapFrame(mapNode);
 
         mapFrame.getMapNode().refreshOutput();
         mapFrame.setLayoutX(300);
         mapFrame.setLayoutY(150);
 
-        mapFrame.getMapNode().addPlaceholderNodes(PlayerColor.BLUE);
-
         back.getChildren().add(mapFrame);
 
-        var firstBuilding = new Building(new NodePosition(-2,1,true), color);
+        /*var firstBuilding = new Building(new NodePosition(-2,1,true), color);
         controller.getMap().addBuilding(firstBuilding);
 
         var possibleStreets = BuildRules.getValidEdgePositions(controller.getMap(), color);
@@ -200,7 +232,7 @@ public class FXController implements Initializable, Player, Presenter {
             int buildingIndex = ThreadLocalRandom.current().nextInt(0, possibleBuildings.size());
             controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
             possibleBuildings = BuildRules.getValidNodePositions(controller.getMap(), color, BuildingType.VILLAGE);
-        }
+        }*/
         mapFrame.getMapNode().refreshOutput();
         //PrintToConsole.println(possibleStreets.toString());
     }

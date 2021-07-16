@@ -3,6 +3,7 @@ package gui;
 import buildings.BuildingType;
 import map.BuildRules;
 import map.MapGenerator;
+import materials.MaterialSet;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -10,7 +11,9 @@ import positions.TilePosition;
 import buildings.Building;
 import javafx.scene.layout.Region;
 import map.Map;
+import siedlerController.Controller;
 import streets.Street;
+import streets.StreetType;
 import tiles.Tile;
 
 public class MapNode extends Region {
@@ -31,6 +34,7 @@ public class MapNode extends Region {
     }
 
     public void refreshOutput() {
+        getChildren().clear();
         for(Tile tile : map.getTiles()) {
             Region newNode = new TileNode(100, tile);
             GuiPosition position = convertPosition(tile.getPosition());
@@ -123,17 +127,33 @@ public class MapNode extends Region {
         refreshOutput();
     }
 
-    public void addPlaceholderNodes(PlayerColor color) {
+    public void addPlaceholderNodes(PlayerColor color, Controller controller) {
         var possibleStreets = BuildRules.getValidEdgePositions(map, color);
         var possibleBuildings = BuildRules.getValidNodePositions(map, color, BuildingType.VILLAGE);
         possibleBuildings.addAll(BuildRules.getValidNodePositions(map, color, BuildingType.TOWN));
-        for(EdgePosition position : possibleStreets) {
-            RoadNode roadNode = new RoadNode(position);
-            this.getChildren().add(roadNode);
+
+        if(controller.getCurrentPlayerHand().isSuperset(Street.getCost(StreetType.ROAD))) {
+            for (EdgePosition edgePosition : possibleStreets) {
+                RoadNode roadNode = new RoadNode(edgePosition);
+                GuiPosition guiPosition = convertPosition(edgePosition);
+                roadNode.setLayoutX(guiPosition.getX());
+                roadNode.setLayoutY(guiPosition.getY());
+                StreetPlaceholderEventHandler eventHandler = new StreetPlaceholderEventHandler(controller, edgePosition);
+                roadNode.setOnMouseClicked(eventHandler);
+                this.getChildren().add(roadNode);
+            }
         }
-        for(NodePosition position : possibleBuildings) {
-            BuildingNode buildingNode = new BuildingNode(position);
-            this.getChildren().add(buildingNode);
+        for(NodePosition nodePosition : possibleBuildings) {
+            BuildingType type = map.getBuilding(nodePosition).isEmpty() ? BuildingType.VILLAGE : BuildingType.TOWN;
+            if(controller.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
+                BuildingNode buildingNode = new BuildingNode(nodePosition);
+                GuiPosition guiPosition = convertPosition(nodePosition);
+                buildingNode.setLayoutX(guiPosition.getX());
+                buildingNode.setLayoutY(guiPosition.getY());
+                BuilderPlaceholderEventHandler eventHandler = new BuilderPlaceholderEventHandler(controller, nodePosition);
+                buildingNode.setOnMouseClicked(eventHandler);
+                this.getChildren().add(buildingNode);
+            }
         }
     }
 }

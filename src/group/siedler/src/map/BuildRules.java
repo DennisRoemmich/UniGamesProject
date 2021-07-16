@@ -76,7 +76,8 @@ public class BuildRules {
     }
 
     public static boolean isNodeValidForNewBuilding(Map map, NodePosition position) {
-        return !Arrays.stream(MapTools.getNodePositions(position)).anyMatch(np -> map.getBuilding(np).isPresent());
+        boolean neighboursFree = !Arrays.stream(MapTools.getNodePositions(position)).anyMatch(np -> map.getBuilding(np).isPresent());
+        return neighboursFree && map.getBuilding(position).isEmpty();
     }
 
     public static boolean canBeUpgradedToTown(Map map, PlayerColor color,  NodePosition position) {

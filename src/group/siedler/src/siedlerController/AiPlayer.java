@@ -29,7 +29,7 @@ public class AiPlayer implements Player {
             return QuickJSON.create("reply", "invalid input");
         }
         switch (inputType.get("type").toString()) {
-            case "diceRolling":
+            case "rollDices":
                 controller.handleRoll();
                 break;
             case "optionalMove":
@@ -51,12 +51,15 @@ public class AiPlayer implements Player {
             List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(controller.getMap(), color, type);
             if (possiblePositions.size() > 0) {
                 int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
-                controller.placeBuilding(possiblePositions.get(index), type);
+                controller.placeBuilding(possiblePositions.get(index));
             }
         }
     }
 
     public void tryCreatingStreet(StreetType type) {
+        if(!BuildRules.getValidNodePositions(controller.getMap(), controller.getCurrentPlayerColor(), BuildingType.VILLAGE).isEmpty()) {
+            return;
+        }
         if(controller.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
             PlayerColor color = controller.getCurrentPlayerColor();
             List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(controller.getMap(), color, type);
