@@ -38,7 +38,25 @@ public class FXController implements Player, Initializable {
     public Label LabelAuctionValue;
     public AnchorPane AnchorMarker;
 
-    /** ↑ This is eviil, put it down! */
+    public AnchorPane AnchorPlayerView1;
+    public AnchorPane AnchorPlayerIcon1;
+    public AnchorPane AnchorPlayerInfo1;
+    public Label LabelPlayerName1;
+    public Label LabelPlayerPoints1;
+
+    public AnchorPane AnchorPlayerView2;
+    public AnchorPane AnchorPlayerIcon2;
+    public AnchorPane AnchorPlayerInfo2;
+    public Label LabelPlayerName2;
+    public Label LabelPlayerPoints2;
+
+    public AnchorPane AnchorPlayerView3;
+    public AnchorPane AnchorPlayerIcon3;
+    public AnchorPane AnchorPlayerInfo3;
+    public Label LabelPlayerName3;
+    public Label LabelPlayerPoints3;
+
+    /** ↑ This is eviil, somebody put it down! */
 
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
@@ -350,6 +368,10 @@ public class FXController implements Player, Initializable {
     /* SKATMOVES */
 
     public boolean makeMove(GameMove move) {
+
+        if (move == null) {
+            return false;
+        }
 
         return controller.makeMove(move);
     }

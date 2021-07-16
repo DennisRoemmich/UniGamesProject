@@ -2,11 +2,14 @@ package javaFX;
 
 
 import console.Print;
+import engine.SkatPlayer;
+import engine.enums.CardValue;
 import engine.enums.GameMode;
 import javaFX.enums.GUIState;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 
 public class FXPresenter {
@@ -23,6 +26,9 @@ public class FXPresenter {
     private static Image markerSpades = new Image("images/Other/MarkerSpades.png");
     private static Image markerHearts = new Image("images/Other/MarkerHearts.png");
     private static Image markerDiamonds = new Image("images/Other/MarkerDiamonds.png");
+
+    private static Image iconDeclarer = new Image("images/Other/PlayerIconDeclarer.png");
+    private static Image iconTogether = new Image("images/Other/PlayerIconTogether.png");
 
     private static Image[] acceptButton2 = new Image[]{ new Image ("images/Buttons/ButtonAcceptCancel2.png"), new Image ("images/Buttons/ButtonAcceptCancel2Highlighted.png") };
     private static Image[] cancelButton4 = new Image[]{ new Image ("images/Buttons/ButtonAcceptCancel4.png"), new Image ("images/Buttons/ButtonAcceptCancel4Highlighted.png") };
@@ -125,6 +131,7 @@ public class FXPresenter {
             case DECLARE_SKAT -> {
 
                 skatView(true);
+                playerViews(true);
                 updateHandShelfs();
                 fxController.getFxSkat().update();
                 buttonsAcceptSkat();// call last
@@ -137,12 +144,14 @@ public class FXPresenter {
                         """);
 
                 updateHandShelfs();
+                playerViews(true);
                 fxController.setKeyPositionSkat(false);
                 buttonsChooseMode(); // call last
             }
 
             case DECLARE_TRUMPCOLOR -> {
 
+                playerViews(true);
                 declareGameTypeView("Game Color", """
                 Declare Game Color.
                         """);
@@ -155,7 +164,7 @@ public class FXPresenter {
                 fxController.setKeyPositionSkat(false);
                 fxController.getFxCurrentTrick().update();
 
-
+                playerViews(true);
                 markerView(true);
                 trickView(true);
                 updateHandShelfs();
@@ -163,6 +172,7 @@ public class FXPresenter {
 
             case PLAYING_NOT_YOUR_MOVE -> {
 
+                playerViews(true);
                 markerView(true);
                 trickView(true);
                 updateHandShelfs();
@@ -210,13 +220,16 @@ public class FXPresenter {
     public static void markerView(boolean visible){
 
 
-
+        var game = fxController.getController().getGame();
         var anchor = fxController.AnchorMarker;
-        var color = fxController.getController().getGame().getCurrentTrick().getColor();
+        var trick = game.getCurrentTrick();
+        var color = trick.getColor();
+        var gameTrump = game.getTrump();
 
-        if (color != null){
+        var imgView = (ImageView) fxController.AnchorMarker.getChildren().get(0);
+        var imgTrumpView = (ImageView) fxController.AnchorMarker.getChildren().get(1);
 
-            var imgView = (ImageView) fxController.AnchorMarker.getChildren().get(0);
+        if (color != null && trick.getCardAt(0).getCardValue() != CardValue.JACK){
 
             imgView.setImage( switch (color){
 
@@ -227,11 +240,39 @@ public class FXPresenter {
 
             } );
 
+            imgTrumpView.setVisible(color == gameTrump.getColor());
+
             anchor.setVisible(visible);
 
         } else {
 
             anchor.setVisible(false);
+            imgView.setVisible(true);
+
+            if (gameTrump.getGameMode() == GameMode.SUIT && trick.getSize() > 0 ) {
+
+                imgView.setImage( switch (gameTrump.getColor()){
+
+                    case CLUBS -> markerClubs;
+                    case SPADES -> markerSpades;
+                    case HEARTS -> markerHearts;
+                    case DIAMONDS -> markerDiamonds;
+
+                } );
+
+                imgTrumpView.setVisible(true);
+                anchor.setVisible(true);
+
+            }
+
+            if (gameTrump.getGameMode() == GameMode.GRAND && trick.getSize() > 0 && trick.getCardAt(0).getCardValue() == CardValue.JACK) {
+
+                imgView.setVisible(false);
+                imgTrumpView.setVisible(true);
+                anchor.setVisible(true);
+
+            }
+
 
         }
 
@@ -246,6 +287,7 @@ public class FXPresenter {
         skatView(false);
         auctionView(false);
         trickView(false);
+        playerViews(false);
 
         buttonsHide();
 
@@ -265,6 +307,54 @@ public class FXPresenter {
         buttonDict.get("PA5").hide();
         fxController.anchorButtonsPlayActions.setVisible(false);
     }
+
+
+    private static void playerViews(boolean visible){
+
+        var anchorPlayerView = new AnchorPane[]{fxController.AnchorPlayerView1, fxController.AnchorPlayerView2, fxController.AnchorPlayerView3};
+        var anchorPlayerIcon = new AnchorPane[]{fxController.AnchorPlayerIcon1, fxController.AnchorPlayerIcon2, fxController.AnchorPlayerIcon3};
+        var anchorPlayerInfo = new AnchorPane[]{fxController.AnchorPlayerInfo1, fxController.AnchorPlayerInfo2, fxController.AnchorPlayerInfo3};
+        var labelPlayerName = new Label[]{fxController.LabelPlayerName1, fxController.LabelPlayerName2, fxController.LabelPlayerName3};
+        var labelPlayerScore = new Label[]{fxController.LabelPlayerPoints1, fxController.LabelPlayerPoints2, fxController.LabelPlayerPoints3};
+
+        var set = fxController.getController().getSkatSet();
+
+        for (var i = 0; i < 3; i++) {
+
+            anchorPlayerView[i].setVisible(visible);
+            if (!visible) { continue; }
+
+            var index = fxController.getPlayerGameIndex();
+            index = (i + index)  % 3;
+
+            var skatSetPlayer = set.getSkatSetPlayerAt(index);
+            var skatPlayer = set.getSkatPlayerAt(index);
+
+            var name = skatSetPlayer.getName();
+            var score = skatSetPlayer.getTotalScore();
+            var declarer = skatPlayer.isDeclarer();
+
+            var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
+
+            if (declarer) {
+
+               iconImgView.setImage(iconDeclarer);
+
+            } else {
+
+                iconImgView.setImage(iconTogether);
+
+            }
+
+            labelPlayerName[i].setText(name);
+            labelPlayerScore[i].setText(Integer.toString(score) + "P");
+
+        }
+
+
+
+    }
+
 
     private static void buttonsAcceptSkat(){
 

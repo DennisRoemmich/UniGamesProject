@@ -12,10 +12,10 @@ import java.net.URL;
 public class FXLauncher extends Application {
 
     static final int MINWIDTH = 1365;
-    static final int MINHEIGHT = 1024;
+    static final int MINHEIGHT = 1024 - 200;
 
 
-    static final int MAXWIDTH = 1365;
+    static final int MAXWIDTH = 1765;
     static final int MAXHEIGHT = 1024 + 28;
 
     static SkatController skatController;
