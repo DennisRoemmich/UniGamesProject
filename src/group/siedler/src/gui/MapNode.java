@@ -21,8 +21,6 @@ import java.util.List;
 public class MapNode extends Region {
     private Map map = MapGenerator.generateBasicMap();
 
-    private double tileWidth = 100;
-
     // TODO : Dynamically calculate offset
     private double xOffset = 150;
     private double yOffset = 150;
@@ -38,7 +36,7 @@ public class MapNode extends Region {
 
     public void refreshOutput() {
         for(Tile tile : map.getTiles()) {
-            Region newNode = new TileNode(tileWidth, tile);
+            Region newNode = new TileNode(100, tile);
             GuiPosition position = convertPosition(tile.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
@@ -61,19 +59,19 @@ public class MapNode extends Region {
     }
 
     private GuiPosition convertPosition(TilePosition tilePosition) {
-        double x = (tilePosition.getX() * 2 + tilePosition.getY()) * tileWidth * 0.35;
-        double y = tilePosition.getY() * tileWidth * 0.6;
+        double x = (tilePosition.getX() * 2 + tilePosition.getY()) * 35;
+        double y = tilePosition.getY() * 60;
         return new GuiPosition(x,y);
     }
 
     private GuiPosition convertPosition(NodePosition nodePosition) {
     	double x, y;
     	if(nodePosition.isZ()) {
-            x = tileWidth * 0.36 + (nodePosition.getX() * 2 + nodePosition.getY()) * tileWidth * 0.35;
-            y = tileWidth * 0.04 + nodePosition.getY() * tileWidth * 0.6;
+            x = 2 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
+            y = 20 + nodePosition.getY() * 60;
         } else {
-            x = tileWidth * 0.36 + (nodePosition.getX() * 2 + nodePosition.getY()) * tileWidth * 0.35;
-            y = tileWidth * 0.79 + nodePosition.getY() * tileWidth * 0.6;
+            x = 70 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
+            y = 62 + nodePosition.getY() * 60;
         }
         return new GuiPosition(x,y);
     }
@@ -82,16 +80,16 @@ public class MapNode extends Region {
         double x, y;
         switch(edgePosition.getZ()) {
             case A -> {
-                x = tileWidth * 0.38 + (edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
-                y = tileWidth * 0.09 + edgePosition.getY() * tileWidth * 0.6;
+                x = 38 + (edgePosition.getX() * 2 + edgePosition.getY()) * 35;
+                y = 9 + edgePosition.getY() * 60;
             }
             case B -> {
-                x = tileWidth * 0.38 + (edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
-                y = tileWidth * 0.69 + edgePosition.getY() * tileWidth * 0.6;
+                x = 38 + (edgePosition.getX() * 2 + edgePosition.getY()) * 35;
+                y = 69 + edgePosition.getY() * 60;
             }
             case C -> {
-                x = tileWidth * -0.14 +(edgePosition.getX() * 2 + edgePosition.getY()) * tileWidth * 0.35;
-                y = tileWidth * 0.39 + edgePosition.getY() * tileWidth * 0.6;
+                x = 100 * -0.14 +(edgePosition.getX() * 2 + edgePosition.getY()) * 35;
+                y = 39 + edgePosition.getY() * 60;
             }
             default -> {
                 x = 0;
@@ -107,14 +105,6 @@ public class MapNode extends Region {
 
     public void setMap(Map map) {
         this.map = map;
-    }
-
-    public double getTileWidth() {
-        return tileWidth;
-    }
-
-    public void setTileWidth(double tileWidth) {
-        this.tileWidth = tileWidth;
     }
 
     public double getxOffset() {

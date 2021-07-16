@@ -9,11 +9,17 @@ No further Functionality, only generated methods.
 public class NodePosition {
     private int x;
     private int y;
-    private boolean z;
+    private NodePositionZCord z;
     // z == true  -> A
     // z == false -> B
 
     public NodePosition(int x, int y, boolean z) {
+        this.x = x;
+        this.y = y;
+        this.z = NodePositionZCord.valueOf(z);
+    }
+
+    public NodePosition(int x, int y, NodePositionZCord z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -28,7 +34,7 @@ public class NodePosition {
     }
 
     public boolean isZ() {
-        return z;
+        return z.getValue();
     }
 
     @Override

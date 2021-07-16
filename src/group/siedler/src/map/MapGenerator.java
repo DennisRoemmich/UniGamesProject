@@ -1,11 +1,9 @@
 package map;
 
 import buildings.Building;
+import buildings.BuildingType;
 import player.PlayerColor;
-import positions.EdgePosition;
-import positions.EdgePositionZCord;
-import positions.NodePosition;
-import positions.TilePosition;
+import positions.*;
 import materials.MaterialType;
 import streets.Street;
 import streets.StreetType;
@@ -13,8 +11,8 @@ import tiles.NeutralTile;
 import tiles.ResourceTile;
 import tiles.Tile;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MapGenerator {
 
@@ -53,7 +51,7 @@ public class MapGenerator {
         return map;
     }
 
-    public static Map generateTestMap() {
+    public static Map generateTestMap(PlayerColor color) {
         Map map = generateBasicMap();
         //map.addBuilding(new Building(new NodePosition(0,0,true), PlayerColor.BLUE));
         //map.addStreet(new Street(new EdgePosition(0,0, EdgePositionZCord.C), StreetType.ROAD, PlayerColor.BLUE));
@@ -66,15 +64,17 @@ public class MapGenerator {
             map.addStreet(street);
         }
 
-        //Initialize 2 test buildings
-        NodePosition positionNode = new NodePosition(x, y, true);
-        NodePosition positionNode2 = new NodePosition(x, y, false);
-        Building building = new Building(positionNode, PlayerColor.BLUE);
-        Building building2 = new Building(positionNode2, PlayerColor.BLUE);
-        map.addBuilding(building);
-        map.addBuilding(building2);
+        while(map.getBuildings(color).size() < 4) {
+            x = ThreadLocalRandom.current().nextInt(-2, 3);
+            y = ThreadLocalRandom.current().nextInt(-2, 3);
+            var z = NodePositionZCord.valueOf(ThreadLocalRandom.current().nextBoolean());
+            var position = new NodePosition(x,y,z);
+            if(MapTools.isPositionValid(map, position) && BuildRules.isNodeValidForNewBuilding(map, position)) {
+                var building = new Building(position, color);
+                map.addBuilding(building);
+            }
+        }
 
-        building.upgrade();
         return map;
     }
 

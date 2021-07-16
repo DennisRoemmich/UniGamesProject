@@ -22,8 +22,7 @@ public class BuildRules {
         var playersStreets = map.getStreets(color);
         for(Street street : playersStreets) {
             var nodes = MapTools.getNodePositions(street.getPosition());
-            var filtered = Arrays.stream(nodes).toList();
-
+            var filtered = Arrays.stream(nodes).filter(p -> MapTools.isPositionValid(map, p)).toList();
             if(buildingType == BuildingType.VILLAGE) {
                 filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
                 filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
@@ -49,6 +48,7 @@ public class BuildRules {
             ListCombiner.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
         validPositions = validPositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
+        validPositions = validPositions.stream().filter(p -> MapTools.isPositionValid(map, p)).toList();
         return validPositions;
     }
 

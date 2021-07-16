@@ -21,7 +21,7 @@ import java.util.Optional;
 public class Controller extends GameController {
 
     private List<PlayerData> playerData = new ArrayList<>();
-    private Map map = MapGenerator.generateTestMap();
+    private Map map = MapGenerator.generateBasicMap();
 
     private int currentPlayer = 0;
 
@@ -146,7 +146,9 @@ public class Controller extends GameController {
     	}
     }
 
-    public void handleRoll(int rolledNumber) {
+    public void handleRoll() {
+        DiceRolling.reRoll();
+        int rolledNumber = DiceRolling.getSum();
         if(rolledNumber == 7) {
             // TODO : Implement Burglar
         } else {
@@ -170,5 +172,9 @@ public class Controller extends GameController {
 
     public boolean hasCurrentPlayerRolled() {
         return currentPlayerHasRolled;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

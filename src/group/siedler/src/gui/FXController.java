@@ -1,5 +1,7 @@
 package gui;
 
+import buildings.Building;
+import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
@@ -17,11 +19,15 @@ import map.MapGenerator;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
+import positions.NodePosition;
 import siedlerController.Controller;
 import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
+import streets.Street;
+import streets.StreetType;
 
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class FXController implements Initializable, Player {
 
@@ -82,16 +88,14 @@ public class FXController implements Initializable, Player {
         }
     }
 
-    public void updateDiceViews(int n){
+    public void updateDiceViews() {
         setDiceImage(DiceRolling.dice1, dice1);
         setDiceImage(DiceRolling.dice2, dice2);
     }
 
     public void finishRoll(){
-        int n = DiceRolling.getNumber();
-        System.out.println(n);
-        updateDiceViews(n);
-        controller.handleRoll(n);
+        controller.handleRoll();
+        updateDiceViews();
     }
 
     public void diceButtonClicked(MouseEvent mouseEvent){
@@ -116,13 +120,18 @@ public class FXController implements Initializable, Player {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
-        controller.addPlayer(this, PlayerColor.BLUE);
-        controller.startGame();
 
-        Map map = MapGenerator.generateTestMap();
+
+        int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
+        var colors = PlayerColor.values();
+        PlayerColor color = colors[colorIndex];
+
+        controller.addPlayer(this, color);
+        //controller.startGame();
+
         MapNode mapNode = new MapNode();
 
-        mapNode.setMap(map);
+        mapNode.setMap(controller.getMap());
         mapNode.refreshOutput();
         mapNode.setLayoutX(300);
         mapNode.setLayoutY(150);
@@ -131,17 +140,24 @@ public class FXController implements Initializable, Player {
 
         back.getChildren().add(mapNode);
 
-        var possibleStreets = BuildRules.getValidPositions(map, PlayerColor.BLUE);
-        for(EdgePosition position : possibleStreets) {
+        var firstBuilding = new Building(new NodePosition(-2,1,true), color);
+        controller.getMap().addBuilding(firstBuilding);
 
+        var possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
+        for(int i = 0; i < 10 && possibleStreets.size() != 0; i++) {
+            int streetIndex = ThreadLocalRandom.current().nextInt(0, possibleStreets.size());
+            var newStreet = new Street(possibleStreets.get(streetIndex), StreetType.ROAD, color);
+            controller.getMap().addStreet(newStreet);
+            possibleStreets = BuildRules.getValidPositions(controller.getMap(), color);
         }
-        /*var possibleBuildings = BuildRules.getValidPositions(map, PlayerColor.BLUE, BuildingType.VILLAGE);
+        var possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
         while(possibleBuildings.size() != 0) {
-            map.addBuilding(new Building(possibleBuildings.get(0), PlayerColor.BLUE));
-            possibleBuildings = BuildRules.getValidPositions(map, PlayerColor.BLUE, BuildingType.VILLAGE);
-        }*/
+            int buildingIndex = ThreadLocalRandom.current().nextInt(0, possibleBuildings.size());
+            controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
+            possibleBuildings = BuildRules.getValidPositions(controller.getMap(), color, BuildingType.VILLAGE);
+        }
         mapNode.refreshOutput();
-        PrintToConsole.println(possibleStreets.toString());
+        //PrintToConsole.println(possibleStreets.toString());
     }
 
     public void rollAnimation(){

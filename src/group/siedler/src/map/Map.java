@@ -84,21 +84,25 @@ public class Map {
         }
     }
 
-    public void addBuilding(Building... newTiles) {
-        for(Building newBuilding : newTiles) {
+    public void addBuilding(Building... newBuildings) {
+        for(Building newBuilding : newBuildings) {
             addBuilding(newBuilding);
         }
     }
 
     public void addBuilding(Building newBuilding) {
         if(!buildings.stream().map(Building::getPosition).toList().contains(newBuilding.getPosition())) {
-            buildings.add(newBuilding);
+            if(MapTools.isPositionValid(this, newBuilding.getPosition())) {
+                buildings.add(newBuilding);
+            }
         }
     }
 
     public void addStreets(Street... newStreets) {
         for(Street newStreet : newStreets) {
-            addStreet(newStreet);
+            if(MapTools.isPositionValid(this, newStreet.getPosition())) {
+                addStreet(newStreet);
+            }
         }
     }
 

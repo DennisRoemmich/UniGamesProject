@@ -2,10 +2,7 @@ package map;
 
 import org.w3c.dom.Node;
 import player.PlayerColor;
-import positions.EdgePosition;
-import positions.EdgePositionZCord;
-import positions.NodePosition;
-import positions.TilePosition;
+import positions.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +18,12 @@ public final class MapTools {
         int x = tilePosition.getX();
         int y = tilePosition.getY();
         NodePosition[] nodePositions = new NodePosition[6];
-        nodePositions[0] = new NodePosition(x,y,true);
-        nodePositions[1] = new NodePosition(x,y,false);
-        nodePositions[2] = new NodePosition(x,y+1,false);
-        nodePositions[3] = new NodePosition(x,y-1,true);
-        nodePositions[4] = new NodePosition(x+1,y,true);
-        nodePositions[5] = new NodePosition(x-1,y,false);
+        nodePositions[0] = new NodePosition(x,y, NodePositionZCord.A);
+        nodePositions[1] = new NodePosition(x,y, NodePositionZCord.B);
+        nodePositions[2] = new NodePosition(x,y+1,NodePositionZCord.A);
+        nodePositions[3] = new NodePosition(x,y-1,NodePositionZCord.B);
+        nodePositions[4] = new NodePosition(x+1,y,NodePositionZCord.B);
+        nodePositions[5] = new NodePosition(x-1,y,NodePositionZCord.A);
         return nodePositions;
     }
 
@@ -157,7 +154,7 @@ public final class MapTools {
     public static boolean isPositionValid(Map map, EdgePosition position) {
         var neighbourTiles = getTilesPositions(position);
         for(TilePosition tilePosition : neighbourTiles) {
-            if(map.getTiles().stream().anyMatch(t -> t.getPosition() == tilePosition)) {
+            if(map.getTiles().stream().anyMatch(t -> t.getPosition().equals(tilePosition))) {
                 return true;
             }
         }
@@ -167,7 +164,7 @@ public final class MapTools {
     public static boolean isPositionValid(Map map, NodePosition position) {
         var neighbourTiles = getTilesPositions(position);
         for(TilePosition tilePosition : neighbourTiles) {
-            if(map.getTiles().stream().anyMatch(t -> t.getPosition() == tilePosition)) {
+            if(map.getTiles().stream().anyMatch(t -> t.getPosition().equals(tilePosition))) {
                 return true;
             }
         }
