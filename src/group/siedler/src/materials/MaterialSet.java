@@ -56,4 +56,12 @@ public class MaterialSet {
     public int getAmount(MaterialType type) {
         return (int) resources.get(type.toString());
     }
+
+    public String toString() {
+        String output = "";
+        for(MaterialType type : MaterialType.values()) {
+            output += type.toString() + ": " + String.valueOf(getAmount(type)) + ", ";
+        }
+        return output;
+    }
 }

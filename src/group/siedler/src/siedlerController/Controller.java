@@ -2,21 +2,34 @@ package siedlerController;
 
 import buildings.BuildingType;
 import diceRolling.DiceRolling;
+import helper.QuickJSON;
 import map.Map;
+import map.MapGenerator;
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import player.PlayerData;
 import positions.NodePosition;
 import siedlerFramework.GameController;
 import siedlerFramework.Player;
+import siedlerFramework.PrintToConsole;
+import siedlerFramework.WriteError;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Controller extends GameController {
 
-    List<PlayerData> playerData;
-    Map map;
+    private List<PlayerData> playerData = new ArrayList<>();
+    private Map map = MapGenerator.generateTestMap();
+
+    private int currentPlayer = 0;
+
+    private boolean currentPlayerHasRolled = false;
+
+    public Controller() {
+        mPlayers = new ArrayList<>();
+    }
 
     public int getNumberOfPlayers() {
         return mPlayers.size();
@@ -28,7 +41,7 @@ public class Controller extends GameController {
     private boolean isRunning = false;
 
     public void addPlayer(Player player, PlayerColor color) {
-        if(!isRunning) {
+        if(isRunning) {
             return;
         }
         if(playerData.stream().anyMatch(playerData -> playerData.getColor() == color)) {
@@ -70,6 +83,22 @@ public class Controller extends GameController {
     	isRunning = true;
     }
 
+    public void startGame() {
+        if(playerData.size() == 0) {
+            WriteError.writeErrorLog("No player added to game.");
+            return;
+        }
+        isRunning = true;
+    }
+
+    private void gameStep() {
+        if(currentPlayerHasRolled) {
+            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "optionalMove"));
+        } else {
+            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("move", "diceRolling"));
+        }
+    }
+
     public void placeBuilding(Player player, NodePosition position, BuildingType type) {
         if(mPlayers.contains(player)){
             PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
@@ -81,8 +110,7 @@ public class Controller extends GameController {
             }
         }
     }
-    
-    //
+
     public void upgradeBuilding(Player player, NodePosition position, BuildingType type) {
     	if(mPlayers.contains(player)){
             PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
@@ -92,15 +120,6 @@ public class Controller extends GameController {
                    // playerData.get(mPlayers.indexOf(player)).increaseNumberOfTowns();
                 }
             }
-        }
-    }
-
-    public void rollDices() {
-        int rolledNumber = DiceRolling.getNumber();
-        if(rolledNumber == 7) {
-            // TODO : Implement Burglar
-        } else {
-            DiceRolling.handOutResources(rolledNumber, map, playerData);
         }
     }
 
@@ -126,5 +145,30 @@ public class Controller extends GameController {
     		}
     	}
     }
-    
+
+    public void handleRoll(int rolledNumber) {
+        if(rolledNumber == 7) {
+            // TODO : Implement Burglar
+        } else {
+            DiceRolling.handOutResources(rolledNumber, map, playerData);
+            PrintToConsole.println(playerData.get(0).getHand().toString());
+        }
+        gameStep();
+    }
+
+    public void endMove() {
+        currentPlayer++;
+        if(currentPlayer >= mPlayers.size()) {
+            currentPlayer = 0;
+        }
+        gameStep();
+    }
+
+    public boolean isItMyTurn(Player player) {
+        return mPlayers.get(currentPlayer) == player;
+    }
+
+    public boolean hasCurrentPlayerRolled() {
+        return currentPlayerHasRolled;
+    }
 }
