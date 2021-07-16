@@ -204,6 +204,7 @@ public class FXHandShelf {
 
             card.setSelected(false);
         }
+        selectedCardIndex = -1;
     }
 
 

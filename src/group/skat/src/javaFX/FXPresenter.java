@@ -75,11 +75,20 @@ public class FXPresenter {
                 var controller = fxController.getController();
                 var auction = controller.getGame().getAuction();
 
-                if (state == GUIState.AUCTION_ASKING){
+                if (state == GUIState.AUCTION_ASKING) {
 
                     var auctionValue = auction.getNextAuctionValue();
-                    var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
-                    message = "Raise against " + name + "?";
+
+                    if (controller.getGame().getAuction().getQuestioner() == controller.getGame().getPlayerAt(0)) {
+
+                        message = "Raise and play?";
+
+                    } else {
+
+                        var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
+                        message = "Raise against " + name + "?";
+                    }
+
                     fxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
 
                 } else if (state == GUIState.AUCTION_HEARING) {
@@ -103,7 +112,6 @@ public class FXPresenter {
                 buttonsAcceptCancel(); // call last
 
 
-
             }
 
 
@@ -112,7 +120,6 @@ public class FXPresenter {
                 // TODO: egtl ja nich oder? nur wenn der declarer was macht das updaten
                 updateHandShelfs();
                 fxController.getFxSkat().update();
-
             }
 
             case DECLARE_SKAT -> {
@@ -130,8 +137,8 @@ public class FXPresenter {
                         """);
 
                 updateHandShelfs();
+                fxController.setKeyPositionSkat(false);
                 buttonsChooseMode(); // call last
-
             }
 
             case DECLARE_TRUMPCOLOR -> {
@@ -145,6 +152,7 @@ public class FXPresenter {
 
             case PLAYING_YOUR_MOVE -> {
 
+                fxController.setKeyPositionSkat(false);
                 fxController.getFxCurrentTrick().update();
 
 
@@ -161,14 +169,21 @@ public class FXPresenter {
             }
 
             case GAME_ABORTED -> {
+
+                Print.debug("maik", "game aborted");
+
+                // TODO: show resultView? new game button anzeigen
+                abortView(true);
             }
 
             case GAME_FINISHED -> {
 
                 resultView(true);
+                // TODO: new game button nicht vergessen
             }
 
             case SET_FINISHED -> {
+
             }
         }
 
@@ -469,6 +484,11 @@ public class FXPresenter {
         }
 
         fxController.LabelResultNewGame1.setText("");
+
+    }
+
+    private static void abortView(boolean visible) {
+
 
     }
 

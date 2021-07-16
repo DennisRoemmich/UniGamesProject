@@ -134,7 +134,7 @@ public class SkatSet {
 
         gameResults.remove(gameResults.size() - 1);
 
-        startNewGame();
+    //    startNewGame();
     }
 
     // TODO: comment: finalScore

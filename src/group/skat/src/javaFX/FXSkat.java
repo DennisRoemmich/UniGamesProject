@@ -166,4 +166,13 @@ public class FXSkat {
 
         timeline1.play();
     }
+
+    public void deselectAll() {
+
+        for (FXCard card : skatFXCards) {
+
+            card.setSelected(false);
+        }
+        selectedCardIndex = -1;
+    }
 }

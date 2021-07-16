@@ -173,11 +173,13 @@ public class FXButton {
 
     }
 
-    public void hide(){
+    public void hide() {
+
         rootObject.setVisible(false);
     }
 
-    public void show(){
+    public void show() {
+
         rootObject.setVisible(true);
         imageView.setVisible(true);
     }
@@ -187,7 +189,7 @@ public class FXButton {
 
     public void setHighlight(boolean bool){
 
-        if ( bool ){
+        if (bool) {
 
             imageView.setImage(imgHighlighted);
 

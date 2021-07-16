@@ -3,6 +3,7 @@ package engine;
 import console.Print;
 import engine.enums.CardColor;
 import engine.enums.CardValue;
+import engine.enums.GameMode;
 
 public class Card {
 
@@ -45,6 +46,11 @@ public class Card {
         var valueStrength = this.value.getValueStrength(trump);
 
         Print.debug("SORT_TEST", "colorS: " + colorStrength + " valueS: " + valueStrength);
+
+        if (trump.getGameMode() == GameMode.SUIT && value == CardValue.JACK) {
+
+            return trump.getColor().getColorStrength(trump, color) + value.getValueStrength(trump);
+        }
 
         return colorStrength + valueStrength;
     }

@@ -24,6 +24,9 @@
   * Redo-Feature
   * `LATER` Laden & Speichern
   
+* **ANDI**
+  * abortView in FXPresenter
+  
 * **General**
   * `LATER` SettingsClass
     * eigene Klasse

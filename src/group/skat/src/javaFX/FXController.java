@@ -44,6 +44,8 @@ public class FXController implements Player, Initializable {
     int playerGameIndex = -1;
     boolean suitGame = false;
 
+    boolean keyPositionSkat = false;
+
     private SkatController controller;
     private Scene scene;
     private FXPresenter presenter;
@@ -284,6 +286,11 @@ public class FXController implements Player, Initializable {
 
         scene.setOnKeyPressed(this::keyboardPressed);
         scene.setOnKeyReleased(this::keyboardReleased);
+    }
+
+    public void setKeyPositionSkat(boolean b) {
+
+        keyPositionSkat = b;
     }
 
     /* GETTER */
@@ -596,24 +603,35 @@ public class FXController implements Player, Initializable {
     }
 
 
-
-
     public void keyboardPressed(KeyEvent e) {
 
         var key = e.getCode();
 
-        Print.debug("maik", "Key pressed: " + key);
+    //    Print.debug("maik", "Key pressed: " + key);
+
+        var guiState = getState();
+        GamePhase gamePhase;
+
+        if (guiState == GUIState.NOT_STARTED) {
+
+            gamePhase = GamePhase.NOT_STARTED;
+
+        } else {
+
+            gamePhase = getController().getGame().getGamePhase();
+        }
+
 
         switch (key) {
 
             case LEFT -> keyLeftClicked();
             case RIGHT -> keyRightClicked();
-        //    case UP -> keyUpClicked();
-        //    case DOWN -> keyDownClicked();
+            case UP -> keyUpClicked(guiState);
+            case DOWN -> keyDownClicked(guiState);
             case SPACE -> keySpaceClicked();
-            case ENTER -> keyEnterClicked();
+            case ENTER -> keyEnterClicked(gamePhase);
             case BACK_SLASH -> keyHashTagClicked();
-            case S -> keySClicked();
+            case S -> keySClicked(gamePhase);
             default -> Print.debug("maik", "Not a valid keyEvent: " + key);
         }
     }
@@ -622,30 +640,45 @@ public class FXController implements Player, Initializable {
 
         var key = e.getCode();
 
-        Print.debug("maik", "Key released: " + key);
+    //    Print.debug("maik", "Key released: " + key);
 
         switch (key) {
 
             case SPACE -> keySpaceReleased();
-            default -> Print.debug("maik", "Not a valid keyEvent: " + key);
+        //    default -> Print.debug("maik", "Not a valid keyEvent: " + key);
         }
     }
 
     private void keyLeftClicked() {
 
         var size = getPlayer().getHand().getSize();
-        var selIndex = midHandShelf.getSelectedCardIndex();
+        var skatSelIndex = fxSkat.getSelectedCardIndex();
+        var midHandSelIndex = midHandShelf.getSelectedCardIndex();
 
-        if (selIndex == -1) {
+        if (!keyPositionSkat) {
 
-            fxCardClicked(FXCardPosition.HANDSHELF_MID, 0);
+            if (midHandSelIndex == -1) {
 
-        } else if (selIndex > 0) {
+                midHandShelf.getFXCardAt(0).setSelected(true);
+                midHandShelf.setSelectedCardIndex(0);
 
-            midHandShelf.deselectAll();
-            midHandShelf.setSelectedCardIndex(-1);
-            fxCardClicked(FXCardPosition.HANDSHELF_MID, selIndex - 1);
+            } else if (midHandSelIndex > 0) {
+
+                midHandShelf.deselectAll();
+
+                midHandShelf.getFXCardAt(midHandSelIndex - 1).setSelected(true);
+                midHandShelf.setSelectedCardIndex(midHandSelIndex - 1);
+            }
+
+        } else {
+
+            fxSkat.deselectAll();
+
+            fxSkat.getFXCardAt(0).setSelected(true);
+            fxSkat.setSelectedCardIndex(0);
         }
+
+        FXPresenter.update();
     }
 
     private void keyRightClicked() {
@@ -653,49 +686,87 @@ public class FXController implements Player, Initializable {
         var gamePhase = getController().getGame().getGamePhase();
 
         var size = getPlayer().getHand().getSize();
-        var selIndex = midHandShelf.getSelectedCardIndex();
+        var skatSelIndex = fxSkat.getSelectedCardIndex();
+        var midHandSelIndex = midHandShelf.getSelectedCardIndex();
 
         if (gamePhase == GamePhase.DECLARING) {
 
             size = 10;
         }
 
-        if (selIndex == -1) {
+        if (!keyPositionSkat) {
 
-            fxCardClicked(FXCardPosition.HANDSHELF_MID, size - 1);
+            if (midHandSelIndex == -1) {
 
-        } else if (selIndex < size - 1) {
+                midHandShelf.getFXCardAt(size - 1).setSelected(true);
+                midHandShelf.setSelectedCardIndex(size - 1);
 
-            midHandShelf.deselectAll();
-            midHandShelf.setSelectedCardIndex(-1);
-            fxCardClicked(FXCardPosition.HANDSHELF_MID, selIndex + 1);
+            } else if (midHandSelIndex < size - 1) {
+
+                midHandShelf.deselectAll();
+
+                midHandShelf.getFXCardAt(midHandSelIndex + 1).setSelected(true);
+                midHandShelf.setSelectedCardIndex(midHandSelIndex + 1);
+            }
+
+        } else {
+
+            fxSkat.deselectAll();
+
+            fxSkat.getFXCardAt(1).setSelected(true);
+            fxSkat.setSelectedCardIndex(1);
         }
+
+        FXPresenter.update();
     }
 
-    private void keyUpClicked() {
+    private void keyUpClicked(GUIState phase) {
 
-        var selIndex = fxSkat.getSelectedCardIndex();
-        var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+        if (phase == GUIState.DECLARE_SKAT) {
 
-        if (selIndex == -1) {
+            var skatSelIndex = fxSkat.getSelectedCardIndex();
+            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
 
-            midHandShelf.deselectAll();
-            midHandShelf.setSelectedCardIndex(-1);
+            keyPositionSkat = true;
+
+            if (skatSelIndex != -1) {
+
+                fxSkat.deselectAll();
+            }
 
             if (midHandSelIndex < 5) {
 
-                fxCardClicked(FXCardPosition.SKAT, 0);
+                fxSkat.getFXCardAt(0).setSelected(true);
+                fxSkat.setSelectedCardIndex(0);
 
             } else {
 
-                fxCardClicked(FXCardPosition.SKAT, 1);
+                fxSkat.getFXCardAt(1).setSelected(true);
+                fxSkat.setSelectedCardIndex(1);
             }
+
         }
+
+        FXPresenter.update();
     }
 
-    private void keyDownClicked() {
+    private void keyDownClicked(GUIState phase) {
 
+        if (phase == GUIState.DECLARE_SKAT) {
 
+            var skatSelIndex = fxSkat.getSelectedCardIndex();
+            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+
+            keyPositionSkat = false;
+
+            if (midHandSelIndex == -1) {
+
+                midHandShelf.getFXCardAt(0).setSelected(true);
+                midHandShelf.setSelectedCardIndex(0);
+            }
+        }
+
+        FXPresenter.update();
     }
 
     private void keySpaceClicked() {
@@ -714,45 +785,43 @@ public class FXController implements Player, Initializable {
 
             AnchorPreview.setVisible(true);
         }
+
+        FXPresenter.update();
     }
 
     private void keySpaceReleased() {
 
         AnchorPreview.setVisible(false);
+
+        FXPresenter.update();
     }
 
-    private void keyEnterClicked() {
+    private void keyEnterClicked(GamePhase phase) {
 
-        var guiState = getState();
-        GamePhase gamePhase;
-
-        if (guiState == GUIState.NOT_STARTED) {
-
-            gamePhase = GamePhase.NOT_STARTED;
-
-        } else {
-
-            gamePhase = getController().getGame().getGamePhase();
-        }
-
-
-        if (guiState == GUIState.NOT_STARTED) {
+        if (phase == GamePhase.NOT_STARTED || phase == GamePhase.ENDED || phase == GamePhase.ABORTED) {
 
             buttonClicked("PLAY");
 
-        } else if (gamePhase == GamePhase.AUCTION) {
+            FXPresenter.update();
+
+        } else if (phase == GamePhase.AUCTION) {
 
             buttonClicked("PA2");
 
-        } else if (gamePhase == GamePhase.DECLARING) {
+            FXPresenter.update();
+
+        } else if (phase == GamePhase.DECLARING) {
 
             buttonClicked("PA3");
 
-        } else if (gamePhase == GamePhase.PLAYING) {
+            FXPresenter.update();
+
+        } else if (phase == GamePhase.PLAYING) {
 
             var selIndex = midHandShelf.getSelectedCardIndex();
 
             fxCardClicked(FXCardPosition.TRICK, selIndex);
+
         }
     }
 
@@ -763,12 +832,29 @@ public class FXController implements Player, Initializable {
         if (gamePhase == GamePhase.AUCTION) {
 
             buttonClicked("PA4");
+
+        } else if (gamePhase == GamePhase.DECLARING) {
+
+            var skatSelIndex = fxSkat.getSelectedCardIndex();
+            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+
+            if (skatSelIndex != -1 && midHandSelIndex != -1) {
+
+                fxCardClicked(FXCardPosition.SKAT, skatSelIndex);
+            }
         }
+
+        FXPresenter.update();
     }
 
-    private void keySClicked() {
+    private void keySClicked(GamePhase phase) {
 
-        buttonClicked("SORT");
+        if (phase != GamePhase.NOT_STARTED) {
+
+            buttonClicked("SORT");
+        }
+
+        FXPresenter.update();
     }
 
     /* OUTLETS */
