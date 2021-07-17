@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,5 +19,11 @@
       </ImageView>
       <ImageView fx:id="dice1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="dice2" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0" />
+      <ImageView fx:id="playerMaterials" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="woodLabel" layoutX="200" text="Label" textFill="aliceblue"/>
+      <Label fx:id="wheatLabel" layoutX="269.0" layoutY="66.0" text="Label" />
+      <Label fx:id="woolLabel" layoutX="128.0" layoutY="265.0" text="Label" />
+      <Label fx:id="oreLabel" layoutX="799.0" layoutY="132.0" text="Label" />
+      <Label fx:id="clayLabel" layoutX="862.0" layoutY="256.0" text="Label" />
    </children>
 </AnchorPane>

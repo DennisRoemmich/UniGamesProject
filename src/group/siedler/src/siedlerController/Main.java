@@ -18,7 +18,6 @@ import streets.Street;
 import streets.StreetType;
 
 import java.io.File;
-import java.util.Scanner;
 
 public class Main extends Application {
 
@@ -30,6 +29,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 700,499.1);
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);
+        primaryStage.minWidthProperty().set(700);
         primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
         primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
         primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
@@ -37,8 +37,7 @@ public class Main extends Application {
                 primaryStage.setMaximized(false);
             }
         });
-        //primaryStage.minWidthProperty().set(700);
-        //primaryStage.minHeightProperty().set(500);
+
         primaryStage.show();
 
 
@@ -47,6 +46,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
     }
 }

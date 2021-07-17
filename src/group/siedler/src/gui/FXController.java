@@ -5,16 +5,16 @@ import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
@@ -51,6 +51,18 @@ public class FXController implements Initializable, Player, Presenter {
     private ImageView dice1;
     @FXML
     private ImageView dice2;
+    @FXML
+    private ImageView playerMaterials;
+    @FXML
+    private Label woodLabel;
+    @FXML
+    private Label wheatLabel;
+    @FXML
+    private Label woolLabel;
+    @FXML
+    private Label clayLabel;
+    @FXML
+    private Label oreLabel;
 
     Roller clock = new Roller();
 
@@ -160,8 +172,6 @@ public class FXController implements Initializable, Player, Presenter {
 
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
@@ -172,8 +182,6 @@ public class FXController implements Initializable, Player, Presenter {
         var colors = PlayerColor.values();
         PlayerColor color = colors[colorIndex];
 
-        System.out.println(background.fitHeightProperty());
-        System.out.println(background.fitWidthProperty());
         /*DO NOT DELETE; BINDING IS BEING IMPLEMENTED HERE BUT IS A PAIN IN THE ASS*/
 
         AiPlayer aiPlayer = new AiPlayer(controller);
@@ -191,23 +199,24 @@ public class FXController implements Initializable, Player, Presenter {
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
 
-        //diceButton.yProperty().bind(back.heightProperty().subtract(100));
-        //diceButton.xProperty().bind(back.widthProperty().subtract(100));
         diceButton.fitHeightProperty().bind(back.heightProperty().multiply(0.2));
 
         dice1.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
-        //dice1.xProperty().bind(back.widthProperty().multiply(0.75));
 
         dice2.fitHeightProperty().bind(back.heightProperty().multiply(0.15));
         dice2.yProperty().bind(back.heightProperty().multiply(0.62));
 
         dice1.yProperty().bind(dice2.yProperty());
         dice1.xProperty().bind(back.widthProperty().multiply(0.79));
-        //diceButton.fitHeightProperty().bind(back.heightProperty().divide(4));
 
-        //dice1.fitHeightProperty().bind(back.heightProperty().divide(5));
-        //dice1.yProperty().bind(diceButton.layoutYProperty().subtract(100));
-        //dice1.xProperty().bind(diceButton.layoutXProperty().subtract(50));
+        playerMaterials.setImage(new Image("./resources/PlayerGreenMaterials.png"));
+        playerMaterials.yProperty().bind(back.heightProperty().multiply(0.01));
+        playerMaterials.xProperty().bind(back.widthProperty().multiply(0.7));
+        playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
+
+        woodLabel.setText("Wood");
+        woodLabel.setFont(Font.font("Arial", 15));
+
 
         MapFrame mapFrame = new MapFrame(mapNode);
 
