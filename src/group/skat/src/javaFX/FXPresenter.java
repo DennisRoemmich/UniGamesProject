@@ -597,6 +597,7 @@ public class FXPresenter {
         var set = fxController.getController().getSkatSet();
 
         fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
+        fxController.LabelWinner.setVisible(visible);
 
         var labelArray = new Label[]{
                 fxController.LabelResultNewGame1,
@@ -608,6 +609,7 @@ public class FXPresenter {
         if (visible) {
 
             fxController.buttonDict.get("NEXT").show();
+
             fxController.LabelWinner.setText("Winner"); // TODO : @Maik Wie bekommt man hier den Gewinner?
 
         } else {
