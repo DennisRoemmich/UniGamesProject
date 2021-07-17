@@ -1,7 +1,6 @@
 package map;
 
 import buildings.Building;
-import helper.OptionalAdder;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;

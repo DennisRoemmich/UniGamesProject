@@ -2,7 +2,7 @@ package map;
 
 import buildings.Building;
 import buildings.BuildingType;
-import helper.ListCombiner;
+import helper.ListUtility;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -33,7 +33,7 @@ public class BuildRules {
             } else {
                 filtered = filtered.stream().filter(nodePosition -> canBeUpgradedToTown(map, color, nodePosition)).toList();
             }
-            ListCombiner.addAllWithoutDuplicates(filtered, validPositions);
+            ListUtility.addAllWithoutDuplicates(filtered, validPositions);
         }
         return validPositions;
     }
@@ -64,11 +64,11 @@ public class BuildRules {
         var playersBuildings = map.getBuildings(color);
         for(Street street : playersStreets) {
             var neighbourStreets = MapTools.getEdgePositions(street.getPosition());
-            ListCombiner.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
+            ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
         for(Building building : playersBuildings) {
             var neighbourStreets = MapTools.getEdgePositions(building.getPosition());
-            ListCombiner.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
+            ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
         validPositions = validPositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
         validPositions = validPositions.stream().filter(p -> MapTools.isPositionValid(map, p)).toList();
