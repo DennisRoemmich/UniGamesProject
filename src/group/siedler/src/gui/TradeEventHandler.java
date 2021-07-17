@@ -9,15 +9,16 @@ import streets.StreetType;
 public class TradeEventHandler implements EventHandler {
 
 	private Controller controller;
-	private MaterialType sellType;
+	private MaterialType sellType = MaterialType.ORE;
     	
-	public TradeEventHandler(MaterialType type) {
-		this.sellType = type;
-	}
+//	public TradeEventHandler(MaterialType type) {
+//		this.sellType = type;
+//	}
 
 	@Override
     public void handle(Event event) {
-		controller.setPurchaseType(sellType);
-		controller.bankTrade();
+		//controller.setPurchaseType();
+		//controller.setSellType();
+		controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
     }
 }

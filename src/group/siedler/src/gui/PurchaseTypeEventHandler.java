@@ -7,14 +7,14 @@ import siedlerController.Controller;
 
 public class PurchaseTypeEventHandler implements EventHandler {
 	private Controller controller;
-	private MaterialType purchaseType;
+	private MaterialType purchaseType = MaterialType.WOOD;
 	
-	public PurchaseTypeEventHandler(MaterialType type) {
-		this.purchaseType = type;
-	}
+//	public PurchaseTypeEventHandler(MaterialType type) {
+//		this.purchaseType = type;
+//	}
 
 	@Override
     public void handle(Event event) {
-        controller.setPurchaseType(purchaseType);
+       // controller.setPurchaseType(MaterialType.WOOD);
     }
 }

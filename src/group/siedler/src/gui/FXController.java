@@ -105,7 +105,7 @@ public class FXController implements Initializable, Player, Presenter {
         if(mapNode != null) {
             mapNode.refreshOutput();
             setResources();
-            trade();
+            //trade();
             updateDiceViews();
             if(!controller.isRunning()) {
                 diceButton.setVisible(false);
@@ -250,8 +250,21 @@ public class FXController implements Initializable, Player, Presenter {
         
         currentPlayer.setFont(Font.font("Arial", 15));
         
-
         
+    	PurchaseTypeEventHandler eventHandler1 = new PurchaseTypeEventHandler();
+    	TradeEventHandler eventHandler2 = new TradeEventHandler();
+    
+    	//Why do these not work??
+    	woodLabel.setOnMouseClicked(eventHandler1);
+    	wheatLabel.setOnMouseClicked(eventHandler2);
+    	
+    	//Trading works..
+    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
+    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
+    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
+    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
+    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
+    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
         
 
 
@@ -294,24 +307,23 @@ public class FXController implements Initializable, Player, Presenter {
     }
     
     public void trade() {
-    	PurchaseTypeEventHandler eventHandler1;
-    	TradeEventHandler eventHandler;
-    
-    	if (tradeFlag) {
-    		woodLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOD));
-    		wheatLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WHEAT));
-    		clayLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.CLAY));
-    		oreLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.ORE));
-    		woolLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOL));
-    		tradeFlag = false;
-    	} else {
-    		woodLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOD));
-    		wheatLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WHEAT));
-    		clayLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.CLAY));
-    		oreLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.ORE));
-    		woolLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOL));
-    		tradeFlag = true;
-    	}
+    	
+
+
+//    		wheatLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WHEAT));
+//    		clayLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.CLAY));
+//    		oreLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.ORE));
+//    		woolLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOL));
+
+  //  	} 
+    		
+    		
+//    		wheatLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WHEAT));
+//    		clayLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.CLAY));
+//    		oreLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.ORE));
+//    		woolLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOL));
+
+
     }
 
     public void rollAnimation(){

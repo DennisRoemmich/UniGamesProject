@@ -31,16 +31,16 @@ public class Controller extends GameController {
     private List<PlayerData> playerData = new ArrayList<>();
     private Map map = MapGenerator.generateBasicMap();
     
-	MaterialType sellType;
-	MaterialType purchaseType;
+	//MaterialType sellType;
+	//MaterialType purchaseType;
 	
-	public void setSellType(MaterialType sellType) {
-		this.sellType = sellType;
-	}
-
-    public void setPurchaseType(MaterialType purchaseType) {
-		this.purchaseType = purchaseType;
-	}
+//	public void setSellType(MaterialType sellType) {
+//		this.sellType = sellType;
+//	}
+//
+//    public void setPurchaseType(MaterialType purchaseType) {
+//		this.purchaseType = purchaseType;
+//	}
 	private int currentPlayer = 0;
 
     private boolean currentPlayerHasRolled = false;
@@ -176,7 +176,7 @@ public class Controller extends GameController {
     	currentPlayerNewHand.toString();
     }
     
-    public void bankTrade() {
+    public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
     	MaterialSet newHand;
     	
     	//TODO: Get the sellType and purchaseType from the GUI
