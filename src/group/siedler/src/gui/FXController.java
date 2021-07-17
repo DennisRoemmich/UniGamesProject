@@ -18,6 +18,8 @@ import javafx.scene.text.Font;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import materials.MaterialType;
+
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
@@ -38,8 +40,10 @@ public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
     private MapNode mapNode = new MapNode();
+    private boolean tradeFlag = true;
 
     private boolean animationStopFlag = false;
+    
 
     @FXML
     private AnchorPane back;
@@ -62,7 +66,19 @@ public class FXController implements Initializable, Player, Presenter {
     @FXML
     private Label clayLabel;
     @FXML
-    private Label oreLabel;
+    private Label oreLabel;   
+    @FXML
+    private Label woodAmount;
+    @FXML
+    private Label wheatAmount;
+    @FXML
+    private Label woolAmount;
+    @FXML
+    private Label clayAmount;
+    @FXML
+    private Label oreAmount;
+    @FXML
+    private Label currentPlayer;
 
     Roller clock = new Roller();
 
@@ -88,6 +104,8 @@ public class FXController implements Initializable, Player, Presenter {
     public void refreshOutput() {
         if(mapNode != null) {
             mapNode.refreshOutput();
+            setResources();
+            trade();
             updateDiceViews();
             if(!controller.isRunning()) {
                 diceButton.setVisible(false);
@@ -148,7 +166,7 @@ public class FXController implements Initializable, Player, Presenter {
         updateDiceViews();
     }
 
-    public void diceButtonClicked(MouseEvent mouseEvent){
+    public void diceButtonClicked(){
         if(controller.isItMyTurn(this)) {
             if(controller.hasCurrentPlayerRolled()) {
                 diceButton.setVisible(false);
@@ -195,6 +213,7 @@ public class FXController implements Initializable, Player, Presenter {
 
         controller.newGame();
         mapNode.setMap(controller.getMap());
+        setResources();
 
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
@@ -214,8 +233,26 @@ public class FXController implements Initializable, Player, Presenter {
         playerMaterials.xProperty().bind(back.widthProperty().multiply(0.7));
         playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
 
-        woodLabel.setText("Wood");
+        //woodLabel.setText("Wood");
+        
+        //Set Fonts
         woodLabel.setFont(Font.font("Arial", 15));
+        wheatLabel.setFont(Font.font("Arial", 15));
+        clayLabel.setFont(Font.font("Arial", 15));
+        oreLabel.setFont(Font.font("Arial", 15));
+        woolLabel.setFont(Font.font("Arial", 15));
+        
+        woodAmount.setFont(Font.font("Arial", 15));
+        wheatAmount.setFont(Font.font("Arial", 15));
+        clayAmount.setFont(Font.font("Arial", 15));
+        oreAmount.setFont(Font.font("Arial", 15));
+        woolAmount.setFont(Font.font("Arial", 15));
+        
+        currentPlayer.setFont(Font.font("Arial", 15));
+        
+
+        
+        
 
 
         MapFrame mapFrame = new MapFrame(mapNode);
@@ -244,6 +281,37 @@ public class FXController implements Initializable, Player, Presenter {
         }*/
         mapFrame.getMapNode().refreshOutput();
         //PrintToConsole.println(possibleStreets.toString());
+    }
+    
+    public void setResources() {
+    	
+    	currentPlayer.setText(controller.getCurrentPlayerColor().name() + "'s turn");
+    	woodAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOD)));
+    	wheatAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WHEAT)));
+    	woolAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOL)));
+    	oreAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.ORE)));
+    	clayAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.CLAY)));
+    }
+    
+    public void trade() {
+    	PurchaseTypeEventHandler eventHandler1;
+    	TradeEventHandler eventHandler;
+    
+    	if (tradeFlag) {
+    		woodLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOD));
+    		wheatLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WHEAT));
+    		clayLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.CLAY));
+    		oreLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.ORE));
+    		woolLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOL));
+    		tradeFlag = false;
+    	} else {
+    		woodLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOD));
+    		wheatLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WHEAT));
+    		clayLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.CLAY));
+    		oreLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.ORE));
+    		woolLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOL));
+    		tradeFlag = true;
+    	}
     }
 
     public void rollAnimation(){

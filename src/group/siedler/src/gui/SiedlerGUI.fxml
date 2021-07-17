@@ -19,11 +19,17 @@
       </ImageView>
       <ImageView fx:id="dice1" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="dice2" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0" />
-      <ImageView fx:id="playerMaterials" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="woodLabel" layoutX="200" text="Label" textFill="aliceblue"/>
-      <Label fx:id="wheatLabel" layoutX="269.0" layoutY="66.0" text="Label" />
-      <Label fx:id="woolLabel" layoutX="128.0" layoutY="265.0" text="Label" />
-      <Label fx:id="oreLabel" layoutX="799.0" layoutY="132.0" text="Label" />
-      <Label fx:id="clayLabel" layoutX="862.0" layoutY="256.0" text="Label" />
+      <ImageView fx:id="playerMaterials" pickOnBounds="true" preserveRatio="true"  />
+       <Label fx:id="currentPlayer" layoutX="545.0" layoutY="70.0" text="Wood" textFill="aliceblue"/>
+      <Label fx:id="woodLabel" layoutX="550.0" layoutY="100.0" text="Wood" textFill="SADDLEBROWN"/>
+      <Label fx:id="wheatLabel" layoutX="550.0" layoutY="125.0" text="Wheat" textFill="GOLD" />
+      <Label fx:id="woolLabel" layoutX="550.0" layoutY="150.0" text="Wool" textFill="DARKGREEN"/>
+      <Label fx:id="oreLabel" layoutX="550.0" layoutY="175.0" text="Ore" textFill="GREY"/>
+      <Label fx:id="clayLabel" layoutX="550.0" layoutY="200.0" text="Clay" textFill="DARKRED"/>
+      <Label fx:id="woodAmount" layoutX="610.0" layoutY="100.0" text="error" textFill="SADDLEBROWN"/>
+      <Label fx:id="wheatAmount" layoutX="610.0" layoutY="125.0" text="error" textFill="GOLD" />
+      <Label fx:id="woolAmount" layoutX="610.0" layoutY="150.0" text="error" textFill="DARKGREEN"/>
+      <Label fx:id="oreAmount" layoutX="610.0" layoutY="175.0" text="error" textFill="GREY"/>
+      <Label fx:id="clayAmount" layoutX="610.0" layoutY="200.0" text="error" textFill="DARKRED"/>
    </children>
 </AnchorPane>
