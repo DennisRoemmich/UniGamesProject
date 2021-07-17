@@ -220,7 +220,7 @@ public class FXController implements Initializable, Player, Presenter {
 
         woodLabel.setText("Wood");
         woodLabel.setFont(Font.font("Arial", 15));
-
+    }
 
     private void setupPlayers() {
         AiPlayer aiPlayer = new AiPlayer(controller);

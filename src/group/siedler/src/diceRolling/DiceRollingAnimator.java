@@ -2,6 +2,11 @@ package diceRolling;
 
 import javafx.animation.AnimationTimer;
 
+// TODO : Extract the Roller class from FXController
+
+/*
+
+
 public class DiceRollingAnimator extends AnimationTimer {
 
     private long FRAMES_PER_SEC = 10L;
@@ -36,4 +41,4 @@ public class DiceRollingAnimator extends AnimationTimer {
     public boolean isRunning() {
         return isRunning;
     }
-}
+}*/
