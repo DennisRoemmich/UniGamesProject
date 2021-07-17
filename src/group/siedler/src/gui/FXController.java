@@ -145,7 +145,7 @@ public class FXController implements Initializable, Player, Presenter {
 
     public void finishRoll(){
         controller.handleRoll();
-        updateDiceViews();
+        refreshOutput();
     }
 
     public void diceButtonClicked(MouseEvent mouseEvent){
@@ -167,9 +167,7 @@ public class FXController implements Initializable, Player, Presenter {
 
     public void setDiceImage(int n, ImageView dice){
         String diceImage = "./resources/Dice" + n + ".png";
-
         dice.setImage(new Image(diceImage));
-
     }
 
     @Override
@@ -184,18 +182,24 @@ public class FXController implements Initializable, Player, Presenter {
 
         /*DO NOT DELETE; BINDING IS BEING IMPLEMENTED HERE BUT IS A PAIN IN THE ASS*/
 
-        AiPlayer aiPlayer = new AiPlayer(controller);
-
-        controller.addPlayer(this, PlayerColor.BLUE);
-        controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(this, PlayerColor.BLACK);
-        controller.addPlayer(aiPlayer, PlayerColor.WHITE);
-        controller.addPlayer(this, PlayerColor.PURPLE);
-        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
+        setupBindings();
+        setupPlayers();
 
         controller.newGame();
         mapNode.setMap(controller.getMap());
 
+
+        MapFrame mapFrame = new MapFrame(mapNode);
+
+        mapFrame.getMapNode().refreshOutput();
+        mapFrame.setLayoutX(300);
+        mapFrame.setLayoutY(150);
+
+        back.getChildren().add(mapFrame);
+        refreshOutput();
+    }
+
+    private void setupBindings() {
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
 
@@ -218,32 +222,14 @@ public class FXController implements Initializable, Player, Presenter {
         woodLabel.setFont(Font.font("Arial", 15));
 
 
-        MapFrame mapFrame = new MapFrame(mapNode);
-
-        mapFrame.getMapNode().refreshOutput();
-        mapFrame.setLayoutX(300);
-        mapFrame.setLayoutY(150);
-
-        back.getChildren().add(mapFrame);
-
-        /*var firstBuilding = new Building(new NodePosition(-2,1,true), color);
-        controller.getMap().addBuilding(firstBuilding);
-
-        var possibleStreets = BuildRules.getValidEdgePositions(controller.getMap(), color);
-        for(int i = 0; i < 10 && possibleStreets.size() != 0; i++) {
-            int streetIndex = ThreadLocalRandom.current().nextInt(0, possibleStreets.size());
-            var newStreet = new Street(possibleStreets.get(streetIndex), StreetType.ROAD, color);
-            controller.getMap().addStreet(newStreet);
-            possibleStreets = BuildRules.getValidEdgePositions(controller.getMap(), color);
-        }
-        var possibleBuildings = BuildRules.getValidNodePositions(controller.getMap(), color, BuildingType.VILLAGE);
-        while(possibleBuildings.size() != 0) {
-            int buildingIndex = ThreadLocalRandom.current().nextInt(0, possibleBuildings.size());
-            controller.getMap().addBuilding(new Building(possibleBuildings.get(buildingIndex), color));
-            possibleBuildings = BuildRules.getValidNodePositions(controller.getMap(), color, BuildingType.VILLAGE);
-        }*/
-        mapFrame.getMapNode().refreshOutput();
-        //PrintToConsole.println(possibleStreets.toString());
+    private void setupPlayers() {
+        AiPlayer aiPlayer = new AiPlayer(controller);
+        controller.addPlayer(this, PlayerColor.BLUE);
+        controller.addPlayer(aiPlayer, PlayerColor.RED);
+        controller.addPlayer(this, PlayerColor.BLACK);
+        controller.addPlayer(aiPlayer, PlayerColor.WHITE);
+        controller.addPlayer(this, PlayerColor.PURPLE);
+        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
     }
 
     public void rollAnimation(){
