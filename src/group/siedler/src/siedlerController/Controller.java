@@ -7,6 +7,8 @@ import helper.QuickJSON;
 import map.Map;
 import map.MapGenerator;
 import materials.MaterialSet;
+import materials.MaterialType;
+
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import player.PlayerData;
@@ -22,6 +24,7 @@ import streets.StreetType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class Controller extends GameController {
 
@@ -93,6 +96,7 @@ public class Controller extends GameController {
         }
         isRunning = true;
     	map = MapGenerator.generateMap(playerData.stream().map(PlayerData::getColor).toList());
+    	
     }
 
     private void gameStep() {
@@ -119,6 +123,7 @@ public class Controller extends GameController {
             }
         }
         handleWinner();
+        //bankTrade(playerData.get(currentPlayer));
         mPresenter.refreshOutput();
     }
 
@@ -140,6 +145,38 @@ public class Controller extends GameController {
                 }
             }
         }
+    }
+    
+    public void playerTrade(PlayerData tradingPartner) {
+    	MaterialSet currentPlayerNewHand;
+    	MaterialSet otherPlayerNewHand;
+    	
+    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
+    	MaterialType sellType = MaterialType.ORE;
+    	MaterialType purchaseType = MaterialType.CLAY;
+    	int purchased = 1;
+    	int sold = 1;
+    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
+    	
+    	currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
+    	playerData.get(currentPlayer).setHand(currentPlayerNewHand);
+    	
+    	otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
+    	tradingPartner.setHand(otherPlayerNewHand);
+    	currentPlayerNewHand.toString();
+    }
+    
+    public void bankTrade() {
+    	MaterialSet newHand;
+    	
+    	//TODO: Get the sellType and purchaseType from the GUI
+    	MaterialType sellType = MaterialType.ORE;
+    	MaterialType purchaseType = MaterialType.CLAY;
+    	//TODO: Get the sellType and purchaseType from the GUI
+    	
+    	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
+    	playerData.get(currentPlayer).setHand(newHand);
+    	newHand.toString();
     }
 
     private boolean canPlayerTakeAction(PlayerColor color) {

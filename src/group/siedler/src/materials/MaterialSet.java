@@ -72,4 +72,20 @@ public class MaterialSet {
         }
         return materialSet;
     }
+    
+    public MaterialSet tradeWithBank(MaterialSet materialSet, MaterialType purchase, MaterialType sale) { 
+    	if(materialSet.getAmount(sale) >= 4) {
+    		materialSet.addResources(purchase, 1);
+    		materialSet.removeResources(sale, 4);
+    	}
+    	return materialSet;
+    }
+    
+    public MaterialSet tradeWithPlayer(MaterialSet materialSet, MaterialType purchase, MaterialType sale, int purchased, int sold) {
+    	materialSet.addResources(purchase, purchased);
+    	materialSet.removeResources(sale, sold);
+    	
+    	return materialSet;
+    }
+
 }

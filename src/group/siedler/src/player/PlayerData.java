@@ -26,4 +26,5 @@ public class PlayerData {
     public void setColor(PlayerColor color) {
         this.color = color;
     }
+    
 }
