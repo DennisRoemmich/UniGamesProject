@@ -15,5 +15,7 @@
     <orderEntry type="library" name="TicTacToeGUI" level="project" />
     <orderEntry type="library" name="rummikub" level="project" />
     <orderEntry type="library" name="TTTFernanda" level="project" />
+    <orderEntry type="library" name="Siedler" level="project" />
+    <orderEntry type="library" name="Skat" level="project" />
   </component>
 </module>

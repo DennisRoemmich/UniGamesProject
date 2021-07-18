@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="rummikub">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.base" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.controls" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.fxml" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.graphics" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.media" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.swing" />
+      <root url="jar://$USER_HOME$/Desktop/rummikub.jar!/javafx.web" />
+    </SOURCES>
+  </library>
+</component>

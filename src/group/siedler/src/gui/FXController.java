@@ -102,8 +102,10 @@ public class FXController implements Initializable, Player, Presenter {
 
     Roller clock = new Roller();
 
-    public final static Image finishButtonImage = new Image("./resources/FinishButton.png");
-    public final static Image diceButtonImage = new Image("./resources/DiceButton.png");
+    ClassLoader classLoader = getClass().getClassLoader();
+
+    public final static String finishButtonImageName = "resources/FinishButton.png";
+    public final static String diceButtonImageName = "resources/DiceButton.png";
 
     @Override
     public JSONObject requestMove(JSONObject inputType) {
@@ -112,7 +114,7 @@ public class FXController implements Initializable, Player, Presenter {
         }
         switch (inputType.get("type").toString()) {
             case "rollDices":
-                diceButton.setImage(diceButtonImage);
+                diceButton.setImage(new Image(classLoader.getResourceAsStream(diceButtonImageName)));
                 diceButton.setVisible(true);
             case "optionalMove":
                 refreshOutput();
@@ -143,7 +145,7 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void switchToMainScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(classLoader.getResource("resources/SiedlerGUI.fxml"));
         root = loader.load();
         stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -152,7 +154,7 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void switchToTradingWithBankScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(classLoader.getResource("gui/TradingWithBankGUI.fxml"));
         root = loader.load();
         stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -212,7 +214,7 @@ public class FXController implements Initializable, Player, Presenter {
                 controller.endMove();
                 mapNode.clearPlaceholderNodes();
             } else {
-                diceButton.setImage(finishButtonImage);
+                diceButton.setImage(new Image(classLoader.getResourceAsStream(finishButtonImageName)));
                 clock.start();
             }
         }
@@ -223,15 +225,15 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void setDiceImage(int n, ImageView dice){
-        String diceImage = "./resources/Dice" + n + ".png";
-        dice.setImage(new Image(diceImage));
+        String diceImage = "resources/Dice" + n + ".png";
+        dice.setImage(new Image(classLoader.getResourceAsStream(diceImage)));
     }
 
     public void setPlayerMaterialsImage (String s, ImageView playerMaterials){
 
-        String playerMaterialsImage = "./resources/Player" + s + "Materials.png";
+        String playerMaterialsImage = "resources/Player" + s + "Materials.png";
 
-        playerMaterials.setImage(new Image(playerMaterialsImage));
+        playerMaterials.setImage(new Image(classLoader.getResourceAsStream(playerMaterialsImage)));
     }
 /*
     public void tradeWithBankButtonClicked(MouseEvent mouseEvent) throws IOException {
@@ -261,6 +263,8 @@ public class FXController implements Initializable, Player, Presenter {
 
         setupBindings();
         setupPlayers();
+
+        tradeWithBankButton.setVisible(false);
 
         controller.newGame();
         mapNode.setMap(controller.getMap());
@@ -298,10 +302,10 @@ public class FXController implements Initializable, Player, Presenter {
         playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
 
         //woodLabel.setText("Wood");
-
+*/
         //Set Fonts
-        woodLabel.setFont(Font.font("Bauhaus 93", 27));
-        wheatLabel.setFont(Font.font("Bauhaus 93", 27));
+        woodLabel.setFont(Font.font("Arial", 15));
+        wheatLabel.setFont(Font.font("Arial", 15));
         clayLabel.setFont(Font.font("Arial", 15));
         oreLabel.setFont(Font.font("Arial", 15));
         woolLabel.setFont(Font.font("Arial", 15));
@@ -313,7 +317,7 @@ public class FXController implements Initializable, Player, Presenter {
         woolAmount.setFont(Font.font("Arial", 15));
         
         currentPlayer.setFont(Font.font("Arial", 15));
-        */
+
 
     }
 

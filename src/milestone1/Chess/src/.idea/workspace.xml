@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Games:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="65a09091-b678-486c-87a4-af740ea5493c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/core/AiPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/core/OptionalAdder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/FileController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/GameController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/GameLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/Presenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/PrintToConsole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../siedler/src/framework/WriteError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../siedler/src/core/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../siedler/src/core/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../siedler/src/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../siedler/src/map/Map.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/artifacts/Siedler_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Siedler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Skat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/Siedler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/Siedler.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/gui/SiedlerGUI.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/FXController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/FXController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/SiedlerGUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/SiedlerGUI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Chess.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/MenuPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/MenuPrototype.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Chess.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,9 +40,44 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15601023" />
+    <property name="project.structure.side.proportion" value="0.19746122" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ConsoleMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="console.ConsoleMain" />
+      <module name="Chess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="console.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ConsoleMain" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -44,6 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1625487252819</updated>
       <workItem from="1625487254146" duration="24000" />
+      <workItem from="1626650270502" duration="1061000" />
     </task>
     <servers />
   </component>
@@ -51,6 +96,15 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">

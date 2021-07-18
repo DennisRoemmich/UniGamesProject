@@ -2,6 +2,7 @@ package siedlerController;
 
 import buildings.Building;
 import buildings.BuildingType;
+import gui.FXController;
 import gui.MapNode;
 import gui.RoadNode;
 import javafx.application.Application;
@@ -19,13 +20,20 @@ import streets.Street;
 import streets.StreetType;
 
 import java.io.File;
+import java.net.URL;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(new File("./src/gui/SiedlerGUI.fxml").toURI().toURL());
+        ClassLoader classLoader = getClass().getClassLoader();
+        String fileName = "resources/SiedlerGUI.fxml";
+        var resource = classLoader.getResource(fileName);
+        if(resource == null) {
+            System.out.println("\n=== URL is null ===\n");
+        }
+        FXMLLoader loader = new FXMLLoader(resource);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200,900);
         
