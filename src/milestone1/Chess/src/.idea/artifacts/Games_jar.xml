@@ -3,12 +3,15 @@
     <output-path>$PROJECT_DIR$/../../../../releases/group/milestone2</output-path>
     <root id="archive" name="Chess.jar">
       <element id="module-output" name="Chess" />
-      <element id="extracted-dir" path="$USER_HOME$/Downloads/TicTacToe.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../releases/roemmich/v3/TicTacToeGUI.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../releases/kahabka/v3/TicTacToeFX.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../releases/tietz/v3/GUIjar/Software Project SS21.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../framework/lib/json-simple-1.1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../releases/deboer/v3/JansTicTac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../group/siedler/out/artifacts/Siedler_jar/Siedler.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/Skat.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/E44848FD-446B-4DAD-8F12-119044031FBE/FXRummikub.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../latestTTTjars/TTTFernanda.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
