@@ -14,6 +14,7 @@ import map.Map;
 import siedlerController.Controller;
 import streets.Street;
 import streets.StreetType;
+import tiles.PositionedTile;
 import tiles.Tile;
 
 public class MapNode extends Region {
@@ -35,8 +36,8 @@ public class MapNode extends Region {
 
     public void refreshOutput() {
         getChildren().clear();
-        for(Tile tile : map.getTiles()) {
-            Region newNode = new TileNode(100, tile);
+        for(PositionedTile tile : map.getTiles()) {
+            Region newNode = new TileNode(100, tile.getTile());
             GuiPosition position = convertPosition(tile.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());

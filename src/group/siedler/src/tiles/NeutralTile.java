@@ -5,8 +5,7 @@ import positions.TilePosition;
 public class NeutralTile extends Tile {
     private boolean isWater;
 
-    public NeutralTile(TilePosition position, boolean isWater) {
-        super(position);
+    public NeutralTile(boolean isWater) {
         this.isWater = isWater;
     }
 
@@ -16,6 +15,6 @@ public class NeutralTile extends Tile {
 
     @Override
     public String toString() {
-        return (isWater ? "WATER" : "DESERT") + " @ " + position;
+        return (isWater ? "WATER" : "DESERT") + "TILE";
     }
 }

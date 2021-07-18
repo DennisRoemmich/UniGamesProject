@@ -6,7 +6,6 @@ import javafx.animation.AnimationTimer;
 
 /*
 
-
 public class DiceRollingAnimator extends AnimationTimer {
 
     private long FRAMES_PER_SEC = 10L;

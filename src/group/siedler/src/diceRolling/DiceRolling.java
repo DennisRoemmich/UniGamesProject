@@ -2,9 +2,11 @@ package diceRolling;
 
 import buildings.Building;
 import buildings.BuildingType;
+import javafx.geometry.Pos;
 import map.Map;
 import map.MapTools;
 import siedlerFramework.PrintToConsole;
+import tiles.PositionedTile;
 import tiles.ResourceTile;
 import tiles.Tile;
 import player.PlayerData;
@@ -29,15 +31,15 @@ public class DiceRolling {
     }
 
     public static void handOutResources(int number, Map map, List<PlayerData> players) {
-        List<Tile> tilesWithNumber = map.getTiles().stream().filter(tile -> tile.getHitnumber() == number).toList();
-        for(Tile tile : tilesWithNumber) {
-            for(NodePosition buildingPosition : MapTools.getNodePositions(tile.getPosition())) {
+        var tilesWithNumber = map.getMaterialTiles().stream().filter(tile -> ((ResourceTile)tile.getTile()).getHitnumber() == number).toList();
+        for(PositionedTile positionedTile : tilesWithNumber) {
+            for(NodePosition buildingPosition : MapTools.getNodePositions(positionedTile.getPosition())) {
                 Optional<Building> building = map.getBuilding(buildingPosition);
                 if(building.isPresent()) {
                     Optional<PlayerData> player = players.stream().filter(p -> p.getColor().equals(building.get().getColor())).findFirst();
                     if(player.isPresent()) {
                         int amount = building.get().getType() == BuildingType.TOWN ? 2 : 1;
-                        ResourceTile resourceTile = (ResourceTile) tile;
+                        ResourceTile resourceTile = (ResourceTile) positionedTile.getTile();
                         player.get().getHand().addResources(resourceTile.getResourceType(), amount);
                     }
                 }

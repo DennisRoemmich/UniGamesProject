@@ -9,6 +9,7 @@ import materials.MaterialType;
 import streets.Street;
 import streets.StreetType;
 import tiles.NeutralTile;
+import tiles.PositionedTile;
 import tiles.ResourceTile;
 import tiles.Tile;
 
@@ -25,8 +26,9 @@ public class MapGenerator {
     public static Map generateBasicMap() {
         Map map = new Map();
         TilePosition desertPosition = new TilePosition(0,0);
-        Tile desertTile = new NeutralTile(desertPosition, false);
-        map.addTile(desertTile);
+        Tile desertTile = new NeutralTile(false);
+        PositionedTile positionedTile = new PositionedTile(desertTile, desertPosition);
+        map.addTile(positionedTile);
 
         LinkedList<MaterialType> types = getBasicTypes();
         LinkedList<Integer> hitnumbers = getBasicHitnumbers();
@@ -45,8 +47,9 @@ public class MapGenerator {
                 TilePosition position = new TilePosition(x,y);
                 MaterialType type = types.pop();
                 int hitnumber = hitnumbers.pop();
-                ResourceTile tile = new ResourceTile(position, type, hitnumber);
-                map.addTile(tile);
+                ResourceTile tile = new ResourceTile(type, hitnumber);
+                positionedTile = new PositionedTile(tile, position);
+                map.addTile(positionedTile);
             }
         }
 
@@ -54,7 +57,10 @@ public class MapGenerator {
     }
 
     public static Map generateMap(List<PlayerColor> colors) {
-        Map map = generateBasicMap();
+        return generateMap(colors, 13, 7);
+    }
+    public static Map generateMap(List<PlayerColor> colors, int width, int height) {
+        Map map = generateVariableMap(width, height);
 
         for(PlayerColor color : colors) {
             for(int i = 0; i < 2; i++) {
@@ -77,33 +83,6 @@ public class MapGenerator {
                     Building newBuilding = new Building(nodePosition, color);
                     map.addBuilding(newBuilding);
                 }
-            }
-        }
-
-        return map;
-    }
-
-    public static Map generateTestMap(PlayerColor color) {
-        Map map = generateBasicMap();
-        //map.addBuilding(new Building(new NodePosition(0,0,true), PlayerColor.BLUE));
-        //map.addStreet(new Street(new EdgePosition(0,0, EdgePositionZCord.C), StreetType.ROAD, PlayerColor.BLUE));
-
-        int x = 0;
-        int y = 0;
-        for(EdgePositionZCord zCord : EdgePositionZCord.values()) {
-            EdgePosition positionEdge = new EdgePosition(x,y,zCord);
-            Street street = new Street(positionEdge, StreetType.ROAD, PlayerColor.BLUE);
-            map.addStreet(street);
-        }
-
-        while(map.getBuildings(color).size() < 4) {
-            x = ThreadLocalRandom.current().nextInt(-2, 3);
-            y = ThreadLocalRandom.current().nextInt(-2, 3);
-            var z = NodePositionZCord.valueOf(ThreadLocalRandom.current().nextBoolean());
-            var position = new NodePosition(x,y,z);
-            if(MapTools.isPositionValid(map, position) && BuildRules.isNodeValidForNewBuilding(map, position)) {
-                var building = new Building(position, color);
-                map.addBuilding(building);
             }
         }
 
@@ -140,6 +119,92 @@ public class MapGenerator {
         }
         Collections.shuffle(hitnumbers);
         return hitnumbers;
+    }
+
+    public static Map generateVariableMap(int width, int height) {
+        Map map = new Map();
+
+        if(width % 2 == 0) {
+            width--;
+        }
+
+        if(height % 2 == 0) {
+            height--;
+        }
+
+        if(height > width) {
+            height = width;
+        }
+
+
+        int cutoff = width / 2;
+
+        int cutOffTilesInCorner = cutoff * (cutoff + 1);
+        int amountOfTiles = width * height;
+        LinkedList<Tile> tiles = new LinkedList<>(getTiles(amountOfTiles));
+
+        for(int x = -(width / 2); x <= (width / 2); x++) {
+            for(int y = -(height / 2); y <= (height / 2); y++) {
+                if(Math.abs(x + y) <= cutoff) {
+                    TilePosition position = new TilePosition(x, y);
+                    Tile tile = tiles.pop();
+                    PositionedTile positionedTile = new PositionedTile(tile, position);
+                    map.addTile(positionedTile);
+                }
+            }
+        }
+
+
+        return map;
+    }
+
+    /*
+    Get an evenly distributed set of Tiles, including desert & water.
+    The output is always randomized.
+     */
+    public static List<Tile> getTiles(int amount) {
+        List<Tile> tiles = new ArrayList<>();
+
+        int desertTilesAmount = amount / 15;
+        int waterTilesAmount = (amount - 20) / 5;
+        int materialTilesAmount = amount - desertTilesAmount - waterTilesAmount;
+
+        LinkedList<Integer> numbers = new LinkedList<>();
+        LinkedList<MaterialType> types = new LinkedList<>();
+
+        while(numbers.size() <= materialTilesAmount) {
+            for(int i = 1; i <= 5 && numbers.size() <= materialTilesAmount; i++)  {
+                numbers.add(7 + i);
+                numbers.add(7 - i);
+            }
+        }
+
+        while(types.size() <= materialTilesAmount) {
+            types.add(MaterialType.WOOD);
+            types.add(MaterialType.WHEAT);
+            types.add(MaterialType.WOOL);
+            types.add(MaterialType.CLAY);
+            types.add(MaterialType.ORE);
+        }
+
+        Collections.shuffle(types);
+        Collections.shuffle(numbers);
+
+        for(int i = 0; i < materialTilesAmount; i++) {
+            tiles.add(new ResourceTile(types.pop(), numbers.pop()));
+        }
+
+        for(int i = 0; i < desertTilesAmount; i++) {
+            tiles.add(new NeutralTile(false));
+        }
+
+        for(int i = 0; i < waterTilesAmount; i++) {
+            tiles.add(new NeutralTile(true));
+        }
+
+        Collections.shuffle(tiles);
+
+        return tiles;
     }
 
 }

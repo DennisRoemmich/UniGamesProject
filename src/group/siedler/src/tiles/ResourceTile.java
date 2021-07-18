@@ -7,12 +7,7 @@ public class ResourceTile extends Tile {
     private MaterialType resourceType;
     private int hitnumber;
 
-    protected ResourceTile(TilePosition position) {
-        super(position);
-    }
-
-    public ResourceTile(TilePosition position, MaterialType type, int hitnumber) {
-        super(position);
+    public ResourceTile(MaterialType type, int hitnumber) {
         this.resourceType = type;
         this.hitnumber = hitnumber;
     }
@@ -21,7 +16,6 @@ public class ResourceTile extends Tile {
         return resourceType;
     }
 
-    @Override
     public int getHitnumber() {
         return hitnumber;
     }
@@ -36,6 +30,6 @@ public class ResourceTile extends Tile {
 
     @Override
     public String toString() {
-        return resourceType + " " + hitnumber + " @ " + position;
+        return resourceType + " " + hitnumber;
     }
 }

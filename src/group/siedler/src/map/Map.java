@@ -1,11 +1,14 @@
 package map;
 
 import buildings.Building;
+import javafx.geometry.Pos;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
 import streets.Street;
+import tiles.PositionedTile;
+import tiles.ResourceTile;
 import tiles.Tile;
 
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import java.util.Optional;
 
 public class Map {
     private TilePosition burglarPosition = new TilePosition(0,0);
-    private List<Tile> tiles = new ArrayList<>();
+    private List<PositionedTile> tiles = new ArrayList<>();
     private List<Building> buildings = new ArrayList<>();
     private List<Street> streets = new ArrayList<>();
 
@@ -22,11 +25,11 @@ public class Map {
 
     }
 
-    public Map(List<Tile> tiles) {
+    public Map(List<PositionedTile> tiles) {
         this.tiles = tiles;
     }
 
-    public Map(TilePosition burglarPosition, List<Tile> tiles) {
+    public Map(TilePosition burglarPosition, List<PositionedTile> tiles) {
         this.burglarPosition = burglarPosition;
         this.tiles = tiles;
     }
@@ -43,8 +46,12 @@ public class Map {
         return buildings.stream().filter(building -> building.getColor() == color).toList();
     }
 
-    public List<Tile> getTiles() {
+    public List<PositionedTile> getTiles() {
         return tiles;
+    }
+
+    public List<PositionedTile> getMaterialTiles() {
+        return tiles.stream().filter(tile -> tile.getTile() instanceof ResourceTile).toList();
     }
 
     public List<Building> getBuildings() {
@@ -60,7 +67,7 @@ public class Map {
     }
 
     public Optional<Tile> getTile(TilePosition position) {
-        return tiles.stream().filter(tile -> tile.getPosition().equals(position)).findFirst();
+        return tiles.stream().filter(tile -> tile.getPosition().equals(position)).map(PositionedTile::getTile).findFirst();
     }
 
     public Optional<Building> getBuilding(NodePosition position) {
@@ -71,14 +78,14 @@ public class Map {
         return streets.stream().filter(street -> street.getPosition().equals(position)).findFirst();
     }
 
-    public void addTiles(Tile... newTiles) {
-        for(Tile newTile : newTiles) {
+    public void addTiles(PositionedTile... newTiles) {
+        for(PositionedTile newTile : newTiles) {
             addTile(newTile);
         }
     }
 
-    public void addTile(Tile newTile) {
-        if(!tiles.stream().map(Tile::getPosition).toList().contains(newTile.getPosition())) {
+    public void addTile(PositionedTile newTile) {
+        if(!tiles.stream().map(PositionedTile::getPosition).toList().contains(newTile.getPosition())) {
             tiles.add(newTile);
         }
     }
