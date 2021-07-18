@@ -22,7 +22,7 @@
       <ImageView fx:id="playerMaterials" pickOnBounds="true" preserveRatio="true"  />
        <Label fx:id="currentPlayer" layoutX="545.0" layoutY="70.0" textFill="aliceblue"/>
       <Label fx:id="woodLabel" layoutX="550.0" layoutY="100.0" text="1: Wood" textFill="SADDLEBROWN" />
-      <Label fx:id="wheatLabel" layoutX="550.0" layoutY="125.0" text="2 :Wheat" textFill="GOLD" />
+      <Label fx:id="wheatLabel" layoutX="550.0" layoutY="125.0" text="2: Wheat" textFill="GOLD" />
       <Label fx:id="woolLabel" layoutX="550.0" layoutY="150.0" text="3: Wool" textFill="DARKGREEN"/>
       <Label fx:id="oreLabel" layoutX="550.0" layoutY="175.0" text="4: Ore" textFill="GREY"/>
       <Label fx:id="clayLabel" layoutX="550.0" layoutY="200.0" text="5: Clay" textFill="DARKRED"/>

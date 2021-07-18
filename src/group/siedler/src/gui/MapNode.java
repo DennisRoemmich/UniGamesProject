@@ -18,7 +18,7 @@ import tiles.PositionedTile;
 import tiles.Tile;
 
 public class MapNode extends Region {
-    private Map map = MapGenerator.generateBasicMap();
+    private Map map = MapGenerator.generateVariableMap(7,5);
 
     // TODO : Dynamically calculate offset
     private double xOffset = 150;

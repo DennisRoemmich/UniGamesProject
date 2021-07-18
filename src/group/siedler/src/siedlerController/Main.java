@@ -31,6 +31,8 @@ public class Main extends Application {
         
         //This line of code just fixed everything.. *ALL HAIL THIS LINE OF CODE*
         scene.getRoot().requestFocus();
+
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
         
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);

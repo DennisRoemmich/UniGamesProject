@@ -219,7 +219,7 @@ public class FXController implements Initializable, Player, Presenter {
         MapFrame mapFrame = new MapFrame(mapNode);
 
         mapFrame.getMapNode().refreshOutput();
-        mapFrame.setLayoutX(300);
+        mapFrame.setLayoutX(250);
         mapFrame.setLayoutY(150);
 
         back.getChildren().add(mapFrame);
@@ -246,7 +246,7 @@ public class FXController implements Initializable, Player, Presenter {
         playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
 
         //woodLabel.setText("Wood");
-        
+
         //Set Fonts
         woodLabel.setFont(Font.font("Arial", 15));
         wheatLabel.setFont(Font.font("Arial", 15));

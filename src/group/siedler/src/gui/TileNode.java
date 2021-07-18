@@ -87,26 +87,11 @@ public class TileNode extends Region {
                     //PlayerColor.values()[ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length)].getColor();
                     hitnumberLabel.setFill(hitnumberColor);
                     hitnumberLabel.setStroke(hitnumberColor);
+
                 }
+                hexagonShape.setFill(resourceTile.getResourceType().getColor());
                 hitnumberLabel.setFont(font);
                 stack.getChildren().add(hitnumberLabel);
-                switch (resourceTile.getResourceType()) {
-                    case WOOD -> {
-                        hexagonShape.setFill(Color.SADDLEBROWN);
-                    }
-                    case CLAY -> {
-                        hexagonShape.setFill(Color.TOMATO);
-                    }
-                    case WHEAT -> {
-                        hexagonShape.setFill(Color.GOLD);
-                    }
-                    case WOOL -> {
-                        hexagonShape.setFill(Color.LIMEGREEN);
-                    }
-                    case ORE -> {
-                        hexagonShape.setFill(Color.DARKGREY);
-                    }
-                }
             } catch (Exception e) {
 
             }
@@ -118,8 +103,7 @@ public class TileNode extends Region {
             case 2, 12 -> 10;
             case 3, 11 -> 14;
             case 4, 10 -> 18;
-            case 5, 9 -> 20;
-            case 6, 8 -> 20;
+            case 5, 6, 8, 9 -> 20;
             default -> 20;
         };
     }

@@ -28,8 +28,8 @@ import java.util.Scanner;
 
 public class Controller extends GameController {
 
-    private List<PlayerData> playerData = new ArrayList<>();
-    private Map map = MapGenerator.generateBasicMap();
+    private final List<PlayerData> playerData = new ArrayList<>();
+    private Map map = MapGenerator.generateVariableMap(7, 5);
     
 	//MaterialType sellType;
 	//MaterialType purchaseType;
