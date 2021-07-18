@@ -5,13 +5,18 @@ import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
+import java.awt.event.ActionListener;
 import java.net.URL;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -40,7 +45,9 @@ public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
     private MapNode mapNode = new MapNode();
+    
     private boolean tradeFlag = true;
+    private MaterialType sellType;
 
     private boolean animationStopFlag = false;
     
@@ -106,6 +113,7 @@ public class FXController implements Initializable, Player, Presenter {
             mapNode.refreshOutput();
             setResources();
             //trade();
+            
             updateDiceViews();
             if(!controller.isRunning()) {
                 diceButton.setVisible(false);
@@ -249,22 +257,7 @@ public class FXController implements Initializable, Player, Presenter {
         woolAmount.setFont(Font.font("Arial", 15));
         
         currentPlayer.setFont(Font.font("Arial", 15));
-        
-        
-    	PurchaseTypeEventHandler eventHandler1 = new PurchaseTypeEventHandler();
-    	TradeEventHandler eventHandler2 = new TradeEventHandler();
-    
-    	//Why do these not work??
-    	woodLabel.setOnMouseClicked(eventHandler1);
-    	wheatLabel.setOnMouseClicked(eventHandler2);
-    	
-    	//Trading works..
-    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
-    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
-    	controller.bankTrade(MaterialType.WOOD, MaterialType.ORE);
-    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
-    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
-    	controller.bankTrade(MaterialType.CLAY, MaterialType.ORE);
+
         
 
 
@@ -306,25 +299,71 @@ public class FXController implements Initializable, Player, Presenter {
     	clayAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.CLAY)));
     }
     
-    public void trade() {
-    	
-
-
-//    		wheatLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WHEAT));
-//    		clayLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.CLAY));
-//    		oreLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.ORE));
-//    		woolLabel.setOnMouseClicked(eventHandler1 = new PurchaseTypeEventHandler(MaterialType.WOOL));
-
-  //  	} 
+    //Sets Sell MaterialType with the first keystroke
+    public void setFirstKeyStroke(KeyEvent event) {
+    	if (event.getCode() == KeyCode.DIGIT1) {
+    		this.sellType = MaterialType.WOOD;
     		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT2) {
+    		this.sellType = MaterialType.WHEAT;
     		
-//    		wheatLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WHEAT));
-//    		clayLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.CLAY));
-//    		oreLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.ORE));
-//    		woolLabel.setOnMouseClicked(eventHandler = new TradeEventHandler(MaterialType.WOOL));
-
-
+    	}
+    	if (event.getCode() == KeyCode.DIGIT3) {
+    		this.sellType = MaterialType.WOOL;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT4) {
+    		this.sellType = MaterialType.ORE;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT5) {
+    		this.sellType = MaterialType.CLAY;
+    		
+    	}
     }
+    
+  //Sets the Purchase value for the 2nd keystroke
+    public void setSecondKeyStroke(KeyEvent event) {
+    	if (event.getCode() == KeyCode.DIGIT1) {
+    		controller.bankTrade(MaterialType.WOOD, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT2) {
+    		controller.bankTrade(MaterialType.WHEAT, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT3) {
+    		controller.bankTrade(MaterialType.WOOL, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT4) {
+    		controller.bankTrade(MaterialType.ORE, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT5) {
+    		controller.bankTrade(MaterialType.CLAY, sellType);
+    		
+    	}
+    }
+    
+    //Trade functionality
+    @FXML
+    public void trade(KeyEvent event) {
+    	if(controller.hasCurrentPlayerRolled())
+    		if(tradeFlag) {
+    			setFirstKeyStroke(event);
+    			tradeFlag = false;
+    		} else {
+    			setSecondKeyStroke(event);
+    			tradeFlag = true;
+    		}
+    	
+    	
+    	System.out.println("Trade accepted!");
+    	refreshOutput();
+    }
+
 
     public void rollAnimation(){
         clock.start();
