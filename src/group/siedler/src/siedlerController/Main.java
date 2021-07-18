@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import materials.MaterialType;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.EdgePositionZCord;
@@ -27,6 +28,10 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(new File("./src/gui/SiedlerGUI.fxml").toURI().toURL());
         Parent root = loader.load();
         Scene scene = new Scene(root, 700,499.1);
+        
+        //This line of code just fixed everything.. *ALL HAIL THIS LINE OF CODE*
+        scene.getRoot().requestFocus();
+        
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);
         primaryStage.minWidthProperty().set(700);

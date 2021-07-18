@@ -5,19 +5,26 @@ import buildings.BuildingType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
+import java.awt.event.ActionListener;
 import java.net.URL;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import materials.MaterialType;
+
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
@@ -38,8 +45,12 @@ public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
     private MapNode mapNode = new MapNode();
+    
+    private boolean tradeFlag = true;
+    private MaterialType sellType;
 
     private boolean animationStopFlag = false;
+    
 
     @FXML
     private AnchorPane back;
@@ -62,7 +73,19 @@ public class FXController implements Initializable, Player, Presenter {
     @FXML
     private Label clayLabel;
     @FXML
-    private Label oreLabel;
+    private Label oreLabel;   
+    @FXML
+    private Label woodAmount;
+    @FXML
+    private Label wheatAmount;
+    @FXML
+    private Label woolAmount;
+    @FXML
+    private Label clayAmount;
+    @FXML
+    private Label oreAmount;
+    @FXML
+    private Label currentPlayer;
 
     Roller clock = new Roller();
 
@@ -88,6 +111,9 @@ public class FXController implements Initializable, Player, Presenter {
     public void refreshOutput() {
         if(mapNode != null) {
             mapNode.refreshOutput();
+            setResources();
+            //trade();
+            
             updateDiceViews();
             if(!controller.isRunning()) {
                 diceButton.setVisible(false);
@@ -148,7 +174,7 @@ public class FXController implements Initializable, Player, Presenter {
         refreshOutput();
     }
 
-    public void diceButtonClicked(MouseEvent mouseEvent){
+    public void diceButtonClicked(){
         if(controller.isItMyTurn(this)) {
             if(controller.hasCurrentPlayerRolled()) {
                 diceButton.setVisible(false);
@@ -187,6 +213,7 @@ public class FXController implements Initializable, Player, Presenter {
 
         controller.newGame();
         mapNode.setMap(controller.getMap());
+        setResources();
 
 
         MapFrame mapFrame = new MapFrame(mapNode);
@@ -218,8 +245,22 @@ public class FXController implements Initializable, Player, Presenter {
         playerMaterials.xProperty().bind(back.widthProperty().multiply(0.7));
         playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
 
-        woodLabel.setText("Wood");
+        //woodLabel.setText("Wood");
+        
+        //Set Fonts
         woodLabel.setFont(Font.font("Arial", 15));
+        wheatLabel.setFont(Font.font("Arial", 15));
+        clayLabel.setFont(Font.font("Arial", 15));
+        oreLabel.setFont(Font.font("Arial", 15));
+        woolLabel.setFont(Font.font("Arial", 15));
+        
+        woodAmount.setFont(Font.font("Arial", 15));
+        wheatAmount.setFont(Font.font("Arial", 15));
+        clayAmount.setFont(Font.font("Arial", 15));
+        oreAmount.setFont(Font.font("Arial", 15));
+        woolAmount.setFont(Font.font("Arial", 15));
+        
+        currentPlayer.setFont(Font.font("Arial", 15));
     }
 
     private void setupPlayers() {
@@ -231,6 +272,82 @@ public class FXController implements Initializable, Player, Presenter {
         controller.addPlayer(this, PlayerColor.PURPLE);
         controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
     }
+    
+    public void setResources() {
+    	
+    	currentPlayer.setText(controller.getCurrentPlayerColor().name() + "'s turn");
+    	woodAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOD)));
+    	wheatAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WHEAT)));
+    	woolAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOL)));
+    	oreAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.ORE)));
+    	clayAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.CLAY)));
+    }
+    
+    //Sets Sell MaterialType with the first keystroke
+    public void setFirstKeyStroke(KeyEvent event) {
+    	if (event.getCode() == KeyCode.DIGIT1) {
+    		this.sellType = MaterialType.WOOD;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT2) {
+    		this.sellType = MaterialType.WHEAT;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT3) {
+    		this.sellType = MaterialType.WOOL;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT4) {
+    		this.sellType = MaterialType.ORE;
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT5) {
+    		this.sellType = MaterialType.CLAY;
+    		
+    	}
+    }
+    
+  //Sets the Purchase value for the 2nd keystroke
+    public void setSecondKeyStroke(KeyEvent event) {
+    	if (event.getCode() == KeyCode.DIGIT1) {
+    		controller.bankTrade(MaterialType.WOOD, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT2) {
+    		controller.bankTrade(MaterialType.WHEAT, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT3) {
+    		controller.bankTrade(MaterialType.WOOL, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT4) {
+    		controller.bankTrade(MaterialType.ORE, sellType);
+    		
+    	}
+    	if (event.getCode() == KeyCode.DIGIT5) {
+    		controller.bankTrade(MaterialType.CLAY, sellType);
+    		
+    	}
+    }
+    
+    //Trade functionality
+    @FXML
+    public void trade(KeyEvent event) {
+    	if(controller.hasCurrentPlayerRolled())
+    		if(tradeFlag) {
+    			setFirstKeyStroke(event);
+    			tradeFlag = false;
+    		} else {
+    			setSecondKeyStroke(event);
+    			tradeFlag = true;
+    		}
+    	
+    	
+    	System.out.println("Trade accepted!");
+    	refreshOutput();
+    }
+
 
     public void rollAnimation(){
         clock.start();
