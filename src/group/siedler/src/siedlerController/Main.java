@@ -27,14 +27,16 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(new File("./src/gui/SiedlerGUI.fxml").toURI().toURL());
         Parent root = loader.load();
-        Scene scene = new Scene(root, 700,499.1);
+        Scene scene = new Scene(root, 1200,900);
         
         //This line of code just fixed everything.. *ALL HAIL THIS LINE OF CODE*
         scene.getRoot().requestFocus();
         
         primaryStage.setTitle("Die Siedler von Konstanz");
         primaryStage.setScene(scene);
-        primaryStage.minWidthProperty().set(700);
+       // primaryStage.minWidthProperty().set(700);
+
+        /*
         primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
         primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(0.713));
         primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
@@ -42,7 +44,7 @@ public class Main extends Application {
                 primaryStage.setMaximized(false);
             }
         });
-
+*/
         primaryStage.show();
 
 
