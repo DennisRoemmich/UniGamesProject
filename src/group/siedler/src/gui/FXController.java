@@ -6,11 +6,17 @@ import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,6 +26,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
@@ -49,8 +56,12 @@ public class FXController implements Initializable, Player, Presenter {
     private boolean tradeFlag = true;
     private MaterialType sellType;
 
-    private final boolean animationStopFlag = false;
-    
+    private boolean animationStopFlag = false;
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
 
     @FXML
     private AnchorPane back;
@@ -86,6 +97,8 @@ public class FXController implements Initializable, Player, Presenter {
     private Label oreAmount;
     @FXML
     private Label currentPlayer;
+    @FXML
+    private ImageView tradeWithBankButton;
 
     Roller clock = new Roller();
 
@@ -127,6 +140,24 @@ public class FXController implements Initializable, Player, Presenter {
                 }
             }
         }
+    }
+
+    public void switchToMainScene(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+        root = loader.load();
+        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToTradingWithBankScene(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
+        root = loader.load();
+        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private class Roller extends AnimationTimer{
@@ -196,6 +227,26 @@ public class FXController implements Initializable, Player, Presenter {
         dice.setImage(new Image(diceImage));
     }
 
+    public void setPlayerMaterialsImage (String s, ImageView playerMaterials){
+
+        String playerMaterialsImage = "./resources/Player" + s + "Materials.png";
+
+        playerMaterials.setImage(new Image(playerMaterialsImage));
+    }
+/*
+    public void tradeWithBankButtonClicked(MouseEvent mouseEvent) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200,900);
+
+        Stage tradingStage = new Stage();
+        tradingStage.setTitle("Trade with Bank");
+        tradingStage.setScene(scene);
+        tradingStage.show();
+    }
+
+*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
@@ -227,6 +278,7 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     private void setupBindings() {
+        /*
         background.fitHeightProperty().bind(back.heightProperty());
         background.fitWidthProperty().bind(back.widthProperty());
 
@@ -240,7 +292,7 @@ public class FXController implements Initializable, Player, Presenter {
         dice1.yProperty().bind(dice2.yProperty());
         dice1.xProperty().bind(back.widthProperty().multiply(0.79));
 
-        playerMaterials.setImage(new Image("./resources/PlayerGreenMaterials.png"));
+        //playerMaterials.setImage(new Image("./resources/PlayerGreenMaterials.png"));
         playerMaterials.yProperty().bind(back.heightProperty().multiply(0.01));
         playerMaterials.xProperty().bind(back.widthProperty().multiply(0.7));
         playerMaterials.fitHeightProperty().bind(back.heightProperty().multiply(0.6));
@@ -248,8 +300,8 @@ public class FXController implements Initializable, Player, Presenter {
         //woodLabel.setText("Wood");
 
         //Set Fonts
-        woodLabel.setFont(Font.font("Arial", 15));
-        wheatLabel.setFont(Font.font("Arial", 15));
+        woodLabel.setFont(Font.font("Bauhaus 93", 27));
+        wheatLabel.setFont(Font.font("Bauhaus 93", 27));
         clayLabel.setFont(Font.font("Arial", 15));
         oreLabel.setFont(Font.font("Arial", 15));
         woolLabel.setFont(Font.font("Arial", 15));
@@ -261,6 +313,8 @@ public class FXController implements Initializable, Player, Presenter {
         woolAmount.setFont(Font.font("Arial", 15));
         
         currentPlayer.setFont(Font.font("Arial", 15));
+        */
+
     }
 
     private void setupPlayers() {
@@ -274,7 +328,7 @@ public class FXController implements Initializable, Player, Presenter {
     }
     
     public void setResources() {
-    	
+
     	currentPlayer.setText(controller.getCurrentPlayerColor().name() + "'s turn");
     	woodAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOD)));
     	wheatAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WHEAT)));
