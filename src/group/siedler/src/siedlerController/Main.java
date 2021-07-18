@@ -2,6 +2,7 @@ package siedlerController;
 
 import buildings.Building;
 import buildings.BuildingType;
+import gui.FXController;
 import gui.MapNode;
 import gui.RoadNode;
 import javafx.application.Application;
@@ -24,8 +25,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        FXMLLoader loader = new FXMLLoader(new File("./src/gui/SiedlerGUI.fxml").toURI().toURL());
+    	
+    	//var url = getClass().getClassLoader().getResource("./gui/SiedlerGUI.fxml");
+        //FXMLLoader loader = new FXMLLoader(url);
+        FXMLLoader loader = new FXMLLoader(FXController.class.getResource("SiedlerGUI.fxml"));
+        loader.setController("FXController.java");
+        //FXMLLoader loader = new FXMLLoader(new File("./src/gui/SiedlerGUI.fxml").toURI().toURL());
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200,900);
         

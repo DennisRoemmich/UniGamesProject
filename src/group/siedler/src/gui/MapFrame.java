@@ -6,7 +6,7 @@ import map.Map;
 
 public class MapFrame extends Region {
     private MapNode mapNode;
-    private double relativeWidth = 100;
+    private double relativeWidth = 150;
 
     public MapFrame(MapNode mapNode) {
         this.mapNode = mapNode;

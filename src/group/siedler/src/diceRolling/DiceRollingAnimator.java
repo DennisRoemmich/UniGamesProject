@@ -4,7 +4,7 @@ import javafx.animation.AnimationTimer;
 
 // TODO : Extract the Roller class from FXController
 
-/*
+
 
 public class DiceRollingAnimator extends AnimationTimer {
 
@@ -20,7 +20,8 @@ public class DiceRollingAnimator extends AnimationTimer {
 
     @Override
     public void handle(long l) {
-        isRunning = true;
+    	/*
+    	isRunning = true;
         if (l - last > INTERVAL) {
             int r = 2 + (int) (Math.random() * 5);
             setDiceImage(r, dice1);
@@ -34,10 +35,10 @@ public class DiceRollingAnimator extends AnimationTimer {
                 count = 0;
                 isRunning = false;
             }
-        }
+        }*/
     }
 
     public boolean isRunning() {
         return isRunning;
     }
-}*/
+}

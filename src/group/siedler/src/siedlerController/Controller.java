@@ -42,8 +42,13 @@ public class Controller extends GameController {
 //		this.purchaseType = purchaseType;
 //	}
 	private int currentPlayer = 0;
+	
+	private boolean gameHasWinner = false;
 
-    private boolean currentPlayerHasRolled = false;
+    public boolean isGameHasWinner() {
+		return gameHasWinner;
+	}
+	private boolean currentPlayerHasRolled = false;
 
     public Controller() {
         mPlayers = new ArrayList<>();
@@ -179,13 +184,7 @@ public class Controller extends GameController {
     public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
     	MaterialSet newHand;
     	
-    	//TODO: Get the sellType and purchaseType from the GUI
-    	//purchaseType = type;
-    	//TODO: Get the sellType and purchaseType from the GUI
     	
-//    	switch(getCurrentPlayerHand().getAmount(sellType)) {
-//    	case sellType = MaterialType.ORE: 
-//    	}
     	
     	
     	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
@@ -215,6 +214,7 @@ public class Controller extends GameController {
     		if (villagePoints + townPoints >= 10) {
     		    System.out.println(playerColor + " player wins!");
     		    isRunning = false;
+    		    gameHasWinner = true;
                 mPresenter.refreshOutput();
     		}
     	}

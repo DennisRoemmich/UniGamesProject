@@ -6,6 +6,7 @@ import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -46,6 +48,7 @@ import streets.Street;
 import streets.StreetType;
 
 import java.util.ResourceBundle;
+import java.util.Timer;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FXController implements Initializable, Player, Presenter {
@@ -99,6 +102,12 @@ public class FXController implements Initializable, Player, Presenter {
     private Label currentPlayer;
     @FXML
     private ImageView tradeWithBankButton;
+    @FXML
+    private Label winner;
+    @FXML
+    private Label tradeError;
+    
+    
 
     Roller clock = new Roller();
 
@@ -125,6 +134,7 @@ public class FXController implements Initializable, Player, Presenter {
         if(mapNode != null) {
             mapNode.refreshOutput();
             setResources();
+            setWinner();
             //trade();
             
             updateDiceViews();
@@ -143,7 +153,8 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void switchToMainScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+    	var url = getClass().getClassLoader().getResource("./gui/SiedlerGUI.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -152,7 +163,8 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void switchToTradingWithBankScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
+    	var url = getClass().getClassLoader().getResource("./gui/SiedlerGUI.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -204,10 +216,11 @@ public class FXController implements Initializable, Player, Presenter {
         controller.handleRoll();
         refreshOutput();
     }
-
+    
     public void diceButtonClicked(){
         if(controller.isItMyTurn(this)) {
             if(controller.hasCurrentPlayerRolled()) {
+            	tradeError.setText("");
                 diceButton.setVisible(false);
                 controller.endMove();
                 mapNode.clearPlaceholderNodes();
@@ -251,7 +264,13 @@ public class FXController implements Initializable, Player, Presenter {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
         controller.setPresenter(this);
-
+        
+        diceButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+            	diceButton.setVisible(false);
+            }
+        });
 
         int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
         var colors = PlayerColor.values();
@@ -385,22 +404,40 @@ public class FXController implements Initializable, Player, Presenter {
     	}
     }
     
+    public void setWinner() {
+    	if(controller.isGameHasWinner()) {
+    		
+    		winner.setText(controller.getCurrentPlayerColor() + " has won!");
+    	}
+    }
+    
     //Trade functionality
     @FXML
     public void trade(KeyEvent event) {
-    	if(controller.hasCurrentPlayerRolled())
+    	if(controller.hasCurrentPlayerRolled()) {
     		if(tradeFlag) {
     			setFirstKeyStroke(event);
     			tradeFlag = false;
     		} else {
+    			tradeError.setText("");
     			setSecondKeyStroke(event);
+    			if(controller.getCurrentPlayerHand().isTradeImpossible()) {
+    				tradeError.setText("Trade is not possible!");
+    			}
     			tradeFlag = true;
     		}
     	
-    	
+    	}
     	System.out.println("Trade accepted!");
     	refreshOutput();
     }
+    
+//    @FXML
+//    public void tradeMenu(ToggleGroup button, ToggleGroup button2) {
+//    	
+//    	MaterialType type = MaterialType.WHEAT;
+//    	controller.bankTrade(MaterialType.CLAY., MaterialType.WOOD);
+//    }
 
 
     public void rollAnimation(){
