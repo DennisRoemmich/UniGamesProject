@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AiPlayer implements Player {
 
-    private Controller controller;
+    private final Controller controller;
 
     public AiPlayer(Controller controller) {
         this.controller = controller;

@@ -44,12 +44,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FXController implements Initializable, Player, Presenter {
 
     private Controller controller = new Controller();
-    private MapNode mapNode = new MapNode();
+    private final MapNode mapNode = new MapNode();
     
     private boolean tradeFlag = true;
     private MaterialType sellType;
 
-    private boolean animationStopFlag = false;
+    private final boolean animationStopFlag = false;
     
 
     @FXML
@@ -131,9 +131,9 @@ public class FXController implements Initializable, Player, Presenter {
 
     private class Roller extends AnimationTimer{
 
-        private long FRAMES_PER_SEC = 10L;
-        private long INTERVAL = 1000000000L / FRAMES_PER_SEC;
-        private int MAX_ROLLS = 20;
+        private final long FRAMES_PER_SEC = 10L;
+        private final long INTERVAL = 1000000000L / FRAMES_PER_SEC;
+        private final int MAX_ROLLS = 20;
 
         private long last = 0;
         private int count = 0;

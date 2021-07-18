@@ -60,7 +60,7 @@ public class MaterialSet {
     public String toString() {
         String output = "";
         for(MaterialType type : MaterialType.values()) {
-            output += type.toString() + ": " + String.valueOf(getAmount(type)) + ", ";
+            output += type.toString() + ": " + getAmount(type) + ", ";
         }
         return output;
     }

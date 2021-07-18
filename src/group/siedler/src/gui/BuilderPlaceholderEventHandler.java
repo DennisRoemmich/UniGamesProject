@@ -9,8 +9,8 @@ import siedlerController.Controller;
 import streets.StreetType;
 
 public class BuilderPlaceholderEventHandler implements EventHandler {
-    private Controller controller;
-    private NodePosition position;
+    private final Controller controller;
+    private final NodePosition position;
 
     public BuilderPlaceholderEventHandler(Controller controller, NodePosition position) {
         this.controller = controller;

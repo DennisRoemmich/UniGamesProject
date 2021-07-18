@@ -7,9 +7,9 @@ A basic structure with two integer ans one boolean coordinate (x, y, z)
 No further Functionality, only generated methods.
  */
 public class EdgePosition {
-    private int x;
-    private int y;
-    private EdgePositionZCord z;
+    private final int x;
+    private final int y;
+    private final EdgePositionZCord z;
 
     public EdgePosition(int x, int y, EdgePositionZCord z) {
         this.x = x;

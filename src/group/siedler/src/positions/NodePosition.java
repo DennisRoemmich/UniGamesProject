@@ -7,9 +7,9 @@ A basic structure with two integer ans one boolean coordinate (x, y, z)
 No further Functionality, only generated methods.
  */
 public class NodePosition {
-    private int x;
-    private int y;
-    private NodePositionZCord z;
+    private final int x;
+    private final int y;
+    private final NodePositionZCord z;
     // z == true  -> A
     // z == false -> B
 

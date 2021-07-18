@@ -7,8 +7,8 @@ import siedlerController.Controller;
 import streets.StreetType;
 
 public class StreetPlaceholderEventHandler implements EventHandler {
-    private Controller controller;
-    private EdgePosition position;
+    private final Controller controller;
+    private final EdgePosition position;
 
     public StreetPlaceholderEventHandler(Controller controller, EdgePosition position) {
         this.controller = controller;

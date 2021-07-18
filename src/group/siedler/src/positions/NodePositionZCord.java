@@ -3,7 +3,7 @@ package positions;
 public enum NodePositionZCord {
     A(true), B(false);
 
-    private boolean value;
+    private final boolean value;
 
     NodePositionZCord(boolean state) {
         this.value = state;

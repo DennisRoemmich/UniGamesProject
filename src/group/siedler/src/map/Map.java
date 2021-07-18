@@ -18,8 +18,8 @@ import java.util.Optional;
 public class Map {
     private TilePosition burglarPosition = new TilePosition(0,0);
     private List<PositionedTile> tiles = new ArrayList<>();
-    private List<Building> buildings = new ArrayList<>();
-    private List<Street> streets = new ArrayList<>();
+    private final List<Building> buildings = new ArrayList<>();
+    private final List<Street> streets = new ArrayList<>();
 
     public Map() {
 

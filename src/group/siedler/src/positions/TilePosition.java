@@ -7,8 +7,8 @@ A basic structure with two integer coordinates (x, y)
 No further Functionality, only generated methods.
  */
 public class TilePosition {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public TilePosition(int x, int y) {
         this.x = x;
