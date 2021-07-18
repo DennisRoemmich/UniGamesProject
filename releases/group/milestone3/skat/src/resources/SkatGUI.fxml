@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" style="-fx-background-color: black;" vgap="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaFX.FXController">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1024.0" minWidth="1365.0" prefHeight="1024.0" prefWidth="1365.0" style="-fx-background-color: darkblue;">
+         <children>
+            <ImageView fx:id="ImageViewBackground" fitHeight="1024.0" fitWidth="1365.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@images/Views/ViewBackgroundPlay.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="AnchorMarker" layoutX="641.0" layoutY="157.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="752.0" AnchorPane.leftAnchor="637.0" AnchorPane.rightAnchor="618.0" AnchorPane.topAnchor="162.0">
+               <children>
+                  <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
+                     <image>
+                        <Image url="@images/Other/MarkerTrump.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+            <AnchorPane fx:id="AnchorTrickDrop" layoutX="365.0" layoutY="146.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="250.0" />
+            <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" onMouseClicked="#thisIsTest" prefHeight="230.0" prefWidth="140.0" AnchorPane.leftAnchor="613.0" AnchorPane.rightAnchor="612.0" AnchorPane.topAnchor="295.0" />
+            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="230.0" prefWidth="140.0" rotate="15.0" AnchorPane.leftAnchor="622.0" AnchorPane.rightAnchor="603.0" AnchorPane.topAnchor="305.0" />
+            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" minWidth="-Infinity" prefHeight="230.0" prefWidth="140.0" rotate="-30.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="602.0" AnchorPane.topAnchor="290.0" />
+            <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
+               <children>
+                  <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                     <children>
+                        <ImageView fx:id="BackgroundCard" fitHeight="206.0" fitWidth="119.0" layoutX="21.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Cards/CardSpadesColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="CardForeground" fitHeight="206.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@images/Cards/CardAce.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-250.0" AnchorPane.topAnchor="470.0">
+               <children>
+                  <ImageView fx:id="CardForeground1" fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Cards/CardSpadesEmpty.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerhandShelfRight" prefHeight="197.0" prefWidth="505.0" rotate="270.0" AnchorPane.rightAnchor="-275.0" AnchorPane.topAnchor="400.0">
+               <children>
+                  <ImageView fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <image>
+                        <Image url="@images/Cards/CardBack.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorViewSkat" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="436.0" AnchorPane.topAnchor="220.0">
+               <children>
+                  <ImageView fitHeight="351.0" fitWidth="493.0" layoutX="84.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewSkat.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane fx:id="AnchorSkatCardLeft" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="61.0">
+                     <children>
+                        <ImageView fitHeight="245.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Cards/CardHeartsColor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorSkatCardRight" layoutX="110.0" layoutY="71.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="61.0">
+                     <children>
+                        <ImageView fitHeight="245.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Cards/CardHeartsColor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorButtonsPlayActions" AnchorPane.bottomAnchor="312.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="331.0">
+               <children>
+                  <AnchorPane fx:id="AnchorButtonPA1" onMouseClicked="#AnchorButtonPA1Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView id="PA" fx:id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button1GameColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button1GameColor.png" />
+                           </image></ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorButtonPA2" layoutX="10.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA2Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="159.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button2Accept.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button2Accept.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorButtonPA3" layoutX="168.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA3Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="318.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button3GameColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button3GameColor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorButtonPA4" layoutX="326.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA4Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="477.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button4GameColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button4GameColor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorButtonPA5" layoutX="326.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA5Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="636.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button5GameColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/Button5GameColor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchor_DebugView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: orange; -fx-opacity: 0.8; -fx-border-radius: 5; -fx-border-width: 4; -fx-border-color: black;" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <Label fx:id="label_WindowSize" alignment="TOP_LEFT" layoutX="32.0" layoutY="32.0" prefHeight="61.0" prefWidth="334.0" text="WINDOW     height: 0     width: 0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="28.0">
+                     <font>
+                        <Font name="Avenir Book" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Label fx:id="label_ShowHideDebugView" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showHidedebugView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 4; -fx-opacity: 0.7;" text="⌗" textFill="#5c5c5c" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font name="Avenir Book" size="31.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="AnchorButtonSort" onMouseClicked="#AnchorButtonSortClicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="140.0" AnchorPane.rightAnchor="95.0">
+               <children>
+                  <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Buttons/ButtonSort.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorWelcomeResultNewGameView" layoutX="175.0" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="127.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="121.0">
+               <children>
+                  <ImageView fx:id="ImageViewWRNBackground" fitHeight="751.0" fitWidth="1125.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Views/ResultView.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="LabelResultNewGame1" layoutX="104.0" layoutY="443.0" text="-" textFill="#e9e9e9" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="60.0">
+                     <font>
+                        <Font name="Courier New" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelResultNewGame2" layoutX="70.0" layoutY="643.0" text="-" textFill="#e9e9e9" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="60.0">
+                     <font>
+                        <Font name="Courier New" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelResultNewGame3" layoutX="70.0" layoutY="588.0" text="-" textFill="#e9e9e9" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="60.0">
+                     <font>
+                        <Font name="Courier New" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelResultNewGame4" layoutX="70.0" layoutY="533.0" style="visibility: false;" text="D P2 Rhabarbara ..   +88   &gt;   - 986P" textFill="#e9e9e9" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="60.0">
+                     <font>
+                        <Font name="Courier New" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelResultNewGame5" layoutX="70.0" layoutY="478.0" style="visibility: false;" text="D P2 Rhabarbara ..   +88   &gt;   - 986P" textFill="#e9e9e9" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="60.0">
+                     <font>
+                        <Font name="Courier New" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelGameNo" alignment="CENTER" contentDisplay="CENTER" style="visibility: false;" text="21       ∞  " textAlignment="CENTER" textFill="#3ad8ff" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+                     <font>
+                        <Font name="Avenir Book" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelWinner" alignment="CENTER" contentDisplay="CENTER" text="Winner" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+                     <font>
+                        <Font name="Chalkboard" size="68.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane layoutX="427.0" layoutY="188.0" AnchorPane.leftAnchor="470.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="220.0">
+                     <children>
+                        <ImageView fx:id="IVButtonPlay" fitHeight="163.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/ButtonPlay.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="869.0" layoutY="283.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="157.0" prefWidth="157.0" AnchorPane.bottomAnchor="320.0" AnchorPane.rightAnchor="60.0">
+                     <children>
+                        <ImageView fx:id="IVButtonNext" fitHeight="157.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Buttons/ButtonNext.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorGameMessage" layoutX="547.0" layoutY="-14.0" visible="false" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="71.0">
+               <children>
+                  <Label fx:id="LabelGameMessage" alignment="CENTER" contentDisplay="CENTER" text="Label" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Avenir Book" size="42.0" />
+                     </font>
+                     <effect>
+                        <Glow level="1.0" />
+                     </effect>
+                  </Label>
+                  <ImageView fitHeight="146.0" fitWidth="751.0" layoutX="64.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewGameMessage.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorAuctionDialog" layoutX="417.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="189.0">
+               <children>
+                  <ImageView fitHeight="392.0" fitWidth="734.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-9.5" AnchorPane.rightAnchor="-9.5" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewAuctionDialog.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="LabelAuctionViewTitle" alignment="CENTER" layoutX="343.0" layoutY="75.0" text="Auction" textAlignment="CENTER" textFill="#f2b7a7" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0">
+                     <font>
+                        <Font name="Chalkboard" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelAuctionViewText" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="22.0" layoutY="162.0" text="Dumbledore raised. Call?" textAlignment="CENTER" textFill="#cdfffa" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font name="Chalkboard" size="35.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelAuctionValue" layoutX="344.0" layoutY="228.0" text="0" textFill="#ff7c7c">
+                     <font>
+                        <Font name="Chalkboard" size="48.0" />
+                     </font>
+                  </Label>
+               </children>
+               <effect>
+                  <GaussianBlur radius="0.0" />
+               </effect>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerView1" layoutX="441.0" layoutY="937.0" prefHeight="68.0" prefWidth="626.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="339.0">
+               <children>
+                  <AnchorPane fx:id="AnchorPlayerIcon1" prefHeight="68.0" prefWidth="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Other/PlayerIconDeclarer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorPlayerInfo1" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Views/ViewPlayer.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LabelPlayerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Chalkboard" size="31.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LabelPlayerPoints1" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Avenir Next Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerView2" layoutX="410.0" layoutY="953.0" prefHeight="68.0" prefWidth="626.0" rotate="90.0" AnchorPane.leftAnchor="-140.0" AnchorPane.topAnchor="410.0">
+               <children>
+                  <AnchorPane fx:id="AnchorPlayerIcon2" prefHeight="68.0" prefWidth="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Other/PlayerIconDeclarer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorPlayerInfo2" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Views/ViewPlayer.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LabelPlayerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Chalkboard" size="32.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LabelPlayerPoints2" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Avenir Next Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerView3" layoutX="410.0" layoutY="953.0" prefHeight="68.0" prefWidth="626.0" rotate="270.0" AnchorPane.rightAnchor="-145.0" AnchorPane.topAnchor="410.0">
+               <children>
+                  <AnchorPane fx:id="AnchorPlayerIcon3" prefHeight="68.0" prefWidth="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Other/PlayerIconDeclarer.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="AnchorPlayerInfo3" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Views/ViewPlayer.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LabelPlayerName3" alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="26.0" prefHeight="17.0" prefWidth="174.0" text="BonsaiBoss33" textFill="#ff8888" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Chalkboard" size="33.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LabelPlayerPoints3" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Avenir Next Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorGameInfoView" layoutX="207.0" layoutY="31.0" prefHeight="88.0" prefWidth="306.0" visible="false" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="40.0">
+               <children>
+                  <ImageView fitHeight="88.0" fitWidth="306.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@images/Views/ViewGameInfo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="IVGameInfoColor" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="19.0">
+                     <image>
+                        <Image url="@images/Other/Diamond.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="LabelGameInfoRound" alignment="CENTER" layoutX="18.0" layoutY="18.0" prefHeight="88.0" prefWidth="130.0" text="Game&#10;1 / 12" textAlignment="CENTER" textFill="#dcdcdc" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Chalkboard" size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="LabelGameInfoMode" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="88.0" prefWidth="94.0" text="SUIT" textAlignment="CENTER" textFill="#dcdcdc" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
