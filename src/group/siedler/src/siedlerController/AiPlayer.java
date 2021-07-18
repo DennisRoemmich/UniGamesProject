@@ -4,6 +4,8 @@ import buildings.Building;
 import buildings.BuildingType;
 import helper.QuickJSON;
 import map.BuildRules;
+import materials.MaterialType;
+
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
@@ -12,6 +14,7 @@ import siedlerFramework.Player;
 import streets.Street;
 import streets.StreetType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -38,6 +41,7 @@ public class AiPlayer implements Player {
                     tryCreatingBuilding(BuildingType.TOWN);
                     tryCreatingStreet(StreetType.ROAD);
                     tryCreatingStreet(StreetType.SHIP);
+                    tryTrading();
                 }
                 controller.endMove();
                 break;
@@ -68,5 +72,25 @@ public class AiPlayer implements Player {
                 controller.placeStreet(possiblePositions.get(index), type);
             }
         }
+    }
+    
+    public void tryTrading() {
+    	
+    	List<MaterialType> materialList = new ArrayList<>();
+    	materialList.add(MaterialType.WOOD);
+    	materialList.add(MaterialType.CLAY);
+    	materialList.add(MaterialType.WHEAT);
+    	materialList.add(MaterialType.WOOL);
+    	materialList.add(MaterialType.ORE);
+    	
+    	for( MaterialType type  : materialList) {
+	    	if(controller.getCurrentPlayerHand().getAmount(type) >=6) {
+	    		for( MaterialType type2  : materialList) {
+	    			if(controller.getCurrentPlayerHand().getAmount(type2) <=1) {
+	    				controller.bankTrade(type2, type);
+	    			}
+	    		}
+	    	}
+    	}
     }
 }

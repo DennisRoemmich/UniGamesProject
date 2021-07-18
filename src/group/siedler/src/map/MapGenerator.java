@@ -57,7 +57,7 @@ public class MapGenerator {
     }
 
     public static Map generateMap(List<PlayerColor> colors) {
-        return generateMap(colors, 13, 7);
+        return generateMap(colors, 5, 5);
     }
     public static Map generateMap(List<PlayerColor> colors, int width, int height) {
         Map map = generateVariableMap(width, height);
