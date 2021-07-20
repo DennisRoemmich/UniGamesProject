@@ -137,10 +137,10 @@ public class MapGenerator {
         }
 
 
-        int cutoff = width / 2;
+        int cutoff = height / 2;
 
-        int cutOffTilesInCorner = cutoff * (cutoff + 1);
-        int amountOfTiles = width * height;
+        int cutOffTilesInCorner = width/2 * (width/2 + 1);
+        int amountOfTiles = width * height - cutOffTilesInCorner;
         LinkedList<Tile> tiles = new LinkedList<>(getTiles(amountOfTiles));
 
         for(int x = -(width / 2); x <= (width / 2); x++) {

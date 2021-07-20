@@ -269,14 +269,17 @@ public class FXController implements Initializable, Player, Presenter {
 
         controller.newGame();
         mapNode.setMap(controller.getMap());
+        mapNode.setScaleX(1.75);
+        mapNode.setScaleY(1.75);
+        mapNode.setScaleZ(1.75);
         setResources();
 
 
         MapFrame mapFrame = new MapFrame(mapNode);
 
         mapFrame.getMapNode().refreshOutput();
-        mapFrame.setLayoutX(300);
-        mapFrame.setLayoutY(150);
+        mapFrame.setLayoutX(450);
+        mapFrame.setLayoutY(400);
 
         back.getChildren().add(mapFrame);
         refreshOutput();
