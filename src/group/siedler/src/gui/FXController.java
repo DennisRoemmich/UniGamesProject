@@ -328,15 +328,14 @@ public class FXController implements Initializable, Player, Presenter {
     private void setupPlayers() {
         AiPlayer aiPlayer = new AiPlayer(controller);
         controller.addPlayer(this, PlayerColor.BLUE);
-        controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(this, PlayerColor.BLACK);
         controller.addPlayer(aiPlayer, PlayerColor.WHITE);
-        controller.addPlayer(this, PlayerColor.PURPLE);
+        controller.addPlayer(this, PlayerColor.RED);
         controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
     }
     
     public void setResources() {
-
+    	
+    	setPlayerMaterialsImage(controller.getCurrentPlayerColor().name(), playerMaterials);
     	currentPlayer.setText(controller.getCurrentPlayerColor().name() + "'s turn");
     	woodAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOD)));
     	wheatAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WHEAT)));
