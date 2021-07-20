@@ -31,7 +31,7 @@ public class SkatLauncher {
 
 
 
-        var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
+        var controller = new SkatController(gameAmount, new String[]{"Player 1","Player 2","Player 3"});
 
         var test = new Test(controller);
 

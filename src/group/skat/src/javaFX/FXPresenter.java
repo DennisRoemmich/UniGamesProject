@@ -2,7 +2,6 @@ package javaFX;
 
 
 import console.Print;
-import engine.SkatPlayer;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
 import javaFX.enums.GUIState;
@@ -301,14 +300,16 @@ public class FXPresenter {
         trickView(false);
         playerViews(false);
 
-        buttonsHide();
+        paButtonsHide();
 
+
+        fxController.anchorButtonsPlayActions.setVisible(false);
         fxController.AnchorGameMessage.setVisible(false); // this will probably collide with fade out -> delete later
 
 
     }
 
-    private static void buttonsHide(){
+    private static void paButtonsHide(){
 
         var buttonDict = fxController.buttonDict;
 
@@ -317,8 +318,7 @@ public class FXPresenter {
         buttonDict.get("PA3").hide();
         buttonDict.get("PA4").hide();
         buttonDict.get("PA5").hide();
-        buttonDict.get("SORT").hide();
-        fxController.anchorButtonsPlayActions.setVisible(false);
+
     }
 
 
@@ -435,7 +435,7 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
-        buttonsHide();
+        paButtonsHide();
         fxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA3").setImages(acceptButton3);
@@ -448,7 +448,7 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
-        buttonsHide();
+        paButtonsHide();
         fxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA2").setImages(acceptButton2);
@@ -465,7 +465,7 @@ public class FXPresenter {
 
         var buttonDict = fxController.buttonDict;
 
-        buttonsHide();
+        paButtonsHide();
         fxController.anchorButtonsPlayActions.setVisible(true);
 
 

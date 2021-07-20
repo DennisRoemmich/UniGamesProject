@@ -57,7 +57,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-250.0" AnchorPane.topAnchor="470.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-250.0" AnchorPane.topAnchor="340.0">
                <children>
                   <ImageView fx:id="CardForeground1" fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="0.0">
                      <image>
@@ -66,7 +66,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AnchorPlayerhandShelfRight" prefHeight="197.0" prefWidth="505.0" rotate="270.0" AnchorPane.rightAnchor="-275.0" AnchorPane.topAnchor="400.0">
+            <AnchorPane fx:id="AnchorPlayerhandShelfRight" prefHeight="197.0" prefWidth="505.0" rotate="270.0" AnchorPane.rightAnchor="-265.0" AnchorPane.topAnchor="350.0">
                <children>
                   <ImageView fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <image>

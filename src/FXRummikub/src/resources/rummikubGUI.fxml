@@ -124,7 +124,7 @@
                   <Image url="@../images/contextMenu.jpeg" />
                </image>
             </ImageView>
-            <Label fx:id="button_toMainMenu" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="52.0" onMouseClicked="#openMainMenu" prefHeight="22.0" prefWidth="149.0" text="Main menu" textAlignment="RIGHT" textFill="#fdfdfd" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0">
+            <Label fx:id="button_toMainMenu" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="52.0" onMouseClicked="#openMainMenu" prefHeight="22.0" prefWidth="149.0" text="main menu" textAlignment="RIGHT" textFill="#fdfdfd" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="21.0">
                <font>
                   <Font name="Chalkboard SE Light" size="14.0" />
                </font>
