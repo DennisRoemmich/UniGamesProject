@@ -34,6 +34,14 @@
          <font>
             <Font name="Bauhaus 93" size="30.0" />
          </font></Label>
+         <Label fx:id="tradeError" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="30.0" />
+         </font></Label>
+               <Label fx:id="winner" layoutX="486.0" layoutY="731.0" text="" textFill="WHITE">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
       <Label fx:id="woodLabel" layoutX="886.0" layoutY="239.0" prefWidth="103.0" text="1: Wood" textFill="SADDLEBROWN">
          <font>
             <Font name="Bauhaus 93" size="27.0" />
@@ -76,7 +84,7 @@
          </font></Label>
       <ImageView fx:id="tradeWithBankButton" fitHeight="187.0" fitWidth="187.0" layoutX="78.0" layoutY="701.0" onMouseClicked="#switchToTradingWithBankScene" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
          <image>
-            <Image url="@../resources/TradeWithBankButton.png" />
+            <!--  <Image url="@../resources/TradeWithBankButton.png" /> -->
          </image>
       </ImageView>
    </children>

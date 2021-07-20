@@ -44,6 +44,9 @@ public class Controller extends GameController {
 	private int currentPlayer = 0;
 
     private boolean currentPlayerHasRolled = false;
+    
+    private PlayerColor winningColor;
+    private boolean gameHasWinner = false;
 
     public Controller() {
         mPlayers = new ArrayList<>();
@@ -213,8 +216,10 @@ public class Controller extends GameController {
             int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
             int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
     		if (villagePoints + townPoints >= 10) {
+    			this.winningColor = playerColor;
     		    System.out.println(playerColor + " player wins!");
     		    isRunning = false;
+    		    gameHasWinner = true;
                 mPresenter.refreshOutput();
     		}
     	}
@@ -262,6 +267,14 @@ public class Controller extends GameController {
 
     public Map getMap() {
         return map;
+    }
+    
+    public boolean isGameHasWinner() {
+		return gameHasWinner;
+	}
+    
+    public PlayerColor getWinningColor() {
+    	return this.winningColor;
     }
 
     public boolean isRunning() {

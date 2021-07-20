@@ -6,7 +6,8 @@ import javafx.stage.Stage;
 import materials.MaterialSet;
 import siedlerController.Main;
 
-/*public class SiedlerGUIstarter extends Application {
+public class SiedlerGUIstarter {
+	/*
     public static void main(String[] args) {
         Main.launch();
     }
@@ -15,4 +16,5 @@ import siedlerController.Main;
     public void start(Stage stage) throws Exception {
         Main.launch();
     }
-}*/
+    */
+}

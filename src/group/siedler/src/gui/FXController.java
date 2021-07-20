@@ -98,7 +98,11 @@ public class FXController implements Initializable, Player, Presenter {
     @FXML
     private Label currentPlayer;
     @FXML
-    private ImageView tradeWithBankButton;
+   	private ImageView tradeWithBankButton;
+    @FXML
+    private Label winner;
+    @FXML
+    private Label tradeError;
 
     Roller clock = new Roller();
 
@@ -125,6 +129,7 @@ public class FXController implements Initializable, Player, Presenter {
         if(mapNode != null) {
             mapNode.refreshOutput();
             setResources();
+            setWinner();
             //trade();
             
             updateDiceViews();
@@ -143,21 +148,21 @@ public class FXController implements Initializable, Player, Presenter {
     }
 
     public void switchToMainScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
-        root = loader.load();
-        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+//        root = loader.load();
+//        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     public void switchToTradingWithBankScene(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
-        root = loader.load();
-        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader loader = new FXMLLoader(new File("src/gui/TradingWithBankGUI.fxml").toURI().toURL());
+//        root = loader.load();
+//        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     private class Roller extends AnimationTimer{
@@ -385,20 +390,33 @@ public class FXController implements Initializable, Player, Presenter {
     	}
     }
     
+    public void setWinner() {
+    	if(controller.isGameHasWinner()) {
+    		
+    		winner.setText("Player " +controller.getWinningColor() + " has won!");
+    	}
+    }
+    
     //Trade functionality
     @FXML
     public void trade(KeyEvent event) {
-    	if(controller.hasCurrentPlayerRolled())
+    	if(controller.hasCurrentPlayerRolled()) {
     		if(tradeFlag) {
     			setFirstKeyStroke(event);
     			tradeFlag = false;
     		} else {
+    			tradeError.setText("");
     			setSecondKeyStroke(event);
+    			if(controller.getCurrentPlayerHand().isTradeImpossible()) {
+    				tradeError.setText("Trade is not possible!");
+    				System.out.println("Trade is not possible!");
+    			} else {
+    				System.out.println("Trade accepted!");
+    			}
     			tradeFlag = true;
     		}
     	
-    	
-    	System.out.println("Trade accepted!");
+    	}
     	refreshOutput();
     }
 
