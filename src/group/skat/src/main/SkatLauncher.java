@@ -18,17 +18,17 @@ public class SkatLauncher {
 
         var gameAmount = 12;
 
+    //    var flag = args[0];
+
         try {
 
             FX_LAUNCHER = args[0].equals("gui");
 
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
 
-        try {
+        //    System.out.println("Hier liegt der Fehler!");
+        }
 
-            WINDOWS = args[0].equals("windows");
-
-        } catch (Exception ignored) {}
 
 
         var controller = new SkatController(gameAmount, new String[]{"Tabalooga","AngeloMerte","Dönerfrau"});
@@ -41,6 +41,12 @@ public class SkatLauncher {
             fxLauncher.launchFX(controller);
 
         } else {
+
+            try {
+
+                WINDOWS = args[0].equals("windows");
+
+            } catch (Exception ignored) {}
 
             Print.setWINDOWS(WINDOWS);
 

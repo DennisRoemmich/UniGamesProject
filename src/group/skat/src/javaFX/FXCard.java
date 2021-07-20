@@ -268,7 +268,7 @@ public class FXCard {
             case HANDSHELF_LEFT, HANDSHELF_RIGHT, TRICKS_DECLARER, TRICKS_OPPONENTS -> false;
         };
 
-        isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
+    //    isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
         var notnull = card != null;
 
         imageCardBackground.setVisible(!isOpen && notnull);

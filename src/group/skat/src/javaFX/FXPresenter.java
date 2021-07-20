@@ -72,7 +72,6 @@ public class FXPresenter {
 
                 fxController.ImageViewBackground.setImage(backGroundBlank);
                 newGameView(true);
-
             }
 
             case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
@@ -193,7 +192,7 @@ public class FXPresenter {
 
             case GAME_ABORTED -> {
 
-                Print.debug("maik", "game aborted");
+            //    Print.debug("maik", "game aborted");
 
                 // TODO: show resultView? new game button anzeigen
                 abortView(true);
@@ -514,7 +513,7 @@ public class FXPresenter {
 
         fxController.AnchorTrickOne.setVisible(true);
         fxController.AnchorTrickTwo.setVisible(true);
-        fxController.AnchorTrickTwo.setVisible(true);
+        fxController.AnchorTrickThree.setVisible(true);
 
     }
 
