@@ -194,7 +194,10 @@ public class FXPresenter {
             //    Print.debug("maik", "game aborted");
 
                 // TODO: show resultView? new game button anzeigen
-                abortView(true);
+            //    abortView(true);
+
+                newGameView(true);
+
             }
 
             case GAME_FINISHED -> {
@@ -299,6 +302,7 @@ public class FXPresenter {
         auctionView(false);
         trickView(false);
         playerViews(false);
+        buttonSort(false);
 
         paButtonsHide();
 
@@ -482,9 +486,18 @@ public class FXPresenter {
 
     }
 
-    private static void buttonSort(){
+    private static void buttonSort(boolean visible) {
+
         var buttonDict = fxController.buttonDict;
-        buttonDict.get("SORT").show();
+
+        if (visible) {
+
+            buttonDict.get("SORT").show();
+
+        } else {
+
+            buttonDict.get("SORT").hide();
+        }
     }
 
     private static void buttonsChooseColor(){
@@ -598,7 +611,7 @@ public class FXPresenter {
         fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
         fxController.LabelWinner.setVisible(visible);
 
-        var labelArray = new Label[]{
+        var labelArray = new Label[] {
                 fxController.LabelResultNewGame1,
                 fxController.LabelResultNewGame2,
                 fxController.LabelResultNewGame3,
@@ -631,7 +644,7 @@ public class FXPresenter {
                 var score = setPlayer.getTotalScore();
                 var name = setPlayer.getName();
                 var scoreString = Integer.toString(score);
-                scoreString = Print.times(9-scoreString.length(), " ") + scoreString;
+                scoreString = Print.times(5-scoreString.length(), " ") + scoreString;
 
                 String declarer = "  ";
                 int gameScore = 0;
@@ -641,7 +654,7 @@ public class FXPresenter {
                     gameScore = set.getCurrentGameResult().getGameValue();
                 }
 
-                var labelText = declarer + "P" + Integer.toString(i+1) + "  " + setPlayer.getName() + " " + Print.times(16 - setPlayer.getName().length(),".") + " " + Integer.toString(gameScore) + "P" + "  -> " + scoreString + "P";
+                var labelText = declarer + "P" + Integer.toString(i+1) + "  " + setPlayer.getName() + " " + Print.times(14 - setPlayer.getName().length(),".") + " " + Integer.toString(gameScore) + "P" + "  -> " + scoreString + "P";
 
                 labelArray[2-i].setText(labelText);
 
@@ -649,7 +662,7 @@ public class FXPresenter {
 
         }
 
-        fxController.LabelResultNewGame1.setText("");
+    //    fxController.LabelResultNewGame1.setText("");
 
     }
 
@@ -665,11 +678,20 @@ public class FXPresenter {
 
     public static void updateHandShelfs(){
 
-        buttonSort();
+        buttonSort(true);
 
         for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
 
             shelf.update();
+        }
+
+        if (fxController.getState() == GUIState.NOT_STARTED || fxController.getState() == GUIState.GAME_ABORTED
+                || fxController.getState() == GUIState.GAME_FINISHED || fxController.getState() == GUIState.SET_FINISHED) {
+
+            for (AnchorPane pane : new AnchorPane[]{fxController.AnchorPlayerhandShelfLeft, fxController.AnchorPlayerhandShelfMid, fxController.AnchorPlayerhandShelfRight}) {
+
+                pane.setVisible(false);
+            }
         }
     }
 

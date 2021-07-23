@@ -1,15 +1,18 @@
 package engine;
 
+import controller.SkatMove;
+import engine.enums.GamePhase;
+
 public class SkatPlayer {
 
-    private Hand hand;
-    private Tricks tricks;
+    protected Hand hand;
+    protected Tricks tricks;
 
     private boolean isBidding;
     private boolean isAsking;
     private boolean isDeclarer;
 
-    private int gameIndex;
+    protected int gameIndex;
 
     private int finalScore;
 

@@ -9,7 +9,7 @@ import test.Test;
 
 public class SkatLauncher {
 
-    private static boolean FX_LAUNCHER = true;
+    private static boolean FX_LAUNCHER = false;
     private static boolean WINDOWS = false;
 
     public static void main(String[] args){
