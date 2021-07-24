@@ -95,4 +95,9 @@ public class AiPlayer implements Player {
 	    	}
     	}
     }
+    	
+        public void tryTakingCard() {
+        		controller.takeCard();
+        }
+    
 }

@@ -26,10 +26,61 @@
          <image>
             <Image url="@../resources/Dice1.png" />
          </image></ImageView>
+         
       <ImageView fx:id="playerMaterials" fitHeight="568.0" fitWidth="394.0" layoutX="795.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/PlayerBLUEMaterials.png" />
          </image></ImageView>
+         <Label fx:id="consoleInfo" layoutX="10.0" layoutY="10.0" text="Info: F1" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         <Label fx:id="points" layoutX="870.0" layoutY="625.0" text="error" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+                  <Label fx:id="victoryPointCard" layoutX="100.0" layoutY="820.0" text="Victory Point Cards" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+                           <Label fx:id="knightCard" layoutX="100.0" layoutY="700.0" text="[K]night Cards" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="roadCard" layoutX="100.0" layoutY="730.0" text="[R]oad Cards" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="inventionCard" layoutX="100.0" layoutY="760.0" text="[I]nvention Cards" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="monopolyCard" layoutX="100.0" layoutY="790.0" text="[M]onopoly Cards" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         
+         <Label fx:id="victoryAmount" layoutX="400.0" layoutY="730.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         <Label fx:id="knightAmount" layoutX="400.0" layoutY="700.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         <Label fx:id="roadAmount" layoutX="400.0" layoutY="760.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         <Label fx:id="inventionAmount" layoutX="400.0" layoutY="790.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         <Label fx:id="monopolyAmount" layoutX="400.0" layoutY="820.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+         
        <Label fx:id="currentPlayer" layoutX="924.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
          <font>
             <Font name="Bauhaus 93" size="30.0" />

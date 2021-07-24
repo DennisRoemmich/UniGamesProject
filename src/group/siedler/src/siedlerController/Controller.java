@@ -1,7 +1,10 @@
 package siedlerController;
 
 import buildings.Building;
+
 import buildings.BuildingType;
+import developmentCards.CardSet;
+import developmentCards.CardType;
 import diceRolling.DiceRolling;
 import helper.QuickJSON;
 import map.Map;
@@ -24,28 +27,23 @@ import streets.StreetType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller extends GameController {
 
     private List<PlayerData> playerData = new ArrayList<>();
     private Map map = MapGenerator.generateBasicMap();
     
-	//MaterialType sellType;
-	//MaterialType purchaseType;
-	
-//	public void setSellType(MaterialType sellType) {
-//		this.sellType = sellType;
-//	}
-//
-//    public void setPurchaseType(MaterialType purchaseType) {
-//		this.purchaseType = purchaseType;
-//	}
 	private int currentPlayer = 0;
+	
 
     private boolean currentPlayerHasRolled = false;
+    int winPoints = 0;
     
-    private PlayerColor winningColor;
+    public int getWinPoints() {
+		return playerData.get(currentPlayer).getWinPoints();
+	}
+	private PlayerColor winningColor;
     private boolean gameHasWinner = false;
 
     public Controller() {
@@ -128,16 +126,89 @@ public class Controller extends GameController {
             Building building = new Building(position, getCurrentPlayerColor());
             map.addBuilding(building);
             getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.VILLAGE));
+            playerData.get(currentPlayer).increaseWinPoints();
         } else {
             Optional<Building> building = map.getBuilding(position);
             if(building.isPresent()) {
                 building.get().upgrade();
                 getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.TOWN));
+                playerData.get(currentPlayer).increaseWinPoints();
             }
         }
         handleWinner();
-        //bankTrade(playerData.get(currentPlayer));
         mPresenter.refreshOutput();
+    }
+    
+    public void takeCard() {
+    	
+    	CardSet set = getCurrentPlayerCards();
+    	int cardRoll = ThreadLocalRandom.current().nextInt(0, 24);
+    	
+    	if(!CardSet.getCost().isSubset(getCurrentPlayerHand())) {
+    		PrintToConsole.println("Not enough ressources!");
+    		return;
+    	}
+    	
+    	getCurrentPlayerHand().removeResourceSet(CardSet.getCost());
+    	
+    	if (cardRoll <14) {
+    		set.addResources(CardType.KNIGHT, 1);
+    	}
+    	
+    	if (cardRoll <19 && cardRoll >= 14) {
+    		set.addResources(CardType.VICTORY, 1);
+    		playerData.get(currentPlayer).increaseWinPoints();
+    	}
+    	
+    	if (cardRoll <21 && cardRoll >= 19) {
+    		set.addResources(CardType.ROAD, 1);
+    	}
+    	
+    	if (cardRoll <23 && cardRoll >= 21) {
+    		set.addResources(CardType.INVENTION, 1);
+    	}
+    	
+    	if (cardRoll <25 && cardRoll >= 23) {
+    		set.addResources(CardType.MONOPOLY, 1);
+    	} 
+    	
+    	handleWinner();
+    	mPresenter.refreshOutput();
+    }
+    
+    public void playCard(CardType type, MaterialType materialtype) {
+    	// card = new Card(type);
+    	//cardRoll = ThreadLocalRandom.current().nextInt(0, 4);
+    	switch(type) {
+	    	case KNIGHT: 
+	    		//TODO: Move burglar
+	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		break;
+	    	case VICTORY:
+	    		break; //Can't play victory cards
+	    	case ROAD:
+	    		//TODO: Place two roads for free
+	    		getCurrentPlayerHand().addResources(MaterialType.WOOD, 2);
+	    		getCurrentPlayerHand().addResources(MaterialType.CLAY, 2);
+	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		break;
+	    	case INVENTION:
+	    		//TODO: Get two materials for free
+	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		getCurrentPlayerHand().addResources(materialtype, 5);
+	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		break;
+	    	case MONOPOLY:
+	    		int amountOfMaterial = 0;
+	    		for(int i = 0; i< getNumberOfPlayers(); i++) {
+	    			amountOfMaterial += playerData.get(i).getHand().getAmount(materialtype);
+	    			playerData.get(i).getHand().removeResources(materialtype, playerData.get(i).getHand().getAmount(MaterialType.WOOD));
+	    		}
+	    		getCurrentPlayerHand().addResources(materialtype, amountOfMaterial);
+	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		break;
+	    	}
+    	mPresenter.refreshOutput();
     }
 
     public void placeStreet(EdgePosition position, StreetType type) {
@@ -160,37 +231,28 @@ public class Controller extends GameController {
         }
     }
     
-    public void playerTrade(PlayerData tradingPartner) {
-    	MaterialSet currentPlayerNewHand;
-    	MaterialSet otherPlayerNewHand;
-    	
-    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-    	MaterialType sellType = MaterialType.ORE;
-    	MaterialType purchaseType = MaterialType.CLAY;
-    	int purchased = 1;
-    	int sold = 1;
-    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-    	
-    	currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
-    	playerData.get(currentPlayer).setHand(currentPlayerNewHand);
-    	
-    	otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
-    	tradingPartner.setHand(otherPlayerNewHand);
-    	currentPlayerNewHand.toString();
-    }
+//    public void playerTrade(PlayerData tradingPartner) {
+//    	MaterialSet currentPlayerNewHand;
+//    	MaterialSet otherPlayerNewHand;
+//    	
+//    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
+//    	MaterialType MaterialType = MaterialType.ORE;
+//    	MaterialType purchaseType = MaterialType.CLAY;
+//    	int purchased = 1;
+//    	int sold = 1;
+//    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
+//    	
+//    	currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
+//    	playerData.get(currentPlayer).setHand(currentPlayerNewHand);
+//    	
+//    	otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
+//    	tradingPartner.setHand(otherPlayerNewHand);
+//    	currentPlayerNewHand.toString();
+//    }
     
     public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
     	MaterialSet newHand;
-    	
-    	//TODO: Get the sellType and purchaseType from the GUI
-    	//purchaseType = type;
-    	//TODO: Get the sellType and purchaseType from the GUI
-    	
-//    	switch(getCurrentPlayerHand().getAmount(sellType)) {
-//    	case sellType = MaterialType.ORE: 
-//    	}
-    	
-    	
+	
     	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
     	playerData.get(currentPlayer).setHand(newHand);
     	newHand.toString();
@@ -210,19 +272,20 @@ public class Controller extends GameController {
         return false;
     }
     
+    
     private void handleWinner() {
-    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
-    	    List<Building> buildings = map.getBuildings(playerColor);
-            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
-            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
-    		if (villagePoints + townPoints >= 10) {
-    			this.winningColor = playerColor;
-    		    System.out.println(playerColor + " player wins!");
+//    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
+//    	    List<Building> buildings = map.getBuildings(playerColor);
+//            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
+//            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
+    		if (playerData.get(currentPlayer).getWinPoints() >= 10) {
+    			this.winningColor = playerData.get(currentPlayer).getColor();
+    		    System.out.println(playerData.get(currentPlayer).getColor() + " player wins!");
     		    isRunning = false;
     		    gameHasWinner = true;
                 mPresenter.refreshOutput();
     		}
-    	}
+//    	}
     }
 
     public void handleRoll() {
@@ -280,5 +343,10 @@ public class Controller extends GameController {
     public boolean isRunning() {
         return isRunning;
     }
-
+//    public List<Card> getPlayerCards(){
+//    	return playerData.get(currentPlayer).getCards();
+//    }
+    public CardSet getCurrentPlayerCards() {
+        return playerData.get(currentPlayer).getCards();
+    }
 }

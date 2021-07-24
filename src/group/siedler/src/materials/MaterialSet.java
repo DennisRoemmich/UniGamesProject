@@ -69,7 +69,7 @@ public class MaterialSet {
     public static MaterialSet getFullHand() {
         MaterialSet materialSet = new MaterialSet();
         for(MaterialType type : MaterialType.values()) {
-            materialSet.addResources(type, 5);
+            materialSet.addResources(type, 10);
         }
         return materialSet;
     }
