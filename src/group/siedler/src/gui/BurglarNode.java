@@ -13,7 +13,7 @@ public class BurglarNode extends Group {
 
     public BurglarNode() {
         ClassLoader loader = getClass().getClassLoader();
-        Image image = new Image(loader.getResourceAsStream("DaltonsSmall.png"));
+        Image image = new Image(loader.getResourceAsStream("resources/DaltonsSmall.png"));
         imageView = new ImageView(image);
         double scaleFactor = 0.2;
         imageView.setScaleX(scaleFactor);

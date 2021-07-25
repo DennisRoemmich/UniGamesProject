@@ -16,7 +16,7 @@ public class Main extends Application {
         if(resource == null) {
             System.out.println("\n=== URL is null ===\n");
         }
-        FXMLLoader loader = new FXMLLoader(classLoader.getResource("SiedlerGUI.fxml"));
+        FXMLLoader loader = new FXMLLoader(resource);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200,900);
         

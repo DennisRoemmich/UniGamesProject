@@ -224,8 +224,11 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
     
     public void playCard(CardType type, MaterialType materialtype) {
-    	// card = new Card(type);
-    	//cardRoll = ThreadLocalRandom.current().nextInt(0, 4);
+
+    	if(getCurrentPlayerCards().getAmount(type) == 0) {
+    		PrintToConsole.println("You do not own this card!");
+    		return;
+    	}
     	switch(type) {
 	    	case KNIGHT: 
 	    		state = GameState.MOVE_BURGLAR;
