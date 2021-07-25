@@ -18,7 +18,7 @@ public final class WriteError {
 		if(errorMessage == "") {
 			return;
 		}
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("gamelog.txt"));) {		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("gamelog.txt"))) {
 				writer.write(errorMessage);
 		} catch (Exception e) {
 			e.printStackTrace();			

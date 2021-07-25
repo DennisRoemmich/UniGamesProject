@@ -7,8 +7,8 @@ package core.positioning;
  */
 public class Square {
 
-    private Rank mRank;
-    private File mFile;
+    private final Rank mRank;
+    private final File mFile;
 
     public Square(Rank rank, File file) {
         if (rank == null || file == null) {

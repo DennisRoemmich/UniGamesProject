@@ -1,6 +1,7 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.Color;
 import core.positioning.File;
 import core.positioning.Square;
 import framework.WriteError;
@@ -15,15 +16,14 @@ import java.util.List;
  */
 public class Knight extends ChessPiece  {
 
-    public Knight(boolean isWhite) {
-        super(isWhite, ChessPieceType.KNIGHT);
+    public Knight(Color color) {
+        super(color, ChessPieceType.KNIGHT);
     }
 
     @Override
     public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
         List<Square> list = new ArrayList<>();
 
-        ChessPiece piece = board.getPiece(origin);
         Rank newRank;
         File newFile;
         Square squareToTest;
@@ -36,7 +36,8 @@ public class Knight extends ChessPiece  {
                         newRank = Rank.valueOf(origin.getRank().getIndex() + rowOffset);
                         newFile = File.valueOf(origin.getFile().getIndex() + columnOffset);
                         squareToTest = new Square(newRank, newFile);
-                        if (board.isOccupiedByOpponentOrFree(squareToTest, piece.isWhite())) {
+                        var piece = board.getPiece(squareToTest);
+                        if (piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary())) {
                             list.add(squareToTest);
                         }
                     } catch (Exception e) {

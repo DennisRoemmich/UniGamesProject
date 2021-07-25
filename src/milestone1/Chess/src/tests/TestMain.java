@@ -9,7 +9,7 @@ import framework.PrintToConsole;
  */
 public class TestMain {
     
-	private static Test[] tests = new Test[]{new CastlingTest(), new CheckMateTest(), new EnPassantTest()};
+	private static final Test[] tests = new Test[]{new CastlingTest(), new CheckMateTest(), new EnPassantTest()};
 
     public static void main(String[] args) {
         for (Test test : tests) {

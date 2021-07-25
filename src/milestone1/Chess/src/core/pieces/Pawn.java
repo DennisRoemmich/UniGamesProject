@@ -1,30 +1,32 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.Color;
 import core.positioning.Direction;
 import core.positioning.Square;
 import framework.WriteError;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Pawn piece on the chess board.
- * @author Jan de Boer, Dennis Roemmich
  *
+ * @author Jan de Boer, Dennis Roemmich
  */
 public class Pawn extends ChessPiece {
 
     private boolean mCanBeCapturedEnPassant = false;
 
-    public Pawn(boolean isWhite) {
-        super(isWhite, ChessPieceType.PAWN);
+    public Pawn(Color color) {
+        super(color, ChessPieceType.PAWN);
     }
 
     @Override
     public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
         List<Square> list = new ArrayList<>();
 
-        Direction moveDirection = isWhite() ? Direction.UP : Direction.DOWN;
+        Direction moveDirection = getColor().isWhite() ? Direction.UP : Direction.DOWN;
 
         //Einfacher Zug & Doppelzug
         Square squareToTest = origin.getNext(moveDirection);
@@ -41,20 +43,20 @@ public class Pawn extends ChessPiece {
 
         //Schlagen
         for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
-            try {
-                squareToTest = origin.getNext(moveDirection);
-                squareToTest = squareToTest.getNext(captureDirection);
-                if (board.isOccupiedByOpponent(squareToTest, isWhite())) {
-                    list.add(squareToTest);
-                    continue;
-                }
-                Square neighbourSquare = origin.getNext(captureDirection);
-                Pawn pawn = (Pawn) board.getPiece(neighbourSquare);
+            squareToTest = origin.getNext(moveDirection);
+            squareToTest = squareToTest.getNext(captureDirection);
+            var piece = board.getPiece(squareToTest);
+            if (piece.isEmpty() || piece.get().getColor().equals(getColor())) {
+                list.add(squareToTest);
+                continue;
+            }
+            Square neighbourSquare = origin.getNext(captureDirection);
+            var possiblePiece = board.getPiece(neighbourSquare);
+            if (possiblePiece.isPresent()) {
+                Pawn pawn = (Pawn) possiblePiece.get();
                 if (pawn.mCanBeCapturedEnPassant) {
                     list.add(squareToTest);
                 }
-            } catch (Exception e) {
-            	WriteError.writeErrorLog("");
             }
         }
 

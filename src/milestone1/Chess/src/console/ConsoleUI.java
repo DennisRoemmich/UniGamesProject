@@ -1,6 +1,6 @@
 package console;
 
-import core.AiPlayer;
+import core.aiplayer.AiPlayer;
 import core.ChessMove;
 import core.pieces.ChessPiece;
 import core.positioning.File;
@@ -18,9 +18,9 @@ import java.util.Scanner;
  *
  */
 public class ConsoleUI implements Presenter, Player {
-    private Scanner mScanner = new Scanner(System.in);
+    private final Scanner mScanner = new Scanner(System.in);
     protected Controller mController = new Controller();
-    private boolean mAiGame = false;
+    private final boolean mAiGame = false;
 
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
@@ -119,7 +119,7 @@ public class ConsoleUI implements Presenter, Player {
         PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
         PrintToConsole.println(" ┌───────────────────────────────┐ ");
         for (Rank rank = Rank.M8; rank != null; rank = rank.getBottomNeighbour()) {
-        	PrintToConsole.print(rank.toString() + "│");
+        	PrintToConsole.print(rank + "│");
             for (File file : File.values()) {
 				PrintToConsole.print(' ');
                 ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));

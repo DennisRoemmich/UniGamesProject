@@ -1,4 +1,4 @@
-package framework;
+﻿package framework;
 
 /**
  * Printing to the console.

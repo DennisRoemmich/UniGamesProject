@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 
 public class PromotionChessMove extends ChessMove {
 
-    private ChessPieceType selectedPieceType;
+    private final ChessPieceType selectedPieceType;
 
     public PromotionChessMove(Square origin, Square destination) {
         super(origin, destination);

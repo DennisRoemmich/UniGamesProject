@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameLog {
-	private String mId;
+	private final String mId;
 	ArrayList<JSONObject> mMoveLog = new ArrayList<>();
-	private JSONObject mMetaSettings;
-	private JSONObject mGameSettings;
+	private final JSONObject mMetaSettings;
+	private final JSONObject mGameSettings;
 
 	public static String idKey = "id";
 	public static String moveLogKey = "moveLog";

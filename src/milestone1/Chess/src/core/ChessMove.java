@@ -13,8 +13,8 @@ import java.util.Optional;
 import org.json.simple.JSONObject;
 
 public class ChessMove {
-    private Square mOrigin;
-    private Square mDestination;
+    private final Square mOrigin;
+    private final Square mDestination;
 
     public ChessMove(Square origin, Square destination) {
         this.mOrigin = origin;

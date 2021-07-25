@@ -6,6 +6,7 @@ import core.positioning.Rank;
 import core.positioning.Square;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The chess board implementation of a chess game.
@@ -14,47 +15,57 @@ import java.util.List;
  */
 public class ChessBoard implements Cloneable {
 
-    ChessPiece[][] mPieces;
+    List<PositionedPiece> positionedPieces = new ArrayList<>();
 
     public ChessBoard() {
-        this.mPieces = new ChessPiece[Rank.values().length][File.values().length];
+
+    }
+
+    public ChessBoard(ChessBoard board) {
+        for(PositionedPiece positionedPiece : board.positionedPieces) {
+            this.positionedPieces.add(new PositionedPiece(positionedPiece));
+        }
     }
 
     public void placePiece(ChessPiece piece, Square square) {
-        mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = piece;
+        PositionedPiece positionedPiece = new PositionedPiece(square, piece);
+        addPiece(positionedPiece);
+    }
+
+    public void addPiece(PositionedPiece positionedPiece) {
+        removePiece(positionedPiece.getPosition());
+        positionedPieces.add(positionedPiece);
     }
 
     public void removePiece(Square square) {
-        mPieces[square.getRank().getIndex()][square.getFile().getIndex()] = null;
+        positionedPieces.removeIf(pP -> pP.getPosition().equals(square));
     }
 
-    public ChessPiece getPiece(Square square) {
-        return mPieces[square.getRank().getIndex()][square.getFile().getIndex()];
+    public void removePiece(ChessPiece piece) {
+        positionedPieces.removeIf(pP -> pP.getPiece() == piece);
+    }
+
+    public Optional<ChessPiece> getPiece(Square square) {
+        return positionedPieces.stream().filter(pP -> pP.getPosition().equals(square)).map(pP -> pP.getPiece()).findFirst();
+    }
+
+    public void movePiece(ChessPiece piece, Square newSquare) {
+        removePiece(piece);
+        placePiece(piece, newSquare);
     }
 
     public void movePiece(Square origin, Square destination) {
-        ChessPiece piece = getPiece(origin);
-        if (piece != null) {
-            placePiece(piece, destination);
+        var piece = getPiece(origin);
+        if(piece.isPresent()) {
             removePiece(origin);
+            placePiece(piece.get(), destination);
         }
     }
 
     public boolean isFieldFree(Square square) {
-        return getPiece(square) == null;
+        return getPiece(square).isEmpty();
     }
 
-    public boolean isOccupiedByOpponent(Square square, boolean selfIsWhite) {
-        return !isFieldFree(square) && (getPiece(square).isWhite() != selfIsWhite);
-    }
-
-    public boolean isOccupiedByOpponentOrFree(Square square, boolean selfIsWhite) {
-        return isFieldFree(square) || isOccupiedByOpponent(square, selfIsWhite);
-    }
-
-    public boolean isOccupiedBySelf(Square square, boolean selfIsWhite) {
-        return !isFieldFree(square) && (getPiece(square).isWhite() == selfIsWhite);
-    }
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
@@ -81,80 +92,11 @@ public class ChessBoard implements Cloneable {
         return board;
     }
 
-    public List<ChessPiece> findPieces(boolean color) {
-        ArrayList<ChessPiece> piece = new ArrayList<>();
-        for (Square squareOfPiece : findSquaresOfPieces(color)) {
-            piece.add(getPiece(squareOfPiece));
-        }
-        return  piece;
+    public Optional<Square> getSquare(ChessPiece piece) {
+        return positionedPieces.stream().filter(pP -> pP.getPiece() == piece).map(pP -> pP.getPosition()).findFirst();
     }
 
-    public List<ChessPiece> findPieces(ChessPieceType type) {
-        ArrayList<ChessPiece> piece = new ArrayList<>();
-        for (Square squareOfPiece : findSquaresOfPieces(type)) {
-            piece.add(getPiece(squareOfPiece));
-        }
-        return  piece;
-    }
-
-    public List<ChessPiece> findPieces(ChessPieceType type, boolean color) {
-        ArrayList<ChessPiece> piece = new ArrayList<>();
-        for (Square squareOfPiece : findSquaresOfPieces(type, color)) {
-            piece.add(getPiece(squareOfPiece));
-        }
-        return  piece;
-    }
-
-    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Farbe (weiß/schwarz) stehen
-    public List<Square> findSquaresOfPieces(boolean color) {
-        ArrayList<Square> list = new ArrayList<>();
-        for (ChessPieceType type : ChessPieceType.values()) {
-            list.addAll(findSquaresOfPieces(type, color));
-        }
-        return list;
-    }
-
-    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Art (Bauern, Springer,..) stehen
-    public List<Square> findSquaresOfPieces(ChessPieceType type) {
-        ArrayList<Square> list = new ArrayList<>();
-        list.addAll(findSquaresOfPieces(type, true));
-        list.addAll(findSquaresOfPieces(type, false));
-        return list;
-    }
-
-    // Gibt alle Felder zurück, auf denen Figuren einer bestimmten Art und einer bestimmten Farbe stehen
-    public List<Square> findSquaresOfPieces(ChessPieceType type, boolean color) {
-        ArrayList<Square> list = new ArrayList<>();
-        for (Square square : Square.values()) {
-            if (isFieldFree(square)) {
-            	continue;
-            }
-            ChessPiece piece = getPiece(square);
-            if (piece.getType() == type && piece.isWhite() == color) {
-                list.add(square);
-            }
-        }
-        return list;
-    }
-
-    public Square getSquare(ChessPiece piece) {
-        for (Square square : Square.values()) {
-            if (getPiece(square) == piece) {
-                return square;
-            }
-        }
-        return null;
-    }
-
-    //TODO: Eliminate clone method. Use copy constructor.
-    @Override
-    public ChessBoard clone() {
-        ChessBoard clone = new ChessBoard();
-        for (Square square : Square.values()) {
-            if (!isFieldFree(square)) {
-                clone.placePiece(getPiece(square).clone(), square);
-            }
-        }
-        return clone;
+    public List<PositionedPiece> getPositionedPieces() {
+        return positionedPieces;
     }
 }

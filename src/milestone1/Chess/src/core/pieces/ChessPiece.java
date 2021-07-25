@@ -2,6 +2,7 @@ package core.pieces;
 
 import core.CheckDetector;
 import core.ChessBoard;
+import core.Color;
 import core.positioning.Square;
 import framework.WriteError;
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ import java.util.List;
 public abstract class ChessPiece implements Cloneable {
 
     private final ChessPieceType mType;
-    private final boolean mIsWhite;
+    private final Color color;
     private int numberOfMoves = 0;
 
     /* Constructor */
 
-    protected ChessPiece(boolean isWhite, ChessPieceType type) {
-        this.mIsWhite = isWhite;
+    protected ChessPiece(Color color, ChessPieceType type) {
+        this.color = color;
         this.mType = type;
     }
 
@@ -33,7 +34,7 @@ public abstract class ChessPiece implements Cloneable {
         List<Square> coveredSquares = findCoveredSquares(board, square);
         List<Square> validMoves = new ArrayList<>();
         for (Square uncheckedSquare : coveredSquares) {
-            if (!CheckDetector.isInCheckAfterMove(board, mIsWhite, square, uncheckedSquare)) {
+            if (!CheckDetector.isInCheckAfterMove(board, color, square, uncheckedSquare)) {
                 validMoves.add(uncheckedSquare);
             }
         }
@@ -58,8 +59,8 @@ public abstract class ChessPiece implements Cloneable {
         return mType.name();
     }
 
-    public final boolean isWhite() {
-        return mIsWhite;
+    public Color getColor() {
+        return color;
     }
 
     public final ChessPieceType getType() {
@@ -90,7 +91,7 @@ public abstract class ChessPiece implements Cloneable {
                 c = 'K';
                 break;
         }
-        if (mIsWhite) {
+        if (color.isWhite()) {
             c = Character.toLowerCase(c);
         }
         return c;
@@ -99,24 +100,24 @@ public abstract class ChessPiece implements Cloneable {
     public final char toSymbol() {
         switch (mType) {
             case PAWN:
-               return  mIsWhite ? '♙' : '♟';
+               return  color.isWhite() ? '♙' : '♟';
             case KNIGHT:
-                return  mIsWhite ? '♘' : '♞';
+                return  color.isWhite() ? '♘' : '♞';
             case BISHOP:
-                return  mIsWhite ? '♗' : '♝';
+                return  color.isWhite() ? '♗' : '♝';
             case ROOK:
-                return  mIsWhite ? '♖' : '♜';
+                return  color.isWhite() ? '♖' : '♜';
             case QUEEN:
-                return  mIsWhite ? '♕' : '♛';
+                return  color.isWhite() ? '♕' : '♛';
             case KING:
-                return  mIsWhite ? '♔' : '♚';
+                return  color.isWhite() ? '♔' : '♚';
         }
         return ' ';
     }
 
     @Override
     public final String toString() {
-        return (mIsWhite ? "WHITE " : "BLACK ") + mType.toString();
+        return (color.isWhite() ? "WHITE " : "BLACK ") + mType.toString();
     }
     
     ///TODO: Eliminate clone method. Use copy constructor.
@@ -126,7 +127,7 @@ public abstract class ChessPiece implements Cloneable {
     	//Empty piece
     	ChessPiece piece = new Pawn(true);
     	try {
-            return getClass().getDeclaredConstructor(boolean.class).newInstance(mIsWhite);
+            return getClass().getDeclaredConstructor(boolean.class).newInstance(color.isWhite());
         } catch (Exception e) {
         	WriteError.writeErrorLog("");
         }

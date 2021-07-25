@@ -2,6 +2,7 @@ package core.pieces;
 
 import core.CheckDetector;
 import core.ChessBoard;
+import core.Color;
 import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Square;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public class King extends ChessPiece  {
 
-    public King(boolean isWhite) {
-        super(isWhite, ChessPieceType.KING);
+    public King(Color color) {
+        super(color, ChessPieceType.KING);
     }
 
     @Override
@@ -28,7 +29,8 @@ public class King extends ChessPiece  {
         for (Direction direction : Direction.values()) {
             try {
                 Square squareToTest = origin.getNext(direction);
-                if (board.isOccupiedByOpponentOrFree(squareToTest, isWhite())) {
+                var piece = board.getPiece(squareToTest);
+                if (piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary())) {
                     list.add(squareToTest);
                 }
             } catch (Exception e) {
@@ -47,11 +49,12 @@ public class King extends ChessPiece  {
     
     private List<Square> findCastlingMoves(ChessBoard board) {
         List<Square> castlingMoves = new ArrayList<>();
-        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(board, isWhite())) {
+        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(board, getColor())) {
             return castlingMoves;
         }
-        Rank backRank = isWhite() ? Rank.M1 : Rank.M8;
-        for (Square rookSquare : board.findSquaresOfPieces(ChessPieceType.ROOK, isWhite())) {
+        Rank backRank = getColor().isWhite() ? Rank.M1 : Rank.M8;
+        var searchedRook = new Rook(getColor());
+        for (Square rookSquare : board.getPositionedPieces().stream().filter(pP -> pP.getPiece().equals(searchedRook)).map(pP -> pP.getPosition()).toList()) {
             
         	Rook rook = (Rook) board.getPiece(rookSquare);
             

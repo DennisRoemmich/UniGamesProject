@@ -6,7 +6,13 @@ package core.pieces;
  *
  */
 public enum ChessPieceType {
-    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING;
+    PAWN(1), KNIGHT(3), BISHOP(3), ROOK(5), QUEEN(9), KING(100);
+
+    private final int value;
+
+    ChessPieceType(int value) {
+        this.value = value;
+    }
 
     public static ChessPieceType valueOf(char c) {
         switch (c) {
@@ -25,5 +31,9 @@ public enum ChessPieceType {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public int getValue() {
+        return value;
     }
 }

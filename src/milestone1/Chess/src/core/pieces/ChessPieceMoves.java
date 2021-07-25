@@ -14,9 +14,9 @@ import core.positioning.Square;
 public class ChessPieceMoves {
 	
 	private boolean mBreakLoop = false;
-	private Square mOrigin;
-	private ChessPiece mPiece;
-	private ChessBoard mBoard;
+	private final Square mOrigin;
+	private final ChessPiece mPiece;
+	private final ChessBoard mBoard;
 
 	public ChessPieceMoves(ChessPiece piece, Square square, ChessBoard board) {
 		this.mOrigin = square;
