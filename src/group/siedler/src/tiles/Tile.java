@@ -1,24 +1,22 @@
 package tiles;
 
-import positions.TilePosition;
-
 public class Tile {
-    protected boolean isWater = false;
-    protected boolean hasHitnumber = false;
+    protected boolean mIsWater = false;
+    protected boolean mHasHitnumber = false;
 
     public boolean isWater() {
-        return isWater;
+        return mIsWater;
     }
 
     public void setWater(boolean water) {
-        isWater = water;
+        mIsWater = water;
     }
 
     public boolean isHasHitnumber() {
-        return hasHitnumber;
+        return mHasHitnumber;
     }
 
     public void setHasHitnumber(boolean hasHitnumber) {
-        this.hasHitnumber = hasHitnumber;
+        this.mHasHitnumber = hasHitnumber;
     }
 }

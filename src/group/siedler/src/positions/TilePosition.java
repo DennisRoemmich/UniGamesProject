@@ -7,26 +7,30 @@ A basic structure with two integer coordinates (x, y)
 No further Functionality, only generated methods.
  */
 public class TilePosition {
-    private int x;
-    private int y;
+    private int mValueX;
+    private int mValueY;
 
     public TilePosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.mValueX = x;
+        this.mValueY = y;
     }
 
     public int getX() {
-        return x;
+        return mValueX;
     }
 
     public int getY() {
-        return y;
+        return mValueY;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+        	return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
         TilePosition that = (TilePosition) o;
         return getX() == that.getX() && getY() == that.getY();
     }
@@ -38,6 +42,6 @@ public class TilePosition {
 
     @Override
     public String toString() {
-        return "(" + x + "|" + y + ")";
+        return "(" + mValueX + "|" + mValueY + ")";
     }
 }

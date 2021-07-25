@@ -1,36 +1,35 @@
 package tiles;
 
-import positions.TilePosition;
 import materials.MaterialType;
 
 public class ResourceTile extends Tile {
-    private MaterialType resourceType;
-    private int hitnumber;
+    private MaterialType mResourceType;
+    private int mHitnumber;
 
     public ResourceTile(MaterialType type, int hitnumber) {
-        this.hasHitnumber = true;
-        this.resourceType = type;
-        this.hitnumber = hitnumber;
+        this.mHasHitnumber = true;
+        this.mResourceType = type;
+        this.mHitnumber = hitnumber;
     }
 
     public MaterialType getResourceType() {
-        return resourceType;
+        return mResourceType;
     }
 
     public int getHitnumber() {
-        return hitnumber;
+        return mHitnumber;
     }
 
     public void setResourceType(MaterialType resourceType) {
-        this.resourceType = resourceType;
+        this.mResourceType = resourceType;
     }
 
     public void setHitnumber(int hitnumber) {
-        this.hitnumber = hitnumber;
+        this.mHitnumber = hitnumber;
     }
 
     @Override
     public String toString() {
-        return resourceType + " " + hitnumber;
+        return mResourceType + " " + mHitnumber;
     }
 }

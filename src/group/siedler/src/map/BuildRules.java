@@ -3,23 +3,25 @@ package map;
 import buildings.Building;
 import buildings.BuildingType;
 import helper.ListUtility;
-import javafx.scene.Node;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.PositionedObject;
 import positions.TilePosition;
 import streets.PositionedStreet;
-import streets.Street;
 import streets.StreetType;
 import tiles.Tile;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BuildRules {
+public final class BuildRules {
+	
+	private BuildRules() {
+		//Unused
+	}
+	
     public static boolean isValid(Map map, PlayerColor color, NodePosition position, BuildingType type) {
         return getValidNodePositions(map, color, type).contains(position);
     }
@@ -27,10 +29,10 @@ public class BuildRules {
     public static List<NodePosition> getValidNodePositions(Map map, PlayerColor color, BuildingType buildingType) {
         List<NodePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color);
-        for(PositionedStreet street : playersStreets) {
+        for (PositionedStreet street : playersStreets) {
             var nodes = MapTools.getNodePositions(street.getPosition());
             var filtered = Arrays.stream(nodes).filter(p -> MapTools.isPositionValid(map, p)).toList();
-            if(buildingType == BuildingType.VILLAGE) {
+            if (buildingType == BuildingType.VILLAGE) {
                 filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
                 filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
             } else {
@@ -46,11 +48,11 @@ public class BuildRules {
         TilePosition[] tilePositions = MapTools.getTilesPositions(position);
         List<Tile> tiles = Arrays.stream(tilePositions).map(tp -> map.getTile(tp)).filter(Optional::isPresent).map(t -> t.get()).toList();
 
-        if(tiles.stream().anyMatch(tile -> !tile.isWater())) {
+        if (tiles.stream().anyMatch(tile -> !tile.isWater())) {
             types.add(StreetType.ROAD);
         }
 
-        if(tiles.stream().anyMatch(tile -> tile.isWater())) {
+        if (tiles.stream().anyMatch(tile -> tile.isWater())) {
             types.add(StreetType.SHIP);
         }
 
@@ -61,11 +63,11 @@ public class BuildRules {
         List<EdgePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color).stream().filter(s -> s.getObject().getType().equals(streetType)).toList();
         var playersBuildings = map.getBuildings(color);
-        for(PositionedStreet street : playersStreets) {
+        for (PositionedStreet street : playersStreets) {
             var neighbourStreets = MapTools.getEdgePositions(street.getPosition());
             ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
-        for(Building building : playersBuildings) {
+        for (Building building : playersBuildings) {
             var neighbourStreets = MapTools.getEdgePositions(building.getPosition());
             ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
         }
@@ -89,14 +91,14 @@ public class BuildRules {
 
     public static boolean isTileLand(Map map, TilePosition position) {
         Optional<Tile> tile = map.getTile(position);
-        if(tile.isPresent()) {
+        if (tile.isPresent()) {
             return !tile.get().isWater();
         }
         return false;
     }
 
     public static boolean canBeUpgradedToTown(Map map, PlayerColor color,  NodePosition position) {
-        if(map.getBuilding(position).isPresent()) {
+        if (map.getBuilding(position).isPresent()) {
             Building building = map.getBuilding(position).get();
             return building.getColor() == color && building.getType() == BuildingType.VILLAGE;
         } else {
@@ -107,7 +109,7 @@ public class BuildRules {
     public static List<NodePosition> getStartNodePositions(Map map) {
         List<TilePosition> tilePositions = map.getTiles().stream().map(PositionedObject::getPosition).toList();
         List<NodePosition> nodePositions = new ArrayList<>();
-        for(TilePosition position : tilePositions) {
+        for (TilePosition position : tilePositions) {
             ListUtility.addAllWithoutDuplicates(Arrays.stream(MapTools.getNodePositions(position)).toList(), nodePositions);
         }
         nodePositions = nodePositions.stream().filter(nP -> BuildRules.isNodeValidForNewBuilding(map, nP)).toList();

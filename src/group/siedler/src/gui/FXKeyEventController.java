@@ -1,7 +1,5 @@
 package gui;
 
-import developmentCards.CardType;
-import diceRolling.DiceRolling;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import materials.MaterialType;
@@ -10,6 +8,9 @@ import siedlerController.GameState;
 import siedlerFramework.PrintToConsole;
 
 import java.util.Optional;
+
+import cards.CardType;
+import dice.DiceRolling;
 
 public class FXKeyEventController {
     private FXEngineController fxEngineController;

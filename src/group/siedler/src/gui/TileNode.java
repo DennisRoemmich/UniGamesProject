@@ -75,7 +75,7 @@ public class TileNode extends Group {
             }
             try {
                 ResourceTile resourceTile = (ResourceTile) extractedTile;
-                Shape circle = new Circle(14, Color.BEIGE);
+                Shape circle = new Circle(16, Color.BEIGE);
                 circle.setStroke(Color.BLACK);
                 stack.getChildren().add(circle);
                 int hitnumber = resourceTile.getHitnumber();
@@ -115,12 +115,12 @@ public class TileNode extends Group {
 
     public static int getFontSize(int hitnumber) {
         return switch (hitnumber) {
-            case 2, 12 -> 10;
-            case 3, 11 -> 14;
-            case 4, 10 -> 18;
-            case 5, 9 -> 20;
-            case 6, 8 -> 20;
-            default -> 20;
+            case 2, 12 -> 14;
+            case 3, 11 -> 16;
+            case 4, 10 -> 20;
+            case 5, 9 -> 22;
+            case 6, 8 -> 22;
+            default -> 22;
         };
     }
 

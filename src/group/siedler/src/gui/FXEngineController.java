@@ -1,10 +1,10 @@
 package gui;
 
 import buildings.BuildingType;
-import developmentCards.CardType;
-import diceRolling.DiceRolling;
+import cards.CardType;
+import dice.DiceRolling;
 import helper.ListUtility;
-import helper.QuickJSON;
+import helper.QuickJSon;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,7 +63,7 @@ public class FXEngineController extends FXController implements Player, Presente
                 break;
         }
         refreshOutput();
-        return QuickJSON.create("reply", "valid");
+        return QuickJSon.create("reply", "valid");
     }
 
     public void addVillageSetupPlaceholders() {
@@ -190,9 +190,8 @@ public class FXEngineController extends FXController implements Player, Presente
         };
     }
 
-    //Trade functionality
     @FXML
-    public void trade(KeyEvent event) {
+    public void handleKeyInput(KeyEvent event) {
         fxKeyEventController.handleKeyInput(event);
     }
 

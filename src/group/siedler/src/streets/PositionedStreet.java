@@ -8,5 +8,4 @@ public class PositionedStreet extends PositionedObject<Street, EdgePosition> {
     public PositionedStreet(Street object, EdgePosition position) {
         super(object, position);
     }
-
 }

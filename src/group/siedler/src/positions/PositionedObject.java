@@ -1,33 +1,31 @@
 package positions;
 
-import javax.swing.text.Position;
-
 public class PositionedObject<T, P> {
-    protected T object;
-    protected P position;
+    protected T mObject;
+    protected P mPosition;
 
     public PositionedObject(T object, P position) {
-        this.object = object;
-        this.position = position;
+        this.mObject = object;
+        this.mPosition = position;
     }
 
     public T getObject() {
-        return object;
+        return mObject;
     }
 
     public void setObject(T object) {
-        this.object = object;
+        this.mObject = object;
     }
 
     public P getPosition() {
-        return position;
+        return mPosition;
     }
 
     public void setPosition(P position) {
-        this.position = position;
+        this.mPosition = position;
     }
 
     public String toString() {
-        return object + " @ " + position;
+        return mObject + " @ " + mPosition;
     }
 }

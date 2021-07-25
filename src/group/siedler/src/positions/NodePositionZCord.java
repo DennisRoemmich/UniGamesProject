@@ -3,14 +3,14 @@ package positions;
 public enum NodePositionZCord {
     A(true), B(false);
 
-    private boolean value;
+    private boolean mValue;
 
     NodePositionZCord(boolean state) {
-        this.value = state;
+        this.mValue = state;
     }
 
     public boolean getValue() {
-        return value;
+        return mValue;
     }
 
     public static NodePositionZCord valueOf(boolean state) {

@@ -1,12 +1,12 @@
 package moves;
 
-import helper.QuickJSON;
+import helper.QuickJSon;
 import org.json.simple.JSONObject;
 
 public enum MoveType {
     ROLL_DICES, OPTIONAL;
 
-    public JSONObject getJSON() {
-        return QuickJSON.create("type", this.toString());
+    public JSONObject getJSon() {
+        return QuickJSon.create("type", this.toString());
     }
 }

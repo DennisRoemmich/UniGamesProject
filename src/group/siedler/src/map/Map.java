@@ -1,7 +1,6 @@
 package map;
 
 import buildings.Building;
-import javafx.geometry.Pos;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -11,110 +10,110 @@ import streets.Street;
 import tiles.PositionedTile;
 import tiles.ResourceTile;
 import tiles.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Map {
-    private TilePosition burglarPosition = new TilePosition(0,0);
-    private List<PositionedTile> tiles = new ArrayList<>();
-    private List<Building> buildings = new ArrayList<>();
-    private List<PositionedStreet> streets = new ArrayList<>();
+    private TilePosition mBurglarPosition = new TilePosition(0, 0);
+    private List<PositionedTile> mTiles = new ArrayList<>();
+    private List<Building> mBuildings = new ArrayList<>();
+    private List<PositionedStreet> mStreets = new ArrayList<>();
 
     public Map() {
 
     }
 
     public Map(List<PositionedTile> tiles) {
-        this.tiles = tiles;
+        this.mTiles = tiles;
     }
 
     public Map(TilePosition burglarPosition, List<PositionedTile> tiles) {
-        this.burglarPosition = burglarPosition;
-        this.tiles = tiles;
+        this.mBurglarPosition = burglarPosition;
+        this.mTiles = tiles;
     }
 
     public TilePosition getBurglarPosition() {
-        return burglarPosition;
+        return mBurglarPosition;
     }
 
     public void setBurglarPosition(TilePosition burglarPosition) {
-        this.burglarPosition = burglarPosition;
+        this.mBurglarPosition = burglarPosition;
+    }
+    
+    public List<Building> getBuildings() {
+        return mBuildings;
     }
 
     public List<Building> getBuildings(PlayerColor color) {
-        return buildings.stream().filter(building -> building.getColor() == color).toList();
+        return mBuildings.stream().filter(building -> building.getColor() == color).toList();
     }
 
     public List<PositionedTile> getTiles() {
-        return tiles;
+        return mTiles;
     }
 
     public List<PositionedTile> getMaterialTiles() {
-        return tiles.stream().filter(tile -> tile.getObject() instanceof ResourceTile).toList();
+        return mTiles.stream().filter(tile -> tile.getObject() instanceof ResourceTile).toList();
     }
 
-    public List<Building> getBuildings() {
-        return buildings;
-    }
 
     public List<PositionedStreet> getStreets() {
-        return streets;
+        return mStreets;
     }
 
     public List<PositionedStreet> getStreets(PlayerColor color) {
-        return streets.stream().filter(street -> street.getObject().getColor() == color).toList();
+        return mStreets.stream().filter(street -> street.getObject().getColor() == color).toList();
     }
 
     public Optional<Tile> getTile(TilePosition position) {
-        return tiles.stream().filter(tile -> tile.getPosition().equals(position)).map(pT -> pT.getObject()).findFirst();
+        return mTiles.stream().filter(tile -> tile.getPosition().equals(position)).map(pT -> pT.getObject()).findFirst();
     }
 
     public Optional<Building> getBuilding(NodePosition position) {
-        return buildings.stream().filter(building -> building.getPosition().equals(position)).findFirst();
+        return mBuildings.stream().filter(building -> building.getPosition().equals(position)).findFirst();
     }
 
     public Optional<Street> getStreet(EdgePosition position) {
-        return streets.stream().filter(s -> s.getPosition().equals(position)).map(s -> s.getObject()).findFirst();
+        return mStreets.stream().filter(s -> s.getPosition().equals(position)).map(s -> s.getObject()).findFirst();
     }
 
     public void addTiles(PositionedTile... newTiles) {
-        for(PositionedTile newTile : newTiles) {
+        for (PositionedTile newTile : newTiles) {
             addTile(newTile);
         }
     }
 
     public void addTile(PositionedTile newTile) {
-        tiles.removeIf(pT -> pT.getPosition().equals(newTile.getPosition()));
-        tiles.add(newTile);
+        mTiles.removeIf(pT -> pT.getPosition().equals(newTile.getPosition()));
+        mTiles.add(newTile);
     }
 
     public void addBuilding(Building... newBuildings) {
-        for(Building newBuilding : newBuildings) {
+        for (Building newBuilding : newBuildings) {
             addBuilding(newBuilding);
         }
     }
 
     public void addBuilding(Building newBuilding) {
-        if(!buildings.stream().map(Building::getPosition).toList().contains(newBuilding.getPosition())) {
-            if(MapTools.isPositionValid(this, newBuilding.getPosition())) {
-                buildings.add(newBuilding);
+        if (!mBuildings.stream().map(Building::getPosition).toList().contains(newBuilding.getPosition())) {
+            if (MapTools.isPositionValid(this, newBuilding.getPosition())) {
+                mBuildings.add(newBuilding);
             }
         }
     }
 
     public void addStreets(PositionedStreet... newStreets) {
-        for(PositionedStreet newStreet : newStreets) {
-            if(MapTools.isPositionValid(this, newStreet.getPosition())) {
+        for (PositionedStreet newStreet : newStreets) {
+            if (MapTools.isPositionValid(this, newStreet.getPosition())) {
                 addStreet(newStreet);
             }
         }
     }
 
     public void addStreet(PositionedStreet newStreet) {
-        if(!streets.stream().map(s -> s.getPosition()).toList().contains(newStreet.getPosition())) {
-            streets.add(newStreet);
+        if (!mStreets.stream().map(s -> s.getPosition()).toList().contains(newStreet.getPosition())) {
+            mStreets.add(newStreet);
         }
     }
 }

@@ -2,7 +2,7 @@ package siedlerController;
 
 import buildings.Building;
 import buildings.BuildingType;
-import helper.QuickJSON;
+import helper.QuickJSon;
 import map.BuildRules;
 import map.MapTools;
 import materials.MaterialType;
@@ -33,7 +33,7 @@ public class AiPlayer implements Player {
     @Override
     public JSONObject requestMove(JSONObject inputType) {
         if (!inputType.containsKey("type")) {
-            return QuickJSON.create("reply", "invalid input");
+            return QuickJSon.create("reply", "invalid input");
         }
         switch (controller.getState()) {
             case ROLL_DICES -> controller.handleRoll();
@@ -68,7 +68,7 @@ public class AiPlayer implements Player {
                 controller.moveBurglar(possiblePositions.get(0));
             }
         }
-        return QuickJSON.create("reply", "valid");
+        return QuickJSon.create("reply", "valid");
     }
 
     public void tryCreatingBuilding(BuildingType type) {

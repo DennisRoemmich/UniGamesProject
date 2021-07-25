@@ -1,9 +1,9 @@
 package gui;
 
 import buildings.BuildingType;
-import developmentCards.CardType;
-import diceRolling.DiceRolling;
-import helper.QuickJSON;
+import cards.CardType;
+import dice.DiceRolling;
+import helper.QuickJSon;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -109,8 +109,7 @@ public class FXController implements Initializable {
     }
 
     public void refreshPoints() {
-        int winPoints = controller.getWinPoints();
-        points.setText("Victory Points:        " + winPoints);
+        points.setText("Victory Points:        " + controller.getWinPoints());
     }
 
     public void refreshCardLabels() {
@@ -125,9 +124,9 @@ public class FXController implements Initializable {
         setDiceViews(DiceRolling.getDice1(), DiceRolling.getDice2());
     }
 
-    // Must be implemented in subclass
+    
     protected void refreshDynamicUiElements() {
-
+    	// Must be implemented in subclass
     }
 
     // Setter

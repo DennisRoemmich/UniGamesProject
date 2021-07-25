@@ -3,11 +3,11 @@ package siedlerController;
 import buildings.Building;
 
 import buildings.BuildingType;
-import developmentCards.CardSet;
-import developmentCards.CardType;
-import diceRolling.DiceRolling;
+import cards.CardSet;
+import cards.CardType;
+import dice.DiceRolling;
 import gui.SiedlerEventHandler;
-import helper.QuickJSON;
+import helper.QuickJSon;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
@@ -84,7 +84,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     private void gameStep() {
         if(state != GameState.NOT_RUNNING) {
             PrintToConsole.println("Next move" + state.toString());
-            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", state.toString()));
+            mPlayers.get(currentPlayer).requestMove(QuickJSon.create("type", state.toString()));
         }
     }
 
@@ -167,6 +167,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
                 gameStep();
             } else {
                 getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.VILLAGE));
+                playerData.get(currentPlayer).increaseWinPoints();
             }
         } else {
             if(!getCurrentPlayerHand().isSuperset(Building.getCost(BuildingType.TOWN))) {
@@ -230,6 +231,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
         getCurrentPlayerHand().addResources(typeA, 1);
         getCurrentPlayerHand().addResources(typeB, 1);
+        getCurrentPlayerCards().removeResources(CardType.INVENTION, 1);
     }
     
     public void playCard(CardType type, MaterialType materialtype) {
@@ -247,7 +249,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	switch(type) {
 	    	case KNIGHT: 
 	    		state = GameState.MOVE_BURGLAR;
-	    		mPlayers.get(currentPlayer).requestMove(QuickJSON.create("move", GameState.MOVE_BURGLAR.toString()));
+	    		mPlayers.get(currentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
 	    		getCurrentPlayerCards().removeResources(type, 1);
 	    		break;
 	    	case VICTORY:
@@ -356,10 +358,11 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
 
 
-    private boolean handleWinner() {
+    public boolean handleWinner() {
         for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
             if (getWinPoints(playerColor) >= 10) {
-                System.out.println(playerColor + " player wins!");
+                PrintToConsole.println(playerColor + " player wins!");
+                gameHasWinner = true;
                 mPresenter.refreshOutput();
                 return true;
             }

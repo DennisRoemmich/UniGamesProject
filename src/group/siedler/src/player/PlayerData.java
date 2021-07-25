@@ -1,58 +1,54 @@
 package player;
 
-import java.util.ArrayList;
-
-import java.util.List;
-import buildings.Building;
-import developmentCards.CardSet;
+import cards.CardSet;
 import materials.MaterialSet;
 
 public class PlayerData {
-    protected MaterialSet hand;
-    protected PlayerColor color;
-    protected int winPoints;
-    protected CardSet cards;
+    protected MaterialSet mHand;
+    protected PlayerColor mColor;
+    protected int mWinPoints;
+    protected CardSet mCards;
 
     public PlayerData(PlayerColor color) {
-        this.color = color;
-        this.hand = new MaterialSet();
-        this.winPoints = 2;
-        this.cards = new CardSet();
+        this.mColor = color;
+        this.mHand = new MaterialSet();
+        this.mWinPoints = 2;
+        this.mCards = new CardSet();
     }
 
     public void setHand(MaterialSet hand) {
-        this.hand = hand;
+        this.mHand = hand;
     }
 
     public MaterialSet getHand() {
-        return hand;
+        return mHand;
     }
 
     public PlayerColor getColor() {
-        return color;
+        return mColor;
     }
 
     public void setColor(PlayerColor color) {
-        this.color = color;
+        this.mColor = color;
     }
     
     public void setWinPoints(int winPoints) {
-    	this.winPoints = winPoints;
+    	this.mWinPoints = winPoints;
     }
     
     public void increaseWinPoints() {
-    	this.winPoints++;
+    	this.mWinPoints++;
     }
     
     public int getWinPoints() {
-    	return winPoints;
+    	return mWinPoints;
     }
     
     public void addCard(CardSet cards) {
-    	this.cards = cards;
+    	this.mCards = cards;
     }
     
     public CardSet getCards() {
-    	return this.cards;
+    	return this.mCards;
     }
 }

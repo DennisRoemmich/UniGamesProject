@@ -1,4 +1,4 @@
-package diceRolling;
+package dice;
 
 import javafx.animation.AnimationTimer;
 
