@@ -6,22 +6,12 @@ import player.PlayerColor;
 import positions.EdgePosition;
 
 public class Street {
-    private EdgePosition position;
     private StreetType type;
     private PlayerColor color;
 
-    public Street(EdgePosition position, StreetType type, PlayerColor color) {
-        this.position = position;
+    public Street(StreetType type, PlayerColor color) {
         this.type = type;
         this.color = color;
-    }
-
-    public EdgePosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(EdgePosition position) {
-        this.position = position;
     }
 
     public StreetType getType() {
@@ -53,5 +43,10 @@ public class Street {
             }
         }
         return materials;
+    }
+
+    @Override
+    public String toString() {
+        return color + " " + type;
     }
 }

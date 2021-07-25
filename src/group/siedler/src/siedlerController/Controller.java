@@ -3,9 +3,12 @@ package siedlerController;
 import buildings.Building;
 import buildings.BuildingType;
 import diceRolling.DiceRolling;
+import gui.SiedlerEventHandler;
 import helper.QuickJSON;
+import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import map.MapTools;
 import materials.MaterialSet;
 import materials.MaterialType;
 
@@ -14,36 +17,28 @@ import player.PlayerColor;
 import player.PlayerData;
 import positions.EdgePosition;
 import positions.NodePosition;
+import positions.TilePosition;
 import siedlerFramework.GameController;
 import siedlerFramework.Player;
 import siedlerFramework.PrintToConsole;
 import siedlerFramework.WriteError;
+import streets.PositionedStreet;
 import streets.Street;
 import streets.StreetType;
+import tiles.ResourceTile;
+import tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class Controller extends GameController {
+public class Controller extends GameController implements SiedlerEventHandler {
 
     private List<PlayerData> playerData = new ArrayList<>();
-    private Map map = MapGenerator.generateBasicMap();
-    
-	//MaterialType sellType;
-	//MaterialType purchaseType;
-	
-//	public void setSellType(MaterialType sellType) {
-//		this.sellType = sellType;
-//	}
-//
-//    public void setPurchaseType(MaterialType purchaseType) {
-//		this.purchaseType = purchaseType;
-//	}
+    private Map map = MapGenerator.generateVariableMap(7, 5);
+    private GameState state = GameState.NOT_RUNNING;
 	private int currentPlayer = 0;
-
-    private boolean currentPlayerHasRolled = false;
 
     public Controller() {
         mPlayers = new ArrayList<>();
@@ -56,10 +51,9 @@ public class Controller extends GameController {
     public List<PlayerData> getPlayerData() {
     	return playerData;
     }
-    private boolean isRunning = false;
 
     public void addPlayer(Player player, PlayerColor color) {
-        if(isRunning) {
+        if(state != GameState.NOT_RUNNING) {
             return;
         }
         if(playerData.stream().anyMatch(playerData -> playerData.getColor() == color)) {
@@ -67,35 +61,8 @@ public class Controller extends GameController {
         }
         mPlayers.add(player);
         PlayerData data = new PlayerData(color);
-        data.setHand(MaterialSet.getFullHand());
+        data.setHand(new MaterialSet());
         playerData.add(data);
-    }
-
-    @Override
-    protected JSONObject executeMove(JSONObject move) {
-        return null;
-    }
-
-    @Override
-    public JSONObject metaSettingsToJSON() {
-        JSONObject metaSettings = new JSONObject();
-        return metaSettings;
-    }
-
-    @Override
-    public JSONObject gameSettingsToJSON() {
-        JSONObject gameSettings = new JSONObject();
-        return gameSettings;
-    }
-
-    @Override
-    public void restoreMetaSettings(JSONObject metaSettings) {
-
-    }
-
-    @Override
-    public void restoreGameSettings(JSONObject gameSettings) {
-
     }
 
     @Override
@@ -104,152 +71,252 @@ public class Controller extends GameController {
             WriteError.writeErrorLog("No player added to game.");
             return;
         }
-        isRunning = true;
-    	map = MapGenerator.generateMap(playerData.stream().map(PlayerData::getColor).toList());
-    	
+    	map = MapGenerator.generateKonstanzMap();
+        state = GameState.SETUP_VILLAGE;
+        gameStep();
     }
 
     private void gameStep() {
-        if(!isRunning) {
-            return;
-        }
-        if(currentPlayerHasRolled) {
-            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "optionalMove"));
-        } else {
-            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", "rollDices"));
+        if(state != GameState.NOT_RUNNING) {
+            PrintToConsole.println("Next move" + state.toString());
+            mPlayers.get(currentPlayer).requestMove(QuickJSON.create("type", state.toString()));
         }
     }
 
+    private boolean canPlayerTakeAction(PlayerColor color) {
+        return color == getCurrentPlayerColor();
+    }
+
+    private boolean preparationPhaseActive() {
+        for(PlayerData pD : playerData) {
+            if(map.getStreets(pD.getColor()).size() < 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Game Logic
+    
+    private boolean handleWinner() {
+    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
+    	    if (getWinPoints(playerColor) >= 10) {
+                System.out.println(playerColor + " player wins!");
+                mPresenter.refreshOutput();
+                return true;
+            }
+    	}
+    	return false;
+    }
+
+    private int getWinPoints(PlayerColor color) {
+        if(playerData.stream().anyMatch(pD -> pD.getColor().equals(color))) {
+            List<Building> buildings = map.getBuildings(color);
+            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
+            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
+            return villagePoints + townPoints;
+        } else {
+            return 0;
+        }
+    }
+
+    // Required Moves
+
+    public void handleRoll() {
+        if(state != GameState.ROLL_DICES) {
+            PrintToConsole.println("handleRoll() called at wrong time");
+            return;
+        }
+
+        DiceRolling.reRoll();
+        int rolledNumber = DiceRolling.getSum();
+        if(rolledNumber == 7) {
+            state = GameState.MOVE_BURGLAR;
+        } else {
+            DiceRolling.handOutResources(rolledNumber, map, playerData);
+            PrintToConsole.println("Materials of " + getCurrentPlayerColor());
+            PrintToConsole.println(getCurrentPlayerHand().toString());
+            state = GameState.OPTIONAL_MOVES;
+        }
+        mPresenter.refreshOutput();
+        gameStep();
+    }
+
+    public void moveBurglar(TilePosition newPosition) {
+        if(state != GameState.MOVE_BURGLAR) {
+            PrintToConsole.println("moveBurglar() called at wrong time");
+            return;
+        }
+
+        if(map.getTile(newPosition).isPresent()) {
+            Tile tile = map.getTile(newPosition).get();
+            if(!tile.isWater()) {
+                map.setBurglarPosition(newPosition);
+                state = GameState.OPTIONAL_MOVES;
+            }
+        }
+        gameStep();
+    }
+
+    // Optional Moves
+
     public void placeBuilding(NodePosition position) {
+        if(!(state == GameState.OPTIONAL_MOVES || state == GameState.SETUP_VILLAGE)) {
+            PrintToConsole.println("placeBuilding(...) called at wrong time");
+            return;
+        }
+
         if(map.getBuilding(position).isEmpty()) {
+            if(state != GameState.SETUP_VILLAGE && !getCurrentPlayerHand().isSuperset(Building.getCost(BuildingType.VILLAGE))) {
+                PrintToConsole.println("placeBuilding(...) called without enough materials");
+                return;
+            }
             Building building = new Building(position, getCurrentPlayerColor());
             map.addBuilding(building);
-            getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.VILLAGE));
+            if(state == GameState.SETUP_VILLAGE) {
+                state = GameState.SETUP_STREET;
+                gameStep();
+            } else {
+                getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.VILLAGE));
+            }
         } else {
+            if(!getCurrentPlayerHand().isSuperset(Building.getCost(BuildingType.TOWN))) {
+                PrintToConsole.println("placeBuilding(...) called without enough materials");
+                return;
+            }
             Optional<Building> building = map.getBuilding(position);
             if(building.isPresent()) {
                 building.get().upgrade();
                 getCurrentPlayerHand().removeResourceSet(Building.getCost(BuildingType.TOWN));
             }
         }
-        handleWinner();
-        //bankTrade(playerData.get(currentPlayer));
+        if(handleWinner()) {
+            state = GameState.NOT_RUNNING;
+        }
         mPresenter.refreshOutput();
+    }
+
+    public void placeStreet(EdgePosition position) {
+        List<StreetType> possibleTypes = BuildRules.getPossibleStreetType(map, position);
+        placeStreet(position, possibleTypes.get(0));
     }
 
     public void placeStreet(EdgePosition position, StreetType type) {
-        Street street = new Street(position, type, getCurrentPlayerColor());
-        map.addStreet(street);
-        getCurrentPlayerHand().removeResourceSet(Street.getCost(type));
+        if(!(state == GameState.OPTIONAL_MOVES || state == GameState.SETUP_STREET)) {
+            PrintToConsole.println("placeStreet(...) called at wrong time");
+            return;
+        }
+
+        if(state != GameState.SETUP_STREET && !getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
+            PrintToConsole.println("placeStreet(...) called without enough materials");
+            return;
+        }
+
+        if(!BuildRules.getPossibleStreetType(map, position).contains(type)) {
+            PrintToConsole.println("placeStreet(...) called with illegal type");
+            return;
+        }
+
+        Street street = new Street(type, getCurrentPlayerColor());
+        PositionedStreet positionedStreet = new PositionedStreet(street, position);
+        map.addStreet(positionedStreet);
+        if(state == GameState.SETUP_STREET) {
+            nextPlayer();
+            if(map.getBuildings(getCurrentPlayerColor()).size() == 2) {
+                handOutStartMaterials();
+                state = GameState.ROLL_DICES;
+            } else {
+                state = GameState.SETUP_VILLAGE;
+            }
+            gameStep();
+        } else {
+            getCurrentPlayerHand().removeResourceSet(Street.getCost(type));
+            if(handleWinner()) {
+                state = GameState.NOT_RUNNING;
+            }
+        }
         mPresenter.refreshOutput();
     }
 
-    // Not needed anymore
-    public void upgradeBuilding(Player player, NodePosition position, BuildingType type) {
-    	if(mPlayers.contains(player)){
-            PlayerColor color = playerData.get(mPlayers.indexOf(player)).getColor();
-            if(canPlayerTakeAction(color)) {
-                if(preparationPhaseActive()) {
-                	type = BuildingType.TOWN;
-                   // playerData.get(mPlayers.indexOf(player)).increaseNumberOfTowns();
+    private void handOutStartMaterials() {
+        for(PlayerData pD : playerData) {
+            for(Building building : map.getBuildings(pD.getColor())) {
+                for(TilePosition tilePosition : MapTools.getTilesPositions(building.getPosition())) {
+                    var tile = map.getTile(tilePosition);
+                    if(tile.isPresent() && tile.get().isHasHitnumber()) {
+                        MaterialType type = ((ResourceTile)tile.get()).getResourceType();
+                        pD.getHand().addResources(type, 1);
+                    }
                 }
             }
         }
     }
-    
+
     public void playerTrade(PlayerData tradingPartner) {
-    	MaterialSet currentPlayerNewHand;
-    	MaterialSet otherPlayerNewHand;
-    	
-    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-    	MaterialType sellType = MaterialType.ORE;
-    	MaterialType purchaseType = MaterialType.CLAY;
-    	int purchased = 1;
-    	int sold = 1;
-    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-    	
-    	currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
-    	playerData.get(currentPlayer).setHand(currentPlayerNewHand);
-    	
-    	otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
-    	tradingPartner.setHand(otherPlayerNewHand);
-    	currentPlayerNewHand.toString();
+        MaterialSet currentPlayerNewHand;
+        MaterialSet otherPlayerNewHand;
+
+        //TODO: Get the sellType and purchaseType and amounts of both from the GUI
+        MaterialType sellType = MaterialType.ORE;
+        MaterialType purchaseType = MaterialType.CLAY;
+        int purchased = 1;
+        int sold = 1;
+        //TODO: Get the sellType and purchaseType and amounts of both from the GUI
+
+        currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
+        playerData.get(currentPlayer).setHand(currentPlayerNewHand);
+
+        otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
+        tradingPartner.setHand(otherPlayerNewHand);
+        currentPlayerNewHand.toString();
     }
-    
+
     public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
-    	MaterialSet newHand;
-    	
-    	//TODO: Get the sellType and purchaseType from the GUI
-    	//purchaseType = type;
-    	//TODO: Get the sellType and purchaseType from the GUI
-    	
+        if(state != GameState.OPTIONAL_MOVES) {
+            PrintToConsole.println("bankTrade(...) called at wrong time");
+            return;
+        }
+
+        MaterialSet newHand;
+
+        //TODO: Get the sellType and purchaseType from the GUI
+        //purchaseType = type;
+        //TODO: Get the sellType and purchaseType from the GUI
+
 //    	switch(getCurrentPlayerHand().getAmount(sellType)) {
-//    	case sellType = MaterialType.ORE: 
+//    	case sellType = MaterialType.ORE:
 //    	}
-    	
-    	
-    	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
-    	playerData.get(currentPlayer).setHand(newHand);
-    	newHand.toString();
-    }
 
-    private boolean canPlayerTakeAction(PlayerColor color) {
-        return true;
-        // TODO : Check if it's the turn of the player
-    }
 
-    private boolean preparationPhaseActive() {
-        for(PlayerData pD : playerData) {
-            if(map.getBuildings().stream().filter(b -> b.getColor() == pD.getColor()).toList().size() < 2) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private void handleWinner() {
-    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
-    	    List<Building> buildings = map.getBuildings(playerColor);
-            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
-            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
-    		if (villagePoints + townPoints >= 10) {
-    		    System.out.println(playerColor + " player wins!");
-    		    isRunning = false;
-                mPresenter.refreshOutput();
-    		}
-    	}
-    }
-
-    public void handleRoll() {
-        DiceRolling.reRoll();
-        int rolledNumber = DiceRolling.getSum();
-        if(rolledNumber == 7) {
-            // TODO : Implement Burglar
-        } else {
-            DiceRolling.handOutResources(rolledNumber, map, playerData);
-            PrintToConsole.println(playerData.get(0).getHand().toString());
-        }
-        currentPlayerHasRolled = true;
-        mPresenter.refreshOutput();
-        gameStep();
+        newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
+        playerData.get(currentPlayer).setHand(newHand);
+        newHand.toString();
     }
 
     public void endMove() {
+        nextPlayer();
+        if(handleWinner()) {
+            state = GameState.NOT_RUNNING;
+        } else  {
+            state = GameState.ROLL_DICES;
+        }
+        if(mPresenter != null) {
+            mPresenter.refreshOutput();
+        }
+        gameStep();
+    }
+
+    public void nextPlayer() {
         currentPlayer++;
         if(currentPlayer >= mPlayers.size()) {
             currentPlayer = 0;
         }
-        currentPlayerHasRolled = false;
-        handleWinner();
-        gameStep();
     }
+
+    // Getter & Setter (Little functionality, more convenience)
 
     public boolean isItMyTurn(Player player) {
         return mPlayers.get(currentPlayer) == player;
-    }
-
-    public boolean hasCurrentPlayerRolled() {
-        return currentPlayerHasRolled;
     }
 
     public PlayerColor getCurrentPlayerColor() {
@@ -264,8 +331,50 @@ public class Controller extends GameController {
         return map;
     }
 
-    public boolean isRunning() {
-        return isRunning;
+    public GameState getState() {
+        return state;
     }
 
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    // Siedler Event Handler
+
+    @Override
+    public void handleTileCLick(TilePosition position) {
+        moveBurglar(position);
+    }
+
+    @Override
+    public void handleStreetClick(EdgePosition position) {
+        if(state == GameState.OPTIONAL_MOVES || state == GameState.SETUP_STREET) {
+            StreetType type = BuildRules.getPossibleStreetType(map, position).get(0);
+            placeStreet(position, type);
+        }
+    }
+
+    @Override
+    public void handleBuildingClick(NodePosition position) {
+        if(state == GameState.OPTIONAL_MOVES || state == GameState.SETUP_VILLAGE) {
+            placeBuilding(position);
+        }
+    }
+
+    // Unused Framework functionality
+
+    @Override
+    protected JSONObject executeMove(JSONObject move) { return null; }
+
+    @Override
+    public JSONObject metaSettingsToJSON() { return null; }
+
+    @Override
+    public JSONObject gameSettingsToJSON() { return null; }
+
+    @Override
+    public void restoreMetaSettings(JSONObject metaSettings) { }
+
+    @Override
+    public void restoreGameSettings(JSONObject gameSettings) { }
 }

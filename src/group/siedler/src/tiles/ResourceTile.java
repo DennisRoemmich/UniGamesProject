@@ -8,6 +8,7 @@ public class ResourceTile extends Tile {
     private int hitnumber;
 
     public ResourceTile(MaterialType type, int hitnumber) {
+        this.hasHitnumber = true;
         this.resourceType = type;
         this.hitnumber = hitnumber;
     }

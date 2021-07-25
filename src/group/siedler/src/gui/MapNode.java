@@ -1,9 +1,9 @@
 package gui;
 
 import buildings.BuildingType;
+import javafx.scene.Group;
 import map.BuildRules;
 import map.MapGenerator;
-import materials.MaterialSet;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
@@ -12,92 +12,69 @@ import buildings.Building;
 import javafx.scene.layout.Region;
 import map.Map;
 import siedlerController.Controller;
+import streets.PositionedStreet;
 import streets.Street;
 import streets.StreetType;
 import tiles.PositionedTile;
-import tiles.Tile;
 
-public class MapNode extends Region {
-    private Map map = MapGenerator.generateBasicMap();
+import java.util.List;
+
+public class MapNode extends Group {
+    private Map map = MapGenerator.generateVariableMap(7, 5);
+    private SiedlerEventHandler eventHandler;
 
     // TODO : Dynamically calculate offset
     private double xOffset = 150;
     private double yOffset = 150;
 
-
-    public MapNode() {
+    public MapNode(Controller controller) {
+        this.eventHandler = controller;
+        this.map = controller.getMap();
         refreshOutput();
     }
 
-    public MapNode(Map map) {
+    public MapNode(SiedlerEventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+        refreshOutput();
+    }
+
+    public MapNode(Map map, SiedlerEventHandler eventHandler) {
         this.map = map;
+        this.eventHandler = eventHandler;
         refreshOutput();
     }
 
     public void refreshOutput() {
         getChildren().clear();
+        BurglarNode burglarNode = new BurglarNode();
+        GuiPosition burglarGui = GuiPosition.valueOf(map.getBurglarPosition());
+        burglarNode.setLayoutX(burglarGui.getX());
+        burglarNode.setLayoutY(burglarGui.getY());
         for(PositionedTile tile : map.getTiles()) {
-            Region newNode = new TileNode(100, tile.getTile());
-            GuiPosition position = convertPosition(tile.getPosition());
+            Group newNode = new TileNode(100, tile.getObject());
+            GuiPosition position = GuiPosition.valueOf(tile.getPosition());
+            TileClickedEventHandler tileEventHandler = new TileClickedEventHandler(tile.getPosition(), eventHandler);
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
+            newNode.setOnMouseClicked(tileEventHandler);
             this.getChildren().add(newNode);
         }
-        for(Street street : map.getStreets()) {
-            Region newNode = new RoadNode(street);
-            GuiPosition position = convertPosition(street.getPosition());
+        for(PositionedStreet street : map.getStreets()) {
+            Group newNode = new StreetNode(street);
+            GuiPosition position = GuiPosition.valueOf(street.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
             this.getChildren().add(newNode);
         }
         for(Building building : map.getBuildings()) {
-            Region newNode = new BuildingNode(building);
-            GuiPosition position = convertPosition(building.getPosition());
+            Group newNode = new BuildingNode(building);
+            GuiPosition position = GuiPosition.valueOf(building.getPosition());
             newNode.setLayoutX(position.getX());
             newNode.setLayoutY(position.getY());
             this.getChildren().add(newNode);
         }
-    }
 
-    private GuiPosition convertPosition(TilePosition tilePosition) {
-        double x = (tilePosition.getX() * 2 + tilePosition.getY()) * 35;
-        double y = tilePosition.getY() * 60;
-        return new GuiPosition(x,y);
-    }
-
-    private GuiPosition convertPosition(NodePosition nodePosition) {
-    	double x, y;
-    	if(nodePosition.isZ()) {
-            x = 1 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
-            y = 20 + nodePosition.getY() * 60;
-        } else {
-            x = 71 + (nodePosition.getX() * 2 + nodePosition.getY()) * 35;
-            y = 62 + nodePosition.getY() * 60;
-        }
-        return new GuiPosition(x,y);
-    }
-
-    private GuiPosition convertPosition(EdgePosition edgePosition) {
-        double x, y;
-        switch(edgePosition.getZ()) {
-            case A -> {
-                x = 38 + (edgePosition.getX() * 2 + edgePosition.getY()) * 35;
-                y = 9 + edgePosition.getY() * 60;
-            }
-            case B -> {
-                x = 38 + (edgePosition.getX() * 2 + edgePosition.getY()) * 35;
-                y = 69 + edgePosition.getY() * 60;
-            }
-            case C -> {
-                x = 100 * -0.14 +(edgePosition.getX() * 2 + edgePosition.getY()) * 35;
-                y = 39 + edgePosition.getY() * 60;
-            }
-            default -> {
-                x = 0;
-                y = 0;
-            }
-        }
-        return new GuiPosition(x,y);
+        getChildren().add(burglarNode);
     }
 
     public Map getMap() {
@@ -108,53 +85,50 @@ public class MapNode extends Region {
         this.map = map;
     }
 
-    public double getxOffset() {
-        return xOffset;
-    }
-
-    public void setxOffset(double xOffset) {
-        this.xOffset = xOffset;
-    }
-
-    public double getyOffset() {
-        return yOffset;
-    }
-
-    public void setyOffset(double yOffset) {
-        this.yOffset = yOffset;
-    }
-
-    public void clearPlaceholderNodes() {
-        refreshOutput();
-    }
-
-    public void addPlaceholderNodes(PlayerColor color, Controller controller) {
-        var possibleStreets = BuildRules.getValidEdgePositions(map, color);
-        var possibleBuildings = BuildRules.getValidNodePositions(map, color, BuildingType.VILLAGE);
-        possibleBuildings.addAll(BuildRules.getValidNodePositions(map, color, BuildingType.TOWN));
-
-        if(controller.getCurrentPlayerHand().isSuperset(Street.getCost(StreetType.ROAD))) {
-            for (EdgePosition edgePosition : possibleStreets) {
-                RoadNode roadNode = new RoadNode(edgePosition);
-                GuiPosition guiPosition = convertPosition(edgePosition);
-                roadNode.setLayoutX(guiPosition.getX());
-                roadNode.setLayoutY(guiPosition.getY());
-                StreetPlaceholderEventHandler eventHandler = new StreetPlaceholderEventHandler(controller, edgePosition);
-                roadNode.setOnMouseClicked(eventHandler);
-                this.getChildren().add(roadNode);
+    public void addPlaceholderNodes(Controller controller) {
+        for(StreetType type : StreetType.values()) {
+            if (controller.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
+                addStreetPlaceholders(controller.getCurrentPlayerColor(), type);
             }
         }
-        for(NodePosition nodePosition : possibleBuildings) {
-            BuildingType type = map.getBuilding(nodePosition).isEmpty() ? BuildingType.VILLAGE : BuildingType.TOWN;
-            if(controller.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
-                BuildingNode buildingNode = new BuildingNode(nodePosition);
-                GuiPosition guiPosition = convertPosition(nodePosition);
-                buildingNode.setLayoutX(guiPosition.getX());
-                buildingNode.setLayoutY(guiPosition.getY());
-                BuilderPlaceholderEventHandler eventHandler = new BuilderPlaceholderEventHandler(controller, nodePosition);
-                buildingNode.setOnMouseClicked(eventHandler);
-                this.getChildren().add(buildingNode);
+        for(BuildingType type : BuildingType.values()) {
+            if (controller.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
+                addBuildingPlaceholders(controller.getCurrentPlayerColor(), type);
             }
+        }
+    }
+
+    public void addBuildingPlaceholders(PlayerColor color, BuildingType type) {
+        var possibleBuildings = BuildRules.getValidNodePositions(map, color, type);
+        addBuildingPlaceholders(possibleBuildings, type);
+    }
+
+    public void addStreetPlaceholders(PlayerColor color, StreetType type) {
+        var possibleStreets = BuildRules.getValidEdgePositions(map, color, type);
+        addStreetPlaceholders(possibleStreets, type);
+    }
+
+    public void addStreetPlaceholders(List<EdgePosition> positions, StreetType type) {
+        for (EdgePosition edgePosition : positions) {
+            StreetNode roadNode = new StreetNode(edgePosition, type);
+            GuiPosition guiPosition = GuiPosition.valueOf(edgePosition);
+            roadNode.setLayoutX(guiPosition.getX());
+            roadNode.setLayoutY(guiPosition.getY());
+            StreetPlaceholderEventHandler streetEventHandler = new StreetPlaceholderEventHandler(eventHandler, edgePosition);
+            roadNode.setOnMouseClicked(streetEventHandler);
+            this.getChildren().add(roadNode);
+        }
+    }
+
+    public void addBuildingPlaceholders(List<NodePosition> positions, BuildingType type) {
+        for (NodePosition nodePosition : positions) {
+            BuildingNode buildingNode = new BuildingNode(nodePosition);
+            GuiPosition guiPosition = GuiPosition.valueOf(nodePosition);
+            buildingNode.setLayoutX(guiPosition.getX());
+            buildingNode.setLayoutY(guiPosition.getY());
+            BuilderPlaceholderEventHandler buildingEventHandler = new BuilderPlaceholderEventHandler(eventHandler, nodePosition);
+            buildingNode.setOnMouseClicked(buildingEventHandler);
+            this.getChildren().add(buildingNode);
         }
     }
 }

@@ -9,16 +9,16 @@ import siedlerController.Controller;
 import streets.StreetType;
 
 public class BuilderPlaceholderEventHandler implements EventHandler {
-    private Controller controller;
+    private SiedlerEventHandler eventHandler;
     private NodePosition position;
 
-    public BuilderPlaceholderEventHandler(Controller controller, NodePosition position) {
-        this.controller = controller;
+    public BuilderPlaceholderEventHandler(SiedlerEventHandler eventHandler, NodePosition position) {
+        this.eventHandler = eventHandler;
         this.position = position;
     }
 
     @Override
     public void handle(Event event) {
-        controller.placeBuilding(position);
+        eventHandler.handleBuildingClick(position);
     }
 }

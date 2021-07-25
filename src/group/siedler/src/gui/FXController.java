@@ -2,7 +2,9 @@ package gui;
 
 import buildings.Building;
 import buildings.BuildingType;
+import com.sun.prism.shader.Solid_TextureFirstPassLCD_AlphaTest_Loader;
 import diceRolling.DiceRolling;
+import helper.ListUtility;
 import helper.QuickJSON;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -30,28 +32,31 @@ import javafx.stage.Stage;
 import map.BuildRules;
 import map.Map;
 import map.MapGenerator;
+import map.MapTools;
 import materials.MaterialType;
 
 import org.json.simple.JSONObject;
 import player.PlayerColor;
-import positions.EdgePosition;
-import positions.EdgePositionZCord;
-import positions.NodePosition;
+import positions.*;
 import siedlerController.AiPlayer;
 import siedlerController.Controller;
+import siedlerController.GameState;
 import siedlerFramework.Player;
 import siedlerFramework.Presenter;
 import siedlerFramework.PrintToConsole;
 import streets.Street;
 import streets.StreetType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class FXController implements Initializable, Player, Presenter {
+public class FXController implements Initializable, Player, Presenter, SiedlerEventHandler {
 
     private Controller controller = new Controller();
-    private MapNode mapNode = new MapNode();
+    private MapNode mapNode;
     
     private boolean tradeFlag = true;
     private MaterialType sellType;
@@ -109,16 +114,12 @@ public class FXController implements Initializable, Player, Presenter {
 
     @Override
     public JSONObject requestMove(JSONObject inputType) {
-        if(!inputType.containsKey("type")) {
-            return QuickJSON.create("reply", "invalid input");
+        switch (controller.getState()) {
+            case OPTIONAL_MOVES:
+                tradeFlag = false;
+                break;
         }
-        switch (inputType.get("type").toString()) {
-            case "rollDices":
-                diceButton.setImage(new Image(classLoader.getResourceAsStream(diceButtonImageName)));
-                diceButton.setVisible(true);
-            case "optionalMove":
-                refreshOutput();
-        }
+        refreshOutput();
         return QuickJSON.create("reply", "valid");
     }
 
@@ -128,18 +129,35 @@ public class FXController implements Initializable, Player, Presenter {
             mapNode.refreshOutput();
             setResources();
             //trade();
-            
             updateDiceViews();
-            if(!controller.isRunning()) {
-                diceButton.setVisible(false);
-                dice1.setVisible(false);
-                dice2.setVisible(false);
-            } else {
-                dice1.setVisible(true);
-                dice2.setVisible(true);
-                if(controller.isItMyTurn(this) && controller.hasCurrentPlayerRolled()) {
-                    mapNode.addPlaceholderNodes(controller.getCurrentPlayerColor(), controller);
+
+            if(controller.isItMyTurn(this)) {
+                switch (controller.getState()) {
+                    case OPTIONAL_MOVES:
+                        mapNode.addPlaceholderNodes(controller);
+                        diceButton.setVisible(true);
+                        diceButton.setImage(new Image(classLoader.getResourceAsStream(finishButtonImageName)));
+                        break;
+                    case ROLL_DICES:
+                        diceButton.setVisible(true);
+                        diceButton.setImage(new Image(classLoader.getResourceAsStream(diceButtonImageName)));
+                        break;
+                    case MOVE_BURGLAR:
+                        diceButton.setVisible(true);
+                        diceButton.setImage(new Image(classLoader.getResourceAsStream(finishButtonImageName)));
+                        break;
+                    case SETUP_VILLAGE:
+                        mapNode.addBuildingPlaceholders(BuildRules.getStartNodePositions(mapNode.getMap()), BuildingType.VILLAGE);
+                        break;
+                    case SETUP_STREET:
+                        PlayerColor color = controller.getCurrentPlayerColor();
+                        for(StreetType type : StreetType.values()) {
+                            mapNode.addStreetPlaceholders(BuildRules.getStartEdgePositions(mapNode.getMap(), color, type), type);
+                        }
+                        break;
                 }
+            } else {
+                diceButton.setVisible(false);
             }
         }
     }
@@ -160,6 +178,23 @@ public class FXController implements Initializable, Player, Presenter {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void handleTileCLick(TilePosition position) {
+        if(controller.getState() == GameState.MOVE_BURGLAR) {
+
+        }
+    }
+
+    @Override
+    public void handleStreetClick(EdgePosition position) {
+
+    }
+
+    @Override
+    public void handleBuildingClick(NodePosition position) {
+
     }
 
     private class Roller extends AnimationTimer{
@@ -209,10 +244,10 @@ public class FXController implements Initializable, Player, Presenter {
 
     public void diceButtonClicked(){
         if(controller.isItMyTurn(this)) {
-            if(controller.hasCurrentPlayerRolled()) {
+            if(controller.getState() == GameState.OPTIONAL_MOVES) {
                 diceButton.setVisible(false);
                 controller.endMove();
-                mapNode.clearPlaceholderNodes();
+                mapNode.refreshOutput();
             } else {
                 diceButton.setImage(new Image(classLoader.getResourceAsStream(finishButtonImageName)));
                 clock.start();
@@ -253,6 +288,7 @@ public class FXController implements Initializable, Player, Presenter {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = new Controller();
         controller.setPresenter(this);
+        mapNode = new MapNode(controller);
 
 
         int colorIndex = ThreadLocalRandom.current().nextInt(0, PlayerColor.values().length);
@@ -270,14 +306,14 @@ public class FXController implements Initializable, Player, Presenter {
         mapNode.setMap(controller.getMap());
         setResources();
 
+        mapNode.refreshOutput();
+        mapNode.setLayoutX(390);
+        mapNode.setLayoutY(300);
+        mapNode.setScaleX(0.7);
+        mapNode.setScaleY(0.7);
+        mapNode.setScaleZ(0.7);
 
-        MapFrame mapFrame = new MapFrame(mapNode);
-
-        mapFrame.getMapNode().refreshOutput();
-        mapFrame.setLayoutX(300);
-        mapFrame.setLayoutY(150);
-
-        back.getChildren().add(mapFrame);
+        back.getChildren().add(mapNode);
         refreshOutput();
     }
 
@@ -325,9 +361,7 @@ public class FXController implements Initializable, Player, Presenter {
         AiPlayer aiPlayer = new AiPlayer(controller);
         controller.addPlayer(this, PlayerColor.BLUE);
         controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(this, PlayerColor.BLACK);
-        controller.addPlayer(aiPlayer, PlayerColor.WHITE);
-        controller.addPlayer(this, PlayerColor.PURPLE);
+        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
         controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
     }
     
@@ -343,67 +377,60 @@ public class FXController implements Initializable, Player, Presenter {
     
     //Sets Sell MaterialType with the first keystroke
     public void setFirstKeyStroke(KeyEvent event) {
-    	if (event.getCode() == KeyCode.DIGIT1) {
-    		this.sellType = MaterialType.WOOD;
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT2) {
-    		this.sellType = MaterialType.WHEAT;
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT3) {
-    		this.sellType = MaterialType.WOOL;
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT4) {
-    		this.sellType = MaterialType.ORE;
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT5) {
-    		this.sellType = MaterialType.CLAY;
-    		
-    	}
+        MaterialType type = switch (event.getCode()) {
+            case DIGIT1 -> MaterialType.WOOD;
+            case DIGIT2 -> MaterialType.WHEAT;
+            case DIGIT3 -> MaterialType.WOOL;
+            case DIGIT4 -> MaterialType.ORE;
+            case DIGIT5 -> MaterialType.CLAY;
+            default -> null;
+        };
+        if(type != null) {
+            sellType = type;
+            System.out.println("First material set!");
+            tradeFlag = true;
+        }
     }
     
   //Sets the Purchase value for the 2nd keystroke
     public void setSecondKeyStroke(KeyEvent event) {
-    	if (event.getCode() == KeyCode.DIGIT1) {
-    		controller.bankTrade(MaterialType.WOOD, sellType);
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT2) {
-    		controller.bankTrade(MaterialType.WHEAT, sellType);
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT3) {
-    		controller.bankTrade(MaterialType.WOOL, sellType);
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT4) {
-    		controller.bankTrade(MaterialType.ORE, sellType);
-    		
-    	}
-    	if (event.getCode() == KeyCode.DIGIT5) {
-    		controller.bankTrade(MaterialType.CLAY, sellType);
-    		
-    	}
+        MaterialType type = switch (event.getCode()) {
+            case DIGIT1 -> MaterialType.WOOD;
+            case DIGIT2 -> MaterialType.WHEAT;
+            case DIGIT3 -> MaterialType.WOOL;
+            case DIGIT4 -> MaterialType.ORE;
+            case DIGIT5 -> MaterialType.CLAY;
+            default -> null;
+        };
+        if(type != null) {
+            controller.bankTrade(type, sellType);
+            System.out.println("Trade accepted!");
+        }
+        System.out.println("Trade flag reset1!");
+        tradeFlag = false;
     }
     
     //Trade functionality
     @FXML
     public void trade(KeyEvent event) {
-    	if(controller.hasCurrentPlayerRolled())
-    		if(tradeFlag) {
-    			setFirstKeyStroke(event);
-    			tradeFlag = false;
-    		} else {
-    			setSecondKeyStroke(event);
-    			tradeFlag = true;
-    		}
-    	
-    	
-    	System.out.println("Trade accepted!");
+        handleKeyInput(event);
+
+    	if(controller.getState() == GameState.OPTIONAL_MOVES) {
+            if (!tradeFlag) {
+                setFirstKeyStroke(event);
+            } else {
+                setSecondKeyStroke(event);
+            }
+        }
+
     	refreshOutput();
+    }
+
+    public void handleKeyInput(KeyEvent event) {
+        switch(event.getCode()) {
+             case ENTER, SPACE:
+                diceButtonClicked();
+        }
     }
 
 

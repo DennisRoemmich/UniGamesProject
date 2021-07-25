@@ -3,7 +3,6 @@ package tiles;
 import positions.TilePosition;
 
 public class NeutralTile extends Tile {
-    private boolean isWater;
 
     public NeutralTile(boolean isWater) {
         this.isWater = isWater;

@@ -5,13 +5,14 @@ import java.util.Optional;
 
 import buildings.Building;
 import buildings.BuildingType;
+import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import positions.NodePosition;
 
-public class BuildingNode extends Region {
+public class BuildingNode extends Group {
 
     protected Optional<Building> building = Optional.empty();
 	protected NodePosition position;
