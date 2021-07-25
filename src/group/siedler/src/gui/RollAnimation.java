@@ -26,7 +26,7 @@ public class RollAnimation extends AnimationTimer {
         if (l - last > INTERVAL) {
             int r = 2 + (int) (Math.random() * 5);
             int j = 2 + (int) (Math.random() * 5);
-            fxController.updateDiceViews(r,j);
+            fxController.setDiceViews(r,j);
             last = l;
             count++;
             if (count > MAX_ROLLS || animationStopFlag) {

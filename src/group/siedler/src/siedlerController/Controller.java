@@ -39,7 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Controller extends GameController implements SiedlerEventHandler {
 
     private List<PlayerData> playerData = new ArrayList<>();
-    private Map map = MapGenerator.generateVariableMap(7, 5);
+    private Map map;
     private GameState state = GameState.NOT_RUNNING;
 	private int currentPlayer = 0;
 	private PlayerColor winningColor;
@@ -225,10 +225,16 @@ public class Controller extends GameController implements SiedlerEventHandler {
     
     public void playCard(CardType type, MaterialType materialtype) {
 
+        if(state != GameState.OPTIONAL_MOVES) {
+            PrintToConsole.println("It's not the right time to play a card!");
+            return;
+        }
+
     	if(getCurrentPlayerCards().getAmount(type) == 0) {
     		PrintToConsole.println("You do not own this card!");
     		return;
     	}
+
     	switch(type) {
 	    	case KNIGHT: 
 	    		state = GameState.MOVE_BURGLAR;
