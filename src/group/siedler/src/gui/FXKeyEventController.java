@@ -47,7 +47,7 @@ public class FXKeyEventController {
                 if(cardType.isPresent()) {
                     switch(cardType.get()) {
                         case MONOPOLY -> fxEngineController.getController().playCard(CardType.MONOPOLY, materialType.get());
-                        case INVENTION -> fxEngineController.getController().playCard(CardType.INVENTION, materialType.get());
+                        case INVENTION -> fxEngineController.getController().playInventionCard(materialBuffer, materialType.get());
                     }
                 } else {
                     fxEngineController.getController().bankTrade(materialType.get(), materialBuffer);

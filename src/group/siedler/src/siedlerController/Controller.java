@@ -222,6 +222,15 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	handleWinner();
     	mPresenter.refreshOutput();
     }
+
+    public void playInventionCard(MaterialType typeA, MaterialType typeB) {
+        if(state != GameState.OPTIONAL_MOVES) {
+            PrintToConsole.println("It's not the right time to play a card!");
+            return;
+        }
+        getCurrentPlayerHand().addResources(typeA, 1);
+        getCurrentPlayerHand().addResources(typeB, 1);
+    }
     
     public void playCard(CardType type, MaterialType materialtype) {
 

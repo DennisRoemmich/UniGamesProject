@@ -97,7 +97,7 @@
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
-      <Label fx:id="wheatLabel" layoutX="886.0" layoutY="314.0" text="2 :Wheat" textFill="GOLD">
+      <Label fx:id="wheatLabel" layoutX="886.0" layoutY="314.0" text="2: Wheat" textFill="GOLD">
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
