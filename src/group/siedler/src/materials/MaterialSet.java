@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 
 public class MaterialSet {
     JSONObject resources;
+    boolean tradeImpossible;
 
     public MaterialSet() {
         resources = new JSONObject();
@@ -68,18 +69,26 @@ public class MaterialSet {
     public static MaterialSet getFullHand() {
         MaterialSet materialSet = new MaterialSet();
         for(MaterialType type : MaterialType.values()) {
-            materialSet.addResources(type, 2);
+            materialSet.addResources(type, 10);
         }
         return materialSet;
     }
     
     public MaterialSet tradeWithBank(MaterialSet materialSet, MaterialType purchase, MaterialType sale) { 
     	if(materialSet.getAmount(sale) >= 4) {
+    		tradeImpossible = false;
     		materialSet.addResources(purchase, 1);
     		materialSet.removeResources(sale, 4);
+    		
+    	} else {
+    		tradeImpossible = true;
     	}
     	return materialSet;
     }
+    
+    public boolean isTradeImpossible() {
+		return tradeImpossible;
+	}
     
     public MaterialSet tradeWithPlayer(MaterialSet materialSet, MaterialType purchase, MaterialType sale, int purchased, int sold) {
     	materialSet.addResources(purchase, purchased);

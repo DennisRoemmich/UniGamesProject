@@ -41,6 +41,8 @@ public class AiPlayer implements Player {
                 for (int i = 0; i < 3; i++) {
                     tryCreatingBuilding(BuildingType.VILLAGE);
                     tryCreatingBuilding(BuildingType.TOWN);
+                    if(!controller.isRunning())
+                    	break;
                     tryCreatingStreet(StreetType.ROAD);
                     tryCreatingStreet(StreetType.SHIP);
                     tryTrading();
@@ -114,4 +116,9 @@ public class AiPlayer implements Player {
 	    	}
     	}
     }
+    	
+        public void tryTakingCard() {
+        		controller.takeCard();
+        }
+    
 }

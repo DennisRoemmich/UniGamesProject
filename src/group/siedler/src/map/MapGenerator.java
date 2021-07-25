@@ -108,7 +108,7 @@ public class MapGenerator {
         if(height > width) {
             height = width;
         }
-
+        
     }
 
     /*

@@ -2,7 +2,7 @@ package gui;
 
 import buildings.Building;
 import buildings.BuildingType;
-import com.sun.prism.shader.Solid_TextureFirstPassLCD_AlphaTest_Loader;
+import developmentCards.CardType;
 import diceRolling.DiceRolling;
 import helper.ListUtility;
 import helper.QuickJSON;
@@ -60,8 +60,10 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     
     private boolean tradeFlag = true;
     private MaterialType sellType;
+    private MaterialType chosen;
 
-    private boolean animationStopFlag = false;
+
+	private boolean animationStopFlag = false;
 
     private Stage stage;
     private Scene scene;
@@ -103,7 +105,36 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     @FXML
     private Label currentPlayer;
     @FXML
-    private ImageView tradeWithBankButton;
+   	private ImageView tradeWithBankButton;
+    @FXML
+    private Label winner;
+    @FXML
+    private Label tradeError;
+    @FXML
+    private Label points;
+    @FXML
+    private Label victoryPointCard;
+    @FXML
+    private Label knightCard;
+    @FXML
+    private Label roadCard;
+    @FXML
+    private Label inventionCard;
+    @FXML
+    private Label monopolyCard;
+    @FXML
+    private Label victoryAmount;
+    @FXML
+    private Label knightAmount;
+    @FXML
+    private Label roadAmount;
+    @FXML
+    private Label inventionAmount;
+    @FXML
+    private Label monopolyAmount;
+    @FXML
+    private Label consoleInfo;
+    
 
     Roller clock = new Roller();
 
@@ -128,7 +159,9 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
         if(mapNode != null) {
             mapNode.refreshOutput();
             setResources();
-            //trade();
+            setWinner();
+            setPoints();
+            setCards();
             updateDiceViews();
 
             if(controller.isItMyTurn(this)) {
@@ -178,6 +211,12 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+//        FXMLLoader loader = new FXMLLoader(new File("src/gui/SiedlerGUI.fxml").toURI().toURL());
+//        root = loader.load();
+//        stage = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     @Override
@@ -254,9 +293,9 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
             }
         }
 
-        System.out.println(back.getWidth());
-        System.out.println(back.getHeight());
-        System.out.println(diceButton.getFitHeight());
+        //System.out.println(back.getWidth());
+        //System.out.println(back.getHeight());
+        //System.out.println(diceButton.getFitHeight());
     }
 
     public void setDiceImage(int n, ImageView dice){
@@ -307,8 +346,10 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
         setResources();
 
         mapNode.refreshOutput();
+
         mapNode.setLayoutX(390);
         mapNode.setLayoutY(300);
+
         mapNode.setScaleX(0.7);
         mapNode.setScaleY(0.7);
         mapNode.setScaleZ(0.7);
@@ -366,13 +407,40 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     }
     
     public void setResources() {
-
+    	
+    	setPlayerMaterialsImage(controller.getCurrentPlayerColor().name(), playerMaterials);
     	currentPlayer.setText(controller.getCurrentPlayerColor().name() + "'s turn");
     	woodAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOD)));
     	wheatAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WHEAT)));
     	woolAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.WOOL)));
     	oreAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.ORE)));
     	clayAmount.setText(String.valueOf(controller.getCurrentPlayerHand().getAmount(MaterialType.CLAY)));
+    }
+    
+    
+    public MaterialType chooseResource(KeyEvent event) {
+    	while(chosen == null) {
+	    	if (event.getCode() == KeyCode.DIGIT1) {
+	    		return MaterialType.WOOD;	    		
+	    	}
+	    	if (event.getCode() == KeyCode.DIGIT2) {
+	    		return MaterialType.WHEAT;
+	    		
+	    	}
+	    	if (event.getCode() == KeyCode.DIGIT3) {
+	    		return MaterialType.WOOL;
+	    		
+	    	}
+	    	if (event.getCode() == KeyCode.DIGIT4) {
+	    		return MaterialType.ORE;
+	    		
+	    	}
+	    	if (event.getCode() == KeyCode.DIGIT5) {
+	    		return MaterialType.CLAY;
+	    		
+	    	}
+    	}
+    	return MaterialType.WOOD;
     }
     
     //Sets Sell MaterialType with the first keystroke
@@ -410,6 +478,61 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
         tradeFlag = false;
     }
     
+    public void setWinner() {
+    	if(controller.isGameHasWinner()) {
+    		
+    		winner.setText("Player " +controller.getWinningColor() + " has won!");
+    	}
+    }
+     public void setPoints() {
+    	int winPoints = controller.getWinPoints();
+    	points.setText("Victory Points:        " + winPoints);
+     }
+     
+     public void setCards() {
+//    	 int counterVP = 0;
+//    	 int counterK = 0;
+//    	 int counterR = 0;
+//    	 int counterI = 0;
+//    	 int counterM = 0;
+//    	 victoryAmount.setText(String.valueOf(counterVP));
+//    	 knightAmount.setText(String.valueOf(counterK));
+//    	 roadAmount.setText(String.valueOf(counterR) );
+//    	 inventionAmount.setText(String.valueOf(counterI) );
+//    	 monopolyAmount.setText(String.valueOf(counterM) );
+//    	 
+//    	 for (int i = 0; i < controller.getPlayerCards().size(); i++) {
+//    		 if(controller.getPlayerCards().get(i).getType() == CardType.VICTORY) {
+//    			 counterVP++;
+//    			 victoryAmount.setText(String.valueOf(counterVP) );
+//    			
+//    		 }
+//    		 if(controller.getPlayerCards().get(i).getType() == CardType.KNIGHT) {
+//    			 counterK++;
+//    			 knightAmount.setText(String.valueOf(counterK));
+//    			 
+//    		 }
+//    		 if(controller.getPlayerCards().get(i).getType() == CardType.ROAD) {
+//    			 counterR++;
+//    			 roadAmount.setText(String.valueOf(counterR) );
+//    		 }
+//    		 if(controller.getPlayerCards().get(i).getType() == CardType.INVENTION) {
+//    			 counterI++;
+//    			 inventionAmount.setText(String.valueOf(counterI) );
+//    		 }
+//    		 if(controller.getPlayerCards().get(i).getType() == CardType.MONOPOLY) {
+//    			 counterM++;
+//    			 monopolyAmount.setText(String.valueOf(counterM) );
+//    		 }
+//    	 }
+//    	 
+    	 knightAmount.setText(String.valueOf(controller.getCurrentPlayerCards().getAmount(CardType.KNIGHT)));
+    	 victoryAmount.setText(String.valueOf(controller.getCurrentPlayerCards().getAmount(CardType.VICTORY)));
+    	 roadAmount.setText(String.valueOf(controller.getCurrentPlayerCards().getAmount(CardType.ROAD)));
+    	 inventionAmount.setText(String.valueOf(controller.getCurrentPlayerCards().getAmount(CardType.INVENTION)));
+    	 monopolyAmount.setText(String.valueOf(controller.getCurrentPlayerCards().getAmount(CardType.MONOPOLY)));
+     }
+    
     //Trade functionality
     @FXML
     public void trade(KeyEvent event) {
@@ -423,6 +546,87 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
             }
         }
 
+		if (event.getCode() == KeyCode.F1) {
+			PrintToConsole.println("*---Welcome to Siedler!---*");
+			PrintToConsole.println("");
+			PrintToConsole.println("*---How to play:---*");
+			PrintToConsole.println("Trading: Press a key from \"1\" to \"5\" on your keyboard for the resource to trade in and then another key from \"1\" to \"5\" to get the corresponding resource.");
+			PrintToConsole.println("Take a Development Card: Press the \"0\" key on your keyboard");
+			PrintToConsole.println("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" key on your keyboard for the desired card to play");
+			PrintToConsole.println("Important: If you like to play a development card, please choose the resource you want to get by pressing the desired number key on your keyboard BEFORE playing the card. Please press \"Enter\" afterwards such that no accidental trading occurs :)");
+			PrintToConsole.println("");
+			PrintToConsole.println("*---Differences to the standard game---*");
+			PrintToConsole.println("The invention card gives you 5 of one resource instead of 2 of any. With 4:1 trading the result is the same. ");
+			PrintToConsole.println("The Road building card gives you 2 Clay and Wood instead of letting you build two roads. With those resources you still may build those 2 roads or something else as you desire!");
+    		refreshOutput();
+    		return;
+    	}
+    	if(controller.hasCurrentPlayerRolled()) {
+
+    		String error ="You do not own this card!";
+    		
+    		if (event.getCode() == KeyCode.DIGIT0) {
+        		controller.takeCard();
+        		refreshOutput();
+        		return;
+        	}
+        	if (event.getCode() == KeyCode.K) {
+        		if(controller.getCurrentPlayerCards().getAmount(CardType.KNIGHT)>0) {
+        			controller.playCard(CardType.KNIGHT, sellType);
+        			refreshOutput();
+        			return;
+        		} else {
+        			PrintToConsole.println(error);
+        			return;
+        		}
+        	}	
+        	if (event.getCode() == KeyCode.R) {
+        		if(controller.getCurrentPlayerCards().getAmount(CardType.ROAD)>0) {
+        			controller.playCard(CardType.ROAD, sellType);
+        			refreshOutput();
+        			return;
+        		} else {
+        			PrintToConsole.println(error);
+        			return;
+        		}
+        	}	
+        	if (event.getCode() == KeyCode.I ) {
+        		if(controller.getCurrentPlayerCards().getAmount(CardType.INVENTION)>0) {
+        			controller.playCard(CardType.INVENTION, sellType);
+        			refreshOutput();
+        			return;
+        		} else {
+        			PrintToConsole.println(error);
+        			return;
+        		}
+        	}	
+        	if (event.getCode() == KeyCode.M) {
+        		if(controller.getCurrentPlayerCards().getAmount(CardType.MONOPOLY)>0) {
+        		controller.playCard(CardType.MONOPOLY, sellType);
+        		refreshOutput();
+        		return;
+        		} else {
+        			PrintToConsole.println(error);
+        			return;
+        		}
+        	}	
+    		if(tradeFlag) {
+    			setFirstKeyStroke(event);
+    			tradeFlag = false;
+    			PrintToConsole.println("1st input registered!");
+    		} else {
+    			tradeError.setText("");
+    			setSecondKeyStroke(event);
+    			if(controller.getCurrentPlayerHand().isTradeImpossible()) {
+    				//tradeError.setText("Not enough ressources!");
+    				PrintToConsole.println("Not enough ressources!");
+    			} else {
+    				PrintToConsole.println("2nd input registered!");
+    			}
+    			tradeFlag = true;
+    		}
+    	
+    	}
     	refreshOutput();
     }
 
