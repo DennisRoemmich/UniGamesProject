@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#trade" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FXController">
+   <children>
+      <ImageView fx:id="background" fitHeight="900.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../resources/Background.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="diceButton" fitHeight="187.0" fitWidth="187.0" layoutX="1001.0" layoutY="698.0" onMouseClicked="#diceButtonClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+         <image>
+            <Image url="@../resources/DiceButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dice1" fitHeight="130.0" fitWidth="130.0" layoutX="486.0" layoutY="731.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="470.0">
+         <image>
+            <Image url="@../resources/Dice1.png" />
+         </image></ImageView>
+      <ImageView fx:id="dice2" fitHeight="130.0" fitWidth="130.0" layoutX="625.0" layoutY="735.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="39.0">
+         <image>
+            <Image url="@../resources/Dice1.png" />
+         </image></ImageView>
+      <ImageView fx:id="playerMaterials" fitHeight="568.0" fitWidth="394.0" layoutX="795.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/PlayerBLUEMaterials.png" />
+         </image></ImageView>
+       <Label fx:id="currentPlayer" layoutX="924.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
+         <font>
+            <Font name="Bauhaus 93" size="30.0" />
+         </font></Label>
+      <Label fx:id="woodLabel" layoutX="886.0" layoutY="239.0" prefWidth="103.0" text="1: Wood" textFill="SADDLEBROWN">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="wheatLabel" layoutX="886.0" layoutY="314.0" text="2 :Wheat" textFill="GOLD">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="woolLabel" layoutX="886.0" layoutY="389.0" text="3: Wool" textFill="DARKGREEN">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="oreLabel" layoutX="886.0" layoutY="464.0" text="4: Ore" textFill="GREY">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="clayLabel" layoutX="886.0" layoutY="539.0" text="5: Clay" textFill="DARKRED">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="woodAmount" layoutX="1040.0" layoutY="239.0" text="error" textFill="SADDLEBROWN">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="wheatAmount" layoutX="1040.0" layoutY="314.0" text="error" textFill="GOLD">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="woolAmount" layoutX="1040.0" layoutY="389.0" text="error" textFill="DARKGREEN">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="oreAmount" layoutX="1040.0" layoutY="464.0" text="error" textFill="GREY">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <Label fx:id="clayAmount" layoutX="1040.0" layoutY="539.0" text="error" textFill="DARKRED">
+         <font>
+            <Font name="Bauhaus 93" size="27.0" />
+         </font></Label>
+      <ImageView fx:id="tradeWithBankButton" fitHeight="187.0" fitWidth="187.0" layoutX="78.0" layoutY="701.0" onMouseClicked="#switchToTradingWithBankScene" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+         <image>
+            <Image url="@../resources/TradeWithBankButton.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

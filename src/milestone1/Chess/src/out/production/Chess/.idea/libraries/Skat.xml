@@ -11,7 +11,7 @@
       <root url="jar://$USER_HOME$/Downloads/Skat.jar!/javafx.graphics" />
       <root url="jar://$USER_HOME$/Downloads/Skat.jar!/javafx.media" />
       <root url="jar://$USER_HOME$/Downloads/Skat.jar!/javafx.swing" />
-      <root url="jar://$USER_HOME$/Downloads/Skat.jar!/javafx.web" />
+      <root url="jar://$USER_HOME$/Downloads/Skat.jar!/javafx.web" />+
     </SOURCES>
   </library>
 </component>

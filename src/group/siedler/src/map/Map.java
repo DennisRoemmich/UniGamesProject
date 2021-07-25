@@ -6,6 +6,7 @@ import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
+import streets.PositionedStreet;
 import streets.Street;
 import tiles.PositionedTile;
 import tiles.ResourceTile;
@@ -19,7 +20,7 @@ public class Map {
     private TilePosition burglarPosition = new TilePosition(0,0);
     private List<PositionedTile> tiles = new ArrayList<>();
     private List<Building> buildings = new ArrayList<>();
-    private List<Street> streets = new ArrayList<>();
+    private List<PositionedStreet> streets = new ArrayList<>();
 
     public Map() {
 
@@ -51,23 +52,23 @@ public class Map {
     }
 
     public List<PositionedTile> getMaterialTiles() {
-        return tiles.stream().filter(tile -> tile.getTile() instanceof ResourceTile).toList();
+        return tiles.stream().filter(tile -> tile.getObject() instanceof ResourceTile).toList();
     }
 
     public List<Building> getBuildings() {
         return buildings;
     }
 
-    public List<Street> getStreets() {
+    public List<PositionedStreet> getStreets() {
         return streets;
     }
 
-    public List<Street> getStreets(PlayerColor color) {
-        return streets.stream().filter(street -> street.getColor() == color).toList();
+    public List<PositionedStreet> getStreets(PlayerColor color) {
+        return streets.stream().filter(street -> street.getObject().getColor() == color).toList();
     }
 
     public Optional<Tile> getTile(TilePosition position) {
-        return tiles.stream().filter(tile -> tile.getPosition().equals(position)).map(PositionedTile::getTile).findFirst();
+        return tiles.stream().filter(tile -> tile.getPosition().equals(position)).map(pT -> pT.getObject()).findFirst();
     }
 
     public Optional<Building> getBuilding(NodePosition position) {
@@ -75,7 +76,7 @@ public class Map {
     }
 
     public Optional<Street> getStreet(EdgePosition position) {
-        return streets.stream().filter(street -> street.getPosition().equals(position)).findFirst();
+        return streets.stream().filter(s -> s.getPosition().equals(position)).map(s -> s.getObject()).findFirst();
     }
 
     public void addTiles(PositionedTile... newTiles) {
@@ -85,9 +86,8 @@ public class Map {
     }
 
     public void addTile(PositionedTile newTile) {
-        if(!tiles.stream().map(PositionedTile::getPosition).toList().contains(newTile.getPosition())) {
-            tiles.add(newTile);
-        }
+        tiles.removeIf(pT -> pT.getPosition().equals(newTile.getPosition()));
+        tiles.add(newTile);
     }
 
     public void addBuilding(Building... newBuildings) {
@@ -104,16 +104,16 @@ public class Map {
         }
     }
 
-    public void addStreets(Street... newStreets) {
-        for(Street newStreet : newStreets) {
+    public void addStreets(PositionedStreet... newStreets) {
+        for(PositionedStreet newStreet : newStreets) {
             if(MapTools.isPositionValid(this, newStreet.getPosition())) {
                 addStreet(newStreet);
             }
         }
     }
 
-    public void addStreet(Street newStreet) {
-        if(!streets.stream().map(Street::getPosition).toList().contains(newStreet.getPosition())) {
+    public void addStreet(PositionedStreet newStreet) {
+        if(!streets.stream().map(s -> s.getPosition()).toList().contains(newStreet.getPosition())) {
             streets.add(newStreet);
         }
     }

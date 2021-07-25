@@ -7,29 +7,561 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65a09091-b678-486c-87a4-af740ea5493c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/artifacts/Siedler_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Siedler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Skat.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../group/siedler/Siedler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/Siedler.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXButton 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXCard 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXCurrentTrick 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXHandShelf 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXLauncher 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXPresenter 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/javaFX/FXSkat 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/SkatGUI 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptCancel2 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptCancel2Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptCancel4 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptCancel4Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptSkat 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonAcceptSkatHighlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor1 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor1Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor2 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor2Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor3 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor3Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor4 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor4Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor5 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameColor5Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType2 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType2Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType3 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType3Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType4 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonGameType4Highlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonNext 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonNextHighlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonPlay 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonPlayHighlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonSelectedForeground 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonSkat3 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonSort 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Buttons/ButtonSortHighlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/Card10 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/Card7 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/Card8 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/Card9 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardAce 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardBack 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardBackHorizontalLeft 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardBackHorizontalRight 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardClubsColor 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardClubsEmpty 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardDiamondsColor 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardDiamondsEmpty 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardHeartsColor 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardHeartsEmpty 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardHighlighted 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardJack 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardKing 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardQueen 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardSpadesColor 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/CardSpadesEmpty 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/ViewNewGame 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Cards/ViewResult 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/Club 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/Diamond 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/Heart 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/MarkerClubs 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/MarkerDiamonds 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/MarkerHearts 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/MarkerSpades 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/MarkerTrump 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/PlayerIconDeclarer 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/PlayerIconTogether 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/Spade 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/StackDeclarer 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/StackDeclarerNotYou 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/StackDeclarerYou 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Other/StackTogether 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ResultView 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewAuctionDialog 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewBackgroundBlank 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewBackgroundPlay 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewGameInfo 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewGameMessage 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewNewGame 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewPlayer 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewPlayer1 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewPlayer2 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewPlayer3 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewSkat 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewWelcome 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/resources/images/Views/ViewWelcomeSelected 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone3/skat/src/test/Test 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../releases/group/milestone4/Games 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Chess/src/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Chess/src/.idea/workspace 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/artifacts/FXRummikub_jar 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/artifacts/Rummikub_jar 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/checkstyle-idea 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/compiler 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/description 2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/encodings 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/gradle 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/libraries/javafx_swt 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/libraries/json_simple_1_1_1 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/project-template 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/sonarlint/issuestore/index 2.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/uiDesigner 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/.idea/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/lib/json-simple-1.1.1 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/artifacts/FXRummikub 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/artifacts/FXRummikub_jar/FXRummikub 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/artifacts/Rummikub_jar/FXRummikub 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/JavaFX/empty 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/META-INF/MANIFEST 4.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/framework/empty 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/Board 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/META-INF/MANIFEST 4.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/RummikubBoard 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/Test 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/DrawButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/DrawButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/CancelButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/CancelButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/DoneAndDrawButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/DoneAndDrawButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/MenuButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/MenuButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerFiery 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerFiery 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerJeans 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerJeans 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerLime 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerLime 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerMinion 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/PlayerMinion 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/ResetButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/ResetButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/RummikubRack 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/RummikubRack 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/SortForGroupButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/SortForGroupButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/SortForRunButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/Final/SortForRunButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/GroupButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/GroupButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/MenuButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/MenuButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/PlayerCian 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/PlayerLime 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/PlayerRed 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/PlayerYellow 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/PlayerYellow 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/ResetButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/ResetButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/RummikubRack 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/RummikubRack 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/RummikubTile 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/RunButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/RunButton 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/background 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonContextMenu 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonDraw 3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonDraw 4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonFinish 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonFinish 4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonFinishNotPossible 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonReset 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonSortForGroup 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonSortForGroup 4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonSortForRun 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonSortForRun 4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonStartNewGame 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonStartNewGame 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonUndo 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/buttonUndo 4.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/contextMenu 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Home 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Home 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Kreuz 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Kreuz 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Zahnrad 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/Zahnrad 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/plus 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/icons/plus 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/loorbeerkranz 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/test/tile 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/images/test/tile 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/resources/rummikubGUI 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/sample/sample 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/out/production/FXRummikub/sample/sample 4.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/.idea/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/.idea/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/.idea/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/FXRummikub 2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/FXController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/FXGridCell 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/GameArea 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/GamePoint 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/GridBuilder 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/JavaFX/empty 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/Tests/Console 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/Tests/Test 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/FileController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/FileManager 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/GameController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/GameLog 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/NetworkController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/Player 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/Presenter 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/RequestType 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/framework/empty 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/main/GUIStarter 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/main/Main 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/Board 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/RummikubBoard 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/Test 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/DrawButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/CancelButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/DoneAndDrawButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/MenuButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/PlayerFiery 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/PlayerJeans 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/PlayerLime 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/PlayerMinion 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/ResetButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/RummikubRack 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/SortForGroupButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/Final/SortForRunButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/GroupButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/MenuButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/PlayerCian 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/PlayerLime 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/PlayerRed 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/PlayerYellow 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/ResetButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/RummikubRack 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/RummikubTile 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/RunButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/background 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonContextMenu 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonDraw 2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonFinish 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonFinishNotPossible 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonReset 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonSortForGroup 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonSortForRun 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonStartNewGame 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/buttonUndo 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/contextMenu 2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/icons/Home 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/icons/Kreuz 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/icons/Zahnrad 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/icons/plus 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/loorbeerkranz 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/images/test/tile 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/resources/rummikubGUI 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_controller/ActionType 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_controller/GameMove 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_controller/GameState 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_controller/PlayerInfo 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_controller/RummikubController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/Board 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/GridTile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/Rack 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/Rummikub 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/RummikubPlayer 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/Set 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/Tile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/rummikub_game/TileColor 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/sample/Controller 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/sample/Main 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../FXRummikub/src/sample/sample 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/description 2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/encodings 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/libraries/Software_Project_SS21 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/project-template 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/.idea/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../TicTacToeStarter/src/com/company/Main 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/Framework/.idea/workspace 3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/Framework/.idea/workspace 4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/rummikub/.idea/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/rummikub/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/rummikub/.idea/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/rummikub/.idea/rummikub 2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/rummikub/.idea/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.classpath 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/compiler 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/encodings 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/DaltonsBig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/DaltonsSmall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/Dice6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/DiceButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/FinishButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerBLACKMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerBLUEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerGreenMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerPURPLEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerREDMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerWHITEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/PlayerYELLOWMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/SiedlerGUI.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/TradeWithBankButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/TradingWindow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/gui/FXController 2.class~origin_newSiedler" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/gui/SiedlerGUI 2.fxml~origin_newSiedler" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/gui/TradingWithBankGUI.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/DaltonsBig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/DaltonsSmall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/Dice6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/DiceButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/FinishButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerBLACKMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerBLUEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerGreenMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerPURPLEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerREDMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerWHITEMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/PlayerYELLOWMaterials.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/SiedlerGUI.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/TradeWithBankButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/resources/TradingWindow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/siedlerController/Controller 2.class~origin_newSiedler" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/siedlerController/Main 2.class~origin_newSiedler" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/.idea/libraries/json_simple_1_1_1 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/.idea/libraries/lib 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/BurglarNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/SiedlerEventHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/StreetNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/TileClickedEventHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/player/PlayerColor 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/player/PlayerData 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/EdgePosition 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/EdgePositionZCord 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/NodePosition 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/NodePositionZCord 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/PositionedObject 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/PositionedObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/positions/TilePosition 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Background 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/DaltonsBig 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/DaltonsBig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/DaltonsSmall 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/DaltonsSmall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice1 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice2 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice3 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice4 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice5 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/Dice6 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/DiceButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/FinishButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerBLACKMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerBLUEMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerGreenMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerPURPLEMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerREDMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerWHITEMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/PlayerYELLOWMaterials 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/SiedlerGUI 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/TradeWithBankButton 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/TradingWindow 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/AiPlayer 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Controller 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/GameState 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/GameState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Main 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/FileController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/GameController 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/GameLog 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/Player 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/Presenter 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/PrintToConsole 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerFramework/WriteError 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/streets/PositionedStreet 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/streets/PositionedStreet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/streets/Street 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/streets/StreetType 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/NeutralTile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/PositionedTile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/ResourceTile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/Tile 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/FXRummikub 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/Skat 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/TTTAndreas 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/TTTDennis 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/TTTFernanda 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/TTTJan 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../latestTTTjars/TTTMaik 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/artifacts/GameCollection_jar 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/FXRummikub 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/TTTAndreas 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/TTTDennis 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/TTTFernanda 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/TTTJan 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/TTTMaik 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/libraries/json_simple_1_1_1 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../classes/artifacts/Chess_jar/Chess 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../classes/artifacts/GameCollection_jar/Chess 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/.idea/artifacts/Games_jar 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/.idea/libraries/TTTAndreas 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/.idea/libraries/TTTDennis 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/.idea/libraries/TTTJan 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/.idea/libraries/TTTMaik 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/console/sample 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/.gitignore 2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/libraries/json_simple_1_1_1 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/misc 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/modules 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/uiDesigner 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea 2/vcs 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea/artifacts/Games_jar 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea/libraries/TTTAndreas 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea/libraries/TTTDennis 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea/libraries/TTTJan 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/.idea/libraries/TTTMaik 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/META-INF/MANIFEST 2.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/console/sample 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../out/production/JavaFxApplication/out/production/Chess/sample 2/sample 2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Games_jar2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/FXRummikub 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Siedler 2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_205239.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_205355.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_205514.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_205711.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210044.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210121.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210409.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210549.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210607.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/210724_210731.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/aiplayer/AiPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/.idea/artifacts/Games_jar2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_205239.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_205355.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_205514.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_205711.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_210044.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_210121.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_210409.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_210549.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/210724_210607.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/GUI 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/GUIStarter 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/Main 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/O 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/Tictactoe 2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/src/tictactoe/X 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/v4Console 2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../tietz/v4-tictactoe/v4GUI 2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../group/siedler/out/production/Siedler/gui/SiedlerGUI.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/diceRolling/DiceRolling.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/diceRolling/DiceRolling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/BuilderPlaceholderEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/BuilderPlaceholderEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/BuildingNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/BuildingNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/FXController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/FXController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/SiedlerGUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/resources/SiedlerGUI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/GuiPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/GuiPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/MapFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/MapNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/MapNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/RoadNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/StreetPlaceholderEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/StreetPlaceholderEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/gui/TileNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/gui/TileNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/map/BuildRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/map/BuildRules.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/map/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/map/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/map/MapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/map/MapGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/AiPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/AiPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/siedlerController/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/streets/Street.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/streets/Street.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/tiles/NeutralTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/NeutralTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/tiles/PositionedTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/PositionedTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/tiles/ResourceTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/ResourceTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../group/siedler/src/tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../group/siedler/src/tiles/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/FXRummikub.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Siedler.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Chess.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/ConsoleUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/ConsoleUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/console/MenuPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/console/MenuPrototype.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/Chess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Chess.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/AiPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Chess.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/Chess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/ChessBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/pieces/ChessPieceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/pieces/ChessPieceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/.gitignore 2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/artifacts/Games_jar 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/FXRummikub.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/Siedler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/Skat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/Skat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/TicTacToeFX 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/libraries/rummikub 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/misc 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/modules 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/vcs 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/.idea/workspace 2.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1utaHbfwfR6DThL5BGQNKZmw2w8" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -88,7 +620,9 @@
       <option name="presentableId" value="Default" />
       <updated>1625487252819</updated>
       <workItem from="1625487254146" duration="24000" />
-      <workItem from="1626650270502" duration="1061000" />
+      <workItem from="1626650270502" duration="1673000" />
+      <workItem from="1626989209995" duration="28000" />
+      <workItem from="1627149748894" duration="4516000" />
     </task>
     <servers />
   </component>
@@ -106,6 +640,17 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/aiplayer/AiPlayer.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/src$ConsoleMain.ic" NAME="ConsoleMain Coverage Results" MODIFIED="1623763058189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

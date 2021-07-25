@@ -7,16 +7,16 @@ import siedlerController.Controller;
 import streets.StreetType;
 
 public class StreetPlaceholderEventHandler implements EventHandler {
-    private Controller controller;
+    private SiedlerEventHandler eventHandler;
     private EdgePosition position;
 
-    public StreetPlaceholderEventHandler(Controller controller, EdgePosition position) {
-        this.controller = controller;
+    public StreetPlaceholderEventHandler(SiedlerEventHandler eventHandler, EdgePosition position) {
+        this.eventHandler = eventHandler;
         this.position = position;
     }
 
     @Override
     public void handle(Event event) {
-        controller.placeStreet(position, StreetType.ROAD);
+        eventHandler.handleStreetClick(position);
     }
 }

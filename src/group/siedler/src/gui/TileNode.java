@@ -1,6 +1,8 @@
 package gui;
 
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import player.PlayerColor;
 import tiles.Tile;
 import tiles.NeutralTile;
@@ -20,7 +22,7 @@ import javafx.scene.text.TextAlignment;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TileNode extends Region {
+public class TileNode extends Group {
 
     protected Optional<Tile> tile = Optional.empty();
 
@@ -37,11 +39,9 @@ public class TileNode extends Region {
 
     private void refreshOutput() {
         this.getChildren().clear();
-
         StackPane stack = new StackPane();
         stack.setAlignment(Pos.CENTER);
         this.getChildren().add(stack);
-
         Polygon hexagonShape = new Polygon();
 
         double centerX = 50;

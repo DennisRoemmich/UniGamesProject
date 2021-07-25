@@ -31,15 +31,18 @@ public class DiceRolling {
     }
 
     public static void handOutResources(int number, Map map, List<PlayerData> players) {
-        var tilesWithNumber = map.getMaterialTiles().stream().filter(tile -> ((ResourceTile)tile.getTile()).getHitnumber() == number).toList();
+        var tilesWithNumber = map.getMaterialTiles().stream().filter(t -> (((ResourceTile)t.getObject()).getHitnumber() == number)).toList();
         for(PositionedTile positionedTile : tilesWithNumber) {
+            if(positionedTile.getPosition().equals(map.getBurglarPosition())) {
+                continue;
+            }
             for(NodePosition buildingPosition : MapTools.getNodePositions(positionedTile.getPosition())) {
                 Optional<Building> building = map.getBuilding(buildingPosition);
                 if(building.isPresent()) {
                     Optional<PlayerData> player = players.stream().filter(p -> p.getColor().equals(building.get().getColor())).findFirst();
                     if(player.isPresent()) {
                         int amount = building.get().getType() == BuildingType.TOWN ? 2 : 1;
-                        ResourceTile resourceTile = (ResourceTile) positionedTile.getTile();
+                        ResourceTile resourceTile = (ResourceTile) positionedTile.getObject();
                         player.get().getHand().addResources(resourceTile.getResourceType(), amount);
                     }
                 }
