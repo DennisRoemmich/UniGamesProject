@@ -5,13 +5,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import map.BuildRules;
+import siedlerFramework.PrintToConsole;
 
 
 public class BurglarNode extends Group {
     private ImageView imageView;
 
     public BurglarNode() {
-        Image image = new Image(getClass().getResourceAsStream("/resources/DaltonsSmall.png"));
+        ClassLoader loader = getClass().getClassLoader();
+        Image image = new Image(loader.getResourceAsStream("DaltonsSmall.png"));
         imageView = new ImageView(image);
         double scaleFactor = 0.2;
         imageView.setScaleX(scaleFactor);

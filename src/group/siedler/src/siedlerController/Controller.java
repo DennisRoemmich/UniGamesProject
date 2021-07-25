@@ -92,27 +92,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
         return color == getCurrentPlayerColor();
     }
 
-    private boolean preparationPhaseActive() {
-        for(PlayerData pD : playerData) {
-            if(map.getStreets(pD.getColor()).size() < 2) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Game Logic
-    
-    private boolean handleWinner() {
-    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
-    	    if (getWinPoints(playerColor) >= 10) {
-                System.out.println(playerColor + " player wins!");
-                mPresenter.refreshOutput();
-                return true;
-            }
-    	}
-    	return false;
-    }
 
     private int getWinPoints(PlayerColor color) {
         if(playerData.stream().anyMatch(pD -> pD.getColor().equals(color))) {
@@ -248,7 +228,8 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	//cardRoll = ThreadLocalRandom.current().nextInt(0, 4);
     	switch(type) {
 	    	case KNIGHT: 
-	    		//TODO: Move burglar
+	    		state = GameState.MOVE_BURGLAR;
+	    		mPlayers.get(currentPlayer).requestMove(QuickJSON.create("move", GameState.MOVE_BURGLAR.toString()));
 	    		getCurrentPlayerCards().removeResources(type, 1);
 	    		break;
 	    	case VICTORY:
@@ -333,43 +314,13 @@ public class Controller extends GameController implements SiedlerEventHandler {
             }
         }
     }
-
+    
     public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
-        if(state != GameState.OPTIONAL_MOVES) {
+        if (state != GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("bankTrade(...) called at wrong time");
             return;
         }
 
-        MaterialSet newHand;
-
-        //TODO: Get the sellType and purchaseType from the GUI
-        //purchaseType = type;
-        //TODO: Get the sellType and purchaseType from the GUI
-
-//    	switch(getCurrentPlayerHand().getAmount(sellType)) {
-//    	case sellType = MaterialType.ORE:
-//    	}
-    
-//    public void playerTrade(PlayerData tradingPartner) {
-//    	MaterialSet currentPlayerNewHand;
-//    	MaterialSet otherPlayerNewHand;
-//    	
-//    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-//    	MaterialType MaterialType = MaterialType.ORE;
-//    	MaterialType purchaseType = MaterialType.CLAY;
-//    	int purchased = 1;
-//    	int sold = 1;
-//    	//TODO: Get the sellType and purchaseType and amounts of both from the GUI
-//    	
-//    	currentPlayerNewHand = getCurrentPlayerHand().tradeWithPlayer(getCurrentPlayerHand(), purchaseType, sellType, purchased, sold);
-//    	playerData.get(currentPlayer).setHand(currentPlayerNewHand);
-//    	
-//    	otherPlayerNewHand = tradingPartner.getHand().tradeWithPlayer(getCurrentPlayerHand(), sellType, purchaseType, sold, purchased);
-//    	tradingPartner.setHand(otherPlayerNewHand);
-//    	currentPlayerNewHand.toString();
-//    }
-    
-    public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
     	MaterialSet newHand;
 	
     	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
@@ -385,21 +336,17 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
         return false;
     }
-    
-    
-    private void handleWinner() {
-//    	for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
-//    	    List<Building> buildings = map.getBuildings(playerColor);
-//            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
-//            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
-    		if (playerData.get(currentPlayer).getWinPoints() >= 10) {
-    			this.winningColor = playerData.get(currentPlayer).getColor();
-    		    System.out.println(playerData.get(currentPlayer).getColor() + " player wins!");
-    		    isRunning = false;
-    		    gameHasWinner = true;
+
+
+    private boolean handleWinner() {
+        for (PlayerColor playerColor : playerData.stream().map(PlayerData::getColor).toList()) {
+            if (getWinPoints(playerColor) >= 10) {
+                System.out.println(playerColor + " player wins!");
                 mPresenter.refreshOutput();
-    		}
-//    	}
+                return true;
+            }
+        }
+        return false;
     }
 
     public void endMove() {

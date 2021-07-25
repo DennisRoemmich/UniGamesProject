@@ -14,7 +14,7 @@ public class CardSet {
     public CardSet() {
         resources = new JSONObject();
         for (CardType type : CardType.values()) {
-            resources.put(type.toString(), 0);
+            resources.put(type.toString(), 10);
         }
     }
 

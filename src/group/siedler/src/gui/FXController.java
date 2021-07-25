@@ -59,7 +59,7 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     private MapNode mapNode;
     
     private boolean tradeFlag = true;
-    private MaterialType sellType;
+    private MaterialType sellType = MaterialType.ORE;
     private MaterialType chosen;
 
 
@@ -307,7 +307,12 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
 
         String playerMaterialsImage = "resources/Player" + s + "Materials.png";
 
-        playerMaterials.setImage(new Image(classLoader.getResourceAsStream(playerMaterialsImage)));
+        try {
+            playerMaterials.setImage(new Image(classLoader.getResourceAsStream(playerMaterialsImage)));
+        } catch (Exception e) {
+            playerMaterialsImage = "resources/Player" + "Blue" + "Materials.png";
+            playerMaterials.setImage(new Image(classLoader.getResourceAsStream(playerMaterialsImage)));
+        }
     }
 /*
     public void tradeWithBankButtonClicked(MouseEvent mouseEvent) throws IOException {
@@ -401,9 +406,9 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     private void setupPlayers() {
         AiPlayer aiPlayer = new AiPlayer(controller);
         controller.addPlayer(this, PlayerColor.BLUE);
-        controller.addPlayer(aiPlayer, PlayerColor.RED);
-        controller.addPlayer(aiPlayer, PlayerColor.GREEN);
-        controller.addPlayer(aiPlayer, PlayerColor.YELLOW);
+        for(PlayerColor color : PlayerColor.values()) {
+            controller.addPlayer(aiPlayer, color);
+        }
     }
     
     public void setResources() {
@@ -561,7 +566,7 @@ public class FXController implements Initializable, Player, Presenter, SiedlerEv
     		refreshOutput();
     		return;
     	}
-    	if(controller.hasCurrentPlayerRolled()) {
+    	if(controller.getState() == GameState.OPTIONAL_MOVES) {
 
     		String error ="You do not own this card!";
     		

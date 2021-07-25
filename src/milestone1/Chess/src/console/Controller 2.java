@@ -2,11 +2,11 @@ package console;
 
 import TorpedoChess.TorpedoChess;
 import core.*;
-import framework.GameController;
-import framework.Player;
-import framework.Presenter;
+import frameworkchess.GameController;
+import frameworkchess.Player;
+import frameworkchess.Presenter;
 
-import framework.WriteError;
+import frameworkchess.WriteError;
 import org.json.simple.JSONObject;
 
 /**

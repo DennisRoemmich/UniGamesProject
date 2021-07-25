@@ -41,7 +41,7 @@ public class AiPlayer implements Player {
                 for (int i = 0; i < 3; i++) {
                     tryCreatingBuilding(BuildingType.VILLAGE);
                     tryCreatingBuilding(BuildingType.TOWN);
-                    if(!controller.isRunning())
+                    if(controller.getState() != GameState.NOT_RUNNING)
                     	break;
                     tryCreatingStreet(StreetType.ROAD);
                     tryCreatingStreet(StreetType.SHIP);
