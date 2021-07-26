@@ -19,7 +19,7 @@ public class Controller extends GameController {
     private Chess mGame;
     private Player mPlayerA;
     private Player mPlayerB;
-    private AiPlayer mPlayerAi;
+    private RandomPlayer mPlayerAi;
     private boolean mColorSwitch = false;
     private boolean standardChess = true;
     

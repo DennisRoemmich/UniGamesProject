@@ -18,7 +18,7 @@ public final class GameOverDetector {
 	}
 
     public static ChessResult checkForMate(Color color, ChessBoard board) {
-        List<ChessPiece> pieces = board.getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList());
+        List<ChessPiece> pieces = board.getPieces(color);
         if (isDraw(board)) {
             return ChessResult.DRAW;
         }
@@ -38,7 +38,7 @@ public final class GameOverDetector {
     private static boolean canPlayerWin(ChessBoard board, Color color) {
         int availableMinorPieces = 0; //Bishop & Knight are minor pieces, at least two are required for a checkmate
 
-        for (ChessPiece piece : board.getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList())) {
+        for (ChessPiece piece : board.getPieces(color)) {
             ChessPieceType type = piece.getType();
             switch (type) {
                 case PAWN, ROOK, QUEEN -> { return true; }

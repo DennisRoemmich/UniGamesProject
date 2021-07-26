@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AiPlayer implements Player {
+public class RandomPlayer implements Player {
 
 	protected Controller mController;
 
-	public AiPlayer(Controller controller) {
+	public RandomPlayer(Controller controller) {
 		this.mController = controller;
 	}
 	

@@ -194,7 +194,7 @@ public class ChessMove {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChessMove chessMove = (ChessMove) o;
-        return mOrigin.equals(chessMove.mOrigin) && mDestination.equals(chessMove.mDestination);
+        return Objects.equals(mOrigin, chessMove.mOrigin) && Objects.equals(mDestination, chessMove.mDestination);
     }
 
     @Override

@@ -21,7 +21,6 @@ public class Chess {
     protected ChessBoard mBoard = ChessBoard.getStartBoard();
     protected int mCurrentMove = 0;
     protected Color currentColor = Color.WHITE;
-    protected char standardPromotionPiece = 'Q';
     private boolean autoPromotion = true;
 
     public Chess() {
@@ -29,31 +28,31 @@ public class Chess {
 
     public Chess(Chess game) {
         mBoard = new ChessBoard(game.getBoard());
-        mCurrentMove = game.getCurrentMove();
         currentColor = game.getCurrentColor();
         autoPromotion = game.getAutoPromotion();
     }
 
     public void makeMove(ChessMove move) {
-        if (!getPossibleMoves().contains(move)) return;
+        if (!getPossibleMoves().stream().anyMatch(m -> m.equals(move))) return;
 
         handleCastling(move);
 
         if (isPawnMove(move)) {
-            handlePawnMove(move);
+            handleEnPassantCapture(move);
+            handlePromotion(move);
+            handleDoubleMove(move);
         }
 
         mBoard.movePiece(move);
 
         registerMove(move.getDestination());
         resetEnPassantFlags();
-        incrementMove();
     }
 
     protected void handleCastling(ChessMove move) {
-        var possibleKing = mBoard.getPieces().stream().filter(p -> p.getColor().equals(currentColor) && p.getType().equals(ChessPieceType.KING)).findFirst();
+        var possibleKing = mBoard.getPositionedPieces(currentColor, ChessPieceType.KING).stream().findFirst();
         if (possibleKing.isEmpty()) return;
-        King king = (King) possibleKing.get();
+        King king = (King) possibleKing.get().getPiece();
         if (king.findCastlingMoves(mBoard).contains(move)) {
             switch (move.getDestination().getFile()) {
                 case C -> {
@@ -76,40 +75,11 @@ public class Chess {
         return mBoard.getPiece(move.getOrigin()).isPresent() && mBoard.getPiece(move.getOrigin()).get().getType().equals(ChessPieceType.PAWN);
     }
 
-    protected void handlePawnMove(ChessMove move) {
-        handleEnPassantCapture(move);
-        handlePromotion(move);
-        handleDoubleMove(move);
-    }
-
     protected void handleEnPassantCapture(ChessMove move) {
         if (move.getOrigin().getFile().equals(move.getDestination().getFile())) return;
         if(mBoard.getPiece(move.getDestination()).isEmpty()) {
             Square squareToRemove = move.getDestination().getNext(currentColor.getPawnMoveDirection()).get();
             mBoard.removePiece(squareToRemove);
-        }
-    }
-
-    protected void resetEnPassantFlags() {
-        var pawns = mBoard.getPositionedPieces().stream().filter(pP -> pP.getPiece().getType() == ChessPieceType.PAWN);
-        for (Pawn pawn : pawns.map(pP -> (Pawn) pP.getPiece()).toList()) {
-            pawn.resetDoubleMove();
-        }
-    }
-
-    protected void registerMove(Square square) {
-        var piece = mBoard.getPiece(square);
-        if (piece.isPresent()) {
-            piece.get().registerMove();
-        }
-    }
-
-    protected void handleDoubleMove(ChessMove move) {
-        ChessPiece piece = mBoard.getPiece(move.getOrigin()).get();
-        if (piece.getType() == ChessPieceType.PAWN) {
-            if (Math.abs(move.getOrigin().getRank().getIndex() - move.getDestination().getRank().getIndex()) == 2) {
-                ((Pawn) piece).registerDoubleMove();
-            }
         }
     }
 
@@ -128,9 +98,64 @@ public class Chess {
         mBoard.placePiece(promotionPiece, move.getOrigin());
     }
 
+    protected void handleDoubleMove(ChessMove move) {
+        ChessPiece piece = mBoard.getPiece(move.getOrigin()).get();
+        if (piece.getType() == ChessPieceType.PAWN) {
+            if (Math.abs(move.getOrigin().getRank().getIndex() - move.getDestination().getRank().getIndex()) == 2) {
+                ((Pawn) piece).registerDoubleMove();
+            }
+        }
+    }
+
+    protected void registerMove(Square square) {
+        var piece = mBoard.getPiece(square);
+        if (piece.isPresent()) {
+            piece.get().registerMove();
+        }
+    }
+
+    protected void resetEnPassantFlags() {
+        var pawns = mBoard.getPositionedPieces().stream().filter(pP -> pP.getPiece().getType() == ChessPieceType.PAWN);
+        for (Pawn pawn : pawns.map(pP -> (Pawn) pP.getPiece()).collect(Collectors.toList())) {
+            pawn.resetDoubleMove();
+        }
+    }
+
+    public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
+        List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(currentColor, pieceType);
+        positionedPieces = positionedPieces.stream().filter(pP -> pP.getPiece().findMoves(mBoard).stream().anyMatch(m -> m.getDestination().equals(destination))).collect(Collectors.toList());
+        return positionedPieces.stream().map(pP -> pP.getPosition()).collect(Collectors.toList());
+    }
+
+    public List<ChessMove> getPossibleMoves() {
+        var pieces = mBoard.getPieces(currentColor);
+        List<ChessMove> possibleMoves = new ArrayList<>();
+        pieces.stream().map(p -> possibleMoves.addAll(p.findMoves(mBoard))).collect(Collectors.toList());
+        return possibleMoves;
+    }
+
+    public ChessResult getResult() {
+        return GameOverDetector.checkForMate(currentColor, mBoard);
+    }
+
+    public boolean isGameRunning() {
+        return getResult() == ChessResult.NONE;
+    }
+
+    public ChessBoard getBoard() {
+        return mBoard;
+    }
+
+    public boolean getAutoPromotion() {
+        return autoPromotion;
+    }
+
+    public void setAutoPromotion(boolean set) {
+        this.autoPromotion = set;
+    }
+
     protected ChessPiece setPromotionPiece(char c) {
         switch (c) {
-
             case 'n', 'N':
                 return new Knight(currentColor);
             case 'b', 'B':
@@ -142,50 +167,6 @@ public class Chess {
             default:
                 throw new IllegalArgumentException();
         }
-    }
-
-    protected void incrementMove() {
-        currentColor = currentColor.getContrary();
-        if (currentColor.isWhite()) {
-            mCurrentMove++;
-        }
-    }
-
-    public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
-        List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(currentColor, pieceType);
-        positionedPieces = positionedPieces.stream().filter(pP -> pP.getPiece().findMoves(mBoard).stream().anyMatch(m -> m.getDestination().equals(destination))).collect(Collectors.toList());
-        return positionedPieces.stream().map(pP -> pP.getPosition()).collect(Collectors.toList());
-    }
-
-    public ChessBoard getBoard() {
-        return mBoard;
-    }
-
-    public int getCurrentMove() {
-        return mCurrentMove;
-    }
-
-    public ChessResult getResult() {
-        return GameOverDetector.checkForMate(currentColor, mBoard);
-    }
-
-    public boolean isGameRunning() {
-        return getResult() == ChessResult.NONE;
-    }
-
-    public boolean getAutoPromotion() {
-        return autoPromotion;
-    }
-
-    public void setAutoPromotion(boolean set) {
-        this.autoPromotion = set;
-    }
-
-    public List<ChessMove> getPossibleMoves() {
-        var pieces = mBoard.getPieces().stream().filter(p -> p.getColor().equals(currentColor)).collect(Collectors.toList());
-        List<ChessMove> possibleMoves = new ArrayList<>();
-        pieces.stream().map(p -> possibleMoves.addAll(p.findMoves(mBoard))).collect(Collectors.toList());
-        return possibleMoves;
     }
 
     public Color getCurrentColor() {

@@ -51,11 +51,6 @@ public class ChessBoard implements Cloneable {
         return positionedPieces.stream().filter(pP -> pP.getPosition().equals(square)).map(pP -> pP.getPiece()).findFirst();
     }
 
-    public void movePiece(ChessPiece piece, Square newSquare) {
-        removePiece(piece);
-        placePiece(piece, newSquare);
-    }
-
     public void movePiece(ChessMove move) {
         movePiece(move.getOrigin(), move.getDestination());
     }
@@ -71,7 +66,6 @@ public class ChessBoard implements Cloneable {
     public boolean isFieldFree(Square square) {
         return getPiece(square).isEmpty();
     }
-
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
@@ -100,8 +94,13 @@ public class ChessBoard implements Cloneable {
     }
 
     public List<ChessPiece> getPieces() {
-        return positionedPieces.stream().map(PositionedPiece::getPiece).toList();
+        return positionedPieces.stream().map(PositionedPiece::getPiece).collect(Collectors.toList());
     }
+
+    public List<ChessPiece> getPieces(Color color) {
+        return getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList());
+    }
+
 
     public List<PositionedPiece> getPositionedPieces() {
         return positionedPieces;
@@ -109,10 +108,6 @@ public class ChessBoard implements Cloneable {
 
     public List<PositionedPiece> getPositionedPieces(Color color) {
         return positionedPieces.stream().filter(pP -> pP.getPiece().getColor().equals(color)).collect(Collectors.toList());
-    }
-
-    public List<PositionedPiece> getPositionedPieces(ChessPieceType type) {
-        return positionedPieces.stream().filter(pP -> pP.getPiece().getType().equals(type)).collect(Collectors.toList());
     }
 
     public List<PositionedPiece> getPositionedPieces(Color color, ChessPieceType type) {
