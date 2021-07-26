@@ -46,7 +46,7 @@ public class Building {
 
     public static MaterialSet getCost(BuildingType type) {
         MaterialSet materials = new MaterialSet();
-        if(type == BuildingType.VILLAGE) {
+        if (type == BuildingType.VILLAGE) {
             materials.addResources(MaterialType.WOOD, 1);
             materials.addResources(MaterialType.CLAY, 1);
             materials.addResources(MaterialType.WHEAT, 1);

@@ -1,47 +1,37 @@
 package gui;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import positions.EdgePosition;
 import positions.PositionedObject;
 import streets.Street;
 import streets.StreetType;
-import tiles.NeutralTile;
-import tiles.ResourceTile;
-
 import java.util.Optional;
 
 public class StreetNode extends Group {
-    protected Optional<Street> street = Optional.empty();
-    protected EdgePosition position;
-    protected StreetType type = StreetType.ROAD;
+    protected Optional<Street> mStreet = Optional.empty();
+    protected EdgePosition mPosition;
+    protected StreetType mType = StreetType.ROAD;
 
-    public static final double angle30degree = Math.PI / 6;
+    public static final double DEGREE_ANGLE = Math.PI / 6; //30 degrees
 
     public StreetNode(EdgePosition position) {
-        this.position = position;
+        this.mPosition = position;
         refreshOutput();
     }
 
     public StreetNode(EdgePosition position, StreetType type) {
-        this.position = position;
-        this.type = type;
+        this.mPosition = position;
+        this.mType = type;
         refreshOutput();
     }
 
     public StreetNode(PositionedObject<Street, EdgePosition> street) {
-        this.street = Optional.of(street.getObject());
-        this.type = street.getObject().getType();
-        this.position = street.getPosition();
+        this.mStreet = Optional.of(street.getObject());
+        this.mType = street.getObject().getType();
+        this.mPosition = street.getPosition();
         refreshOutput();
     }
 
@@ -53,16 +43,16 @@ public class StreetNode extends Group {
 
         Rectangle rectangle = new Rectangle(width, height);
 
-        Color fillColor = street.isEmpty() ? Color.TRANSPARENT : street.get().getColor().getColor();
+        Color fillColor = mStreet.isEmpty() ? Color.TRANSPARENT : mStreet.get().getColor().getColor();
 
         Polygon triangle = new Polygon();
         triangle.getPoints().addAll(5.0, -6.5,
                 25.0, 3.5,
                 5.0, 13.5);
 
-        this.setRotate(30 + 120 * position.getZ().ordinal());
+        this.setRotate(30.0 + 120 * mPosition.getZ().ordinal());
 
-        if(street.isPresent() && street.get().getType() == StreetType.SHIP) {
+        if (mStreet.isPresent() && mStreet.get().getType() == StreetType.SHIP) {
             triangle.setFill(fillColor);
             triangle.setStroke(Color.BLACK);
             rectangle.setFill(Color.TRANSPARENT);
@@ -80,10 +70,10 @@ public class StreetNode extends Group {
     }
 
     public Optional<Street> getStreet() {
-        return street;
+        return mStreet;
     }
 
     public void setStreet(Optional<Street> street) {
-        this.street = street;
+        this.mStreet = street;
     }
 }

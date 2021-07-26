@@ -24,10 +24,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AiPlayer implements Player {
 
-    private Controller controller;
+    private Controller mController;
 
     public AiPlayer(Controller controller) {
-        this.controller = controller;
+        this.mController = controller;
     }
 
     @Override
@@ -35,63 +35,73 @@ public class AiPlayer implements Player {
         if (!inputType.containsKey("type")) {
             return QuickJSon.create("reply", "invalid input");
         }
-        switch (controller.getState()) {
-            case ROLL_DICES -> controller.handleRoll();
-            case OPTIONAL_MOVES -> {
-                for (int i = 0; i < 3; i++) {
-                    tryCreatingBuilding(BuildingType.VILLAGE);
-                    tryCreatingBuilding(BuildingType.TOWN);
-                    if(controller.getState() != GameState.NOT_RUNNING)
-                    	break;
-                    tryCreatingStreet(StreetType.ROAD);
-                    tryCreatingStreet(StreetType.SHIP);
-                    tryTrading();
-                }
-                controller.endMove();
-            }
-            case SETUP_VILLAGE -> {
-                List<NodePosition> possiblePositions = BuildRules.getStartNodePositions(controller.getMap());
-                possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> controller.getMap().getTile(tP).isEmpty())).toList();
-                possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> controller.getMap().getTile(tP).get().isWater())).toList();
-                possiblePositions = new ArrayList<>(possiblePositions);
-                Collections.shuffle(possiblePositions);
-                controller.placeBuilding(possiblePositions.get(0));
-            }
-            case SETUP_STREET -> {
-                List<EdgePosition> possiblePositions = new ArrayList<>(BuildRules.getStartEdgePositions(controller.getMap(), controller.getCurrentPlayerColor()));
-                Collections.shuffle(possiblePositions);
-                controller.placeStreet(possiblePositions.get(0));
-            }
-            case MOVE_BURGLAR -> {
-                List<TilePosition> possiblePositions = new ArrayList<TilePosition>(controller.getMap().getTiles().stream().filter(pT -> !pT.getObject().isWater()).map(pT -> pT.getPosition()).toList());
-                Collections.shuffle(possiblePositions);
-                controller.moveBurglar(possiblePositions.get(0));
-            }
+        switch (mController.getState()) {
+            case ROLL_DICES -> mController.handleRoll();
+            case OPTIONAL_MOVES -> requestOptionalMove();
+            case SETUP_VILLAGE -> requestSetupVillage();
+            case SETUP_STREET -> requestSetupStreet();
+            case MOVE_BURGLAR -> requestMoveBurglar();             
+            default -> throw new IllegalArgumentException("Unexpected value: " + mController.getState());
         }
         return QuickJSon.create("reply", "valid");
     }
+    
+    public void requestOptionalMove() {
+        for (int i = 0; i < 3; i++) {
+            tryCreatingBuilding(BuildingType.VILLAGE);
+            tryCreatingBuilding(BuildingType.TOWN);
+            if (mController.getState() != GameState.NOT_RUNNING) {
+            	break;
+            }
+            tryCreatingStreet(StreetType.ROAD);
+            tryCreatingStreet(StreetType.SHIP);
+            tryTrading();
+        }
+        mController.endMove();
+    }
+
+	private void requestSetupVillage() {
+		List<NodePosition> possiblePositions = BuildRules.getStartNodePositions(mController.getMap());
+		possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
+		possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
+		possiblePositions = new ArrayList<>(possiblePositions);
+		Collections.shuffle(possiblePositions);
+		mController.placeBuilding(possiblePositions.get(0));
+	}
+
+	private void requestSetupStreet() {
+		List<EdgePosition> possiblePositions = new ArrayList<>(BuildRules.getStartEdgePositions(mController.getMap(), mController.getCurrentPlayerColor()));
+		Collections.shuffle(possiblePositions);
+		mController.placeStreet(possiblePositions.get(0));
+	}
+
+	private void requestMoveBurglar() {
+		List<TilePosition> possiblePositions = new ArrayList<TilePosition>(mController.getMap().getTiles().stream().filter(pT -> !pT.getObject().isWater()).map(pT -> pT.getPosition()).toList());
+		Collections.shuffle(possiblePositions);
+		mController.moveBurglar(possiblePositions.get(0));
+	}
 
     public void tryCreatingBuilding(BuildingType type) {
-        if(controller.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
-            PlayerColor color = controller.getCurrentPlayerColor();
-            List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(controller.getMap(), color, type);
-            if (possiblePositions.size() > 0) {
+        if (mController.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
+            PlayerColor color = mController.getCurrentPlayerColor();
+            List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(mController.getMap(), color, type);
+            if (!possiblePositions.isEmpty()) {
                 int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
-                controller.placeBuilding(possiblePositions.get(index));
+                mController.placeBuilding(possiblePositions.get(index));
             }
         }
     }
 
     public void tryCreatingStreet(StreetType type) {
-        if(!BuildRules.getValidNodePositions(controller.getMap(), controller.getCurrentPlayerColor(), BuildingType.VILLAGE).isEmpty()) {
+        if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), BuildingType.VILLAGE).isEmpty()) {
             return;
         }
-        if(controller.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
-            PlayerColor color = controller.getCurrentPlayerColor();
-            List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(controller.getMap(), color, type);
-            if (possiblePositions.size() > 0) {
+        if (mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
+            PlayerColor color = mController.getCurrentPlayerColor();
+            List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(mController.getMap(), color, type);
+            if (!possiblePositions.isEmpty()) {
                 int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
-                controller.placeStreet(possiblePositions.get(index), type);
+                mController.placeStreet(possiblePositions.get(index), type);
             }
         }
     }
@@ -105,11 +115,11 @@ public class AiPlayer implements Player {
     	materialList.add(MaterialType.WOOL);
     	materialList.add(MaterialType.ORE);
     	
-    	for(MaterialType type  : materialList) {
-	    	if(controller.getCurrentPlayerHand().getAmount(type) >= 6) {
-	    		for( MaterialType type2  : materialList) {
-	    			if(controller.getCurrentPlayerHand().getAmount(type2) <= 1) {
-	    				controller.bankTrade(type2, type);
+    	for (MaterialType type  : materialList) {
+	    	if (mController.getCurrentPlayerHand().getAmount(type) >= 6) {
+	    		for ( MaterialType type2  : materialList) {
+	    			if (mController.getCurrentPlayerHand().getAmount(type2) <= 1) {
+	    				mController.bankTrade(type2, type);
 	    				return;
 	    			}
 	    		}
@@ -118,7 +128,6 @@ public class AiPlayer implements Player {
     }
     	
         public void tryTakingCard() {
-        		controller.takeCard();
-        }
-    
+        		mController.takeCard();
+        }  
 }

@@ -1,72 +1,70 @@
 package gui;
 
 import positions.EdgePosition;
+import positions.EdgePositionZCord;
 import positions.NodePosition;
 import positions.TilePosition;
 
 public class GuiPosition {
-    private double x;
-    private double y;
+    private double mValueX;
+    private double mValueY;
 
     public GuiPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
+        this.mValueX = x;
+        this.mValueY = y;
     }
 
     public double getX() {
-        return x;
+        return mValueX;
     }
 
     public void setX(double x) {
-        this.x = x;
+        this.mValueX = x;
     }
 
     public double getY() {
-        return y;
+        return mValueY;
     }
 
     public void setY(double y) {
-        this.y = y;
+        this.mValueY = y;
     }
 
     public static GuiPosition valueOf(TilePosition position) {
-        double x = (position.getX() * 2 + position.getY()) * 35;
-        double y = position.getY() * 60;
-        return new GuiPosition(x,y);
+        double x = (position.getX() * 2 + position.getY()) * 35.0;
+        double y = position.getY() * 60.0;
+        return new GuiPosition(x, y);
     }
 
     public static GuiPosition valueOf(EdgePosition position) {
-        double x, y;
-        switch(position.getZ()) {
-            case A -> {
-                x = 38 + (position.getX() * 2 + position.getY()) * 35;
-                y = 8 + position.getY() * 60;
-            }
-            case B -> {
-                x = 38 + (position.getX() * 2 + position.getY()) * 35;
-                y = 68 + position.getY() * 60;
-            }
-            case C -> {
-                x = -14 +(position.getX() * 2 + position.getY()) * 35;
-                y = 38 + position.getY() * 60;
-            }
-            default -> {
-                x = 0;
-                y = 0;
-            }
+        double x;
+        double y;
+        if (position.getZ() == EdgePositionZCord.A) {
+            x = 38.0 + (position.getX() * 2 + position.getY()) * 35;
+            y = 8.0 + position.getY() * 60;
+        } else if (position.getZ() == EdgePositionZCord.B) {
+            x = 38.0 + (position.getX() * 2 + position.getY()) * 35;
+            y = 68.0 + position.getY() * 60;
+        } else if (position.getZ() == EdgePositionZCord.C) {
+            x = -14.0 + (position.getX() * 2 + position.getY()) * 35;
+            y = 38.0 + position.getY() * 60;
+        } else {
+            x = 0;
+            y = 0;
         }
-        return new GuiPosition(x,y);
+        return new GuiPosition(x, y);
     }
 
     public static GuiPosition valueOf(NodePosition position) {
-        double x, y;
-        if(position.isZ()) {
-            x = 1 + (position.getX() * 2 + position.getY()) * 35;
-            y = 20 + position.getY() * 60;
+        double x;
+        double y;
+        if (position.isZ()) {
+            x = 1.0 + (position.getX() * 2 + position.getY()) * 35;
+            y = 20.0 + position.getY() * 60;
         } else {
-            x = 71 + (position.getX() * 2 + position.getY()) * 35;
-            y = 62 + position.getY() * 60;
+            x = 71.0 + (position.getX() * 2 + position.getY()) * 35;
+            y = 62.0 + position.getY() * 60;
         }
-        return new GuiPosition(x,y);
+        return new GuiPosition(x, y);
     }
 }

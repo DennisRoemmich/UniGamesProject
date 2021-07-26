@@ -1,15 +1,12 @@
 package dice;
 
 import buildings.Building;
-
 import buildings.BuildingType;
-import javafx.geometry.Pos;
 import map.Map;
 import map.MapTools;
 import siedlerFramework.PrintToConsole;
 import tiles.PositionedTile;
 import tiles.ResourceTile;
-import tiles.Tile;
 import player.PlayerData;
 import positions.NodePosition;
 
@@ -19,17 +16,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class DiceRolling {
 	
+    public static int dice1 = 1;
+    public static int dice2 = 1;
+	
 	private DiceRolling() {
 		//Not used
 	}
 
-    public static int dice1 = 1;
-    public static int dice2 = 1;
+
 
     public static void reRoll() {
 
-    	dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-    	dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+    	dice1 = ThreadLocalRandom.current().nextInt(1, 7);
+    	dice2 = ThreadLocalRandom.current().nextInt(1, 7);
 
         PrintToConsole.println("Dices rolled: " + dice1 + " and " + dice2 + " => " + getSum());
 

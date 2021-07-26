@@ -1,51 +1,53 @@
 package gui;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import javafx.animation.AnimationTimer;
 
 public class RollAnimation extends AnimationTimer {
 
-    private long FRAMES_PER_SEC = 10L;
-    private long INTERVAL = 1000000000L / FRAMES_PER_SEC;
-    private int MAX_ROLLS = 20;
+    public static final long FRAMES_PER_SEC = 10L;
+    public static final long INTERVAL = 1000000000L / FRAMES_PER_SEC;
+    public static final int MAX_ROLLS = 20;
 
-    private long last = 0;
-    private int count = 0;
+    private long mLast = 0;
+    private int mCount = 0;
 
-    private FXController fxController;
+    private FxController mFxController;
 
-    private boolean isRunning = false;
-    private boolean animationStopFlag = false;
+    private boolean mIsRunning = false;
+    private boolean mAnimationStopFlag = false;
 
-    public RollAnimation(FXController fxController) {
-        this.fxController = fxController;
+    public RollAnimation(FxController fxController) {
+        this.mFxController = fxController;
     }
 
     @Override
     public void handle(long l) {
-        isRunning = true;
-        if (l - last > INTERVAL) {
-            int r = 2 + (int) (Math.random() * 5);
-            int j = 2 + (int) (Math.random() * 5);
-            fxController.setDiceViews(r,j);
-            last = l;
-            count++;
-            if (count > MAX_ROLLS || animationStopFlag) {
+        mIsRunning = true;
+        if (l - mLast > INTERVAL) {
+            int r = ThreadLocalRandom.current().nextInt(1, 7);
+            int j = ThreadLocalRandom.current().nextInt(1, 7);
+            mFxController.setDiceViews(r, j);
+            mLast = l;
+            mCount++;
+            if (mCount > MAX_ROLLS || mAnimationStopFlag) {
                 stop();
-                fxController.finishRoll();
-                count = 0;
-                isRunning = false;
-                animationStopFlag = false;
+                mFxController.finishRoll();
+                mCount = 0;
+                mIsRunning = false;
+                mAnimationStopFlag = false;
             }
         }
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return mIsRunning;
     }
 
     public void stopAnimation() {
-        if(isRunning) {
-            animationStopFlag = true;
+        if (mIsRunning) {
+            mAnimationStopFlag = true;
         }
     }
 

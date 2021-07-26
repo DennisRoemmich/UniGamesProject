@@ -1,28 +1,22 @@
 package gui;
 
 import javafx.event.Event;
+
 import javafx.event.EventHandler;
-import map.Map;
-import map.MapTools;
 import positions.TilePosition;
-import siedlerController.Controller;
-import siedlerFramework.PrintToConsole;
-import tiles.NeutralTile;
-import tiles.PositionedTile;
-import tiles.Tile;
 
-public class TileClickedEventHandler implements EventHandler {
+public class TileClickedEventHandler implements EventHandler<Event> {
 
-    private TilePosition position;
-    private SiedlerEventHandler eventHandler;
+    private TilePosition mPosition;
+    private SiedlerEventHandler mEventHandler;
 
     public TileClickedEventHandler(TilePosition position, SiedlerEventHandler eventHandler) {
-        this.position = position;
-        this.eventHandler = eventHandler;
+        this.mPosition = position;
+        this.mEventHandler = eventHandler;
     }
 
     @Override
     public void handle(Event event) {
-        eventHandler.handleTileCLick(position);
+        mEventHandler.handleTileCLick(mPosition);
     }
 }

@@ -1,12 +1,9 @@
 package gui;
 
 import java.util.Optional;
-
-
 import buildings.Building;
 import buildings.BuildingType;
 import javafx.scene.Group;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -14,23 +11,23 @@ import positions.NodePosition;
 
 public class BuildingNode extends Group {
 
-    protected Optional<Building> building = Optional.empty();
-	protected NodePosition position;
+    protected Optional<Building> mBuilding = Optional.empty();
+	protected NodePosition mPosition;
 	
     public BuildingNode(NodePosition position) {
-        this.position = position;
+        this.mPosition = position;
         refreshOutput();
     }
     
     public BuildingNode(Building building) {
-        this.building = Optional.of(building);
-        this.position = building.getPosition();
+        this.mBuilding = Optional.of(building);
+        this.mPosition = building.getPosition();
         refreshOutput();
     }
     
     private void refreshOutput() {
     	
-        if(building.isEmpty()) {
+        if (mBuilding.isEmpty()) {
             this.getChildren().clear();
             Circle circle = new Circle();
             circle.setRadius(10);
@@ -42,9 +39,9 @@ public class BuildingNode extends Group {
         
         this.getChildren().clear();
 
-        BuildingType type = building.get().getType();
+        BuildingType type = mBuilding.get().getType();
         
-        if(type == BuildingType.TOWN) {
+        if (type == BuildingType.TOWN) {
             Polygon pentagon = new Polygon();
             pentagon.getPoints().addAll(0.0, -15.0,
                     10.0, -5.0,
@@ -52,13 +49,13 @@ public class BuildingNode extends Group {
                     -5.0, 5.0,
                     -10.0, -5.0);
             pentagon.setStroke(Color.BLACK);
-            pentagon.setFill(building.get().getColor().getColor());
+            pentagon.setFill(mBuilding.get().getColor().getColor());
             this.getChildren().add(pentagon);
         } else {
             Circle circle = new Circle();
             circle.setRadius(7.5);
             circle.setStroke(Color.BLACK);
-            circle.setFill(building.get().getColor().getColor());
+            circle.setFill(mBuilding.get().getColor().getColor());
             this.getChildren().add(circle);
         }
     }
