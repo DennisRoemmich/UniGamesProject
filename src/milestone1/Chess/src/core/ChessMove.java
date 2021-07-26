@@ -5,10 +5,7 @@ import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.json.simple.JSONObject;
 
@@ -185,14 +182,28 @@ public class ChessMove {
     }
 
     private static ChessMove getCastlingMove(boolean isKingSide, Chess game) {
-        Rank backRank = game.isItWhitesTurn() ? Rank.M1 : Rank.M8;
+        Rank backRank = game.getCurrentColor().getBackrank();
         File destinationFile = isKingSide ? File.G : File.C;
         Square origin = new Square(backRank, File.E);
         Square destination = new Square(backRank, destinationFile);
         return new ChessMove(origin, destination);
     }
 
-    @Override public String toString() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessMove chessMove = (ChessMove) o;
+        return mOrigin.equals(chessMove.mOrigin) && mDestination.equals(chessMove.mDestination);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mOrigin, mDestination);
+    }
+
+    @Override
+    public String toString() {
         return mOrigin.toString() + " -> " + mDestination.toString();
 
     }

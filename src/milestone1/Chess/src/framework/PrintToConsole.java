@@ -1,4 +1,4 @@
-﻿package framework;
+package framework;
 
 /**
  * Printing to the console.
@@ -6,20 +6,20 @@
  *
  */
 public final class PrintToConsole {
-	
-	private PrintToConsole() {
-		
-	}
-	
-	public static void print(String input) {
-		System.out.print(input);
-	}
-	
-	public static void print(char input) {
-		System.out.print(input);
-	}
-	
-	public static void println(String input) {
-		System.out.println(input);
-	}
+
+    private PrintToConsole() {
+
+    }
+
+    public static void print(String input) {
+        System.out.print(input);
+    }
+
+    public static void print(char input) {
+        System.out.print(input);
+    }
+
+    public static void println(String input) {
+        System.out.println(input);
+    }
 }

@@ -1,12 +1,14 @@
 package core;
 
 import core.pieces.*;
+import core.positioning.Direction;
 import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * The chess board implementation of a chess game.
@@ -54,6 +56,10 @@ public class ChessBoard implements Cloneable {
         placePiece(piece, newSquare);
     }
 
+    public void movePiece(ChessMove move) {
+        movePiece(move.getOrigin(), move.getDestination());
+    }
+
     public void movePiece(Square origin, Square destination) {
         var piece = getPiece(origin);
         if(piece.isPresent()) {
@@ -69,26 +75,23 @@ public class ChessBoard implements Cloneable {
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
-        for (File file : File.values()) {
-            board.placePiece(new Pawn(true), new Square(Rank.M2, file));
-            board.placePiece(new Pawn(false), new Square(Rank.M7, file));
+        for(Color color : Color.values()) {
+            Rank backrank = color.getBackrank();
+            for (File file : File.values()) {
+                board.placePiece(new Pawn(color), new Square(backrank, file).getNext(color.getPawnMoveDirection()).get());
+            }
+            for (File file : new File[]{File.A, File.H}) {
+                board.placePiece(new Rook(color), new Square(backrank, file));
+            }
+            for (File file : new File[]{File.B, File.G}) {
+                board.placePiece(new Knight(color), new Square(backrank, file));
+            }
+            for (File file : new File[]{File.C, File.F}) {
+                board.placePiece(new Bishop(color), new Square(backrank, file));
+            }
+            board.placePiece(new Queen(color), new Square(backrank, File.D));
+            board.placePiece(new King(color), new Square(backrank, File.E));
         }
-        for (File file : new File[]{File.A, File.H}) {
-            board.placePiece(new Rook(true), new Square(Rank.M1, file));
-            board.placePiece(new Rook(false), new Square(Rank.M8, file));
-        }
-        for (File file : new File[]{File.B, File.G}) {
-            board.placePiece(new Knight(true), new Square(Rank.M1, file));
-            board.placePiece(new Knight(false), new Square(Rank.M8, file));
-        }
-        for (File file : new File[]{File.C, File.F}) {
-            board.placePiece(new Bishop(true), new Square(Rank.M1, file));
-            board.placePiece(new Bishop(false), new Square(Rank.M8, file));
-        }
-        board.placePiece(new Queen(true), new Square(Rank.M1, File.D));
-        board.placePiece(new Queen(false), new Square(Rank.M8, File.D));
-        board.placePiece(new King(true), new Square(Rank.M1, File.E));
-        board.placePiece(new King(false), new Square(Rank.M8, File.E));
         return board;
     }
 
@@ -96,7 +99,23 @@ public class ChessBoard implements Cloneable {
         return positionedPieces.stream().filter(pP -> pP.getPiece() == piece).map(pP -> pP.getPosition()).findFirst();
     }
 
+    public List<ChessPiece> getPieces() {
+        return positionedPieces.stream().map(PositionedPiece::getPiece).toList();
+    }
+
     public List<PositionedPiece> getPositionedPieces() {
         return positionedPieces;
+    }
+
+    public List<PositionedPiece> getPositionedPieces(Color color) {
+        return positionedPieces.stream().filter(pP -> pP.getPiece().getColor().equals(color)).collect(Collectors.toList());
+    }
+
+    public List<PositionedPiece> getPositionedPieces(ChessPieceType type) {
+        return positionedPieces.stream().filter(pP -> pP.getPiece().getType().equals(type)).collect(Collectors.toList());
+    }
+
+    public List<PositionedPiece> getPositionedPieces(Color color, ChessPieceType type) {
+        return positionedPieces.stream().filter(pP -> pP.getPiece().getColor().equals(color) && pP.getPiece().getType().equals(type)).collect(Collectors.toList());
     }
 }

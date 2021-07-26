@@ -29,7 +29,7 @@ public class AiPlayer implements Player {
 
     protected ChessMove getBestMove(int depth) {
 		ChessMove bestMove = mController.getGame().getPossibleMoves().get(0);
-		int colorTwist = mController.amIplayerWhite(this) ? 1 : -1;
+		int colorTwist = 1;//mController.amIplayerWhite(this) ? 1 : -1;
 		double bestScore = -100000;
 		for(ChessMove move : mController.getGame().getPossibleMoves()) {
 			if(rateMove(mController.getGame(), move, depth) * colorTwist > bestScore * colorTwist) {
@@ -58,13 +58,6 @@ public class AiPlayer implements Player {
     protected double rateSituation(Chess game) {
 		double score = 0;
 
-		for(ChessPiece piece : game.getBoard().findPieces(true)) {
-			score += piece.getType().getValue() * 10;
-		}
-
-		for(ChessPiece piece : game.getBoard().findPieces(false)) {
-			score -= piece.getType().getValue() * 10;
-		}
 
 		return score;
 	}

@@ -4,7 +4,10 @@ import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.pieces.King;
 import core.positioning.Square;
+import framework.PrintToConsole;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Checks for check condition.
@@ -17,9 +20,10 @@ public final class CheckDetector {
 	}
 
 	public static boolean isSquareAttacked(ChessBoard board, Square squareToTest, Color color) {
-        for (Square opponentSquare : board.findSquaresOfPieces(color)) {
-            ChessPiece opponentPiece = board.getPiece(opponentSquare);
-            List<Square> opponentCoveredSquares = opponentPiece.findCoveredSquares(board, opponentSquare);
+	    var piecesWithColor = board.getPositionedPieces(color);
+        for (Square opponentSquare : piecesWithColor.stream().map(pP -> pP.getPosition()).collect(Collectors.toList())) {
+            var opponentPiece = board.getPiece(opponentSquare).get();
+            List<Square> opponentCoveredSquares = opponentPiece.findCoveredSquares(board);
             if (opponentCoveredSquares.contains(squareToTest)) {
                 return true;
             }
@@ -28,14 +32,16 @@ public final class CheckDetector {
     }
 
     public static boolean isInCheck(ChessBoard board, Color color) {
-	    ChessPiece exampleKing = new King(color);
-        Square kingSquare = board.getPositionedPieces().stream().filter(pP -> pP.getPiece().equals(exampleKing)).findFirst().get().getPosition();
-        return isSquareAttacked(board, kingSquare, color.getContrary());
+	    var king = board.getPositionedPieces(color, ChessPieceType.KING);
+	    if(king.isEmpty()) {
+	        return false;
+        }
+        return isSquareAttacked(board, king.get(0).getPosition(), color.getContrary());
     }
 
-    public static boolean isInCheckAfterMove(ChessBoard board, Color color, Square origin, Square destination) {
-        ChessBoard testBoard = board.clone();
-        testBoard.movePiece(origin, destination);
+    public static boolean isInCheckAfterMove(ChessBoard board, Color color, ChessMove move) {
+        ChessBoard testBoard = new ChessBoard(board);
+        testBoard.movePiece(move);
         return isInCheck(testBoard, color);
     }
 }

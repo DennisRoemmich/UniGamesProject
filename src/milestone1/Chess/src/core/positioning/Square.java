@@ -1,5 +1,7 @@
 package core.positioning;
 
+import java.util.Optional;
+
 /**
  * Squares represent the possible positions for chess pieces on a chess board.
  *
@@ -58,30 +60,22 @@ public class Square {
         return squares;
     }
 
-    public Square getNext(Direction direction) {
+    public Optional<Square> getNext(Direction direction) {
         try {
-            switch (direction) {
-                case UP:
-                    return new Square(mRank.getTopNeighbour(), mFile);
-                case DOWN:
-                    return new Square(mRank.getBottomNeighbour(), mFile);
-                case LEFT:
-                    return new Square(mRank, mFile.getLeftNeighbour());
-                case RIGHT:
-                    return new Square(mRank, mFile.getRightNeighbour());
-                case UP_LEFT:
-                    return new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
-                case UP_RIGHT:
-                    return new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
-                case DOWN_LEFT:
-                    return new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
-                case DOWN_RIGHT:
-                    return new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
-                default:
-                    return null;
-            }
+            Square square = switch (direction) {
+                case UP -> new Square(mRank.getTopNeighbour(), mFile);
+                case DOWN -> new Square(mRank.getBottomNeighbour(), mFile);
+                case LEFT -> new Square(mRank, mFile.getLeftNeighbour());
+                case RIGHT -> new Square(mRank, mFile.getRightNeighbour());
+                case UP_LEFT -> new Square(mRank.getTopNeighbour(), mFile.getLeftNeighbour());
+                case UP_RIGHT -> new Square(mRank.getTopNeighbour(), mFile.getRightNeighbour());
+                case DOWN_LEFT -> new Square(mRank.getBottomNeighbour(), mFile.getLeftNeighbour());
+                case DOWN_RIGHT -> new Square(mRank.getBottomNeighbour(), mFile.getRightNeighbour());
+                default -> throw new IllegalArgumentException();
+            };
+            return Optional.of(square);
         } catch (Exception e) {
-            return null;
+            return Optional.empty();
         }
     }
 

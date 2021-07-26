@@ -121,7 +121,7 @@ public class Controller extends GameController {
     }
 
     public void gameStep() {
-    	boolean isTurnOfPlayerA = mGame.isItWhitesTurn() != mColorSwitch;
+    	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
         if (isTurnOfPlayerA) {
             handleMove(mPlayerA.requestMove(createRequestJSON("move")));
         } else {
@@ -132,7 +132,7 @@ public class Controller extends GameController {
 
     private void updateGameState() {
         if(mIsGameRunning) {
-            mIsGameRunning = GameOverDetector.checkForMate(mGame.isItWhitesTurn(), mGame.getBoard()) == ChessResult.NONE;
+            mIsGameRunning = GameOverDetector.checkForMate(mGame.getCurrentColor(), mGame.getBoard()) == ChessResult.NONE;
         }
     }
 }

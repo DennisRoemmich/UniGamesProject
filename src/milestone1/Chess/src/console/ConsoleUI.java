@@ -122,12 +122,12 @@ public class ConsoleUI implements Presenter, Player {
         	PrintToConsole.print(rank + "│");
             for (File file : File.values()) {
 				PrintToConsole.print(' ');
-                ChessPiece piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
-                if (piece == null) {
+                var piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
+                if (piece.isEmpty()) {
                 	PrintToConsole.print(' ');
                 } else {
                 	// .toChar() can be changed to .toSymbol() for Unicode symbols
-                	PrintToConsole.print(piece.toSymbol());
+                	PrintToConsole.print(piece.get().toSymbol());
                 }
 				PrintToConsole.print(" │");
             }
@@ -251,7 +251,7 @@ public class ConsoleUI implements Presenter, Player {
     public void refreshOutput() {
         printBoard();
         if (mController.getGame().isGameRunning()) {
-			PrintToConsole.println(mController.getGame().isItWhitesTurn() ? "It's whites turn" : "It's blacks turn");
+			PrintToConsole.println(mController.getGame().getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
 		} else {
             printResult();
         }

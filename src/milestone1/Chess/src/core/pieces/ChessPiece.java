@@ -2,11 +2,14 @@ package core.pieces;
 
 import core.CheckDetector;
 import core.ChessBoard;
+import core.ChessMove;
 import core.Color;
 import core.positioning.Square;
 import framework.WriteError;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Abstract ChessPiece class that is the super class to all the chess pieces.
@@ -28,14 +31,19 @@ public abstract class ChessPiece implements Cloneable {
 
     /* Functionality */
 
-    public abstract List<Square> findCoveredSquares(ChessBoard board, Square origin);
+    public abstract List<Square> findCoveredSquares(ChessBoard board);
 
-    public List<Square> findMoves(ChessBoard board, Square square) {
-        List<Square> coveredSquares = findCoveredSquares(board, square);
-        List<Square> validMoves = new ArrayList<>();
-        for (Square uncheckedSquare : coveredSquares) {
-            if (!CheckDetector.isInCheckAfterMove(board, color, square, uncheckedSquare)) {
-                validMoves.add(uncheckedSquare);
+    public List<ChessMove> findMoves(ChessBoard board) {
+        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
+
+        Square origin = board.getSquare(this).get();
+
+        List<Square> coveredSquares = findCoveredSquares(board);
+        List<ChessMove> validMoves = new ArrayList<>();
+        for (Square destination : coveredSquares) {
+            ChessMove move = new ChessMove(origin, destination);
+            if (!CheckDetector.isInCheckAfterMove(board, color, move)) {
+                validMoves.add(move);
             }
         }
         return validMoves;
@@ -70,27 +78,10 @@ public abstract class ChessPiece implements Cloneable {
     /* General / Override */
 
     public final char toChar() {
-        char c = ' ';
-        switch (mType) {
-            case PAWN:
-                c = 'P';
-                break;
-            case KNIGHT:
-                c = 'N';
-                break;
-            case BISHOP:
-                c = 'B';
-                break;
-            case ROOK:
-                c = 'R';
-                break;
-            case QUEEN:
-                c = 'Q';
-                break;
-            case KING:
-                c = 'K';
-                break;
-        }
+        char c = switch (mType) {
+            case KNIGHT -> 'N';
+            default -> mType.toString().charAt(0);
+        };
         if (color.isWhite()) {
             c = Character.toLowerCase(c);
         }
@@ -119,18 +110,5 @@ public abstract class ChessPiece implements Cloneable {
     public final String toString() {
         return (color.isWhite() ? "WHITE " : "BLACK ") + mType.toString();
     }
-    
-    ///TODO: Eliminate clone method. Use copy constructor.
-    @Override
-    public ChessPiece clone() {
-        
-    	//Empty piece
-    	ChessPiece piece = new Pawn(true);
-    	try {
-            return getClass().getDeclaredConstructor(boolean.class).newInstance(color.isWhite());
-        } catch (Exception e) {
-        	WriteError.writeErrorLog("");
-        }
-        return piece;
-    }
+
 }

@@ -1,6 +1,7 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.ChessMove;
 import core.Color;
 import core.positioning.Direction;
 import core.positioning.Square;
@@ -23,18 +24,21 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+    public List<Square> findCoveredSquares(ChessBoard board) {
+        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
+        Square origin = board.getSquare(this).get();
+
         List<Square> list = new ArrayList<>();
 
-        Direction moveDirection = getColor().isWhite() ? Direction.UP : Direction.DOWN;
+        Direction moveDirection = getColor().getPawnMoveDirection();
 
         //Einfacher Zug & Doppelzug
-        Square squareToTest = origin.getNext(moveDirection);
+        Square squareToTest = origin.getNext(moveDirection).get();
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
             if (isDoubleMovePossible()) {
-                squareToTest = squareToTest.getNext(moveDirection);
+                squareToTest = squareToTest.getNext(moveDirection).get();
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
                 }
@@ -43,16 +47,17 @@ public class Pawn extends ChessPiece {
 
         //Schlagen
         for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
-            squareToTest = origin.getNext(moveDirection);
-            squareToTest = squareToTest.getNext(captureDirection);
+            squareToTest = origin.getNext(moveDirection).get();
+            if(squareToTest.getNext(captureDirection).isEmpty()) continue;
+            squareToTest = origin.getNext(captureDirection).get();
             var piece = board.getPiece(squareToTest);
             if (piece.isEmpty() || piece.get().getColor().equals(getColor())) {
                 list.add(squareToTest);
                 continue;
             }
-            Square neighbourSquare = origin.getNext(captureDirection);
+            Square neighbourSquare = origin.getNext(captureDirection).get();
             var possiblePiece = board.getPiece(neighbourSquare);
-            if (possiblePiece.isPresent()) {
+            if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
                 Pawn pawn = (Pawn) possiblePiece.get();
                 if (pawn.mCanBeCapturedEnPassant) {
                     list.add(squareToTest);
@@ -71,7 +76,8 @@ public class Pawn extends ChessPiece {
         mCanBeCapturedEnPassant = true;
     }
 
-    public void resetEnPassant() {
+    public void resetDoubleMove() {
         mCanBeCapturedEnPassant = false;
     }
+
 }

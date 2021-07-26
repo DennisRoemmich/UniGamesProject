@@ -1,8 +1,10 @@
 package core;
 
+import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.positioning.Square;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Checks if the game is over.
@@ -15,41 +17,32 @@ public final class GameOverDetector {
 		
 	}
 
-    public static ChessResult checkForMate(boolean currentPlayerIsWhite, ChessBoard board) {
-        List<Square> squaresOfPlayer = board.findSquaresOfPieces(currentPlayerIsWhite);
+    public static ChessResult checkForMate(Color color, ChessBoard board) {
+        List<ChessPiece> pieces = board.getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList());
         if (isDraw(board)) {
             return ChessResult.DRAW;
         }
 
         // Check if current Player can move
-        for (Square square : squaresOfPlayer) {
-            if (!board.getPiece(square).findMoves(board, square).isEmpty()) {
-                return ChessResult.NONE;
-            }
+        if(pieces.stream().anyMatch(piece -> !piece.findMoves(board).isEmpty())) {
+            return ChessResult.NONE;
         }
-        if (CheckDetector.isInCheck(board, currentPlayerIsWhite)) {
-            return ChessResult.CHECKMATE;
-        } else {
-            return ChessResult.STALEMATE;
-        }
+
+        return CheckDetector.isInCheck(board, color) ? ChessResult.CHECKMATE : ChessResult.STALEMATE;
     }
 
     private static boolean isDraw(ChessBoard board) {
-        return !(canPlayerWin(board, true) || canPlayerWin(board, false)); 
+        return !(canPlayerWin(board, Color.WHITE) || canPlayerWin(board, Color.BLACK));
     }
 
-    private static boolean canPlayerWin(ChessBoard board, boolean isWhite) {
+    private static boolean canPlayerWin(ChessBoard board, Color color) {
         int availableMinorPieces = 0; //Bishop & Knight are minor pieces, at least two are required for a checkmate
-        for (Square square : board.findSquaresOfPieces(isWhite)) {
-            ChessPieceType type = board.getPiece(square).getType();
+
+        for (ChessPiece piece : board.getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList())) {
+            ChessPieceType type = piece.getType();
             switch (type) {
-                case PAWN, ROOK, QUEEN:
-                    return true;
-                case BISHOP, KNIGHT:
-                    availableMinorPieces++;
-                	break;
-                default:
-                	return true;
+                case PAWN, ROOK, QUEEN -> { return true; }
+                case BISHOP, KNIGHT -> availableMinorPieces++;
             }
         }
         return availableMinorPieces >= 2;

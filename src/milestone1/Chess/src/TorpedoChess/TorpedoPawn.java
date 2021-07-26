@@ -1,10 +1,11 @@
 package TorpedoChess;
 
+import core.Color;
 import core.pieces.Pawn;
 
 public class TorpedoPawn extends Pawn {
-    public TorpedoPawn(boolean isWhite) {
-        super(isWhite);
+    public TorpedoPawn(Color color) {
+        super(color);
     }
 
     @Override

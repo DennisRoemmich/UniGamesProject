@@ -30,7 +30,7 @@ public class ChessPieceMoves {
     		return true;
     	} else {
 			mBreakLoop = true;
-    		return mBoard.isOccupiedByOpponent(squareToTest, mPiece.isWhite());
+    		return !mBoard.getPiece(squareToTest).get().getColor().equals(mPiece.getColor());
     	}
     }
 
@@ -44,10 +44,10 @@ public class ChessPieceMoves {
 
 	public List<Square> getReachableSquares(Direction direction) {
 		List<Square> lineSquares = new ArrayList<>();
-		Square squareToAdd = mOrigin.getNext(direction);
-		while (squareToAdd != null) {
-			lineSquares.add(squareToAdd);
-			squareToAdd = squareToAdd.getNext(direction);
+		var squareToAdd = mOrigin.getNext(direction);
+		while (squareToAdd.isPresent()) {
+			lineSquares.add(squareToAdd.get());
+			squareToAdd = squareToAdd.get().getNext(direction);
 		}
 		return checkLine(lineSquares);
 	}

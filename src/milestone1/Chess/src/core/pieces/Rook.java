@@ -1,8 +1,11 @@
 package core.pieces;
 
 import core.ChessBoard;
+import core.Color;
 import core.positioning.Direction;
 import core.positioning.Square;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,12 +15,15 @@ import java.util.List;
  */
 public class Rook extends ChessPiece  {
 
-    public Rook(boolean isWhite) {
-        super(isWhite, ChessPieceType.ROOK);
+    public Rook(Color color) {
+        super(color, ChessPieceType.ROOK);
     }
     
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+    public List<Square> findCoveredSquares(ChessBoard board) {
+        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
+        Square origin = board.getSquare(this).get();
+
         ChessPieceMoves moveFinder = new ChessPieceMoves(this, origin, board);
         Direction[] rookDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
         return moveFinder.getReachableSquares(rookDirections);

@@ -21,7 +21,10 @@ public class Knight extends ChessPiece  {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board, Square origin) {
+    public List<Square> findCoveredSquares(ChessBoard board) {
+        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
+        Square origin = board.getSquare(this).get();
+
         List<Square> list = new ArrayList<>();
 
         Rank newRank;

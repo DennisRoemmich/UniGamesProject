@@ -1,5 +1,8 @@
 package core;
 
+import core.positioning.Direction;
+import core.positioning.Rank;
+
 public enum Color {
     BLACK(false), WHITE(true);
 
@@ -19,5 +22,17 @@ public enum Color {
 
     public boolean isWhite() {
         return value;
+    }
+
+    public static Color valueOf(boolean value) {
+        return value ? WHITE : BLACK;
+    }
+
+    public Rank getBackrank() {
+        return isWhite() ? Rank.M1 : Rank.M8;
+    }
+
+    public Direction getPawnMoveDirection() {
+        return isWhite() ? Direction.UP : Direction.DOWN;
     }
 }

@@ -23,10 +23,10 @@ public class AiPlayer implements Player {
 	//Random dummy AI
 	@Override
     public JSONObject requestMove(JSONObject dataType) {
-		if (dataType.get("type") != "move") {
+		//if (dataType.get("type") != "move") {
 			return new JSONObject();
-		}
-		try {
+		//}
+		/*try {
 			
 			//Necessary values for the chess move
 			Square origin;
@@ -63,6 +63,6 @@ public class AiPlayer implements Player {
 		} catch (Exception e) {
 			System.out.println("Unknown Issue.");
 			return new JSONObject();
-		}
+		}*/
     }
 }
