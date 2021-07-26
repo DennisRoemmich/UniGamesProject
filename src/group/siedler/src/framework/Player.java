@@ -1,4 +1,4 @@
-package siedlerFramework;
+package framework;
 
 import org.json.simple.JSONObject;
 

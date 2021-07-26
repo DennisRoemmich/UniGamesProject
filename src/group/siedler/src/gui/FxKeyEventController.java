@@ -3,10 +3,11 @@ package gui;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import materials.MaterialType;
-import siedlerController.GameState;
-import siedlerFramework.PrintToConsole;
+
 import java.util.Optional;
 import cards.CardType;
+import controller.GameState;
+import framework.PrintToConsole;
 
 public class FxKeyEventController {
     private FxEngineController mFxEngineController;

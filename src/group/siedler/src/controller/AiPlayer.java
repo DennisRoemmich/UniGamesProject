@@ -1,7 +1,8 @@
-package siedlerController;
+package controller;
 
 import buildings.Building;
 import buildings.BuildingType;
+import framework.Player;
 import helper.QuickJSon;
 import map.BuildRules;
 import map.MapTools;
@@ -12,7 +13,6 @@ import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
-import siedlerFramework.Player;
 import streets.Street;
 import streets.StreetType;
 

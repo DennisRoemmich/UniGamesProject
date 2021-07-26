@@ -1,4 +1,4 @@
-package siedlerFramework;
+package framework;
 
 /**
  * Printing to the console.

@@ -2,9 +2,9 @@ package dice;
 
 import buildings.Building;
 import buildings.BuildingType;
+import framework.PrintToConsole;
 import map.Map;
 import map.MapTools;
-import siedlerFramework.PrintToConsole;
 import tiles.PositionedTile;
 import tiles.ResourceTile;
 import player.PlayerData;
@@ -22,9 +22,7 @@ public class DiceRolling {
 	private DiceRolling() {
 		//Not used
 	}
-
-
-
+	
     public static void reRoll() {
 
     	dice1 = ThreadLocalRandom.current().nextInt(1, 7);

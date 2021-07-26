@@ -1,6 +1,7 @@
 package gui;
 
 import buildings.BuildingType;
+import controller.Controller;
 import javafx.scene.Group;
 import map.BuildRules;
 import player.PlayerColor;
@@ -8,7 +9,6 @@ import positions.EdgePosition;
 import positions.NodePosition;
 import buildings.Building;
 import map.Map;
-import siedlerController.Controller;
 import streets.PositionedStreet;
 import streets.Street;
 import streets.StreetType;

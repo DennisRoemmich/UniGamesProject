@@ -1,4 +1,4 @@
-package siedlerController;
+package controller;
 
 import buildings.Building;
 
@@ -6,6 +6,10 @@ import buildings.BuildingType;
 import cards.CardSet;
 import cards.CardType;
 import dice.DiceRolling;
+import framework.GameController;
+import framework.Player;
+import framework.PrintToConsole;
+import framework.WriteError;
 import gui.SiedlerEventHandler;
 import helper.QuickJSon;
 import map.BuildRules;
@@ -14,23 +18,17 @@ import map.MapGenerator;
 import map.MapTools;
 import materials.MaterialSet;
 import materials.MaterialType;
-
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import player.PlayerData;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
-import siedlerFramework.GameController;
-import siedlerFramework.Player;
-import siedlerFramework.PrintToConsole;
-import siedlerFramework.WriteError;
 import streets.PositionedStreet;
 import streets.Street;
 import streets.StreetType;
 import tiles.ResourceTile;
 import tiles.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -439,12 +437,12 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
 
     @Override
-    public JSONObject metaSettingsToJSON() {
+    public JSONObject metaSettingsToJSon() {
     	return null; 
     }
 
     @Override
-    public JSONObject gameSettingsToJSON() { 
+    public JSONObject gameSettingsToJSon() { 
     	return null;
     }
 
