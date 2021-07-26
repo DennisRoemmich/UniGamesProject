@@ -1,8 +1,8 @@
 package console;
 
-import core.aiplayer.AiPlayer;
+import core.npc.AiPlayer;
 import core.ChessMove;
-import core.pieces.ChessPiece;
+import core.npc.RandomPlayer;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
@@ -28,48 +28,35 @@ public class ConsoleUI implements Presenter, Player {
     	boolean wrongMenuInput = true;
     	
     	while(wrongMenuInput) {
-    	
-    	PrintToConsole.println("Please choose your game mode:");
-    	PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit");
-    	String input = mScanner.nextLine();
-    	
-    		if ("r".equalsIgnoreCase(input)) {
-    			wrongMenuInput = false;
-    			loadGame();
-    		}
-    		
-    		else if ("c".equalsIgnoreCase(input)) {
-    			wrongMenuInput = false;
-    			startGame(false);
-    		}
-    		
-    		else if ("a".equalsIgnoreCase(input)) {
-    			wrongMenuInput = false;
-    			startGame(true);
-    		}
-    		else if ("t".equalsIgnoreCase(input)) {
-    			wrongMenuInput = false;
-    			mController.setStandardChess();
-    			startGame(false);
-    		} 
-    		else if ("h".equalsIgnoreCase(input)) {
-    			PrintToConsole.println("--------Classic Chess 1v1---------");
-    			PrintToConsole.println("The classic chess game vs another player via hotseat.");
-    			PrintToConsole.println("");
-    			PrintToConsole.println("--------Classic Chess vs AI---------");
-    			PrintToConsole.println("Challenge the computer");
-    			PrintToConsole.println("");
-    			PrintToConsole.println("--------Torpedo Chess 1v1---------");
-    			PrintToConsole.println("Alternative game mode where your pawns may always move 2 sqaures. En passant rule applies!");
-    			PrintToConsole.println("");
-    		}     		
-    		else if ("q".equalsIgnoreCase(input)) {
-    			wrongMenuInput = false;
-    		}
-    		else {
-    			PrintToConsole.println("Please try again");
-    		}    						   			
-    	}
+
+			PrintToConsole.println("Please choose your game mode:");
+			PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit");
+			String input = mScanner.nextLine();
+
+			wrongMenuInput = false;
+			switch (input) {
+				case "r", "R" -> loadGame();
+    			case "c", "C" -> startGame(false);
+				case "a", "A" -> startGame(true);
+				case "t", "T" -> {
+					mController.setStandardChess();
+					startGame(false);
+				}
+				case "h", "H" -> {
+					PrintToConsole.println("--------Classic Chess 1v1---------");
+					PrintToConsole.println("The classic chess game vs another player via hotseat.");
+					PrintToConsole.println("");
+					PrintToConsole.println("--------Classic Chess AI vs AI---------");
+					PrintToConsole.println("Challenge the computer vs the computer");
+					PrintToConsole.println("");
+					PrintToConsole.println("--------Torpedo Chess 1v1---------");
+					PrintToConsole.println("Alternative game mode where your pawns may always move 2 sqaures. En passant rule applies!");
+					PrintToConsole.println("");
+				}
+				case "q", "Q" -> wrongMenuInput = false;
+				default -> PrintToConsole.println("Please try again");
+			}
+		}
     }
     	
 	//}
@@ -91,10 +78,11 @@ public class ConsoleUI implements Presenter, Player {
 
 	public void startGame(GameLog log, boolean mAiGame) {
 		PrintToConsole.println("Type \"help\" for information on how to play. \n");
-		mController.setPlayerA(this);
 		if(mAiGame) {
+			mController.setPlayerA(new RandomPlayer(mController));
 			mController.setPlayerB(new AiPlayer(mController));
 		} else {
+			mController.setPlayerA(this);
 			mController.setPlayerB(this);
 		}
 		mController.setPresenter(this);
@@ -104,10 +92,11 @@ public class ConsoleUI implements Presenter, Player {
 
     public void startGame(boolean mAiGame) {
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
-        mController.setPlayerA(this);
 		if(mAiGame) {
+			mController.setPlayerA(new AiPlayer(mController));
 			mController.setPlayerB(new AiPlayer(mController));
 		} else {
+			mController.setPlayerA(this);
 			mController.setPlayerB(this);
 		}
 		mController.setPresenter(this);
@@ -145,7 +134,6 @@ public class ConsoleUI implements Presenter, Player {
             case DRAW -> PrintToConsole.println("Draw");
             case CHECKMATE -> PrintToConsole.println("Checkmate");
             case STALEMATE -> PrintToConsole.println("Stalemate");
-            case SURRENDER -> PrintToConsole.println("Surrender");
             case NONE -> PrintToConsole.println("The game isn't over.");
             default -> PrintToConsole.println("ERROR: Unknown game result");
         }

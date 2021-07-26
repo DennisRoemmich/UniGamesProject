@@ -1,17 +1,15 @@
-package core.aiplayer;
+package core.npc;
 
-import console.ConsoleMain;
 import console.Controller;
 import core.Chess;
 import core.ChessMove;
-import core.pieces.ChessPiece;
-import core.positioning.File;
-import core.positioning.Rank;
-import core.positioning.Square;
+import core.Color;
 import framework.Player;
+import framework.PrintToConsole;
+import framework.TimeKeeper;
 import org.json.simple.JSONObject;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.stream.Collectors;
 
 public class AiPlayer implements Player {
 
@@ -24,17 +22,22 @@ public class AiPlayer implements Player {
 	//Random dummy AI
 	@Override
     public JSONObject requestMove(JSONObject dataType) {
-		return getBestMove(2).toJSon();
+		return getBestMove(1).toJSon();
     }
 
     protected ChessMove getBestMove(int depth) {
-		ChessMove bestMove = mController.getGame().getPossibleMoves().get(0);
-		int colorTwist = 1;//mController.amIplayerWhite(this) ? 1 : -1;
-		double bestScore = -100000;
-		for(ChessMove move : mController.getGame().getPossibleMoves()) {
-			if(rateMove(mController.getGame(), move, depth) * colorTwist > bestScore * colorTwist) {
+		boolean isWhite = mController.getGame().getCurrentColor().isWhite();
+
+		var possibleMoves =  mController.getGame().getPossibleMoves();
+		ChessMove bestMove = possibleMoves.get(0);
+
+		double bestScore = isWhite ? -100000 : 100000;
+		int i = 0;
+		for(ChessMove move : possibleMoves) {
+			double rating = rateMove(mController.getGame(), move, depth);
+			if(isWhite ? (rating > bestScore) : (rating < bestScore)) {
 				bestMove = move;
-				bestScore = rateMove(mController.getGame(), move, depth);
+				bestScore = rating;
 			}
 		}
 		return bestMove;
@@ -57,8 +60,8 @@ public class AiPlayer implements Player {
 
     protected double rateSituation(Chess game) {
 		double score = 0;
-
-
+		score += game.getBoard().getPieces(Color.WHITE).stream().collect(Collectors.summingDouble(p -> p.getType().getValue()));
+		score -= game.getBoard().getPieces(Color.BLACK).stream().collect(Collectors.summingDouble(p -> p.getType().getValue()));
 		return score;
 	}
 }

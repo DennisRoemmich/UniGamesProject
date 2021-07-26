@@ -2,9 +2,9 @@ package console;
 
 import TorpedoChess.TorpedoChess;
 import core.*;
+import core.npc.RandomPlayer;
 import framework.GameController;
 import framework.Player;
-import framework.Presenter;
 
 import framework.WriteError;
 import org.json.simple.JSONObject;
@@ -25,13 +25,6 @@ public class Controller extends GameController {
     
     public Controller() {
     }
-    
-    public Controller(Presenter presenter) {
-        // Vielleicht ist es übersichtlicher auf diesen Konstuktor zu verzichten und set zu benutzen
-        // Oder ein Konstuktor mit Presenter und Player-Liste als Parametern
-        mPresenter = presenter;
-    }
-
 
     protected JSONObject executeMove(JSONObject moveJSON) {
     	if (moveJSON == null) {
@@ -84,7 +77,6 @@ public class Controller extends GameController {
     		//Not used yet
     }
 
-
     public void setPlayerA(Player playerA) {
         this.mPlayerA = playerA;
     }
@@ -131,8 +123,6 @@ public class Controller extends GameController {
     }
 
     private void updateGameState() {
-        if(mIsGameRunning) {
-            mIsGameRunning = GameOverDetector.checkForMate(mGame.getCurrentColor(), mGame.getBoard()) == ChessResult.NONE;
-        }
+        mIsGameRunning = GameOverDetector.checkForMate(mGame) == ChessResult.NONE;
     }
 }

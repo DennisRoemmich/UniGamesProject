@@ -39,14 +39,19 @@ public abstract class ChessPiece implements Cloneable {
         Square origin = board.getSquare(this).get();
 
         List<Square> coveredSquares = findCoveredSquares(board);
+        List<Square> validDestinations = coveredSquares.stream().filter(s -> isSquareFreeOrOpponent(board, s)).collect(Collectors.toList());
         List<ChessMove> validMoves = new ArrayList<>();
-        for (Square destination : coveredSquares) {
+        for (Square destination : validDestinations) {
             ChessMove move = new ChessMove(origin, destination);
             if (!CheckDetector.isInCheckAfterMove(board, color, move)) {
                 validMoves.add(move);
             }
         }
         return validMoves;
+    }
+
+    private boolean isSquareFreeOrOpponent(ChessBoard board, Square square) {
+        return board.getPiece(square).isEmpty() || board.getPiece(square).get().getColor().equals(getColor().getContrary());
     }
 
     public void registerMove() {

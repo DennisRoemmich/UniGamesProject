@@ -1,13 +1,7 @@
 package core;
 
-import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
-import core.pieces.King;
 import core.positioning.Square;
-import framework.PrintToConsole;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Checks for check condition.
@@ -20,22 +14,13 @@ public final class CheckDetector {
 	}
 
 	public static boolean isSquareAttacked(ChessBoard board, Square squareToTest, Color color) {
-	    var piecesWithColor = board.getPositionedPieces(color);
-        for (Square opponentSquare : piecesWithColor.stream().map(pP -> pP.getPosition()).collect(Collectors.toList())) {
-            var opponentPiece = board.getPiece(opponentSquare).get();
-            List<Square> opponentCoveredSquares = opponentPiece.findCoveredSquares(board);
-            if (opponentCoveredSquares.contains(squareToTest)) {
-                return true;
-            }
-        }
-        return false;
+	    var pieces = board.getPositionedPieces(color).stream();
+        return pieces.anyMatch(s -> s.getPiece().findCoveredSquares(board).contains(squareToTest));
     }
 
     public static boolean isInCheck(ChessBoard board, Color color) {
 	    var king = board.getPositionedPieces(color, ChessPieceType.KING);
-	    if(king.isEmpty()) {
-	        return false;
-        }
+	    if(king.isEmpty()) return false;
         return isSquareAttacked(board, king.get(0).getPosition(), color.getContrary());
     }
 

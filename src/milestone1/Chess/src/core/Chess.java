@@ -20,6 +20,7 @@ public class Chess {
 
     protected ChessBoard mBoard = ChessBoard.getStartBoard();
     protected int mCurrentMove = 0;
+    protected int lastPawnMoveOrCapture = 0;
     protected Color currentColor = Color.WHITE;
     private boolean autoPromotion = true;
 
@@ -41,12 +42,18 @@ public class Chess {
             handleEnPassantCapture(move);
             handlePromotion(move);
             handleDoubleMove(move);
+            lastPawnMoveOrCapture = mCurrentMove;
+        }
+
+        if (mBoard.getPiece(move.getDestination()).isPresent()) {
+            lastPawnMoveOrCapture = mCurrentMove;
         }
 
         mBoard.movePiece(move);
 
         registerMove(move.getDestination());
         resetEnPassantFlags();
+        nextPlayer();
     }
 
     protected void handleCastling(ChessMove move) {
@@ -121,6 +128,11 @@ public class Chess {
         }
     }
 
+    protected void nextPlayer() {
+        currentColor = currentColor.getContrary();
+        if(currentColor.isWhite()) mCurrentMove++;
+    }
+
     public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
         List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(currentColor, pieceType);
         positionedPieces = positionedPieces.stream().filter(pP -> pP.getPiece().findMoves(mBoard).stream().anyMatch(m -> m.getDestination().equals(destination))).collect(Collectors.toList());
@@ -134,8 +146,17 @@ public class Chess {
         return possibleMoves;
     }
 
+    public List<ChessMove> getPossibleMovesQuickly() {
+        var pieces = mBoard.getPieces(currentColor);
+        List<ChessMove> possibleMoves = new ArrayList<>();
+        for(ChessPiece piece: pieces) {
+            possibleMoves.addAll(piece.findMoves(mBoard));
+        }
+        return possibleMoves;
+    }
+
     public ChessResult getResult() {
-        return GameOverDetector.checkForMate(currentColor, mBoard);
+        return GameOverDetector.checkForMate(this);
     }
 
     public boolean isGameRunning() {
@@ -171,5 +192,13 @@ public class Chess {
 
     public Color getCurrentColor() {
         return currentColor;
+    }
+
+    public int getCurrentMove() {
+        return mCurrentMove;
+    }
+
+    public int getLastPawnMoveOrCapture() {
+        return lastPawnMoveOrCapture;
     }
 }

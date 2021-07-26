@@ -37,7 +37,7 @@ public class Pawn extends ChessPiece {
 
         if (board.isFieldFree(squareToTest)) {
             list.add(squareToTest);
-            if (isDoubleMovePossible()) {
+            if (isDoubleMovePossible() && squareToTest.getNext(moveDirection).isPresent()) {
                 squareToTest = squareToTest.getNext(moveDirection).get();
                 if (board.isFieldFree(squareToTest)) {
                     list.add(squareToTest);
@@ -49,19 +49,19 @@ public class Pawn extends ChessPiece {
         for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
             squareToTest = origin.getNext(moveDirection).get();
             if(squareToTest.getNext(captureDirection).isEmpty()) continue;
-            squareToTest = origin.getNext(captureDirection).get();
+            squareToTest = squareToTest.getNext(captureDirection).get();
             var piece = board.getPiece(squareToTest);
-            if (piece.isEmpty() || piece.get().getColor().equals(getColor())) {
+            if(piece.isEmpty()) {
+                var possiblePiece = board.getPiece(origin.getNext(captureDirection).get());
+                if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
+                    Pawn pawn = (Pawn) possiblePiece.get();
+                    if (pawn.mCanBeCapturedEnPassant) {
+                        list.add(squareToTest);
+                    }
+                }
+            } else if (piece.get().getColor().equals(getColor().getContrary())) {
                 list.add(squareToTest);
                 continue;
-            }
-            Square neighbourSquare = origin.getNext(captureDirection).get();
-            var possiblePiece = board.getPiece(neighbourSquare);
-            if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
-                Pawn pawn = (Pawn) possiblePiece.get();
-                if (pawn.mCanBeCapturedEnPassant) {
-                    list.add(squareToTest);
-                }
             }
         }
 
