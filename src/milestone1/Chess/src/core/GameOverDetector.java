@@ -42,7 +42,11 @@ public final class GameOverDetector {
             ChessPieceType type = piece.getType();
             switch (type) {
                 case PAWN, ROOK, QUEEN -> { return true; }
-                case BISHOP, KNIGHT -> availableMinorPieces++;
+                case BISHOP, KNIGHT -> {
+                    if(++availableMinorPieces >= 2) {
+                        return true;
+                    }
+                }
             }
         }
         return availableMinorPieces >= 2;

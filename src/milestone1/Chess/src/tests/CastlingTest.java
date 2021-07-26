@@ -44,6 +44,6 @@ public class CastlingTest extends Test {
         super.runMoves();
         ChessBoard board = super.mTestController.getGame().getBoard();
         Square rookSquare = new Square(Rank.M1, File.F);
-        return !board.isFieldFree(rookSquare) && board.getPiece(rookSquare).getType() == ChessPieceType.ROOK;
+        return !board.isFieldFree(rookSquare) && board.getPiece(rookSquare).get().getType() == ChessPieceType.ROOK;
     }
 }
