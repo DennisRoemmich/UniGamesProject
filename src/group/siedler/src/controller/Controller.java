@@ -223,6 +223,12 @@ public class Controller extends GameController implements SiedlerEventHandler {
             PrintToConsole.println("It's not the right time to play a card!");
             return;
         }
+        
+    	if (getCurrentPlayerCards().getAmount(CardType.INVENTION) == 0) {
+    		PrintToConsole.println("You do not own this card!");
+    		return;
+    	}
+        
         getCurrentPlayerHand().addResources(typeA, 1);
         getCurrentPlayerHand().addResources(typeB, 1);
         getCurrentPlayerCards().removeResources(CardType.INVENTION, 1);
@@ -254,9 +260,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
 	    		getCurrentPlayerCards().removeResources(type, 1);
 	    		break;
 	    	case INVENTION:
-	    		getCurrentPlayerCards().removeResources(type, 1);
-	    		getCurrentPlayerHand().addResources(materialtype, 5);
-	    		getCurrentPlayerCards().removeResources(type, 1);
+	    		//Should use the inventionCard method instead
 	    		break;
 	    	case MONOPOLY:
 	    		int amountOfMaterial = 0;

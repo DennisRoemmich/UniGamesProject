@@ -72,16 +72,24 @@ public class FxKeyEventController {
                     mFxEngineController.setMaterialsLeftToSelect(2);
                 }
                 case I -> {
-                    mCardType = Optional.of(CardType.INVENTION);
-                    mFxEngineController.setMaterialsLeftToSelect(2);
+                	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.INVENTION) > 0) {
+                		mCardType = Optional.of(CardType.INVENTION);
+                		mFxEngineController.setMaterialsLeftToSelect(2);
+                	} else {
+                		framework.PrintToConsole.println("You do not own this card!");
+                	}
                 }
                 case M -> {
-                    mCardType = Optional.of(CardType.MONOPOLY);
-                    mFxEngineController.setMaterialsLeftToSelect(1);
+                	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.INVENTION) > 0) {
+                		mCardType = Optional.of(CardType.MONOPOLY);
+                		mFxEngineController.setMaterialsLeftToSelect(1);
+                	} else {
+                		framework.PrintToConsole.println("You do not own this card!");
+                	}
                 }
                 case ENTER, SPACE -> mFxEngineController.diceButtonClicked();
                 case DIGIT0 -> mFxEngineController.getController().takeCard();
-			default -> throw new IllegalArgumentException("Unexpected value: " + event.getCode());
+			default -> framework.PrintToConsole.println("Nothing happened!");
             }
         }
     }
@@ -90,21 +98,23 @@ public class FxKeyEventController {
         PrintToConsole.println("*---Welcome to Siedler!---*");
         PrintToConsole.println("");
         PrintToConsole.println("*---How to play:---*");
-        PrintToConsole.println("Trading: Press a key from \"1\" to \"5\" on your keyboard for the resource to ");
-        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get the corresponding resource.");
-        PrintToConsole.println("Take a Development Card: Press the \"0\" key on your keyboard");
-        PrintToConsole.println("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\"");
-        PrintToConsole.print("key on your keyboard for the desired card to play");
-        PrintToConsole.println("Important: If you like to play a development card, ");
-        PrintToConsole.print("please choose the resource you want to ");
-        PrintToConsole.print("get by pressing the desired number key on your keyboard BEFORE playing the card. ");
-        PrintToConsole.println("Please press \"Enter\" afterwards such that no accidental trading occurs :)");
+        PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
+        PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
+        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
+        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
+        PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
+        PrintToConsole.print("key on your keyboard for the desired card to play. ");
+        PrintToConsole.print("If you like to play a development card, ");
+        PrintToConsole.print("you might need to choose the resource(s) you want to ");
+        PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
+        PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
         PrintToConsole.println("");
         PrintToConsole.println("*---Differences to the standard game---*");
-        PrintToConsole.println("The invention card gives you 5 of one resource instead of 2 of any. ");
-        PrintToConsole.println("With 4:1 trading the result is the same. ");
-        PrintToConsole.println("The Road building card gives 2 Clay and Wood building roads. ");
-        PrintToConsole.println("With those resources you may build those 2 roads or something else as you desire!");
+        PrintToConsole.print("The Road building card gives 2 Clay and Wood building roads. ");
+        PrintToConsole.print("With those resources you may build those 2 roads or something else as you desire! \n");
+        PrintToConsole.print("Since the players have grown suspicious on each other");
+        PrintToConsole.print("in this version they have decided to not trade with each other \n");
+        PrintToConsole.print("Thus player trading is not possible in this version of Siedler!");
     }
 
 

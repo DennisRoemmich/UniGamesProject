@@ -81,7 +81,7 @@
             <Font name="Arial" size="27.0" />
          </font></Label>
          
-       <Label fx:id="mCurrentPlayer" layoutX="924.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
+       <Label fx:id="mCurrentPlayer" layoutX="890.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
          <font>
             <Font name="Arial" size="30.0" />
          </font></Label>
@@ -97,7 +97,7 @@
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
-      <Label fx:id="mWheatLabel" layoutX="886.0" layoutY="314.0" text="2: Wheat" textFill="GOLD">
+      <Label fx:id="mWheatLabel" layoutX="886.0" layoutY="314.0" text="2: Wheat" textFill="DARKGOLDENROD">
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
@@ -117,7 +117,7 @@
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
-      <Label fx:id="mWheatAmount" layoutX="1040.0" layoutY="314.0" text="error" textFill="GOLD">
+      <Label fx:id="mWheatAmount" layoutX="1040.0" layoutY="314.0" text="error" textFill="DARKGOLDENROD">
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
@@ -133,10 +133,10 @@
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
-      <ImageView fx:id="mTradeWithBankButton" fitHeight="187.0" fitWidth="187.0" layoutX="78.0" layoutY="701.0" onMouseClicked="#switchToTradingWithBankScene" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
-         <image>
-            <!--  <Image url="@../resources/TradeWithBankButton.png" /> -->
-         </image>
-      </ImageView>
+      <!-- <ImageView fx:id="mTradeWithBankButton" fitHeight="187.0" fitWidth="187.0" layoutX="78.0" layoutY="701.0" onMouseClicked="#switchToTradingWithBankScene" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"> -->
+       <!--   <image> -->
+         <!--     <Image url="@../resources/TradeWithBankButton.png" />-->
+     <!--    </image> -->
+   <!--   </ImageView> -->
    </children>
 </AnchorPane>

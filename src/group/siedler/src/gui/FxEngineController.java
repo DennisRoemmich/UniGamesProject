@@ -51,7 +51,7 @@ public class FxEngineController extends FxController implements Player, Presente
         super.initialize(url, resourceBundle);
         setupController();
         setupMapNode();
-        setupPlayers(3);
+        setupPlayers(6);
         refreshOutput();
         mController.newGame();
     }
@@ -160,9 +160,15 @@ public class FxEngineController extends FxController implements Player, Presente
         mMapNode.setScaleZ(0.7);
         mAnchorPane.getChildren().add(mMapNode);
     }
-
+    
+    //Setup Players AI and players (this)
     public void setupPlayers(int amountOfTotalPlayers) {
         mController.addPlayer(this, PlayerColor.BLUE);
+//        mController.addPlayer(this, PlayerColor.BLACK);
+//        mController.addPlayer(this, PlayerColor.WHITE);
+//        mController.addPlayer(this, PlayerColor.PURPLE);
+//        mController.addPlayer(this, PlayerColor.YELLOW);
+//        mController.addPlayer(this, PlayerColor.GREEN);
         AiPlayer aiPlayer = new AiPlayer(mController);
         while (mController.getNumberOfPlayers() < amountOfTotalPlayers) {
             mController.addPlayer(aiPlayer, ListUtility.getRandomElement(Arrays.stream(PlayerColor.values()).toList()));
