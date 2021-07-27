@@ -34,7 +34,8 @@ public class FxEngineController extends FxController implements Player, Presente
     private Stage mStage;
     private Scene mScene;
     private Parent mRoot;
-
+    
+    //Material for cards
     private int mMaterialsLeftToSelect = 0;
 
     private FxKeyEventController mFxKeyEventController = new FxKeyEventController(this);
