@@ -1,5 +1,6 @@
 package core.pieces;
 
+import core.Chess;
 import core.ChessBoard;
 import core.ChessMove;
 import core.Color;
@@ -24,9 +25,9 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board) {
-        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
-        Square origin = board.getSquare(this).get();
+    public List<Square> findCoveredSquares(Chess game) {
+        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
+        Square origin = game.getBoard().getSquare(this).get();
 
         List<Square> list = new ArrayList<>();
 
@@ -35,11 +36,11 @@ public class Pawn extends ChessPiece {
         //Einfacher Zug & Doppelzug
         Square squareToTest = origin.getNext(moveDirection).get();
 
-        if (board.isFieldFree(squareToTest)) {
+        if (game.getBoard().isFieldFree(squareToTest)) {
             list.add(squareToTest);
             if (isDoubleMovePossible() && squareToTest.getNext(moveDirection).isPresent()) {
                 squareToTest = squareToTest.getNext(moveDirection).get();
-                if (board.isFieldFree(squareToTest)) {
+                if (game.getBoard().isFieldFree(squareToTest)) {
                     list.add(squareToTest);
                 }
             }
@@ -50,9 +51,9 @@ public class Pawn extends ChessPiece {
             squareToTest = origin.getNext(moveDirection).get();
             if(squareToTest.getNext(captureDirection).isEmpty()) continue;
             squareToTest = squareToTest.getNext(captureDirection).get();
-            var piece = board.getPiece(squareToTest);
+            var piece = game.getBoard().getPiece(squareToTest);
             if(piece.isEmpty()) {
-                var possiblePiece = board.getPiece(origin.getNext(captureDirection).get());
+                var possiblePiece = game.getBoard().getPiece(origin.getNext(captureDirection).get());
                 if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
                     Pawn pawn = (Pawn) possiblePiece.get();
                     if (pawn.mCanBeCapturedEnPassant) {

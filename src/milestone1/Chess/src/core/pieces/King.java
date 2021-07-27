@@ -22,14 +22,14 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board) {
+    public List<Square> findCoveredSquares(Chess game) {
         List<Square> list = new ArrayList<>();
-        Square origin = board.getSquare(this).get();
+        Square origin = game.getBoard().getSquare(this).get();
 
         for (Direction direction : Direction.values()) {
             var squareToTest = origin.getNext(direction);
             if (squareToTest.isPresent()) {
-                var piece = board.getPiece(squareToTest.get());
+                var piece = game.getBoard().getPiece(squareToTest.get());
                 if (piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary())) {
                     list.add(squareToTest.get());
                 }
@@ -39,21 +39,21 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public List<ChessMove> findMoves(ChessBoard board) {
-        List<ChessMove> moves = super.findMoves(board);
-        moves.addAll(findCastlingMoves(board));
+    public List<ChessMove> findMoves(Chess game) {
+        List<ChessMove> moves = super.findMoves(game);
+        moves.addAll(findCastlingMoves(game));
         return moves;
     }
 
-    public List<ChessMove> findCastlingMoves(ChessBoard board) {
+    public List<ChessMove> findCastlingMoves(Chess game) {
         List<ChessMove> castlingMoves = new ArrayList<>();
 
         // Check if King can castle
-        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(board, getColor())) {
+        if (getNumberOfMoves() != 0 || CheckDetector.isInCheck(game)) {
             return castlingMoves;
         }
 
-        for (PositionedPiece positionedRook : board.getPositionedPieces(getColor(), ChessPieceType.ROOK)) {
+        for (PositionedPiece positionedRook : game.getBoard().getPositionedPieces(getColor(), ChessPieceType.ROOK)) {
 
             Rook rook = (Rook) positionedRook.getPiece();
 
@@ -68,7 +68,7 @@ public class King extends ChessPiece {
             squaresToCheck.add(squaresToCheck.get(0).getNext(kingMoveDirection).get());
 
             for(Square square : squaresToCheck) {
-                if(CheckDetector.isSquareAttacked(board, square, getColor().getContrary())) {
+                if(CheckDetector.isSquareAttacked(game, square)) {
                     continue;
                 }
             }
@@ -78,7 +78,7 @@ public class King extends ChessPiece {
                 squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
             }
             for(Square square : squaresToCheck) {
-                if(board.getPiece(square).isPresent()) {
+                if(game.getBoard().getPiece(square).isPresent()) {
                     continue;
                 }
             }

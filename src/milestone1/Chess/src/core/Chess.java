@@ -24,21 +24,34 @@ public class Chess {
     protected int lastPawnMoveOrCapture = 0;
     protected Color currentColor = Color.WHITE;
     private boolean autoPromotion = true;
+    private List<ChessMove> possibleMoves = new ArrayList<>();
     //private PositionRepetitionDetector repetitionDetector = new PositionRepetitionDetector();
 
     public Chess() {
+        updatePossibleMoves();
     }
 
     public Chess(Chess game) {
         mBoard = new ChessBoard(game.getBoard());
         currentColor = game.getCurrentColor();
         autoPromotion = game.getAutoPromotion();
+        possibleMoves = game.getPossibleMoves();
         //repetitionDetector = new PositionRepetitionDetector();
     }
 
     public void makeMove(ChessMove move) {
-        CallCounter.registerCall("makeMove", false);
         if(!isMovePossible(move)) return;
+        makeMoveWithoutValidation(move);
+    }
+
+    public void makeMoveForCheckChecking(ChessMove move) {
+        if (isPawnMove(move)) {
+            handleEnPassantCapture(move);
+        }
+        mBoard.movePiece(move);
+    }
+
+    public void makeMoveWithoutValidation(ChessMove move) {
 
         handleCastling(move);
 
@@ -59,6 +72,8 @@ public class Chess {
         registerMove(move.getDestination());
         resetEnPassantFlags();
         nextPlayer();
+        updatePossibleMoves();
+
     }
 
     public boolean isMovePossible(ChessMove move) {
@@ -74,7 +89,7 @@ public class Chess {
         var possibleKings = mBoard.getPositionedPieces(currentColor, ChessPieceType.KING);
         if (possibleKings.isEmpty()) return;
         King king = (King) possibleKings.get(0).getPiece();
-        if (king.findCastlingMoves(mBoard).contains(move)) {
+        if (king.findCastlingMoves(this).contains(move)) {
             switch (move.getDestination().getFile()) {
                 case C -> {
                     Square extraOrigin = new Square(currentColor.getBackrank(), File.A);
@@ -145,7 +160,7 @@ public class Chess {
         }
     }
 
-    protected void nextPlayer() {
+    public void nextPlayer() {
         currentColor = currentColor.getContrary();
         if(currentColor.isWhite()) mCurrentMove++;
     }
@@ -154,7 +169,7 @@ public class Chess {
         List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(currentColor, pieceType);
         List<Square> origins = new ArrayList<>();
         for(PositionedPiece piece : positionedPieces) {
-            var moves = piece.getPiece().findMoves(mBoard);
+            var moves = piece.getPiece().findMoves(this);
             for(ChessMove move : moves) {
                 if(move.getDestination().equals(destination)) {
                     origins.add(piece.getPosition());
@@ -164,13 +179,18 @@ public class Chess {
         return origins;
     }
 
-    public List<ChessMove> getPossibleMoves() {
+    public void updatePossibleMoves() {
         var pieces = mBoard.getPieces(currentColor);
-        List<ChessMove> possibleMoves = new ArrayList<>();
+        List<ChessMove> newPossibleMoves = new ArrayList<>();
         for(ChessPiece piece: pieces) {
-            possibleMoves.addAll(piece.findMoves(mBoard));
+            var possibleDestinations = piece.findMoves(this);
+            newPossibleMoves.addAll(possibleDestinations);
         }
-        return possibleMoves;
+        this.possibleMoves = newPossibleMoves;
+    }
+
+    public List<ChessMove> getPossibleMoves() {
+         return possibleMoves;
     }
 
     public List<ChessMove> getPossiblesCaptureMoves() {

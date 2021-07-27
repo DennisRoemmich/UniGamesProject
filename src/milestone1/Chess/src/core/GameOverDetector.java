@@ -24,7 +24,7 @@ public final class GameOverDetector {
 
         // Check if current Player can move
         if (game.getPossibleMoves().isEmpty()) {
-            return CheckDetector.isInCheck(game.getBoard(), game.getCurrentColor()) ? ChessResult.CHECKMATE : ChessResult.STALEMATE;
+            return CheckDetector.isInCheck(game) ? ChessResult.CHECKMATE : ChessResult.STALEMATE;
         }
 
         // Check if for 50 moves no Pawn moved and no piece was captured

@@ -1,9 +1,6 @@
 package core.pieces;
 
-import core.CheckDetector;
-import core.ChessBoard;
-import core.ChessMove;
-import core.Color;
+import core.*;
 import core.positioning.Square;
 import framework.WriteError;
 import java.util.ArrayList;
@@ -31,20 +28,20 @@ public abstract class ChessPiece implements Cloneable {
 
     /* Functionality */
 
-    public abstract List<Square> findCoveredSquares(ChessBoard board);
+    public abstract List<Square> findCoveredSquares(Chess game);
 
-    public List<ChessMove> findMoves(ChessBoard board) {
-        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
+    public List<ChessMove> findMoves(Chess game) {
+        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
 
-        Square origin = board.getSquare(this).get();
+        Square origin = game.getBoard().getSquare(this).get();
 
-        List<Square> coveredSquares = findCoveredSquares(board);
+        List<Square> coveredSquares = findCoveredSquares(game);
         List<ChessMove> validMoves = new ArrayList<>();
 
         for (Square destination : coveredSquares) {
-            if(isSquareFreeOrOpponent(board, destination)) {
+            if(isSquareFreeOrOpponent(game, destination)) {
                 ChessMove move = new ChessMove(origin, destination);
-                if (!CheckDetector.isInCheckAfterMove(board, color, move)) {
+                if (!CheckDetector.isInCheckAfterMove(game, move)) {
                     validMoves.add(move);
                 }
             }
@@ -52,8 +49,9 @@ public abstract class ChessPiece implements Cloneable {
         return validMoves;
     }
 
-    private boolean isSquareFreeOrOpponent(ChessBoard board, Square square) {
-        return board.getPiece(square).isEmpty() || board.getPiece(square).get().getColor().equals(getColor().getContrary());
+    private boolean isSquareFreeOrOpponent(Chess game, Square square) {
+        var piece = game.getBoard().getPiece(square);
+        return piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary());
     }
 
     public void registerMove() {

@@ -1,5 +1,6 @@
 package core.pieces;
 
+import core.Chess;
 import core.ChessBoard;
 import core.Color;
 import core.positioning.File;
@@ -21,9 +22,9 @@ public class Knight extends ChessPiece  {
     }
 
     @Override
-    public List<Square> findCoveredSquares(ChessBoard board) {
-        if(board.getSquare(this).isEmpty()) return new ArrayList<>();
-        Square origin = board.getSquare(this).get();
+    public List<Square> findCoveredSquares(Chess game) {
+        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
+        Square origin = game.getBoard().getSquare(this).get();
 
         List<Square> list = new ArrayList<>();
 
@@ -39,7 +40,7 @@ public class Knight extends ChessPiece  {
                         newRank = Rank.valueOf(origin.getRank().getIndex() + rowOffset);
                         newFile = File.valueOf(origin.getFile().getIndex() + columnOffset);
                         squareToTest = new Square(newRank, newFile);
-                        var piece = board.getPiece(squareToTest);
+                        var piece = game.getBoard().getPiece(squareToTest);
                         if (piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary())) {
                             list.add(squareToTest);
                         }
