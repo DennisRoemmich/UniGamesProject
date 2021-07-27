@@ -12,7 +12,7 @@ public class CardSet {
 	public CardSet() {
         mResources = new JSONObject();
         for (CardType type : CardType.values()) {
-            mResources.put(type.toString(), 30);
+            mResources.put(type.toString(), 0);
         }
     }
 

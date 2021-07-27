@@ -165,10 +165,9 @@ public class FxEngineController extends FxController implements Player, Presente
     public void setupPlayers(int amountOfTotalPlayers) {
         mController.addPlayer(this, PlayerColor.BLUE);
         mController.addPlayer(this, PlayerColor.GREEN);
-//        mController.addPlayer(this, PlayerColor.YELLOW);
-//        mController.addPlayer(this, PlayerColor.RED);
-//        mController.addPlayer(this, PlayerColor.WHITE);
-//        mController.addPlayer(this, PlayerColor.PURPLE);
+        mController.addPlayer(this, PlayerColor.YELLOW);
+        mController.addPlayer(this, PlayerColor.WHITE);
+        mController.addPlayer(this, PlayerColor.PURPLE);
 //        AiPlayer aiPlayer = new AiPlayer(mController);
 //        while (mController.getNumberOfPlayers() < amountOfTotalPlayers) {
 //            mController.addPlayer(aiPlayer, ListUtility.getRandomElement(Arrays.stream(PlayerColor.values()).toList()));

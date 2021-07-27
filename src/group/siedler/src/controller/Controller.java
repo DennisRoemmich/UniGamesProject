@@ -42,7 +42,6 @@ public class Controller extends GameController implements SiedlerEventHandler {
 	private int mCurrentPlayer = 0;
 	private PlayerColor mWinColor;
     private boolean mGameHasWinner = false;
-    private PlayerData mCurrentKnightLeader;
 
     public Controller() {
         mPlayers = new ArrayList<>();
@@ -259,28 +258,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
         getCurrentPlayerCards().removeResources(CardType.INVENTION, 1);
     }
     
-    public void checkKnights() {
-    	int knightCounter = mPlayerData.get(mCurrentPlayer).getKnightCounter();
-		if ( knightCounter < 3 ) {
-			return;
-		}
-//		mPlayerData.get(mCurrentPlayer).increaseWinPoints();
-//		mPlayerData.get(mCurrentPlayer).increaseWinPoints();
-//		boolean newLeader = true;
-//		for (int i = 0; i < getNumberOfPlayers(); i++) {
-//			if (knightCounter <= mPlayerData.get(i).getKnightCounter()) {
-//				newLeader = false;
-//				//return;
-//			}
-//		}
-//		if (newLeader) {
-//			this.mCurrentKnightLeader.decreaseWinPointsBy2();
-//			this.mCurrentKnightLeader = mPlayerData.get(mCurrentPlayer);
-//			this.mCurrentKnightLeader.increaseWinPoints();
-//			this.mCurrentKnightLeader.increaseWinPoints();
-//					
-//		}
-    }
+
     
     public void playCard(CardType type, MaterialType materialtype) {
 
@@ -300,7 +278,6 @@ public class Controller extends GameController implements SiedlerEventHandler {
 	    		mPlayers.get(mCurrentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
 	    		getCurrentPlayerCards().removeResources(type, 1);
 	    		mPlayerData.get(mCurrentPlayer).increaseKnightCounter();
-	    		checkKnights();
 	    		break;
 	    	case VICTORY:
 	    		break; //Can't play victory cards
