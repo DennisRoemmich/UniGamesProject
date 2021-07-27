@@ -173,6 +173,26 @@ public class Chess {
         return possibleMoves;
     }
 
+    public List<ChessMove> getPossiblesCaptureMoves() {
+        List<ChessMove> possibleCaptures = new ArrayList<>();
+        for(ChessMove move : getPossibleMoves()) {
+            if(mBoard.getPiece(move.getDestination()).isPresent()) {
+                possibleCaptures.add(move);
+            }
+        }
+        return possibleCaptures;
+    }
+
+    public List<ChessMove> getPossibleCheckMoves() {
+        List<ChessMove> possibleChecks = new ArrayList<>();
+        for(ChessMove move : getPossibleMoves()) {
+            if(CheckDetector.isInCheckAfterMove(this, move)) {
+                possibleChecks.add(move);
+            }
+        }
+        return possibleChecks;
+    }
+
     public ChessResult getResult() {
         return GameOverDetector.checkForMate(this);
     }
