@@ -2,6 +2,11 @@ package player;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Defines the different colors the players can have. 
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public enum PlayerColor {
     BLUE, GREEN, YELLOW, RED, PURPLE, BLACK, WHITE, PINK, ORANGE, BROWN, GREY, CYAN, LIME;
 

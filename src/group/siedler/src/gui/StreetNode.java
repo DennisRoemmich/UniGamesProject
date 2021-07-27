@@ -10,6 +10,11 @@ import streets.Street;
 import streets.StreetType;
 import java.util.Optional;
 
+/**
+ * Represents every street that could be placed or is placed.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class StreetNode extends Group {
     protected Optional<Street> mStreet = Optional.empty();
     protected EdgePosition mPosition;

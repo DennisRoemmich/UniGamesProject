@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Some helper methods for lists used in this project.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public final class ListUtility {
 	
 	private ListUtility() {

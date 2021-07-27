@@ -13,9 +13,13 @@ import tiles.Tile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+/**
+ * Builds the whole map with all of its tiles, streets and buildings.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class Map {
     private TilePosition mBurglarPosition = new TilePosition(0, 0);
     private List<PositionedTile> mTiles = new ArrayList<>();
@@ -98,11 +102,10 @@ public class Map {
     }
 
     public void addBuilding(Building newBuilding) {
-        if (!mBuildings.stream().map(Building::getPosition).collect(Collectors.toList()).contains(newBuilding.getPosition())) {
-            if (MapTools.isPositionValid(this, newBuilding.getPosition())) {
-                mBuildings.add(newBuilding);
-            }
-        }
+    	NodePosition p = newBuilding.getPosition();
+    if (!mBuildings.stream().map(Building::getPosition).collect(Collectors.toList()).contains(p) && MapTools.isPositionValid(this, p)) {
+            mBuildings.add(newBuilding);
+        }       
     }
 
     public void addStreets(PositionedStreet... newStreets) {

@@ -3,8 +3,13 @@ package positions;
 import java.util.Objects;
 
 /*
-A basic structure with two integer ans one boolean coordinate (x, y, z)
+A basic structure with two integer and one boolean coordinate (x, y, z)
 No further Functionality, only generated methods.
+ */
+/**
+ * Represents Edge positions on the board.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
  */
 public class EdgePosition {
     private int mValueX;

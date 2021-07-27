@@ -2,6 +2,11 @@ package map;
 
 import positions.*;
 
+/**
+ * Getter methods to access the tiles, nodes and edges on the map. 
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public final class MapTools {
 	
 	private MapTools() {

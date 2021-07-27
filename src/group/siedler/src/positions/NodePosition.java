@@ -6,6 +6,11 @@ import java.util.Objects;
 A basic structure with two integer ans one boolean coordinate (x, y, z)
 No further Functionality, only generated methods.
  */
+/**
+ * Represents the node position.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class NodePosition {
     private int mValueX;
     private int mValueY;

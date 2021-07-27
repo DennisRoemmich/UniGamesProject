@@ -3,6 +3,11 @@ package player;
 import cards.CardSet;
 import materials.MaterialSet;
 
+/**
+ * All the important game information about each player.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class PlayerData {
     protected MaterialSet mHand;
     protected PlayerColor mColor;

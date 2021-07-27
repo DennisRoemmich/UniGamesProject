@@ -16,6 +16,11 @@ import tiles.PositionedTile;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Builds the whole map with all of its elements.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class MapNode extends Group {
     private Optional<Map> mMap;
     private SiedlerEventHandler mEventHandler;

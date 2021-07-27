@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Rolls the dice and hands out the corresponding resources to all players.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public final class DiceRolling {
 	
     private static int dice1 = 1;

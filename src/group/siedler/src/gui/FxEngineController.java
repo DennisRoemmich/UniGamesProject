@@ -26,6 +26,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+/**
+ * Initializes the GUI onto the screen in regards to the Controller.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class FxEngineController extends FxController implements Player, Presenter {
 
     private RollAnimation mClock = new RollAnimation(this);
@@ -35,6 +44,9 @@ public class FxEngineController extends FxController implements Player, Presente
     private Stage mStage;
     private Scene mScene;
     private Parent mRoot;
+    
+    private Clip mDiceClipName;
+    private Clip mButtonClipName;
     
     //Material for cards
     private int mMaterialsLeftToSelect = 0;
@@ -109,41 +121,17 @@ public class FxEngineController extends FxController implements Player, Presente
             case ROLL_DICES -> refreshRollDices();
             case SETUP_VILLAGE -> addVillageSetupPlaceholders();
             case SETUP_STREET -> addStreetSetupPlaceholders();
+            case MOVE_BURGLAR -> refreshBurglar();
             default -> refreshOptionalMoves(); //Should not come into play
         }
     }
-    
-    public void showHelp() {
-        PrintToConsole.println("*---Welcome to Siedler!---*");
-        PrintToConsole.println("");
-        PrintToConsole.println("*---How to play:---*");
-        PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
-        PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
-        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
-        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
-        PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
-        PrintToConsole.print("key on your keyboard for the desired card to play. ");
-        PrintToConsole.print("If you like to play a development card, ");
-        PrintToConsole.print("you might need to choose the resource(s) you want to ");
-        PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
-        PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
-        PrintToConsole.println("Cheating: Press \"C\" and get 1 of each material... ");
-        PrintToConsole.println("");
-        PrintToConsole.println("*---Differences to the standard game---*");
-        PrintToConsole.print("-> The Road building card gives 2 Clay and Wood building roads. ");
-        PrintToConsole.print("With those resources you may build those 2 roads or something else as you desire! \n");
-        PrintToConsole.print("-> Since the players have grown suspicious of each other (social distancing hooray ;), ");
-        PrintToConsole.print("the players in this version have decided to not trade with each other. ");
-        PrintToConsole.print("Thus player trading is not possible in this version of Siedler!\n");
-        PrintToConsole.print("-> In this version the burglar raids neutral villages instead ");
-        PrintToConsole.print("of pillaging the other player ones so the other players do not lose anything!\n");
-    }
+
     
     protected void refreshOptionalMoves() {
         mMapNode.addPlaceholderNodes(mController);
-        mTradeButton.setVisible(true);
         mDiceButton.setVisible(true);
         mDiceButton.setImage(new Image(mClassLoader.getResourceAsStream(FINISH_BUTTON_IMAGE_NAME)));
+        mBurglarMessage.setText("");
     }
     
     protected void refreshRollDices() {
@@ -172,15 +160,42 @@ public class FxEngineController extends FxController implements Player, Presente
             mMapNode.addStreetPlaceholders(positions, type);
         }
     }
-
+    
+    public void refreshBurglar() {
+    	mBurglarMessage.setText("Move the burglar!");
+    	mDiceButton.setVisible(false);
+    }
 
     public void diceButtonClicked() {
+    	
+    	AudioInputStream mDiceClipNameAis;
+        AudioInputStream mButtonClipNameAis;
+    	
+    	try { 
+            URL buttonResource = getClass().getResource("/resources/buttonPressedSound.wav");
+			mButtonClipNameAis = AudioSystem.getAudioInputStream(buttonResource);
+            mButtonClipName = AudioSystem.getClip();
+            mButtonClipName.open(mButtonClipNameAis);
+    		
+			URL diceResource = getClass().getResource("/resources/DiceSound.wav");
+			mDiceClipNameAis = AudioSystem.getAudioInputStream(diceResource);
+		    mDiceClipName = AudioSystem.getClip();
+		    mDiceClipName.open(mDiceClipNameAis);
+		    
+        } catch (Exception e) {
+			e.printStackTrace();
+        }
+    	mButtonClipName.setFramePosition(0);
+    	mButtonClipName.start();
+
         if (mController.isItMyTurn(this)) {
-            if (mController.getState() == GameState.OPTIONAL_MOVES) {
+        	if (mController.getState() == GameState.OPTIONAL_MOVES) {
                 mController.endMove();
                 mMapNode.refreshOutput();
             } else {
-                mClock.start();
+            	mDiceClipName.setFramePosition(0);
+            	mDiceClipName.start();
+                mClock.start();            
             }
         }
     }
@@ -241,4 +256,30 @@ public class FxEngineController extends FxController implements Player, Presente
 	public boolean ismTradeFlag() {
 		return mTradeFlag;
 	}
+    
+    public void showHelp() {
+        PrintToConsole.println("*---Welcome to Siedler!---*");
+        PrintToConsole.println("");
+        PrintToConsole.println("*---How to play:---*");
+        PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
+        PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
+        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
+        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
+        PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
+        PrintToConsole.print("key on your keyboard for the desired card to play. ");
+        PrintToConsole.print("If you like to play a development card, ");
+        PrintToConsole.print("you might need to choose the resource(s) you want to ");
+        PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
+        PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
+        PrintToConsole.println("Cheating: Press \"C\" and get 1 of each material... ");
+        PrintToConsole.println("");
+        PrintToConsole.println("*---Differences to the standard game---*");
+        PrintToConsole.print("-> The Road building card gives 2 Clay and Wood building roads. ");
+        PrintToConsole.print("With those resources you may build those 2 roads or something else as you desire! \n");
+        PrintToConsole.print("-> Since the players have grown suspicious of each other (social distancing hooray ;), ");
+        PrintToConsole.print("the players in this version have decided to not trade with each other. ");
+        PrintToConsole.print("Thus player trading is not possible in this version of Siedler!\n");
+        PrintToConsole.print("-> In this version the burglar raids neutral villages instead ");
+        PrintToConsole.print("of pillaging the other player ones so the other players do not lose anything!\n");
+    }
 }

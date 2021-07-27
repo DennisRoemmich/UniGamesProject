@@ -9,6 +9,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import positions.NodePosition;
 
+/**
+ * Represents a node on a tile where a building could be placed.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class BuildingNode extends Group {
 
     protected Optional<Building> mBuilding = Optional.empty();

@@ -2,6 +2,11 @@ package tiles;
 
 import materials.MaterialType;
 
+/**
+ * Represents the resource tiles.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class ResourceTile extends Tile {
     private MaterialType mResourceType;
     private int mHitnumber;

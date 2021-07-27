@@ -1,5 +1,10 @@
 package positions;
 
+/**
+ * Helper class to set and get positions for all the map objects.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class PositionedObject<T, P> {
     protected T mObject;
     protected P mPosition;

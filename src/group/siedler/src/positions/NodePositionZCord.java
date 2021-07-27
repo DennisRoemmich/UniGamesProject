@@ -1,5 +1,10 @@
 package positions;
 
+/**
+ * Represents the z axis of the NodePosition
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public enum NodePositionZCord {
     A(true), B(false);
 

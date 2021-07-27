@@ -1,5 +1,10 @@
 package tiles;
 
+/**
+ * Represents a tile
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class Tile {
     protected boolean mIsWater = false;
     protected boolean mHasHitnumber = false;

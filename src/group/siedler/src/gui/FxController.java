@@ -2,7 +2,6 @@ package gui;
 
 import cards.CardType;
 import controller.Controller;
-import controller.GameState;
 import dice.DiceRolling;
 import javafx.fxml.Initializable;
 import java.net.URL;
@@ -13,10 +12,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import materials.MaterialType;
 import java.util.ResourceBundle;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
+/**
+ * Initialization of all the FXML data.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class FxController implements Initializable {
 
     protected Controller mController = new Controller();
@@ -93,27 +94,7 @@ public class FxController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mTradeButton = new ImageView();
-        try {
-        	
-            AudioInputStream mDiceClipNameAis;
-            Clip mDiceClipName;
-            
-            AudioInputStream mButtonClipNameAis;
-            Clip mButtonClipName;
-            
-			mDiceClipNameAis = AudioSystem.getAudioInputStream(getClass().getResource("/resources/DiceSound.wav"));
-            mDiceClipName = AudioSystem.getClip();
-            mDiceClipName.open(mDiceClipNameAis);
-            
-            mButtonClipNameAis = AudioSystem.getAudioInputStream(getClass().getResource("/resources/buttonPressedSound.wav"));
-            mButtonClipName = AudioSystem.getClip();
-            mButtonClipName.open(mButtonClipNameAis);
-            
-        } catch (Exception e) {
-			e.printStackTrace();
-        }
     }
-
 
     public void finishRoll() {
         mController.handleRoll();
@@ -160,16 +141,10 @@ public class FxController implements Initializable {
         mRoadAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.ROAD)));
         mInventionAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.INVENTION)));
         mMonopolyAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.MONOPOLY)));
-        if (GameState.MOVE_BURGLAR == mController.getState()) {
-        	mBurglarMessage.setText("Move the burglar!");
-        } else {
-        	mBurglarMessage.setText("");
-        }
     }
     
     public void refreshStatusMessage() {
-
-        
+      
         if (mController.getCurrentPlayerHand().isTradeImpossible()) {
         	mTradeError.setText("Trade not possible!");
         	mController.getCurrentPlayerHand().setTradePossible();

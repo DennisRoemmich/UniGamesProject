@@ -16,7 +16,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import java.util.Optional;
 
-
+/**
+ * Represents every tile in the game.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class TileNode extends Group {
 
     protected Optional<Tile> mTile = Optional.empty();

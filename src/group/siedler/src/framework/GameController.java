@@ -8,6 +8,11 @@ import materials.MaterialSet;
 import player.PlayerColor;
 import player.PlayerData;
 
+/**
+ * All the meta information for the Conroller class. Includes the presenter.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class GameController {
 
 	protected List<Player> mPlayers = new ArrayList<>();

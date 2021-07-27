@@ -4,6 +4,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.animation.AnimationTimer;
 
+/**
+ * Plays the roll animation.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class RollAnimation extends AnimationTimer {
 
     public static final long FRAMES_PER_SEC = 10L;

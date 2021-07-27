@@ -2,6 +2,11 @@ package helper;
 
 import org.json.simple.JSONObject;
 
+/**
+ * Quick method to create a JSON
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public final class QuickJSon {
 	
 	private QuickJSon() {

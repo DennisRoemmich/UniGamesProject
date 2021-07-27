@@ -9,12 +9,17 @@ import cards.CardType;
 import controller.GameState;
 import framework.PrintToConsole;
 
+/**
+ * Handles all the Key inputs.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class FxKeyEventController {
     private FxEngineController mFxEngineController;
 
     private Optional<CardType> mCardType = Optional.empty();
     private MaterialType mMaterialBuffer;
-
+    
     public FxKeyEventController(FxEngineController fxEngineController) {
         this.mFxEngineController = fxEngineController;
     }

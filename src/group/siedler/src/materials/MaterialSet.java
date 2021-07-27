@@ -2,6 +2,11 @@ package materials;
 
 import org.json.simple.JSONObject;
 
+/**
+ * Getter methods to access the tiles, nodes and edges on the map. 
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class MaterialSet {
     JSONObject mResources;
     boolean mTradeImpossible;

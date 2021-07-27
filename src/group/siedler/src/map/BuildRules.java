@@ -16,6 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The game rules by which the players are allowed to build their streets and buildings
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public final class BuildRules {
 	
 	private BuildRules() {

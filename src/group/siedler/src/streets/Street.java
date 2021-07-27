@@ -4,6 +4,11 @@ import materials.MaterialSet;
 import materials.MaterialType;
 import player.PlayerColor;
 
+/**
+ * Represents a street.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class Street {
     private StreetType mType;
     private PlayerColor mColor;

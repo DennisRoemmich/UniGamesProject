@@ -6,6 +6,11 @@ import java.util.Objects;
 A basic structure with two integer coordinates (x, y)
 No further Functionality, only generated methods.
  */
+/**
+ * Represents the position of a tile.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class TilePosition {
     private int mValueX;
     private int mValueY;

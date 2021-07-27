@@ -1,5 +1,10 @@
 package streets;
 
+/**
+ * Represents a street together with its position.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 import positions.EdgePosition;
 import positions.PositionedObject;
 

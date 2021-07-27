@@ -4,7 +4,11 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
+/**
+ * Represents the node on a tile where the burglar can be placed.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class BurglarNode extends Group {
     private ImageView mImageView;
 

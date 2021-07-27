@@ -5,6 +5,11 @@ import positions.EdgePositionZCord;
 import positions.NodePosition;
 import positions.TilePosition;
 
+/**
+ * Places the tiles and its edge and nodepositions on the screen.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class GuiPosition {
     private double mValueX;
     private double mValueY;

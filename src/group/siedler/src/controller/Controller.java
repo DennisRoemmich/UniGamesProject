@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Responsible for the moves and main functions of the Sieder von Konstanz game.
+ * Responsible for the different game moves and main functions of the Sieder von Konstanz game.
  * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
  *
  */
