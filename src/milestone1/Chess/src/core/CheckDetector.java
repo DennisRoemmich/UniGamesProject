@@ -13,10 +13,10 @@ public final class CheckDetector {
 		// Prevent initialization
 	}
 
-	public static boolean isSquareAttacked(ChessBoard board, Square squareToTest, Color color) {
-	    var pieces = board.getPositionedPieces(color);
+	public static boolean isSquareAttackedByOpponent(Chess game, Square squareToTest) {
+	    var pieces = game.getBoard().getPositionedPieces(game.getCurrentColor().getContrary());
         for(PositionedPiece piece : pieces) {
-            for(Square square : piece.getPiece().findCoveredSquares(board)) {
+            for(Square square : piece.getPiece().findCoveredSquares(game.getBoard())) {
                 if(square.equals(squareToTest)) {
                     return true;
                 }
