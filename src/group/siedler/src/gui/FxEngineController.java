@@ -17,6 +17,7 @@ import controller.Controller;
 import controller.GameState;
 import framework.Player;
 import framework.Presenter;
+import framework.PrintToConsole;
 import player.PlayerColor;
 import positions.EdgePosition;
 import streets.StreetType;
@@ -48,7 +49,7 @@ public class FxEngineController extends FxController implements Player, Presente
         super.initialize(url, resourceBundle);
         setupController();
         setupMapNode();
-        setupPlayers(6);
+        setupPlayers();
         refreshOutput();
         mController.newGame();
     }
@@ -69,6 +70,20 @@ public class FxEngineController extends FxController implements Player, Presente
         mScene = new Scene(mRoot);
         mStage.setScene(mScene);
         mStage.show();
+    }
+    
+    public void helpScreenButtonClicked() throws IOException {    	
+    	showHelp();
+    	
+        ClassLoader classLoader = getClass().getClassLoader();
+        var resource = classLoader.getResource("resources/HelpScreen.fxml");
+        FXMLLoader loader = new FXMLLoader(resource);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 400, 700);
+        Stage helpStage = new Stage();
+        helpStage.setTitle("Info");
+        helpStage.setScene(scene);
+        helpStage.show();
     }
 
     public void switchToTradingWithBankScene(MouseEvent mouseEvent) throws IOException {
@@ -96,6 +111,32 @@ public class FxEngineController extends FxController implements Player, Presente
             case SETUP_STREET -> addStreetSetupPlaceholders();
             default -> refreshOptionalMoves(); //Should not come into play
         }
+    }
+    
+    public void showHelp() {
+        PrintToConsole.println("*---Welcome to Siedler!---*");
+        PrintToConsole.println("");
+        PrintToConsole.println("*---How to play:---*");
+        PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
+        PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
+        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
+        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
+        PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
+        PrintToConsole.print("key on your keyboard for the desired card to play. ");
+        PrintToConsole.print("If you like to play a development card, ");
+        PrintToConsole.print("you might need to choose the resource(s) you want to ");
+        PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
+        PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
+        PrintToConsole.println("Cheating: Press \"C\" and get 1 of each material... ");
+        PrintToConsole.println("");
+        PrintToConsole.println("*---Differences to the standard game---*");
+        PrintToConsole.print("-> The Road building card gives 2 Clay and Wood building roads. ");
+        PrintToConsole.print("With those resources you may build those 2 roads or something else as you desire! \n");
+        PrintToConsole.print("-> Since the players have grown suspicious of each other (social distancing hooray ;), ");
+        PrintToConsole.print("the players in this version have decided to not trade with each other. ");
+        PrintToConsole.print("Thus player trading is not possible in this version of Siedler!\n");
+        PrintToConsole.print("-> In this version the burglar raids neutral villages instead ");
+        PrintToConsole.print("of pillaging the other player ones so the other players do not lose anything!\n");
     }
     
     protected void refreshOptionalMoves() {
@@ -159,16 +200,12 @@ public class FxEngineController extends FxController implements Player, Presente
     }
     
     //Setup Players AI and players (this)
-    public void setupPlayers(int amountOfTotalPlayers) {
+    public void setupPlayers() {
         mController.addPlayer(this, PlayerColor.BLUE);
         mController.addPlayer(this, PlayerColor.GREEN);
         mController.addPlayer(this, PlayerColor.YELLOW);
         mController.addPlayer(this, PlayerColor.WHITE);
         mController.addPlayer(this, PlayerColor.PURPLE);
-//        AiPlayer aiPlayer = new AiPlayer(mController);
-//        while (mController.getNumberOfPlayers() < amountOfTotalPlayers) {
-//            mController.addPlayer(aiPlayer, ListUtility.getRandomElement(Arrays.stream(PlayerColor.values()).toList()));
-//        }
     }
 
     public MaterialType chooseResource(KeyEvent event) {

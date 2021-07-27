@@ -31,117 +31,138 @@
          <image>
             <Image url="@../resources/PlayerBLUEMaterials.png" />
          </image></ImageView>
-         <Label fx:id="mConsoleInfo" layoutX="10.0" layoutY="10.0" text="Info: F1" textFill="aliceblue">
-         <font>
-            <Font name="Arial" size="27.0" />
-         </font></Label>
          <Label fx:id="mPoints" layoutX="870.0" layoutY="625.0" text="error" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
                   <Label fx:id="mVictoryPointCard" layoutX="80.0" layoutY="820.0" text="Victory Point Cards" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
                            <Label fx:id="mKnightCard" layoutX="80.0" layoutY="700.0" text="K: Knight Cards" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
                                     <Label fx:id="mRoadCard" layoutX="80.0" layoutY="730.0" text="R: Road Cards" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
                                     <Label fx:id="mInventionCard" layoutX="80.0" layoutY="760.0" text="I: Invention Cards" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
                                     <Label fx:id="mMonopolyCard" layoutX="80.0" layoutY="790.0" text="M: Monopoly Cards" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          
          <Label fx:id="mVictoryAmount" layoutX="400.0" layoutY="820.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          <Label fx:id="mKnightAmount" layoutX="400.0" layoutY="700.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          <Label fx:id="mRoadAmount" layoutX="400.0" layoutY="730.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          <Label fx:id="mInventionAmount" layoutX="400.0" layoutY="760.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          
          <Label fx:id="mMonopolyAmount" layoutX="400.0" layoutY="790.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          
        <Label fx:id="mCurrentPlayer" layoutX="890.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="30.0" />
+            <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
          <Label fx:id="mTradeError" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="30.0" />
+            <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
          <Label fx:id="mBurglarMessage" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
          <font>
-            <Font name="Arial" size="30.0" />
+            <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
                <Label fx:id="mWinner" layoutX="480.0" layoutY="650.0" text="" textFill="WHITE" > 
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mWoodLabel" layoutX="886.0" layoutY="239.0" prefWidth="103.0" text="1: Wood" textFill="SADDLEBROWN">
+      <Label fx:id="mWoodLabel" layoutX="884.0" layoutY="247.0" prefHeight="32.0" prefWidth="31.0" text="1:" textFill="SADDLEBROWN">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mWheatLabel" layoutX="886.0" layoutY="314.0" text="2: Wheat" textFill="DARKGOLDENROD">
+      <Label fx:id="mWheatLabel" layoutX="884.0" layoutY="330.0" text="2:" textFill="DARKGOLDENROD">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mWoolLabel" layoutX="886.0" layoutY="389.0" text="3: Wool" textFill="DARKGREEN">
+      <Label fx:id="mWoolLabel" layoutX="884.0" layoutY="405.0" text="3:" textFill="DARKGREEN">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mOreLabel" layoutX="886.0" layoutY="464.0" text="4: Ore" textFill="GREY">
+      <Label fx:id="mOreLabel" layoutX="884.0" layoutY="487.0" text="4:" textFill="GREY">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mClayLabel" layoutX="886.0" layoutY="539.0" text="5: Clay" textFill="DARKRED">
+      <Label fx:id="mClayLabel" layoutX="884.0" layoutY="555.0" text="5:" textFill="DARKRED">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" style="bold;"  />
          </font></Label>
-      <Label fx:id="mWoodAmount" layoutX="1040.0" layoutY="239.0" text="error" textFill="SADDLEBROWN">
+      <Label fx:id="mWoodAmount" layoutX="1040.0" layoutY="247.0" text="error" textFill="SADDLEBROWN">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mWheatAmount" layoutX="1040.0" layoutY="314.0" text="error" textFill="DARKGOLDENROD">
+      <Label fx:id="mWheatAmount" layoutX="1040.0" layoutY="331.0" text="error" textFill="DARKGOLDENROD">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mWoolAmount" layoutX="1040.0" layoutY="389.0" text="error" textFill="DARKGREEN">
+      <Label fx:id="mWoolAmount" layoutX="1040.0" layoutY="405.0" text="error" textFill="DARKGREEN">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mOreAmount" layoutX="1040.0" layoutY="464.0" text="error" textFill="GREY">
+      <Label fx:id="mOreAmount" layoutX="1040.0" layoutY="480.0" text="error" textFill="GREY">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <Label fx:id="mClayAmount" layoutX="1040.0" layoutY="539.0" text="error" textFill="DARKRED">
+      <Label fx:id="mClayAmount" layoutX="1040.0" layoutY="555.0" text="error" textFill="DARKRED">
          <font>
-            <Font name="Arial" size="27.0" />
+            <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-      <!-- <ImageView fx:id="mTradeWithBankButton" fitHeight="187.0" fitWidth="187.0" layoutX="78.0" layoutY="701.0" onMouseClicked="#switchToTradingWithBankScene" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"> -->
-       <!--   <image> -->
-         <!--     <Image url="@../resources/TradeWithBankButton.png" />-->
-     <!--    </image> -->
-   <!--   </ImageView> -->
+             <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#helpScreenButtonClicked" pickOnBounds="true" preserveRatio="true">
+       <image>
+          <Image url="@InfoIcon.png" />
+       </image>
+       </ImageView>
+             <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="916.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WoodIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WheatIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="388.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WoolIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@OreIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="82.0" layoutX="921.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ClayIcon.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

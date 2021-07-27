@@ -12,13 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import materials.MaterialType;
-
 import java.util.ResourceBundle;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class FxController implements Initializable {
 
     protected Controller mController = new Controller();
     protected MapNode mMapNode = new MapNode(mController);
+
 
     @FXML
     protected AnchorPane mAnchorPane;
@@ -65,8 +68,6 @@ public class FxController implements Initializable {
     @FXML
     protected Label mPoints;
     @FXML
-    protected Label mConsoleInfo;
-    @FXML
     protected Label mVictoryPointCard;
     @FXML
     protected Label mKnightCard;
@@ -92,7 +93,27 @@ public class FxController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mTradeButton = new ImageView();
+        try {
+        	
+            AudioInputStream mDiceClipNameAis;
+            Clip mDiceClipName;
+            
+            AudioInputStream mButtonClipNameAis;
+            Clip mButtonClipName;
+            
+			mDiceClipNameAis = AudioSystem.getAudioInputStream(getClass().getResource("/resources/DiceSound.wav"));
+            mDiceClipName = AudioSystem.getClip();
+            mDiceClipName.open(mDiceClipNameAis);
+            
+            mButtonClipNameAis = AudioSystem.getAudioInputStream(getClass().getResource("/resources/buttonPressedSound.wav"));
+            mButtonClipName = AudioSystem.getClip();
+            mButtonClipName.open(mButtonClipNameAis);
+            
+        } catch (Exception e) {
+			e.printStackTrace();
+        }
     }
+
 
     public void finishRoll() {
         mController.handleRoll();
@@ -130,7 +151,7 @@ public class FxController implements Initializable {
     }
 
     public void refreshPoints() {
-        mPoints.setText("Victory Points:        " + mController.getWinPoints());
+        mPoints.setText("Victory Points:    " + mController.getWinPoints());
     }
 
     public void refreshCardLabels() {

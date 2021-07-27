@@ -43,7 +43,7 @@
          <font>
             <Font name="Bauhaus 93" size="27.0" />
          </font></Label>
-      <Label fx:id="wheatLabel" layoutX="884.0" layoutY="330.0" text="2:" textFill="GOLD">
+      <Label fx:id="wheatLabel" layoutX="884.0" layoutY="330.0" text="2:" textFill="DARKGOLDENROD">
          <font>
             <Font name="Bauhaus 93" size="27.0" />
          </font></Label>
@@ -61,9 +61,9 @@
          </font></Label>
       <Label fx:id="woodAmount" layoutX="1040.0" layoutY="247.0" text="error" textFill="SADDLEBROWN">
          <font>
-            <Font name="Bauhaus 93" size="27.0" />
+            <Font name="Serif" size="27.0" />
          </font></Label>
-      <Label fx:id="wheatAmount" layoutX="1040.0" layoutY="331.0" text="error" textFill="GOLD">
+      <Label fx:id="wheatAmount" layoutX="1040.0" layoutY="331.0" text="error" textFill="DARKGOLDENROD">
          <font>
             <Font name="Bauhaus 93" size="27.0" />
          </font></Label>

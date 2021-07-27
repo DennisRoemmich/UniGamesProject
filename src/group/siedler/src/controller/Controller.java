@@ -1,7 +1,6 @@
 package controller;
 
 import buildings.Building;
-
 import buildings.BuildingType;
 import cards.CardSet;
 import cards.CardType;
@@ -18,7 +17,6 @@ import map.MapGenerator;
 import map.MapTools;
 import materials.MaterialSet;
 import materials.MaterialType;
-import org.json.simple.JSONObject;
 import player.PlayerColor;
 import player.PlayerData;
 import positions.EdgePosition;
@@ -29,47 +27,25 @@ import streets.Street;
 import streets.StreetType;
 import tiles.ResourceTile;
 import tiles.Tile;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Responsible for main functions
+ * @author ...
+ *
+ */
 public class Controller extends GameController implements SiedlerEventHandler {
 
-    private List<PlayerData> mPlayerData = new ArrayList<>();
     private Map mMap;
-    private GameState mState = GameState.NOT_RUNNING;
+
 	private int mCurrentPlayer = 0;
 	private PlayerColor mWinColor;
     private boolean mGameHasWinner = false;
 
-    public Controller() {
-        mPlayers = new ArrayList<>();
-    }
-
-    public int getNumberOfPlayers() {
-        return mPlayers.size();
-    }
-    
-    public List<PlayerData> getPlayerData() {
-    	return mPlayerData;
-    }
-
-    public void addPlayer(Player player, PlayerColor color) {
-        if (mState != GameState.NOT_RUNNING) {
-            return;
-        }
-        if (mPlayerData.stream().anyMatch(playerData -> playerData.getColor() == color)) {
-            return;
-        }
-        mPlayers.add(player);
-        PlayerData data = new PlayerData(color);
-        data.setHand(new MaterialSet());
-        mPlayerData.add(data);
-    }
-
-    @Override
     public void newGame() {
+
         if (mPlayerData.isEmpty()) {
             WriteError.writeErrorLog("No player added to game.");
             return;
@@ -86,26 +62,24 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
     }
 
-    // Game Logic
+    //------- Game Logic -------
 
     private int getWinPoints(PlayerColor color) {
-        if (mPlayerData.stream().anyMatch(pD -> pD.getColor().equals(color))) {
-            List<Building> buildings = mMap.getBuildings(color);
-            int villagePoints = buildings.stream().filter(b -> b.getType() == BuildingType.VILLAGE).toList().size();
-            int townPoints = buildings.stream().filter(b -> b.getType() == BuildingType.TOWN).toList().size() * 2;
-            return villagePoints + townPoints;
-        } else {
-            return 0;
+        int winPoints = 0;
+        for (Building building : mMap.getBuildings(color)) {
+        	winPoints += building.getType().equals(BuildingType.TOWN) ? 2 : 1;
         }
+        return winPoints;        
     }
 
     public int getWinPoints() {
 		return mPlayerData.get(mCurrentPlayer).getWinPoints();
 	}
 
-    // Required Moves
+    //------- Required Moves -------
 
     public void handleRoll() {
+
         if (mState != GameState.ROLL_DICES) {
             PrintToConsole.println("handleRoll() called at wrong time");
             return;
@@ -121,18 +95,20 @@ public class Controller extends GameController implements SiedlerEventHandler {
             PrintToConsole.println(getCurrentPlayerHand().toString());
             mState = GameState.OPTIONAL_MOVES;
         }
-        mPresenter.refreshOutput();
+        callPresenterUpdate();
         gameStep();
     }
 
     public void moveBurglar(TilePosition newPosition) {
+
         if (mState != GameState.MOVE_BURGLAR) {
             PrintToConsole.println("moveBurglar() called at wrong time");
             return;
         }
         //Checks if optional is present
-        if (mMap.getTile(newPosition).isPresent()) {
-            Tile tile = mMap.getTile(newPosition).get();
+        Optional<Tile> opTile = mMap.getTile(newPosition);
+        if (opTile.isPresent()) {
+            Tile tile = opTile.get();
             if (!tile.isWater()) {
                 mMap.setBurglarPosition(newPosition);
                 int cardRoll = ThreadLocalRandom.current().nextInt(0, 4);
@@ -165,16 +141,19 @@ public class Controller extends GameController implements SiedlerEventHandler {
         gameStep();
     }
 
-    // Optional Moves
+    //------- Optional Moves-------
 
     public void placeBuilding(NodePosition position) {
+
+
         if (!(mState == GameState.OPTIONAL_MOVES || mState == GameState.SETUP_VILLAGE)) {
             PrintToConsole.println("placeBuilding(...) called at wrong time");
             return;
         }
 
         if (mMap.getBuilding(position).isEmpty()) {
-            if (mState != GameState.SETUP_VILLAGE && !getCurrentPlayerHand().isSuperset(Building.getCost(BuildingType.VILLAGE))) {
+        	MaterialSet cost = Building.getCost(BuildingType.VILLAGE);
+            if (mState != GameState.SETUP_VILLAGE && !getCurrentPlayerHand().isSuperset(cost)) {
                 PrintToConsole.println("placeBuilding(...) called without enough materials");
                 return;
             }
@@ -202,10 +181,11 @@ public class Controller extends GameController implements SiedlerEventHandler {
         if (handleWinner()) {
             mState = GameState.NOT_RUNNING;
         }
-        mPresenter.refreshOutput();
+        callPresenterUpdate();
     }
     
     public void takeCard() {
+
     	
     	CardSet set = getCurrentPlayerCards();
     	int cardRoll = ThreadLocalRandom.current().nextInt(0, 24);
@@ -239,7 +219,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	} 
     	
     	handleWinner();
-    	mPresenter.refreshOutput();
+    	callPresenterUpdate();
     }
 
     public void playInventionCard(MaterialType typeA, MaterialType typeB) {
@@ -261,6 +241,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
 
     
     public void playCard(CardType type, MaterialType materialtype) {
+
 
         if (mState != GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("It's not the right time to play a card!");
@@ -299,7 +280,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
 	    		getCurrentPlayerCards().removeResources(type, 1);
 	    		break;
 	    	}
-    	mPresenter.refreshOutput();
+    	callPresenterUpdate();
     }
 
     public void placeStreet(EdgePosition position) {
@@ -308,6 +289,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
 
     public void placeStreet(EdgePosition position, StreetType type) {
+
         if (!(mState == GameState.OPTIONAL_MOVES || mState == GameState.SETUP_STREET)) {
             PrintToConsole.println("placeStreet(...) called at wrong time");
             return;
@@ -341,7 +323,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
                 mState = GameState.NOT_RUNNING;
             }
         }
-        mPresenter.refreshOutput();
+        callPresenterUpdate();
     }
 
     private void handOutStartMaterials() {
@@ -372,12 +354,13 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
 
     public boolean handleWinner() {
-        for (PlayerColor playerColor : mPlayerData.stream().map(PlayerData::getColor).toList()) {
-            if (getWinPoints(playerColor) >= 10) {
-                PrintToConsole.println(playerColor + " player wins!");
-                this.mWinColor = playerColor;
+
+        for (PlayerData data : mPlayerData) {
+            if (getWinPoints(data.getColor()) >= 10) {
+                PrintToConsole.println(data.getColor() + " player wins!");
+                this.mWinColor = data.getColor();
                 mGameHasWinner = true;
-                mPresenter.refreshOutput();
+                callPresenterUpdate();
                 return true;
             }
         }
@@ -385,15 +368,14 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
 
     public void endMove() {
+
         nextPlayer();
         if (handleWinner()) {
             mState = GameState.NOT_RUNNING;
         } else  {
             mState = GameState.ROLL_DICES;
         }
-        if (mPresenter != null) {
-            mPresenter.refreshOutput();
-        }
+        callPresenterUpdate();
         gameStep();
     }
 
@@ -404,7 +386,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
     }
 
-    // Getter & Setter (Little functionality, more convenience)
+    // -------Getter & Setter (Little functionality, more convenience) -------
 
     public boolean isItMyTurn(Player player) {
         return mPlayers.get(mCurrentPlayer) == player;
@@ -437,8 +419,12 @@ public class Controller extends GameController implements SiedlerEventHandler {
     public PlayerColor getWinColor() {
     	return this.mWinColor;
     }
-
-    // Siedler Event Handler
+    
+    public CardSet getCurrentPlayerCards() {
+        return mPlayerData.get(mCurrentPlayer).getCards();
+    }
+    
+    // -------Siedler Event Handler-------
 
     @Override
     public void handleTileCLick(TilePosition position) {
@@ -458,37 +444,6 @@ public class Controller extends GameController implements SiedlerEventHandler {
         if (mState == GameState.OPTIONAL_MOVES || mState == GameState.SETUP_VILLAGE) {
             placeBuilding(position);
         }
-    }
-
-    // Unused Framework functionality
-
-    @Override
-    protected JSONObject executeMove(JSONObject move) { 
-    	return null; 
-    }
-
-    @Override
-    public JSONObject metaSettingsToJSon() {
-    	return null; 
-    }
-
-    @Override
-    public JSONObject gameSettingsToJSon() { 
-    	return null;
-    }
-
-    @Override
-    public void restoreMetaSettings(JSONObject metaSettings) { 
-    	//Still unused
-    }
-
-    @Override
-    public void restoreGameSettings(JSONObject gameSettings) { 
-    	//Still unused
-    }
-
-    public CardSet getCurrentPlayerCards() {
-        return mPlayerData.get(mCurrentPlayer).getCards();
     }
 
 }

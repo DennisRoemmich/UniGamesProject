@@ -22,7 +22,7 @@ public class FxKeyEventController {
     public void handleKeyInput(KeyEvent event) {
 
         if (event.getCode() == KeyCode.F1) {
-            showHelp();
+            mFxEngineController.showHelp();
             return;
         }
 
@@ -107,7 +107,7 @@ public class FxKeyEventController {
                 	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.WOOL, 1);
                 	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.WHEAT, 1);
                 	break;
-                case DIGIT0: 
+                case D: 
                 	mFxEngineController.getController().takeCard();
                 	break;
 			default:
@@ -117,29 +117,7 @@ public class FxKeyEventController {
         }
     }
 
-    public void showHelp() {
-        PrintToConsole.println("*---Welcome to Siedler!---*");
-        PrintToConsole.println("");
-        PrintToConsole.println("*---How to play:---*");
-        PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
-        PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
-        PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
-        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
-        PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
-        PrintToConsole.print("key on your keyboard for the desired card to play. ");
-        PrintToConsole.print("If you like to play a development card, ");
-        PrintToConsole.print("you might need to choose the resource(s) you want to ");
-        PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
-        PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
-        PrintToConsole.println("Cheating: Press \"C\" and get 1 of each material... ");
-        PrintToConsole.println("");
-        PrintToConsole.println("*---Differences to the standard game---*");
-        PrintToConsole.print("The Road building card gives 2 Clay and Wood building roads. ");
-        PrintToConsole.print("With those resources you may build those 2 roads or something else as you desire! \n");
-        PrintToConsole.print("Since the players have grown suspicious on each other");
-        PrintToConsole.print("in this version they have decided to not trade with each other \n");
-        PrintToConsole.print("Thus player trading is not possible in this version of Siedler!");
-    }
+
 
 
     public static Optional<MaterialType> getMaterialType(KeyEvent event) {
