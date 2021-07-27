@@ -72,7 +72,7 @@ public class MaterialSet {
     public static MaterialSet getFullHand() {
         MaterialSet materialSet = new MaterialSet();
         for (MaterialType type : MaterialType.values()) {
-            materialSet.addResources(type, 10);
+            materialSet.addResources(type, 1);
         }
         return materialSet;
     }
@@ -91,5 +91,9 @@ public class MaterialSet {
     
     public boolean isTradeImpossible() {
 		return mTradeImpossible;
+	}
+    
+    public void setTradePossible() {
+		mTradeImpossible = false;
 	}
 }

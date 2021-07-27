@@ -8,12 +8,14 @@ public class PlayerData {
     protected PlayerColor mColor;
     protected int mWinPoints;
     protected CardSet mCards;
+    protected int mKnightCounter;
 
-    public PlayerData(PlayerColor color) {
+	public PlayerData(PlayerColor color) {
         this.mColor = color;
         this.mHand = new MaterialSet();
         this.mWinPoints = 2;
         this.mCards = new CardSet();
+        this.mKnightCounter = 0;
     }
 
     public void setHand(MaterialSet hand) {
@@ -36,6 +38,11 @@ public class PlayerData {
     	this.mWinPoints = winPoints;
     }
     
+    public void decreaseWinPointsBy2() {
+    	this.mWinPoints--;
+    	this.mWinPoints--;
+    }
+    
     public void increaseWinPoints() {
     	this.mWinPoints++;
     }
@@ -51,4 +58,12 @@ public class PlayerData {
     public CardSet getCards() {
     	return this.mCards;
     }
+
+    public int getKnightCounter() {
+		return mKnightCounter;
+	}
+
+	public void increaseKnightCounter() {
+		this.mKnightCounter++;
+	}
 }

@@ -164,15 +164,15 @@ public class FxEngineController extends FxController implements Player, Presente
     //Setup Players AI and players (this)
     public void setupPlayers(int amountOfTotalPlayers) {
         mController.addPlayer(this, PlayerColor.BLUE);
-//        mController.addPlayer(this, PlayerColor.BLACK);
+        mController.addPlayer(this, PlayerColor.GREEN);
+//        mController.addPlayer(this, PlayerColor.YELLOW);
+//        mController.addPlayer(this, PlayerColor.RED);
 //        mController.addPlayer(this, PlayerColor.WHITE);
 //        mController.addPlayer(this, PlayerColor.PURPLE);
-//        mController.addPlayer(this, PlayerColor.YELLOW);
-//        mController.addPlayer(this, PlayerColor.GREEN);
-        AiPlayer aiPlayer = new AiPlayer(mController);
-        while (mController.getNumberOfPlayers() < amountOfTotalPlayers) {
-            mController.addPlayer(aiPlayer, ListUtility.getRandomElement(Arrays.stream(PlayerColor.values()).toList()));
-        }
+//        AiPlayer aiPlayer = new AiPlayer(mController);
+//        while (mController.getNumberOfPlayers() < amountOfTotalPlayers) {
+//            mController.addPlayer(aiPlayer, ListUtility.getRandomElement(Arrays.stream(PlayerColor.values()).toList()));
+//        }
     }
 
     public MaterialType chooseResource(KeyEvent event) {

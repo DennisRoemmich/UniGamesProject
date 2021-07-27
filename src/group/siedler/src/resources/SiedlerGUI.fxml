@@ -76,6 +76,7 @@
          <font>
             <Font name="Arial" size="27.0" />
          </font></Label>
+         
          <Label fx:id="mMonopolyAmount" layoutX="400.0" layoutY="790.0" text="" textFill="aliceblue">
          <font>
             <Font name="Arial" size="27.0" />
@@ -86,6 +87,10 @@
             <Font name="Arial" size="30.0" />
          </font></Label>
          <Label fx:id="mTradeError" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Arial" size="30.0" />
+         </font></Label>
+         <Label fx:id="mBurglarMessage" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
          <font>
             <Font name="Arial" size="30.0" />
          </font></Label>

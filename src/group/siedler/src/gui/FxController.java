@@ -2,6 +2,7 @@ package gui;
 
 import cards.CardType;
 import controller.Controller;
+import controller.GameState;
 import dice.DiceRolling;
 import javafx.fxml.Initializable;
 import java.net.URL;
@@ -85,6 +86,8 @@ public class FxController implements Initializable {
     protected Label mInventionAmount;
     @FXML
     protected Label mMonopolyAmount;
+    @FXML
+    protected Label mBurglarMessage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,6 +103,7 @@ public class FxController implements Initializable {
         mMapNode.setMap(mController.getMap());
         mMapNode.refreshOutput();
         refreshResources();
+        refreshStatusMessage();
         refreshWinner();
         refreshPoints();
         refreshCardLabels();
@@ -135,6 +139,23 @@ public class FxController implements Initializable {
         mRoadAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.ROAD)));
         mInventionAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.INVENTION)));
         mMonopolyAmount.setText(String.valueOf(mController.getCurrentPlayerCards().getAmount(CardType.MONOPOLY)));
+        if (GameState.MOVE_BURGLAR == mController.getState()) {
+        	mBurglarMessage.setText("Move the burglar!");
+        } else {
+        	mBurglarMessage.setText("");
+        }
+    }
+    
+    public void refreshStatusMessage() {
+
+        
+        if (mController.getCurrentPlayerHand().isTradeImpossible()) {
+        	mTradeError.setText("Trade not possible!");
+        	mController.getCurrentPlayerHand().setTradePossible();
+        	
+        } else {
+        	mTradeError.setText("");
+        }
     }
 
     public void refreshDiceViews() {

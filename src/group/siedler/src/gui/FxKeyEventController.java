@@ -53,6 +53,9 @@ public class FxKeyEventController {
     }
 
 	private void checkCardTypeForMaterialInput(Optional<MaterialType> materialType) {
+		if (!materialType.isPresent()) {
+			return;
+		}
 		if (mCardType.get() == CardType.MONOPOLY) {
 			mFxEngineController.getController().playCard(CardType.MONOPOLY, materialType.get());
 		}
@@ -65,31 +68,44 @@ public class FxKeyEventController {
         if (mFxEngineController.getController().getState() == GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("Oprional Move: " + event.getCode());
             switch (event.getCode()) {
-                case K -> mFxEngineController.getController().playCard(CardType.KNIGHT, MaterialType.CLAY);
-                case R -> mFxEngineController.getController().playCard(CardType.ROAD, MaterialType.CLAY);
-                case T -> {
+                case K: 
+                	mFxEngineController.getController().playCard(CardType.KNIGHT, MaterialType.CLAY);
+                	break;
+                case R: 
+                	mFxEngineController.getController().playCard(CardType.ROAD, MaterialType.CLAY);
+                	break;
+                case T: 
                     mCardType = Optional.empty();
                     mFxEngineController.setMaterialsLeftToSelect(2);
-                }
-                case I -> {
+                    break;
+                case I:
                 	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.INVENTION) > 0) {
                 		mCardType = Optional.of(CardType.INVENTION);
                 		mFxEngineController.setMaterialsLeftToSelect(2);
                 	} else {
                 		framework.PrintToConsole.println("You do not own this card!");
                 	}
-                }
-                case M -> {
-                	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.INVENTION) > 0) {
+                	break;
+                case M:
+                	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.MONOPOLY) > 0) {
                 		mCardType = Optional.of(CardType.MONOPOLY);
                 		mFxEngineController.setMaterialsLeftToSelect(1);
                 	} else {
                 		framework.PrintToConsole.println("You do not own this card!");
                 	}
-                }
-                case ENTER, SPACE -> mFxEngineController.diceButtonClicked();
-                case DIGIT0 -> mFxEngineController.getController().takeCard();
-			default -> framework.PrintToConsole.println("Nothing happened!");
+                	break;
+                case ENTER:
+                	mFxEngineController.diceButtonClicked();
+                	break;
+                case SPACE:
+                	mFxEngineController.diceButtonClicked();
+                	break;
+                case DIGIT0: 
+                	mFxEngineController.getController().takeCard();
+                	break;
+			default:
+				framework.PrintToConsole.println("Nothing happened!");
+				break;
             }
         }
     }

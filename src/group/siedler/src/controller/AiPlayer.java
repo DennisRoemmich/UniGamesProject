@@ -7,7 +7,6 @@ import helper.QuickJSon;
 import map.BuildRules;
 import map.MapTools;
 import materials.MaterialType;
-
 import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
@@ -15,7 +14,6 @@ import positions.NodePosition;
 import positions.TilePosition;
 import streets.Street;
 import streets.StreetType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -126,8 +124,8 @@ public class AiPlayer implements Player {
 	    	}
     	}
     }
-    	
-        public void tryTakingCard() {
-        		mController.takeCard();
-        }  
+    
+    public void tryTakingCard() {
+    		mController.takeCard();
+    }  
 }
