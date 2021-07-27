@@ -1,5 +1,6 @@
 package core.positioning;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -81,24 +82,14 @@ public class Square {
 
     @Override
     public boolean equals(Object o) {
-
-        if (o == this) {
-            return true;
-        }
-
-        if (!(o instanceof Square)) {
-            return false;
-        }
-
-        Square p = (Square) o;
-
-        // Compare the data members and return accordingly
-        return p.mFile == this.mFile && p.mRank == this.mRank;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return mRank == square.mRank && mFile == square.mFile;
     }
 
     @Override
     public int hashCode() {
-        return -1;
+        return Objects.hash(mRank, mFile);
     }
-
 }

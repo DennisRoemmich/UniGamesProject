@@ -7,8 +7,8 @@ import core.positioning.Rank;
 import core.positioning.Square;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The chess board implementation of a chess game.
@@ -48,7 +48,12 @@ public class ChessBoard implements Cloneable {
     }
 
     public Optional<ChessPiece> getPiece(Square square) {
-        return positionedPieces.stream().filter(pP -> pP.getPosition().equals(square)).map(pP -> pP.getPiece()).findFirst();
+        for(PositionedPiece piece : positionedPieces) {
+            if(piece.getPosition().equals(square)) {
+                return Optional.of(piece.getPiece());
+            }
+        }
+        return Optional.empty();
     }
 
     public void movePiece(ChessMove move) {
@@ -90,15 +95,20 @@ public class ChessBoard implements Cloneable {
     }
 
     public Optional<Square> getSquare(ChessPiece piece) {
-        return positionedPieces.stream().filter(pP -> pP.getPiece() == piece).map(pP -> pP.getPosition()).findFirst();
+        for(PositionedPiece positionedPiece : positionedPieces) {
+            if(positionedPiece.getPiece() == piece) {
+                return Optional.of(positionedPiece.getPosition());
+            }
+        }
+        return Optional.empty();
     }
 
     public List<ChessPiece> getPieces() {
-        return positionedPieces.stream().map(PositionedPiece::getPiece).collect(Collectors.toList());
+        return piecesExtracted(getPositionedPieces());
     }
 
     public List<ChessPiece> getPieces(Color color) {
-        return getPieces().stream().filter(p -> p.getColor().equals(color)).collect(Collectors.toList());
+        return piecesExtracted(getPositionedPieces(color));
     }
 
 
@@ -107,10 +117,48 @@ public class ChessBoard implements Cloneable {
     }
 
     public List<PositionedPiece> getPositionedPieces(Color color) {
-        return positionedPieces.stream().filter(pP -> pP.getPiece().getColor().equals(color)).collect(Collectors.toList());
+        List<PositionedPiece> filteredPieces = new ArrayList<>();
+        for(PositionedPiece positionedPiece : positionedPieces) {
+            if(positionedPiece.getPiece().getColor().equals(color)) {
+                filteredPieces.add(positionedPiece);
+            }
+        }
+        return filteredPieces;
     }
 
     public List<PositionedPiece> getPositionedPieces(Color color, ChessPieceType type) {
-        return positionedPieces.stream().filter(pP -> pP.getPiece().getColor().equals(color) && pP.getPiece().getType().equals(type)).collect(Collectors.toList());
+        List<PositionedPiece> filteredPieces = new ArrayList<>();
+        for(PositionedPiece positionedPiece : positionedPieces) {
+            ChessPiece piece = positionedPiece.getPiece();
+            if(piece.getColor().equals(color) && piece.getType().equals(type) ) {
+                filteredPieces.add(positionedPiece);
+            }
+        }
+        return filteredPieces;
+    }
+
+    public static List<ChessPiece> piecesExtracted(List<PositionedPiece> piecesWithPosition) {
+        List<ChessPiece> pieces = new ArrayList<>();
+        for(PositionedPiece positionedPiece : piecesWithPosition) {
+            pieces.add(positionedPiece.getPiece());
+        }
+        return pieces;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessBoard board = (ChessBoard) o;
+        return Objects.equals(getPositionedPieces(), board.getPositionedPieces());
+    }
+
+    @Override
+    public int hashCode() {
+        int prehash = 0;
+        for(PositionedPiece piece : positionedPieces) {
+            prehash += piece.hashCode();
+        }
+        return Objects.hash(prehash);
     }
 }

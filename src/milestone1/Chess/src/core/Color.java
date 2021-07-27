@@ -35,4 +35,8 @@ public enum Color {
     public Direction getPawnMoveDirection() {
         return isWhite() ? Direction.UP : Direction.DOWN;
     }
+
+    public double getScoreFactor() {
+        return isWhite() ? 1 : -1;
+    }
 }

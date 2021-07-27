@@ -6,10 +6,11 @@ import core.positioning.File;
 import core.positioning.Rank;
 import core.positioning.Square;
 import console.ConsoleUI;
+import framework.CallCounter;
+import framework.PrintToConsole;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Main Chess class where the main chess game logic is being executed.
@@ -23,6 +24,7 @@ public class Chess {
     protected int lastPawnMoveOrCapture = 0;
     protected Color currentColor = Color.WHITE;
     private boolean autoPromotion = true;
+    //private PositionRepetitionDetector repetitionDetector = new PositionRepetitionDetector();
 
     public Chess() {
     }
@@ -31,10 +33,12 @@ public class Chess {
         mBoard = new ChessBoard(game.getBoard());
         currentColor = game.getCurrentColor();
         autoPromotion = game.getAutoPromotion();
+        //repetitionDetector = new PositionRepetitionDetector();
     }
 
     public void makeMove(ChessMove move) {
-        if (!getPossibleMoves().stream().anyMatch(m -> m.equals(move))) return;
+        CallCounter.registerCall("makeMove", false);
+        if(!isMovePossible(move)) return;
 
         handleCastling(move);
 
@@ -50,16 +54,26 @@ public class Chess {
         }
 
         mBoard.movePiece(move);
+        //PrintToConsole.println(mBoard.hashCode() + " : " + repetitionDetector.addHash(move.hashCode()));
 
         registerMove(move.getDestination());
         resetEnPassantFlags();
         nextPlayer();
     }
 
+    public boolean isMovePossible(ChessMove move) {
+        for (ChessMove possibleMove : getPossibleMoves()) {
+            if (possibleMove.equals(move)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void handleCastling(ChessMove move) {
-        var possibleKing = mBoard.getPositionedPieces(currentColor, ChessPieceType.KING).stream().findFirst();
-        if (possibleKing.isEmpty()) return;
-        King king = (King) possibleKing.get().getPiece();
+        var possibleKings = mBoard.getPositionedPieces(currentColor, ChessPieceType.KING);
+        if (possibleKings.isEmpty()) return;
+        King king = (King) possibleKings.get(0).getPiece();
         if (king.findCastlingMoves(mBoard).contains(move)) {
             switch (move.getDestination().getFile()) {
                 case C -> {
@@ -122,9 +136,12 @@ public class Chess {
     }
 
     protected void resetEnPassantFlags() {
-        var pawns = mBoard.getPositionedPieces().stream().filter(pP -> pP.getPiece().getType() == ChessPieceType.PAWN);
-        for (Pawn pawn : pawns.map(pP -> (Pawn) pP.getPiece()).collect(Collectors.toList())) {
-            pawn.resetDoubleMove();
+        var pawns = mBoard.getPositionedPieces(Color.WHITE, ChessPieceType.PAWN);
+        pawns.addAll(mBoard.getPositionedPieces(Color.BLACK, ChessPieceType.PAWN));
+        for (ChessPiece piece : mBoard.getPieces()) {
+            if(piece.getType() == ChessPieceType.PAWN) {
+                ((Pawn)piece).resetDoubleMove();
+            }
         }
     }
 
@@ -135,18 +152,19 @@ public class Chess {
 
     public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
         List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(currentColor, pieceType);
-        positionedPieces = positionedPieces.stream().filter(pP -> pP.getPiece().findMoves(mBoard).stream().anyMatch(m -> m.getDestination().equals(destination))).collect(Collectors.toList());
-        return positionedPieces.stream().map(pP -> pP.getPosition()).collect(Collectors.toList());
+        List<Square> origins = new ArrayList<>();
+        for(PositionedPiece piece : positionedPieces) {
+            var moves = piece.getPiece().findMoves(mBoard);
+            for(ChessMove move : moves) {
+                if(move.getDestination().equals(destination)) {
+                    origins.add(piece.getPosition());
+                }
+            }
+        }
+        return origins;
     }
 
     public List<ChessMove> getPossibleMoves() {
-        var pieces = mBoard.getPieces(currentColor);
-        List<ChessMove> possibleMoves = new ArrayList<>();
-        pieces.stream().map(p -> possibleMoves.addAll(p.findMoves(mBoard))).collect(Collectors.toList());
-        return possibleMoves;
-    }
-
-    public List<ChessMove> getPossibleMovesQuickly() {
         var pieces = mBoard.getPieces(currentColor);
         List<ChessMove> possibleMoves = new ArrayList<>();
         for(ChessPiece piece: pieces) {

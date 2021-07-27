@@ -4,7 +4,6 @@ import core.pieces.ChessPiece;
 import core.pieces.ChessPieceType;
 import core.positioning.Square;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Checks if the game is over.
@@ -24,7 +23,7 @@ public final class GameOverDetector {
         }
 
         // Check if current Player can move
-        if (game.getPossibleMovesQuickly().isEmpty()) {
+        if (game.getPossibleMoves().isEmpty()) {
             return CheckDetector.isInCheck(game.getBoard(), game.getCurrentColor()) ? ChessResult.CHECKMATE : ChessResult.STALEMATE;
         }
 

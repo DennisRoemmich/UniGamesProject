@@ -93,7 +93,7 @@ public class ConsoleUI implements Presenter, Player {
     public void startGame(boolean mAiGame) {
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
 		if(mAiGame) {
-			mController.setPlayerA(new AiPlayer(mController));
+			mController.setPlayerA(this);
 			mController.setPlayerB(new AiPlayer(mController));
 		} else {
 			mController.setPlayerA(this);

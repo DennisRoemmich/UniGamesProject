@@ -1,17 +1,10 @@
 package framework;
 
 public class TimeKeeper {
-    private static long startTime = System.nanoTime();
+    private static final long mod = 100000000000L;
+    private static final long divide = 1000000L;
 
-    public static void startMeasure() {
-        startTime = System.nanoTime();
-    }
-
-    public static long getMeasure() {
-        return System.nanoTime() - startTime;
-    }
-
-    public static void printCurrent() {
-        System.out.println("Current durarion: " + getMeasure());
+    public static String timeToString() {
+        return ((System.nanoTime() % mod) / divide) + "ms";
     }
 }

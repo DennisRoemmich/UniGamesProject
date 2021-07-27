@@ -4,12 +4,13 @@ import console.Controller;
 import core.Chess;
 import core.ChessMove;
 import core.Color;
+import core.GameOverDetector;
+import core.pieces.ChessPiece;
+import framework.CallCounter;
 import framework.Player;
 import framework.PrintToConsole;
 import framework.TimeKeeper;
 import org.json.simple.JSONObject;
-
-import java.util.stream.Collectors;
 
 public class AiPlayer implements Player {
 
@@ -18,11 +19,11 @@ public class AiPlayer implements Player {
 	public AiPlayer(Controller controller) {
 		this.mController = controller;
 	}
-	
+
 	//Random dummy AI
 	@Override
     public JSONObject requestMove(JSONObject dataType) {
-		return getBestMove(1).toJSon();
+		return getBestMove(2).toJSon();
     }
 
     protected ChessMove getBestMove(int depth) {
@@ -44,15 +45,24 @@ public class AiPlayer implements Player {
 	}
 
 	protected double rateMove(Chess game, ChessMove chessMove, int depth) {
+		if(depth == 2) {
+			CallCounter.registerCall("rateMove", true);
+		}
+		PrintToConsole.println("--> Rating " + " @time " + TimeKeeper.timeToString());
 		Chess gameClone = new Chess(game);
+		PrintToConsole.println("Cloned game @time " + TimeKeeper.timeToString());
 		double score = -1 * rateSituation(gameClone);
+		PrintToConsole.println("Rated current situation @time " + TimeKeeper.timeToString());
 		gameClone.makeMove(chessMove);
+		//PrintToConsole.println("Made move @time " + TimeKeeper.timeToString());
 		score += rateSituation(gameClone);
+		//PrintToConsole.println("Rated situation after move @time " + TimeKeeper.timeToString());
 		if(depth > 1) {
+			//PrintToConsole.println("Starting recursion loop @time " + TimeKeeper.timeToString());
 			var possibleMoves = gameClone.getPossibleMoves();
 			double numberOfPossibleMoves = possibleMoves.size();
 			for(ChessMove nextMove : possibleMoves) {
-				score += rateMove(gameClone, nextMove, depth - 1) / numberOfPossibleMoves;
+				score += rateMove(gameClone, nextMove, depth - 1);
 			}
 		}
 		return score;
@@ -60,8 +70,19 @@ public class AiPlayer implements Player {
 
     protected double rateSituation(Chess game) {
 		double score = 0;
-		score += game.getBoard().getPieces(Color.WHITE).stream().collect(Collectors.summingDouble(p -> p.getType().getValue()));
-		score -= game.getBoard().getPieces(Color.BLACK).stream().collect(Collectors.summingDouble(p -> p.getType().getValue()));
+		switch(GameOverDetector.checkForMate(game)) {
+			case CHECKMATE:
+				score -= 10000 * game.getCurrentColor().getScoreFactor();
+				break;
+			case STALEMATE, DRAW:
+				score = 0;
+				break;
+			case NONE:
+				for(ChessPiece piece : game.getBoard().getPieces()) {
+					score += piece.getSignedValue();
+				}
+				break;
+		}
 		return score;
 	}
 }

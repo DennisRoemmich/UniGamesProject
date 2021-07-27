@@ -4,6 +4,8 @@ import core.pieces.ChessPiece;
 import core.pieces.ChessPieceCopyFactory;
 import core.positioning.Square;
 
+import java.util.Objects;
+
 public class PositionedPiece {
     private Square position;
     private ChessPiece piece;
@@ -36,5 +38,18 @@ public class PositionedPiece {
     @Override
     public String toString() {
         return piece + " @ " + position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PositionedPiece that = (PositionedPiece) o;
+        return Objects.equals(getPosition(), that.getPosition()) && Objects.equals(getPiece(), that.getPiece());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPosition(), getPiece());
     }
 }

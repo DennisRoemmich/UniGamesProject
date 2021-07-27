@@ -66,16 +66,21 @@ public class King extends ChessPiece {
             List<Square> squaresToCheck = new ArrayList<>();
             squaresToCheck.add(kingSquare.getNext(kingMoveDirection).get());
             squaresToCheck.add(squaresToCheck.get(0).getNext(kingMoveDirection).get());
-            if (squaresToCheck.stream().anyMatch(s -> CheckDetector.isSquareAttacked(board, s, getColor().getContrary()))) {
-                continue;
+
+            for(Square square : squaresToCheck) {
+                if(CheckDetector.isSquareAttacked(board, square, getColor().getContrary())) {
+                    continue;
+                }
             }
 
             // Check if those squares (+ the B-Square if castling is on queen side) are free
             if (kingMoveDirection == Direction.LEFT) {
                 squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
             }
-            if (squaresToCheck.stream().anyMatch(s -> board.getPiece(s).isPresent())) {
-                continue;
+            for(Square square : squaresToCheck) {
+                if(board.getPiece(square).isPresent()) {
+                    continue;
+                }
             }
 
             // Add move to list

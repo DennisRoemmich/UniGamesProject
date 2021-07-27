@@ -27,7 +27,7 @@ public class RandomPlayer implements Player {
     public JSONObject requestMove(JSONObject dataType) {
 
         //Initialize the chess move
-        var possibleMoves = mController.getGame().getPossibleMovesQuickly();
+        var possibleMoves = mController.getGame().getPossibleMoves();
         Collections.shuffle(possibleMoves);
         if (possibleMoves.isEmpty()) {
             new JSONObject();

@@ -14,8 +14,15 @@ public final class CheckDetector {
 	}
 
 	public static boolean isSquareAttacked(ChessBoard board, Square squareToTest, Color color) {
-	    var pieces = board.getPositionedPieces(color).stream();
-        return pieces.anyMatch(s -> s.getPiece().findCoveredSquares(board).contains(squareToTest));
+	    var pieces = board.getPositionedPieces(color);
+        for(PositionedPiece piece : pieces) {
+            for(Square square : piece.getPiece().findCoveredSquares(board)) {
+                if(square.equals(squareToTest)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isInCheck(ChessBoard board, Color color) {
