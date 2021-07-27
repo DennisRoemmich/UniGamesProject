@@ -98,8 +98,9 @@ public final class BuildRules {
     }
 
     public static boolean canBeUpgradedToTown(Map map, PlayerColor color,  NodePosition position) {
-        if (map.getBuilding(position).isPresent()) {
-            Building building = map.getBuilding(position).get();
+        var m = map.getBuilding(position);
+    	if (m.isPresent()) {
+            Building building = m.get();
             return building.getColor() == color && building.getType() == BuildingType.VILLAGE;
         } else {
             return false;

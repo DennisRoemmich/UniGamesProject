@@ -4,6 +4,11 @@ import org.json.simple.JSONObject;
 import materials.MaterialSet;
 import materials.MaterialType;
 
+/**
+ * Represents a set of development cards.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class CardSet {
     JSONObject mResources;
     boolean mTradeImpossible;

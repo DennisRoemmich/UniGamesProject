@@ -1,7 +1,6 @@
 package map;
 
 import positions.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public final class MapTools {
 	
@@ -163,25 +162,5 @@ public final class MapTools {
             }
         }
         return false;
-    }
-
-    public static NodePosition getRandomNodePosition(Map map) {
-    	
-    	//Checks if optional is present
-    	if (!map.getTiles().stream().map(t -> t.getPosition().getX()).min(Integer::compareTo).isPresent()) {
-    		return null;
-    	}
-	        int xMin = map.getTiles().stream().map(t -> t.getPosition().getX()).min(Integer::compareTo).get() - 1;
-	        int xMax = map.getTiles().stream().map(t -> t.getPosition().getX()).max(Integer::compareTo).get() + 1;
-	        int yMin = map.getTiles().stream().map(t -> t.getPosition().getY()).min(Integer::compareTo).get() - 1;
-	        int yMax = map.getTiles().stream().map(t -> t.getPosition().getY()).max(Integer::compareTo).get() + 1;
-        NodePosition position;
-        do {
-            int x = ThreadLocalRandom.current().nextInt(xMin, xMax + 1);
-            int y = ThreadLocalRandom.current().nextInt(yMin, yMax + 1);
-            boolean z = ThreadLocalRandom.current().nextBoolean();
-            position = new NodePosition(x, y, z);
-        } while (!isPositionValid(map, position));
-        return position;
     }
 }

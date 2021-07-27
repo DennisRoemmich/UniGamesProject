@@ -5,6 +5,11 @@ import materials.MaterialType;
 import positions.NodePosition;
 import player.PlayerColor;
 
+/**
+ * Represents a building and its functionalities in the game.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class Building {
     private NodePosition mPosition;
     private BuildingType mType;

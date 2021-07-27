@@ -153,20 +153,22 @@ public class FxEngineController extends FxController implements Player, Presente
     
     public void addVillageSetupPlaceholders() {
      //Checks if optional is present.
-    	if (!mMapNode.getMap().isPresent()) {
+    	var map = mMapNode.getMap();
+    	if (map.isEmpty()) {
         	return;
         }       
-        mMapNode.addBuildingPlaceholders(BuildRules.getStartNodePositions(mMapNode.getMap().get()));
+        mMapNode.addBuildingPlaceholders(BuildRules.getStartNodePositions(map.get()));
     }  
 
     public void addStreetSetupPlaceholders() {
      //Checks if optional is present. 
-    	if (!mMapNode.getMap().isPresent()) {
+    	var map = mMapNode.getMap();
+    	if (map.isEmpty()) {
         	return;
         }
         PlayerColor color = mController.getCurrentPlayerColor();
         for (StreetType type : StreetType.values()) {
-        	List<EdgePosition> positions = BuildRules.getStartEdgePositions(mMapNode.getMap().get(), color, type);
+        	List<EdgePosition> positions = BuildRules.getStartEdgePositions(map.get(), color, type);
             mMapNode.addStreetPlaceholders(positions, type);
         }
     }

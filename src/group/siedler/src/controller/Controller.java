@@ -32,8 +32,8 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Responsible for main functions
- * @author ...
+ * Responsible for the moves and main functions of the Sieder von Konstanz game.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
  *
  */
 public class Controller extends GameController implements SiedlerEventHandler {
