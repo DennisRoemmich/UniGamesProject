@@ -100,6 +100,13 @@ public class FxKeyEventController {
                 case SPACE:
                 	mFxEngineController.diceButtonClicked();
                 	break;
+                case C:
+                	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.WOOD, 1);
+                	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.CLAY, 1);
+                	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.ORE, 1);
+                	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.WOOL, 1);
+                	mFxEngineController.mController.getCurrentPlayerHand().addResources(MaterialType.WHEAT, 1);
+                	break;
                 case DIGIT0: 
                 	mFxEngineController.getController().takeCard();
                 	break;
@@ -124,6 +131,7 @@ public class FxKeyEventController {
         PrintToConsole.print("you might need to choose the resource(s) you want to ");
         PrintToConsole.print("get by pressing the desired number key on your keyboard. \n");
         PrintToConsole.println("Dices: You may roll the dice by pressing the ENTER key or clicking on the image");
+        PrintToConsole.println("Cheating: Press \"C\" and get 1 of each material... ");
         PrintToConsole.println("");
         PrintToConsole.println("*---Differences to the standard game---*");
         PrintToConsole.print("The Road building card gives 2 Clay and Wood building roads. ");

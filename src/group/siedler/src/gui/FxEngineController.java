@@ -1,6 +1,5 @@
 package gui;
 
-import helper.ListUtility;
 import helper.QuickJSon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +13,6 @@ import javafx.stage.Stage;
 import map.BuildRules;
 import materials.MaterialType;
 import org.json.simple.JSONObject;
-
-import controller.AiPlayer;
 import controller.Controller;
 import controller.GameState;
 import framework.Player;
@@ -25,7 +22,6 @@ import positions.EdgePosition;
 import streets.StreetType;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
