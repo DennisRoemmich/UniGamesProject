@@ -97,7 +97,7 @@ public class Trick {
         }
     }
 
-    private boolean isStrongerCard(Card card1, Card card2) {
+    public boolean isStrongerCard(Card card1, Card card2) {
 
         return card1.getStrength(trump, color) < card2.getStrength(trump, color);
     }

@@ -50,6 +50,21 @@ public class Tricks {
         return skat != null;
     }
 
+    public ArrayList<Card> getCards() {
+
+        var cards = new ArrayList<Card>();
+
+        for (Trick trick : tricks) {
+
+            for (var i = 0; i < trick.getSize(); i++) {
+
+                cards.add(trick.getCardAt(i));
+            }
+        }
+
+        return cards;
+    }
+
     /* OTHER */
 
     public void addSkat(Card[] skat) {

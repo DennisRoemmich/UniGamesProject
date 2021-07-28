@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 public class SkatLauncher {
 
-    private static boolean FX_LAUNCHER = true;
+    private static boolean FX_LAUNCHER = false;
     private static boolean WINDOWS = false;
 
     static final int GAME_AMOUNT = 12;
