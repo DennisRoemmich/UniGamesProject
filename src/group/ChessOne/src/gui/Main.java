@@ -16,9 +16,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        FXMLLoader loader = new FXMLLoader(classLoader.getResource("Chess.fxml"));
+        var resource = classLoader.getResource("resources/Chess.fxml");
+        FXMLLoader loader = new FXMLLoader(resource);
         primaryStage.setTitle("Chess One");
         primaryStage.setScene(new Scene(loader.load(), 1400, 1000));
         primaryStage.show();

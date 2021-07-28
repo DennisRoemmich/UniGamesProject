@@ -9,10 +9,11 @@ public class CastlingMove extends ChessMove {
         super(origin, destination);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+				@Override
     public JSONObject toJSon() {
-        JSONObject regularJSON = super.toJSon();
-        regularJSON.put("specialmove", "castling");
-        return regularJSON;
+        JSONObject regularJSon = super.toJSon();
+        regularJSon.put("specialmove", "castling");
+        return regularJSon;
     }
 }

@@ -31,5 +31,4 @@ public class ChessPieceNode extends Group {
         imageView.setLayoutX(x);
         imageView.setLayoutY(y);
     }
-
 }

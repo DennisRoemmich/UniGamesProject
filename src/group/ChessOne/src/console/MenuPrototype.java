@@ -28,19 +28,20 @@ public class MenuPrototype {
 
     private void handleGameInput() {
         String input = mScanner.nextLine();
+        String error = "This game isn't implemented yet :(";
         switch (input) {
             case "C", "c":
                 startChess();
             PrintToConsole.println("You finished the game.");
                 break;
             case "R", "r":
-            	PrintToConsole.println("This game isn't implemented yet :(");
+            	PrintToConsole.println(error);
                 break;
             case "S", "s":
-            	PrintToConsole.println("This game isn't implemented yet :(");
+            	PrintToConsole.println(error);
                 break;
             case "K", "k":
-            	PrintToConsole.println("This game isn't implemented yet :(");
+            	PrintToConsole.println(error);
                 break;
             case "Q", "q":
                 quitGame();

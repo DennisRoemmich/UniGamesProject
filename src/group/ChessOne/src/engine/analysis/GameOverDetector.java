@@ -44,12 +44,15 @@ public final class GameOverDetector {
 
         for (ChessPiece piece : board.getPieces(color)) {
             switch (piece.getType()) {
-                case PAWN, ROOK, QUEEN -> { return true; }
-                case BISHOP, KNIGHT -> {
-                    if(++availableMinorPieces >= 2) {
+                case PAWN, ROOK, QUEEN:
+                	return true;
+                case BISHOP, KNIGHT:
+                    if (++availableMinorPieces >= 2) {
                         return true;
                     }
-                }
+                	break;
+                default:
+                	break;
             }
         }
         return false;

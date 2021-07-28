@@ -18,9 +18,9 @@ public final class CheckDetector {
 
     public static boolean isSquareAttackedByOpponent(Chess game, Square squareToTest) {
         var pieces = game.getBoard().getPositionedPieces(game.getCurrentColor().getContrary());
-        for(PositionedPiece piece : pieces) {
-            for(Square square : piece.getPiece().findCoveredSquares(game)) {
-                if(square.equals(squareToTest)) {
+        for (PositionedPiece piece : pieces) {
+            for (Square square : piece.getPiece().findCoveredSquares(game)) {
+                if (square.equals(squareToTest)) {
                     return true;
                 }
             }
@@ -30,9 +30,9 @@ public final class CheckDetector {
 
     public static boolean isSquareAttacked(Chess game, Square squareToTest) {
         var pieces = game.getBoard().getPositionedPieces(game.getCurrentColor());
-        for(PositionedPiece piece : pieces) {
-            for(Square square : piece.getPiece().findCoveredSquares(game)) {
-                if(square.equals(squareToTest)) {
+        for (PositionedPiece piece : pieces) {
+            for (Square square : piece.getPiece().findCoveredSquares(game)) {
+                if (square.equals(squareToTest)) {
                     return true;
                 }
             }
@@ -42,7 +42,9 @@ public final class CheckDetector {
 
     public static boolean isInCheck(Chess game) {
         var king = game.getBoard().getPositionedPieces(game.getCurrentColor(), ChessPieceType.KING);
-        if(king.isEmpty()) return false;
+        if (king.isEmpty()) {
+        	return false;
+        }
         return isSquareAttackedByOpponent(game, king.get(0).getPosition());
     }
 

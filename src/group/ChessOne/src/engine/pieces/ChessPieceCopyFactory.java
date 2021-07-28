@@ -1,6 +1,10 @@
 package engine.pieces;
 
-public class ChessPieceCopyFactory {
+public final class ChessPieceCopyFactory {
+	private ChessPieceCopyFactory() {
+		
+	}
+	
     public static ChessPiece getCopy(ChessPiece piece) {
         return switch (piece.getType()) {
             case PAWN -> new Pawn(piece.getColor());

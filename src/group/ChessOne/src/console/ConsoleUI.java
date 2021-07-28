@@ -31,7 +31,6 @@ public class ConsoleUI implements Presenter, Player {
     protected Controller mController = new Controller();
     private ClientController mClientController;
     private Chess mChessGame = null;
-    private final boolean mAiGame = false;
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
 
     public void run() {
@@ -39,7 +38,7 @@ public class ConsoleUI implements Presenter, Player {
     	
     	boolean wrongMenuInput = true;
 
-    	if(NETWORK_GAME){
+    	if (NETWORK_GAME) {
 			mNetworkState = hostOrClient();
 
 			if (mNetworkState == NetworkState.CLIENT) {
@@ -48,22 +47,29 @@ public class ConsoleUI implements Presenter, Player {
 
 		}
 
-    	while(wrongMenuInput) {
+    	while (wrongMenuInput) {
 
-			PrintToConsole.println("Please choose your game mode:");
-			PrintToConsole.println("[C]lassic Chess 1v1, Classic Chess vs [A]I, [T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit");
+			PrintToConsole.print("Please choose your game mode: \n");
+			PrintToConsole.print("[C]lassic Chess 1v1, Classic Chess vs [A]I, ");
+			PrintToConsole.print("[T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit \n");
 			String input = mScanner.nextLine();
 
 			wrongMenuInput = false;
 			switch (input) {
-				case "r", "R" -> loadGame();
-    			case "c", "C" -> startGame(false);
-				case "a", "A" -> startGame(true);
-				case "t", "T" -> {
+				case "r", "R":
+					loadGame();
+					break;
+    			case "c", "C":
+    				startGame(false);
+    				break;
+				case "a", "A":
+					startGame(true);
+					break;
+				case "t", "T": 
 					mController.setStandardChess();
 					startGame(false);
-				}
-				case "h", "H" -> {
+					break;
+				case "h", "H":
 					PrintToConsole.println("--------Classic Chess 1v1---------");
 					PrintToConsole.println("The classic chess game vs another player via hotseat.");
 					PrintToConsole.println("");
@@ -71,11 +77,16 @@ public class ConsoleUI implements Presenter, Player {
 					PrintToConsole.println("Challenge the computer vs the computer");
 					PrintToConsole.println("");
 					PrintToConsole.println("--------Torpedo Chess 1v1---------");
-					PrintToConsole.println("Alternative game mode where your pawns may always move 2 sqaures. En passant rule applies!");
+					PrintToConsole.print("Alternative game mode where your pawns \n ");
+					PrintToConsole.print("may always move 2 sqaures. En passant rule applies!");
 					PrintToConsole.println("");
-				}
-				case "q", "Q" -> wrongMenuInput = false;
-				default -> PrintToConsole.println("Please try again");
+					break;
+				case "q", "Q": 
+					wrongMenuInput = false; //??
+					break;
+				default:
+					PrintToConsole.println("Please try again");
+					break;
 			}
 		}
     }
@@ -89,15 +100,15 @@ public class ConsoleUI implements Presenter, Player {
     						
     				JSONObject loadedGame = FileController.loadJSon(inputTwo);
     				startGame(GameLog.valueOf(loadedGame), false);
-    			}
-    		} catch(Exception e) {
-    			//will soon be used
-    			}
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
 
 	public void startGame(GameLog log, boolean mAiGame) {
 		PrintToConsole.println("Type \"help\" for information on how to play. \n");
-		if(mAiGame) {
+		if (mAiGame) {
 			mController.setPlayerA(this);
 			mController.setPlayerB(new AiPlayer(mController));
 		} else {
@@ -113,7 +124,7 @@ public class ConsoleUI implements Presenter, Player {
 
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
 
-    	if (NETWORK_GAME && mNetworkState == NetworkState.CLIENT){
+    	if (NETWORK_GAME && mNetworkState == NetworkState.CLIENT) {
 
     		mChessGame = mClientController.getGame();
     		mClientController.startGame();
@@ -140,9 +151,9 @@ public class ConsoleUI implements Presenter, Player {
 
     }
 
-    private NetworkState hostOrClient(){
+    private NetworkState hostOrClient() {
 
-		var input = JOptionPane.showOptionDialog(null, "Client or Host?","Network Connection",
+		var input = JOptionPane.showOptionDialog(null, "Client or Host?", "Network Connection",
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null,
 				new String[]{"HOST", "CLIENT"}, "HOST");
@@ -150,7 +161,6 @@ public class ConsoleUI implements Presenter, Player {
 		if (input == 0) {
 
 			mNetworkState = NetworkState.HOST;
-			// var networkPlayer = new NetworkPlayer(controller);
 			return NetworkState.HOST;
 
 		}
@@ -158,8 +168,6 @@ public class ConsoleUI implements Presenter, Player {
 		if (input == 1) {
 
 			mNetworkState = NetworkState.CLIENT;
-			// var ip = JOptionPane.showInputDialog("Enter the IP of the host:");
-			// var networkPlayer = new NetworkPlayer(controller, ip);
 			return NetworkState.CLIENT;
 
 		}
@@ -185,7 +193,7 @@ public class ConsoleUI implements Presenter, Player {
 				PrintToConsole.print(" │");
             }
             PrintToConsole.println(rank.toString());
-            if(rank != Rank.M1) {
+            if (rank != Rank.M1) {
         PrintToConsole.println(" ├───┼───┼───┼───┼───┼───┼───┼───┤ ");
 			}
         }
@@ -208,58 +216,62 @@ public class ConsoleUI implements Presenter, Player {
 
     	refreshOutput();
 
-		if (dataType.get("type") != "move") {
+		if (!dataType.get("type").equals("move")) {
 			return new JSONObject();
 		}
 
 		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 		String input = mScanner.nextLine();
-		if(checkSpecialInput(input)) {
+		if (checkSpecialInput(input)) {
 			return new JSONObject();
 		}
 		try {
 			ChessMove move = ChessMove.valueOf(input, mChessGame);
 			return move.toJSon();
 		} catch (Exception e) {
-			System.out.println("Unknown Issue.");
+			PrintToConsole.println("Unknown Issue.");
 			return new JSONObject();
 		}
 	}
 
     public boolean checkSpecialInput(String input) {
-		if("exit".equalsIgnoreCase(input)) {
+		if ("exit".equalsIgnoreCase(input)) {
 			mController.quitGame();
 			return true;
 		}
-		if("help".equalsIgnoreCase(input)) {
+		if ("help".equalsIgnoreCase(input)) {
 			PrintToConsole.println("----------Commands----------");
-			PrintToConsole.println("*help* Prints the current screen with information on commands and how to play the game ");
+			PrintToConsole.print("*help* Prints the current screen with ");
+			PrintToConsole.println("information on commands and how to play the game ");
 			PrintToConsole.println("*menu* Opens the game settings menu");
 			PrintToConsole.println("*undo* Undoes the last move ");
 			PrintToConsole.println("*exit* Closes the chess application ");
 			PrintToConsole.println("");
 			PrintToConsole.println("--------How to play---------");
 			PrintToConsole.println("This chess app uses the official chess notation to register moves.");
-			PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row)\"");
-			PrintToConsole.println("In case there are several possible moves (like BISHOP can move to e4 and PAWN can move to e4), you must define the moving piece. ");
+			PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row).");
+			PrintToConsole.print("In case there are several possible moves (like BISHOP can move ");
+			PrintToConsole.println("to e4 and PAWN can move to e4), you must define the moving piece. ");
 			PrintToConsole.println("This can be done by typing Be4 (BISHOP to e4) ");
-			PrintToConsole.println("For special moves like castling you may either move the king two engine.squares or use the special castling notation (O-O or O-O-O)");
+			PrintToConsole.print("For special moves like castling you may either move the king ");
+			PrintToConsole.println("two squares or use the special castling notation (O-O or O-O-O) ");
 			PrintToConsole.println("");
-			PrintToConsole.println("For further information please visit https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
+			PrintToConsole.print("For further information please visit: ");
+			PrintToConsole.println("https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
 			PrintToConsole.println("");
 			return true;
 		}
-		if("undo".equalsIgnoreCase(input)) {
+		if ("undo".equalsIgnoreCase(input)) {
 			mController.undoLastMove();
 			return true;
 		}
-		if("menu".equalsIgnoreCase(input)) {
+		if ("menu".equalsIgnoreCase(input)) {
 			PrintToConsole.println("Settings:");
 			PrintToConsole.println("Set Auto-[P]romotion on/off");
 			PrintToConsole.println("Any input to continue the game");
 			
 			String newInput = mScanner.nextLine();
-			if("p".equalsIgnoreCase(newInput)) {
+			if ("p".equalsIgnoreCase(newInput)) {
 				autoPromotion();
 				return true;
 			}
@@ -269,7 +281,7 @@ public class ConsoleUI implements Presenter, Player {
 
     private void autoPromotion() {
     	
-    	if(mChessGame.getAutoPromotion()) {
+    	if (mChessGame.getAutoPromotion()) {
     		mChessGame.setAutoPromotion(false);
     		PrintToConsole.println("Auto-Promotion turned off");
     	} else {
