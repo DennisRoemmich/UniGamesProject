@@ -82,7 +82,6 @@ public class ConsoleUI implements Presenter, Player {
 					PrintToConsole.println("");
 					break;
 				case "q", "Q": 
-					wrongMenuInput = false; //??
 					break;
 				default:
 					PrintToConsole.println("Please try again");

@@ -4,7 +4,6 @@ import engine.pieces.PositionedPiece;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 
 public class ChessPieceNode extends Group {
     private PositionedPiece positionedPiece;
@@ -18,7 +17,7 @@ public class ChessPieceNode extends Group {
     }
 
     private void setupImageView() {
-        Image image = new Image(classLoader.getResourceAsStream(positionedPiece.getPiece() + ".png"));
+        Image image = new Image(classLoader.getResourceAsStream("resources/" + positionedPiece.getPiece() + ".png"));
         imageView = new ImageView(image);
         imageView.setScaleX(2);
         imageView.setScaleY(2);
@@ -31,4 +30,5 @@ public class ChessPieceNode extends Group {
         imageView.setLayoutX(x);
         imageView.setLayoutY(y);
     }
+
 }

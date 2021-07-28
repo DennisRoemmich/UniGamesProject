@@ -4,7 +4,6 @@ import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import torpedo.TorpedoChess;
-import engine.*;
 import framework.GameController;
 import framework.Player;
 
@@ -22,29 +21,30 @@ public class Controller extends GameController {
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
-    private boolean standardChess = true;
+    private boolean mStandardChess = true;
     
     public Controller() {
+    	//Unused
     }
 
-    public void executeMove(JSONObject moveJSON) {
-    	if (moveJSON == null) {
+    public void executeMove(JSONObject moveJSon) {
+    	if (moveJSon == null) {
     		return;
     	}
-    	if (!moveJSON.containsKey("origin") || !moveJSON.containsKey("destination")) {
+    	if (!moveJSon.containsKey("origin") || !moveJSon.containsKey("destination")) {
             return;
         }
     	ChessMove move;
         try {
-            move = ChessMove.valueOf(moveJSON);
+            move = ChessMove.valueOf(moveJSon);
         } catch (Exception e) {
             WriteError.writeErrorLog("");
             return;
         }
-        if(mGame.isMovePossible(move)) {
+        if (mGame.isMovePossible(move)) {
             mGame.makeMove(move);
-            logMove(moveJSON);
-            if(mPresenter != null) {
+            logMove(moveJSon);
+            if (mPresenter != null) {
                 mPresenter.refreshOutput();
             }
             gameStep();
@@ -52,19 +52,19 @@ public class Controller extends GameController {
     }
     
     public void setStandardChess() {
-    	this.standardChess = !(this.standardChess);
+    	this.mStandardChess = !(this.mStandardChess);
     }
 
-    public ChessMove getLastMove(){
+    public ChessMove getLastMove() {
 
         var moveLog = mGameLog.getMoveLog();
-        return ChessMove.valueOf(moveLog.get(moveLog.size()-1));
+        return ChessMove.valueOf(moveLog.get(moveLog.size() - 1));
 
     }
 
     @Override
     public void newGame() {
-    	if(!standardChess) {
+    	if (!mStandardChess) {
     		mGame = new TorpedoChess();
     	} else {
     		mGame = new Chess();    		
@@ -91,7 +91,7 @@ public class Controller extends GameController {
     		//Not used yet
     }
 
-    public void exitGame(){
+    public void exitGame() {
         mIsGameRunning = false;
     }
 

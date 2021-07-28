@@ -123,8 +123,12 @@ public abstract class ChessPiece {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+        	return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
         ChessPiece piece = (ChessPiece) o;
         return mType == piece.mType && getColor() == piece.getColor();
     }
