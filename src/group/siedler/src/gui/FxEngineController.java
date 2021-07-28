@@ -264,7 +264,7 @@ public class FxEngineController extends FxController implements Player, Presente
         PrintToConsole.print("Trading: Press the \"T\" key and the corresponding material key ");
         PrintToConsole.print("from \"1\" to \"5\" on your keyboard for the resource to ");
         PrintToConsole.print ("trade in and then another key from \"1\" to \"5\" to get a corresponding resource. \n");
-        PrintToConsole.print("Take a Development Card: Press the \"0\" key on your keyboard \n");
+        PrintToConsole.print("Take a Development Card: Press the \"D\" key on your keyboard \n");
         PrintToConsole.print("Play a Development Card: Press the \"K\", \"R\", \"I\", \"M\" ");
         PrintToConsole.print("key on your keyboard for the desired card to play. ");
         PrintToConsole.print("If you like to play a development card, ");
