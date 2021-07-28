@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Siedler">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../group/siedler/out/artifacts/Siedler_jar/Siedler.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
