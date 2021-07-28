@@ -3,7 +3,7 @@ package main;
 import console.Print;
 import controller.SkatController;
 import framework.NetworkPlayer;
-import javaFX.FXLauncher;
+import javafx.FXLauncher;
 import test.Test;
 
 import javax.swing.*;
@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * main class for everything
+ */
 public class SkatLauncher {
 
     private static boolean mFxLauncher = false;
@@ -22,6 +25,11 @@ public class SkatLauncher {
     static final int NETWORK_PLAYER = 1;
     static final int KI_PLAYER = 0;
 
+    /**
+     * main method
+     * @param args args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
 
 
@@ -29,7 +37,7 @@ public class SkatLauncher {
 
             mFxLauncher = args[0].equals("gui");
 
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) { /* game will start in console */ }
 
 
         var standardPlayerNames = new ArrayList<String>(Arrays.asList("Yoshi","HuiBuh","Neymar","Mr. Crabs","Chewbacca"));
@@ -88,7 +96,7 @@ public class SkatLauncher {
 
                 mWindows = args[0].equals("windows");
 
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) { /* console will go with mac-viable symbols */ }
 
             Print.setWINDOWS(mWindows);
 

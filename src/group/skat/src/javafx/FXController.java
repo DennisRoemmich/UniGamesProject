@@ -1,4 +1,4 @@
-package javaFX;
+package javafx;
 
 import controller.GameMove;
 import console.Print;
@@ -13,9 +13,9 @@ import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
-import javaFX.enums.FXCardPosition;
-import javaFX.enums.GUIState;
-import javaFX.enums.FXHandShelfPosition;
+import javafx.enums.FXCardPosition;
+import javafx.enums.GUIState;
+import javafx.enums.FXHandShelfPosition;
 import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -345,6 +345,9 @@ public class FXController implements Player, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 
     /* HELPER */

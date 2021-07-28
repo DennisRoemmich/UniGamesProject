@@ -1,9 +1,9 @@
-package javaFX;
+package javafx;
 
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Hand;
-import javaFX.enums.FXHandShelfPosition;
+import javafx.enums.FXHandShelfPosition;
 import javafx.scene.layout.AnchorPane;
 
 /**

@@ -1,7 +1,7 @@
 package console;
 
 import console.enums.ConsoleActionType;
-import javaFX.enums.GUIState;
+import javafx.enums.GUIState;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
@@ -502,10 +502,7 @@ public class Console implements Player {
 
             case ENDED:
 
-                return GUIState.GAME_FINISHED; // TODO : hier weitermachen
-
-                // if set enden -> GUIState.SetFinished
-
+                return GUIState.GAME_FINISHED;
 
             case ABORTED:
 

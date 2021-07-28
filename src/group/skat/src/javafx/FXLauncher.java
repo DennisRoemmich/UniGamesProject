@@ -1,4 +1,4 @@
-package javaFX;
+package javafx;
 
 import controller.SkatController;
 import javafx.application.Application;
@@ -56,9 +56,9 @@ public class FXLauncher extends Application {
 
     /**
      * launch for 3 player
-     * @param controller
+     * @param controller controller
      */
-    public void launchFX(SkatController controller) {
+    public static void launchFX(SkatController controller) {
 
         FXLauncher.mSkatController = controller;
         launch();
@@ -67,10 +67,10 @@ public class FXLauncher extends Application {
 
     /**
      * launch for variable players
-     * @param controller
-     * @param playerAmount
+     * @param controller controller
+     * @param playerAmount playerAmount
      */
-    public void launchFX(SkatController controller, int playerAmount) {
+    public static void launchFX(SkatController controller, int playerAmount) {
 
         FXLauncher.mSkatController = controller;
         launch();

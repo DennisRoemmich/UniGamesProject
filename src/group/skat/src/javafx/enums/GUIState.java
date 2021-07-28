@@ -1,4 +1,4 @@
-package javaFX.enums;
+package javafx.enums;
 
 /**
  * enum for all possible states in GUI

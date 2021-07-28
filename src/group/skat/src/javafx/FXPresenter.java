@@ -1,10 +1,10 @@
-package javaFX;
+package javafx;
 
 
 import console.Print;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
-import javaFX.enums.GUIState;
+import javafx.enums.GUIState;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -460,6 +460,9 @@ public class FXPresenter {
     }
 
 
+    /**
+     * shows buttons for skat declaring
+     */
     private static void buttonsAcceptSkat() {
 
         var buttonDict = mFxController.mButtonDict;
@@ -473,6 +476,9 @@ public class FXPresenter {
 
     }
 
+    /**
+     * shows buttons for auction
+     */
     private static void buttonsAcceptCancel() {
 
         var buttonDict = mFxController.mButtonDict;
@@ -490,6 +496,9 @@ public class FXPresenter {
 
     }
 
+    /**
+     * shows buttons for trump declaring
+     */
     private static void buttonsChooseMode() {
 
         var buttonDict = mFxController.mButtonDict;
@@ -511,6 +520,10 @@ public class FXPresenter {
 
     }
 
+    /**
+     * handles show of sort button
+     * @param visible boolean whether view is shown or not
+     */
     private static void buttonSort(boolean visible) {
 
         var buttonDict = mFxController.mButtonDict;
@@ -525,6 +538,9 @@ public class FXPresenter {
         }
     }
 
+    /**
+     * shows buttons for declare trump color
+     */
     private static void buttonsChooseColor() {
         var buttonDict = mFxController.mButtonDict;
 
@@ -547,6 +563,9 @@ public class FXPresenter {
 
     }
 
+    /**
+     * shows view of current trick
+     */
     private static void trickView() {
 
         mFxController.AnchorTrickOne.setVisible(true);
@@ -555,7 +574,10 @@ public class FXPresenter {
 
     }
 
-
+    /**
+     * view of skat
+     * @param visible boolean whether view is shown or not
+     */
     private static void skatView(boolean visible) {
 
         mFxController.AnchorViewSkat.setVisible(visible);
@@ -563,6 +585,10 @@ public class FXPresenter {
 
     }
 
+    /**
+     * view for new game
+     * @param visible boolean whether view is shown or not
+     */
     private static void newGameView(boolean visible) {
 
         var set = mFxController.getController().getSkatSet();
@@ -629,6 +655,10 @@ public class FXPresenter {
 
     }
 
+    /**
+     * view for result
+     * @param visible boolean whether view is shown or not
+     */
     private static void resultView(boolean visible) {
 
         var set = mFxController.getController().getSkatSet();
@@ -700,6 +730,9 @@ public class FXPresenter {
 
     }
 
+    /**
+     * updates handshelfs
+     */
     public static void updateHandShelfs() {
 
         buttonSort(true);

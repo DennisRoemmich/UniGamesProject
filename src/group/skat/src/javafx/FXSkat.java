@@ -1,17 +1,15 @@
-package javaFX;
+package javafx;
 
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Card;
 import engine.enums.GamePhase;
-import javaFX.enums.FXCardPosition;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.enums.FXCardPosition;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 
+/**
+ * class for skat in GUI
+ */
 public class FXSkat {
 
     private FXController mFxController;
@@ -22,6 +20,12 @@ public class FXSkat {
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor
+     * @param fxController fxcontroller
+     * @param left anchorpane of left card
+     * @param right anchorpane of right card
+     */
     public FXSkat(FXController fxController, AnchorPane left, AnchorPane right) {
 
         this.mFxController = fxController;
@@ -41,6 +45,11 @@ public class FXSkat {
 
     /* OTHER */
 
+    /**
+     * initialisation
+     * @param left anchorpane of left card
+     * @param right anchorpane of right card
+     */
     private void init(AnchorPane left, AnchorPane right) {
 
         var skat = mFxController.getController().getGame().getSkat();
@@ -57,6 +66,9 @@ public class FXSkat {
         }
     }
 
+    /**
+     * updates the skat
+     */
     public void update() {
 
         var game = mFxController.getController().getGame();
@@ -99,6 +111,10 @@ public class FXSkat {
 
     /* ACTIONHANDLING */
 
+    /**
+     * handles skat-card click event
+     * @param index index of clicked card
+     */
     public void cardClickedAt(int index) {
 
         if (mSelectedCardIndex == -1) {
@@ -130,33 +146,9 @@ public class FXSkat {
         update();
     }
 
-    public void someMagic(AnchorPane pane) {
-
-        var kv0 = new KeyValue(pane.opacityProperty(), 1, Interpolator.EASE_OUT);
-
-        var kf0 = new KeyFrame(Duration.seconds(2), kv0);
-
-        var timeline0 = new Timeline();
-        timeline0.setOnFinished(e -> fadeOut(pane));
-
-        timeline0.getKeyFrames().addAll(kf0);
-
-        timeline0.play();
-    }
-
-    private void fadeOut(AnchorPane pane) {
-
-        var kv0 = new KeyValue(pane.opacityProperty(), 0, Interpolator.EASE_IN);
-
-        var kf0 = new KeyFrame(Duration.seconds(2), kv0);
-
-        var timeline1 = new Timeline();
-
-        timeline1.getKeyFrames().addAll(kf0);
-
-        timeline1.play();
-    }
-
+    /**
+     * deselects both cards
+     */
     public void deselectAll() {
 
         for (FXCard card : mSkatFXCards) {

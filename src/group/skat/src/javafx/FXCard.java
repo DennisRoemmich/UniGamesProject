@@ -1,9 +1,9 @@
-package javaFX;
+package javafx;
 
 import engine.Card;
 import engine.enums.CardValue;
-import javaFX.enums.FXCardPosition;
-import javaFX.enums.FXHandShelfPosition;
+import javafx.enums.FXCardPosition;
+import javafx.enums.FXHandShelfPosition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;

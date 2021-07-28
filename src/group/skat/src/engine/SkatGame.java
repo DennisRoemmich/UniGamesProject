@@ -26,7 +26,6 @@ public class SkatGame {
     private Auction mAuction;
 
     private SkatPlayer mDeclarer;
-    private GameMode mGameMode;
     private Trump mTrump;
 
     private int mCurrentRoundNo;
@@ -257,7 +256,7 @@ public class SkatGame {
 
                 case DROP_SKAT -> dropSkat();
 
-                case SET_TRUMP -> setTrump(move.mTrump);
+                case SET_TRUMP -> setTrump(move.getTrump());
 
                 case PLAY_CARD -> playCard(move.getIndexFrom());
 
@@ -404,7 +403,7 @@ public class SkatGame {
      */
     public void setTrump(Trump trump) {
 
-        mGameMode = trump.getGameMode();
+
         this.mTrump.setGameMode(trump.getGameMode());
         this.mTrump.setColor(trump.getColor());
 

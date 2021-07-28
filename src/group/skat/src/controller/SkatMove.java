@@ -22,8 +22,8 @@ public class SkatMove extends GameMove {
     /** This value is used to be able to play moves from log without logging them again but actually it shouldn't be that way*/
     private boolean mToBeRelogged = false;
 
-   // private ActionType type;
-    public Trump mTrump;
+
+    private Trump mTrump;
 
 
     /* CONSTRUCTOR */
@@ -136,6 +136,11 @@ public class SkatMove extends GameMove {
     public int getIndexTo() {
 
         return mIndexTo;
+    }
+
+    public Trump getTrump() {
+
+        return mTrump;
     }
 
     /* OTHER */

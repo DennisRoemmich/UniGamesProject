@@ -209,26 +209,45 @@ public class SkatController extends GameController {
 
     @Override
     public JSONObject metaSettingsToJSON() {
+
         return null;
+
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 
     @Override
     public JSONObject gameSettingsToJSON() {
+
         return null;
+
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 
     @Override
     public void restoreMetaSettings(JSONObject metaSettings) {
 
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 
     @Override
     public void restoreGameSettings(JSONObject gameSettings) {
 
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 
     @Override
     public void newGame() {
 
+        /*
+         * this function is not needed to be overwritten in this game
+         */
     }
 }

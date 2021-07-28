@@ -1,4 +1,4 @@
-package javaFX;
+package javafx;
 
 import console.Print;
 import javafx.scene.Node;

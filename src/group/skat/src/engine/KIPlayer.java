@@ -7,7 +7,6 @@ import engine.enums.GamePhase;
 import framework.Player;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -20,6 +19,8 @@ public class KIPlayer implements Player {
     private SkatPlayer mPlayer;
     private Hand mHand;
     private int mIndex;
+
+    private Random mRand = new Random();
 
     /* CONSTRUCTOR */
 
@@ -70,15 +71,6 @@ public class KIPlayer implements Player {
     private SkatMove getKIPlay() {
 
         SkatMove finalMove;
-
-        var declarer = mGame.getDeclarer();
-        var declarerCards = declarer.getTricks().getCards();
-        var opponentsCards = mPlayer.getTricks().getCards();
-
-        ArrayList<Card> playedCards = new ArrayList<>();
-
-        playedCards.addAll(declarerCards);
-        playedCards.addAll(opponentsCards);
 
         var currentTrick = mGame.getCurrentTrick();
         var trickSize = currentTrick.getSize();
@@ -191,12 +183,10 @@ public class KIPlayer implements Player {
      */
     private int getRandomCard() {
 
-        var rand = new Random();
-
         int pos;
         do {
 
-            pos = rand.nextInt(mHand.getSize());
+            pos = mRand.nextInt(mHand.getSize());
 
         } while (!mGame.moveIsValid(new SkatMove(pos)));
 
@@ -245,7 +235,7 @@ public class KIPlayer implements Player {
     /**
      * KI tries to sting the played cards, but evaluates if the move would be valuable.
      * If the move is valuable, the move is played, else a weak card is played
-     * param two cards to sting with KI third to move
+     * @ param two cards to sting with KI third to move
      * @return index of card to play
      */
     private int getMbyStingCard(Card toStingUno, Card toStingDos) {

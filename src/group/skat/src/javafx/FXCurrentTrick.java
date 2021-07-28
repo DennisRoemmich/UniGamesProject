@@ -1,7 +1,7 @@
-package javaFX;
+package javafx;
 
 import engine.enums.GamePhase;
-import javaFX.enums.FXCardPosition;
+import javafx.enums.FXCardPosition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

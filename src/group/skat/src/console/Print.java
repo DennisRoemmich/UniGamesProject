@@ -56,6 +56,7 @@ public class Print {
 
         var string = (String) obj;
 
+        /* change symbols, bc on windows they're not used */
         if (windows) {
 
             var symbols = new String[][]{{"⎼", "️·♣·", "·♠·", "·♥·", "·♦·", "⌲", "⌯", "⎨", "⎬", "⋯", "⌾", "♢", "◇", "◈", "⎺"},

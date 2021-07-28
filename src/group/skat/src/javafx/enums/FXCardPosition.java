@@ -1,4 +1,4 @@
-package javaFX.enums;
+package javafx.enums;
 
 /**
  * enum for possible positions in GUI

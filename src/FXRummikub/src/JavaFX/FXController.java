@@ -1,4 +1,4 @@
-package javaFX;
+package javafx;
 
 import framework.GameController;
 import framework.Player;
