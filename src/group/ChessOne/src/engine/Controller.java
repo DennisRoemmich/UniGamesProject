@@ -49,6 +49,13 @@ public class Controller extends GameController {
     	this.standardChess = !(this.standardChess);
     }
 
+    public ChessMove getLastMove(){
+
+        var moveLog = mGameLog.getMoveLog();
+        return ChessMove.valueOf(moveLog.get(moveLog.size()-1));
+
+    }
+
     @Override
     public void newGame() {
     	if(!standardChess) {
@@ -76,6 +83,10 @@ public class Controller extends GameController {
     @Override
     public void restoreGameSettings(JSONObject gameSettings) {
     		//Not used yet
+    }
+
+    public void exitGame(){
+        mIsGameRunning = false;
     }
 
     public void setPlayerA(Player playerA) {

@@ -1,14 +1,19 @@
 package console;
 
+import engine.Chess;
 import engine.Controller;
 import engine.board.ChessMove;
 import engine.squares.File;
 import engine.squares.Square;
 import engine.squares.Rank;
 import framework.*;
+import network.ClientController;
+import network.NetworkPlayer;
+import network.NetworkState;
 import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 
@@ -18,15 +23,31 @@ import java.util.Scanner;
  *
  */
 public class ConsoleUI implements Presenter, Player {
-    private final Scanner mScanner = new Scanner(System.in);
+
+	static final boolean NETWORK_GAME = true;
+
+
+	private final Scanner mScanner = new Scanner(System.in);
     protected Controller mController = new Controller();
+    private ClientController mClientController;
+    private Chess mChessGame = null;
     private final boolean mAiGame = false;
+    private NetworkState mNetworkState = NetworkState.UNDEFINED;
 
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
     	
     	boolean wrongMenuInput = true;
-    	
+
+    	if(NETWORK_GAME){
+			mNetworkState = hostOrClient();
+
+			if (mNetworkState == NetworkState.CLIENT) {
+				mClientController = new ClientController(this, this);
+			}
+
+		}
+
     	while(wrongMenuInput) {
 
 			PrintToConsole.println("Please choose your game mode:");
@@ -91,18 +112,63 @@ public class ConsoleUI implements Presenter, Player {
 	}
 
     public void startGame(boolean mAiGame) {
+
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
-		if(mAiGame) {
-			mController.setPlayerA(this);
-			mController.setPlayerB(new AiPlayer(mController));
+
+    	if (NETWORK_GAME && mNetworkState == NetworkState.CLIENT){
+
+    		mChessGame = mClientController.getGame();
+    		mClientController.startGame();
+
 		} else {
-			mController.setPlayerA(this);
-			mController.setPlayerB(this);
-		}
+
+    		if (mAiGame) {
+				mController.setPlayerA(this);
+				mController.setPlayerB(new AiPlayer(mController));
+			} else if (NETWORK_GAME) {
+				mController.setPlayerA(this);
+				mController.setPlayerB(new NetworkPlayer(mController));
+			} else {
+    			mController.setPlayerA(this);
+    			mController.setPlayerB(this);
+    		}
+
 		mController.setPresenter(this);
         mController.newGame();
+        mChessGame = mController.getGame();
         mController.startGame();
+
+		}
+
     }
+
+    private NetworkState hostOrClient(){
+
+		var input = JOptionPane.showOptionDialog(null, "Client or Host?","Network Connection",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null,
+				new String[]{"HOST", "CLIENT"}, "HOST");
+
+		if (input == 0) {
+
+			mNetworkState = NetworkState.HOST;
+			// var networkPlayer = new NetworkPlayer(controller);
+			return NetworkState.HOST;
+
+		}
+
+		if (input == 1) {
+
+			mNetworkState = NetworkState.CLIENT;
+			// var ip = JOptionPane.showInputDialog("Enter the IP of the host:");
+			// var networkPlayer = new NetworkPlayer(controller, ip);
+			return NetworkState.CLIENT;
+
+		}
+
+		return NetworkState.UNDEFINED;
+
+	}
 
     public void printBoard() {
         PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
@@ -111,7 +177,7 @@ public class ConsoleUI implements Presenter, Player {
         	PrintToConsole.print(rank + "│");
             for (File file : File.values()) {
 				PrintToConsole.print(' ');
-                var piece = mController.getGame().getBoard().getPiece(new Square(rank, file));
+                var piece = mChessGame.getBoard().getPiece(new Square(rank, file));
                 if (piece.isEmpty()) {
                 	PrintToConsole.print(' ');
                 } else {
@@ -130,7 +196,7 @@ public class ConsoleUI implements Presenter, Player {
     }
 
     private void printResult() {
-        switch (mController.getGame().getResult()) {
+        switch (mChessGame.getResult()) {
             case DRAW -> PrintToConsole.println("Draw");
             case CHECKMATE -> PrintToConsole.println("Checkmate");
             case STALEMATE -> PrintToConsole.println("Stalemate");
@@ -141,18 +207,20 @@ public class ConsoleUI implements Presenter, Player {
 
     @Override
     public JSONObject requestMove(JSONObject dataType) {
-    	
+
+    	refreshOutput();
 
 		if (dataType.get("type") != "move") {
 			return new JSONObject();
 		}
+
 		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 		String input = mScanner.nextLine();
 		if(checkSpecialInput(input)) {
 			return new JSONObject();
 		}
 		try {
-			ChessMove move = ChessMove.valueOf(input, mController.getGame());
+			ChessMove move = ChessMove.valueOf(input, mChessGame);
 			return move.toJSon();
 		} catch (Exception e) {
 			System.out.println("Unknown Issue.");
@@ -203,11 +271,11 @@ public class ConsoleUI implements Presenter, Player {
 
     private void autoPromotion() {
     	
-    	if(mController.getGame().getAutoPromotion()) {
-    		mController.getGame().setAutoPromotion(false);
+    	if(mChessGame.getAutoPromotion()) {
+    		mChessGame.setAutoPromotion(false);
     		PrintToConsole.println("Auto-Promotion turned off");
     	} else {
-    		mController.getGame().setAutoPromotion(true);
+    		mChessGame.setAutoPromotion(true);
     		PrintToConsole.println("Auto-Promotion turned on");
     	}
     	
@@ -238,8 +306,8 @@ public class ConsoleUI implements Presenter, Player {
 	@Override
     public void refreshOutput() {
         printBoard();
-        if (mController.getGame().isGameRunning()) {
-			PrintToConsole.println(mController.getGame().getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
+        if (mChessGame.isGameRunning()) {
+			PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
 		} else {
             printResult();
         }

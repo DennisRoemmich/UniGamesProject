@@ -72,6 +72,7 @@ public class ChessMove {
         shortNotation = shortNotation.replace(" ","");
         shortNotation = shortNotation.replace(">","");
         shortNotation = shortNotation.replace("<","");
+        shortNotation = shortNotation.replace("~","");
         return  shortNotation;
     }
 
@@ -205,7 +206,6 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return mOrigin.toString() + " -> " + mDestination.toString();
-
+        return mOrigin.toString() + " ~> " + mDestination.toString();
     }
 }

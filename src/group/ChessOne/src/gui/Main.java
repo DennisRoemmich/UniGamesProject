@@ -1,4 +1,4 @@
-package sample;
+package gui;
 
 import gui.ChessBoardNode;
 import gui.ChessGUI;
