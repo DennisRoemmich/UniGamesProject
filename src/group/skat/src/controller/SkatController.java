@@ -10,14 +10,16 @@ import framework.Player;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * The SkatConroller is the central engine of the game logic
+ */
 public class SkatController extends GameController {
 
-    private int gameAmount;
-    private SkatSet skatSet;
-    private String[] playerNames;
-    private int lastCurrentPlayer = -1;
+    private int mGameAmount;
+    private SkatSet mSkatSet;
+    private String[] mPlayerNames;
+    private int mLastCurrentPlayer = -1;
 
     /* CONSTRUCTOR */
 
@@ -25,64 +27,60 @@ public class SkatController extends GameController {
 
         String[] names = nameList.toArray(new String[0]);
 
-        this.gameAmount = gameAmount;
-        this.playerNames = names;
-        skatSet = new SkatSet(gameAmount, names);
-
+        this.mGameAmount = gameAmount;
+        this.mPlayerNames = names;
+        mSkatSet = new SkatSet(gameAmount, names);
 
     }
 
     /* GETTER */
 
-    public SkatGame getGame(){
+    public SkatGame getGame() {
 
-        return skatSet.getCurrentSkatGame();
+        return mSkatSet.getCurrentSkatGame();
     }
 
     public String[] getPlayerNames() {
-        return playerNames;
+
+        return mPlayerNames;
     }
 
 
 
     /* OTHER */
 
+    /**
+     * executes a given move
+     * @param move move
+     * @return true if done, false if failed
+     */
     public boolean makeMove(GameMove move) {
 
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
-            if (move.getType() == ActionType.NEW_SET) {
+            if (makeMoveHelp(move)) {
 
-                skatSet = new SkatSet(gameAmount, playerNames);
-                checkPlayerSwitched();
-                return true;
-            }
-
-            if (move.getType() == ActionType.NEW_GAME) {
-
-                skatSet.startNewGame();
-                checkPlayerSwitched();
                 return true;
             }
 
         } else {
 
-            if (skatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
+            if (mSkatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
 
-                if (skatSet.getCurrentGameResult().isAborted()) {
+                if (mSkatSet.getCurrentGameResult().isAborted()) {
 
-                    skatSet.abortGame();
+                    mSkatSet.abortGame();
 
-                } else if (skatSet.getCurrentGameResult().isFinished()) {
+                } else if (mSkatSet.getCurrentGameResult().isFinished()) {
 
                     Print.debug("MAIK", "GAME IS FINISHED");
-                    skatSet.gameIsFinished();
+                    mSkatSet.gameIsFinished();
 
-                    if (skatSet.isFinished()) {
+                    if (mSkatSet.isFinished()) {
 
                         Print.debug("MAIK", "\n  SET IS FINISHED");
 
-                        skatSet.printSkatSetStats();
+                        mSkatSet.printSkatSetStats();
                     }
                 }
                 checkPlayerSwitched();
@@ -93,42 +91,62 @@ public class SkatController extends GameController {
         return false;
     }
 
+    private boolean makeMoveHelp(GameMove move) {
 
+        if (move.getType() == ActionType.NEW_SET) {
+
+            mSkatSet = new SkatSet(mGameAmount, mPlayerNames);
+            checkPlayerSwitched();
+            return true;
+        }
+
+        if (move.getType() == ActionType.NEW_GAME) {
+
+            mSkatSet.startNewGame();
+            checkPlayerSwitched();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * checks if the currentPlayer has changed
+     */
     private void checkPlayerSwitched() {
 
         var index = getGame().getCurrentPlayer().getGameIndex();
 
-        if ( lastCurrentPlayer != index ){
+        if ( mLastCurrentPlayer != index ) {
 
-            lastCurrentPlayer = index;
+            mLastCurrentPlayer = index;
             messageNextPlayer();
 
         }
 
-
-
     }
 
-    private void messageNextPlayer(){
+    private void messageNextPlayer() {
 
-        JSONObject obj = new JSONObject();
+        var obj = new JSONObject();
         var activatePlayerAt = -1;
+        var yourMove = "YOURMOVE";
 
-        for (var i = 0; i < mPlayers.size(); i++ ){
+        for (var i = 0; i < mPlayers.size(); i++ ) {
 
             var player = mPlayers.get(i);
 
-            if ( skatSet.skatSetPlayerStatus(i) == 2 ){
+            if ( mSkatSet.skatSetPlayerStatus(i) == 2 ) {
                 activatePlayerAt = i;
             } else {
-                obj.put("YOURMOVE", "FALSE");
+                obj.put(yourMove, "FALSE");
                 player.requestMove(obj);
             }
 
         }
 
-        if ( activatePlayerAt != -1 ){
-            obj.put("YOURMOVE", "TRUE");
+        if ( activatePlayerAt != -1 ) {
+            obj.put(yourMove, "TRUE");
             mPlayers.get(activatePlayerAt).requestMove(obj);
         } else {
             Print.debug("ERROR", "Something went wrong, no player is playing.");
@@ -136,45 +154,46 @@ public class SkatController extends GameController {
 
     }
 
-
+    /**
+     * checks whether an given move is possible
+     * @param move move
+     * @return true if possible, false if not
+     */
     public boolean moveIsValid(GameMove move) {
 
         return switch (move.getType()) {
 
             case NEW_SET -> false; // ??
-            case NEW_GAME -> skatSet.moveIsValid(move);
-            default -> skatSet.getCurrentSkatGame().moveIsValid((SkatMove) move);
+            case NEW_GAME -> mSkatSet.moveIsValid(move);
+            default -> mSkatSet.getCurrentSkatGame().moveIsValid((SkatMove) move);
         };
     }
 
     public SkatSet getSkatSet() {
-        return skatSet;
+
+        return mSkatSet;
     }
 
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
 
-        if ( getGame().getGamePhase() == GamePhase.NOT_STARTED ){
+        if (getGame().getGamePhase() == GamePhase.NOT_STARTED) {
 
             mPlayers.add(player);
 
             if (mPlayers.size() == 1) { // first player was added
 
-                JSONObject obj = new JSONObject();
+                var obj = new JSONObject();
                 obj.put("YOURMOVE", "TRUE");
                 player.requestMove(obj);
 
             }
-
 
         } else {
 
             Print.debug("WARNING", "Cannot add player in this Gamephase!");
 
         }
-
-
-
     }
 
 

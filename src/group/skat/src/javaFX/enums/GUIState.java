@@ -1,5 +1,8 @@
 package javaFX.enums;
 
+/**
+ * enum for all possible states in GUI
+ */
 public enum GUIState {
 
     NOT_STARTED,

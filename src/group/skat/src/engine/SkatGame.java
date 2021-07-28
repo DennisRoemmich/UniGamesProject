@@ -10,51 +10,54 @@ import engine.enums.GamePhase;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * central class for the came logic
+ */
 public class SkatGame {
 
-    private GamePhase gamePhase;
-    private SkatPlayer[] players;
+    private GamePhase mGamePhase;
+    private SkatPlayer[] mPlayers;
 
-    private ArrayList<Card> cardStack;
+    private ArrayList<Card> mCardStack;
 
-    private Card[] skat;
-    private Trick currentTrick;
+    private Card[] mSkat;
+    private Trick mCurrentTrick;
 
-    private Auction auction;
+    private Auction mAuction;
 
-    private SkatPlayer declarer;
-    private GameMode gameMode;
-    private Trump trump;
+    private SkatPlayer mDeclarer;
+    private GameMode mGameMode;
+    private Trump mTrump;
 
-    private int currentRoundNo;
-    private int currentLeaderIndex;
+    private int mCurrentRoundNo;
+    private int mCurrentLeaderIndex;
 
-    private GameResult result;
+    private GameResult mResult;
 
-    private Random rand = new Random();
+    private Random mRand = new Random();
 
     /* CONSTRUCTOR */
 
     public SkatGame() {
 
-        gamePhase = GamePhase.AUCTION;
-        currentRoundNo = -1;
-        currentLeaderIndex = 0;
+        mGamePhase = GamePhase.AUCTION;
+        mCurrentRoundNo = -1;
+        mCurrentLeaderIndex = 0;
 
-        trump = new Trump();
-        declarer = null;
+        mTrump = new Trump();
+        mDeclarer = null;
 
-        players = new SkatPlayer[3];
-        for (var i = 0; i < players.length; i++) {
+        mPlayers = new SkatPlayer[3];
+        for (var i = 0; i < mPlayers.length; i++) {
 
-            players[i] = new SkatPlayer(trump, i);
+            mPlayers[i] = new SkatPlayer(mTrump, i);
         }
 
-        cardStack = new ArrayList<>();
-        skat = new Card[2];
-        auction = new Auction(players);
-        result = new GameResult(players, declarer, trump);
-        currentTrick = new Trick(trump);
+        mCardStack = new ArrayList<>();
+        mSkat = new Card[2];
+        mAuction = new Auction(mPlayers);
+        mResult = new GameResult(mPlayers, mDeclarer, mTrump);
+        mCurrentTrick = new Trick(mTrump);
 
         createCardStack();
         dealCards();
@@ -64,22 +67,29 @@ public class SkatGame {
 
     public SkatPlayer getPlayerAt(int index) {
 
-        return players[index];
+        return mPlayers[index];
     }
 
+    /**
+     * @return current player to move
+     */
     public SkatPlayer getCurrentPlayer() {
 
-        return switch (gamePhase) {
+        return switch (mGamePhase) {
 
-            case AUCTION -> auction.getCurrentAuctioneer();
-            case DECLARING, ENDED -> declarer;
-            case PLAYING -> players[(currentLeaderIndex + currentTrick.getSize()) % players.length];
+            case AUCTION -> mAuction.getCurrentAuctioneer();
+            case DECLARING, ENDED -> mDeclarer;
+            case PLAYING -> mPlayers[(mCurrentLeaderIndex + mCurrentTrick.getSize()) % mPlayers.length];
             default -> null;
         };
     }
 
+    /**
+     * @return auction of game
+     */
     public Auction getAuction() {
-        return auction;
+
+        return mAuction;
     }
 
     /**
@@ -87,72 +97,103 @@ public class SkatGame {
      */
     public int getCurrentLeaderIndex() {
 
-        return currentLeaderIndex;
+        return mCurrentLeaderIndex;
     }
 
+    /**
+     * @return number of current round
+     */
     public int getCurrentRoundNo() {
 
-        return currentRoundNo;
+        return mCurrentRoundNo;
     }
 
+    /**
+     * @return current game phase
+     */
     public GamePhase getGamePhase() {
 
-        return gamePhase;
+        return mGamePhase;
     }
 
+    /**
+     * @return declarer
+     */
     public SkatPlayer getDeclarer() {
 
-        return declarer;
+        return mDeclarer;
     }
 
+    /**
+     * @return game result of game
+     */
     public GameResult getGameResult() {
 
-        return result;
+        return mResult;
     }
 
+    /**
+     * @return skat at the beginning of the game
+     */
     public Card[] getSkat() {
 
-        return skat;
+        return mSkat;
     }
 
+    /**
+     * @return trump of game
+     */
     public Trump getTrump() {
 
-        return trump;
+        return mTrump;
     }
 
+    /**
+     * @return current trick
+     */
     public Trick getCurrentTrick() {
 
-        return currentTrick;
+        return mCurrentTrick;
     }
 
+    /**
+     * needed for console print
+     * @return last trick
+     */
     public Trick getLastTrick() {
 
-        var tricks = players[currentLeaderIndex].getTricks();
+        var tricks = mPlayers[mCurrentLeaderIndex].getTricks();
 
         return tricks.getTrickAt(tricks.getSize() - 1);
     }
 
     /* ELSE */
 
+    /**
+     * initialising the cards
+     */
     private void createCardStack() {
 
         for (CardColor color : CardColor.values()) {
 
             for (CardValue value : CardValue.values()) {
 
-                cardStack.add(new Card(color, value));
+                mCardStack.add(new Card(color, value));
             }
         }
     }
 
+    /**
+     * dealing of cards
+     */
     private void dealCards() {
 
-        for (var i = 0; i < skat.length; i++) {
+        for (var i = 0; i < mSkat.length; i++) {
 
-            skat[i] = getRandomCardFromStack();
+            mSkat[i] = getRandomCardFromStack();
         }
 
-        for (SkatPlayer player : players) {
+        for (SkatPlayer player : mPlayers) {
 
             for (var j = 0; j < 10; j++) {
 
@@ -163,14 +204,18 @@ public class SkatGame {
 
     private Card getRandomCardFromStack() {
 
-        var randomIndex = rand.nextInt(cardStack.size());
+        var randomIndex = mRand.nextInt(mCardStack.size());
 
-        var randomCard = cardStack.get(randomIndex);
-        cardStack.remove(randomIndex);
+        var randomCard = mCardStack.get(randomIndex);
+        mCardStack.remove(randomIndex);
 
         return randomCard;
     }
 
+    /**
+     * @param move move
+     * @return true if move is possible, false if not
+     */
     public boolean moveIsValid(SkatMove move) {
 
         return switch (move.getType()) {
@@ -179,18 +224,23 @@ public class SkatGame {
 
             case ON_HAND, ON_SKATHAND -> moveCardIsValid(move.getIndexFrom(), move.getIndexTo());
 
-            case RAISE_OR_ACCEPT, PASS -> gamePhase == GamePhase.AUCTION;
+            case RAISE_OR_ACCEPT, PASS -> mGamePhase == GamePhase.AUCTION;
 
-            case DROP_SKAT -> gamePhase == GamePhase.DECLARING && !declarer.getTricks().skatIsDropped();
+            case DROP_SKAT -> mGamePhase == GamePhase.DECLARING && !mDeclarer.getTricks().skatIsDropped();
 
-            case SET_TRUMP -> gamePhase == GamePhase.DECLARING && declarer.getTricks().skatIsDropped();
+            case SET_TRUMP -> mGamePhase == GamePhase.DECLARING && mDeclarer.getTricks().skatIsDropped();
 
-            case PLAY_CARD -> gamePhase == GamePhase.PLAYING && cardPlayIsValid(move.getIndexFrom());
+            case PLAY_CARD -> mGamePhase == GamePhase.PLAYING && cardPlayIsValid(move.getIndexFrom());
 
             default -> false;
         };
     }
 
+    /**
+     * executes a move
+     * @param move move
+     * @return true if move was played, false if not
+     */
     public boolean makeSkatMove(SkatMove move) {
 
         if (moveIsValid(move)) {
@@ -207,7 +257,7 @@ public class SkatGame {
 
                 case DROP_SKAT -> dropSkat();
 
-                case SET_TRUMP -> setTrump(move.trump);
+                case SET_TRUMP -> setTrump(move.mTrump);
 
                 case PLAY_CARD -> playCard(move.getIndexFrom());
 
@@ -218,11 +268,14 @@ public class SkatGame {
         return false;
     }
 
+    /**
+     * sorts the hand of the current player
+     */
     public void sort() {
 
-        if (gamePhase == GamePhase.PLAYING) {
+        if (mGamePhase == GamePhase.PLAYING) {
 
-            getCurrentPlayer().getHand().sort(trump);
+            getCurrentPlayer().getHand().sort(mTrump);
 
         } else {
 
@@ -230,15 +283,25 @@ public class SkatGame {
         }
     }
 
+    /**
+     * @param indexFrom index of card to move
+     * @param indexTo index of target
+     * @return if move is possible
+     */
     private boolean moveCardIsValid(int indexFrom, int indexTo) {
 
         return getCurrentPlayer().getHand().moveCardIsValid(indexFrom, indexTo);
 
     }
 
+    /**
+     * executes a card play
+     * @param indexFrom index of card to play
+     * @param indexTo index of target
+     */
     private void moveCard(int indexFrom, int indexTo) {
 
-        if (gamePhase == GamePhase.DECLARING) {
+        if (mGamePhase == GamePhase.DECLARING) {
 
             getCurrentPlayer().getHand().moveCardOnSkatHand(indexFrom, indexTo);
 
@@ -248,95 +311,121 @@ public class SkatGame {
         }
     }
 
+    /**
+     * @return true if skat is already dropped, false if not
+     */
     public boolean skatIsDropped() {
 
-        return declarer != null && declarer.getTricks().skatIsDropped();
+        return mDeclarer != null && mDeclarer.getTricks().skatIsDropped();
     }
 
+    /**
+     * current player raises or accepts bid
+     */
     private void raiseOrAcceptBid() {
 
-        auction.raiseOrAcceptBid();
+        mAuction.raiseOrAcceptBid();
 
-        if (!auction.isRunning()) {
+        if (!mAuction.isRunning()) {
 
             finishAuction();
         }
     }
 
+    /**
+     * current player passes bid
+     */
     private void passBid() {
 
-        auction.passBid();
+        mAuction.passBid();
 
-        if (!auction.isRunning()) {
+        if (!mAuction.isRunning()) {
 
             finishAuction();
         }
     }
 
+    /**
+     * finishes the auction and sets up the playing phase
+     */
     private void finishAuction() {
 
-        if (auction.passedOut()) {
+        if (mAuction.passedOut()) {
 
-            gamePhase = GamePhase.ABORTED;
-            result.setAborted(true);
+            mGamePhase = GamePhase.ABORTED;
+            mResult.setAborted(true);
             return;
         }
 
-        declarer = auction.getAuctionWinner();
-        result.setDeclarer();
+        mDeclarer = mAuction.getAuctionWinner();
+        mResult.setDeclarer();
         setPlayerTricks();
 
-        gamePhase = GamePhase.DECLARING;
+        mGamePhase = GamePhase.DECLARING;
     }
 
+    /**
+     * creates the tricks for the player
+     */
     private void setPlayerTricks() {
 
-        declarer.getHand().addCard(skat[0]);
-        declarer.getHand().addCard(skat[1]);
+        mDeclarer.getHand().addCard(mSkat[0]);
+        mDeclarer.getHand().addCard(mSkat[1]);
 
-        if (players[2] != declarer) {
+        if (mPlayers[2] != mDeclarer) {
 
-            if (players[1] != declarer) {
+            if (mPlayers[1] != mDeclarer) {
 
-                players[2].setTricks(players[1].getTricks());
+                mPlayers[2].setTricks(mPlayers[1].getTricks());
 
             } else {
 
-                players[2].setTricks(players[0].getTricks());
+                mPlayers[2].setTricks(mPlayers[0].getTricks());
             }
 
         } else {
 
-            players[1].setTricks(players[0].getTricks());
+            mPlayers[1].setTricks(mPlayers[0].getTricks());
         }
 
     }
 
+    /**
+     * declarer drops the skat
+     */
     public void dropSkat() {
 
-        declarer.getTricks().addSkat(skat);
+        mDeclarer.getTricks().addSkat(mSkat);
     }
 
+    /**
+     * declarer sets trump for game
+     * @param trump trump
+     */
     public void setTrump(Trump trump) {
 
-        gameMode = trump.getGameMode();
-        this.trump.setGameMode(trump.getGameMode());
-        this.trump.setColor(trump.getColor());
+        mGameMode = trump.getGameMode();
+        this.mTrump.setGameMode(trump.getGameMode());
+        this.mTrump.setColor(trump.getColor());
 
-        declarer.getHand().setTrumpLine();
+        mDeclarer.getHand().setTrumpLine();
 
-        for (var i = declarer.getHand().getSize() - 2; i < declarer.getHand().getSize(); i++) {
+        for (var i = mDeclarer.getHand().getSize() - 2; i < mDeclarer.getHand().getSize(); i++) {
 
-            declarer.getHand().removeCard(i);
+            mDeclarer.getHand().removeCard(i);
         }
 
-        gamePhase = GamePhase.PLAYING;
-        currentRoundNo++;
+        mGamePhase = GamePhase.PLAYING;
+        mCurrentRoundNo++;
     }
 
+    /**
+     * @param cardIndex index of card to play
+     * @return true if card play is possible, false if not
+     */
     private boolean cardPlayIsValid(int cardIndex) {
 
-        var trickColor = currentTrick.getColor();
+        var trickColor = mCurrentTrick.getColor();
         var currentPlayersHand = getCurrentPlayer().getHand();
 
         if (cardIndex >= currentPlayersHand.getSize()) {
@@ -346,14 +435,14 @@ public class SkatGame {
 
         var card = currentPlayersHand.getCardAt(cardIndex);
 
-        if (currentTrick.getSize() == 0) {
+        if (mCurrentTrick.getSize() == 0) {
 
             return true;
         }
 
-        if (currentTrick.getCardAt(0).isTrump(trump)) {
+        if (mCurrentTrick.getCardAt(0).isTrump(mTrump)) {
 
-            if (card.isTrump(trump)) {
+            if (card.isTrump(mTrump)) {
 
                 return true;
 
@@ -363,7 +452,7 @@ public class SkatGame {
             }
         } else {
 
-            if (!card.isTrump(trump) && card.getCardColor() == trickColor) {
+            if (!card.isTrump(mTrump) && card.getCardColor() == trickColor) {
 
                 return true;
             }
@@ -372,70 +461,83 @@ public class SkatGame {
         }
     }
 
+    /**
+     * plays card
+     * @param cardIndex index of card to play
+     */
     public void playCard(int cardIndex) {
 
         var currentPlayersHand = getCurrentPlayer().getHand();
         var card = currentPlayersHand.getCardAt(cardIndex);
-        var currentTrickSize = currentTrick.getSize();
+        var currentTrickSize = mCurrentTrick.getSize();
 
         if (currentTrickSize < 2) {
 
-            currentTrick.addCard(card);
+            mCurrentTrick.addCard(card);
             currentPlayersHand.removeCard(cardIndex);
 
         } else if (currentTrickSize == 2) {
 
-            currentTrick.addCard(card);
+            mCurrentTrick.addCard(card);
             currentPlayersHand.removeCard(cardIndex);
 
             finishRound();
         }
     }
 
+    /**
+     * finishes a round
+     */
     private void finishRound() {
 
-        var trickWinnerIndex = currentTrick.getWinnerIndex();
-        var nextLeaderIndex = (currentLeaderIndex + trickWinnerIndex) % players.length;
+        var trickWinnerIndex = mCurrentTrick.getWinnerIndex();
+        var nextLeaderIndex = (mCurrentLeaderIndex + trickWinnerIndex) % mPlayers.length;
 
-        players[nextLeaderIndex].getTricks().addTrick(currentTrick);
+        mPlayers[nextLeaderIndex].getTricks().addTrick(mCurrentTrick);
 
-        if (currentRoundNo == 9) {
+        if (mCurrentRoundNo == 9) {
 
             gameOver();
             return;
         }
 
-        currentLeaderIndex = nextLeaderIndex;
-        currentRoundNo++;
-        currentTrick = new Trick(trump);
+        mCurrentLeaderIndex = nextLeaderIndex;
+        mCurrentRoundNo++;
+        mCurrentTrick = new Trick(mTrump);
     }
 
-    // TODO: comment: gameValue
+    /**
+     * finishes a game, sets up all infos
+     */
     private void gameOver() {
 
-        gamePhase = GamePhase.ENDED;
+        mGamePhase = GamePhase.ENDED;
 
-        var trumpLine = declarer.getHand().getTrumpLine();
+        var trumpLine = mDeclarer.getHand().getTrumpLine();
 
-        var finalScore = getWinFactor() * ((trumpLine + getSchneider()) * trump.getTrumpValue());
+        var finalScore = getWinFactor() * ((trumpLine + getSchneider()) * mTrump.getTrumpValue());
 
-        Print.debug("MAIK", getWinFactor() + " * ((" + trumpLine + " + " + getSchneider() + ") * " + trump.getTrumpValue() + "))");
+        Print.debug("MAIK", getWinFactor() + " * ((" + trumpLine + " + " + getSchneider() + ") * " + mTrump.getTrumpValue() + "))");
 
-        declarer.setFinalScore(finalScore);
-        result.gameHasEnded();
+        mDeclarer.setFinalScore(finalScore);
+        mResult.gameHasEnded();
     }
 
+    /**
+     * helps calculate the final game value
+     * @return win factor including "schneider" and "schwarz"
+     */
     private int getWinFactor() {
 
-        var declarerPoints = declarer.getTricksScore();
-        var declarerTricks = declarer.getTricksAmount();
+        var declarerPoints = mDeclarer.getTricksScore();
+        var declarerTricks = mDeclarer.getTricksAmount();
 
-        if (trump.getGameMode() == GameMode.NULL && declarerTricks == 0) {
+        if (mTrump.getGameMode() == GameMode.NULL && declarerTricks == 0) {
 
             return 1;
 
         }
-        if ((trump.getGameMode() == GameMode.GRAND || trump.getGameMode() == GameMode.SUIT)
+        if ((mTrump.getGameMode() == GameMode.GRAND || mTrump.getGameMode() == GameMode.SUIT)
                 && declarerPoints >= 60) {
 
             return 1;
@@ -444,12 +546,15 @@ public class SkatGame {
         return -2;
     }
 
+    /**
+     * @return multiplier for game value, including "schneider" and "schwarz"
+     */
     private int getSchneider() {
 
-        var declarerPoints = declarer.getTricksScore();
-        var declarerTricks = declarer.getTricksAmount();
+        var declarerPoints = mDeclarer.getTricksScore();
+        var declarerTricks = mDeclarer.getTricksAmount();
 
-        if (trump.getGameMode() == GameMode.GRAND || trump.getGameMode() == GameMode.SUIT) {
+        if (mTrump.getGameMode() == GameMode.GRAND || mTrump.getGameMode() == GameMode.SUIT) {
 
             if (declarerTricks == 10 || declarerTricks == 0) {
 

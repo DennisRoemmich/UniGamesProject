@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
+/**
+ * fxLauncher starts the GUI
+ */
 public class FXLauncher extends Application {
 
     static final int MINWIDTH = 1365;
@@ -18,10 +21,10 @@ public class FXLauncher extends Application {
     static final int MAXWIDTH = 1365;
     static final int MAXHEIGHT = 1024 + 28;
 
-    static SkatController skatController;
+    static SkatController mSkatController;
 
-    FXController fxController;
-    int playerAmount;
+    private FXController mFxController;
+    private int mPlayerAmount;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -43,31 +46,40 @@ public class FXLauncher extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        fxController = (FXController) loader.getController();
+        mFxController = (FXController) loader.getController();
 
-        fxController.setController(FXLauncher.skatController);
-        fxController.setScene(scene);
-        fxController.addAsPlayer(playerAmount);
+        mFxController.setController(FXLauncher.mSkatController);
+        mFxController.setScene(scene);
+        mFxController.addAsPlayer(mPlayerAmount);
 
     }
 
-    public void launchFX(SkatController controller){
+    /**
+     * launch for 3 player
+     * @param controller
+     */
+    public void launchFX(SkatController controller) {
 
-        FXLauncher.skatController = controller;
+        FXLauncher.mSkatController = controller;
         launch();
 
     }
 
-    public void launchFX(SkatController controller, int playerAmount){
+    /**
+     * launch for variable players
+     * @param controller
+     * @param playerAmount
+     */
+    public void launchFX(SkatController controller, int playerAmount) {
 
-        FXLauncher.skatController = controller;
+        FXLauncher.mSkatController = controller;
         launch();
 
     }
 
-    public FXController getFxController(){
+    public FXController getFxController() {
 
-        return fxController;
+        return mFxController;
 
     }
 

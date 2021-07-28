@@ -1,38 +1,48 @@
 package engine;
 
-import console.Print;
-
 import java.util.ArrayList;
 
+/**
+ * class for tricks
+ */
 public class Tricks {
 
-    private ArrayList<Trick> tricks = new ArrayList<>();
-    private Card[] skat;
+    private ArrayList<Trick> mTricks = new ArrayList<>();
+    private Card[] mSkat;
 
     /* CONSTRUCTOR */
 
+    /**
+     * initialised without skat
+     */
     public Tricks() {
 
-        skat = null;
+        mSkat = null;
     }
 
+    /**
+     * initialised with skat
+     */
     public Tricks(Card[] skat) {
 
-        this.skat = skat;
+        this.mSkat = skat;
     }
 
     /* GETTER */
 
+    /**
+     * @return value of all tricks (and skat if declarer owns these tricks)
+     */
     public int getValue() {
 
         var sum = 0;
 
-        if ( skat != null ) {
+        if ( mSkat != null ) {
 
-            sum += skat[0].getPoints() + skat[1].getPoints();
+            sum += mSkat[0].getPoints() + mSkat[1].getPoints();
         }
 
-        for ( Trick trick : tricks ) {
+        for ( Trick trick : mTricks) {
 
             sum += trick.getValue();
         }
@@ -40,21 +50,30 @@ public class Tricks {
         return sum;
     }
 
+    /**
+     * @return amount of tricks
+     */
     public int getSize() {
 
-        return tricks.size();
+        return mTricks.size();
     }
 
+    /**
+     * @return true if declarer owns these tricks, false if not
+     */
     public boolean skatIsDropped() {
 
-        return skat != null;
+        return mSkat != null;
     }
 
+    /**
+     * @return all cards in these tricks
+     */
     public ArrayList<Card> getCards() {
 
         var cards = new ArrayList<Card>();
 
-        for (Trick trick : tricks) {
+        for (Trick trick : mTricks) {
 
             for (var i = 0; i < trick.getSize(); i++) {
 
@@ -67,18 +86,30 @@ public class Tricks {
 
     /* OTHER */
 
+    /**
+     * adds skat
+     * @param skat skat
+     */
     public void addSkat(Card[] skat) {
 
-        this.skat = skat;
+        this.mSkat = skat;
     }
 
+    /**
+     * adds a trick to the already won tricks
+     * @param trick trick
+     */
     public void addTrick(Trick trick) {
 
-        tricks.add(trick);
+        mTricks.add(trick);
     }
 
+    /**
+     * @param index index of trick
+     * @return trick at index
+     */
     public Trick getTrickAt(int index) {
 
-        return tricks.get(index);
+        return mTricks.get(index);
     }
 }

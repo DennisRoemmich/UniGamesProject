@@ -1,10 +1,8 @@
 package javaFX;
 
-import console.Print;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Card;
-import engine.enums.CardValue;
 import engine.enums.GamePhase;
 import javaFX.enums.FXCardPosition;
 import javafx.animation.Interpolator;
@@ -16,19 +14,19 @@ import javafx.util.Duration;
 
 public class FXSkat {
 
-    private FXController fxController;
+    private FXController mFxController;
 
-    private FXCard[] skatFXCards;
+    private FXCard[] mSkatFXCards;
 
-    private int selectedCardIndex;
+    private int mSelectedCardIndex;
 
     /* CONSTRUCTOR */
 
     public FXSkat(FXController fxController, AnchorPane left, AnchorPane right) {
 
-        this.fxController = fxController;
+        this.mFxController = fxController;
 
-        selectedCardIndex = -1;
+        mSelectedCardIndex = -1;
 
         init(left, right);
         update();
@@ -38,32 +36,32 @@ public class FXSkat {
 
     public FXCard getFXCardAt(int index) {
 
-        return skatFXCards[index];
+        return mSkatFXCards[index];
     }
 
     /* OTHER */
 
     private void init(AnchorPane left, AnchorPane right) {
 
-        var skat = fxController.getController().getGame().getSkat();
+        var skat = mFxController.getController().getGame().getSkat();
 
-        skatFXCards = new FXCard[2];
+        mSkatFXCards = new FXCard[2];
 
-        skatFXCards[0] = new FXCard(left, FXCardPosition.SKAT, 0, fxController);
-        skatFXCards[1] = new FXCard(right, FXCardPosition.SKAT, 1, fxController);
+        mSkatFXCards[0] = new FXCard(left, FXCardPosition.SKAT, 0, mFxController);
+        mSkatFXCards[1] = new FXCard(right, FXCardPosition.SKAT, 1, mFxController);
 
 
         for (var i = 0; i < skat.length; i++) {
 
-            skatFXCards[i].setOpen(true);
+            mSkatFXCards[i].setOpen(true);
         }
     }
 
     public void update() {
 
-        var game = fxController.getController().getGame();
+        var game = mFxController.getController().getGame();
         var phase = game.getGamePhase();
-        Card[] skat = new Card[2];
+        var skat = new Card[2];
 
         if (phase == GamePhase.AUCTION) {
 
@@ -77,21 +75,13 @@ public class FXSkat {
 
         for (var i = 0; i < 2; i++) {
 
-            if (!skatFXCards[i].isEqualTo(skat[i])) {
+            if (!mSkatFXCards[i].isEqualTo(skat[i])) {
 
-                skatFXCards[i].changeCard(skat[i]);
+                mSkatFXCards[i].changeCard(skat[i]);
             }
 
-            skatFXCards[i].update();
+            mSkatFXCards[i].update();
 
-        /*    if (skatFXCards[i].getCard().getCardValue() == CardValue.JACK) {
-
-                someMagic(skatFXCards[i].getAnchorCard());
-
-            } else {
-
-                skatFXCards[i].getAnchorCard().setOpacity(1);
-            }//*/
         }
     }
 
@@ -99,41 +89,41 @@ public class FXSkat {
 
     public int getSelectedCardIndex() {
 
-        return selectedCardIndex;
+        return mSelectedCardIndex;
     }
 
     public void setSelectedCardIndex(int index) {
 
-        selectedCardIndex = index;
+        mSelectedCardIndex = index;
     }
 
     /* ACTIONHANDLING */
 
     public void cardClickedAt(int index) {
 
-        if (selectedCardIndex == -1) {
+        if (mSelectedCardIndex == -1) {
 
-            for (FXCard card : skatFXCards) {
+            for (FXCard card : mSkatFXCards) {
 
                 card.setSelected(false);
             }
 
-            skatFXCards[index].setSelected(true);
-            selectedCardIndex = index;
+            mSkatFXCards[index].setSelected(true);
+            mSelectedCardIndex = index;
 
-        } else if (selectedCardIndex == index) {
+        } else if (mSelectedCardIndex == index) {
 
-            skatFXCards[index].setSelected(false);
-            selectedCardIndex = -1;
+            mSkatFXCards[index].setSelected(false);
+            mSelectedCardIndex = -1;
 
         } else {
 
-            var move = new SkatMove(ActionType.ON_SKATHAND, 10 + selectedCardIndex, 10 + index);
+            var move = new SkatMove(ActionType.ON_SKATHAND, 10 + mSelectedCardIndex, 10 + index);
 
-            if (fxController.makeMove(move)) {
+            if (mFxController.makeMove(move)) {
 
-                skatFXCards[selectedCardIndex].setSelected(false);
-                selectedCardIndex = -1;
+                mSkatFXCards[mSelectedCardIndex].setSelected(false);
+                mSelectedCardIndex = -1;
             }
         }
 
@@ -169,10 +159,10 @@ public class FXSkat {
 
     public void deselectAll() {
 
-        for (FXCard card : skatFXCards) {
+        for (FXCard card : mSkatFXCards) {
 
             card.setSelected(false);
         }
-        selectedCardIndex = -1;
+        mSelectedCardIndex = -1;
     }
 }

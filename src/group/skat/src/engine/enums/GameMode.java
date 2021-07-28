@@ -1,5 +1,8 @@
 package engine.enums;
 
+/**
+ * enum for possible gamemodes
+ */
 public enum GameMode {
 
     SUIT(1),
@@ -8,10 +11,14 @@ public enum GameMode {
 
     final int value;
 
+    /* CONSTRUCTOR */
+
     GameMode(int value) {
 
         this.value = value;
     }
+
+    /* GETTER */
 
     public int getModeValue() {
 

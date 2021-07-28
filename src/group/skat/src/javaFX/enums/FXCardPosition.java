@@ -1,5 +1,8 @@
 package javaFX.enums;
 
+/**
+ * enum for possible positions in GUI
+ */
 public enum FXCardPosition {
 
     HANDSHELF_LEFT,

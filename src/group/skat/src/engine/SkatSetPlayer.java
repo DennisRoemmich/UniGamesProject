@@ -2,48 +2,48 @@ package engine;
 
 public class SkatSetPlayer {
 
-    private String name;
-    private int totalScore;
+    private String mName;
+    private int mTotalScore;
 
-    private boolean isPlaying;
-    private SkatPlayer skatPlayer;
+    private boolean mIsPlaying;
+    private SkatPlayer mSkatPlayer;
 
     /* CONSTRUCTOR */
 
     public SkatSetPlayer(String name) {
 
-        this.name = name;
-        totalScore = 0;
+        this.mName = name;
+        mTotalScore = 0;
 
-        isPlaying = false;
+        mIsPlaying = false;
     }
 
     /* GETTER */
 
     public String getName() {
 
-        return name;
+        return mName;
     }
 
     public int getTotalScore() {
 
-        return totalScore;
+        return mTotalScore;
     }
 
     /* SETTER */
 
     public void setPlaying(boolean b) {
 
-        isPlaying = b;
+        mIsPlaying = b;
     }
 
     public void setSkatPlayer(SkatPlayer player) {
 
-        skatPlayer = player;
+        mSkatPlayer = player;
     }
 
     public void addToScore(int score) {
 
-        totalScore += score;
+        mTotalScore += score;
     }
 }

@@ -2,6 +2,9 @@ package engine.enums;
 
 import engine.Trump;
 
+/**
+ * enum for cardvalues
+ */
 public enum CardValue {
 
     ACE(11),
@@ -14,6 +17,8 @@ public enum CardValue {
     SEVEN(0);
 
     final int value;
+
+    /* CONSTRUCTOR */
 
     CardValue(int value) {
 
@@ -31,11 +36,10 @@ public enum CardValue {
     /**
      * This value can be used to calculate the strength of two card-colors in dependence of a given trump.
      * CardColor is not taken into account.
+     * @param trump trump
+     * @return strength of value
      */
     public int getValueStrength(Trump trump) {
-
-    //    var tenValue = 7;
-    //    var jackValue = 9;
 
         var jackValue = 4;
 
@@ -70,6 +74,10 @@ public enum CardValue {
         };
     }
 
+    /**
+     * returns symbol of card value for console-print
+     * @return symbol
+     */
     public String getSymbol(){
 
         return switch ( this ){

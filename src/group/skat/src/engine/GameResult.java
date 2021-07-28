@@ -1,39 +1,45 @@
 package engine;
 
+/**
+ * extra class for the result of a game
+ */
 public class GameResult {
 
-    private SkatPlayer[] players;
-    private int[] points;
+    private SkatPlayer[] mPlayers;
+    private int[] mPoints;
 
-    private SkatPlayer declarer;
-    private Trump trump;
+    private SkatPlayer mDeclarer;
+    private Trump mTrump;
 
-    private boolean isAborted;
-    private boolean isFinished;
+    private boolean mIsAborted;
+    private boolean mIsFinished;
 
-    private int gameValue;
+    private int mGameValue;
 
     /* CONSTRUCTOR */
 
     public GameResult(SkatPlayer[] players, SkatPlayer declarer, Trump trump) {
 
-        this.players = players;
-        points = new int[3];
+        this.mPlayers = players;
+        mPoints = new int[3];
 
-        this.declarer = declarer;
-        this.trump = trump;
+        this.mDeclarer = declarer;
+        this.mTrump = trump;
 
-        isAborted = false;
-        isFinished = false;
+        mIsAborted = false;
+        mIsFinished = false;
     }
 
     /* GETTER */
 
+    /**
+     * @return index of declarer
+     */
     public int getDeclarerIndex() {
 
-        for (var i = 0; i < players.length; i++) {
+        for (var i = 0; i < mPlayers.length; i++) {
 
-            if (players[i] == declarer) {
+            if (mPlayers[i] == mDeclarer) {
 
                 return i;
             }
@@ -43,49 +49,64 @@ public class GameResult {
 
     public Trump getTrump() {
 
-        return trump;
+        return mTrump;
     }
 
     public boolean isAborted() {
 
-        return isAborted;
+        return mIsAborted;
     }
 
     public boolean isFinished() {
 
-        return isFinished;
+        return mIsFinished;
     }
 
     public int getGameValue() {
 
-        return gameValue;
+        return mGameValue;
     }
 
     /* ELSE */
 
     public void setDeclarer() {
 
-        for (SkatPlayer player : players) {
+        for (SkatPlayer player : mPlayers) {
 
             if (player.isDeclarer()) {
 
-                declarer = player;
+                mDeclarer = player;
             }
         }
     }
 
+    /**
+     * sets up all infos if game has ended
+     */
     public void gameHasEnded() {
 
-        for ( var i = 0; i < points.length; i++ ) {
+        for (var i = 0; i < mPoints.length; i++ ) {
 
-            points[i] = players[i].getFinalScore();
+            mPoints[i] = mPlayers[i].getFinalScore();
         }
-        isFinished = true;
-        gameValue = declarer.getFinalScore();
+        mIsFinished = true;
+        mGameValue = mDeclarer.getFinalScore();
     }
 
+    /**
+     * sets up all infos if game has been abortet
+     * @param isAborted true if aborted, false if not
+     */
     public void setAborted(boolean isAborted) {
 
-        this.isAborted = isAborted;
+        this.mIsAborted = isAborted;
+    }
+
+    /**
+     * @return true, if declarer did win, false if not
+     */
+    public boolean declarerDidWin() {
+
+        return mDeclarer.getFinalScore() > 60;
     }
 }

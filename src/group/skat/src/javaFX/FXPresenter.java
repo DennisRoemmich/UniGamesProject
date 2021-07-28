@@ -10,10 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-
+/**
+ * handles all the updates while playing the game
+ */
 public class FXPresenter {
 
-    private static FXController fxController;
+    private static FXController mFxController;
 
     private static Image viewNewGame = new Image("images/Views/ViewNewGame.png");
     private static Image viewResult = new Image("images/Views/ResultView.png");
@@ -50,49 +52,51 @@ public class FXPresenter {
     private static Image[] diamondsButton = new Image[]{ new Image ("images/Buttons/ButtonGameColor5.png"), new Image ("images/Buttons/ButtonGameColor5Highlighted.png") };
 
 
+    private FXPresenter() {}
 
+    public static void setFxController(FXController fxController) {
 
-    public static void setFxController(FXController fxController){
-
-        FXPresenter.fxController = fxController;
-
+        FXPresenter.mFxController = fxController;
 
     }
 
-    public static void update(){
+    /**
+     * actual update method, the only one used from outside this class
+     */
+    public static void update() {
 
         hideAll();
 
 
-        if (!fxController.hasMove()) {
+        if (!mFxController.hasMove()) {
 
             declareGameTypeView("Not your move", "Wait for you opponents.");
-            fxController.LabelAuctionValue.setVisible(true);
+            mFxController.LabelAuctionValue.setVisible(true);
 
             return;
 
         }
 
-        var state = fxController.getState();
+        var state = mFxController.getState();
 
         switch (state) {
 
-            case NOT_STARTED -> {
+            case NOT_STARTED:
 
-                fxController.ImageViewBackground.setImage(backGroundBlank);
+                mFxController.ImageViewBackground.setImage(backGroundBlank);
                 newGameView(true);
-            }
+                break;
 
-            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
+            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING:
 
                 updateHandShelfs();
                 playerViews(true);
                 gameInfo(true);
 
-                fxController.ImageViewBackground.setImage(backGroundShelfs);
+                mFxController.ImageViewBackground.setImage(backGroundShelfs);
 
-                String message = "";
-                var controller = fxController.getController();
+                var message = "";
+                var controller = mFxController.getController();
                 var auction = controller.getGame().getAuction();
 
                 if (state == GUIState.AUCTION_ASKING) {
@@ -109,14 +113,14 @@ public class FXPresenter {
                         message = "Raise against " + name + "?";
                     }
 
-                    fxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
+                    mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
 
                 } else if (state == GUIState.AUCTION_HEARING) {
 
                     var auctionValue = auction.getAuctionValue();
                     var name = controller.getSkatSet().getPlayingPlayerName(auction.getQuestioner().getGameIndex());
                     message = name + " raised. Call?";
-                    fxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
+                    mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
 
                 } else {
 
@@ -128,33 +132,32 @@ public class FXPresenter {
 
 
                 declareGameTypeView("Auction", message);
-                fxController.LabelAuctionValue.setVisible(true);
+                mFxController.LabelAuctionValue.setVisible(true);
                 buttonsAcceptCancel(); // call last
 
 
-            }
+                break;
 
 
-            case WAIT_FOR_DECLARER -> {
+            case WAIT_FOR_DECLARER:
 
-                // TODO: egtl ja nich oder? nur wenn der declarer was macht das updaten
                 playerViews(true);
                 gameInfo(true);
                 updateHandShelfs();
-                fxController.getFxSkat().update();
-            }
+                mFxController.getFxSkat().update();
+                break;
 
-            case DECLARE_SKAT -> {
+            case DECLARE_SKAT:
 
                 skatView(true);
                 playerViews(true);
                 gameInfo(true);
                 updateHandShelfs();
-                fxController.getFxSkat().update();
+                mFxController.getFxSkat().update();
                 buttonsAcceptSkat();// call last
-            }
+                break;
 
-            case DECLARE_TRUMPTYPE -> {
+            case DECLARE_TRUMPTYPE:
 
                 declareGameTypeView("Game Type", """
                 Declare Game Type.
@@ -163,11 +166,11 @@ public class FXPresenter {
                 updateHandShelfs();
                 playerViews(true);
                 gameInfo(true);
-                fxController.setKeyPositionSkat(false);
+                mFxController.setKeyPositionSkat(false);
                 buttonsChooseMode(); // call last
-            }
+                break;
 
-            case DECLARE_TRUMPCOLOR -> {
+            case DECLARE_TRUMPCOLOR:
 
                 playerViews(true);
                 gameInfo(true);
@@ -176,86 +179,85 @@ public class FXPresenter {
                         """);
                 updateHandShelfs();
                 buttonsChooseColor(); // call last
-            }
+                break;
 
-            case PLAYING_YOUR_MOVE -> {
+            case PLAYING_YOUR_MOVE:
 
-                fxController.setKeyPositionSkat(false);
-                fxController.getFxCurrentTrick().update();
-
-                gameInfo(true);
-                playerViews(true);
-                markerView(true);
-                trickView(true);
-                updateHandShelfs();
-            }
-
-            case PLAYING_NOT_YOUR_MOVE -> {
+                mFxController.setKeyPositionSkat(false);
+                mFxController.getFxCurrentTrick().update();
 
                 gameInfo(true);
                 playerViews(true);
                 markerView(true);
-                trickView(true);
+                trickView();
                 updateHandShelfs();
-            }
+                break;
 
-            case GAME_ABORTED -> {
+            case PLAYING_NOT_YOUR_MOVE:
 
-            //    Print.debug("maik", "game aborted");
+                gameInfo(true);
+                playerViews(true);
+                markerView(true);
+                trickView();
+                updateHandShelfs();
+                break;
 
-                // TODO: show resultView? new game button anzeigen
-            //    abortView(true);
+            case GAME_ABORTED:
 
                 newGameView(true);
+                break;
 
-            }
-
-            case GAME_FINISHED -> {
+            case GAME_FINISHED:
 
                 resultView(true);
-                // TODO: new game button nicht vergessen
-            }
+                break;
 
-            case SET_FINISHED -> {
-
-            }
+            default: break;
         }
 
     }
 
 
-    private static void declareGameTypeView(String title, String text){
+    private static void declareGameTypeView(String title, String text) {
 
 
-        fxController.LabelAuctionViewTitle.setText(title);
-        fxController.LabelAuctionViewText.setText(text);
+        mFxController.LabelAuctionViewTitle.setText(title);
+        mFxController.LabelAuctionViewText.setText(text);
         auctionView(true);
-        fxController.LabelAuctionValue.setVisible(false);
+        mFxController.LabelAuctionValue.setVisible(false);
 
     }
 
-    private static void auctionView(boolean visible){
+    /**
+     * view for auction
+     * @param visible boolean whether view is shown or not
+     */
+    private static void auctionView(boolean visible) {
 
-        fxController.AnchorAuctionDialog.setVisible(visible);
-        fxController.LabelAuctionValue.setVisible(visible);
+        mFxController.AnchorAuctionDialog.setVisible(visible);
+        mFxController.LabelAuctionValue.setVisible(visible);
 
     }
 
-    public static void markerView(boolean visible){
+    /**
+     * view for trump view
+     * @param visible boolean whether view is shown or not
+     */
+    public static void markerView(boolean visible) {
 
 
-        var game = fxController.getController().getGame();
-        var anchor = fxController.AnchorMarker;
+        var game = mFxController.getController().getGame();
+        var anchor = mFxController.AnchorMarker;
         var trick = game.getCurrentTrick();
         var color = trick.getColor();
         var gameTrump = game.getTrump();
 
-        var imgView = (ImageView) fxController.AnchorMarker.getChildren().get(0);
-        var imgTrumpView = (ImageView) fxController.AnchorMarker.getChildren().get(1);
+        var imgView = (ImageView) mFxController.AnchorMarker.getChildren().get(0);
+        var imgTrumpView = (ImageView) mFxController.AnchorMarker.getChildren().get(1);
 
-        if (color != null && trick.getCardAt(0).getCardValue() != CardValue.JACK){
+        if (color != null && trick.getCardAt(0).getCardValue() != CardValue.JACK) {
 
-            imgView.setImage( switch (color){
+            imgView.setImage( switch (color) {
 
                 case CLUBS -> markerClubs;
                 case SPADES -> markerSpades;
@@ -275,7 +277,7 @@ public class FXPresenter {
 
             if (gameTrump.getGameMode() == GameMode.SUIT && trick.getSize() > 0 ) {
 
-                imgView.setImage( switch (gameTrump.getColor()){
+                imgView.setImage( switch (gameTrump.getColor()) {
 
                     case CLUBS -> markerClubs;
                     case SPADES -> markerSpades;
@@ -304,28 +306,34 @@ public class FXPresenter {
 
     }
 
-    private static void hideAll(){
+    /**
+     * hides everything
+     */
+    private static void hideAll() {
 
         resultView(false);
         newGameView(false);
         skatView(false);
         auctionView(false);
-        trickView(false);
+        trickView();
         playerViews(false);
         buttonSort(false);
 
         paButtonsHide();
 
 
-        fxController.anchorButtonsPlayActions.setVisible(false);
-        fxController.AnchorGameMessage.setVisible(false); // this will probably collide with fade out -> delete later
+        mFxController.anchorButtonsPlayActions.setVisible(false);
+        mFxController.AnchorGameMessage.setVisible(false); // this will probably collide with fade out -> delete later
 
 
     }
 
-    private static void paButtonsHide(){
+    /**
+     * hides buttons
+     */
+    private static void paButtonsHide() {
 
-        var buttonDict = fxController.buttonDict;
+        var buttonDict = mFxController.mButtonDict;
 
         buttonDict.get("PA1").hide();
         buttonDict.get("PA2").hide();
@@ -336,30 +344,34 @@ public class FXPresenter {
     }
 
 
-    private static void gameInfo(boolean visible){
+    /**
+     * view for info for current game
+     * @param visible boolean whether view is shown or not
+     */
+    private static void gameInfo(boolean visible) {
 
-        if (!visible){
+        if (!visible) {
 
-            fxController.anchorGameInfoView.setVisible(false);
+            mFxController.anchorGameInfoView.setVisible(false);
             return;
 
         }
 
-        fxController.anchorGameInfoView.setVisible(true);
+        mFxController.anchorGameInfoView.setVisible(true);
 
-        var game = fxController.getController().getGame();
+        var game = mFxController.getController().getGame();
         var trump = game.getTrump();
 
-        if ( trump != null  && trump.getGameMode() != null ){
+        if ( trump != null  && trump.getGameMode() != null ) {
 
-            fxController.LabelGameInfoMode.setText(trump.getGameMode().toString().toUpperCase());
-            fxController.LabelGameInfoMode.setVisible(true);
+            mFxController.LabelGameInfoMode.setText(trump.getGameMode().toString().toUpperCase());
+            mFxController.LabelGameInfoMode.setVisible(true);
 
-            var IV = fxController.IVGameInfoColor;
+            var IV = mFxController.IVGameInfoColor;
 
-            if (trump.getGameMode() == GameMode.SUIT){
+            if (trump.getGameMode() == GameMode.SUIT) {
 
-                IV.setImage( switch (trump.getColor()){
+                IV.setImage( switch (trump.getColor()) {
 
                   case CLUBS -> club;
                   case SPADES -> spade;
@@ -379,41 +391,44 @@ public class FXPresenter {
 
         } else {
 
-            fxController.IVGameInfoColor.setVisible(false);
-            fxController.LabelGameInfoMode.setVisible(false);
+            mFxController.IVGameInfoColor.setVisible(false);
+            mFxController.LabelGameInfoMode.setVisible(false);
 
         }
 
-        var set = fxController.getController().getSkatSet();
+        var set = mFxController.getController().getSkatSet();
 
         var gameAmount = Integer.toString(set.getGameAmount());
 
-        if (gameAmount.equals("-1")){
+        if (gameAmount.equals("-1")) {
             gameAmount = "∞";
         }
 
-        fxController.LabelGameInfoRound.setText("Game\n" + Integer.toString(set.currentGameNo()+1) + " / " + gameAmount);
+        mFxController.LabelGameInfoRound.setText("Game\n" + Integer.toString(set.currentGameNo()+1) + " / " + gameAmount);
 
 
     }
 
+    /**
+     * view for infos about players
+     * @param visible boolean whether view is shown or not
+     */
+    private static void playerViews(boolean visible) {
 
-    private static void playerViews(boolean visible){
+        var anchorPlayerView = new AnchorPane[]{mFxController.AnchorPlayerView1, mFxController.AnchorPlayerView2, mFxController.AnchorPlayerView3};
+        var anchorPlayerIcon = new AnchorPane[]{mFxController.AnchorPlayerIcon1, mFxController.AnchorPlayerIcon2, mFxController.AnchorPlayerIcon3};
+        var anchorPlayerInfo = new AnchorPane[]{mFxController.AnchorPlayerInfo1, mFxController.AnchorPlayerInfo2, mFxController.AnchorPlayerInfo3};
+        var labelPlayerName = new Label[]{mFxController.LabelPlayerName1, mFxController.LabelPlayerName2, mFxController.LabelPlayerName3};
+        var labelPlayerScore = new Label[]{mFxController.LabelPlayerPoints1, mFxController.LabelPlayerPoints2, mFxController.LabelPlayerPoints3};
 
-        var anchorPlayerView = new AnchorPane[]{fxController.AnchorPlayerView1, fxController.AnchorPlayerView2, fxController.AnchorPlayerView3};
-        var anchorPlayerIcon = new AnchorPane[]{fxController.AnchorPlayerIcon1, fxController.AnchorPlayerIcon2, fxController.AnchorPlayerIcon3};
-        var anchorPlayerInfo = new AnchorPane[]{fxController.AnchorPlayerInfo1, fxController.AnchorPlayerInfo2, fxController.AnchorPlayerInfo3};
-        var labelPlayerName = new Label[]{fxController.LabelPlayerName1, fxController.LabelPlayerName2, fxController.LabelPlayerName3};
-        var labelPlayerScore = new Label[]{fxController.LabelPlayerPoints1, fxController.LabelPlayerPoints2, fxController.LabelPlayerPoints3};
-
-        var set = fxController.getController().getSkatSet();
+        var set = mFxController.getController().getSkatSet();
 
         for (var i = 0; i < 3; i++) {
 
             anchorPlayerView[i].setVisible(visible);
             if (!visible) { continue; }
 
-            var index = fxController.getPlayerGameIndex();
+            var index = mFxController.getPlayerGameIndex();
             index = (i + index)  % 3;
 
             var skatSetPlayer = set.getSkatSetPlayerAt(index);
@@ -445,12 +460,12 @@ public class FXPresenter {
     }
 
 
-    private static void buttonsAcceptSkat(){
+    private static void buttonsAcceptSkat() {
 
-        var buttonDict = fxController.buttonDict;
+        var buttonDict = mFxController.mButtonDict;
 
         paButtonsHide();
-        fxController.anchorButtonsPlayActions.setVisible(true);
+        mFxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA3").setImages(acceptButton3);
         buttonDict.get("PA3").show();
@@ -458,12 +473,12 @@ public class FXPresenter {
 
     }
 
-    private static void buttonsAcceptCancel(){
+    private static void buttonsAcceptCancel() {
 
-        var buttonDict = fxController.buttonDict;
+        var buttonDict = mFxController.mButtonDict;
 
         paButtonsHide();
-        fxController.anchorButtonsPlayActions.setVisible(true);
+        mFxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA2").setImages(acceptButton2);
         buttonDict.get("PA2").show();
@@ -475,12 +490,12 @@ public class FXPresenter {
 
     }
 
-    private static void buttonsChooseMode(){
+    private static void buttonsChooseMode() {
 
-        var buttonDict = fxController.buttonDict;
+        var buttonDict = mFxController.mButtonDict;
 
         paButtonsHide();
-        fxController.anchorButtonsPlayActions.setVisible(true);
+        mFxController.anchorButtonsPlayActions.setVisible(true);
 
 
         buttonDict.get("PA2").setImages(suitButton);
@@ -498,7 +513,7 @@ public class FXPresenter {
 
     private static void buttonSort(boolean visible) {
 
-        var buttonDict = fxController.buttonDict;
+        var buttonDict = mFxController.mButtonDict;
 
         if (visible) {
 
@@ -510,10 +525,10 @@ public class FXPresenter {
         }
     }
 
-    private static void buttonsChooseColor(){
-        var buttonDict = fxController.buttonDict;
+    private static void buttonsChooseColor() {
+        var buttonDict = mFxController.mButtonDict;
 
-        fxController.anchorButtonsPlayActions.setVisible(true);
+        mFxController.anchorButtonsPlayActions.setVisible(true);
 
         buttonDict.get("PA1").setImages(clubsButton);
         buttonDict.get("PA1").show();
@@ -532,34 +547,34 @@ public class FXPresenter {
 
     }
 
-    private static void trickView(boolean visible){
+    private static void trickView() {
 
-        fxController.AnchorTrickOne.setVisible(true);
-        fxController.AnchorTrickTwo.setVisible(true);
-        fxController.AnchorTrickThree.setVisible(true);
+        mFxController.AnchorTrickOne.setVisible(true);
+        mFxController.AnchorTrickTwo.setVisible(true);
+        mFxController.AnchorTrickThree.setVisible(true);
 
     }
 
 
-    private static void skatView(boolean visible){
+    private static void skatView(boolean visible) {
 
-        fxController.AnchorViewSkat.setVisible(visible);
+        mFxController.AnchorViewSkat.setVisible(visible);
         buttonsAcceptSkat();
 
     }
 
-    private static void newGameView(boolean visible){
+    private static void newGameView(boolean visible) {
 
-        var set = fxController.getController().getSkatSet();
+        var set = mFxController.getController().getSkatSet();
 
-        fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
+        mFxController.AnchorWelcomeResultNewGameView.setVisible(visible);
 
         var labelArray = new Label[]{
-            fxController.LabelResultNewGame1,
-            fxController.LabelResultNewGame2,
-            fxController.LabelResultNewGame3,
-            fxController.LabelResultNewGame4,
-            fxController.LabelResultNewGame5,
+            mFxController.LabelResultNewGame1,
+            mFxController.LabelResultNewGame2,
+            mFxController.LabelResultNewGame3,
+            mFxController.LabelResultNewGame4,
+            mFxController.LabelResultNewGame5,
         };
 
         if (visible) {
@@ -572,26 +587,26 @@ public class FXPresenter {
                 gameAm = "∞";
             }
 
-            fxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
+            mFxController.LabelGameNo.setText(curGameNo + "       " + gameAm);
         }
 
-        fxController.LabelGameNo.setVisible(visible);
+        mFxController.LabelGameNo.setVisible(visible);
 
         if (visible) {
 
-            fxController.buttonDict.get("PLAY").show();
+            mFxController.mButtonDict.get("PLAY").show();
 
         } else {
 
-            fxController.buttonDict.get("PLAY").hide();
+            mFxController.mButtonDict.get("PLAY").hide();
         }
 
 
-        fxController.ImageViewWRNBackground.setImage(viewNewGame);
+        mFxController.ImageViewWRNBackground.setImage(viewNewGame);
 
         var playerNo = set.getSkatSetPlayerAmount();
 
-        for(var i = 0; i < playerNo; i++){
+        for(var i = 0; i < playerNo; i++) {
 
             labelArray[4-i].setVisible(visible);
 
@@ -614,35 +629,46 @@ public class FXPresenter {
 
     }
 
-    private static void resultView(boolean visible){
+    private static void resultView(boolean visible) {
 
-        var set = fxController.getController().getSkatSet();
+        var set = mFxController.getController().getSkatSet();
 
-        fxController.AnchorWelcomeResultNewGameView.setVisible(visible);
-        fxController.LabelWinner.setVisible(visible);
+        mFxController.AnchorWelcomeResultNewGameView.setVisible(visible);
+        mFxController.LabelWinner.setVisible(visible);
 
         var labelArray = new Label[] {
-                fxController.LabelResultNewGame1,
-                fxController.LabelResultNewGame2,
-                fxController.LabelResultNewGame3,
+                mFxController.LabelResultNewGame1,
+                mFxController.LabelResultNewGame2,
+                mFxController.LabelResultNewGame3,
         };
 
 
         if (visible) {
 
-            fxController.buttonDict.get("NEXT").show();
+            mFxController.mButtonDict.get("NEXT").show();
 
-            fxController.LabelWinner.setText("Winner"); // TODO : @Maik Wie bekommt man hier den Gewinner?
+            var declarerIndex = mFxController.game().getDeclarer().getGameIndex();
+            var name = mFxController.getController().getSkatSet().getPlayingPlayerName(declarerIndex);
+
+            if (mFxController.game().getGameResult().declarerDidWin()) {
+
+                mFxController.LabelWinner.setText(name + "wins!");
+
+            } else {
+
+                mFxController.LabelWinner.setText(name + "loses!");
+            }
+
 
         } else {
 
-            fxController.buttonDict.get("NEXT").hide();
+            mFxController.mButtonDict.get("NEXT").hide();
         }
 
 
-        fxController.ImageViewWRNBackground.setImage(viewResult);
+        mFxController.ImageViewWRNBackground.setImage(viewResult);
 
-        for(var i = 0; i < 3; i++){
+        for(var i = 0; i < 3; i++) {
 
             labelArray[2-i].setVisible(visible);
 
@@ -656,15 +682,15 @@ public class FXPresenter {
                 var scoreString = Integer.toString(score);
                 scoreString = Print.times(5-scoreString.length(), " ") + scoreString;
 
-                String declarer = "  ";
-                int gameScore = 0;
+                var declarer = "  ";
+                var gameScore = 0;
 
-                if ( gamePlayer.isDeclarer() ){
+                if ( gamePlayer.isDeclarer() ) {
                     declarer = "D ";
                     gameScore = set.getCurrentGameResult().getGameValue();
                 }
 
-                var labelText = declarer + "P" + Integer.toString(i+1) + "  " + setPlayer.getName() + " " + Print.times(14 - setPlayer.getName().length(),".") + " " + Integer.toString(gameScore) + "P" + "  -> " + scoreString + "P";
+                var labelText = declarer + "P" + Integer.toString(i+1) + "  " + name + " " + Print.times(14 - name.length(),".") + " " + Integer.toString(gameScore) + "P" + "  -> " + scoreString + "P";
 
                 labelArray[2-i].setText(labelText);
 
@@ -672,33 +698,21 @@ public class FXPresenter {
 
         }
 
-    //    fxController.LabelResultNewGame1.setText("");
-
     }
 
-    private static void abortView(boolean visible) {
-
-
-    }
-
-    private static void updatePlayerInfo(){
-
-
-    }
-
-    public static void updateHandShelfs(){
+    public static void updateHandShelfs() {
 
         buttonSort(true);
 
-        for (FXHandShelf shelf : fxController.getFxHandShelfs()) {
+        for (FXHandShelf shelf : mFxController.getFxHandShelfs()) {
 
             shelf.update();
         }
 
-        if (fxController.getState() == GUIState.NOT_STARTED || fxController.getState() == GUIState.GAME_ABORTED
-                || fxController.getState() == GUIState.GAME_FINISHED || fxController.getState() == GUIState.SET_FINISHED) {
+        if (mFxController.getState() == GUIState.NOT_STARTED || mFxController.getState() == GUIState.GAME_ABORTED
+                || mFxController.getState() == GUIState.GAME_FINISHED || mFxController.getState() == GUIState.SET_FINISHED) {
 
-            for (AnchorPane pane : new AnchorPane[]{fxController.AnchorPlayerhandShelfLeft, fxController.AnchorPlayerhandShelfMid, fxController.AnchorPlayerhandShelfRight}) {
+            for (AnchorPane pane : new AnchorPane[]{mFxController.AnchorPlayerhandShelfLeft, mFxController.AnchorPlayerhandShelfMid, mFxController.AnchorPlayerhandShelfRight}) {
 
                 pane.setVisible(false);
             }

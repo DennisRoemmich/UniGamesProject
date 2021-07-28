@@ -22,8 +22,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -33,64 +33,34 @@ import org.json.simple.JSONObject;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * central class for GUI
+ */
 public class FXController implements Player, Initializable {
-
-    public Label LabelAuctionValue;
-    public AnchorPane AnchorMarker;
-
-    public AnchorPane AnchorPlayerView1;
-    public AnchorPane AnchorPlayerIcon1;
-    public AnchorPane AnchorPlayerInfo1;
-    public Label LabelPlayerName1;
-    public Label LabelPlayerPoints1;
-
-    public AnchorPane AnchorPlayerView2;
-    public AnchorPane AnchorPlayerIcon2;
-    public AnchorPane AnchorPlayerInfo2;
-    public Label LabelPlayerName2;
-    public Label LabelPlayerPoints2;
-
-    public AnchorPane AnchorPlayerView3;
-    public AnchorPane AnchorPlayerIcon3;
-    public AnchorPane AnchorPlayerInfo3;
-    public Label LabelPlayerName3;
-    public Label LabelPlayerPoints3;
-    public ImageView IVGameInfoColor;
-    public Label LabelGameInfoRound;
-    public Label LabelGameInfoMode;
-    public AnchorPane anchorGameInfoView;
-    public Label LabelWinner;
-
-    /** ↑ This is eviil, somebody put it down! */
 
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
 
-    private boolean suitGame = false;
-    private boolean keyPositionSkat = false;
-    private boolean nextClicked = false;
+    private boolean mSuitGame = false;
+    private boolean mKeyPositionSkat = false;
+    private boolean mNextClicked = false;
 
-    private SkatController controller;
-    private Scene scene;
-    private FXPresenter presenter;
+    private SkatController mController;
+    private Scene mScene;
 
-    HashMap<String, FXButton> buttonDict;
+    HashMap<String, FXButton> mButtonDict;
 
-    private FXHandShelf midHandShelf;
-    private FXHandShelf leftHandShelf;
-    private FXHandShelf rightHandShelf;
+    private FXHandShelf mMidHandShelf;
+    private FXHandShelf mLeftHandShelf;
+    private FXHandShelf mRightHandShelf;
 
-    private FXSkat fxSkat;
-    private FXCurrentTrick fxCurrentTrick;
+    private FXSkat mFxSkat;
+    private FXCurrentTrick mFxCurrentTrick;
 
    /* INITIALIZE */
 
     /** This is called after initialize and after the initialization of the controller object*/
-    private void init(){
-
-
-
-        // URL resource = getClass().getResource("/path/to/image.jpg");
+    private void init() {
 
 
         var classLoader = FXController.class.getClassLoader();
@@ -102,78 +72,75 @@ public class FXController implements Player, Initializable {
 
         }
 
-        var bgImage = new Image("images/Views/ViewBackgroundBlank.png");
+    //    var bgImage = new Image("images/Views/ViewBackgroundBlank.png");
 
         FXPresenter.setFxController(this);
         FXButton.setFXController(this);
 
-        bindings();
         createButtons();
 
         FXPresenter.update();
     }
 
-    private void initGameStart(){
+    private void initGameStart() {
 
         initHandShelfs();
-        fxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
-        fxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
+        mFxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
+        mFxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
     }
 
     private void initHandShelfs() {
 
-        leftHandShelf = new FXHandShelf(AnchorPlayerhandShelfLeft, this, FXHandShelfPosition.LEFT_PLAYER);
-        midHandShelf = new FXHandShelf(AnchorPlayerhandShelfMid, this, FXHandShelfPosition.MID_PLAYER);
-        rightHandShelf = new FXHandShelf(AnchorPlayerhandShelfRight, this, FXHandShelfPosition.RIGHT_PLAYER);
+        mLeftHandShelf = new FXHandShelf(AnchorPlayerhandShelfLeft, this, FXHandShelfPosition.LEFT_PLAYER);
+        mMidHandShelf = new FXHandShelf(AnchorPlayerhandShelfMid, this, FXHandShelfPosition.MID_PLAYER);
+        mRightHandShelf = new FXHandShelf(AnchorPlayerhandShelfRight, this, FXHandShelfPosition.RIGHT_PLAYER);
     }
 
-    public void createButtons(){
+    public void createButtons() {
 
         // work with dictionary of buttons
 
-        buttonDict = new HashMap<String, FXButton>();
+        mButtonDict = new HashMap<String, FXButton>();
 
         String identifier;
 
         identifier = "SORT";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("images/Buttons/ButtonSort.png"), new Image("images/Buttons/ButtonSortHighlighted.png"), false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonSort, new Image("images/Buttons/ButtonSort.png"), new Image("images/Buttons/ButtonSortHighlighted.png"), false));
 
-        Image placeholder = new Image("images/Buttons/ButtonGameColor1.png");
+        var placeholder = new Image("images/Buttons/ButtonGameColor1.png");
 
         identifier = "PA1";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, placeholder, false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonPA1, placeholder, placeholder, false));
 
         identifier = "PA2";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA2, placeholder, placeholder, false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonPA2, placeholder, placeholder, false));
 
         identifier = "PA3";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA3, placeholder, placeholder, false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonPA3, placeholder, placeholder, false));
 
         identifier = "PA4";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA4, placeholder, placeholder, false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonPA4, placeholder, placeholder, false));
 
         identifier = "PA5";
-        buttonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, placeholder, false));
+        mButtonDict.put(identifier, new FXButton(identifier, AnchorButtonPA5, placeholder, placeholder, false));
 
         identifier = "PLAY";
-        buttonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("images/Buttons/ButtonPlay.png"), new Image("images/Buttons/ButtonPlayHighlighted.png")));
+        mButtonDict.put(identifier, new FXButton(identifier, IVButtonPlay, new Image("images/Buttons/ButtonPlay.png"), new Image("images/Buttons/ButtonPlayHighlighted.png")));
 
         identifier = "NEXT";
-        buttonDict.put(identifier, new FXButton(identifier, IVButtonNext, new Image("images/Buttons/ButtonNext.png"), new Image("images/Buttons/ButtonNextHighlighted.png")));
+        mButtonDict.put(identifier, new FXButton(identifier, IVButtonNext, new Image("images/Buttons/ButtonNext.png"), new Image("images/Buttons/ButtonNextHighlighted.png")));
 
     }
 
-    private SkatGame game(){
+    public SkatGame game() {
 
-       return controller.getGame();
+       return mController.getGame();
     }
 
-    private GUIState guiState(){ // zu Klasse machen?
-
-        return GUIState.NOT_STARTED;
-    }
-
-    public GUIState getState(){
+    /**
+     * @return state of GUI
+     */
+    public GUIState getState() {
 
         if (game() == null) {
 
@@ -189,38 +156,12 @@ public class FXController implements Player, Initializable {
 
             case AUCTION -> {
 
-                if (game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
-
-                    return GUIState.AUCTION_ASKING;
-                }
-                if (game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
-
-                    return GUIState.AUCTION_HEARING;
-                }
-
-                return GUIState.AUCTION_WATCHING;
+                return getStateHelp(GamePhase.AUCTION);
             }
 
             case DECLARING -> {
 
-                if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()) {
-
-                    if (!game().skatIsDropped()) {
-
-                        return GUIState.DECLARE_SKAT;
-
-                    } else {
-
-                        if (suitGame) {
-
-                            return GUIState.DECLARE_TRUMPCOLOR;
-
-                        } else {
-
-                            return GUIState.DECLARE_TRUMPTYPE;
-                        }
-                    }
-                }
+                return getStateHelp(GamePhase.DECLARING);
             }
 
             case PLAYING -> {
@@ -238,7 +179,7 @@ public class FXController implements Player, Initializable {
 
             case ENDED -> {
 
-                if(nextClicked){
+                if (mNextClicked) {
 
                     return GUIState.NOT_STARTED;
 
@@ -247,10 +188,6 @@ public class FXController implements Player, Initializable {
                     return GUIState.GAME_FINISHED;
 
                 }
-
-
-
-                // TODO : hier weitermachen; if set ended -> GUIState.SetFinished
 
             }
 
@@ -263,8 +200,45 @@ public class FXController implements Player, Initializable {
         return GUIState.GAME_FINISHED;
     }
 
+    private GUIState getStateHelp(GamePhase phase) {
 
-    public int getPlayerGameIndex(){
+        if (phase == GamePhase.AUCTION) {
+
+            if (game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
+
+                return GUIState.AUCTION_ASKING;
+            }
+            if (game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+
+                return GUIState.AUCTION_HEARING;
+            }
+
+        } else {
+
+            if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()) {
+
+                if (!game().skatIsDropped()) {
+
+                    return GUIState.DECLARE_SKAT;
+
+                } else if (mSuitGame) {
+
+                    return GUIState.DECLARE_TRUMPCOLOR;
+
+                } else {
+
+                    return GUIState.DECLARE_TRUMPTYPE;
+
+                }
+            }
+        }
+        return GUIState.AUCTION_WATCHING;
+    }
+
+    /**
+     * @return index of currentplayer
+     */
+    public int getPlayerGameIndex() {
 
         if (game() == null) {
 
@@ -283,40 +257,32 @@ public class FXController implements Player, Initializable {
 
     public FXHandShelf[] getFxHandShelfs() {
 
-        return new FXHandShelf[]{leftHandShelf, midHandShelf, rightHandShelf};
+        return new FXHandShelf[]{mLeftHandShelf, mMidHandShelf, mRightHandShelf};
     }
 
     public FXSkat getFxSkat() {
 
-        return fxSkat;
+        return mFxSkat;
     }
 
     public FXCurrentTrick getFxCurrentTrick() {
 
-        return fxCurrentTrick;
+        return mFxCurrentTrick;
     }
-
-    /* LAYOUT */
-
-    private void bindings(){
-
-
-    }
-
 
     /* SETTER */
 
     public void setController(GameController controller) {
 
 
-        this.controller = (SkatController) controller;
+        this.mController = (SkatController) controller;
         init();
 
     }
 
     public void setScene(Scene scene) {
 
-        this.scene = scene;
+        this.mScene = scene;
 
         scene.setOnKeyPressed(this::keyboardPressed);
         scene.setOnKeyReleased(this::keyboardReleased);
@@ -324,15 +290,17 @@ public class FXController implements Player, Initializable {
 
     public void setKeyPositionSkat(boolean b) {
 
-        keyPositionSkat = b;
+        mKeyPositionSkat = b;
     }
 
     /* GETTER */
 
-    // TODO: @andi NOT FINISHED!!!
+    /**
+     * @return current player
+     */
     public SkatPlayer getPlayer() {
 
-        var curGame = controller.getGame();
+        var curGame = mController.getGame();
 
         if (curGame == null) {
 
@@ -344,19 +312,20 @@ public class FXController implements Player, Initializable {
 
     public SkatController getController() {
 
-        return controller;
+        return mController;
     }
 
     /* GETTER */
 
     /**  Use this Function to set the (Game)Index of the player who is playing in the FXClass if hotseat is NOT played */
-    public void setPlayerGameIndex(int playerGameIndex){
+    public void setPlayerGameIndex(int playerGameIndex) {
 
         this.playerGameIndex = playerGameIndex;
 
     }
 
-    public boolean hasMove(){
+    public boolean hasMove() {
+
         return hasMove;
     }
 
@@ -381,7 +350,7 @@ public class FXController implements Player, Initializable {
     /* HELPER */
 
 
-    Text newText(String label, int size){
+    Text newText(String label, int size) {
 
         var text = new Text();
         text.setText(label);
@@ -393,13 +362,19 @@ public class FXController implements Player, Initializable {
 
     /* SKATMOVES */
 
+    /**
+     * executes move
+     * @param move move
+     * @return true if move was executed, false if not
+     */
     public boolean makeMove(GameMove move) {
 
         if (move == null) {
+
             return false;
         }
 
-        return controller.makeMove(move);
+        return mController.makeMove(move);
     }
 
     /* EVENT ABSTRACTIONS */
@@ -409,78 +384,86 @@ public class FXController implements Player, Initializable {
 
 
     /** This should be an FXButton */
-    public void showHidedebugView(MouseEvent mouseEvent) {
+    public void showHidedebugView() {
 
-       if( anchor_DebugView.isVisible() ){
+       if ( anchor_DebugView.isVisible() ) {
            anchor_DebugView.setVisible(false);
            label_ShowHideDebugView.setText("⌗");
        } else {
            anchor_DebugView.setVisible(true);
            var text = new StringBuilder();
            text.append("ROOT :      height: ").append(String.format("%.0f", anchor_root.getHeight())).append("     width: ").append(String.format("%.0f", anchor_root.getWidth())).append("\n");
-           text.append("WINDOW :    height: ").append(String.format("%.0f", scene.getHeight())).append("     width: ").append(String.format("%.0f", scene.getWidth()));
+           text.append("WINDOW :    height: ").append(String.format("%.0f", mScene.getHeight())).append("     width: ").append(String.format("%.0f", mScene.getWidth()));
            label_WindowSize.setText(text.toString());
            label_ShowHideDebugView.setText("⤫");
        }
 
     }
 
-    public void buttonClicked(String identifier){
+    /**
+     * handels button-click-events
+     * @param identifier button
+     */
+    public void buttonClicked(String identifier) {
 
-        switch (identifier){
+        switch (identifier) {
 
-            case "SORT" -> {
+            case "SORT":
 
                 if (makeMove(new SkatMove(ActionType.SORT))) {
 
-                    midHandShelf.deselectAll();
-                    midHandShelf.setSelectedCardIndex(-1);
+                    mMidHandShelf.deselectAll();
+                    mMidHandShelf.setSelectedCardIndex(-1);
 
                     FXPresenter.updateHandShelfs();
-                    fxSkat.update();
+                    mFxSkat.update();
                 }
-            }
+                break;
 
-            case "PA1", "PA2", "PA3", "PA4", "PA5" -> {
+            case "PA1", "PA2", "PA3", "PA4", "PA5":
 
-                PAButtonClicked(identifier);
+                pAButtonClicked(identifier);
 
-            }
+                break;
 
-            case "PLAY" -> {
+            case "PLAY":
 
-                if (makeMove(new SkatMove(ActionType.NEW_GAME))){
+                if (makeMove(new SkatMove(ActionType.NEW_GAME))) {
 
                     initGameStart();
                     FXPresenter.update();
                 }
 
-                nextClicked = false;
+                mNextClicked = false;
 
-            }
+                break;
 
-            case "NEXT" -> {
+            case "NEXT":
 
-                nextClicked = true;
+                mNextClicked = true;
 
-            }
+                break;
 
-            default -> {
+            default:
 
                 Print.debug("WARNING", "(FXController.buttonClicked) There is no handling for Button " + identifier);
 
-            }
+                break;
 
         }
 
         FXPresenter.update();
     }
 
-    private void PAButtonClicked(String identifier){
+    /**
+     * helps to handle button-click-events
+     * @param identifier button
+     */
+    private void pAButtonClicked(String identifier) {
 
-        switch (getState()){
+        switch (getState()) {
 
-            case AUCTION_ASKING, AUCTION_HEARING -> {
+            case AUCTION_ASKING, AUCTION_HEARING:
 
                 if (identifier.equals("PA2")) {
 
@@ -492,22 +475,22 @@ public class FXController implements Player, Initializable {
                     makeMove(new SkatMove(ActionType.PASS));
                 }
 
-            }
+                break;
 
-            case DECLARE_SKAT -> {
+            case DECLARE_SKAT:
 
                 if (identifier.equals("PA3")) {
 
                     makeMove(new SkatMove(ActionType.DROP_SKAT));
                 }
 
-            }
+                break;
 
-            case DECLARE_TRUMPTYPE -> {
+            case DECLARE_TRUMPTYPE:
 
                 if (identifier.equals("PA2")) {
 
-                    suitGame = true;
+                    mSuitGame = true;
                 }
 
                 if (identifier.equals("PA3")) {
@@ -520,9 +503,9 @@ public class FXController implements Player, Initializable {
                     makeMove(new SkatMove(new Trump(GameMode.NULL)));
                 }
 
-            }
+                break;
 
-            case DECLARE_TRUMPCOLOR -> {
+            case DECLARE_TRUMPCOLOR:
 
                 makeMove( switch ( identifier ) {
 
@@ -538,23 +521,27 @@ public class FXController implements Player, Initializable {
 
                 });
 
-            }
+            break;
 
+            default: break;
         }
 
 
     }
 
-
-
+    /**
+     * handles fxCard-click-events
+     * @param pos position of clicked fxCard
+     * @param index index of clicked card
+     */
     public void fxCardClicked(FXCardPosition pos, int index) {
 
-        var gamePhase = controller.getGame().getGamePhase();
+        var gamePhase = mController.getGame().getGamePhase();
 
-        var skatSelectedIndex = fxSkat.getSelectedCardIndex();
-        var shelfSelectedCardIndex = midHandShelf.getSelectedCardIndex();
+        var skatSelectedIndex = mFxSkat.getSelectedCardIndex();
+        var shelfSelectedCardIndex = mMidHandShelf.getSelectedCardIndex();
 
-        if (pos == FXCardPosition.HANDSHELF_MID && index != -1 && midHandShelf.getFXCardAt(index).getCard() == null) {
+        if (pos == FXCardPosition.HANDSHELF_MID && index != -1 && mMidHandShelf.getFXCardAt(index).getCard() == null) {
 
             return;
         }
@@ -567,16 +554,20 @@ public class FXController implements Player, Initializable {
 
             possibleTrickMove(shelfSelectedCardIndex);
 
-        } else if (gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) {
+        } else if ((gamePhase == GamePhase.AUCTION || gamePhase == GamePhase.PLAYING) && pos == FXCardPosition.HANDSHELF_MID) {
 
-            if (pos == FXCardPosition.HANDSHELF_MID) {
-
-                midHandShelf.cardClickedAt(index);
-            }
+            mMidHandShelf.cardClickedAt(index);
         }
 
     }
 
+    /**
+     * helps handling move on hand with skat
+     * @param pos position of fxCard
+     * @param skatSelectedIndex index of card which is selected in skat
+     * @param shelfSelectedCardIndex index of card which is selected on hand
+     * @param index index of clicked card
+     */
     private void possibleSkatHandMove(FXCardPosition pos, int skatSelectedIndex, int shelfSelectedCardIndex, int index) {
 
         if (pos == FXCardPosition.HANDSHELF_MID) {
@@ -587,16 +578,16 @@ public class FXController implements Player, Initializable {
 
                 if (makeMove(move)) {
 
-                    fxSkat.getFXCardAt(skatSelectedIndex).setSelected(false);
-                    fxSkat.setSelectedCardIndex(-1);
+                    mFxSkat.getFXCardAt(skatSelectedIndex).setSelected(false);
+                    mFxSkat.setSelectedCardIndex(-1);
 
-                    midHandShelf.deselectAll();
-                    midHandShelf.setSelectedCardIndex(-1);
+                    mMidHandShelf.deselectAll();
+                    mMidHandShelf.setSelectedCardIndex(-1);
                 }
 
             } else {
 
-                midHandShelf.cardClickedAt(index);
+                mMidHandShelf.cardClickedAt(index);
 
             }
 
@@ -608,26 +599,30 @@ public class FXController implements Player, Initializable {
 
                 if (makeMove(move)) {
 
-                    fxSkat.getFXCardAt(index).setSelected(false);
-                    fxSkat.setSelectedCardIndex(-1);
+                    mFxSkat.getFXCardAt(index).setSelected(false);
+                    mFxSkat.setSelectedCardIndex(-1);
 
-                    midHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
-                    midHandShelf.setSelectedCardIndex(-1);
+                    mMidHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
+                    mMidHandShelf.setSelectedCardIndex(-1);
                 }
 
             } else {
 
-                fxSkat.cardClickedAt(index);
+                mFxSkat.cardClickedAt(index);
             }
         }
         FXPresenter.update();
     }
 
+    /**
+     * helps handling card-play onto trick
+     * @param shelfSelectedCardIndex index of card which is selected on hand
+     */
     private void possibleTrickMove(int shelfSelectedCardIndex) {
 
         if (shelfSelectedCardIndex != -1) {
 
-            for (Timeline tl : fxCurrentTrick.getTimelines()) {
+            for (Timeline tl : mFxCurrentTrick.getTimelines()) {
 
                 if (tl != null) {
 
@@ -639,15 +634,15 @@ public class FXController implements Player, Initializable {
 
             if (makeMove(move)) {
 
-                midHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
-                midHandShelf.setSelectedCardIndex(-1);
+                mMidHandShelf.getFXCardAt(shelfSelectedCardIndex).setSelected(false);
+                mMidHandShelf.setSelectedCardIndex(-1);
             }
         }
 
         if (getController().getGame().getGamePhase() == GamePhase.ENDED) {
 
             FXPresenter.updateHandShelfs();
-            fxCurrentTrick.update();
+            mFxCurrentTrick.update();
 
         } else {
 
@@ -656,11 +651,14 @@ public class FXController implements Player, Initializable {
     }
 
 
+    /**
+     * handles key events
+     * @param e key event
+     */
     public void keyboardPressed(KeyEvent e) {
 
         var key = e.getCode();
 
-    //    Print.debug("maik", "Key pressed: " + key);
 
         var guiState = getState();
         GamePhase gamePhase;
@@ -677,125 +675,133 @@ public class FXController implements Player, Initializable {
 
         switch (key) {
 
-            case LEFT -> keyLeftClicked();
-            case RIGHT -> keyRightClicked();
-            case UP -> keyUpClicked(guiState);
-            case DOWN -> keyDownClicked(guiState);
-            case SPACE -> keySpaceClicked();
-            case ENTER -> keyEnterClicked(gamePhase);
-            case BACK_SLASH -> keyHashTagClicked();
-            case S -> keySClicked(gamePhase);
-            default -> Print.debug("maik", "Not a valid keyEvent: " + key);
+            case LEFT: keyLeftClicked(); break;
+            case RIGHT: keyRightClicked(); break;
+            case UP: keyUpClicked(guiState); break;
+            case DOWN: keyDownClicked(guiState); break;
+            case SPACE: keySpaceClicked(); break;
+            case ENTER: keyEnterClicked(gamePhase); break;
+            case BACK_SLASH: keyHashTagClicked(); break;
+            case S: keySClicked(gamePhase); break;
+            default: break;
         }
     }
 
+    /**
+     * handles key release events
+     * @param e key event
+     */
     public void keyboardReleased(KeyEvent e) {
 
         var key = e.getCode();
 
-    //    Print.debug("maik", "Key released: " + key);
+        if (key == KeyCode.SPACE) {
 
-        switch (key) {
-
-            case SPACE -> keySpaceReleased();
-        //    default -> Print.debug("maik", "Not a valid keyEvent: " + key);
+            keySpaceReleased();
         }
     }
 
+    /**
+     * if left arrow is clicked
+     */
     private void keyLeftClicked() {
 
-        var size = getPlayer().getHand().getSize();
-        var skatSelIndex = fxSkat.getSelectedCardIndex();
-        var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+        var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
 
-        if (!keyPositionSkat) {
+        if (!mKeyPositionSkat) {
 
             if (midHandSelIndex == -1) {
 
-                midHandShelf.getFXCardAt(0).setSelected(true);
-                midHandShelf.setSelectedCardIndex(0);
+                mMidHandShelf.getFXCardAt(0).setSelected(true);
+                mMidHandShelf.setSelectedCardIndex(0);
 
             } else if (midHandSelIndex > 0) {
 
-                midHandShelf.deselectAll();
+                mMidHandShelf.deselectAll();
 
-                midHandShelf.getFXCardAt(midHandSelIndex - 1).setSelected(true);
-                midHandShelf.setSelectedCardIndex(midHandSelIndex - 1);
+                mMidHandShelf.getFXCardAt(midHandSelIndex - 1).setSelected(true);
+                mMidHandShelf.setSelectedCardIndex(midHandSelIndex - 1);
             }
 
         } else {
 
-            fxSkat.deselectAll();
+            mFxSkat.deselectAll();
 
-            fxSkat.getFXCardAt(0).setSelected(true);
-            fxSkat.setSelectedCardIndex(0);
+            mFxSkat.getFXCardAt(0).setSelected(true);
+            mFxSkat.setSelectedCardIndex(0);
         }
 
         FXPresenter.update();
     }
 
+    /**
+     * if right arrow is clicked
+     */
     private void keyRightClicked() {
 
         var gamePhase = getController().getGame().getGamePhase();
 
         var size = getPlayer().getHand().getSize();
-        var skatSelIndex = fxSkat.getSelectedCardIndex();
-        var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+        var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
 
         if (gamePhase == GamePhase.DECLARING) {
 
             size = 10;
         }
 
-        if (!keyPositionSkat) {
+        if (!mKeyPositionSkat) {
 
             if (midHandSelIndex == -1) {
 
-                midHandShelf.getFXCardAt(size - 1).setSelected(true);
-                midHandShelf.setSelectedCardIndex(size - 1);
+                mMidHandShelf.getFXCardAt(size - 1).setSelected(true);
+                mMidHandShelf.setSelectedCardIndex(size - 1);
 
             } else if (midHandSelIndex < size - 1) {
 
-                midHandShelf.deselectAll();
+                mMidHandShelf.deselectAll();
 
-                midHandShelf.getFXCardAt(midHandSelIndex + 1).setSelected(true);
-                midHandShelf.setSelectedCardIndex(midHandSelIndex + 1);
+                mMidHandShelf.getFXCardAt(midHandSelIndex + 1).setSelected(true);
+                mMidHandShelf.setSelectedCardIndex(midHandSelIndex + 1);
             }
 
         } else {
 
-            fxSkat.deselectAll();
+            mFxSkat.deselectAll();
 
-            fxSkat.getFXCardAt(1).setSelected(true);
-            fxSkat.setSelectedCardIndex(1);
+            mFxSkat.getFXCardAt(1).setSelected(true);
+            mFxSkat.setSelectedCardIndex(1);
         }
 
         FXPresenter.update();
     }
 
+    /**
+     * if up arrow is clicked
+     * @param phase phase, because consequence depends on phase
+     */
     private void keyUpClicked(GUIState phase) {
 
         if (phase == GUIState.DECLARE_SKAT) {
 
-            var skatSelIndex = fxSkat.getSelectedCardIndex();
-            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+            var skatSelIndex = mFxSkat.getSelectedCardIndex();
+            var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
 
-            keyPositionSkat = true;
+            mKeyPositionSkat = true;
 
             if (skatSelIndex != -1) {
 
-                fxSkat.deselectAll();
+                mFxSkat.deselectAll();
             }
 
             if (midHandSelIndex < 5) {
 
-                fxSkat.getFXCardAt(0).setSelected(true);
-                fxSkat.setSelectedCardIndex(0);
+                mFxSkat.getFXCardAt(0).setSelected(true);
+                mFxSkat.setSelectedCardIndex(0);
 
             } else {
 
-                fxSkat.getFXCardAt(1).setSelected(true);
-                fxSkat.setSelectedCardIndex(1);
+                mFxSkat.getFXCardAt(1).setSelected(true);
+                mFxSkat.setSelectedCardIndex(1);
             }
 
         }
@@ -803,29 +809,36 @@ public class FXController implements Player, Initializable {
         FXPresenter.update();
     }
 
+    /**
+     * if down arrow is clicked
+     * @param phase phase, because consequence depends on phase
+     */
     private void keyDownClicked(GUIState phase) {
 
         if (phase == GUIState.DECLARE_SKAT) {
 
-            var skatSelIndex = fxSkat.getSelectedCardIndex();
-            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
 
-            keyPositionSkat = false;
+            var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
+
+            mKeyPositionSkat = false;
 
             if (midHandSelIndex == -1) {
 
-                midHandShelf.getFXCardAt(0).setSelected(true);
-                midHandShelf.setSelectedCardIndex(0);
+                mMidHandShelf.getFXCardAt(0).setSelected(true);
+                mMidHandShelf.setSelectedCardIndex(0);
             }
         }
 
         FXPresenter.update();
     }
 
+    /**
+     * handles space click event
+     */
     private void keySpaceClicked() {
 
-        var selIndex = midHandShelf.getSelectedCardIndex();
-        var selCard = midHandShelf.getFXCardAt(selIndex).getCard();
+        var selIndex = mMidHandShelf.getSelectedCardIndex();
+        var selCard = mMidHandShelf.getFXCardAt(selIndex).getCard();
 
         if (selIndex != -1) {
 
@@ -842,6 +855,9 @@ public class FXController implements Player, Initializable {
         FXPresenter.update();
     }
 
+    /**
+     * handles space released event
+     */
     private void keySpaceReleased() {
 
         AnchorPreview.setVisible(false);
@@ -849,6 +865,10 @@ public class FXController implements Player, Initializable {
         FXPresenter.update();
     }
 
+    /**
+     * handles enter click event
+     * @param phase phase, bc consequence depends on phase
+     */
     private void keyEnterClicked(GamePhase phase) {
 
         if (phase == GamePhase.NOT_STARTED || phase == GamePhase.ENDED || phase == GamePhase.ABORTED) {
@@ -871,13 +891,16 @@ public class FXController implements Player, Initializable {
 
         } else if (phase == GamePhase.PLAYING) {
 
-            var selIndex = midHandShelf.getSelectedCardIndex();
+            var selIndex = mMidHandShelf.getSelectedCardIndex();
 
             fxCardClicked(FXCardPosition.TRICK, selIndex);
 
         }
     }
 
+    /**
+     * handles #-click event
+     */
     private void keyHashTagClicked() {
 
         var gamePhase = getController().getGame().getGamePhase();
@@ -888,8 +911,8 @@ public class FXController implements Player, Initializable {
 
         } else if (gamePhase == GamePhase.DECLARING) {
 
-            var skatSelIndex = fxSkat.getSelectedCardIndex();
-            var midHandSelIndex = midHandShelf.getSelectedCardIndex();
+            var skatSelIndex = mFxSkat.getSelectedCardIndex();
+            var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
 
             if (skatSelIndex != -1 && midHandSelIndex != -1) {
 
@@ -900,6 +923,10 @@ public class FXController implements Player, Initializable {
         FXPresenter.update();
     }
 
+    /**
+     * handles s-click event
+     * @param phase phase, bc consequence depends on phase
+     */
     private void keySClicked(GamePhase phase) {
 
         if (phase != GamePhase.NOT_STARTED) {
@@ -911,10 +938,10 @@ public class FXController implements Player, Initializable {
     }
 
 
-    public void addAsPlayer(int amount){
+    public void addAsPlayer(int amount) {
 
-        for (var i = 0; i < amount; i++){
-            controller.addPlayer(this);
+        for (var i = 0; i < amount; i++) {
+            mController.addPlayer(this);
         }
 
     }
@@ -967,29 +994,31 @@ public class FXController implements Player, Initializable {
     public ImageView CardForeground;
     public ImageView CardForeground1;
 
+    public Label LabelAuctionValue;
+    public AnchorPane AnchorMarker;
+
+    public AnchorPane AnchorPlayerView1;
+    public AnchorPane AnchorPlayerIcon1;
+    public AnchorPane AnchorPlayerInfo1;
+    public Label LabelPlayerName1;
+    public Label LabelPlayerPoints1;
+
+    public AnchorPane AnchorPlayerView2;
+    public AnchorPane AnchorPlayerIcon2;
+    public AnchorPane AnchorPlayerInfo2;
+    public Label LabelPlayerName2;
+    public Label LabelPlayerPoints2;
+
+    public AnchorPane AnchorPlayerView3;
+    public AnchorPane AnchorPlayerIcon3;
+    public AnchorPane AnchorPlayerInfo3;
+    public Label LabelPlayerName3;
+    public Label LabelPlayerPoints3;
+    public ImageView IVGameInfoColor;
+    public Label LabelGameInfoRound;
+    public Label LabelGameInfoMode;
+    public AnchorPane anchorGameInfoView;
+    public Label LabelWinner;
+
     public AnchorPane AnchorPreview = new AnchorPane();
-
-    public void AnchorButtonSortClicked(MouseEvent mouseEvent) {
-    }
-
-    public void AnchorButtonPA5Clicked(MouseEvent mouseEvent) {
-    }
-
-    public void AnchorButtonPA4Clicked(MouseEvent mouseEvent) {
-    }
-
-    public void AnchorButtonPA3Clicked(MouseEvent mouseEvent) {
-    }
-
-    public void AnchorButtonPA2Clicked(MouseEvent mouseEvent) {
-    }
-
-    public void AnchorButtonPA1Clicked(MouseEvent mouseEvent) {
-    }
-
-    public void thisIsTest(MouseEvent mouseEvent) {
-
-        Print.debug("WARNING", "This is it");
-
-    }
 }

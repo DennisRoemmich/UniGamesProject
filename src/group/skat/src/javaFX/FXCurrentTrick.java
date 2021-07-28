@@ -1,7 +1,5 @@
 package javaFX;
 
-import console.Print;
-import engine.Trick;
 import engine.enums.GamePhase;
 import javaFX.enums.FXCardPosition;
 import javafx.animation.Interpolator;
@@ -11,27 +9,35 @@ import javafx.animation.Timeline;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+/**
+ * class for current trick in middle of gUI
+ */
 public class FXCurrentTrick {
 
-    private FXController fxController;
+    private FXController mFxController;
 
-    private AnchorPane anchorCurrentTrick;
-    private FXCard[] trickFXCards;
+    private FXCard[] mTrickFXCards;
 
-    private Timeline timeline0;
-    private Timeline timeline1;
+    private Timeline mTimeline0;
+    private Timeline mTimeline1;
 
-    private boolean timelineShown;
+    private boolean mTimelineShown;
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor for current trick
+     * @param fxController fxcontroller
+     * @param one anchorpane of first card
+     * @param two anchorpane of second card
+     * @param three anchorpane of third card
+     */
     public FXCurrentTrick(FXController fxController, AnchorPane one, AnchorPane two, AnchorPane three) {
 
-        this.fxController = fxController;
+        this.mFxController = fxController;
 
-        anchorCurrentTrick = new AnchorPane();
 
-        timelineShown = false;
+        mTimelineShown = false;
 
         init(one, two, three);
         update();
@@ -39,26 +45,39 @@ public class FXCurrentTrick {
 
     /* GETTER */
 
+    /**
+     * needed to end animation immediately
+     * @return timelines
+     */
     public Timeline[] getTimelines() {
 
-        return new Timeline[]{timeline0, timeline1};
+        return new Timeline[]{mTimeline0, mTimeline1};
     }
 
     /* OTHER */
 
+    /**
+     * initialisation
+     * @param one first anchorpane
+     * @param two second anchorpane
+     * @param three third anchorpane
+     */
     private void init(AnchorPane one, AnchorPane two, AnchorPane three) {
 
-        trickFXCards = new FXCard[3];
+        mTrickFXCards = new FXCard[3];
 
-        trickFXCards[0] = new FXCard(one, FXCardPosition.TRICK, 0, fxController);
-        trickFXCards[1] = new FXCard(two, FXCardPosition.TRICK, 1, fxController);
-        trickFXCards[2] = new FXCard(three, FXCardPosition.TRICK, 2, fxController);
+        mTrickFXCards[0] = new FXCard(one, FXCardPosition.TRICK, 0, mFxController);
+        mTrickFXCards[1] = new FXCard(two, FXCardPosition.TRICK, 1, mFxController);
+        mTrickFXCards[2] = new FXCard(three, FXCardPosition.TRICK, 2, mFxController);
 
     }
 
+    /**
+     * updates the whole current trick
+     */
     public void update() {
 
-        var game = fxController.getController().getGame();
+        var game = mFxController.getController().getGame();
         var currentTrick = game.getCurrentTrick();
 
         if (currentTrick.getSize() == 0 && game.getCurrentRoundNo() > 0) {
@@ -68,64 +87,72 @@ public class FXCurrentTrick {
 
         for (var i = 0; i < 3; i++) {
 
-            if (!trickFXCards[i].isEqualTo(currentTrick.getCardAt(i))) {
+            if (!mTrickFXCards[i].isEqualTo(currentTrick.getCardAt(i))) {
 
-                trickFXCards[i].changeCard(currentTrick.getCardAt(i));
-                trickFXCards[i].getAnchorCard().setOpacity(1);
+                mTrickFXCards[i].changeCard(currentTrick.getCardAt(i));
+                mTrickFXCards[i].getAnchorCard().setOpacity(1);
             }
         }
 
-        if (currentTrick.getSize() == 3 && !timelineShown) {
+        if (currentTrick.getSize() == 3 && !mTimelineShown) {
 
             var ended = game.getGamePhase() == GamePhase.ENDED;
 
             someMagic(ended);
-            timelineShown = true;
+            mTimelineShown = true;
         }
         if (currentTrick.getSize() == 1) {
 
-            timelineShown = false;
+            mTimelineShown = false;
         }
     }
 
+    /**
+     * starts the animation (current trick fade out)
+     * @param ended boolean, true if game is finished, false if not
+     */
     public void someMagic(boolean ended) {
 
-        var kv00 = new KeyValue(trickFXCards[0].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
-        var kv01 = new KeyValue(trickFXCards[1].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
-        var kv02 = new KeyValue(trickFXCards[2].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
+        var kv00 = new KeyValue(mTrickFXCards[0].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
+        var kv01 = new KeyValue(mTrickFXCards[1].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
+        var kv02 = new KeyValue(mTrickFXCards[2].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
 
         var kf00 = new KeyFrame(Duration.seconds(2), kv00);
         var kf01 = new KeyFrame(Duration.seconds(2), kv01);
         var kf02 = new KeyFrame(Duration.seconds(2), kv02);
 
-        timeline0 = new Timeline();
-        timeline0.getKeyFrames().addAll(kf00, kf01, kf02);
+        mTimeline0 = new Timeline();
+        mTimeline0.getKeyFrames().addAll(kf00, kf01, kf02);
 
-        timeline0.setOnFinished(e -> fadeOut(ended));
+        mTimeline0.setOnFinished(e -> fadeOut(ended));
 
-        timeline0.play();
+        mTimeline0.play();
     }
 
+    /**
+     * second part of fade-out
+     * @param ended boolean, true if game is finsihed, false if not -> gameresult shows up or not
+     */
     private void fadeOut(boolean ended) {
 
-        var kv10 = new KeyValue(trickFXCards[0].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
-        var kv11 = new KeyValue(trickFXCards[1].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
-        var kv12 = new KeyValue(trickFXCards[2].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
+        var kv10 = new KeyValue(mTrickFXCards[0].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
+        var kv11 = new KeyValue(mTrickFXCards[1].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
+        var kv12 = new KeyValue(mTrickFXCards[2].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
 
         var kf10 = new KeyFrame(Duration.seconds(1.5), kv10);
         var kf11 = new KeyFrame(Duration.seconds(1.5), kv11);
         var kf12 = new KeyFrame(Duration.seconds(1.5), kv12);
 
-        timeline1 = new Timeline();
+        mTimeline1 = new Timeline();
 
-        timeline1.getKeyFrames().addAll(kf10, kf11, kf12);
+        mTimeline1.getKeyFrames().addAll(kf10, kf11, kf12);
 
         if (ended) {
 
-            timeline1.setOnFinished(e -> FXPresenter.update());
+            mTimeline1.setOnFinished(e -> FXPresenter.update());
         }
 
-        timeline1.play();
+        mTimeline1.play();
     }
 
 }

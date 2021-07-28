@@ -5,51 +5,60 @@ import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
 
+/**
+ * class for the different cards
+ */
 public class Card {
 
-    private CardColor color;
-    private CardValue value;
+    private CardColor mColor;
+    private CardValue mValue;
 
     /* CONSTRUCTOR */
 
     public Card(CardColor color, CardValue value) {
 
-        this.color = color;
-        this.value = value;
+        this.mColor = color;
+        this.mValue = value;
     }
 
     /* GETTER */
 
     public CardColor getCardColor() {
 
-        return color;
+        return mColor;
     }
 
     public int getColorValue() {
 
-        return color.getCardColorValue();
+        return mColor.getCardColorValue();
     }
 
     public CardValue getCardValue() {
 
-        return value;
+        return mValue;
     }
 
     public int getPoints() {
 
-        return value.getCardValue();
+        return mValue.getCardValue();
     }
 
+    /**
+     * combines color strength and value strenght
+     * @param trump trump
+     * @param color color of current trick
+     * @return strenght of card
+     */
     public int getStrength(Trump trump, CardColor color) {
 
-        var colorStrength = this.color.getColorStrength(trump, color);
-        var valueStrength = this.value.getValueStrength(trump);
+        var colorStrength = this.mColor.getColorStrength(trump, color);
+        var valueStrength = this.mValue.getValueStrength(trump);
 
         Print.debug("SORT_TEST", "colorS: " + colorStrength + " valueS: " + valueStrength);
 
-        if (trump.getGameMode() == GameMode.SUIT && value == CardValue.JACK) {
+        if (trump.getGameMode() == GameMode.SUIT && mValue == CardValue.JACK) {
 
-            return trump.getColor().getColorStrength(trump, color) + value.getValueStrength(trump);
+            return trump.getColor().getColorStrength(trump, color) + mValue.getValueStrength(trump);
         }
 
         return colorStrength + valueStrength;
@@ -61,8 +70,8 @@ public class Card {
 
         return switch ( trump.getGameMode() ) {
 
-            case SUIT -> value == CardValue.JACK || color == trump.getColor();
-            case GRAND -> value == CardValue.JACK;
+            case SUIT -> mValue == CardValue.JACK || mColor == trump.getColor();
+            case GRAND -> mValue == CardValue.JACK;
             case NULL -> false;
         };
     }

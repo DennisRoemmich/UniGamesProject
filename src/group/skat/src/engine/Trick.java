@@ -1,61 +1,85 @@
 package engine;
 
-import console.Print;
 import engine.enums.CardColor;
 
+/**
+ * class for trick
+ */
 public class Trick {
 
-    private Card[] cards;
-    private Trump trump;
-    private CardColor color;
+    private Card[] mCards;
+    private Trump mTrump;
+    private CardColor mColor;
 
     /* CONSTRUCTOR */
 
+    /**
+     * can be initialised with a trump
+     * @param trump trump
+     */
     public Trick(Trump trump) {
 
-        this.trump = trump;
+        this.mTrump = trump;
 
-        cards = new Card[3];
+        mCards = new Card[3];
     }
 
+    /**
+     * can be initialised with the first card played and trump
+     * @param trump trump
+     * @param card first card played on trick
+     */
     public Trick(Trump trump, Card card) {
 
-        this.trump = trump;
-        color = card.getCardColor();
+        this.mTrump = trump;
+        mColor = card.getCardColor();
 
-        cards = new Card[3];
-        cards[0] = card;
+        mCards = new Card[3];
+        mCards[0] = card;
     }
 
     /* GETTER */
 
+    /**
+     * @param index index of card
+     * @return card at index
+     */
     public Card getCardAt(int index) {
 
-        return cards[index];
+        return mCards[index];
     }
 
+    /**
+     * @return size of trick
+     */
     public int getSize() {
 
-        for ( var i = 0; i < cards.length; i++ ) {
+        for (var i = 0; i < mCards.length; i++ ) {
 
-            if ( cards[i] == null ) {
+            if ( mCards[i] == null ) {
 
                 return i;
             }
         }
-        return cards.length;
+        return mCards.length;
     }
 
+    /**
+     * @return color of first card played
+     */
     public CardColor getColor() {
 
-        return color;
+        return mColor;
     }
 
+    /**
+     * @return value of all cards played on trick
+     */
     public int getValue() {
 
         var sum = 0;
 
-        for (Card card : cards) {
+        for (Card card : mCards) {
 
             sum += card.getPoints();
         }
@@ -63,13 +87,16 @@ public class Trick {
         return sum;
     }
 
+    /**
+     * @return index of winner card on trick
+     */
     public int getWinnerIndex() {
 
         var pole = 0;
 
-        for (var i = 1; i < cards.length; i++) {
+        for (var i = 1; i < mCards.length; i++) {
 
-            if (isStrongerCard(cards[pole], cards[i])) {
+            if (isStrongerCard(mCards[pole], mCards[i])) {
 
                 pole = i;
             }
@@ -80,25 +107,34 @@ public class Trick {
 
     /* OTHER */
 
+    /**
+     * adds card to be added to trick
+     * @param card card to be added
+     */
     public void addCard(Card card) {
 
         if (getSize() == 0) {
 
-            color = card.getCardColor();
+            mColor = card.getCardColor();
         }
 
-        for (var i = 0; i < cards.length; i++) {
+        for (var i = 0; i < mCards.length; i++) {
 
-            if ( cards[i] == null ) {
+            if ( mCards[i] == null ) {
 
-                cards[i] = card;
+                mCards[i] = card;
                 break;
             }
         }
     }
 
+    /**
+     * needed to calculate the winner of the trick
+     * @param card1, card 2
+     * @return stronger of these two cards
+     */
     public boolean isStrongerCard(Card card1, Card card2) {
 
-        return card1.getStrength(trump, color) < card2.getStrength(trump, color);
+        return card1.getStrength(mTrump, mColor) < card2.getStrength(mTrump, mColor);
     }
 }

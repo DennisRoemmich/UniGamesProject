@@ -3,18 +3,18 @@ package console;
 import controller.SkatController;
 import engine.*;
 import engine.enums.GameMode;
-import framework.Player;
 
 public class Print {
+    
+    private static final String ACTIVE = "WARNING;ERROR;CONSOLE";
 
-
-    private static final String ACTIVE = "WARNING;ERROR;CONSOLE"; //MAIK, maik
-
-    private static boolean WINDOWS;
+    private static boolean windows;
+    
+    private Print() {}
 
     public static void setWINDOWS(boolean b) {
 
-        WINDOWS = b;
+        windows = b;
     }
 
     public static void debug(String key, Object obj) {
@@ -44,6 +44,7 @@ public class Print {
         var str = new StringBuilder();
 
         for (var i = 0; i < times; i++) {
+
             str.append(obj.toString());
         }
 
@@ -55,7 +56,7 @@ public class Print {
 
         var string = (String) obj;
 
-        if (WINDOWS) {
+        if (windows) {
 
             var symbols = new String[][]{{"⎼", "️·♣·", "·♠·", "·♥·", "·♦·", "⌲", "⌯", "⎨", "⎬", "⋯", "⌾", "♢", "◇", "◈", "⎺"},
                                          {"-", ":C:", ":S:", ":H:", ":D:", ">", "-", "{", "}", "-", "|", "·", "o", "x", "-"}};
@@ -88,7 +89,7 @@ public class Print {
 
         var hearer = auction.getHearer();
 
-        if(hearer == null){
+        if (hearer == null) {
             return "\n\n\n      Do you want to make the game? (y/n)\n";
         }
 
@@ -99,14 +100,21 @@ public class Print {
 
 
 
-        if (!game.getPlayerAt(perspective).isBidding()) { // is bidding true when player is forehand at the beginning?
+        if (!game.getPlayerAt(perspective).isBidding()) {
+
             returnString.append("\n\n\n      YOU PASSED! Wait for the other players.\n");
+
         } else if (auction.getInactivePlayer().getGameIndex() == perspective) {
+
             returnString.append("\n\n\n      The other player are bidding. Wait for your turn.\n");
-        } else if (auction.getQuestioner().getGameIndex() == perspective){
+
+        } else if (auction.getQuestioner().getGameIndex() == perspective) {
+
             returnString.append("\n\n\n      Do you want to RAISE on " + nextAuctionLevel + " against " + controller.getSkatSet().getPlayingPlayerName(hearerIndex) + "? (y/n)\n");
             returnString.append("\n\n                           ⎨ " + nextAuctionLevel + " ⎬\n\n\n");
+
         } else { // player is being asked
+
             returnString.append(controller.getSkatSet().getPlayingPlayerName(questionerIndex) + " has raised to " + auctionLevel + "!\nDo you want to call? (y/n)\n");
             returnString.append("\n                               ⎨ " + auctionLevel + " ⎬\n\n");
         }
@@ -116,8 +124,6 @@ public class Print {
         return returnString.toString();
 
     }
-
-
 
 
     public static String trickToString(Trick trick, SkatController controller) {
@@ -132,14 +138,20 @@ public class Print {
 
         String message;
         var declarer = controller.getSkatSet().getSkatSetPlayerAt(controller.getGame().getDeclarer().getGameIndex());
-        if(controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
+        if (controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
+
             var clr = controller.getGame().getTrump().getColor();
+
             if (clr != null) {
+
                 message = declarer.getName() + clr.getSymbol();
+
             } else {
+
                 message = " ? ";
             }
         } else {
+
             message = declarer.getName() + " · " + controller.getGame().getTrump().getGameMode().toString();
         }
 
@@ -148,71 +160,14 @@ public class Print {
         returnString.append(times(45 - (message.length() + 4), "⋯"));
         returnString.append("\n");
 
+
         if (trick == null || trick.getSize() == 0) {
 
-            var trump = "";
-            if (controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
-                trump = controller.getGame().getTrump().getColor().getSymbol();
-            } else {
-                trump = controller.getGame().getTrump().getGameMode().toString();
-            }
-
-            return times(20, " ") + declarer.getName() + " plays " + trump + "\n\n" + times(20, " ") + "Play the first card!\n";
+            return trickToStringHelp(controller, declarer);
 
         } else {
 
-            var del = times(arrowMargin, " ") +  upperArrow + times(arrowMargin, " ");
-
-            for ( var i = 0; i < 5; i++ ) {
-
-                returnString.append("     ");
-
-                for ( var o = 0; o < trick.getSize(); o++){
-
-                    var arrowPart = "";
-
-                    if ( o != trick.getSize() && i != 4 && o != 2){
-
-
-                        arrowPart = switch (i) {
-
-                            case 0, 3 -> times(del.length(), " ");
-
-                            case 1 -> del;
-
-                            case 2 -> times(arrowMargin, " ") + lowerArrow + times(arrowMargin, " ");
-
-                            default -> throw new IllegalStateException("Unexpected value: " + i);
-                        };
-
-                    }
-
-                    if ( i != 4 ){
-
-                        returnString.append(cardToString(trick.getCardAt(o),i, arrowPart, "0", false));
-
-                    } else {
-
-                        var game = set.getCurrentSkatGame();
-                        var playerIndex = (game.getCurrentLeaderIndex() + o) % 3 ;
-                        var name = set.getSkatPlayerName(playerIndex);
-                        if (trick.getSize() == 3) {
-                            var lastWinnerTrickIndex = game.getPlayerAt(game.getCurrentLeaderIndex()).getTricks().getTrickAt(game.getPlayerAt(game.getCurrentLeaderIndex()).getTricksAmount() - 1).getWinnerIndex();
-                            var playerIndexPlus = (game.getCurrentLeaderIndex() - lastWinnerTrickIndex + o + 3) % 3;
-                            name = set.getSkatPlayerName(playerIndexPlus);
-                        }
-                        var nameMargin = 5-name.length();
-
-                        returnString.append(times(nameMargin, " ")).append(name).append(times(del.length()+nameMargin, " "));
-
-                    }
-
-                }
-
-                returnString.append("\n");
-
-            }
-
+            trickToStringHelp(arrowMargin, upperArrow, returnString, trick, lowerArrow, set);
         }
 
         returnString.append(times(70, "⋯"));
@@ -233,8 +188,75 @@ public class Print {
 
     }
 
+    private static String trickToStringHelp(SkatController controller, SkatSetPlayer declarer) {
+
+        var trump = "";
+        if (controller.getGame().getTrump().getGameMode() == GameMode.SUIT) {
+
+            trump = controller.getGame().getTrump().getColor().getSymbol();
+
+        } else {
+
+            trump = controller.getGame().getTrump().getGameMode().toString();
+        }
+
+        return times(20, " ") + declarer.getName() + " plays " + trump + "\n\n" + times(20, " ") + "Play the first card!\n";
+    }
+
+    private static void trickToStringHelp(int arrowMargin, String upperArrow, StringBuilder returnString, Trick trick, String lowerArrow, SkatSet set) {
+
+        var del = times(arrowMargin, " ") +  upperArrow + times(arrowMargin, " ");
+
+        for ( var i = 0; i < 5; i++ ) {
+
+            returnString.append("     ");
+
+            for ( var o = 0; o < trick.getSize(); o++) {
+
+                var arrowPart = "";
+
+                if ( o != trick.getSize() && i != 4 && o != 2) {
 
 
+                    arrowPart = switch (i) {
+
+                        case 0, 3 -> times(del.length(), " ");
+
+                        case 1 -> del;
+
+                        case 2 -> times(arrowMargin, " ") + lowerArrow + times(arrowMargin, " ");
+
+                        default -> throw new IllegalStateException("Unexpected value: " + i);
+                    };
+
+                }
+
+                if ( i != 4 ) {
+
+                    returnString.append(cardToString(trick.getCardAt(o),i, arrowPart, "0", false));
+
+                } else {
+
+                    var game = set.getCurrentSkatGame();
+                    var playerIndex = (game.getCurrentLeaderIndex() + o) % 3 ;
+                    var name = set.getSkatPlayerName(playerIndex);
+                    if (trick.getSize() == 3) {
+                        var lastWinnerTrickIndex = game.getPlayerAt(game.getCurrentLeaderIndex()).getTricks().getTrickAt(game.getPlayerAt(game.getCurrentLeaderIndex()).getTricksAmount() - 1).getWinnerIndex();
+                        var playerIndexPlus = (game.getCurrentLeaderIndex() - lastWinnerTrickIndex + o + 3) % 3;
+                        name = set.getSkatPlayerName(playerIndexPlus);
+                    }
+                    var nameMargin = 5-name.length();
+
+                    returnString.append(times(nameMargin, " ")).append(name).append(times(del.length()+nameMargin, " "));
+
+                }
+
+            }
+
+            returnString.append("\n");
+
+        }
+    }
 
     public static String skatToString(Card[] cards, int indexSelected) {
 
@@ -245,13 +267,13 @@ public class Print {
 
             returnString.append("                    ");
 
-            int o = 0;
+            var o = 0;
             for (Card card : cards) {
                 var marg = margin;
-                if(o == 1){
+                if (o == 1) {
                     marg = "";
                 }
-                if(i > 3){
+                if (i > 3) {
                     marg = times(19, " ");
                 }
                 returnString.append(cardToString(card, i, marg, Integer.toString(o+11), o == indexSelected));
@@ -280,7 +302,7 @@ public class Print {
 
         var returnString = new StringBuilder();
 
-        if(!message.equals("")){
+        if (!message.equals("")) {
 
             returnString.append(times(20, "⋯"));
             returnString.append("  " + message + "  ");
@@ -295,10 +317,10 @@ public class Print {
 
             returnString.append("       ");
 
-            int o = 0;
+            var o = 0;
             for (Card card : playerHand.getCardsArray()) {
 
-                if(o < 10) {
+                if (o < 10) {
                     returnString.append(cardToString(card, i, " ", Integer.toString(o + 1), o == indexSelected));
                 }
                 o++;
@@ -338,7 +360,7 @@ public class Print {
 
         String selector;
 
-        if(selected){
+        if (selected) {
             selector = "·◈·";
         } else {
             selector = " ◇ ";

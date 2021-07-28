@@ -51,47 +51,44 @@ public class Console implements Player {
 
     /* VARS */
 
-    boolean suitGame = false;
+    boolean mSuitGame = false;
 
-    SkatController controller;
-    int indexCardSelected = -1;
+    SkatController mController;
+    int mIndexCardSelected = -1;
 
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
-    int playerGameIndex = -1;
+    int mPlayerGameIndex = -1;
 
     /* CONSTRUCTOR */
 
     /** use this Constructor for a dynamic perspective of the console (hotseat)*/
-    public Console(SkatController controller ){
+    public Console(SkatController controller) {
 
-        this.controller = controller;
+        this.mController = controller;
 
         var test = new Test(controller);
         // test.consoleSetUp();
 
         gameLoop();
-
     }
 
     /** use this Constructor for a fixed perspective of the console */
-    public Console(SkatController controller, int playerGameIndex ){
+    public Console(SkatController controller, int playerGameIndex) {
 
-        this.controller = controller;
-        this.playerGameIndex = playerGameIndex;
-
+        this.mController = controller;
+        this.mPlayerGameIndex = playerGameIndex;
 
         gameLoop();
-
     }
 
     /* OTHER */
 
 
-    private void gameLoop(){
+    private void gameLoop() {
 
         SkatMove move;
 
-        do{
+        do {
             display();
 
             move = getValidConsoleMove();
@@ -100,7 +97,8 @@ public class Console implements Player {
 
                 switch (move.getConsoleType()) {
 
-                    case HELP -> {
+                    case HELP:
+
                         printHardBorder();
                         printSoftBorder("Instructions");
                         println(1);
@@ -108,13 +106,16 @@ public class Console implements Player {
                         printSoftBorder("Debug Information");
                         printDebugInfo();
                         println(1);
-                    }
+                        break;
 
-                    case CARD_SELECTION -> indexCardSelected = move.getIndexFrom();
+                    case CARD_SELECTION:
 
-                    case SKATMOVE -> {
+                        mIndexCardSelected = move.getIndexFrom();
+                        break;
 
-                        if( !controller.makeMove(move) ){
+                    case SKATMOVE:
+
+                        if (!mController.makeMove(move)) {
 
                             printSoftBorder();
                             print(MOVE_NOT_VALID_MESSAGE, WARNING_DEL);
@@ -122,107 +123,152 @@ public class Console implements Player {
 
                         }
 
-                        indexCardSelected = -1;
-                    }
+                        mIndexCardSelected = -1;
+                        break;
 
-                    case DECLARE_SUIT -> suitGame = true;
+                    case DECLARE_SUIT:
 
-                    case QUIT -> { }
+                        mSuitGame = true;
+                        break;
 
-                    default -> throw new IllegalStateException("Unexpected value: " + move.getConsoleType());
+                    default: break;
                 }
-
 
 
         } while (move.getConsoleType() != ConsoleActionType.QUIT );
 
     }
 
-    private SkatMove getValidConsoleMove(){
+    private SkatMove getValidConsoleMove() {
 
         SkatMove consoleMove = null;
 
         var input = getValidInput();
 
-        if (input.equals("q")){
-            return new SkatMove(ConsoleActionType.QUIT);
-        }
+        if (input.equals("q") || input.equals("h") || input.equals("s")) {
 
-        if (input.equals("h")){
-            return new SkatMove(ConsoleActionType.HELP);
-        }
-
-        if (input.equals("s")){
-            return new SkatMove(ActionType.SORT);
+            return getValidConsoleMoveHelp(input);
         }
 
         int number;
-        try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
+        try { number = Integer.parseInt(input); } catch (Exception e) { number = 0; }
 
-        if (number != 0 && indexCardSelected == -1){
-            return new SkatMove(ConsoleActionType.CARD_SELECTION, Integer.parseInt(input)-1);
-        } else if (number != 0) {
+        if (number != 0) {
 
-            return new SkatMove(ActionType.ON_SKATHAND, indexCardSelected, Integer.parseInt(input)-1);
-
+            return getValidConsoleMoveHelpTwo(input);
         }
 
-        switch (getState()){
+        var trump = new Trump(CardColor.valueOf((input).toUpperCase()));
+        var mode = GameMode.valueOf(input.toUpperCase());
 
-            case NOT_STARTED -> consoleMove = new SkatMove(ActionType.NEW_GAME);
+        switch (getState()) {
 
-            case AUCTION_ASKING, AUCTION_HEARING -> {
-                if (input.equals("y")){
+            case NOT_STARTED:
+
+                consoleMove = new SkatMove(ActionType.NEW_GAME);
+                break;
+
+            case AUCTION_ASKING, AUCTION_HEARING:
+
+                if (input.equals("y")) {
+
                     consoleMove = new SkatMove(ActionType.RAISE_OR_ACCEPT);
-                }else{
+
+                } else {
+
                     consoleMove = new SkatMove(ActionType.PASS);
                 }
-            }
-            case DECLARE_SKAT -> consoleMove = new SkatMove(ActionType.DROP_SKAT);
+                break;
 
-            case DECLARE_TRUMPCOLOR -> {
-                var trump = new Trump(CardColor.valueOf((input).toUpperCase()));
+            case DECLARE_SKAT:
+
+                consoleMove = new SkatMove(ActionType.DROP_SKAT);
+                break;
+
+            case DECLARE_TRUMPCOLOR:
+
                 consoleMove = new SkatMove(trump);
-            }
-            case DECLARE_TRUMPTYPE -> {
-                var mode = GameMode.valueOf(input.toUpperCase());
+                break;
+
+            case DECLARE_TRUMPTYPE: {
+
                 if (mode != GameMode.SUIT) {
-                    var trump = new Trump(GameMode.valueOf(input.toUpperCase()));
+
                     consoleMove = new SkatMove(trump);
+
                 } else {
+
                     consoleMove = new SkatMove(ConsoleActionType.DECLARE_SUIT);
                 }
+                break;
 
             }
-            case PLAYING_YOUR_MOVE -> consoleMove = new SkatMove(indexCardSelected);
 
-            case GAME_FINISHED -> {
+            case PLAYING_YOUR_MOVE:
 
-                if(input.equals("y")){
+                consoleMove = new SkatMove(mIndexCardSelected);
+                break;
+
+            case GAME_FINISHED: {
+
+                if (input.equals("y")) {
+
                     consoleMove = new SkatMove(ActionType.NEW_GAME);
+
                 } else {
+
                     consoleMove = new SkatMove(ConsoleActionType.QUIT);
                 }
-
+                break;
             }
-            case AUCTION_WATCHING, WAIT_FOR_DECLARER, PLAYING_NOT_YOUR_MOVE -> consoleMove = null;
+
+            default: break;
         }
 
         return consoleMove;
 
     }
 
+    private SkatMove getValidConsoleMoveHelp(String input) {
+
+        if (input.equals("q")) {
+
+            return new SkatMove(ConsoleActionType.QUIT);
+
+        } else if (input.equals("h")) {
+
+            return new SkatMove(ConsoleActionType.HELP);
+
+        } else {
+
+            return new SkatMove(ActionType.SORT);
+        }
+    }
+
+    private SkatMove getValidConsoleMoveHelpTwo(String input) {
+
+        if (mIndexCardSelected == -1) {
+
+            return new SkatMove(ConsoleActionType.CARD_SELECTION, Integer.parseInt(input)-1);
+
+        } else {
+
+            return new SkatMove(ActionType.ON_SKATHAND, mIndexCardSelected, Integer.parseInt(input)-1);
+
+        }
+    }
+
     /** this functions returns a non-ambiguous input that is valid in the current (Console)GameState */
-    private String getValidInput(){
+    private String getValidInput() {
 
         print("\n", INPUT_DEL);
 
         String input;
-        Scanner in = new Scanner(System.in);
+        var in = new Scanner(System.in);
 
         input = (in.nextLine()).toLowerCase();
 
-        while (!isValidInput(input)){ // !
+        while (!isValidInput(input)) { // !
 
             print(WARNING_DEL + "This is not a valid input. For Help type [H]elp.");
             print("\n", INPUT_DEL);
@@ -231,14 +277,15 @@ public class Console implements Player {
         }
 
         int number;
-        try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
+        try { number = Integer.parseInt(input); } catch (Exception e) { number = 0; }
 
 
-        if(input.isEmpty() || getState() == GUIState.NOT_STARTED){
+        if (input.isEmpty() || getState() == GUIState.NOT_STARTED) {
+
             input = "x";
         }
 
-        if(!input.matches("diamonds|hearts|spades|clubs|suit|grand|null") && number == 0){
+        if (!input.matches("diamonds|hearts|spades|clubs|suit|grand|null") && number == 0) {
             input = String.valueOf(input.charAt(0));
         }
 
@@ -247,23 +294,23 @@ public class Console implements Player {
     }
 
     /** This function tells if a given input is valid in the current (Console)GameState  */
-    private boolean isValidInput(String input){
+    private boolean isValidInput(String input) {
 
-        if(input.matches("q|quit|h|help")){
+        if (input.matches("q|quit|h|help")) {
             return true;
         }
 
         var state = getState();
         int number;
-        try { number = Integer.parseInt(input); } catch (Exception e){ number = 0; }
+        try { number = Integer.parseInt(input); } catch (Exception e) { number = 0; }
 
-        if(((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != GUIState.DECLARE_TRUMPCOLOR && state != GUIState.DECLARE_TRUMPTYPE){
+        if (((number >= 1 && number < 11) || input.equals("sort") ||input.equals("s") ) && state != GUIState.DECLARE_TRUMPCOLOR && state != GUIState.DECLARE_TRUMPTYPE) {
             return true;
         }
 
 
 
-        return switch (state){
+        return switch (state) {
 
             case NOT_STARTED -> true;
 
@@ -275,7 +322,7 @@ public class Console implements Player {
 
             case DECLARE_TRUMPTYPE -> input.matches("suit|grand|null");
 
-            case PLAYING_YOUR_MOVE -> (input.equals("a") && indexCardSelected >= 0);
+            case PLAYING_YOUR_MOVE -> (input.equals("a") && mIndexCardSelected >= 0);
 
             default -> throw new IllegalStateException("Unexpected value: " + getState());
         };
@@ -284,15 +331,15 @@ public class Console implements Player {
 
     int lastCurPlayerIndex = 0;
 
-    private boolean playerDidChange(){
+    private boolean playerDidChange() {
 
-        if (game() == null || game().getCurrentPlayer() == null){
+        if (game() == null || game().getCurrentPlayer() == null) {
             return false;
         }
 
         var index = getPlayerGameIndex();
 
-        if (index != lastCurPlayerIndex){
+        if (index != lastCurPlayerIndex) {
             lastCurPlayerIndex = index;
             return true;
         } else {
@@ -301,21 +348,21 @@ public class Console implements Player {
 
     }
 
-    private void display(){
+    private void display() {
 
-        if (getState() != GUIState.GAME_FINISHED) {
-            if (playerDidChange()) {
-                printHardBorder();
-                var message = getCurrentPlayerName() + " is now playing. [P" + getPlayerGameIndex() + "]";
-                printSoftBorder(message);
-                printHardBorder();
+        if (getState() != GUIState.GAME_FINISHED && playerDidChange()) {
 
-            }
+            printHardBorder();
+            var message = getCurrentPlayerName() + " is now playing. [P" + getPlayerGameIndex() + "]";
+            printSoftBorder(message);
+            printHardBorder();
         }
 
-        switch (getState()){
+        var hand = "Your Hand:";
 
-            case NOT_STARTED -> {
+        switch (getState()) {
+
+            case NOT_STARTED:
 
                 printHardBorder();
                 printSoftBorder(WELCOME_MESSAGE); // PlayerName
@@ -325,35 +372,39 @@ public class Console implements Player {
                 printSoftBorder();
                 println("  ♢  Enter ANY KEY to start the game.", INSTR_DEL);
 
+                break;
 
-            }
-            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING -> {
+            case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING:
+
                 printHardBorder();
                 println(2);
-                print(Print.auctionToString(controller, getPlayerGameIndex()));
+                print(Print.auctionToString(mController, getPlayerGameIndex()));
                 printHand();
 
-            }
-            case WAIT_FOR_DECLARER -> {
+                break;
+
+            case WAIT_FOR_DECLARER:
 
                 printHardBorder();
                 /* be able to sort cards here and maybe other passive states*/
                 println("Waiting for " + getCurrentPlayerName() + " to declare the game.");
 
-            }
-            case DECLARE_SKAT -> {
+                break;
+
+            case DECLARE_SKAT:
 
                 printHardBorder();
                 printSoftBorder("DECLARE SKAT");
                 println(2);
-                print(Print.skatToString(getPlayer().getHand().getSkat(),indexCardSelected-10), DEFAULT_DEL);
-                printSoftBorder("Your Hand:");
+                print(Print.skatToString(getPlayer().getHand().getSkat(), mIndexCardSelected -10), DEFAULT_DEL);
+                printSoftBorder(hand);
                 println(2);
-                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                print(Print.handToString(getPlayer().getHand(),"", mIndexCardSelected));
                 print("\n [A]ccept or swap cards [1 - 12]");
 
-            }
-            case DECLARE_TRUMPTYPE -> {
+                break;
+
+            case DECLARE_TRUMPTYPE:
 
                 printHardBorder();
                 printSoftBorder("CHOOSE GAME TYPE");
@@ -363,13 +414,13 @@ public class Console implements Player {
                              SUIT     ·     GRAND     ·     NULL
                              
                         """);
-                printSoftBorder("Your Hand:");
+                printSoftBorder(hand);
                 println(2);
-                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                print(Print.handToString(getPlayer().getHand(),"", mIndexCardSelected));
 
+                break;
 
-            }
-            case DECLARE_TRUMPCOLOR -> {
+            case DECLARE_TRUMPCOLOR:
 
                 printHardBorder();
                 printSoftBorder("CHOOSE GAME COLOR");
@@ -379,155 +430,171 @@ public class Console implements Player {
                              Clubs ♣    ·    Spades ♠    ·    Hearts ♥    ·    Diamonds ♦
                              
                         """);
-                printSoftBorder("Your Hand:");
+                printSoftBorder(hand);
                 println(2);
-                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                print(Print.handToString(getPlayer().getHand(),"", mIndexCardSelected));
 
-            }
+                break;
 
-            case PLAYING_YOUR_MOVE -> {
+            case PLAYING_YOUR_MOVE:
 
                 printHardBorder();
                 println(1);
                 if (game().getCurrentTrick().getSize() != 0 || game().getCurrentRoundNo() == 0) {
-                    print(Print.trickToString(game().getCurrentTrick(), controller));
+                    print(Print.trickToString(game().getCurrentTrick(), mController));
                 } else {
-                    print(Print.trickToString(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricks().getTrickAt(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricksAmount() - 1), controller));
+                    print(Print.trickToString(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricks().getTrickAt(game().getPlayerAt(game().getCurrentLeaderIndex()).getTricksAmount() - 1), mController));
                 }
-                printSoftBorder("Your Hand:");
+                printSoftBorder(hand);
                 println(2);
-                print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+                print(Print.handToString(getPlayer().getHand(),"", mIndexCardSelected));
                 print("\n Select cards [1 - 10] and [a]ccept, switch or [s]ort.");
 
-            }
-            case PLAYING_NOT_YOUR_MOVE -> {
-            }
-            case GAME_FINISHED -> {
+                break;
 
-                print(Print.resultToString(controller));
+            case GAME_FINISHED:
+
+                print(Print.resultToString(mController));
                 print("\n\nWant to start the next game?\n\n");
-            }
+
+                break;
+
+            default: break;
         }
 
     }
 
-    private String getCurrentPlayerName(){
-        return controller.getSkatSet().getPlayingPlayerName(getPlayer().getGameIndex());
+    private String getCurrentPlayerName() {
+        return mController.getSkatSet().getPlayingPlayerName(getPlayer().getGameIndex());
     }
 
-    private GUIState getState(){
+    private GUIState getState() {
 
-        if(game() == null){
+        if (game() == null) {
+
             return GUIState.NOT_STARTED;
         }
 
-        switch ( game().getGamePhase() ){
+        switch (game().getGamePhase()) {
 
-            case NOT_STARTED -> {
+            case NOT_STARTED:
+
                 return GUIState.NOT_STARTED;
-            }
-            case AUCTION -> {
-                if ( game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
-                    return GUIState.AUCTION_ASKING;
-                }
-                if ( game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
-                    return GUIState.AUCTION_HEARING;
-                }
 
-                return GUIState.AUCTION_WATCHING;
+            case AUCTION:
 
-            }
-            case DECLARING -> {
+                return getStateHelp(GamePhase.AUCTION);
 
-                if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()){
+            case DECLARING:
 
-                    if (!game().skatIsDropped()){
-                        return GUIState.DECLARE_SKAT;
-                    } else {
-                        if(suitGame){
-                            return GUIState.DECLARE_TRUMPCOLOR;
-                        } else {
-                            return GUIState.DECLARE_TRUMPTYPE;
-                        }
-                    }
+                return getStateHelp(GamePhase.DECLARING);
 
-                }
+            case PLAYING:
 
-            }
-            case PLAYING -> {
+                if (game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()) {
 
-                if(game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()){
                     return GUIState.PLAYING_YOUR_MOVE;
+
                 } else {
+
                     return GUIState.PLAYING_NOT_YOUR_MOVE;
                 }
 
-            }
+            case ENDED:
 
-
-            case ENDED -> {
                 return GUIState.GAME_FINISHED; // TODO : hier weitermachen
 
                 // if set enden -> GUIState.SetFinished
 
 
-            }
-            case ABORTED -> {
+            case ABORTED:
+
                 return GUIState.GAME_ABORTED;
-
-
-            }
 
         }
 
         return GUIState.GAME_FINISHED;
+    }
 
+    private GUIState getStateHelp(GamePhase state) {
+
+        if (state == GamePhase.AUCTION) {
+
+            if ( game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
+
+                return GUIState.AUCTION_ASKING;
+            }
+            if ( game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+
+                return GUIState.AUCTION_HEARING;
+            }
+
+        } else {
+
+            if (game().getAuction().getAuctionWinner().getGameIndex() == getPlayerGameIndex()) {
+
+                if (!game().skatIsDropped()) {
+
+                    return GUIState.DECLARE_SKAT;
+
+                } else if (mSuitGame) {
+
+                    return GUIState.DECLARE_TRUMPCOLOR;
+
+                } else {
+
+                        return GUIState.DECLARE_TRUMPTYPE;
+                }
+
+            }
+        }
+        return GUIState.AUCTION_WATCHING;
     }
 
 
-    private SkatPlayer getPlayer(){
-        if(playerGameIndex == -1){
+    private SkatPlayer getPlayer() {
+        if (mPlayerGameIndex == -1) {
             return game().getCurrentPlayer();
         } else {
-            return game().getPlayerAt(playerGameIndex);
+            return game().getPlayerAt(mPlayerGameIndex);
         }
     }
 
-    private int getPlayerGameIndex(){
+    private int getPlayerGameIndex() {
 
-        if( game() == null ){
+        if ( game() == null ) {
             return 0;
         }
 
-        if(playerGameIndex == -1){
+        if (mPlayerGameIndex == -1) {
             return game().getCurrentPlayer().getGameIndex();
         } else {
-            return playerGameIndex;
+            return mPlayerGameIndex;
         }
 
     }
 
     /* PRINT */
 
-    private void printHand(){
+    private void printHand() {
 
         printSoftBorder("YOUR HAND");
         println(2);
-        print(Print.handToString(getPlayer().getHand(),"", indexCardSelected));
+        print(Print.handToString(getPlayer().getHand(),"", mIndexCardSelected));
 
     }
 
-    private void printDebugInfo(){
+    private void printDebugInfo() {
 
         println("current State.........: " + getState().toString(), DEBUG_DEL);
         println("current Player........: " + Integer.toString(getPlayerGameIndex()), DEBUG_DEL);
         println("current Player Name...: " + getCurrentPlayerName(), DEBUG_DEL);
 
-        if(game().getGamePhase() == GamePhase.AUCTION){
-            println("isAuctioneer..........: " + String.valueOf(game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getCurrentAuctioneer()), DEBUG_DEL);
-            println("isBidding.............: " + String.valueOf(game().getPlayerAt(getPlayerGameIndex()).isBidding()), DEBUG_DEL);
-            println("isQuestioner..........: " + String.valueOf(game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getQuestioner()), DEBUG_DEL);
-            println("isHearer..............: " + String.valueOf(game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getHearer()), DEBUG_DEL);
+        if (game().getGamePhase() == GamePhase.AUCTION) {
+            println("isAuctioneer..........: " + (game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getCurrentAuctioneer()), DEBUG_DEL);
+            println("isBidding.............: " + (game().getPlayerAt(getPlayerGameIndex()).isBidding()), DEBUG_DEL);
+            println("isQuestioner..........: " + (game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getQuestioner()), DEBUG_DEL);
+            println("isHearer..............: " + (game().getPlayerAt(getPlayerGameIndex()) == game().getAuction().getHearer()), DEBUG_DEL);
         }
 
 
@@ -535,16 +602,16 @@ public class Console implements Player {
 
     }
 
-    private void printSoftBorder(){
+    private void printSoftBorder() {
 
         printSoftBorder("");
 
     }
 
 
-    private void printSoftBorder(String title){
+    private void printSoftBorder(String title) {
 
-        if (!title.equals("")){
+        if (!title.equals("")) {
             title = "  " + title + "  ";
         }
 
@@ -552,31 +619,31 @@ public class Console implements Player {
 
     }
 
-    private void printHardBorder(){
+    private void printHardBorder() {
 
         printHardBorder("");
 
     }
 
-    private void printHardBorder(String title){
+    private void printHardBorder(String title) {
 
-        if (!title.equals("")){
+        if (!title.equals("")) {
             title = "  " + title + "  ";
         }
 
         var borderWidth = BORDER_WIDTH-title.length();
 
-        println(Print.times(borderWidth/2, "═") + title + Print.times(borderWidth/2 + (borderWidth/2)%1, "═"), DEFAULT_DEL);
+        println(Print.times(borderWidth/2, "═") + title + Print.times(borderWidth/2 + (borderWidth/2), "═"), DEFAULT_DEL);
 
     }
 
-    private void print(Object obj){
+    private void print(Object obj) {
 
         print(obj, DEFAULT_DEL);
 
     }
 
-    private void print(Object obj, String del){
+    private void print(Object obj, String del) {
 
         try {
 
@@ -584,25 +651,25 @@ public class Console implements Player {
             str = str.replace("\n","\n" + del);
             Print.console(str);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             Print.console(obj);
         }
 
     }
 
-    private void println(int num){
+    private void println(int num) {
 
         print(Print.times(num, "\n"), DEFAULT_DEL);
 
     }
 
-    private void println(Object obj){
+    private void println(Object obj) {
 
         println(obj, DEFAULT_DEL);
 
     }
 
-    private void println(Object obj, String del){
+    private void println(Object obj, String del) {
 
         print("\n", del);
         print(obj, del);
@@ -610,12 +677,11 @@ public class Console implements Player {
 
     }
 
-    private SkatGame game(){
+    private SkatGame game() {
 
-        return controller.getGame();
+        return mController.getGame();
 
     }
-
 
 
     @Override

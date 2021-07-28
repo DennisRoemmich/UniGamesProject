@@ -8,25 +8,25 @@ import java.util.ArrayList;
 
 public class SkatSet {
 
-    private int gameAmount;
-    private ArrayList<GameResult> gameResults;
-    private ArrayList<SkatSetPlayer> players;
+    private int mGameAmount;
+    private ArrayList<GameResult> mGameResults;
+    private ArrayList<SkatSetPlayer> mPlayers;
 
-    private SkatGame currentGame;
+    private SkatGame mCurrentGame;
 
-    private boolean isFinished;
+    private boolean mIsFinished;
 
     /* CONSTRUCTOR */
 
     public SkatSet(int gameAmount, String[] playerNames) {
 
-        this.gameAmount = gameAmount;
-        gameResults = new ArrayList<GameResult>();
+        this.mGameAmount = gameAmount;
+        mGameResults = new ArrayList<>();
 
-        players = new ArrayList<SkatSetPlayer>();
+        mPlayers = new ArrayList<>();
         for ( String name : playerNames ) {
 
-            players.add(new SkatSetPlayer(name));
+            mPlayers.add(new SkatSetPlayer(name));
         }
     }
 
@@ -34,46 +34,46 @@ public class SkatSet {
 
     public SkatGame getCurrentSkatGame() {
 
-        return currentGame;
+        return mCurrentGame;
     }
 
     public GameResult getCurrentGameResult() {
 
-        return currentGame.getGameResult();
+        return mCurrentGame.getGameResult();
     }
 
     public boolean isFinished() {
 
-        return isFinished;
+        return mIsFinished;
     }
 
     public int getSkatSetPlayerAmount() {
 
-        return players.size();
+        return mPlayers.size();
     }
 
     public int getGameAmount() {
 
-        return gameAmount;
+        return mGameAmount;
     }
 
     public SkatSetPlayer getSkatSetPlayerAt(int index) {
 
-        return players.get(index);
+        return mPlayers.get(index);
     }
 
     public SkatPlayer getSkatPlayerAt(int index) {
 
-        return currentGame.getPlayerAt(index);
+        return mCurrentGame.getPlayerAt(index);
     }
 
-    public String getSkatPlayerName(int atIndex){
+    public String getSkatPlayerName(int atIndex) {
 
-        return players.get(atIndex).getName();
+        return mPlayers.get(atIndex).getName();
     }
 
     /** This function returns the name at a given index of the players that are actually playing right now*/
-    public String getPlayingPlayerName(int atIndex){
+    public String getPlayingPlayerName(int atIndex) {
 
         return playingPlayer(currentGameNo())[atIndex].getName();
     }
@@ -86,15 +86,15 @@ public class SkatSet {
      * returns 0 if player is not part of the current game; 1 if player is part and 2 if player is playing;
      * @param atIndex
      */
-    public int skatSetPlayerStatus(int atIndex){
+    public int skatSetPlayerStatus(int atIndex) {
 
         var playingPlayers = playingPlayer(currentGameNo());
 
-        for (var i = 0; i < playingPlayers.length; i++){
+        for (var i = 0; i < playingPlayers.length; i++) {
 
-            if (playingPlayers[i] == players.get(atIndex) ){
+            if (playingPlayers[i] == mPlayers.get(atIndex) ) {
 
-                if (i == getCurrentSkatGame().getCurrentPlayer().getGameIndex()){
+                if (i == getCurrentSkatGame().getCurrentPlayer().getGameIndex()) {
 
                     return 2;
 
@@ -110,72 +110,69 @@ public class SkatSet {
 
     }
 
-    public SkatSetPlayer[] currentPlayingSkatSetPlayer(){
+    public SkatSetPlayer[] currentPlayingSkatSetPlayer() {
 
         var gameNo = currentGameNo();
 
-        var size = players.size();
+        var size = mPlayers.size();
         var modSize = gameNo % size;
 
-        return new SkatSetPlayer[]{players.get(modSize), players.get((modSize + 1) % size), players.get((modSize + 2) % size)};
+        return new SkatSetPlayer[]{mPlayers.get(modSize), mPlayers.get((modSize + 1) % size), mPlayers.get((modSize + 2) % size)};
     }
 
     /** This function returns an array of the 3 players that are playing in the current game. It works based on the assumption that the players shift after every game, if there are more then 3*/
-    private SkatSetPlayer[] playingPlayer(int gameNo){
+    private SkatSetPlayer[] playingPlayer(int gameNo) {
 
-        var size = players.size();
+        var size = mPlayers.size();
         var modSize = gameNo % size;
 
-        return new SkatSetPlayer[]{players.get(modSize), players.get((modSize + 1) % size), players.get((modSize + 2) % size)};
+        return new SkatSetPlayer[]{mPlayers.get(modSize), mPlayers.get((modSize + 1) % size), mPlayers.get((modSize + 2) % size)};
     }
 
     public int currentGameNo() {
 
-        return gameResults.size() - 1;
+        return mGameResults.size() - 1;
     }
 
     public boolean moveIsValid(GameMove move) {
 
         if (move.getType() == ActionType.NEW_GAME) {
 
-            return gameResults.size() < gameAmount || gameAmount == -1;
+            return mGameResults.size() < mGameAmount || mGameAmount == -1;
 
         }
         return false;
     }
 
-    // TODO: comment: new Game started
     public void startNewGame() {
 
-        if (gameResults.size() < gameAmount || gameAmount == -1) {
+        if (mGameResults.size() < mGameAmount || mGameAmount == -1) {
 
-            currentGame = new SkatGame();
-            gameResults.add(currentGame.getGameResult());
+            mCurrentGame = new SkatGame();
+            mGameResults.add(mCurrentGame.getGameResult());
         }
 
         Print.debug("MAIK", "\n  NEW GAME STARTED");
     }
 
-    // TODO: comment: game aborted
     public void abortGame() {
 
         Print.debug("MAIK", "Game aborted - new Game started");
 
-        gameResults.remove(gameResults.size() - 1);
+        mGameResults.remove(mGameResults.size() - 1);
 
-    //    startNewGame();
     }
 
-    // TODO: comment: finalScore
+
     public void gameIsFinished() {
 
         Print.debug("MAIK", getPlayingPlayerName(getCurrentGameResult().getDeclarerIndex()) + " gets " + getCurrentGameResult().getGameValue());
 
         updatePoints();
 
-        if (gameResults.size() == gameAmount) {
+        if (mGameResults.size() == mGameAmount) {
 
-            isFinished = true;
+            mIsFinished = true;
         }
     }
 
@@ -191,7 +188,7 @@ public class SkatSet {
 
     public void printSkatSetStats() {
 
-        for (SkatSetPlayer player : players) {
+        for (SkatSetPlayer player : mPlayers) {
 
             Print.debug("MAIK", player.getName() + ": " + player.getTotalScore());
         }

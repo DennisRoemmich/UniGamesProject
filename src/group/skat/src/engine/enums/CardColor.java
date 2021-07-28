@@ -2,6 +2,9 @@ package engine.enums;
 
 import engine.Trump;
 
+/**
+ * enum for the color of a card
+ */
 public enum CardColor {
 
     CLUBS(12),
@@ -11,16 +14,26 @@ public enum CardColor {
 
     final int value;
 
+    /* CONSTRUCTOR */
+
     CardColor(int value) {
 
         this.value = value;
     }
+
+    /* OTHER */
 
     public int getCardColorValue() {
 
         return value;
     }
 
+    /**
+     * evaluates the strenght of a cardcolor
+     * @param trump current trump
+     * @param trickColor current color of trick
+     * @return strenght of card
+     */
     public int getColorStrength(Trump trump, CardColor trickColor) {
 
         var clubsValue = 30;
@@ -77,10 +90,13 @@ public enum CardColor {
         };
     }
 
+    /**
+     * returns symbol of color for console-print
+     * @return symbol
+     */
+    public String getSymbol() {
 
-    public String getSymbol(){
-
-        return switch ( this ){
+        return switch ( this ) {
 
             case CLUBS -> "️·♣·";
             case SPADES -> "·♠·";

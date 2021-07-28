@@ -1,108 +1,135 @@
 package engine;
 
-import controller.SkatMove;
-import engine.enums.GamePhase;
-
+/**
+ * class for skat players
+ */
 public class SkatPlayer {
 
-    protected Hand hand;
-    protected Tricks tricks;
+    protected Hand mHand;
+    protected Tricks mTricks;
 
-    private boolean isBidding;
-    private boolean isAsking;
-    private boolean isDeclarer;
+    private boolean mIsBidding;
+    private boolean mIsAsking;
+    private boolean mIsDeclarer;
 
-    protected int gameIndex;
+    protected int mGameIndex;
 
-    private int finalScore;
+    private int mFinalScore;
 
     /* CONSTRUCTOR */
 
     public SkatPlayer(Trump trump, int gameIndex) {
 
-        this.gameIndex = gameIndex;
+        this.mGameIndex = gameIndex;
 
-        hand = new Hand(trump);
-        tricks = new Tricks();
+        mHand = new Hand(trump);
+        mTricks = new Tricks();
 
-        isBidding = true;
-        isDeclarer = false;
+        mIsBidding = true;
+        mIsDeclarer = false;
 
-        finalScore = 0;
+        mFinalScore = 0;
     }
 
     /* GETTER */
 
+    /**
+     * @return hand of player
+     */
     public Hand getHand() {
 
-        return hand;
+        return mHand;
     }
 
+    /**
+     * @return tricks of player
+     */
     public Tricks getTricks() {
 
-        return tricks;
+        return mTricks;
     }
 
+    /**
+     * @return true if player has not already passed in auction, else false
+     */
     public boolean isBidding() {
 
-        return isBidding;
+        return mIsBidding;
     }
 
+    /**
+     * @return true if player is questioner in auction
+     */
     public boolean isAsking() {
 
-        return isAsking;
+        return mIsAsking;
     }
 
+    /**
+     * @return true if player has won the auction and is declarer, false if not
+     */
     public boolean isDeclarer() {
 
-        return isDeclarer;
+        return mIsDeclarer;
     }
 
+    /**
+     * @return value of all tricks
+     */
     public int getTricksScore() {
 
-        return tricks.getValue();
+        return mTricks.getValue();
     }
 
+    /**
+     * @return amount of tricks
+     */
     public int getTricksAmount() {
 
-        return tricks.getSize();
+        return mTricks.getSize();
     }
 
+    /**
+     * @return final score of player
+     */
     public int getFinalScore() {
 
-        return finalScore;
+        return mFinalScore;
     }
 
+    /**
+     * @return index of player (0-2)
+     */
     public int getGameIndex() {
 
-        return gameIndex;
+        return mGameIndex;
     }
 
     /* SETTER */
 
     public void setBidding(boolean b) {
 
-        isBidding = b;
+        mIsBidding = b;
     }
 
     public void setAsking(boolean b) {
 
-        isAsking = b;
+        mIsAsking = b;
     }
 
     public void setDeclarer(boolean b) {
 
-        isDeclarer = b;
+        mIsDeclarer = b;
     }
 
     public void setTricks(Tricks tricks) {
 
-        this.tricks = tricks;
+        this.mTricks = tricks;
     }
 
     public void setFinalScore(int score) {
 
-        finalScore = score;
+        mFinalScore = score;
     }
 
     /* OTHER */

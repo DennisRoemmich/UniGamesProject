@@ -9,17 +9,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class NetworkPlayer implements Player {
 
     static final int PORT = 6066;
 
-    int playerIndex = -1;
+    int mPlayerIndex = -1;
 
-    State state;
-    SkatController controller = null;
-    String name = "no_name";
+    State mState;
+    SkatController mController = null;
+    String mName = "no_name";
 
 
     /**
@@ -30,31 +29,33 @@ public class NetworkPlayer implements Player {
     /** Constructor SERVER / HOST */
     public NetworkPlayer(SkatController controller) throws IOException {
 
-        this.controller = controller;
+        var network = "Network";
+
+        this.mController = controller;
         controller.addPlayer(this);
 
-        Print.debug("Network", "⇢ The Network Player is SERVER");
+        Print.debug(network, "⇢ The Network Player is SERVER");
 
-        ServerSocket serverSock = new ServerSocket(PORT);
+        var serverSock = new ServerSocket(PORT);
         Socket sock = serverSock.accept();
 
-        Print.debug("Network", "⇢ Waiting for Client...");
-        this.state = State.WAITING_FOR_CLIENT;
+        Print.debug(network, "⇢ Waiting for Client...");
+        this.mState = State.WAITING_FOR_CLIENT;
 
-        DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+        var out = new DataOutputStream(sock.getOutputStream());
         out.writeUTF(playerNameList().toJSONString());
 
-        DataInputStream in = new DataInputStream(sock.getInputStream());
-        this.state = State.CONNECTED;
-        this.name = in.readUTF();
+        var in = new DataInputStream(sock.getInputStream());
+        this.mState = State.CONNECTED;
+        this.mName = in.readUTF();
 
 
     }
 
     /** Constructor CLIENT */
-    public NetworkPlayer(SkatController controller, String ip){
+    public NetworkPlayer(SkatController controller, String ip) {
 
-        this.controller = controller;
+        this.mController = controller;
         controller.addPlayer(this);
 
 
@@ -65,7 +66,7 @@ public class NetworkPlayer implements Player {
 
     JSONObject playerNameList() {
 
-        var playerNames = controller.getPlayerNames();
+        var playerNames = mController.getPlayerNames();
 
         var obj = new JSONObject();
         obj.put(playerNames, "PLAYERNAMES");
@@ -77,14 +78,14 @@ public class NetworkPlayer implements Player {
     /* GETTER */
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     /** listen for the turn of the other party */
     @Override
     public JSONObject requestMove(JSONObject inputType) {
 
-        if ( state != State.CONNECTED ) {
+        if ( mState != State.CONNECTED ) {
             Print.debug("Network", "A move was request from a p2p connection but there is no connection established.");
             return null;
         }
@@ -101,6 +102,5 @@ enum State {
     WAITING_FOR_CLIENT,
     CONNECTED,
     DISCONNECTED;
-
 
 }

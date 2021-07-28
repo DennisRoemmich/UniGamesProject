@@ -2,52 +2,59 @@ package engine;
 
 import console.Print;
 
+/**
+ * extra class for the whole auction
+ */
 public class Auction {
 
-    private SkatPlayer[] players;
-    private SkatPlayer foreHand;
-    private SkatPlayer middleHand;
-    private SkatPlayer rearHand;
+    private SkatPlayer[] mPlayers;
+    private SkatPlayer mForeHand;
+    private SkatPlayer mMiddleHand;
+    private SkatPlayer mRearHand;
 
-    private SkatPlayer currentAuctioneer;
-    private SkatPlayer currentQuestioner;
-    private SkatPlayer currentHearer;
+    private SkatPlayer mCurrentAuctioneer;
 
-    private int[] auctionLvL;
-    private int currentBidLvL;
+    private int[] mAuctionLvL;
+    private int mCurrentBidLvL;
 
-    private SkatPlayer auctionWinner;
+    private SkatPlayer mAuctionWinner;
 
     /* CONSTRUCTOR */
 
     public Auction(SkatPlayer[] players) {
 
-        this.players = players;
-        foreHand = players[0];
-        middleHand = players[1];
-        rearHand = players[2];
+        this.mPlayers = players;
+        mForeHand = players[0];
+        mMiddleHand = players[1];
+        mRearHand = players[2];
 
-        foreHand.setAsking(false);
-        middleHand.setAsking(true);
-        rearHand.setAsking(false);
+        mForeHand.setAsking(false);
+        mMiddleHand.setAsking(true);
+        mRearHand.setAsking(false);
 
-        currentAuctioneer = middleHand;
+        mCurrentAuctioneer = mMiddleHand;
 
-        auctionLvL = new int[]{18, 20, 22, 23, 24, 27, 30, 33, 36, 40, 44, 45, 48, 50, 54, 55, 60,
+        mAuctionLvL = new int[]{18, 20, 22, 23, 24, 27, 30, 33, 36, 40, 44, 45, 48, 50, 54, 55, 60,
                             63, 66, 70, 72, 77, 80, 81, 84, 88, 90, 96, 99, 100, 108, 110, 120, 121, 132};
-        currentBidLvL = -1;
+        mCurrentBidLvL = -1;
     }
 
     /* GETTER */
 
+    /**
+     * @return player to move in this moment
+     */
     public SkatPlayer getCurrentAuctioneer() {
 
-        return currentAuctioneer;
+        return mCurrentAuctioneer;
     }
 
+    /**
+     * @return player who can raise or pass a bid
+     */
     public SkatPlayer getQuestioner() {
 
-        for (var player : players) {
+        for (var player : mPlayers) {
 
             if (player.isAsking()) {
 
@@ -57,25 +64,31 @@ public class Auction {
         return null;
     }
 
+    /**
+     * @return player who can accept or pass a bid
+     */
     public SkatPlayer getHearer() {
 
-        if (foreHand.isBidding() && !isOnlyOneBidding(foreHand)) {
+        if (mForeHand.isBidding() && !isOnlyOneBidding(mForeHand)) {
 
-            return foreHand;
+            return mForeHand;
 
-        } else if (isOnlyOneBidding(foreHand)) {
+        } else if (isOnlyOneBidding(mForeHand)) {
 
             return null;
 
         } else {
 
-            return rearHand;
+            return mRearHand;
         }
     }
 
+    /**
+     * @return player who has already passed or waits for the other two players to get finish with their bidding
+     */
     public SkatPlayer getInactivePlayer() {
 
-        for (var player : players) {
+        for (var player : mPlayers) {
 
             if (player != getQuestioner() && player != getHearer()) {
 
@@ -85,31 +98,40 @@ public class Auction {
         return null;
     }
 
+    /**
+     * @return player who has won the auction and is now declarer
+     */
     public SkatPlayer getAuctionWinner() {
 
-        return auctionWinner;
+        return mAuctionWinner;
     }
 
+    /**
+     * @return current BidLevel
+     */
     public int getAuctionValue() {
 
-        if(currentBidLvL == -1){
+        if(mCurrentBidLvL == -1){
             return 0;
         }
 
-        return auctionLvL[currentBidLvL];
+        return mAuctionLvL[mCurrentBidLvL];
     }
 
     public int getNextAuctionValue() {
 
-        if(currentBidLvL != -1 && auctionLvL[currentBidLvL] == 132) {
+        if(mCurrentBidLvL != -1 && mAuctionLvL[mCurrentBidLvL] == 132) {
 
             Print.debug("ERROR", "max auction level reached (getNextAuctionLevel)");
 
             return -1;
         }
-        return auctionLvL[currentBidLvL+1];
+        return mAuctionLvL[mCurrentBidLvL +1];
     }
 
+    /**
+     * @return true if auction is still running, false if not
+     */
     public boolean isRunning() {
 
         return !checkWinner() && !passedOut();
@@ -117,50 +139,56 @@ public class Auction {
 
     /* ELSE */
 
+    /**
+     * handles the variable roles if a turn was made
+     */
     public void nextTurn() {
 
-        var last = currentAuctioneer;
+        var last = mCurrentAuctioneer;
 
-        if ( last == foreHand ) {
+        if ( last == mForeHand) {
 
-            if ( middleHand.isBidding() && foreHand.isBidding()) {
+            if ( mMiddleHand.isBidding() && mForeHand.isBidding()) {
 
-                currentAuctioneer = middleHand;
+                mCurrentAuctioneer = mMiddleHand;
 
             } else {
 
-                currentAuctioneer = rearHand;
+                mCurrentAuctioneer = mRearHand;
             }
 
-        } else if ( last == middleHand ) {
+        } else if ( last == mMiddleHand) {
 
-            if ( foreHand.isBidding() && middleHand.isBidding() ) {
+            if ( mForeHand.isBidding() && mMiddleHand.isBidding() ) {
 
-                currentAuctioneer = foreHand;
+                mCurrentAuctioneer = mForeHand;
 
             } else {
 
-                currentAuctioneer = rearHand;
+                mCurrentAuctioneer = mRearHand;
             }
 
-        } else if ( last == rearHand ) {
+        } else if ( last == mRearHand) {
 
-            if ( middleHand.isBidding() ) {
+            if ( mMiddleHand.isBidding() ) {
 
-                currentAuctioneer = middleHand;
+                mCurrentAuctioneer = mMiddleHand;
 
             } else {
 
-                currentAuctioneer = foreHand;
+                mCurrentAuctioneer = mForeHand;
             }
         }
     }
 
+    /**
+     * the current player has raised or accepted the current bid
+     */
     public void raiseOrAcceptBid() {
 
-        if (currentAuctioneer.isAsking()) {
+        if (mCurrentAuctioneer.isAsking()) {
 
-            currentBidLvL++;
+            mCurrentBidLvL++;
         }
 
         if (isRunning()) {
@@ -169,37 +197,40 @@ public class Auction {
         }
     }
 
+    /**
+     * the current player has passed the current bid and is no longer in the auction
+     */
     public void passBid() {
 
-        if (currentAuctioneer == foreHand) {
+        if (mCurrentAuctioneer == mForeHand) {
 
-            foreHand.setBidding(false);
-            foreHand.setAsking(false);
-
-            if (isRunning()) {
-
-                nextTurn();
-            }
-
-        } else if (currentAuctioneer == middleHand) {
-
-            middleHand.setBidding(false);
-            middleHand.setAsking(false);
-            rearHand.setAsking(true);
+            mForeHand.setBidding(false);
+            mForeHand.setAsking(false);
 
             if (isRunning()) {
 
                 nextTurn();
             }
 
-        } else if (currentAuctioneer == rearHand) {
+        } else if (mCurrentAuctioneer == mMiddleHand) {
 
-            rearHand.setBidding(false);
-            rearHand.setAsking(false);
+            mMiddleHand.setBidding(false);
+            mMiddleHand.setAsking(false);
+            mRearHand.setAsking(true);
 
-            if (foreHand.isBidding()) {
+            if (isRunning()) {
 
-                foreHand.setAsking(true);
+                nextTurn();
+            }
+
+        } else if (mCurrentAuctioneer == mRearHand) {
+
+            mRearHand.setBidding(false);
+            mRearHand.setAsking(false);
+
+            if (mForeHand.isBidding()) {
+
+                mForeHand.setAsking(true);
             }
 
             if (isRunning()) {
@@ -209,54 +240,64 @@ public class Auction {
         }
     }
 
+    /**
+     * @return true if there's an winnner, false if not
+     */
     private boolean checkWinner() {
 
-        if (currentBidLvL == auctionLvL.length - 1 && !currentAuctioneer.isAsking()) {
+        if (mCurrentBidLvL == mAuctionLvL.length - 1 && !mCurrentAuctioneer.isAsking()) {
 
-            currentAuctioneer.setDeclarer(true);
-            auctionWinner = currentAuctioneer;
+            mCurrentAuctioneer.setDeclarer(true);
+            mAuctionWinner = mCurrentAuctioneer;
         }
 
-        if (isOnlyOneBidding(foreHand) && currentBidLvL != -1) {
+        if (isOnlyOneBidding(mForeHand) && mCurrentBidLvL != -1) {
 
-            foreHand.setDeclarer(true);
-            auctionWinner = foreHand;
+            mForeHand.setDeclarer(true);
+            mAuctionWinner = mForeHand;
             return true;
 
-        } else if (isOnlyOneBidding(middleHand) && currentBidLvL != -1) {
+        } else if (isOnlyOneBidding(mMiddleHand) && mCurrentBidLvL != -1) {
 
-            middleHand.setDeclarer(true);
-            auctionWinner = middleHand;
+            mMiddleHand.setDeclarer(true);
+            mAuctionWinner = mMiddleHand;
             return true;
 
-        } else if (isOnlyOneBidding(rearHand) && currentBidLvL != -1) {
+        } else if (isOnlyOneBidding(mRearHand) && mCurrentBidLvL != -1) {
 
-            rearHand.setDeclarer(true);
-            auctionWinner = rearHand;
+            mRearHand.setDeclarer(true);
+            mAuctionWinner = mRearHand;
             return true;
         }
         return false;
     }
 
+    /**
+     * @param auctioneer player
+     * @return true if player has won the auction, false if not (yet)
+     */
     public boolean isOnlyOneBidding(SkatPlayer auctioneer) {
 
-        if (auctioneer == foreHand) {
+        if (auctioneer == mForeHand) {
 
-            return !middleHand.isBidding() && !rearHand.isBidding();
+            return !mMiddleHand.isBidding() && !mRearHand.isBidding();
 
-        } else if (auctioneer == middleHand) {
+        } else if (auctioneer == mMiddleHand) {
 
-            return !foreHand.isBidding() && !rearHand.isBidding();
+            return !mForeHand.isBidding() && !mRearHand.isBidding();
 
-        } else if (auctioneer == rearHand) {
+        } else if (auctioneer == mRearHand) {
 
-            return !foreHand.isBidding() && !middleHand.isBidding();
+            return !mForeHand.isBidding() && !mMiddleHand.isBidding();
         }
         return false;
     }
 
+    /**
+     * @return true if all players passed, false if not
+     */
     public boolean passedOut() {
 
-        return !foreHand.isBidding() && !middleHand.isBidding() && !rearHand.isBidding();
+        return !mForeHand.isBidding() && !mMiddleHand.isBidding() && !mRearHand.isBidding();
     }
 }

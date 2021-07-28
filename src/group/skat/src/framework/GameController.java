@@ -59,8 +59,8 @@ public abstract class GameController {
 	}
 
 	public void createNewGameLog() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
-		LocalDateTime now = LocalDateTime.now();
+		var dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
+		var now = LocalDateTime.now();
 		mGameLog = new GameLog(dateFormatter.format(now));
 	}
 
@@ -72,7 +72,7 @@ public abstract class GameController {
 		restoreMetaSettings(log.getMetaSettings());
 		restoreGameSettings(log.getGameSettings());
 
-		System.out.println("There are " + log.getMoveLog().size() + " Objects in here");
+	//	System.out.println("There are " + log.getMoveLog().size() + " Objects in here");
 
 		for (JSONObject move : log.getMoveLog()) {
 			executeMove(move);
@@ -116,7 +116,7 @@ public abstract class GameController {
 	// This template offers easy replies with an ID process it in the UI
 	// It's not required to be used.
 	protected JSONObject createReply(boolean isValid, String replyID) {
-		JSONObject failReply = new JSONObject();
+		var failReply = new JSONObject();
 		failReply.put("isValid", isValid);
 		failReply.put("replyID", replyID);
 		return failReply;
@@ -124,7 +124,7 @@ public abstract class GameController {
 
 	// Also not requied to be used, just for convenience
 	protected JSONObject createRequestJSON(String typeName) {
-		JSONObject request = new JSONObject();
+		var request = new JSONObject();
 
 		request.put("type", typeName);
 		return request;
@@ -140,12 +140,3 @@ public abstract class GameController {
 		this.mPresenter = mPresenter;
 	}
 }
-
-
-/*
-
-	* Wo ist addPlayer(Player player);
-	* player.setController , zumindest bei uns benötigt
-
-
- */

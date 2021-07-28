@@ -5,67 +5,89 @@ import engine.enums.CardColor;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
 
+/**
+ * class for the hands of the players
+ */
 public class Hand {
 
-    private Card[] cards;
-    private Trump trump;
+    private Card[] mCards;
+    private Trump mTrump;
 
-    private int trumpLine;
+    private int mTrumpLine;
 
     /* CONSTRUCTOR */
 
     public Hand(Trump trump) {
 
-        cards = new Card[12];
+        mCards = new Card[12];
 
-        this.trump = trump;
+        this.mTrump = trump;
 
-        trumpLine = -1;
+        mTrumpLine = -1;
     }
 
     /* GETTER */
 
+    /**
+     * @return number of cards on the hand
+     */
     public int getSize() {
 
-        for ( var i = 0; i < cards.length; i++ ) {
+        for (var i = 0; i < mCards.length; i++ ) {
 
-            if ( cards[i] == null ) {
+            if ( mCards[i] == null ) {
 
                 return i;
             }
         }
-        return cards.length;
+        return mCards.length;
     }
 
-    public boolean isEmpty(){
+    /**
+     * @return true if hand is empty, false if not
+     */
+    public boolean isEmpty() {
 
         return getSize() == 0;
 
     }
 
+    /**
+     * @param index of card
+     * @return card at given index
+     */
     public Card getCardAt(int index) {
 
-        return cards[index];
+        return mCards[index];
     }
 
-    public Card[] getCardsArray(){
+    /**
+     * @return array of cards on the hand
+     */
+    public Card[] getCardsArray() {
 
-        return cards;
+        return mCards;
     }
 
-    public Card[] getSkat(){
+    /**
+     * @return skat if available - if not an empty array
+     */
+    public Card[] getSkat() {
 
-        if(getSize() != 12){
+        if(getSize() != 12) {
             Print.debug("WARNING", "getSkat() was called on a player that doesn't have the skat on his hand.");
             return null;
         }
 
-        return new Card[]{cards[10], cards[11]};
+        return new Card[]{mCards[10], mCards[11]};
     }
 
+    /**
+     * @return number of trumps in a row to calculate the value of a game, if this player is declarer
+     */
     public int getTrumpLine() {
 
-        return trumpLine;
+        return mTrumpLine;
     }
 
     /* SETTER */
@@ -74,11 +96,11 @@ public class Hand {
 
     public void addCard(Card card) {
 
-        for (var i = 0; i < cards.length; i++) {
+        for (var i = 0; i < mCards.length; i++) {
 
-            if ( cards[i] == null ) {
+            if ( mCards[i] == null ) {
 
-                cards[i] = card;
+                mCards[i] = card;
                 return;
             }
         }
@@ -87,45 +109,49 @@ public class Hand {
     public void addCardAt(int index, Card card) {
 
         var firstEmpty = index + 1;
-        while ( cards[firstEmpty] != null ) {
+        while ( mCards[firstEmpty] != null ) {
 
             firstEmpty++;
         }
 
         for (var i = firstEmpty; i > index; i--) {
 
-            var help = cards[i];
-            cards[i] = cards[i - 1];
-            cards[i - 1] = help;
+            var help = mCards[i];
+            mCards[i] = mCards[i - 1];
+            mCards[i - 1] = help;
         }
 
-        cards[index] = card;
+        mCards[index] = card;
     }
 
     public void removeCard(int index) {
 
-        cards[index] = null;
+        mCards[index] = null;
 
-        if (index < cards.length - 3) {
+        if (index < mCards.length - 3) {
 
-            for (var i = index; i <= cards.length - 3; i++) {
+            for (var i = index; i <= mCards.length - 3; i++) {
 
                 swap(i, i + 1);
             }
-            cards[cards.length - 2] = null;
+            mCards[mCards.length - 2] = null;
         }
     }
 
+    /**
+     * sorts the hand for a given trump
+     * @param trump trump
+     */
     public void sort(Trump trump) {
 
-        for (var i = 0; i < cards.length - 2; i++) {
+        for (var i = 0; i < mCards.length - 2; i++) {
 
             var maxCardIndex = i;
 
-            for (var j = i + 1; j < cards.length - 2; j++) {
+            for (var j = i + 1; j < mCards.length - 2; j++) {
 
-                if (cards[j] != null && cards[maxCardIndex] != null
-                        && cards[j].getStrength(trump, null) > cards[maxCardIndex].getStrength(trump, null)) {
+                if (mCards[j] != null && mCards[maxCardIndex] != null
+                        && mCards[j].getStrength(trump, null) > mCards[maxCardIndex].getStrength(trump, null)) {
 
                     maxCardIndex = j;
                 }
@@ -136,16 +162,19 @@ public class Hand {
 
     private void swap(int index1, int index2) {
 
-        var help = cards[index1];
-        cards[index1] = cards[index2];
-        cards[index2] = help;
+        var help = mCards[index1];
+        mCards[index1] = mCards[index2];
+        mCards[index2] = help;
     }
 
+    /**
+     * calculates the trumps in a row
+     */
     public void setTrumpLine() {
 
-        if (trump.getGameMode() == GameMode.NULL) {
+        if (mTrump.getGameMode() == GameMode.NULL) {
 
-            trumpLine = 0;
+            mTrumpLine = 0;
             return;
         }
 
@@ -158,7 +187,7 @@ public class Hand {
         var heartsJack = false;
         var diamondsJack = false;
 
-        for (Card card : cards) {
+        for (Card card : mCards) {
 
             if (card.getCardValue() == CardValue.JACK) {
 
@@ -185,14 +214,18 @@ public class Hand {
 
         jacks = setJacks(clubsJack, spadesJack, heartsJack, diamondsJack);
 
-        if (trump.getGameMode() == GameMode.SUIT && jacks == 4) {
+        if (mTrump.getGameMode() == GameMode.SUIT && jacks == 4) {
 
             trumps = setFurtherTrumps(diamondsJack);
         }
 
-        trumpLine = jacks + trumps;
+        mTrumpLine = jacks + trumps;
     }
 
+    /**
+     * help for trumpline calculation
+     * @return number of jacks in a row
+     */
     private int setJacks(boolean clubsJack, boolean spadesJack, boolean heartsJack, boolean diamondsJack) {
 
         var jacks = 1;
@@ -217,6 +250,11 @@ public class Hand {
         return jacks;
     }
 
+    /**
+     * help for trumpline calculation
+     * @param diamondsJack true if diamondsjack is present, false if not
+     * @return number of trumps in a row
+     */
     private int setFurtherTrumps(boolean diamondsJack) {
 
         var trumpAce = false;
@@ -227,9 +265,9 @@ public class Hand {
         var trumpEight = false;
         var trumpSeven = false;
 
-        for (Card card : cards) {
+        for (Card card : mCards) {
 
-            if (card.isTrump(trump) && card.getCardValue() != CardValue.JACK) {
+            if (card.isTrump(mTrump) && card.getCardValue() != CardValue.JACK) {
 
                 if (card.getCardValue() == CardValue.ACE) {
 
@@ -272,6 +310,10 @@ public class Hand {
         return trumps;
     }
 
+    /**
+     * help for trumpline calculation
+     * @return number of trumps in a row
+     */
     private int setFurtherTrumpsUno(boolean diamondsJack, boolean trumpAce, boolean trumpTen, boolean trumpKing) {
 
         var trumps = 0;
@@ -297,6 +339,10 @@ public class Hand {
         return trumps;
     }
 
+    /**
+     * help for trumpline calculation
+     * @return number of trumps in a row
+     */
     private int setFurtherTrumpsDos(boolean trumpKing, boolean trumpQueen, boolean trumpNine, boolean trumpEight, boolean trumpSeven) {
 
         var trumps = 0;
@@ -324,11 +370,21 @@ public class Hand {
         return trumps;
     }
 
+    /**
+     * @param indexFrom index of card to move
+     * @param indexTo index of target
+     * @return true if move is possible, false if not
+     */
     public boolean moveCardIsValid(int indexFrom, int indexTo) {
 
-        return cards[indexFrom] != null && cards[indexTo] != null && indexFrom != indexTo;
+        return mCards[indexFrom] != null && mCards[indexTo] != null && indexFrom != indexTo;
     }
 
+    /**
+     * switches a card on the hand
+     * @param indexFrom index of card to move
+     * @param indexTo index of target
+     */
     public void moveCardOnHand(int indexFrom, int indexTo) {
 
         var indexTarget = indexTo;
@@ -353,6 +409,11 @@ public class Hand {
         }
     }
 
+    /**
+     * skat is available and card is switched on hand
+     * @param indexFrom index of card to move
+     * @param indexTo index of target
+     */
     public void moveCardOnSkatHand(int indexFrom, int indexTo) {
 
         if (indexFrom < 10 && indexTo < 10) {
@@ -365,11 +426,14 @@ public class Hand {
         }
     }
 
+    /**
+     * @return true if player can play a trump-card, false if not
+     */
     public boolean canFollowTrump() {
 
         for (var i = 0; i < getSize(); i++) {
 
-            if (cards[i].isTrump(trump)) {
+            if (mCards[i].isTrump(mTrump)) {
 
                 return true;
             }
@@ -377,11 +441,15 @@ public class Hand {
         return false;
     }
 
+    /**
+     * @param color of current trick
+     * @return true if player can play this color, false if not
+     */
     public boolean canFollowSuit(CardColor color) {
 
         for (var i = 0; i < getSize(); i++) {
 
-            if (cards[i].getCardColor() == color && !cards[i].isTrump(trump)) {
+            if (mCards[i].getCardColor() == color && !mCards[i].isTrump(mTrump)) {
 
                 return true;
             }

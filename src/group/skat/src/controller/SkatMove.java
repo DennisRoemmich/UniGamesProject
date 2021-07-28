@@ -5,6 +5,9 @@ import controller.enums.ActionType;
 import engine.Trump;
 import org.json.simple.JSONObject;
 
+/**
+ * constructor class for all the moves possible in the game logic
+ */
 public class SkatMove extends GameMove {
 
     private static final String TYPE_KEY = "type";
@@ -14,81 +17,112 @@ public class SkatMove extends GameMove {
     private static final String TOBERELOGGED_KEY = "toBeRelogged";
 
 
-    private int indexFrom;
-    private int indexTo;
+    private int mIndexFrom;
+    private int mIndexTo;
     /** This value is used to be able to play moves from log without logging them again but actually it shouldn't be that way*/
-    private boolean toBeRelogged = false;
+    private boolean mToBeRelogged = false;
 
    // private ActionType type;
-    public Trump trump;
+    public Trump mTrump;
 
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor for json-object-input
+     * @param obj jsnobject
+     */
     public SkatMove(JSONObject obj) {
 
-        type = ActionType.valueOf((String) obj.get(TYPE_KEY));
-        toBeRelogged = (boolean) obj.get(TOBERELOGGED_KEY);
+        mType = ActionType.valueOf((String) obj.get(TYPE_KEY));
+        mToBeRelogged = (boolean) obj.get(TOBERELOGGED_KEY);
 
-        if ( type.usesIndices() ) {
+        if ( mType.usesIndices() ) {
 
-            indexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
-            indexTo = Integer.parseInt((String) obj.get(INDEXTO_KEY));
-
-        }
-
-        if ( type.usesIndex() ){
-
-            indexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
+            mIndexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
+            mIndexTo = Integer.parseInt((String) obj.get(INDEXTO_KEY));
 
         }
 
-        if ( type.usesTrump() ) {
+        if ( mType.usesIndex() ) {
 
-            trump = new Trump(obj);
+            mIndexFrom = Integer.parseInt((String) obj.get(INDEXFROM_KEY));
+
+        }
+
+        if ( mType.usesTrump() ) {
+
+            mTrump = new Trump(obj);
 
         }
 
     }
 
+    /**
+     * general constructor
+     * @param type type
+     */
     public SkatMove(ActionType type) {
 
-        this.type = type;
+        this.mType = type;
 
     }
 
+    /**
+     * constructor for card-plays
+     * @param from index of played card
+     */
     public SkatMove(int from) {
 
-        this.type = ActionType.PLAY_CARD;
-        indexFrom = from;
+        this.mType = ActionType.PLAY_CARD;
+        mIndexFrom = from;
 
     }
 
+    /**
+     * constructor for card-switches (on hand or on skat)
+     * @param type move on hand or on skat
+     * @param from index of card to move
+     * @param to index of target
+     */
     public SkatMove(ActionType type, int from, int to) {
 
-        this.type = type;
-        this.indexFrom = from;
-        this.indexTo = to;
+        this.mType = type;
+        this.mIndexFrom = from;
+        this.mIndexTo = to;
 
     }
 
+    /**
+     * constructor for declaring trump
+     * @param trump trump
+     */
     public SkatMove(Trump trump) {
 
-        this.type = ActionType.SET_TRUMP;
-        this.trump = trump;
+        this.mType = ActionType.SET_TRUMP;
+        this.mTrump = trump;
 
     }
 
+    /**
+     * general constructor for consoleActionTypes
+     * @param consType consoleType
+     */
     public SkatMove(ConsoleActionType consType) {
 
-        this.consoleType = consType;
+        this.mConsoleType = consType;
 
     }
 
+    /**
+     * constructor for card-play in console
+     * @param consType consoleActionTypes
+     * @param indexSelection index of played card
+     */
     public SkatMove(ConsoleActionType consType, int indexSelection) {
 
-        this.consoleType = consType;
-        this.indexFrom = indexSelection;
+        this.mConsoleType = consType;
+        this.mIndexFrom = indexSelection;
 
     }
 
@@ -96,40 +130,40 @@ public class SkatMove extends GameMove {
 
     public int getIndexFrom() {
 
-        return indexFrom;
+        return mIndexFrom;
     }
 
     public int getIndexTo() {
 
-        return indexTo;
+        return mIndexTo;
     }
 
     /* OTHER */
 
     @Override
-    public JSONObject toJSON(){
+    public JSONObject toJSON() {
 
         var obj = new JSONObject();
 
-        obj.put(TYPE_KEY, type.toString());
-        obj.put(TOBERELOGGED_KEY, Boolean.toString(toBeRelogged));
+        obj.put(TYPE_KEY, mType.toString());
+        obj.put(TOBERELOGGED_KEY, Boolean.toString(mToBeRelogged));
 
-        if ( type.usesIndices() ) {
+        if ( mType.usesIndices() ) {
 
-            obj.put(INDEXFROM_KEY, Integer.toString(indexFrom) );
-            obj.put(INDEXTO_KEY, Integer.toString(indexTo));
-
-        }
-
-        if ( type.usesIndex() ) {
-
-            obj.put(INDEXFROM_KEY, Integer.toString(indexFrom) );
+            obj.put(INDEXFROM_KEY, Integer.toString(mIndexFrom) );
+            obj.put(INDEXTO_KEY, Integer.toString(mIndexTo));
 
         }
 
-        if ( type.usesTrump() ) {
+        if ( mType.usesIndex() ) {
 
-            obj.put(TRUMP_KEY,  trump.toJSON());
+            obj.put(INDEXFROM_KEY, Integer.toString(mIndexFrom) );
+
+        }
+
+        if ( mType.usesTrump() ) {
+
+            obj.put(TRUMP_KEY,  mTrump.toJSON());
 
         }
 

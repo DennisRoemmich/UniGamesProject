@@ -1,5 +1,8 @@
 package javaFX.enums;
 
+/**
+ * enum for possible handshelf positions in GUI
+ */
 public enum FXHandShelfPosition {
 
     MID_PLAYER,

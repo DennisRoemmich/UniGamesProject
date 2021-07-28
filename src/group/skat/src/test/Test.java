@@ -9,7 +9,6 @@ import engine.*;
 import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
-import framework.GameController;
 
 import java.util.Random;
 
@@ -18,7 +17,7 @@ public class Test {
     SkatController controller;
     SkatGame game;
 
-    public Test(SkatController controller){
+    public Test(SkatController controller) {
 
         this.controller = controller;
         this.game = controller.getGame();
@@ -135,17 +134,17 @@ public class Test {
     }
 
 
-    public void mainTest(){
+    public void mainTest() {
 
         andi();
 
     }
 
-    void maik(){
+    void maik() {
 
     }
 
-    void andi(){
+    void andi() {
 
         consoleSetUpTres();
         var console = new Console(controller);
@@ -153,15 +152,6 @@ public class Test {
 
 
     }
-
-    /* print Funktionen -> eigene Klasse */
-
-
-
-    /* toString Funktionen */
-
-
-
 
 }
 

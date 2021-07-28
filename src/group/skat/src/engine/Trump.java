@@ -5,38 +5,56 @@ import engine.enums.CardValue;
 import engine.enums.GameMode;
 import org.json.simple.JSONObject;
 
+/**
+ * class for trump
+ */
 public class Trump {
 
     private static final String GAMEMODE_KEY = "gameMode";
     private static final String COLOR_KEY = "color";
 
-    private GameMode gameMode;
-    private CardColor color;
+    private GameMode mGameMode;
+    private CardColor mColor;
 
     /* CONSTRUCTOR */
 
+    /**
+     * empty constructor
+     */
     public Trump() {
 
     }
 
+    /**
+     * constructor for grand and null games
+     * @param mode mode
+     */
     public Trump(GameMode mode) {
 
-        gameMode = mode;
+        mGameMode = mode;
     }
 
+    /**
+     * constructor for suit games
+     * @param color color to be trump in the playing phase
+     */
     public Trump(CardColor color) {
 
-        gameMode = GameMode.SUIT;
-        this.color = color;
+        mGameMode = GameMode.SUIT;
+        this.mColor = color;
     }
 
+    /**
+     * constructor from json-object
+     * @param obj jsonobject
+     */
     public Trump(JSONObject obj) {
 
-        gameMode = GameMode.valueOf((String) obj.get(GAMEMODE_KEY));
+        mGameMode = GameMode.valueOf((String) obj.get(GAMEMODE_KEY));
 
-        if ( gameMode == GameMode.SUIT ){
+        if ( mGameMode == GameMode.SUIT ) {
 
-            color = CardColor.valueOf((String) obj.get(COLOR_KEY));
+            mColor = CardColor.valueOf((String) obj.get(COLOR_KEY));
 
         }
 
@@ -44,25 +62,34 @@ public class Trump {
 
     /* GETTER */
 
+    /**
+     * @return game mode
+     */
     public GameMode getGameMode() {
 
-        return gameMode;
+        return mGameMode;
     }
 
+    /**
+     * @return trump color
+     */
     public CardColor getColor() {
 
-        return color;
+        return mColor;
     }
 
+    /**
+     * @return value of trump, needed to calculate game value
+     */
     public int getTrumpValue() {
 
-        if (gameMode != GameMode.SUIT) {
+        if (mGameMode != GameMode.SUIT) {
 
-            return gameMode.getModeValue();
+            return mGameMode.getModeValue();
 
         } else {
 
-            return color.getCardColorValue();
+            return mColor.getCardColorValue();
         }
     }
 
@@ -70,35 +97,42 @@ public class Trump {
 
     public void setGameMode(GameMode gameMode) {
 
-        this.gameMode = gameMode;
+        this.mGameMode = gameMode;
     }
 
     public void setColor(CardColor color) {
 
-        this.color = color;
+        this.mColor = color;
     }
 
     /* OTHER */
 
+    /**
+     * @param card card
+     * @return true if card is trump, false if not
+     */
     public boolean isTrump(Card card) {
 
-        return switch ( gameMode ) {
+        return switch (mGameMode) {
 
-            case SUIT -> card.getCardValue() == CardValue.JACK || card.getCardColor() == color;
+            case SUIT -> card.getCardValue() == CardValue.JACK || card.getCardColor() == mColor;
             case GRAND -> card.getCardValue() == CardValue.JACK;
             case NULL -> false;
         };
     }
 
-    public JSONObject toJSON(){
+    /**
+     * @return trump as jsonobject
+     */
+    public JSONObject toJSON() {
 
         var obj = new JSONObject();
 
-        obj.put(GAMEMODE_KEY, gameMode.toString());
+        obj.put(GAMEMODE_KEY, mGameMode.toString());
 
-        if ( gameMode == GameMode.SUIT ){
+        if ( mGameMode == GameMode.SUIT ) {
 
-            obj.put(COLOR_KEY, color.toString());
+            obj.put(COLOR_KEY, mColor.toString());
 
         }
 

@@ -1,34 +1,34 @@
 package javaFX;
 
-import console.Print;
 import engine.Card;
 import engine.enums.CardValue;
 import javaFX.enums.FXCardPosition;
 import javaFX.enums.FXHandShelfPosition;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * class for the cards in the GUI
+ */
 public class FXCard {
 
-    private FXController fxController;
+    private FXController mFxController;
 
-    private boolean isOpen;
-    private boolean isHighlighted;
-    private boolean isSelected;
+    private boolean mIsOpen;
+    private boolean mIsHighlighted;
+    private boolean mIsSelected;
 
-    private FXCardPosition position;
-    private int index;
-    private Card card;
+    private FXCardPosition mPosition;
+    private int mIndex;
+    private Card mCard;
 
-    public AnchorPane anchorCard;
+    public AnchorPane mAnchorCard;
 
-    public ImageView imageCardBackground;
-    public ImageView imageCardColor;
-    public ImageView imageCardValue;
-    public ImageView imageCardHighlighted;
+    public ImageView mImageCardBackground;
+    public ImageView mImageCardColor;
+    public ImageView mImageCardValue;
+    public ImageView mImageCardHighlighted;
 
     // Images
 
@@ -74,38 +74,51 @@ public class FXCard {
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor for card at skat or current trick
+     * @param anchorCard anchorPane for either skat or currentTrick
+     * @param pos position of card
+     * @param index index of card
+     * @param fxcontroller fxcontroller
+     */
     public FXCard(AnchorPane anchorCard, FXCardPosition pos, int index, FXController fxcontroller) {
 
-        fxController = fxcontroller;
+        mFxController = fxcontroller;
 
-        this.anchorCard = anchorCard;
-        this.anchorCard.setVisible(true);
+        this.mAnchorCard = anchorCard;
+        this.mAnchorCard.setVisible(true);
 
-        position = pos;
-        this.index = index;
+        mPosition = pos;
+        this.mIndex = index;
 
         init();
         update();
     }
 
+    /**
+     * constructor for card at a handshelf
+     * @param index index of card
+     * @param fxcontroller fxcontrolle
+     * @param pos position of card
+     */
     public FXCard(int index, FXController fxcontroller, FXHandShelfPosition pos) {
 
-        fxController = fxcontroller;
-        anchorCard = new AnchorPane();
-        anchorCard.setVisible(true);
+        mFxController = fxcontroller;
+        mAnchorCard = new AnchorPane();
+        mAnchorCard.setVisible(true);
 
-        position = switch (pos) {
+        mPosition = switch (pos) {
 
             case LEFT_PLAYER -> FXCardPosition.HANDSHELF_LEFT;
             case MID_PLAYER -> FXCardPosition.HANDSHELF_MID;
             case RIGHT_PLAYER -> FXCardPosition.HANDSHELF_RIGHT;
         };
-        this.index = index;
-        this.card = null;
+        this.mIndex = index;
+        this.mCard = null;
 
-        isOpen = false;
-        isHighlighted = false;
-        isSelected = false;
+        mIsOpen = false;
+        mIsHighlighted = false;
+        mIsSelected = false;
 
         init();
         update();
@@ -113,57 +126,81 @@ public class FXCard {
 
     /* GETTER */
 
+    /**
+     * @return index of card
+     */
     public int getIndex() {
 
-        return index;
+        return mIndex;
     }
 
+    /**
+     * @return true if card is open, false if front page is not visible (turned around)
+     */
     public boolean isOpen() {
 
-        return isOpen;
+        return mIsOpen;
     }
 
+    /**
+     * @return true if highlighted, false if not
+     */
     public boolean isHighlighted() {
 
-        return isHighlighted;
+        return mIsHighlighted;
     }
 
+    /**
+     * @return true if selected, false if not
+     */
     public boolean isSelected() {
 
-        return isSelected;
+        return mIsSelected;
     }
 
+    /**
+     * @return anchorcard of card
+     */
     public AnchorPane getAnchorCard() {
 
-        return anchorCard;
+        return mAnchorCard;
     }
 
+    /**
+     * @return true if empty, false if not
+     */
     public boolean isEmpty() {
 
-        return card == null;
+        return mCard == null;
     }
 
+    /**
+     * @return card
+     */
     public Card getCard() {
 
-        return card;
+        return mCard;
     }
 
     /* SETTER */
 
+    /**
+     * sets image of card color
+     */
     private void setImageCardColor() {
 
-        if (card == null) {
+        if (mCard == null) {
 
-            imageCardColor.setVisible(false);
+            mImageCardColor.setVisible(false);
             return;
         }
 
-        var value = card.getCardValue();
+        var value = mCard.getCardValue();
         Image image;
 
         if (value == CardValue.KING || value == CardValue.QUEEN || value == CardValue.JACK) {
 
-            image = switch (card.getCardColor()) {
+            image = switch (mCard.getCardColor()) {
 
                 case CLUBS -> clubsI;
                 case SPADES -> spadesI;
@@ -173,7 +210,7 @@ public class FXCard {
 
         } else {
 
-            image = switch (card.getCardColor()) {
+            image = switch (mCard.getCardColor()) {
 
                 case CLUBS -> clubsN;
                 case SPADES -> spadesN;
@@ -182,21 +219,24 @@ public class FXCard {
             };
         }
 
-        imageCardColor.setImage(image);
-        imageCardColor.setVisible(true);
+        mImageCardColor.setImage(image);
+        mImageCardColor.setVisible(true);
     }
 
+    /**
+     * sets image of card value
+     */
     private void setImageCardValue() {
 
-        if (card == null) {
+        if (mCard == null) {
 
-            imageCardValue.setVisible(false);
+            mImageCardValue.setVisible(false);
             return;
         }
 
-        imageCardValue.setImage(
+        mImageCardValue.setImage(
 
-                switch (card.getCardValue()) {
+                switch (mCard.getCardValue()) {
 
                     case ACE -> ace;
                     case KING -> king;
@@ -209,45 +249,48 @@ public class FXCard {
                 }
         );
 
-        imageCardValue.setVisible(true);
+        mImageCardValue.setVisible(true);
     }
 
     public void setOpen(boolean open) {
 
-        isOpen = open;
+        mIsOpen = open;
     }
 
     public void setHighlighted(boolean highlighted) {
 
-        isHighlighted = highlighted;
+        mIsHighlighted = highlighted;
     }
 
     public void setSelected(boolean selected) {
 
-        isSelected = selected;
+        mIsSelected = selected;
         update();
     }
 
     /* OTHER */
 
+    /**
+     * initialises the size, actions etc. of the card
+     */
     private void init() {
 
-        imageCardColor = new ImageView();
-        imageCardValue = new ImageView();
+        mImageCardColor = new ImageView();
+        mImageCardValue = new ImageView();
 
-        imageCardBackground = new ImageView(turnedDown);
-        imageCardBackground.setVisible(false);
-        imageCardHighlighted = new ImageView(highlight);
-        imageCardHighlighted.setVisible(false);
+        mImageCardBackground = new ImageView(turnedDown);
+        mImageCardBackground.setVisible(false);
+        mImageCardHighlighted = new ImageView(highlight);
+        mImageCardHighlighted.setVisible(false);
 
-        for (ImageView pane : new ImageView[]{imageCardBackground, imageCardColor, imageCardValue, imageCardHighlighted}) {
+        for (ImageView pane : new ImageView[]{mImageCardBackground, mImageCardColor, mImageCardValue, mImageCardHighlighted}) {
 
-            anchorCard.getChildren().add(pane);
+            mAnchorCard.getChildren().add(pane);
 
-            if (position == FXCardPosition.SKAT || position == FXCardPosition.TRICK || position == FXCardPosition.PREVIEW) {
+            if (mPosition == FXCardPosition.SKAT || mPosition == FXCardPosition.TRICK || mPosition == FXCardPosition.PREVIEW) {
 
-                pane.setFitWidth(anchorCard.getWidth());
-                pane.setFitHeight(anchorCard.getHeight());
+                pane.setFitWidth(mAnchorCard.getWidth());
+                pane.setFitHeight(mAnchorCard.getHeight());
 
             } else {
                 pane.setFitWidth(119);
@@ -257,41 +300,45 @@ public class FXCard {
             pane.setLayoutY(0);
         }
 
-        anchorCard.setOnMouseClicked(mouseEvent -> fxController.fxCardClicked(position, index));
+        mAnchorCard.setOnMouseClicked(mouseEvent -> mFxController.fxCardClicked(mPosition, mIndex));
     }
 
+    /**
+     * updates the card to current status
+     */
     public void update() {
 
-        isOpen = switch (position) {
+        mIsOpen = switch (mPosition) {
 
             case HANDSHELF_MID, SKAT, TRICK, PREVIEW -> true;
             case HANDSHELF_LEFT, HANDSHELF_RIGHT, TRICKS_DECLARER, TRICKS_OPPONENTS -> false;
         };
 
-    //    isOpen = position != FXCardPosition.HANDSHELF_RIGHT;
-        var notnull = card != null;
+        var notnull = mCard != null;
 
-        imageCardBackground.setVisible(!isOpen && notnull);
-        imageCardColor.setVisible(isOpen && notnull);
-        imageCardValue.setVisible(isOpen && notnull);
-        imageCardHighlighted.setVisible(isSelected && notnull);
-
-
-    //    imageCardHighlighted.setVisible(isHighlighted);
-
-        // TODO: highlighted
-
+        mImageCardBackground.setVisible(!mIsOpen && notnull);
+        mImageCardColor.setVisible(mIsOpen && notnull);
+        mImageCardValue.setVisible(mIsOpen && notnull);
+        mImageCardHighlighted.setVisible(mIsSelected && notnull);
 
     }
 
+    /**
+     * @param card card
+     * @return true if card has changed since last update, false if not
+     */
     public boolean isEqualTo(Card card) {
 
-        return this.card == card;
+        return this.mCard == card;
     }
 
+    /**
+     * changes card
+     * @param card card
+     */
     public void changeCard(Card card) {
 
-        this.card = card;
+        this.mCard = card;
 
         setImageCardColor();
         setImageCardValue();
@@ -301,7 +348,7 @@ public class FXCard {
 
     public void removeCard() {
 
-        card = null;
+        mCard = null;
         update();
     }
 

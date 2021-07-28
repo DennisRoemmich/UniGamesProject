@@ -1,32 +1,39 @@
 package javaFX;
 
-import console.Print;
 import controller.SkatMove;
 import controller.enums.ActionType;
-import engine.Card;
 import engine.Hand;
 import javaFX.enums.FXHandShelfPosition;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * class for the hand in GUI
+ */
 public class FXHandShelf {
 
-    private FXController fxController;
+    private FXController mFxController;
 
-    private FXHandShelfPosition position;
+    private FXHandShelfPosition mPosition;
 
-    private FXCard[] handFXCards;
+    private FXCard[] mHandFXCards;
 
-    private int selectedCardIndex;
+    private int mSelectedCardIndex;
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor
+     * @param pane pane of handshelf
+     * @param fxController fxcontroller
+     * @param pos position of handshelf
+     */
     public FXHandShelf(AnchorPane pane, FXController fxController, FXHandShelfPosition pos) {
 
-        this.fxController = fxController;
+        this.mFxController = fxController;
 
-        position = pos;
+        mPosition = pos;
 
-        selectedCardIndex = -1;
+        mSelectedCardIndex = -1;
 
         init(pane);
         update();
@@ -36,175 +43,167 @@ public class FXHandShelf {
 
     public FXCard getFXCardAt(int index) {
 
-        return handFXCards[index];
+        return mHandFXCards[index];
     }
 
     public FXCard[] getHandFXCards() {
 
-        return handFXCards;
+        return mHandFXCards;
     }
 
     /* OTHER */
 
+    /**
+     * initialisation
+     * @param pane handshelf anchorpane to handle selection of cards
+     */
     public void init(AnchorPane pane) {
 
-        handFXCards = new FXCard[10];
+        mHandFXCards = new FXCard[10];
 
         for (var i = 0; i < 10; i++) {
 
-            var card = new FXCard(i, fxController, position);
+            var card = new FXCard(i, mFxController, mPosition);
 
-            handFXCards[i] = card;
+            mHandFXCards[i] = card;
 
             pane.getChildren().add(card.getAnchorCard());
 
-            if (position == FXHandShelfPosition.MID_PLAYER) {
+            if (mPosition == FXHandShelfPosition.MID_PLAYER) {
 
                 AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 70.0);
 
             } else {
-
-                // TODO: das stimmt noch nich ganz, muss noch geändert werden - andere anker vlt?
+                
                 AnchorPane.setLeftAnchor(card.getAnchorCard(), i * 45.0);
             }
         }
     }
 
-    public void update(){
+    /**
+     * updates the whole handshelf
+     */
+    public void update() {
 
-        var curIndex = fxController.getPlayerGameIndex();
+        var curIndex = mFxController.getPlayerGameIndex();
         Hand playersHand;
-
-        if (position == FXHandShelfPosition.LEFT_PLAYER) {
-
-            playersHand = fxController.getController().getGame().getPlayerAt((curIndex + 1) % 3).getHand();
-
-        } else if (position == FXHandShelfPosition.RIGHT_PLAYER) {
-
-            playersHand = fxController.getController().getGame().getPlayerAt((curIndex + 2) % 3).getHand();
-
-        } else {
-
-            playersHand = fxController.getController().getGame().getPlayerAt(curIndex).getHand();
-        }
+        
+        
+        playersHand = initPlayersHand(curIndex);
 
         var shiftRight = false;
-        for (var i = 0; i < handFXCards.length; i++) {
+        for (var i = 0; i < mHandFXCards.length; i++) {
 
-            if (!handFXCards[i].isEqualTo(playersHand.getCardAt(i))) {
+            if (!mHandFXCards[i].isEqualTo(playersHand.getCardAt(i))) {
 
-                handFXCards[i].changeCard(playersHand.getCardAt(i));
+                mHandFXCards[i].changeCard(playersHand.getCardAt(i));
             }
 
-            if (position == FXHandShelfPosition.MID_PLAYER) {
+            if (mPosition == FXHandShelfPosition.MID_PLAYER) {
 
-                if (handFXCards[i].getCard() == null) {
+                if (mHandFXCards[i].getCard() == null) {
 
-                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), 9 * 70.0 + 2 * (119.0 - 74.0));
+                    AnchorPane.setLeftAnchor(mHandFXCards[i].getAnchorCard(), 9 * 70.0 + 2 * (119.0 - 74.0));
 
                 } else
 
                 if (shiftRight) {
 
-                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 74.0));
+                    AnchorPane.setLeftAnchor(mHandFXCards[i].getAnchorCard(), i * 70.0 + (119.0 - 74.0));
 
                 } else {
 
-                    AnchorPane.setLeftAnchor(handFXCards[i].getAnchorCard(), i * 70.0);
+                    AnchorPane.setLeftAnchor(mHandFXCards[i].getAnchorCard(), i * 70.0);
                 }
 
-                if (handFXCards[i].isSelected()) {
+                if (mHandFXCards[i].isSelected()) {
 
                     shiftRight = true;
                 }
             }
 
-            handFXCards[i].update();
+            mHandFXCards[i].update();
         }
     }
 
-    public void expand(int atIndex){
+    /**
+     * help method for update
+     * @param curIndex index of current player
+     * @return corresponding hand
+     */
+    public Hand initPlayersHand(int curIndex) {
 
+        if (mPosition == FXHandShelfPosition.LEFT_PLAYER) {
 
+            return mFxController.getController().getGame().getPlayerAt((curIndex + 1) % 3).getHand();
+
+        } else if (mPosition == FXHandShelfPosition.RIGHT_PLAYER) {
+
+            return mFxController.getController().getGame().getPlayerAt((curIndex + 2) % 3).getHand();
+
+        } else {
+
+            return mFxController.getController().getGame().getPlayerAt(curIndex).getHand();
+        }
     }
-
-    /* DRAG, DROP, CLICK*/
-
-    public boolean startDrag(int atIndex){
-
-        return false;
-    }
-
-    public boolean endDrag(int atIndex){
-
-        return false;
-    }
-
-    public void dragOver(int atIndex){
-
-        // Gui interne Vorschau des drags
-    }
-
-    /** For Skat an Play*/
-    public void endDrag(){
-
-    }
-
-
-    public boolean click(int atIndex){
-
-        return false;
-    }
+    
 
     /* OTHER */
 
     public int getSelectedCardIndex() {
 
-        return selectedCardIndex;
+        return mSelectedCardIndex;
     }
 
     public void setSelectedCardIndex(int index) {
 
-        selectedCardIndex = index;
+        mSelectedCardIndex = index;
     }
 
     /* ACTIONHANDLING */
 
+    /**
+     * handles card click event
+     * @param index index of clicked card
+     */
     public void cardClickedAt(int index) {
 
-        if (selectedCardIndex == -1) {
+        if (mSelectedCardIndex == -1) {
 
             deselectAll();
 
-            handFXCards[index].setSelected(true);
-            selectedCardIndex = index;
+            mHandFXCards[index].setSelected(true);
+            mSelectedCardIndex = index;
 
-        } else if (selectedCardIndex == index) {
+        } else if (mSelectedCardIndex == index) {
 
-            handFXCards[index].setSelected(false);
-            selectedCardIndex = -1;
+            mHandFXCards[index].setSelected(false);
+            mSelectedCardIndex = -1;
 
         } else {
 
-            var move = new SkatMove(ActionType.ON_HAND, selectedCardIndex, index);
+            var move = new SkatMove(ActionType.ON_HAND, mSelectedCardIndex, index);
 
-            if (fxController.makeMove(move)) {
+            if (mFxController.makeMove(move)) {
 
                 deselectAll();
-                selectedCardIndex = -1;
+                mSelectedCardIndex = -1;
             }
         }
 
         FXPresenter.update();
     }
 
+    /**
+     * deselects all cards
+     */
     public void deselectAll() {
 
-        for (FXCard card : handFXCards) {
+        for (FXCard card : mHandFXCards) {
 
             card.setSelected(false);
         }
-        selectedCardIndex = -1;
+        mSelectedCardIndex = -1;
     }
 
 

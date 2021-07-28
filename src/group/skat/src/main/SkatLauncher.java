@@ -1,13 +1,9 @@
 package main;
 
-import console.Console;
 import console.Print;
 import controller.SkatController;
-import framework.NetworkController;
 import framework.NetworkPlayer;
-import framework.Player;
 import javaFX.FXLauncher;
-import jdk.jshell.EvalException;
 import test.Test;
 
 import javax.swing.*;
@@ -17,8 +13,8 @@ import java.util.Arrays;
 
 public class SkatLauncher {
 
-    private static boolean FX_LAUNCHER = false;
-    private static boolean WINDOWS = false;
+    private static boolean mFxLauncher = false;
+    private static boolean mWindows = false;
 
     static final int GAME_AMOUNT = 12;
 
@@ -31,11 +27,9 @@ public class SkatLauncher {
 
         try {
 
-            FX_LAUNCHER = args[0].equals("gui");
+            mFxLauncher = args[0].equals("gui");
 
-        } catch (Exception ignored) {
-
-        }
+        } catch (Exception ignored) { }
 
 
         var standardPlayerNames = new ArrayList<String>(Arrays.asList("Yoshi","HuiBuh","Neymar","Mr. Crabs","Chewbacca"));
@@ -83,7 +77,7 @@ public class SkatLauncher {
             /* GUI PLAYER - LAST! */
 
 
-        if (FX_LAUNCHER) {
+        if (mFxLauncher) {
 
             var fxLauncher = new FXLauncher();
             fxLauncher.launchFX(controller); // Process will fall in a loop here
@@ -92,23 +86,15 @@ public class SkatLauncher {
 
             try {
 
-                WINDOWS = args[0].equals("windows");
+                mWindows = args[0].equals("windows");
 
             } catch (Exception ignored) {}
 
-            Print.setWINDOWS(WINDOWS);
+            Print.setWINDOWS(mWindows);
 
         }
 
-
-
-
-
-
     }
-
-
-
 
 }
 
