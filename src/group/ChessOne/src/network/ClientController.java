@@ -51,32 +51,25 @@ public class ClientController extends GameController {
 
     }
 
-
     public Chess getGame(){
         return mChessGame;
     }
 
     public void startGame(){
-
         presenter.refreshOutput();
         gameLoop();
-
     }
 
     private void gameLoop(){
-
         boolean validConnection = true;
 
         do {
-
             String moveString = "";
             try {
                 moveString = listen();
             } catch (Exception e){
-
                 System.out.println("Failed to receive move:\n" + e);
                 validConnection = false;
-
             }
 
             if (validConnection){
@@ -97,17 +90,11 @@ public class ClientController extends GameController {
                     validConnection = false;
 
                 }
-
             }
-
-
         } while(validConnection);
-
-
     }
 
     private void setParams(){
-
         hostIP = JOptionPane.showInputDialog(null, "You play as Client. Please enter the IP of the host.","Network Connection", JOptionPane.QUESTION_MESSAGE);
     }
 
@@ -140,8 +127,8 @@ public class ClientController extends GameController {
 
 
     @Override
-    protected JSONObject executeMove(JSONObject move) {
-        return null;
+    public void executeMove(JSONObject move) {
+
     }
 
     @Override

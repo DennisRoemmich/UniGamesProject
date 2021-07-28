@@ -1,10 +1,10 @@
 package gui;
 
 import gui.ChessBoardNode;
-import gui.ChessGUI;
 import gui.GuiController;
 import javafx.application.Application;
 import javafx.event.EventType;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,16 +17,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        ChessGUI root = new ChessGUI();
+        ClassLoader classLoader = getClass().getClassLoader();
+        FXMLLoader loader = new FXMLLoader(classLoader.getResource("Chess.fxml"));
         primaryStage.setTitle("Chess One");
-        primaryStage.setScene(new Scene(root, 1400, 1000));
+        primaryStage.setScene(new Scene(loader.load(), 1400, 1000));
         primaryStage.show();
-        GuiController guiController = new GuiController(root);
-        root.setOnKeyPressed(guiController);
-        root.setBoard(guiController.getChessController().getGame().getBoard());
-        guiController.start();
     }
-
 
     public static void main(String[] args) {
         launch(args);

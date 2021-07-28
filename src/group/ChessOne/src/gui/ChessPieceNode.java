@@ -1,11 +1,12 @@
 package gui;
 
 import engine.pieces.PositionedPiece;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 
-public class ChessPieceNode extends Region {
+public class ChessPieceNode extends Group {
     private PositionedPiece positionedPiece;
     private ImageView imageView;
     private ClassLoader classLoader = getClass().getClassLoader();

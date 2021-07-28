@@ -3,7 +3,6 @@ package npc;
 import engine.Controller;
 import engine.board.ChessMove;
 import framework.Player;
-import framework.TimeKeeper;
 import org.json.simple.JSONObject;
 
 public class AiPlayer implements Player {
@@ -23,7 +22,6 @@ public class AiPlayer implements Player {
     protected ChessMove getBestMove(int depth) {
 		long endTime = System.currentTimeMillis() + 10000L;
 		var move = AiRatingEngine.getBestMove(mController.getGame(), depth, endTime);
-		//sleep(TimeKeeper.remainingUntilTimePoint(endTime) - 9000);
 		return move;
 	}
 

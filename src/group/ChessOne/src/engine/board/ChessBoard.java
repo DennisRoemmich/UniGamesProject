@@ -1,7 +1,6 @@
 package engine.board;
 
 import engine.pieces.*;
-import engine.squares.Direction;
 import engine.squares.File;
 import engine.squares.Rank;
 import engine.squares.Square;

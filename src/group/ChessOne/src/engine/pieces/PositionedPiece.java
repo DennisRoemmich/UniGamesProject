@@ -1,7 +1,5 @@
 package engine.pieces;
 
-import engine.pieces.ChessPiece;
-import engine.pieces.ChessPieceCopyFactory;
 import engine.squares.Square;
 
 import java.util.Objects;

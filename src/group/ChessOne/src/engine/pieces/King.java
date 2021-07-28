@@ -62,7 +62,7 @@ public class King extends ChessPiece {
             Square kingSquare = new Square(getColor().getBackrank(), File.E);
             Direction kingMoveDirection = positionedRook.getPosition().getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
 
-            // Check if squares for king are not covered by the opponent
+            // Check if engine.squares for king are not covered by the opponent
             List<Square> squaresToCheck = new ArrayList<>();
             squaresToCheck.add(kingSquare.getNext(kingMoveDirection).get());
             squaresToCheck.add(squaresToCheck.get(0).getNext(kingMoveDirection).get());
@@ -76,7 +76,7 @@ public class King extends ChessPiece {
             if(stopFlag) continue;
 
 
-            // Check if those squares (+ the B-Square if castling is on queen side) are free
+            // Check if those engine.squares (+ the B-Square if castling is on queen side) are free
             if (kingMoveDirection == Direction.LEFT) {
                 squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
             }
