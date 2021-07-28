@@ -3,10 +3,7 @@ package engine.analysis;
 import engine.Chess;
 import engine.board.ChessBoard;
 import engine.pieces.ChessPiece;
-import engine.pieces.ChessPieceType;
 import engine.pieces.Color;
-import engine.squares.Square;
-import java.util.List;
 
 /**
  * Checks if the game is over.
@@ -47,12 +44,15 @@ public final class GameOverDetector {
 
         for (ChessPiece piece : board.getPieces(color)) {
             switch (piece.getType()) {
-                case PAWN, ROOK, QUEEN -> { return true; }
-                case BISHOP, KNIGHT -> {
-                    if(++availableMinorPieces >= 2) {
+                case PAWN, ROOK, QUEEN:
+                	return true;
+                case BISHOP, KNIGHT:
+                    if (++availableMinorPieces >= 2) {
                         return true;
                     }
-                }
+                	break;
+                default:
+                	break;
             }
         }
         return false;

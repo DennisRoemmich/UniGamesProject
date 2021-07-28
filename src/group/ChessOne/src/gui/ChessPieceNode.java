@@ -30,5 +30,4 @@ public class ChessPieceNode extends Region {
         imageView.setLayoutX(x);
         imageView.setLayoutY(y);
     }
-
 }

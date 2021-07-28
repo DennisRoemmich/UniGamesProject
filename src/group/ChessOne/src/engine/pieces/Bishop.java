@@ -1,13 +1,11 @@
 package engine.pieces;
 
 import engine.Chess;
-import engine.board.ChessBoard;
-import engine.pieces.Color;
 import engine.squares.Direction;
 import engine.squares.Square;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Bishop piece on the chess board.
@@ -26,9 +24,11 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<Square> findCoveredSquares(Chess game) {
-        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
-        Square origin = game.getBoard().getSquare(this).get();
-
+    	Optional<Square> s = game.getBoard().getSquare(this);
+        if (!s.isPresent()) {
+        	return new ArrayList<>();
+        }
+        Square origin = s.get();
         ChessPieceMoves moveFinder = new ChessPieceMoves(this, origin, game.getBoard());
         Direction[] bishopDirections =
         		new Direction[]{Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT};

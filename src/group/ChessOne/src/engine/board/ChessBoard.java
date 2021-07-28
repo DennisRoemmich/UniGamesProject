@@ -1,7 +1,6 @@
 package engine.board;
 
 import engine.pieces.*;
-import engine.squares.Direction;
 import engine.squares.File;
 import engine.squares.Rank;
 import engine.squares.Square;
@@ -15,7 +14,7 @@ import java.util.Optional;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class ChessBoard implements Cloneable {
+public class ChessBoard {
 
     List<PositionedPiece> positionedPieces = new ArrayList<>();
 
@@ -62,7 +61,7 @@ public class ChessBoard implements Cloneable {
 
     public void movePiece(Square origin, Square destination) {
         var piece = getPiece(origin);
-        if(piece.isPresent()) {
+        if (piece.isPresent()) {
             removePiece(origin);
             placePiece(piece.get(), destination);
         }

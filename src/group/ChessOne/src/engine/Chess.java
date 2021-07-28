@@ -24,7 +24,7 @@ public class Chess {
 
     protected ChessBoard mBoard = ChessBoard.getStartBoard();
     protected int mCurrentMove = 0;
-    protected int lastPawnMoveOrCapture = 0;
+    protected int mLastPawnMoveOrCapture = 0;
     protected Color currentColor = Color.WHITE;
     private boolean autoPromotion = true;
     private List<ChessMove> possibleMoves = new ArrayList<>();
@@ -62,11 +62,11 @@ public class Chess {
             handleEnPassantCapture(move);
             handlePromotion(move);
             handleDoubleMove(move);
-            lastPawnMoveOrCapture = mCurrentMove;
+            mLastPawnMoveOrCapture = mCurrentMove;
         }
 
         if (mBoard.getPiece(move.getDestination()).isPresent()) {
-            lastPawnMoveOrCapture = mCurrentMove;
+            mLastPawnMoveOrCapture = mCurrentMove;
         }
 
         mBoard.movePiece(move);
@@ -260,6 +260,6 @@ public class Chess {
     }
 
     public int getLastPawnMoveOrCapture() {
-        return lastPawnMoveOrCapture;
+        return mLastPawnMoveOrCapture;
     }
 }
