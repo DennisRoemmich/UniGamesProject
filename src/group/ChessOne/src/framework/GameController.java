@@ -17,30 +17,12 @@ public abstract class GameController {
 		createNewGameLog();
 	}
 
-	protected abstract JSONObject executeMove(JSONObject move);
+	public abstract void executeMove(JSONObject move);
 
 	public void callPresenterUpdate() {
 		if (mPresenter != null) {
 			mPresenter.refreshOutput();
 		}
-	}
-
-	// Das sollte noch umbennent werden denke ich
-	// InGame Handling of Moves with automatic logging
-	protected final JSONObject handleMove(JSONObject move) {
-
-		JSONObject reply = executeMove(move);
-		boolean isMoveValid;
-		try {
-			isMoveValid  = (boolean) reply.get("isValid");
-		} catch (Exception e) {
-			// Das sollte höchstens in Entwicklungsphasen auftreten, das try catch kann zum ende also vielleicht weg
-			return createReply(false, "Invalid Reply");
-		}
-		if(isMoveValid) {
-			logMove(move);
-		}
-		return reply;
 	}
 
 	/* Logs & Settings */

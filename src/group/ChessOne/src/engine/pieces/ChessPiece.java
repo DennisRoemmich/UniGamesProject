@@ -4,11 +4,10 @@ import engine.*;
 import engine.analysis.CheckDetector;
 import engine.board.ChessMove;
 import engine.squares.Square;
-import framework.WriteError;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Abstract ChessPiece class that is the super class to all the chess pieces.

@@ -1,5 +1,6 @@
 package gui;
 
+import framework.PrintToConsole;
 import engine.squares.Square;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ public class SquareEventHandler implements EventHandler {
 
     @Override
     public void handle(Event event) {
+        PrintToConsole.println(square + " clicked!");
         eventHandler.handleSquareClicked(square);
     }
 

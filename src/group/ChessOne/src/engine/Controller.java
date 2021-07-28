@@ -27,22 +27,28 @@ public class Controller extends GameController {
     public Controller() {
     }
 
-    protected JSONObject executeMove(JSONObject moveJSON) {
+    public void executeMove(JSONObject moveJSON) {
     	if (moveJSON == null) {
-    		return createReply(false, "NullInput");
+    		return;
     	}
     	if (!moveJSON.containsKey("origin") || !moveJSON.containsKey("destination")) {
-            return createReply(false, "InvalidInput");
+            return;
         }
     	ChessMove move;
         try {
             move = ChessMove.valueOf(moveJSON);
         } catch (Exception e) {
             WriteError.writeErrorLog("");
-            return createReply(false, "unknown");
+            return;
         }
-        mGame.makeMove(move);
-        return createReply(true, "success");
+        if(mGame.isMovePossible(move)) {
+            mGame.makeMove(move);
+            logMove(moveJSON);
+            if(mPresenter != null) {
+                mPresenter.refreshOutput();
+            }
+            gameStep();
+        }
     }
     
     public void setStandardChess() {
@@ -102,7 +108,6 @@ public class Controller extends GameController {
     }
 
     public boolean startGame() {
-    	
     	if (mPlayerA == null || mPlayerB == null) {
             return false;
         } else {
@@ -110,28 +115,19 @@ public class Controller extends GameController {
             if (mPresenter != null) {
                 mPresenter.refreshOutput();
             }
-            gameLoop();
-            return true;
-        }
-    }
-
-    public void gameLoop() {
-        while (mIsGameRunning) {
             gameStep();
-            if (mPresenter != null) {
-                mPresenter.refreshOutput();
-            }
+            return true;
         }
     }
 
     public void gameStep() {
     	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
-        if (isTurnOfPlayerA) {
-            handleMove(mPlayerA.requestMove(createRequestJSON("move")));
-        } else {
-            handleMove(mPlayerB.requestMove(createRequestJSON("move")));
-        }
+        Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
+        executeMove(currentPlayer.requestMove(createRequestJSON("move")));
         updateGameState();
+        if (mPresenter != null) {
+            mPresenter.refreshOutput();
+        }
     }
 
     private void updateGameState() {

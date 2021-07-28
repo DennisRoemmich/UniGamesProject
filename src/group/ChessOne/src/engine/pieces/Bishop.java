@@ -1,8 +1,6 @@
 package engine.pieces;
 
 import engine.Chess;
-import engine.board.ChessBoard;
-import engine.pieces.Color;
 import engine.squares.Direction;
 import engine.squares.Square;
 

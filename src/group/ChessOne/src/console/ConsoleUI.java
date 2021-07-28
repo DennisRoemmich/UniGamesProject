@@ -79,8 +79,6 @@ public class ConsoleUI implements Presenter, Player {
 			}
 		}
     }
-    	
-	//}
     
     public void loadGame() {
     	try {
@@ -245,7 +243,7 @@ public class ConsoleUI implements Presenter, Player {
 			PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row)\"");
 			PrintToConsole.println("In case there are several possible moves (like BISHOP can move to e4 and PAWN can move to e4), you must define the moving piece. ");
 			PrintToConsole.println("This can be done by typing Be4 (BISHOP to e4) ");
-			PrintToConsole.println("For special moves like castling you may either move the king two squares or use the special castling notation (O-O or O-O-O)");
+			PrintToConsole.println("For special moves like castling you may either move the king two engine.squares or use the special castling notation (O-O or O-O-O)");
 			PrintToConsole.println("");
 			PrintToConsole.println("For further information please visit https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
 			PrintToConsole.println("");

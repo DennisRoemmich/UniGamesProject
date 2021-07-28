@@ -3,10 +3,7 @@ package engine.analysis;
 import engine.Chess;
 import engine.board.ChessBoard;
 import engine.pieces.ChessPiece;
-import engine.pieces.ChessPieceType;
 import engine.pieces.Color;
-import engine.squares.Square;
-import java.util.List;
 
 /**
  * Checks if the game is over.
