@@ -133,10 +133,10 @@ public class FXController implements Player, Initializable {
 
 
     // images
-    String emptyTileURL = "./resources/images/RummikubTile.png";
-    String buttonDrawURL = "./resources/images/buttonDraw.jpg";
-    String buttonFinishURL = "./resources/images/buttonFinish.jpeg";
-    String buttonFinishNotPossibleURL = "./resources/images/buttonFinishNotPossible.jpeg";
+    String emptyTileURL = "resources/images/RummikubTile.png";
+    String buttonDrawURL = "resources/images/buttonDraw.jpg";
+    String buttonFinishURL = "resources/images/buttonFinish.jpeg";
+    String buttonFinishNotPossibleURL = "resources/images/buttonFinishNotPossible.jpeg";
 
     /* FUNCTIONS */
 
@@ -678,10 +678,22 @@ public class FXController implements Player, Initializable {
         imageView_startNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
         imageView_startNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageView_startNewGame.fitWidthProperty().multiply(0.5)));
 
-        anchorpane_pod1.layoutXProperty().set(40);
+        anchorpane_pod1.layoutXProperty().set(35);
         anchorpane_pod1.layoutYProperty().set(20);
+        anchorpane_pod2.layoutXProperty().set(220);
+        anchorpane_pod2.layoutYProperty().set(20);
+        anchorpane_pod3.layoutXProperty().set(425);
+        anchorpane_pod3.layoutYProperty().set(20);
+        anchorpane_pod4.layoutXProperty().set(620);
+        anchorpane_pod4.layoutYProperty().set(20);
         anchorpane_pod1.prefHeightProperty().bind(anchorPanePod.heightProperty().multiply(0.6));
         anchorpane_pod1.prefWidthProperty().bind(anchorPanePod.widthProperty().multiply(0.2));
+        anchorpane_pod2.prefHeightProperty().bind(anchorPanePod.heightProperty().multiply(0.6));
+        anchorpane_pod2.prefWidthProperty().bind(anchorPanePod.widthProperty().multiply(0.2));
+        anchorpane_pod3.prefHeightProperty().bind(anchorPanePod.heightProperty().multiply(0.6));
+        anchorpane_pod3.prefWidthProperty().bind(anchorPanePod.widthProperty().multiply(0.2));
+        anchorpane_pod4.prefHeightProperty().bind(anchorPanePod.heightProperty().multiply(0.6));
+        anchorpane_pod4.prefWidthProperty().bind(anchorPanePod.widthProperty().multiply(0.2));
 
         /* */
 
@@ -695,7 +707,7 @@ public class FXController implements Player, Initializable {
 
         /* PLAYER BOX BINDINGS */
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 1; i < 4; i++){
 
             playerAnchorPane[i].prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.25));
             playerAnchorPane[i].prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.12));
@@ -979,15 +991,15 @@ public class FXController implements Player, Initializable {
 
         if (podium.length > 3) {
 
-            label_pod1name.setText(podium[2].getName());
-            label_pod1score.setText(Integer.toString(podium[2].getLastScore()));
-            label_pod1totscore.setText(Integer.toString(podium[2].getTotalScore()));
+            label_pod3name.setText(podium[2].getName());
+            label_pod3score.setText(Integer.toString(podium[2].getLastScore()));
+            label_pod3totscore.setText(Integer.toString(podium[2].getTotalScore()));
 
             if (podium.length == 4) {
 
-                label_pod1name.setText(podium[2].getName());
-                label_pod1score.setText(Integer.toString(podium[2].getLastScore()));
-                label_pod1totscore.setText(Integer.toString(podium[2].getTotalScore()));
+                label_pod4name.setText(podium[3].getName());
+                label_pod4score.setText(Integer.toString(podium[3].getLastScore()));
+                label_pod4totscore.setText(Integer.toString(podium[3].getTotalScore()));
 
             } else {
 

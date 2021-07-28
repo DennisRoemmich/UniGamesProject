@@ -76,8 +76,6 @@ public class RummikubController extends GameController {
 
     public boolean makeMove(GameMove move){
 
-        System.out.println(move.type.toString() + " : " + state.toString());
-
         /* CHECK IF MOVE IS VALID */
 
         var successful = false;
@@ -131,7 +129,6 @@ public class RummikubController extends GameController {
         if ( successful ) {
 
             mGameLog.logMove(move.toJSON());
-            System.out.println("Move was logged!");
         }
 
         return successful;
@@ -147,6 +144,7 @@ public class RummikubController extends GameController {
             playerInfos.get(i).setLastScore(score);
             playerInfos.get(i).addToTotalScore(score);
         }
+
     }
 
     public PlayerInfo[] getPodium() {
@@ -159,27 +157,32 @@ public class RummikubController extends GameController {
         PlayerInfo third;
         PlayerInfo looser;
 
-        if (size == 2) {
 
-            if (playerInfos.get(0).getLastScore() > playerInfos.get(1).getLastScore()) {
+        ArrayList<PlayerInfo> pI = new ArrayList<>();
+        int lastBiggest = Integer.MAX_VALUE;
 
-                pole = playerInfos.get(0);
-                vize = playerInfos.get(1);
+        for(var i = 0; i < size; i++){
 
-            } else {
+            PlayerInfo currentBiggest = new PlayerInfo("poop");
+            currentBiggest.setLastScore(Integer.MIN_VALUE);
 
-                vize = playerInfos.get(0);
-                pole = playerInfos.get(1);
+            for ( var player : playerInfos ){
+
+                if ( player.getLastScore() < lastBiggest && player.getLastScore() > currentBiggest.getLastScore() ){
+
+                    currentBiggest = player;
+
+                }
+
             }
 
-        } else if (size == 3) {
-
-
-
-        } else if (size == 4) {
+            lastBiggest = currentBiggest.getLastScore();
+            podium[i] = currentBiggest;
 
 
         }
+
+
 
         return podium;
     }
@@ -242,7 +245,7 @@ public class RummikubController extends GameController {
 
 
         state = GameState.RUNNING;
-        System.out.println("state is now running");
+
 
         mGameLog = new GameLog("ID");
         rummiGame = new Rummikub(playerNo, startPlayer, seed);

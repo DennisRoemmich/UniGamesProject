@@ -8,18 +8,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import rummikub_controller.RummikubController;
 
+import java.net.URL;
+
 public class Main extends Application {
 
     Scene scene;
 
-    String fxmlURL = "../JavaFX/rummikubGUI.fxml";
+
+    ClassLoader classLoader = getClass().getClassLoader();
+    URL resource = classLoader.getResource("rummikubGUI.fxml");
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        var loader = new FXMLLoader(
-                getClass().getResource(fxmlURL)
-        );
+        var loader = new FXMLLoader(resource);
 
         Parent root = loader.load();
 
