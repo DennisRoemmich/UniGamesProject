@@ -86,7 +86,7 @@ public class ChessMove {
 
     private static ChessMove decodeLengthThree(String shortNotation, Chess game) {
         if(shortNotation.equals("0-0")) return getCastlingMove(true, game);
-        Square destination = new Square(shortNotation.substring(1,3));
+        Square destination = new Square(shortNotation.substring(1, 3));
         List<ChessMove> possibleMoves = new ArrayList<>();
         char firstChar = shortNotation.charAt(0);
         switch(firstChar) {
@@ -126,7 +126,7 @@ public class ChessMove {
         String destinationString = shortNotation.substring(2,4);
         Square destination = new Square(destinationString);
         try {
-            String originString = shortNotation.substring(0,2);
+            String originString = shortNotation.substring(0, 2);
             Square origin = new Square(originString);
             return new ChessMove(origin, destination);
         } catch (Exception e) {
@@ -157,9 +157,9 @@ public class ChessMove {
         if(shortNotation.equals("0-0-0")) return getCastlingMove(false, game);
 
         List<ChessMove> possibleMoves = new ArrayList<>();
-        Square origin = new Square(shortNotation.substring(0,2));
+        Square origin = new Square(shortNotation.substring(0, 2));
         ChessPieceType pieceType = ChessPieceType.valueOf(shortNotation.charAt(2));
-        Square destination = new Square(shortNotation.substring(3,5));
+        Square destination = new Square(shortNotation.substring(3, 5));
         return new ChessMove(origin,destination);
     }
 
