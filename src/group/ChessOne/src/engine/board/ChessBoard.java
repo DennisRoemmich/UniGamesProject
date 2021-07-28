@@ -14,17 +14,17 @@ import java.util.Optional;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class ChessBoard implements Cloneable {
+public class ChessBoard {
 
-    List<PositionedPiece> positionedPieces = new ArrayList<>();
+    List<PositionedPiece> mPositionedPieces = new ArrayList<>();
 
     public ChessBoard() {
 
     }
 
     public ChessBoard(ChessBoard board) {
-        for(PositionedPiece positionedPiece : board.positionedPieces) {
-            this.positionedPieces.add(new PositionedPiece(positionedPiece));
+        for (PositionedPiece positionedPiece : board.mPositionedPieces) {
+            this.mPositionedPieces.add(new PositionedPiece(positionedPiece));
         }
     }
 
@@ -35,20 +35,20 @@ public class ChessBoard implements Cloneable {
 
     public void addPiece(PositionedPiece positionedPiece) {
         removePiece(positionedPiece.getPosition());
-        positionedPieces.add(positionedPiece);
+        mPositionedPieces.add(positionedPiece);
     }
 
     public void removePiece(Square square) {
-        positionedPieces.removeIf(pP -> pP.getPosition().equals(square));
+        mPositionedPieces.removeIf(pP -> pP.getPosition().equals(square));
     }
 
     public void removePiece(ChessPiece piece) {
-        positionedPieces.removeIf(pP -> pP.getPiece() == piece);
+        mPositionedPieces.removeIf(pP -> pP.getPiece() == piece);
     }
 
     public Optional<ChessPiece> getPiece(Square square) {
-        for(PositionedPiece piece : positionedPieces) {
-            if(piece.getPosition().equals(square)) {
+        for (PositionedPiece piece : mPositionedPieces) {
+            if (piece.getPosition().equals(square)) {
                 return Optional.of(piece.getPiece());
             }
         }
@@ -61,7 +61,7 @@ public class ChessBoard implements Cloneable {
 
     public void movePiece(Square origin, Square destination) {
         var piece = getPiece(origin);
-        if(piece.isPresent()) {
+        if (piece.isPresent()) {
             removePiece(origin);
             placePiece(piece.get(), destination);
         }
@@ -73,29 +73,33 @@ public class ChessBoard implements Cloneable {
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
-        for(Color color : Color.values()) {
-            Rank backrank = color.getBackrank();
+        for (Color color : Color.values()) {
+            Rank bRank = color.getBackrank();
             for (File file : File.values()) {
-                board.placePiece(new Pawn(color), new Square(backrank, file).getNext(color.getPawnMoveDirection()).get());
+                Optional<Square> s = new Square(bRank, file).getNext(color.getPawnMoveDirection());
+                if (s.isPresent()) {
+                    board.placePiece(new Pawn(color), s.get());
+                }
+
             }
             for (File file : new File[]{File.A, File.H}) {
-                board.placePiece(new Rook(color), new Square(backrank, file));
+                board.placePiece(new Rook(color), new Square(bRank, file));
             }
             for (File file : new File[]{File.B, File.G}) {
-                board.placePiece(new Knight(color), new Square(backrank, file));
+                board.placePiece(new Knight(color), new Square(bRank, file));
             }
             for (File file : new File[]{File.C, File.F}) {
-                board.placePiece(new Bishop(color), new Square(backrank, file));
+                board.placePiece(new Bishop(color), new Square(bRank, file));
             }
-            board.placePiece(new Queen(color), new Square(backrank, File.D));
-            board.placePiece(new King(color), new Square(backrank, File.E));
+            board.placePiece(new Queen(color), new Square(bRank, File.D));
+            board.placePiece(new King(color), new Square(bRank, File.E));
         }
         return board;
     }
 
     public Optional<Square> getSquare(ChessPiece piece) {
-        for(PositionedPiece positionedPiece : positionedPieces) {
-            if(positionedPiece.getPiece() == piece) {
+        for (PositionedPiece positionedPiece : mPositionedPieces) {
+            if (positionedPiece.getPiece() == piece) {
                 return Optional.of(positionedPiece.getPosition());
             }
         }
@@ -112,13 +116,13 @@ public class ChessBoard implements Cloneable {
 
 
     public List<PositionedPiece> getPositionedPieces() {
-        return positionedPieces;
+        return mPositionedPieces;
     }
 
     public List<PositionedPiece> getPositionedPieces(Color color) {
         List<PositionedPiece> filteredPieces = new ArrayList<>();
-        for(PositionedPiece positionedPiece : positionedPieces) {
-            if(positionedPiece.getPiece().getColor().equals(color)) {
+        for (PositionedPiece positionedPiece : mPositionedPieces) {
+            if (positionedPiece.getPiece().getColor().equals(color)) {
                 filteredPieces.add(positionedPiece);
             }
         }
@@ -127,9 +131,9 @@ public class ChessBoard implements Cloneable {
 
     public List<PositionedPiece> getPositionedPieces(Color color, ChessPieceType type) {
         List<PositionedPiece> filteredPieces = new ArrayList<>();
-        for(PositionedPiece positionedPiece : positionedPieces) {
+        for (PositionedPiece positionedPiece : mPositionedPieces) {
             ChessPiece piece = positionedPiece.getPiece();
-            if(piece.getColor().equals(color) && piece.getType().equals(type) ) {
+            if (piece.getColor().equals(color) && piece.getType().equals(type) ) {
                 filteredPieces.add(positionedPiece);
             }
         }
@@ -138,7 +142,7 @@ public class ChessBoard implements Cloneable {
 
     public static List<ChessPiece> piecesExtracted(List<PositionedPiece> piecesWithPosition) {
         List<ChessPiece> pieces = new ArrayList<>();
-        for(PositionedPiece positionedPiece : piecesWithPosition) {
+        for (PositionedPiece positionedPiece : piecesWithPosition) {
             pieces.add(positionedPiece.getPiece());
         }
         return pieces;
@@ -146,8 +150,12 @@ public class ChessBoard implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+        	return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
         ChessBoard board = (ChessBoard) o;
         return Objects.equals(getPositionedPieces(), board.getPositionedPieces());
     }
@@ -155,7 +163,7 @@ public class ChessBoard implements Cloneable {
     @Override
     public int hashCode() {
         int prehash = 0;
-        for(PositionedPiece piece : positionedPieces) {
+        for (PositionedPiece piece : mPositionedPieces) {
             prehash += piece.hashCode();
         }
         return Objects.hash(prehash);

@@ -8,10 +8,10 @@ package engine.pieces;
 public enum ChessPieceType {
     PAWN(1), KNIGHT(3), BISHOP(3), ROOK(5), QUEEN(9), KING(100);
 
-    private final int value;
+    private final int mValue;
 
     ChessPieceType(int value) {
-        this.value = value;
+        this.mValue = value;
     }
 
     public static ChessPieceType valueOf(char c) {
@@ -34,6 +34,6 @@ public enum ChessPieceType {
     }
 
     public int getValue() {
-        return value;
+        return mValue;
     }
 }

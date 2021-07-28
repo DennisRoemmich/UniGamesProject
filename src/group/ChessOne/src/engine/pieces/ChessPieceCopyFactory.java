@@ -1,6 +1,7 @@
 package engine.pieces;
 
 public final class ChessPieceCopyFactory {
+	
 	private ChessPieceCopyFactory() {
 		
 	}

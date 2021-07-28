@@ -8,6 +8,7 @@ import engine.squares.Square;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Abstract ChessPiece class that is the super class to all the chess pieces.
@@ -32,15 +33,19 @@ public abstract class ChessPiece {
     public abstract List<Square> findCoveredSquares(Chess game);
 
     public List<ChessMove> findMoves(Chess game) {
-        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
+        
+    	Optional<Square> s = game.getBoard().getSquare(this);
+    	if (!s.isPresent()) {
+        	return new ArrayList<>();
+        }
 
-        Square origin = game.getBoard().getSquare(this).get();
+        Square origin = s.get();
 
         List<Square> coveredSquares = findCoveredSquares(game);
         List<ChessMove> validMoves = new ArrayList<>();
 
         for (Square destination : coveredSquares) {
-            if(isSquareFreeOrOpponent(game, destination)) {
+            if (isSquareFreeOrOpponent(game, destination)) {
                 ChessMove move = new ChessMove(origin, destination);
                 if (!CheckDetector.isInCheckAfterMove(game, move)) {
                     validMoves.add(move);

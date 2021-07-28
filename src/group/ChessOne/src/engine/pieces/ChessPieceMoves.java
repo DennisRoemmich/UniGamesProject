@@ -2,6 +2,8 @@ package engine.pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import engine.board.ChessBoard;
 import engine.squares.Direction;
 import engine.squares.Square;
@@ -25,12 +27,16 @@ public class ChessPieceMoves {
 	}
 
     private boolean isSquareReachable(Square squareToTest) {
-   	
+    	
+    	Optional<ChessPiece> p = mBoard.getPiece(squareToTest);
     	if (mBoard.isFieldFree(squareToTest)) {
     		return true;
     	} else {
 			mBreakLoop = true;
-    		return !mBoard.getPiece(squareToTest).get().getColor().equals(mPiece.getColor());
+			if (!p.isPresent()) {
+				return true;
+			}
+    		return !p.get().getColor().equals(mPiece.getColor());
     	}
     }
 

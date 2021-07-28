@@ -35,6 +35,7 @@ public class GameLog {
 		String id = (String) log.get(idKey);
 		JSONObject metaSettings = (JSONObject) log.get(metaSettingsKey);
 		JSONObject gameSettings = (JSONObject) log.get(gameSettingsKey);
+		@SuppressWarnings("unchecked")
 		List<JSONObject> moveLog = (List<JSONObject>) log.get(moveLogKey);
 		return new GameLog(id, metaSettings, gameSettings, moveLog);
 	}

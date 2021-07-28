@@ -134,6 +134,8 @@ public class ChessMove {
                     }
                 }
                 break;
+            default:
+            	break;
         }
         if (possibleMoves.size() == 1) {
         	return possibleMoves.get(0);
@@ -154,21 +156,22 @@ public class ChessMove {
         }
         ChessPieceType pieceType = ChessPieceType.valueOf(shortNotation.charAt(1));
         char firstChar = shortNotation.charAt(0);
-        switch (firstChar) {
-            case '1', '2', '3', '4', '5', '6', '7', '8' -> {
-                Rank rank = Rank.valueOf(firstChar);
-                for (Square origin : game.getPossibleOrigins(destination, pieceType)) {
-                    if (origin.getRank() == rank) {
-                    	possibleMoves.add(new ChessMove(origin, destination));
-                    }
+        List<Character> l = new ArrayList<>();
+        for (int i = 1; i < 9; i++) {
+        	l.add((char) i);
+        }
+        if (l.contains(firstChar)) {
+            Rank rank = Rank.valueOf(firstChar);
+            for (Square origin : game.getPossibleOrigins(destination, pieceType)) {
+                if (origin.getRank() == rank) {
+                	possibleMoves.add(new ChessMove(origin, destination));
                 }
             }
-            default -> {
-                File file = File.valueOf(firstChar);
-                for (Square origin : game.getPossibleOrigins(destination, pieceType)) {
-                    if (origin.getFile() == file) {
-                    	possibleMoves.add(new ChessMove(origin, destination));
-                    }
+        } else {
+            File file = File.valueOf(firstChar);
+            for (Square origin : game.getPossibleOrigins(destination, pieceType)) {
+                if (origin.getFile() == file) {
+                	possibleMoves.add(new ChessMove(origin, destination));
                 }
             }
         }

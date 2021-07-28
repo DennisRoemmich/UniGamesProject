@@ -4,33 +4,34 @@ import engine.pieces.PositionedPiece;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+@SuppressWarnings("rawtypes")
 public class PieceEventHandler implements EventHandler {
-    private PositionedPiece piece;
-    private GuiEventHandler eventHandler;
+    private PositionedPiece mPiece;
+    private GuiEventHandler mEventHandler;
 
     public PieceEventHandler(GuiEventHandler eventHandler, PositionedPiece piece) {
-        this.eventHandler = eventHandler;
-        this.piece = piece;
+        this.mEventHandler = eventHandler;
+        this.mPiece = piece;
     }
 
     @Override
     public void handle(Event event) {
-        eventHandler.handlePieceClicked(piece);
+        mEventHandler.handlePieceClicked(mPiece);
     }
 
     public GuiEventHandler getEventHandler() {
-        return eventHandler;
+        return mEventHandler;
     }
 
     public void setEventHandler(GuiEventHandler eventHandler) {
-        this.eventHandler = eventHandler;
+        this.mEventHandler = eventHandler;
     }
 
     public PositionedPiece getPiece() {
-        return piece;
+        return mPiece;
     }
 
     public void setPiece(PositionedPiece piece) {
-        this.piece = piece;
+        this.mPiece = piece;
     }
 }

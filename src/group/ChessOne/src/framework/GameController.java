@@ -27,9 +27,9 @@ public abstract class GameController {
 
 	/* Logs & Settings */
 
-	public abstract JSONObject metaSettingsToJSON();
+	public abstract JSONObject metaSettingsToJSon();
 
-	public abstract JSONObject gameSettingsToJSON();
+	public abstract JSONObject gameSettingsToJSon();
 
 	public abstract void restoreMetaSettings(JSONObject metaSettings);
 
@@ -48,7 +48,6 @@ public abstract class GameController {
 
 	/* Replay & undo */
 
-	// TODO : Wartezeit als Parameter
 	public final void replayLog(GameLog log) {
 		newGame();
 		restoreMetaSettings(log.getMetaSettings());
@@ -56,7 +55,6 @@ public abstract class GameController {
 		for (JSONObject move : log.getMoveLog()) {
 			executeMove(move);
 			callPresenterUpdate();
-			// TODO : Wait funktion für langsames Schritt für Schritt abspielen
 		}
 		mGameLog = log;
 	}
@@ -89,6 +87,7 @@ public abstract class GameController {
 
 	// This template offers easy replies with an ID process it in the UI
 	// It's not required to be used.
+	@SuppressWarnings("unchecked")
 	protected JSONObject createReply(boolean isValid, String replyID) {
 		JSONObject failReply = new JSONObject();
 		failReply.put("isValid", isValid);
@@ -97,7 +96,8 @@ public abstract class GameController {
 	}
 
 	// Also not requied to be used, just for convenience
-	protected JSONObject createRequestJSON(String typeName) {
+	@SuppressWarnings("unchecked")
+	protected JSONObject createRequestJSon(String typeName) {
 		JSONObject request = new JSONObject();
 
 		request.put("type", typeName);

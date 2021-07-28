@@ -6,14 +6,14 @@ import engine.squares.Rank;
 public enum Color {
     BLACK(false), WHITE(true);
 
-    private boolean value;
+    private boolean mValue;
 
     Color(boolean value) {
-        this.value = value;
+        this.mValue = value;
     }
 
     public Color getContrary() {
-        if(this == BLACK) {
+        if (this == BLACK) {
             return WHITE;
         } else {
             return BLACK;
@@ -21,7 +21,7 @@ public enum Color {
     }
 
     public boolean isWhite() {
-        return value;
+        return mValue;
     }
 
     public static Color valueOf(boolean value) {

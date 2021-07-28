@@ -5,34 +5,35 @@ import engine.squares.Square;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+@SuppressWarnings("rawtypes")
 public class SquareEventHandler implements EventHandler {
-    private GuiEventHandler eventHandler;
-    private Square square;
+    private GuiEventHandler mEventHandler;
+    private Square mSquare;
 
     public SquareEventHandler(GuiEventHandler eventHandler, Square square) {
-        this.eventHandler = eventHandler;
-        this.square = square;
+        this.mEventHandler = eventHandler;
+        this.mSquare = square;
     }
 
     @Override
     public void handle(Event event) {
-        PrintToConsole.println(square + " clicked!");
-        eventHandler.handleSquareClicked(square);
+        PrintToConsole.println(mSquare + " clicked!");
+        mEventHandler.handleSquareClicked(mSquare);
     }
 
     public GuiEventHandler getEventHandler() {
-        return eventHandler;
+        return mEventHandler;
     }
 
     public void setEventHandler(GuiEventHandler eventHandler) {
-        this.eventHandler = eventHandler;
+        this.mEventHandler = eventHandler;
     }
 
     public Square getSquare() {
-        return square;
+        return mSquare;
     }
 
     public void setSquare(Square square) {
-        this.square = square;
+        this.mSquare = square;
     }
 }

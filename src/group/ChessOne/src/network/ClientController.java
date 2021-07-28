@@ -78,7 +78,7 @@ public class ClientController extends GameController {
                 mChessGame.makeMove(moveIn);
                 presenter.refreshOutput();
 
-                var moveOut = ChessMove.valueOf(player.requestMove(createRequestJSON("move")));
+                var moveOut = ChessMove.valueOf(player.requestMove(createRequestJSon("move")));
                 mChessGame.makeMove(moveOut);
                 presenter.refreshOutput();
 
@@ -132,12 +132,12 @@ public class ClientController extends GameController {
     }
 
     @Override
-    public JSONObject metaSettingsToJSON() {
+    public JSONObject metaSettingsToJSon() {
         return null;
     }
 
     @Override
-    public JSONObject gameSettingsToJSON() {
+    public JSONObject gameSettingsToJSon() {
         return null;
     }
 

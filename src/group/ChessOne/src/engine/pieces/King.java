@@ -9,6 +9,7 @@ import engine.squares.Square;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * King piece on the chess board.
@@ -24,7 +25,11 @@ public class King extends ChessPiece {
     @Override
     public List<Square> findCoveredSquares(Chess game) {
         List<Square> list = new ArrayList<>();
-        Square origin = game.getBoard().getSquare(this).get();
+    	Optional<Square> s = game.getBoard().getSquare(this);
+    	if (!s.isPresent()) {
+        	return new ArrayList<>();
+        }
+        Square origin = s.get();
 
         for (Direction direction : Direction.values()) {
             var squareToTest = origin.getNext(direction);

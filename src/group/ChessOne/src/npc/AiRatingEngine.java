@@ -10,7 +10,12 @@ import framework.TimeKeeper;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class AiRatingEngine {
+public final class AiRatingEngine {
+	
+	private AiRatingEngine() {
+		//Unused
+	}
+	
     public static ChessMove getBestMove(Chess game, int depth, long maxTime) {
         boolean isWhite = game.getCurrentColor().isWhite();
 
@@ -19,13 +24,13 @@ public class AiRatingEngine {
         ChessMove bestMove = possibleMoves.pop();
         double bestScore = rateMoveRecursively(game, bestMove, depth, maxTime);
 
-        for(ChessMove move : possibleMoves) {
+        for (ChessMove move : possibleMoves) {
             double rating = AiRatingEngine.rateMoveRecursively(game, move, depth, maxTime);
-            if(isWhite ? (rating > bestScore) : (rating < bestScore)) {
+            if (isWhite ? (rating > bestScore) : (rating < bestScore)) {
                 bestMove = move;
                 bestScore = rating;
             }
-            if(TimeKeeper.isTimePointOver(maxTime)) {
+            if (TimeKeeper.isTimePointOver(maxTime)) {
                 return bestMove;
             }
         }
@@ -43,7 +48,7 @@ public class AiRatingEngine {
 
     public static double rateMoveRecursively(Chess game, ChessMove move, int depth, long maxTime) {
         double rating = rateMove(game, move);
-        if(depth > 1) {
+        if (depth > 1) {
             Chess gameClone = new Chess(game);
             gameClone.makeMove(move);
             rating += rateSituationRecursively(game, depth - 1, maxTime);
@@ -52,7 +57,7 @@ public class AiRatingEngine {
     }
 
     public static double rateSituation(Chess game) {
-        return switch(GameOverDetector.checkForMate(game)) {
+        return switch (GameOverDetector.checkForMate(game)) {
             case CHECKMATE -> 100000 * game.getCurrentColor().getContrary().getScoreFactor();
             case NONE -> getPieceValueRating(game) + getPositionRating(game);
             default -> 0;
@@ -61,12 +66,12 @@ public class AiRatingEngine {
 
     public static double rateSituationRecursively(Chess game, int depth, long maxTime) {
         double rating = rateSituation(game);
-        if(depth > 1) {
+        if (depth > 1) {
             var possibleMoves = game.getPossibleMoves();
             Collections.shuffle(possibleMoves);
-            for(ChessMove nextMove : possibleMoves) {
+            for (ChessMove nextMove : possibleMoves) {
                 rating += rateMoveRecursively(game, nextMove, depth, maxTime);
-                if(TimeKeeper.isTimePointOver(maxTime)) {
+                if (TimeKeeper.isTimePointOver(maxTime)) {
                     return rating;
                 }
             }
@@ -76,7 +81,7 @@ public class AiRatingEngine {
 
     public static double getPieceValueRating(Chess game) {
         double rating = 0;
-        for(ChessPiece piece : game.getBoard().getPieces()) {
+        for (ChessPiece piece : game.getBoard().getPieces()) {
             rating += piece.getSignedValue() * 10;
         }
         return rating;
@@ -84,7 +89,7 @@ public class AiRatingEngine {
 
     public static double getPositionRating(Chess game) {
         double rating = 0;
-        for(PositionedPiece piece : game.getBoard().getPositionedPieces()) {
+        for (PositionedPiece piece : game.getBoard().getPositionedPieces()) {
             rating += SquareRating.rate(piece) * piece.getPiece().getColor().getScoreFactor();
         }
         return rating;

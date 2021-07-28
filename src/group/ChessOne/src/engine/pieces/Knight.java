@@ -7,6 +7,7 @@ import framework.WriteError;
 import engine.squares.Rank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Knight piece on the chess board.
@@ -21,8 +22,12 @@ public class Knight extends ChessPiece  {
 
     @Override
     public List<Square> findCoveredSquares(Chess game) {
-        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
-        Square origin = game.getBoard().getSquare(this).get();
+        
+    	Optional<Square> s = game.getBoard().getSquare(this);
+    	if (!s.isPresent()) {
+        	return new ArrayList<>();
+        }
+        Square origin = s.get();
 
         List<Square> list = new ArrayList<>();
 

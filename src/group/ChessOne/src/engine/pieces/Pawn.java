@@ -6,6 +6,7 @@ import engine.squares.Square;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Pawn piece on the chess board.
@@ -22,8 +23,11 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Square> findCoveredSquares(Chess game) {
-        if(game.getBoard().getSquare(this).isEmpty()) return new ArrayList<>();
-        Square origin = game.getBoard().getSquare(this).get();
+    	Optional<Square> s = game.getBoard().getSquare(this);
+    	if (!s.isPresent()) {
+        	return new ArrayList<>();
+        }
+        Square origin = s.get();
 
         List<Square> list = new ArrayList<>();
 

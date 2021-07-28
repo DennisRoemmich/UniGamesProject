@@ -1,7 +1,6 @@
 package gui;
 
 import engine.Controller;
-import engine.board.ChessBoard;
 import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
 import javafx.event.Event;
@@ -17,37 +16,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import npc.AiPlayer;
 import org.json.simple.JSONObject;
-
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("rawtypes")
 public class GuiController implements Initializable, Player, Presenter, GuiEventHandler, EventHandler {
 
     @FXML
-    private AnchorPane boardPane;
+    private AnchorPane mBoardPane;
     @FXML
-    private Button universalButton;
+    private Button mUniversalButton;
     @FXML
-    private Label outputLabel;
+    private Label mOutputLabel;
     @FXML
-    private TextField inputField;
+    private TextField mInputField;
 
-    private Controller chessController = new Controller();
-    private ChessBoardNode boardNode = new ChessBoardNode(chessController, this);
+    private Controller mChessController = new Controller();
+    private ChessBoardNode mBoardNode = new ChessBoardNode(mChessController, this);
 
-    private Optional<Square> origin = Optional.empty();
+    private Optional<Square> mOrigin = Optional.empty();
 
     public GuiController() {
+    	//Unused
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AiPlayer aiPlayer = new AiPlayer(chessController);
-        chessController.setPresenter(this);
-        chessController.setPlayerA(this);
-        chessController.setPlayerB(aiPlayer);
-        boardPane.getChildren().add(boardNode);
+        AiPlayer aiPlayer = new AiPlayer(mChessController);
+        mChessController.setPresenter(this);
+        mChessController.setPlayerA(this);
+        mChessController.setPlayerB(aiPlayer);
+        mBoardPane.getChildren().add(mBoardNode);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @Override
     public void refreshOutput() {
-        boardNode.refreshNode();
+        mBoardNode.refreshNode();
     }
 
     @Override
@@ -69,62 +70,71 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     @Override
     public void handleSquareClicked(Square clickedSquare) {
 
-        var possibleMoves = chessController.getGame().getPossibleMoves();
+        var possibleMoves = mChessController.getGame().getPossibleMoves();
 
-        if(origin.isEmpty()) {
-            boardNode.resetPlaceholder();
-            boolean possibleOriginFound = false;
-            for(ChessMove move : possibleMoves) {
-                if(move.getOrigin().equals(clickedSquare)) {
-                    possibleOriginFound = true;
-                    boardNode.addPlaceholder(move.getDestination());
-                }
-            }
-            if(possibleOriginFound) {
-                origin = Optional.of(clickedSquare);
-            } else {
-                boardNode.resetPlaceholder();
-            }
+        if (mOrigin.isEmpty()) {
+            handleEmptySquare(clickedSquare, possibleMoves);
             refreshOutput();
         } else {
-            for(ChessMove move : possibleMoves) {
-                boolean originEqual = move.getOrigin().equals(origin.get());
-                boolean destinationEqual = move.getDestination().equals(clickedSquare);
-                if(originEqual && destinationEqual) {
-                    boardNode.resetPlaceholder();
-                    refreshOutput();
-                    chessController.executeMove(move.toJSon());
-                    break;
-                }
-            }
-            boardNode.resetPlaceholder();
-            origin = Optional.empty();
+            handleSquareWithPiece(clickedSquare, possibleMoves);
         }
         refreshOutput();
     }
 
+	private void handleEmptySquare(Square clickedSquare, List<ChessMove> possibleMoves) {
+		mBoardNode.resetPlaceholder();
+		boolean possibleOriginFound = false;
+		for (ChessMove move : possibleMoves) {
+		    if (move.getOrigin().equals(clickedSquare)) {
+		        possibleOriginFound = true;
+		        mBoardNode.addPlaceholder(move.getDestination());
+		    }
+		}
+		if (possibleOriginFound) {
+		    mOrigin = Optional.of(clickedSquare);
+		} else {
+		    mBoardNode.resetPlaceholder();
+		}
+	}
+
+	private void handleSquareWithPiece(Square clickedSquare, List<ChessMove> possibleMoves) {
+		for (ChessMove move : possibleMoves) {
+		    boolean originEqual = move.getOrigin().equals(mOrigin.get());
+		    boolean destinationEqual = move.getDestination().equals(clickedSquare);
+		    if (originEqual && destinationEqual) {
+		        mBoardNode.resetPlaceholder();
+		        refreshOutput();
+		        mChessController.executeMove(move.toJSon());
+		        break;
+		    }
+		}
+		mBoardNode.resetPlaceholder();
+		mOrigin = Optional.empty();
+	}
+
     @Override
     public void handle(Event event) {
+    	//Unused
     }
 
     public Controller getChessController() {
-        return chessController;
+        return mChessController;
     }
 
     @FXML
     public void buttonClicked() {
-        if(chessController.getGame() != null && chessController.getGame().isGameRunning()) {
+        if (mChessController.getGame() != null && mChessController.getGame().isGameRunning()) {
             try {
-                ChessMove move = ChessMove.valueOf(inputField.getText(), chessController.getGame());
-                chessController.executeMove(move.toJSon());
+                ChessMove move = ChessMove.valueOf(mInputField.getText(), mChessController.getGame());
+                mChessController.executeMove(move.toJSon());
                 refreshOutput();
             } catch (Exception e) {
-                inputField.setAccessibleHelp("Invalid input.");
+                mInputField.setAccessibleHelp("Invalid input.");
             }
-            inputField.setText("");
+            mInputField.setText("");
         } else {
-            chessController.newGame();
-            chessController.startGame();
+            mChessController.newGame();
+            mChessController.startGame();
         }
     }
 

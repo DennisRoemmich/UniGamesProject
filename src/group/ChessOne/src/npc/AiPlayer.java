@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 public class AiPlayer implements Player {
 
 	protected Controller mController;
-	private static final int depth = 2;
+	private static final int DEPTH = 2;
 
 	public AiPlayer(Controller controller) {
 		this.mController = controller;
@@ -16,20 +16,19 @@ public class AiPlayer implements Player {
 
 	@Override
     public JSONObject requestMove(JSONObject dataType) {
-		return getBestMove(depth).toJSon();
+		return getBestMove(DEPTH).toJSon();
     }
 
     protected ChessMove getBestMove(int depth) {
 		long endTime = System.currentTimeMillis() + 10000L;
-		var move = AiRatingEngine.getBestMove(mController.getGame(), depth, endTime);
-		return move;
+		return AiRatingEngine.getBestMove(mController.getGame(), depth, endTime);
 	}
 
 	protected void sleep(long millis) {
-		if(millis > 0) {
+		if (millis > 0) {
 			try {
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -72,12 +72,12 @@ public class Controller extends GameController {
     }
 
     @Override
-    public JSONObject metaSettingsToJSON() {
+    public JSONObject metaSettingsToJSon() {
         return new JSONObject();
     }
 
     @Override
-    public JSONObject gameSettingsToJSON() {
+    public JSONObject gameSettingsToJSon() {
         return new JSONObject();
     }
 
@@ -123,7 +123,7 @@ public class Controller extends GameController {
     public void gameStep() {
     	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
         Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
-        executeMove(currentPlayer.requestMove(createRequestJSON("move")));
+        executeMove(currentPlayer.requestMove(createRequestJSon("move")));
         updateGameState();
         if (mPresenter != null) {
             mPresenter.refreshOutput();

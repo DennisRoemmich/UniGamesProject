@@ -26,12 +26,12 @@ public class PromotionChessMove extends ChessMove {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+				@Override
     public JSONObject toJSon() {
-        JSONObject regularJSON = super.toJSon();
-        regularJSON.put("specialmove", "promotion");
-        regularJSON.put("type", mSelectedPieceType.toString());
-        return regularJSON;
+        JSONObject regularJSon = super.toJSon();
+        regularJSon.put("specialmove", "promotion");
+        regularJSon.put("type", mSelectedPieceType.toString());
+        return regularJSon;
     }
     
     @Override

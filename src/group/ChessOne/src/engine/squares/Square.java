@@ -26,8 +26,6 @@ public class Square {
         mFile = square.getFile();
     }
 
-
-    // TODO : Replace usages by valueOf
     public Square(String name) {
         this.mRank = Rank.valueOf(name.charAt(1));
         this.mFile = File.valueOf(name.charAt(0));
@@ -86,8 +84,12 @@ public class Square {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+        	return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
         Square square = (Square) o;
         return mRank == square.mRank && mFile == square.mFile;
     }
