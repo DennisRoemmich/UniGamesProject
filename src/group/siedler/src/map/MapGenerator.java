@@ -68,11 +68,25 @@ public final class MapGenerator {
 
         return map;
     }
+    
 
+    /*
+    For a variable map, both height and width have to be odd number and width <= height has to be true
+     */
     public static Map generateVariableMap(int width, int height) {
         Map map = new Map();
 
-        correctWidthAndHeight(width, height);
+        if (width % 2 == 0) {
+            width--;
+        }
+
+        if (height % 2 == 0) {
+            height--;
+        }
+
+        if (height > width) {
+            height = width;
+        }
 
         int maxX = width / 2;
         int maxY = height / 2;
@@ -95,24 +109,6 @@ public final class MapGenerator {
         return map;
     }
 
-    /*
-    For a variable map, both height and width have to be odd number and width <= height has to be true
-     */
-    public static void correctWidthAndHeight(int width, int height) {
-
-        if (width % 2 == 0) {
-            width--;
-        }
-
-        if (height % 2 == 0) {
-            height--;
-        }
-
-        if (height > width) {
-            height = width; //???
-        }
-        
-    }
 
     /*
     Get an evenly distributed set of Tiles, including desert & water.
