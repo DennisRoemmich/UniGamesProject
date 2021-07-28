@@ -3,22 +3,31 @@ package main;
 import console.Console;
 import console.Print;
 import controller.SkatController;
+import framework.NetworkController;
+import framework.NetworkPlayer;
+import framework.Player;
 import javaFX.FXLauncher;
 import jdk.jshell.EvalException;
 import test.Test;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SkatLauncher {
 
     private static boolean FX_LAUNCHER = true;
     private static boolean WINDOWS = false;
 
-    public static void main(String[] args){
+    static final int GAME_AMOUNT = 12;
 
-        // TODO: make arguments decide whether console or FX is opened
+    static final int GUI_PLAYER = 2;
+    static final int NETWORK_PLAYER = 1;
+    static final int KI_PLAYER = 0;
 
-        var gameAmount = 12;
+    public static void main(String[] args) throws IOException {
 
-    //    var flag = args[0];
 
         try {
 
@@ -26,19 +35,58 @@ public class SkatLauncher {
 
         } catch (Exception ignored) {
 
-        //    System.out.println("Hier liegt der Fehler!");
         }
 
 
+        var standardPlayerNames = new ArrayList<String>(Arrays.asList("Yoshi","HuiBuh","Neymar","Mr. Crabs","Chewbacca"));
+        var playerNo = GUI_PLAYER + NETWORK_PLAYER + KI_PLAYER;
 
-        var controller = new SkatController(gameAmount, new String[]{"Player 1","Player 2","Player 3"});
+        while (standardPlayerNames.size() > playerNo ){
+            standardPlayerNames.remove(standardPlayerNames.size()-1);
+        }
 
-        var test = new Test(controller);
+        var controller = new SkatController(GAME_AMOUNT, standardPlayerNames);
+
+        new Test(controller);
+
+
+        /* NETWORK PLAYER */
+
+        if (NETWORK_PLAYER != 0){
+
+            if (NETWORK_PLAYER > 1) {
+                Print.debug("ERROR", "MORE THAN ONE NETWORK PLAYER! NOT SUPPORTED YET! SO YEAH, THIS WILL PROBABLY BREAK EVERYTHING.");
+            }
+
+            var input = JOptionPane.showOptionDialog(null, "Configure P2P Connection as:","Peer2Peer Connection",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null,
+                    new String[]{"HOST", "CLIENT"}, "HOST");
+
+            if (input == 0) {
+
+                var networkPlayer = new NetworkPlayer(controller);
+
+            }
+
+            if (input == 1) {
+
+                var ip = JOptionPane.showInputDialog("Enter the IP of the host:");
+                var networkPlayer = new NetworkPlayer(controller, ip);
+
+            }
+
+        }
+
+        /* ADD PLAYER */
+
+            /* GUI PLAYER - LAST! */
+
 
         if (FX_LAUNCHER) {
 
             var fxLauncher = new FXLauncher();
-            fxLauncher.launchFX(controller);
+            fxLauncher.launchFX(controller); // Process will fall in a loop here
 
         } else {
 
@@ -50,10 +98,26 @@ public class SkatLauncher {
 
             Print.setWINDOWS(WINDOWS);
 
-            var console = new Console(controller);
-
         }
+
+
+
+
+
 
     }
 
+
+
+
 }
+
+
+
+
+
+
+
+
+
+

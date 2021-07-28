@@ -356,11 +356,20 @@ public class FXController implements Player, Initializable {
 
     }
 
+    public boolean hasMove(){
+        return hasMove;
+    }
 
     /* OVERRIDE */
 
+    private boolean hasMove = false;
+
     @Override
     public JSONObject requestMove(JSONObject inputType) {
+
+        hasMove = inputType.get("YOURMOVE").equals("TRUE");
+        FXPresenter.update();
+
         return null;
     }
 
@@ -370,6 +379,7 @@ public class FXController implements Player, Initializable {
     }
 
     /* HELPER */
+
 
     Text newText(String label, int size){
 
@@ -899,6 +909,16 @@ public class FXController implements Player, Initializable {
 
         FXPresenter.update();
     }
+
+
+    public void addAsPlayer(int amount){
+
+        for (var i = 0; i < amount; i++){
+            controller.addPlayer(this);
+        }
+
+    }
+
 
     /* OUTLETS */
 

@@ -20,6 +20,9 @@ public class FXLauncher extends Application {
 
     static SkatController skatController;
 
+    FXController fxController;
+    int playerAmount;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -40,18 +43,31 @@ public class FXLauncher extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        var FXController = (FXController) loader.getController();
+        fxController = (FXController) loader.getController();
 
-        FXController.setController(FXLauncher.skatController);
-        FXController.setScene(scene);
+        fxController.setController(FXLauncher.skatController);
+        fxController.setScene(scene);
+        fxController.addAsPlayer(playerAmount);
 
     }
-
 
     public void launchFX(SkatController controller){
 
         FXLauncher.skatController = controller;
         launch();
+
+    }
+
+    public void launchFX(SkatController controller, int playerAmount){
+
+        FXLauncher.skatController = controller;
+        launch();
+
+    }
+
+    public FXController getFxController(){
+
+        return fxController;
 
     }
 

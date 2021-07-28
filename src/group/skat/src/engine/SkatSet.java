@@ -81,7 +81,36 @@ public class SkatSet {
 
     /* OTHER */
 
-    public SkatSetPlayer[] currentSkatSetPlayer(){
+
+    /**
+     * returns 0 if player is not part of the current game; 1 if player is part and 2 if player is playing;
+     * @param atIndex
+     */
+    public int skatSetPlayerStatus(int atIndex){
+
+        var playingPlayers = playingPlayer(currentGameNo());
+
+        for (var i = 0; i < playingPlayers.length; i++){
+
+            if (playingPlayers[i] == players.get(atIndex) ){
+
+                if (i == getCurrentSkatGame().getCurrentPlayer().getGameIndex()){
+
+                    return 2;
+
+                }
+
+                return 1;
+
+            }
+
+        }
+
+        return 0;
+
+    }
+
+    public SkatSetPlayer[] currentPlayingSkatSetPlayer(){
 
         var gameNo = currentGameNo();
 

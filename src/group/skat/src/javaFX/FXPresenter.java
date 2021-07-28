@@ -63,6 +63,16 @@ public class FXPresenter {
 
         hideAll();
 
+
+        if (!fxController.hasMove()) {
+
+            declareGameTypeView("Not your move", "Wait for you opponents.");
+            fxController.LabelAuctionValue.setVisible(true);
+
+            return;
+
+        }
+
         var state = fxController.getState();
 
         switch (state) {
@@ -626,7 +636,7 @@ public class FXPresenter {
             if (visible) {  // change labels
 
                 var gamePlayer = set.getSkatPlayerAt(i);
-                var setPlayer = set.currentSkatSetPlayer()[i];
+                var setPlayer = set.currentPlayingSkatSetPlayer()[i];
 
                 var score = setPlayer.getTotalScore();
                 var name = setPlayer.getName();
