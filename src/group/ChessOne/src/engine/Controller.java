@@ -4,8 +4,10 @@ import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import torpedo.TorpedoChess;
+import engine.*;
 import framework.GameController;
 import framework.Player;
+
 import framework.WriteError;
 import org.json.simple.JSONObject;
 
@@ -20,10 +22,9 @@ public class Controller extends GameController {
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
-    private boolean mStandardChess = true;
+    private boolean standardChess = true;
     
     public Controller() {
-    	//Not used
     }
 
     protected JSONObject executeMove(JSONObject moveJSON) {
@@ -45,7 +46,7 @@ public class Controller extends GameController {
     }
     
     public void setStandardChess() {
-    	this.mStandardChess = !(this.mStandardChess);
+    	this.standardChess = !(this.standardChess);
     }
 
     public ChessMove getLastMove(){
@@ -57,7 +58,7 @@ public class Controller extends GameController {
 
     @Override
     public void newGame() {
-    	if(!mStandardChess) {
+    	if(!standardChess) {
     		mGame = new TorpedoChess();
     	} else {
     		mGame = new Chess();    		
