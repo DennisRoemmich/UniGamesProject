@@ -18,12 +18,12 @@
                <children>
                   <ImageView fitHeight="85.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/PlayerYellow.png" />
+                        <Image url="@../resources/images/PlayerYellow.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="85.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/PlayerCian.png" />
+                        <Image url="@../resources/images/PlayerCian.png" />
                      </image>
                   </ImageView>
                </children></VBox>
@@ -31,12 +31,12 @@
                <children>
                   <ImageView fitHeight="85.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/PlayerRed.png" />
+                        <Image url="@../resources/images/PlayerRed.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="85.0" fitWidth="145.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/PlayerLime.png" />
+                        <Image url="@../resources/images/PlayerLime.png" />
                      </image>
                   </ImageView>
                </children></VBox>
@@ -46,7 +46,7 @@
                      <children>
                         <ImageView fitHeight="170.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../resources/images/RummikubRack.png" />
+                              <Image url="@../resources/images/RummikubRack.png" />
                            </image>
                         </ImageView>
                         <GridPane prefHeight="128.0" prefWidth="699.0">
@@ -76,22 +76,22 @@
                            <children>
                               <ImageView fitHeight="60.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                  <image>
-                                    <Image url="@../../resources/images/RummikubTile.png" />
+                                    <Image url="@../resources/images/RummikubTile.png" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="60.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                                  <image>
-                                    <Image url="@../../resources/images/RummikubTile.png" />
+                                    <Image url="@../resources/images/RummikubTile.png" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="60.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                                  <image>
-                                    <Image url="@../../resources/images/RummikubTile.png" />
+                                    <Image url="@../resources/images/RummikubTile.png" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="60.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                                  <image>
-                                    <Image url="@../../resources/images/RummikubTile.png" />
+                                    <Image url="@../resources/images/RummikubTile.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -107,12 +107,12 @@
                         <Insets left="18.0" right="17.0" top="6.0" />
                      </VBox.margin>
                      <image>
-                        <Image url="@../../resources/images/GroupButton.png" />
+                        <Image url="@../resources/images/GroupButton.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="74.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/RunButton.png" />
+                        <Image url="@../resources/images/RunButton.png" />
                      </image>
                      <VBox.margin>
                         <Insets left="18.0" right="17.0" top="6.0" />
@@ -124,7 +124,7 @@
                <children>
                   <ImageView fitHeight="74.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/ResetButton.png" />
+                        <Image url="@../resources/images/ResetButton.png" />
                      </image>
                      <VBox.margin>
                         <Insets left="18.0" right="17.0" top="6.0" />
@@ -132,7 +132,7 @@
                   </ImageView>
                   <ImageView fitHeight="74.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/images/DrawButton.png" />
+                        <Image url="@../resources/images/DrawButton.png" />
                      </image>
                      <VBox.margin>
                         <Insets left="18.0" right="17.0" top="6.0" />
@@ -176,7 +176,7 @@
       </GridPane>
       <ImageView fitHeight="60.0" fitWidth="57.0" layoutX="1209.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/images/MenuButton.png" />
+            <Image url="@../resources/images/MenuButton.png" />
          </image>
       </ImageView>
    </children>
