@@ -7,10 +7,6 @@ package framework;
  */
 public final class PrintToConsole {
 
-    private PrintToConsole() {
-
-    }
-
     public static void print(String input) {
         System.out.print(input);
     }

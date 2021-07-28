@@ -51,8 +51,10 @@ public class Pawn extends ChessPiece {
             squareToTest = origin.getNext(moveDirection).get();
             if(squareToTest.getNext(captureDirection).isEmpty()) continue;
             squareToTest = squareToTest.getNext(captureDirection).get();
+
             var piece = game.getBoard().getPiece(squareToTest);
             if(piece.isEmpty()) {
+                // Capture En Passant
                 var possiblePiece = game.getBoard().getPiece(origin.getNext(captureDirection).get());
                 if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
                     Pawn pawn = (Pawn) possiblePiece.get();
@@ -61,6 +63,7 @@ public class Pawn extends ChessPiece {
                     }
                 }
             } else if (piece.get().getColor().equals(getColor().getContrary())) {
+                // Capture regular
                 list.add(squareToTest);
                 continue;
             }

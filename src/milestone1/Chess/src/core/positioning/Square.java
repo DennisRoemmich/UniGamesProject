@@ -80,6 +80,10 @@ public class Square {
         }
     }
 
+    public int getIndex() {
+        return mRank.getIndex() * 8 + mFile.getIndex();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

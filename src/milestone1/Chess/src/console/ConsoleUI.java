@@ -2,7 +2,6 @@ package console;
 
 import core.npc.AiPlayer;
 import core.ChessMove;
-import core.npc.RandomPlayer;
 import core.positioning.File;
 import core.positioning.Square;
 import core.positioning.Rank;
@@ -79,7 +78,7 @@ public class ConsoleUI implements Presenter, Player {
 	public void startGame(GameLog log, boolean mAiGame) {
 		PrintToConsole.println("Type \"help\" for information on how to play. \n");
 		if(mAiGame) {
-			mController.setPlayerA(new RandomPlayer(mController));
+			mController.setPlayerA(this);
 			mController.setPlayerB(new AiPlayer(mController));
 		} else {
 			mController.setPlayerA(this);

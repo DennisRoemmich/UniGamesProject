@@ -67,11 +67,14 @@ public class King extends ChessPiece {
             squaresToCheck.add(kingSquare.getNext(kingMoveDirection).get());
             squaresToCheck.add(squaresToCheck.get(0).getNext(kingMoveDirection).get());
 
+            boolean stopFlag = false;
             for(Square square : squaresToCheck) {
-                if(CheckDetector.isSquareAttacked(game, square)) {
-                    continue;
+                if(CheckDetector.isSquareAttackedByOpponent(game, square)) {
+                    stopFlag = true;
                 }
             }
+            if(stopFlag) continue;
+
 
             // Check if those squares (+ the B-Square if castling is on queen side) are free
             if (kingMoveDirection == Direction.LEFT) {
@@ -79,9 +82,10 @@ public class King extends ChessPiece {
             }
             for(Square square : squaresToCheck) {
                 if(game.getBoard().getPiece(square).isPresent()) {
-                    continue;
+                    stopFlag = true;
                 }
             }
+            if(stopFlag) continue;
 
             // Add move to list
             Square destination = squaresToCheck.get(1);

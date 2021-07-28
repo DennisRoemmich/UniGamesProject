@@ -183,7 +183,7 @@ public class Chess {
         var pieces = mBoard.getPieces(currentColor);
         List<ChessMove> newPossibleMoves = new ArrayList<>();
         for(ChessPiece piece: pieces) {
-            var possibleDestinations = piece.findMoves(this);
+        var possibleDestinations = piece.findMoves(this);
             newPossibleMoves.addAll(possibleDestinations);
         }
         this.possibleMoves = newPossibleMoves;

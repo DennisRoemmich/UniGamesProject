@@ -1,7 +1,5 @@
 package core.pieces;
 
-import core.Color;
-
 public class ChessPieceCopyFactory {
     public static ChessPiece getCopy(ChessPiece piece) {
         return switch (piece.getType()) {

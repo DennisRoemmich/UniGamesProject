@@ -41,6 +41,10 @@ public enum File {
         }
     }
 
+    public File getOpposite() {
+        return valueOf(7 - this.getIndex());
+    }
+
     public File getRightNeighbour() {
         if (this != File.H) {
             return File.valueOf(this.getIndex() + 1);

@@ -44,6 +44,10 @@ public enum Rank {
         }
     }
 
+    public Rank getOpposite() {
+        return valueOf(7 - this.getIndex());
+    }
+
     @Override
     public String toString() {
         return String.valueOf(name().charAt(1));

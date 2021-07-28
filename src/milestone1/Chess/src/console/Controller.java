@@ -2,7 +2,6 @@ package console;
 
 import TorpedoChess.TorpedoChess;
 import core.*;
-import core.npc.RandomPlayer;
 import framework.GameController;
 import framework.Player;
 
@@ -19,7 +18,6 @@ public class Controller extends GameController {
     private Chess mGame;
     private Player mPlayerA;
     private Player mPlayerB;
-    private RandomPlayer mPlayerAi;
     private boolean mColorSwitch = false;
     private boolean standardChess = true;
     

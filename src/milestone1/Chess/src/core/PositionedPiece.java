@@ -11,9 +11,6 @@ public class PositionedPiece {
     private ChessPiece piece;
 
     public PositionedPiece(Square position, ChessPiece piece) {
-        if(position == null || piece == null) {
-            throw new IllegalArgumentException();
-        }
         this.position = position;
         this.piece = piece;
     }
