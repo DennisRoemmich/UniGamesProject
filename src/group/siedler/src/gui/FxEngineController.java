@@ -1,5 +1,6 @@
 package gui;
 
+import controller.AiPlayer;
 import helper.QuickJSon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -218,11 +219,12 @@ public class FxEngineController extends FxController implements Player, Presente
     
     //Setup Players AI and players (this)
     public void setupPlayers() {
+        AiPlayer aiPlayer = new AiPlayer(mController);
         mController.addPlayer(this, PlayerColor.BLUE);
-        mController.addPlayer(this, PlayerColor.GREEN);
-        mController.addPlayer(this, PlayerColor.YELLOW);
-        mController.addPlayer(this, PlayerColor.WHITE);
-        mController.addPlayer(this, PlayerColor.PURPLE);
+        mController.addPlayer(aiPlayer, PlayerColor.GREEN);
+        mController.addPlayer(aiPlayer, PlayerColor.YELLOW);
+        mController.addPlayer(aiPlayer, PlayerColor.WHITE);
+        mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
     }
 
     public MaterialType chooseResource(KeyEvent event) {
