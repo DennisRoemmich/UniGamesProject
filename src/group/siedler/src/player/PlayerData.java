@@ -30,7 +30,7 @@ public class PlayerData {
     }
 
     public PlayerColor getColor() {
-        return mColor;
+        return this.mColor;
     }
 
     public void setColor(PlayerColor color) {
@@ -46,7 +46,7 @@ public class PlayerData {
     }
     
     public int getWinPoints() {
-    	return mWinPoints;
+    	return this.mWinPoints;
     }
     
     public void addCard(CardSet cards) {

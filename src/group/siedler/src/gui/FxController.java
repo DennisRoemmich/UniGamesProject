@@ -92,6 +92,8 @@ public class FxController implements Initializable {
     protected Label mBurglarMessage;
     @FXML
     protected Label mChooseRessource;
+    @FXML
+    protected Label mSetupPhase;
 
 	@Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -146,7 +148,7 @@ public class FxController implements Initializable {
     }
     
     public void refreshStatusMessage() {
-      
+    	mSetupPhase.setText("");
         if (mController.getCurrentPlayerHand().isTradeImpossible()) {
         	mTradeError.setText("Trade not possible!");
         	mController.getCurrentPlayerHand().setTradePossible();
@@ -155,9 +157,6 @@ public class FxController implements Initializable {
         	mTradeError.setText("");
         }
     }
-    
-
-    
 
     public void refreshDiceViews() {
         setDiceViews(DiceRolling.getDice1(), DiceRolling.getDice2());

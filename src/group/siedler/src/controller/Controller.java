@@ -62,20 +62,6 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
     }
 
-    //------- Game Logic -------
-
-    private int getWinPoints(PlayerColor color) {
-        int winPoints = 0;
-        for (Building building : mMap.getBuildings(color)) {
-        	winPoints += building.getType().equals(BuildingType.TOWN) ? 2 : 1;
-        }
-        return winPoints;        
-    }
-
-    public int getWinPoints() {
-		return mPlayerData.get(mCurrentPlayer).getWinPoints();
-	}
-
     //------- Required Moves -------
 
     public void handleRoll() {
@@ -371,7 +357,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     public boolean handleWinner() {
 
         for (PlayerData data : mPlayerData) {
-            if (getWinPoints(data.getColor()) >= 10) {
+            if (data.getWinPoints() >= 10) {
                 PrintToConsole.println(data.getColor() + " player wins!");
                 this.mWinColor = data.getColor();
                 mGameHasWinner = true;
@@ -434,6 +420,10 @@ public class Controller extends GameController implements SiedlerEventHandler {
     public PlayerColor getWinColor() {
     	return this.mWinColor;
     }
+    
+    public int getWinPoints() {
+		return mPlayerData.get(mCurrentPlayer).getWinPoints();
+	}
     
     public CardSet getCurrentPlayerCards() {
         return mPlayerData.get(mCurrentPlayer).getCards();

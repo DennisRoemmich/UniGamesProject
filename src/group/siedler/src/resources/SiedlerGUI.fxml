@@ -35,45 +35,45 @@
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-                  <Label fx:id="mVictoryPointCard" layoutX="80.0" layoutY="820.0" text="Victory Point Cards" textFill="aliceblue">
+                  <Label fx:id="mVictoryPointCard" layoutX="70.0" layoutY="810.0" text="Victory Point Cards" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-                           <Label fx:id="mKnightCard" layoutX="80.0" layoutY="700.0" text="K: Knight Cards" textFill="aliceblue">
+                           <Label fx:id="mKnightCard" layoutX="70.0" layoutY="690.0" text="K: Knight Cards" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-                                    <Label fx:id="mRoadCard" layoutX="80.0" layoutY="730.0" text="R: Road Cards" textFill="aliceblue">
+                                    <Label fx:id="mRoadCard" layoutX="70.0" layoutY="720.0" text="R: Road Cards" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-                                    <Label fx:id="mInventionCard" layoutX="80.0" layoutY="760.0" text="I: Invention Cards" textFill="aliceblue">
+                                    <Label fx:id="mInventionCard" layoutX="70.0" layoutY="750.0" text="I: Invention Cards" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
-                                    <Label fx:id="mMonopolyCard" layoutX="80.0" layoutY="790.0" text="M: Monopoly Cards" textFill="aliceblue">
-         <font>
-            <Font name="Trebuchet MS Bold" size="27.0" />
-         </font></Label>
-         
-         <Label fx:id="mVictoryAmount" layoutX="400.0" layoutY="820.0" text="" textFill="aliceblue">
-         <font>
-            <Font name="Trebuchet MS Bold" size="27.0" />
-         </font></Label>
-         <Label fx:id="mKnightAmount" layoutX="400.0" layoutY="700.0" text="" textFill="aliceblue">
-         <font>
-            <Font name="Trebuchet MS Bold" size="27.0" />
-         </font></Label>
-         <Label fx:id="mRoadAmount" layoutX="400.0" layoutY="730.0" text="" textFill="aliceblue">
-         <font>
-            <Font name="Trebuchet MS Bold" size="27.0" />
-         </font></Label>
-         <Label fx:id="mInventionAmount" layoutX="400.0" layoutY="760.0" text="" textFill="aliceblue">
+                                    <Label fx:id="mMonopolyCard" layoutX="70.0" layoutY="780.0" text="M: Monopoly Cards" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
          
-         <Label fx:id="mMonopolyAmount" layoutX="400.0" layoutY="790.0" text="" textFill="aliceblue">
+         <Label fx:id="mVictoryAmount" layoutX="400.0" layoutY="810.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mKnightAmount" layoutX="400.0" layoutY="690.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mRoadAmount" layoutX="400.0" layoutY="720.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mInventionAmount" layoutX="400.0" layoutY="750.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         
+         <Label fx:id="mMonopolyAmount" layoutX="400.0" layoutY="780.0" text="" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>
@@ -82,19 +82,23 @@
          <font>
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
-         <Label fx:id="mTradeError" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <Label fx:id="mTradeError" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
-         <Label fx:id="mBurglarMessage" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <Label fx:id="mBurglarMessage" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
-         <Label fx:id="mChooseRessource" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <Label fx:id="mSetupPhase" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
-               <Label fx:id="mWinner" layoutX="480.0" layoutY="650.0" text="" textFill="WHITE" > 
+         <Label fx:id="mChooseRessource" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+               <Label fx:id="mWinner" layoutX="480.0" layoutY="620.0" text="" textFill="WHITE" > 
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />
          </font></Label>

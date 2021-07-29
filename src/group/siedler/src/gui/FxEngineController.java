@@ -67,7 +67,7 @@ public class FxEngineController extends FxController implements Player, Presente
         setupPlayers(true); //true for aiGame, false for 6 player hotseat
         
         //Feel free to change method for changing the values of each resource type (for testing)
-        cheatResources(30); //cheat starting resource
+        cheatResources(0); //cheat starting resource
         
         refreshOutput();
         refreshRessourceMessage();
@@ -85,31 +85,26 @@ public class FxEngineController extends FxController implements Player, Presente
         	
         	//Ai player with green color (aiPlayer, GREEN)
         	mController.addPlayer(aiPlayer, PlayerColor.GREEN);
-        	
         	mController.addPlayer(aiPlayer, PlayerColor.YELLOW);
-        	mController.addPlayer(aiPlayer, PlayerColor.WHITE);
-        	mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
-        	mController.addPlayer(aiPlayer, PlayerColor.RED);
+    		mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
     		mController.addPlayer(aiPlayer, PlayerColor.BLACK);
-        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
-        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
-        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
-        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
-        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
-        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
+    		mController.addPlayer(aiPlayer, PlayerColor.WHITE);
+    		
+    		// Choose more players here!
+//    		mController.addPlayer(aiPlayer, PlayerColor.RED);
+//        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
+//        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
+//        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
+//        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
+//        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
+//        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
         } else {
     		mController.addPlayer(this, PlayerColor.BLUE);
         	mController.addPlayer(this, PlayerColor.GREEN);
-        	mController.addPlayer(this, PlayerColor.YELLOW);
-        	mController.addPlayer(this, PlayerColor.WHITE);
+        	mController.addPlayer(this, PlayerColor.YELLOW);       	
         	mController.addPlayer(this, PlayerColor.PURPLE);
-        	mController.addPlayer(this, PlayerColor.RED);
-        	mController.addPlayer(this, PlayerColor.ORANGE);
-        	mController.addPlayer(this, PlayerColor.LIME);
-        	mController.addPlayer(this, PlayerColor.PINK);
-        	mController.addPlayer(this, PlayerColor.CYAN);
-        	mController.addPlayer(this, PlayerColor.GREY);
-        	
+        	mController.addPlayer(this, PlayerColor.BLACK);
+        	mController.addPlayer(this, PlayerColor.WHITE);       	
         }
     }
     
@@ -222,7 +217,8 @@ public class FxEngineController extends FxController implements Player, Presente
     	var map = mMapNode.getMap();
     	if (map.isEmpty()) {
         	return;
-        }       
+        }
+    	mSetupPhase.setText("Place your 2 villages and roads!");
         mMapNode.addBuildingPlaceholders(BuildRules.getStartNodePositions(map.get()));
     }  
 
@@ -232,6 +228,7 @@ public class FxEngineController extends FxController implements Player, Presente
     	if (map.isEmpty()) {
         	return;
         }
+    	mSetupPhase.setText("Place your 2 villages and roads!");
         PlayerColor color = mController.getCurrentPlayerColor();
         for (StreetType type : StreetType.values()) {
         	List<EdgePosition> positions = BuildRules.getStartEdgePositions(map.get(), color, type);
