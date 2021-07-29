@@ -10,6 +10,7 @@ import framework.Player;
 import framework.PrintToConsole;
 import framework.WriteError;
 import gui.SiedlerEventHandler;
+import helper.ListUtility;
 import helper.QuickJSon;
 import map.BuildRules;
 import map.Map;
@@ -27,6 +28,9 @@ import streets.Street;
 import streets.StreetType;
 import tiles.ResourceTile;
 import tiles.Tile;
+
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -185,8 +189,6 @@ public class Controller extends GameController implements SiedlerEventHandler {
     }
     
     public void takeCard() {
-
-    	
     	CardSet set = getCurrentPlayerCards();
     	int cardRoll = ThreadLocalRandom.current().nextInt(0, 24);
     	
@@ -198,89 +200,104 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	getCurrentPlayerHand().removeResourceSet(CardSet.getCost());
     	
     	if (cardRoll < 14) {
-    		set.addResources(CardType.KNIGHT, 1);
+    		set.addCard(CardType.KNIGHT);
     	}
     	
     	if (cardRoll < 19 && cardRoll >= 14) {
-    		set.addResources(CardType.VICTORY, 1);
+    		set.addCard(CardType.VICTORY);
     		mPlayerData.get(mCurrentPlayer).increaseWinPoints();
     	}
     	
     	if (cardRoll < 21 && cardRoll >= 19) {
-    		set.addResources(CardType.ROAD, 1);
+    		set.addCard(CardType.ROAD);
     	}
     	
     	if (cardRoll < 23 && cardRoll >= 21) {
-    		set.addResources(CardType.INVENTION, 1);
+    		set.addCard(CardType.INVENTION);
     	}
     	
     	if (cardRoll < 25 && cardRoll >= 23) {
-    		set.addResources(CardType.MONOPOLY, 1);
+    		set.addCard(CardType.MONOPOLY);
     	} 
     	
     	handleWinner();
     	callPresenterUpdate();
     }
 
-    public void playInventionCard(MaterialType typeA, MaterialType typeB) {
+    public void playCard(CardType cardType, MaterialType... materialTypes) {
         if (mState != GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("It's not the right time to play a card!");
             return;
         }
-        
-    	if (getCurrentPlayerCards().getAmount(CardType.INVENTION) == 0) {
-    		PrintToConsole.println("You do not own this card!");
-    		return;
-    	}
-        
+
+        if (getCurrentPlayerCards().getAmount(cardType) == 0) {
+            PrintToConsole.println("You do not own this card!");
+            return;
+        }
+
+        switch (cardType) {
+            case KNIGHT -> playKnightCard();
+            case VICTORY -> getNumberOfPlayers();
+            case ROAD -> playRoadCard();
+            case INVENTION -> playInventionCard(materialTypes);
+            case MONOPOLY -> playMonopolyCard(materialTypes);
+        }
+        callPresenterUpdate();
+    }
+
+    private void playKnightCard() {
+        mState = GameState.MOVE_BURGLAR;
+        mPlayers.get(mCurrentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
+    }
+
+    private void playRoadCard() {
+        getCurrentPlayerHand().addResources(MaterialType.WOOD, 2);
+        getCurrentPlayerHand().addResources(MaterialType.CLAY, 2);
+    }
+
+    private void playInventionCard(MaterialType... materialTypes) {
+        if (mState != GameState.OPTIONAL_MOVES) {
+            PrintToConsole.println("It's not the right time to play a card!");
+            return;
+        }
+
+        if (getCurrentPlayerCards().getAmount(CardType.INVENTION) == 0) {
+            PrintToConsole.println("You do not own this card!");
+            return;
+        }
+
+        // Extract materials, fill with random if needed
+        MaterialType typeA, typeB;
+        switch(materialTypes.length) {
+            case 0:
+                typeA = MaterialType.getRandom();
+                typeB = MaterialType.getRandom();
+                break;
+            case 1:
+                typeA = materialTypes[0];
+                typeB = materialTypes[0];
+                break;
+            default:
+                typeA = materialTypes[0];
+                typeB = materialTypes[1];
+                break;
+
+        }
+
         getCurrentPlayerHand().addResources(typeA, 1);
         getCurrentPlayerHand().addResources(typeB, 1);
-        getCurrentPlayerCards().removeResources(CardType.INVENTION, 1);
+        getCurrentPlayerCards().removeCard(CardType.INVENTION);
     }
-    
 
-    
-    public void playCard(CardType type, MaterialType materialtype) {
+    private void playMonopolyCard(MaterialType... materialTypes) {
+        MaterialType materialtype = materialTypes.length > 0 ? materialTypes[0] : MaterialType.getRandom();
 
-
-        if (mState != GameState.OPTIONAL_MOVES) {
-            PrintToConsole.println("It's not the right time to play a card!");
-            return;
+        int amountOfMaterial = 0;
+        for (int i = 0; i < getNumberOfPlayers(); i++) {
+            amountOfMaterial += mPlayerData.get(i).getHand().getAmount(materialtype);
+            mPlayerData.get(i).getHand().removeResources(materialtype, amountOfMaterial);
         }
-
-    	if (getCurrentPlayerCards().getAmount(type) == 0) {
-    		PrintToConsole.println("You do not own this card!");
-    		return;
-    	}
-
-    	switch (type) {
-	    	case KNIGHT: 
-	    		mState = GameState.MOVE_BURGLAR;
-	    		mPlayers.get(mCurrentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
-	    		getCurrentPlayerCards().removeResources(type, 1);
-	    		mPlayerData.get(mCurrentPlayer).increaseKnightCounter();
-	    		break;
-	    	case VICTORY:
-	    		break; //Can't play victory cards
-	    	case ROAD:
-	    		getCurrentPlayerHand().addResources(MaterialType.WOOD, 2);
-	    		getCurrentPlayerHand().addResources(MaterialType.CLAY, 2);
-	    		getCurrentPlayerCards().removeResources(type, 1);
-	    		break;
-	    	case INVENTION:
-	    		//Should use the inventionCard method instead
-	    		break;
-	    	case MONOPOLY:
-	    		int amountOfMaterial = 0;
-	    		for (int i = 0; i < getNumberOfPlayers(); i++) {
-	    			amountOfMaterial += mPlayerData.get(i).getHand().getAmount(materialtype);
-	    			mPlayerData.get(i).getHand().removeResources(materialtype, amountOfMaterial);
-	    		}
-	    		getCurrentPlayerHand().addResources(materialtype, amountOfMaterial);
-	    		getCurrentPlayerCards().removeResources(type, 1);
-	    		break;
-	    	}
-    	callPresenterUpdate();
+        getCurrentPlayerHand().addResources(materialtype, amountOfMaterial);
     }
 
     public void placeStreet(EdgePosition position) {

@@ -2,7 +2,6 @@ package map;
 
 import positions.*;
 import tiles.PositionedTile;
-import tiles.Tile;
 
 /**
  * Getter methods to access the tiles, nodes and edges on the map. 
@@ -96,8 +95,6 @@ public final class MapTools {
         }
         return tilePositions;
     }
-
-
 
     // Node -> Edges (vollständig getestet)
     // Notwendig für Bauregeln

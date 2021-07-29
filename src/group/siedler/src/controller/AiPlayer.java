@@ -3,7 +3,7 @@ package controller;
 import buildings.Building;
 import buildings.BuildingType;
 import cards.CardSet;
-import gui.TileClickedEventHandler;
+import cards.CardType;
 import helper.QuickJSon;
 import map.BuildRules;
 import map.MapTools;
@@ -13,7 +13,6 @@ import org.json.simple.JSONObject;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
-import positions.PositionedObject;
 import positions.TilePosition;
 import framework.Player;
 import streets.Street;
@@ -38,22 +37,28 @@ public class AiPlayer implements Player {
     @Override
     public JSONObject requestMove(JSONObject inputType) {
         if (!inputType.containsKey("type")) {
-            return QuickJSon.create("reply", "invalid input");
+            return QuickJSon.createReply("invalid input");
         }
+        JSONObject reply = QuickJSon.createReply("valid");
         switch (mController.getState()) {
+            case NOT_RUNNING -> setToInvalid(reply);
             case ROLL_DICES -> mController.handleRoll();
             case SETUP_VILLAGE ->  handleSetupVillage();
             case SETUP_STREET -> handleSetupStreet();
             case OPTIONAL_MOVES -> handleOptionalMoves();
             case MOVE_BURGLAR -> handleMoveBurglar();
         }
-        return QuickJSon.create("reply", "valid");
+        return reply;
+    }
+
+    private void setToInvalid(JSONObject reply) {
+        reply.put("reply", "invalid");
     }
 
     private void handleSetupVillage() {
         List<NodePosition> possiblePositions = BuildRules.getStartNodePositions(mController.getMap());
-        possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
-        possiblePositions = possiblePositions.stream().filter(nP -> !Arrays.stream(MapTools.getTilesPositions(nP)).anyMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
+        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP)).noneMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
+        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP)).noneMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
         possiblePositions = new ArrayList<>(possiblePositions);
         Collections.shuffle(possiblePositions);
         mController.placeBuilding(possiblePositions.get(0));
@@ -95,14 +100,7 @@ public class AiPlayer implements Player {
             if (!positionedTile.getObject().isHasHitnumber()) {
                 continue;
             }
-            int block = 0;
-            var buildingPositions = MapTools.getNodePositions(positionedTile.getPosition());
-            for(NodePosition buildingPosition : buildingPositions) {
-                var building = mController.getMap().getBuilding(buildingPosition);
-                if (building.isPresent()) {
-                    block += building.get().getType() == BuildingType.VILLAGE ? 1 : 2;
-                }
-            }
+            int block = getBlockedResources(positionedTile);
             if (block >= maxBlock) {
                 if (block > maxBlock) {
                     maxBlock = block;
@@ -115,11 +113,26 @@ public class AiPlayer implements Player {
         mController.moveBurglar(bestPositions.get(0));
     }
 
+    private int getBlockedResources(PositionedTile positionedTile) {
+        int block = 0;
+        var buildingPositions = MapTools.getNodePositions(positionedTile.getPosition());
+        for(NodePosition buildingPosition : buildingPositions) {
+            var building = mController.getMap().getBuilding(buildingPosition);
+            if (building.isPresent()) {
+                block += building.get().getType() == BuildingType.VILLAGE ? 1 : 2;
+                if (building.get().getColor() == mController.getCurrentPlayerColor()) {
+                    block -= 10; // The Ai shouldn't block it's own tiles
+                }
+            }
+        }
+        return block;
+    }
+
     public void tryCreatingBuilding(BuildingType type) {
         if(mController.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(mController.getMap(), color, type);
-            if (possiblePositions.size() > 0) {
+            if (!possiblePositions.isEmpty()) {
                 Collections.shuffle(possiblePositions);
                 mController.placeBuilding(possiblePositions.get(0));
                 buildingCardSwitch = !buildingCardSwitch;
@@ -134,7 +147,7 @@ public class AiPlayer implements Player {
         if(mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(mController.getMap(), color, type);
-            if (possiblePositions.size() > 0) {
+            if (!possiblePositions.isEmpty()) {
                 int index = ThreadLocalRandom.current().nextInt(0, possiblePositions.size());
                 mController.placeStreet(possiblePositions.get(index), type);
             }
@@ -169,8 +182,12 @@ public class AiPlayer implements Player {
         }
     }
 
-    private void tryUsingCard() {
-        // TODO
+    private void tryUsingCards() {
+        for (CardType cardType : CardType.values()) {
+            if (cardType == CardType.VICTORY) {
+                continue;
+            }
+            mController.playCard(cardType, new MaterialType[0]);
+        }
     }
-    
 }

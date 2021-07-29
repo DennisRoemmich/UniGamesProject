@@ -110,10 +110,8 @@ public final class BuildRules {
     }
 
     public static boolean isNodeValidForNewStreet(Map map, EdgePosition position, StreetType type) {
-	    if (MapTools.isPositionValid(map, position)) {
-	        if (map.getStreet(position).isEmpty()) {
+	    if (MapTools.isPositionValid(map, position) && map.getStreet(position).isEmpty()) {
 	            return getPossibleStreetType(map, position).contains(type);
-            }
         }
 	    return false;
     }
@@ -123,11 +121,11 @@ public final class BuildRules {
     }
 
     public static boolean areNeighbourNodesFree(Map map, NodePosition position) {
-        return !Arrays.stream(MapTools.getNodePositions(position)).anyMatch(np -> map.getBuilding(np).isPresent());
+        return Arrays.stream(MapTools.getNodePositions(position)).noneMatch(np -> map.getBuilding(np).isPresent());
     }
 
     public static boolean isNodeInWater(Map map, NodePosition position) {
-        return !Arrays.stream(MapTools.getTilesPositions(position)).anyMatch(tp -> isTileLand(map, tp));
+        return Arrays.stream(MapTools.getTilesPositions(position)).noneMatch(tp -> isTileLand(map, tp));
     }
 
     public static boolean isTileLand(Map map, TilePosition position) {
@@ -166,8 +164,8 @@ public final class BuildRules {
 
     public static List<EdgePosition> getStartEdgePositions(Map map, PlayerColor color, StreetType type) {
         List<EdgePosition> edgePositions;
-        var nodePositions = new ArrayList<>(map.getBuildings(color).stream().map(b -> b.getPosition()).toList());
-        nodePositions = new ArrayList<>(nodePositions.stream().filter(nP -> !Arrays.stream(MapTools.getEdgePositions(nP)).anyMatch(eP -> map.getStreet(eP).isPresent())).toList());
+        var nodePositions = new ArrayList<>(map.getBuildings(color).stream().map(Building::getPosition).toList());
+        nodePositions = new ArrayList<>(nodePositions.stream().filter(nP -> Arrays.stream(MapTools.getEdgePositions(nP)).noneMatch(eP -> map.getStreet(eP).isPresent())).toList());
         edgePositions = Arrays.stream(MapTools.getEdgePositions(nodePositions.get(0))).toList();
         edgePositions = new ArrayList<>(edgePositions.stream().filter(eP -> MapTools.isPositionValid(map, eP) && BuildRules.getPossibleStreetType(map, eP).contains(type)).toList());
         return edgePositions;

@@ -19,4 +19,11 @@ public final class QuickJSon {
         object.put(key, value);
         return object;
     }
+
+
+    public static JSONObject createReply(String value) {
+        JSONObject object = new JSONObject();
+        object.put("reply", value);
+        return object;
+    }
 }
