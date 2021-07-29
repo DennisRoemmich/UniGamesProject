@@ -22,6 +22,7 @@ public class Controller extends GameController {
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
+    private boolean mIsWorkingActive = true;
     
     public Controller() {
     	//Unused
@@ -39,15 +40,18 @@ public class Controller extends GameController {
             move = ChessMove.valueOf(moveJSon);
         } catch (Exception e) {
             WriteError.writeErrorLog("");
+            
             return;
         }
         if (mGame.isMovePossible(move)) {
             mGame.makeMove(move);
             logMove(moveJSon);
             if (mPresenter != null) {
-                mPresenter.refreshOutput();
+                mPresenter.refreshOutput();                
             }
-            gameStep();
+        }
+        if (!mIsWorkingActive) {
+        	gameStep();
         }
     }
     
@@ -91,10 +95,6 @@ public class Controller extends GameController {
     		//Not used yet
     }
 
-    public void exitGame() {
-        mIsGameRunning = false;
-    }
-
     public void setPlayerA(Player playerA) {
         this.mPlayerA = playerA;
     }
@@ -121,9 +121,13 @@ public class Controller extends GameController {
     }
 
     public void gameStep() {
+    	
     	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
         Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
-        executeMove(currentPlayer.requestMove(createRequestJSon("move")));
+        JSONObject json = currentPlayer.requestMove(createRequestJSon("move"));
+    	if (mIsWorkingActive) {
+        	executeMove(json);
+    	}
         updateGameState();
         if (mPresenter != null) {
             mPresenter.refreshOutput();
@@ -131,6 +135,8 @@ public class Controller extends GameController {
     }
 
     private void updateGameState() {
-        mIsGameRunning = GameOverDetector.checkForMate(mGame) == ChessResult.NONE;
+        if (GameOverDetector.checkForMate(mGame) == ChessResult.NONE) {
+        	quitGame();
+        }
     }
 }

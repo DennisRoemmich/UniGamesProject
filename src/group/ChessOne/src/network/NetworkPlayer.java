@@ -76,21 +76,22 @@ public class NetworkPlayer implements Player {
 
         var moveOut = mController.getLastMove();
 
-        try{
+        try {
             send(moveOut.toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Sending last move to connected client failed:\n" + e);
-            mController.exitGame();
+            mController.quitGame();
+            return new JSONObject();
         }
 
         ChessMove moveIn;
 
-        try{
+        try {
             moveIn = ChessMove.valueOf(listen(), mController.getGame());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Receiving move from client failed:\n" + e);
-            mController.exitGame();
-            return null;
+            mController.quitGame();
+            return new JSONObject();
         }
 
         return moveIn.toJSon();

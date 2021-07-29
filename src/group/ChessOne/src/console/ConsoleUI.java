@@ -24,7 +24,7 @@ import java.util.Scanner;
  */
 public class ConsoleUI implements Presenter, Player {
 
-	static final boolean NETWORK_GAME = true;
+	private boolean mIsNetworkGame = true;
 
 
 	private final Scanner mScanner = new Scanner(System.in);
@@ -36,9 +36,32 @@ public class ConsoleUI implements Presenter, Player {
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
     	
+    	boolean netWorkInput = true;
+    	while (netWorkInput) {
+    		PrintToConsole.println("");
+        	PrintToConsole.println("Play [H]otseat, Play via [N]etwork, [Q]uit");
+        	
+        	String input = mScanner.nextLine();
+        	
+        	switch (input) {
+			case "h", "H":
+				mIsNetworkGame = false;
+				netWorkInput = false;
+				break;
+			case "n", "N":
+				mIsNetworkGame = true;
+				netWorkInput = false;
+				PrintToConsole.print("Awaiting network confirmation... (Popup window)\n");
+				break;
+			case "q", "Q":
+				return;
+			default:
+				break;
+        	}
+    	}
     	boolean wrongMenuInput = true;
 
-    	if (NETWORK_GAME) {
+    	if (mIsNetworkGame) {
 			mNetworkState = hostOrClient();
 
 			if (mNetworkState == NetworkState.CLIENT) {
@@ -50,7 +73,11 @@ public class ConsoleUI implements Presenter, Player {
     	while (wrongMenuInput) {
 
 			PrintToConsole.print("Please choose your game mode: \n");
-			PrintToConsole.print("[C]lassic Chess 1v1, Classic Chess vs [A]I, ");
+			if (!mIsNetworkGame) {
+				PrintToConsole.print("[C]lassic Chess 1v1, Classic Chess vs [A]I, ");
+			} else {
+				PrintToConsole.print("[C]lassic Chess 1v1, ");
+			}
 			PrintToConsole.print("[T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit \n");
 			String input = mScanner.nextLine();
 
@@ -63,7 +90,9 @@ public class ConsoleUI implements Presenter, Player {
     				startGame(false);
     				break;
 				case "a", "A":
+					if (!mIsNetworkGame) {
 					startGame(true);
+					}
 					break;
 				case "t", "T": 
 					mController.setStandardChess();
@@ -73,8 +102,8 @@ public class ConsoleUI implements Presenter, Player {
 					PrintToConsole.println("--------Classic Chess 1v1---------");
 					PrintToConsole.println("The classic chess game vs another player via hotseat.");
 					PrintToConsole.println("");
-					PrintToConsole.println("--------Classic Chess AI vs AI---------");
-					PrintToConsole.println("Challenge the computer vs the computer");
+					PrintToConsole.println("--------Classic Chess vs AI---------");
+					PrintToConsole.println("Challenge vs the computer!");
 					PrintToConsole.println("");
 					PrintToConsole.println("--------Torpedo Chess 1v1---------");
 					PrintToConsole.print("Alternative game mode where your pawns \n ");
@@ -122,8 +151,8 @@ public class ConsoleUI implements Presenter, Player {
     public void startGame(boolean mAiGame) {
 
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
-
-    	if (NETWORK_GAME && mNetworkState == NetworkState.CLIENT) {
+    
+    	if (mIsNetworkGame && mNetworkState == NetworkState.CLIENT) {
 
     		mChessGame = mClientController.getGame();
     		mClientController.startGame();
@@ -133,7 +162,7 @@ public class ConsoleUI implements Presenter, Player {
     		if (mAiGame) {
 				mController.setPlayerA(this);
 				mController.setPlayerB(new AiPlayer(mController));
-			} else if (NETWORK_GAME) {
+			} else if (mIsNetworkGame) {
 				mController.setPlayerA(this);
 				mController.setPlayerB(new NetworkPlayer(mController));
 			} else {
@@ -141,10 +170,10 @@ public class ConsoleUI implements Presenter, Player {
     			mController.setPlayerB(this);
     		}
 
-		mController.setPresenter(this);
-        mController.newGame();
-        mChessGame = mController.getGame();
-        mController.startGame();
+			mController.setPresenter(this);
+	        mController.newGame();
+	        mChessGame = mController.getGame();
+	        mController.startGame();
 
 		}
 
@@ -222,15 +251,19 @@ public class ConsoleUI implements Presenter, Player {
 		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 		String input = mScanner.nextLine();
 		if (checkSpecialInput(input)) {
-			return new JSONObject();
+			//PrintToConsole("error2");
 		}
 		try {
 			ChessMove move = ChessMove.valueOf(input, mChessGame);
-			return move.toJSon();
+			for (ChessMove moveToCheck: mController.getGame().getPossibleMoves()) {
+				if (move.equals(moveToCheck)) {
+					return move.toJSon();
+				}
+			}
 		} catch (Exception e) {
 			PrintToConsole.println("Unknown Issue.");
-			return new JSONObject();
 		}
+		return requestMove(dataType);
 	}
 
     public boolean checkSpecialInput(String input) {
