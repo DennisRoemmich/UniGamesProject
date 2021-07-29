@@ -1,6 +1,8 @@
 package map;
 
 import positions.*;
+import tiles.PositionedTile;
+import tiles.Tile;
 
 /**
  * Getter methods to access the tiles, nodes and edges on the map. 
@@ -152,8 +154,10 @@ public final class MapTools {
     public static boolean isPositionValid(Map map, EdgePosition position) {
         var neighbourTiles = getTilesPositions(position);
         for (TilePosition tilePosition : neighbourTiles) {
-            if (map.getTiles().stream().anyMatch(t -> t.getPosition().equals(tilePosition))) {
-                return true;
+            for (PositionedTile tile : map.getTiles()) {
+                if (tile.getPosition().equals(tilePosition)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -162,8 +166,10 @@ public final class MapTools {
     public static boolean isPositionValid(Map map, NodePosition position) {
         var neighbourTiles = getTilesPositions(position);
         for (TilePosition tilePosition : neighbourTiles) {
-            if (map.getTiles().stream().anyMatch(t -> t.getPosition().equals(tilePosition))) {
-                return true;
+            for (PositionedTile tile : map.getTiles()) {
+                if (tile.getPosition().equals(tilePosition)) {
+                    return true;
+                }
             }
         }
         return false;

@@ -35,51 +35,87 @@ public final class BuildRules {
         List<NodePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color);
         for (PositionedStreet street : playersStreets) {
-            var nodes = MapTools.getNodePositions(street.getPosition());
-            var filtered = Arrays.stream(nodes).filter(p -> MapTools.isPositionValid(map, p)).toList();
-            if (buildingType == BuildingType.VILLAGE) {
-                filtered = filtered.stream().filter(nodePosition -> map.getBuilding(nodePosition).isEmpty()).toList();
-                filtered = filtered.stream().filter(nodePosition -> isNodeValidForNewBuilding(map, nodePosition)).toList();
-            } else {
-                filtered = filtered.stream().filter(nodePosition -> canBeUpgradedToTown(map, color, nodePosition)).toList();
-            }
+            var filtered = filterNodePositions(map, color, buildingType, street.getPosition());
             ListUtility.addAllWithoutDuplicates(filtered, validPositions);
         }
         return validPositions;
     }
 
+    public static List<NodePosition> filterNodePositions(Map map, PlayerColor color, BuildingType type, EdgePosition streetPosition) {
+
+        var nodes = MapTools.getNodePositions(streetPosition);
+        List<NodePosition> filtered = new ArrayList<>();
+        for(NodePosition nodePosition : nodes) {
+            if (type == BuildingType.VILLAGE) {
+                if (isNodeValidForNewBuilding(map, nodePosition)) {
+                    filtered.add(nodePosition);
+                }
+            } else {
+                if (canBeUpgradedToTown(map, color, nodePosition)) {
+                    filtered.add(nodePosition);
+                }
+            }
+        }
+        return filtered;
+    }
+
     public static List<StreetType> getPossibleStreetType(Map map, EdgePosition position) {
         List<StreetType> types = new ArrayList<>();
         TilePosition[] tilePositions = MapTools.getTilesPositions(position);
-        List<Tile> tiles = Arrays.stream(tilePositions).map(tp -> map.getTile(tp)).filter(Optional::isPresent).map(t -> t.get()).toList();
-
-        if (tiles.stream().anyMatch(tile -> !tile.isWater())) {
-            types.add(StreetType.ROAD);
-        }
-
-        if (tiles.stream().anyMatch(tile -> tile.isWater())) {
-            types.add(StreetType.SHIP);
+        for(TilePosition tilePosition : tilePositions) {
+            var tile = map.getTile(tilePosition);
+            if(tile.isPresent()) {
+                var streetType = getPossibleStreetType(tile.get());
+                if (!types.contains(streetType)) {
+                    types.add(streetType);
+                }
+            }
         }
 
         return types;
     }
 
+    public static StreetType getPossibleStreetType(Tile tile) {
+	    return tile.isWater() ? StreetType.SHIP : StreetType.ROAD;
+    }
+
     public static List<EdgePosition> getValidEdgePositions(Map map, PlayerColor color, StreetType streetType) {
-        List<EdgePosition> validPositions = new ArrayList<>();
         var playersStreets = map.getStreets(color).stream().filter(s -> s.getObject().getType().equals(streetType)).toList();
         var playersBuildings = map.getBuildings(color);
+
+        List<EdgePosition> possiblePositions = new ArrayList<>();
+
+        // Get EdgePositions next to buildings
         for (PositionedStreet street : playersStreets) {
-            var neighbourStreets = MapTools.getEdgePositions(street.getPosition());
-            ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
+            if (street.getObject().getType() == streetType) {
+                var neighbourStreets = MapTools.getEdgePositions(street.getPosition());
+                ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), possiblePositions);
+            }
         }
+
+        // Get EdgePositions next to streets
         for (Building building : playersBuildings) {
             var neighbourStreets = MapTools.getEdgePositions(building.getPosition());
-            ListUtility.addAllWithoutDuplicates(Arrays.stream(neighbourStreets).toList(), validPositions);
+            ListUtility.addAllWithoutDuplicates(Arrays.asList(neighbourStreets), possiblePositions);
         }
-        validPositions = validPositions.stream().filter(ep -> map.getStreet(ep).isEmpty()).toList();
-        validPositions = validPositions.stream().filter(p -> MapTools.isPositionValid(map, p)).toList();
-        validPositions = validPositions.stream().filter(p -> BuildRules.getPossibleStreetType(map, p).contains(streetType)).toList();
+
+        List<EdgePosition> validPositions = new ArrayList<>();
+        for (EdgePosition position : possiblePositions) {
+            if(isNodeValidForNewStreet(map, position, streetType)) {
+                validPositions.add(position);
+            }
+        }
+
         return validPositions;
+    }
+
+    public static boolean isNodeValidForNewStreet(Map map, EdgePosition position, StreetType type) {
+	    if (MapTools.isPositionValid(map, position)) {
+	        if (map.getStreet(position).isEmpty()) {
+	            return getPossibleStreetType(map, position).contains(type);
+            }
+        }
+	    return false;
     }
 
     public static boolean isNodeValidForNewBuilding(Map map, NodePosition position) {
