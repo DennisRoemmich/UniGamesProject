@@ -12,6 +12,7 @@
          <font>
             <Font name="Helvetica Neue" size="30.0" />
          </font></Button>
+
       <TextField fx:id="mInputField" layoutX="953.0" layoutY="744.0" onAction="#buttonClicked" prefHeight="50.0" prefWidth="250.0" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="50.0" />
       
    </children>

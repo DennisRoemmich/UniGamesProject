@@ -32,6 +32,8 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     private Label mOutputLabel;
     @FXML
     private TextField mInputField;
+    @FXML
+    private Button mIsAi;
 
     private Controller mChessController = new Controller();
     private ChessBoardNode mBoardNode = new ChessBoardNode(mChessController, this);
@@ -137,5 +139,10 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
             mChessController.startGame();
         }
     }
+    
+//    @FXML
+//    public void aiButtonClicked() {
+//    	mChessController.setPlayerB(new AiPlayer(mChessController));
+//    }
 
 }
