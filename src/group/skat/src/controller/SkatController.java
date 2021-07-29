@@ -23,6 +23,7 @@ public class SkatController extends GameController {
     private SkatSet mSkatSet;
     private String[] mPlayerNames;
     private int mLastCurrentPlayer = -1;
+    int guiPlayerIndex;
 
     /* CONSTRUCTOR */
 
@@ -61,6 +62,7 @@ public class SkatController extends GameController {
      */
     public boolean makeMove(GameMove move) {
 
+        Print.debug("INFO", "Player returns a move.");
 
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
@@ -81,6 +83,8 @@ public class SkatController extends GameController {
 
                     Print.debug("MAIK", "GAME IS FINISHED");
                     mSkatSet.gameIsFinished();
+
+                    guiPlayersTurn();
 
                     if (mSkatSet.isFinished()) {
 
@@ -133,6 +137,26 @@ public class SkatController extends GameController {
 
     }
 
+    private void guiPlayersTurn(){
+
+        var obj = new JSONObject();
+        var yourMove = "YOURMOVE";
+
+        for (var i = 0; i < mPlayers.size(); i++ ) {
+
+            var player = mPlayers.get(i);
+
+            if (i == guiPlayerIndex){
+                obj.put(yourMove, "TRUE");
+            } else {
+                obj.put(yourMove, "FALSE");
+            }
+                player.requestMove(obj);
+
+        }
+
+    }
+
     private void messageNextPlayer() {
 
         var obj = new JSONObject();
@@ -154,6 +178,7 @@ public class SkatController extends GameController {
 
         if ( activatePlayerAt != -1 ) {
             obj.put(yourMove, "TRUE");
+            Print.debug("INFO", "Player " + Integer.toString(activatePlayerAt) + " gets the move.");
             mPlayers.get(activatePlayerAt).requestMove(obj);
         } else {
             Print.debug("ERROR", "Something went wrong, no player is playing.");
@@ -195,6 +220,7 @@ public class SkatController extends GameController {
 
             if (firstMove) { // first gui player was added?
 
+                guiPlayerIndex = mPlayers.size() - 1;
                 var obj = new JSONObject();
                 obj.put("YOURMOVE", "TRUE");
                 var ret = player.requestMove(obj);
