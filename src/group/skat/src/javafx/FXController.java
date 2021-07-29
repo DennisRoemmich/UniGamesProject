@@ -38,6 +38,9 @@ import java.util.*;
  */
 public class FXController implements Player, Initializable {
 
+    public Label LabelPlayerActive3;
+    public Label LabelPlayerActive2;
+    public Label LabelPlayerActive1;
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
 
@@ -56,6 +59,8 @@ public class FXController implements Player, Initializable {
 
     private FXSkat mFxSkat;
     private FXCurrentTrick mFxCurrentTrick;
+
+    private int skatSetPlayerIndex;
 
    /* INITIALIZE */
 
@@ -245,14 +250,16 @@ public class FXController implements Player, Initializable {
             return 0;
         }
 
-        if (playerGameIndex == -1) {
+        if (skatSetPlayerIndex == -1) {
 
             return game().getCurrentPlayer().getGameIndex();
 
         } else {
 
-            return playerGameIndex;
+            return skatSetPlayerIndex;
+
         }
+
     }
 
     public FXHandShelf[] getFxHandShelfs() {
@@ -339,6 +346,8 @@ public class FXController implements Player, Initializable {
         hasMove = inputType.get("YOURMOVE").equals("TRUE");
         FXPresenter.update();
 
+
+
         return null;
     }
 
@@ -373,11 +382,16 @@ public class FXController implements Player, Initializable {
     public boolean makeMove(GameMove move) {
 
         if (move == null) {
-
             return false;
         }
 
-        return mController.makeMove(move);
+        if(hasMove) {
+            return mController.makeMove(move);
+        } else {
+            Print.debug("INFO", "You can't make a move - it's not your turn.");
+            return false;
+        }
+
     }
 
     /* EVENT ABSTRACTIONS */
@@ -941,11 +955,22 @@ public class FXController implements Player, Initializable {
     }
 
 
-    public void addAsPlayer(int amount) {
+    public void addPlayerWithAmount(int amount) {
+
+
 
         for (var i = 0; i < amount; i++) {
             mController.addPlayer(this);
         }
+
+        if(amount > 1){
+            skatSetPlayerIndex = -1;
+        } else {
+            skatSetPlayerIndex = mController.getCurPlayerNo()-1;
+        }
+
+
+
 
     }
 

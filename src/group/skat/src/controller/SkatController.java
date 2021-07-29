@@ -7,9 +7,12 @@ import engine.SkatSet;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
+import framework.Presenter;
+import javafx.FXPresenter;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The SkatConroller is the central engine of the game logic
@@ -26,6 +29,8 @@ public class SkatController extends GameController {
     public SkatController(int gameAmount, ArrayList<String> nameList) {
 
         String[] names = nameList.toArray(new String[0]);
+
+        this.mPlayers = new ArrayList<>();
 
         this.mGameAmount = gameAmount;
         this.mPlayerNames = names;
@@ -55,6 +60,7 @@ public class SkatController extends GameController {
      * @return true if done, false if failed
      */
     public boolean makeMove(GameMove move) {
+
 
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
@@ -90,6 +96,7 @@ public class SkatController extends GameController {
         checkPlayerSwitched();
         return false;
     }
+
 
     private boolean makeMoveHelp(GameMove move) {
 
@@ -174,18 +181,24 @@ public class SkatController extends GameController {
         return mSkatSet;
     }
 
+    public int getCurPlayerNo(){
+        return mPlayers.size();
+    }
 
     public void addPlayer(Player player) {
 
-        if (getGame().getGamePhase() == GamePhase.NOT_STARTED) {
+        var firstMove = true;
+
+        if (getGame() == null || getGame().getGamePhase() == GamePhase.NOT_STARTED) {
 
             mPlayers.add(player);
 
-            if (mPlayers.size() == 1) { // first player was added
+            if (firstMove) { // first gui player was added?
 
                 var obj = new JSONObject();
                 obj.put("YOURMOVE", "TRUE");
-                player.requestMove(obj);
+                var ret = player.requestMove(obj);
+                firstMove = ret == null;
 
             }
 

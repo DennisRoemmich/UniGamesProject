@@ -6,7 +6,7 @@ import engine.enums.GameMode;
 
 public class Print {
     
-    private static final String ACTIVE = "WARNING;ERROR;CONSOLE";
+    private static final String ACTIVE = "WARNING;ERROR;CONSOLE;INFO";
 
     private static boolean windows;
     

@@ -1,10 +1,13 @@
-package engine;
+package KIPlayer;
 
+import console.Print;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
+import engine.*;
 import engine.enums.GamePhase;
 import framework.Player;
+import javafx.application.Platform;
 import org.json.simple.JSONObject;
 
 import java.util.Random;
@@ -13,6 +16,8 @@ import java.util.Random;
  * class for the KI
  */
 public class KIPlayer implements Player {
+
+    private static final int SLEEP_DURATION = 1000;
 
     private SkatController mController;
     private SkatGame mGame;
@@ -27,10 +32,17 @@ public class KIPlayer implements Player {
     public KIPlayer(SkatController controller, int index) {
 
         this.mController = controller;
-        mGame = controller.getGame();
         this.mIndex = index;
-        mPlayer = controller.getSkatSet().getSkatPlayerAt(index);
+
+
+    }
+
+    public void init(){
+
+        mGame = mController.getGame();
+        mPlayer = mController.getSkatSet().getSkatPlayerAt(mIndex);
         mHand = mPlayer.getHand();
+
     }
 
     // TODO: mit welchem index kommt man zum richtigen SkatPlayer
@@ -267,11 +279,25 @@ public class KIPlayer implements Player {
     @Override
     public JSONObject requestMove(JSONObject inputType) {
 
+        if (mController.getGame() == null) {
+            return null;
+        }
+
+        if (mGame == null) {
+            init();
+        }
+
         if (inputType.get("YOURMOVE") == "TRUE") {
 
-            mController.makeMove(getMove());
+            new Thread(()->{ //use another thread so long process does not block gui
+
+                try {Thread.sleep(SLEEP_DURATION);} catch (InterruptedException ex) { ex.printStackTrace();}
+                Platform.runLater(() -> mController.makeMove(getMove()));
+
+            }).start();
+
 
         }
-        return null;
+        return new JSONObject();
     }
 }

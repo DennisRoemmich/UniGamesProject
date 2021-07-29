@@ -2,6 +2,7 @@ package main;
 
 import console.Print;
 import controller.SkatController;
+import KIPlayer.KIPlayer;
 import framework.NetworkPlayer;
 import javafx.FXLauncher;
 import test.Test;
@@ -16,14 +17,14 @@ import java.util.Arrays;
  */
 public class SkatLauncher {
 
-    private static boolean mFxLauncher = false;
+    private static boolean mFxLauncher = true;
     private static boolean mWindows = false;
 
     static final int GAME_AMOUNT = 12;
 
-    static final int GUI_PLAYER = 2;
-    static final int NETWORK_PLAYER = 1;
-    static final int KI_PLAYER = 0;
+    static final int GUI_PLAYER = 1;
+    static final int NETWORK_PLAYER = 0;
+    static final int KI_PLAYER = 2;
 
     /**
      * main method
@@ -43,6 +44,11 @@ public class SkatLauncher {
         var standardPlayerNames = new ArrayList<String>(Arrays.asList("Yoshi","HuiBuh","Neymar","Mr. Crabs","Chewbacca"));
         var playerNo = GUI_PLAYER + NETWORK_PLAYER + KI_PLAYER;
 
+        if(playerNo < 3){
+            Print.debug("ERROR", "Cannot play with less then 3 players");
+            return;
+        }
+
         while (standardPlayerNames.size() > playerNo ){
             standardPlayerNames.remove(standardPlayerNames.size()-1);
         }
@@ -57,7 +63,7 @@ public class SkatLauncher {
         if (NETWORK_PLAYER != 0){
 
             if (NETWORK_PLAYER > 1) {
-                Print.debug("ERROR", "MORE THAN ONE NETWORK PLAYER! NOT SUPPORTED YET! SO YEAH, THIS WILL PROBABLY BREAK EVERYTHING.");
+                Print.debug("ERROR", "More than one networkplayer not supported yet");
             }
 
             var input = JOptionPane.showOptionDialog(null, "Configure P2P Connection as:","Peer2Peer Connection",
@@ -80,15 +86,34 @@ public class SkatLauncher {
 
         }
 
-        /* ADD PLAYER */
+        if (KI_PLAYER != 0){
+
+            if (NETWORK_PLAYER > 4) {
+                Print.debug("ERROR", "4 it the maximum amount of possible KI Players");
+            }
+
+            for (var i = 0; i < KI_PLAYER; i++){
+
+                controller.addPlayer(new KIPlayer(controller, i));
+
+            }
+
+
+        }
+
+            /* ADD PLAYER */
 
             /* GUI PLAYER - LAST! */
 
+        if (GUI_PLAYER < 1) {
+            Print.debug("ERROR", "There must be at least one GUI Player");
+            return;
+        }
 
         if (mFxLauncher) {
 
             var fxLauncher = new FXLauncher();
-            fxLauncher.launchFX(controller); // Process will fall in a loop here
+            fxLauncher.launchFX(controller, GUI_PLAYER); // Process will fall in a loop here
 
         } else {
 

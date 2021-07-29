@@ -1,5 +1,6 @@
 package javafx;
 
+import console.Print;
 import controller.SkatController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,7 @@ public class FXLauncher extends Application {
     static SkatController mSkatController;
 
     private FXController mFxController;
-    private int mPlayerAmount;
+    static private int mPlayerAmount;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -50,7 +51,7 @@ public class FXLauncher extends Application {
 
         mFxController.setController(FXLauncher.mSkatController);
         mFxController.setScene(scene);
-        mFxController.addAsPlayer(mPlayerAmount);
+        mFxController.addPlayerWithAmount(mPlayerAmount);
 
     }
 
@@ -72,6 +73,7 @@ public class FXLauncher extends Application {
      */
     public static void launchFX(SkatController controller, int playerAmount) {
 
+        FXLauncher.mPlayerAmount = playerAmount;
         FXLauncher.mSkatController = controller;
         launch();
 

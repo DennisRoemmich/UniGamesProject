@@ -67,8 +67,9 @@ public class FXPresenter {
 
         hideAll();
 
+        var state = mFxController.getState();
 
-        if (!mFxController.hasMove()) {
+        if (!mFxController.hasMove() && (state == GUIState.AUCTION_WATCHING || state == GUIState.AUCTION_HEARING || state == GUIState.AUCTION_ASKING)) {
 
             declareGameTypeView("Not your move", "Wait for you opponents.");
             mFxController.LabelAuctionValue.setVisible(true);
@@ -76,8 +77,6 @@ public class FXPresenter {
             return;
 
         }
-
-        var state = mFxController.getState();
 
         switch (state) {
 
@@ -420,8 +419,19 @@ public class FXPresenter {
         var anchorPlayerInfo = new AnchorPane[]{mFxController.AnchorPlayerInfo1, mFxController.AnchorPlayerInfo2, mFxController.AnchorPlayerInfo3};
         var labelPlayerName = new Label[]{mFxController.LabelPlayerName1, mFxController.LabelPlayerName2, mFxController.LabelPlayerName3};
         var labelPlayerScore = new Label[]{mFxController.LabelPlayerPoints1, mFxController.LabelPlayerPoints2, mFxController.LabelPlayerPoints3};
+        var labelPlayerActive = new Label[]{mFxController.LabelPlayerActive1, mFxController.LabelPlayerActive2, mFxController.LabelPlayerActive3};
 
         var set = mFxController.getController().getSkatSet();
+        int activePlayerIndex;
+        var game = mFxController.getController().getGame();
+
+        if (game == null){
+            activePlayerIndex = -1;
+        } else {
+            activePlayerIndex = (game.getCurrentPlayer().getGameIndex() + 1) % 3;
+        }
+
+
 
         for (var i = 0; i < 3; i++) {
 
@@ -439,6 +449,12 @@ public class FXPresenter {
             var declarer = skatPlayer.isDeclarer();
 
             var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
+
+            if(i == activePlayerIndex){
+                labelPlayerActive[i].setVisible(true);
+            } else {
+                labelPlayerActive[i].setVisible(false);
+            }
 
             if (declarer) {
 
@@ -567,6 +583,10 @@ public class FXPresenter {
      * shows view of current trick
      */
     private static void trickView() {
+
+        if (mFxController.getFxCurrentTrick() != null){
+            mFxController.getFxCurrentTrick().update();
+        }
 
         mFxController.AnchorTrickOne.setVisible(true);
         mFxController.AnchorTrickTwo.setVisible(true);
@@ -736,6 +756,10 @@ public class FXPresenter {
     public static void updateHandShelfs() {
 
         buttonSort(true);
+
+        if ( mFxController.getFxHandShelfs()[0] == null) {
+            return;
+        }
 
         for (FXHandShelf shelf : mFxController.getFxHandShelfs()) {
 

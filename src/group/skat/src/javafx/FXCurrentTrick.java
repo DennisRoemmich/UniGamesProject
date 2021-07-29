@@ -1,5 +1,6 @@
 package javafx;
 
+import console.Print;
 import engine.enums.GamePhase;
 import javafx.enums.FXCardPosition;
 import javafx.animation.Interpolator;
@@ -117,9 +118,9 @@ public class FXCurrentTrick {
         var kv01 = new KeyValue(mTrickFXCards[1].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
         var kv02 = new KeyValue(mTrickFXCards[2].getAnchorCard().opacityProperty(), 1, Interpolator.EASE_OUT);
 
-        var kf00 = new KeyFrame(Duration.seconds(2), kv00);
-        var kf01 = new KeyFrame(Duration.seconds(2), kv01);
-        var kf02 = new KeyFrame(Duration.seconds(2), kv02);
+        var kf00 = new KeyFrame(Duration.seconds(0.2), kv00);
+        var kf01 = new KeyFrame(Duration.seconds(0.2), kv01);
+        var kf02 = new KeyFrame(Duration.seconds(0.2), kv02);
 
         mTimeline0 = new Timeline();
         mTimeline0.getKeyFrames().addAll(kf00, kf01, kf02);
@@ -139,9 +140,9 @@ public class FXCurrentTrick {
         var kv11 = new KeyValue(mTrickFXCards[1].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
         var kv12 = new KeyValue(mTrickFXCards[2].getAnchorCard().opacityProperty(), 0, Interpolator.EASE_IN);
 
-        var kf10 = new KeyFrame(Duration.seconds(1.5), kv10);
-        var kf11 = new KeyFrame(Duration.seconds(1.5), kv11);
-        var kf12 = new KeyFrame(Duration.seconds(1.5), kv12);
+        var kf10 = new KeyFrame(Duration.seconds(0.5), kv10);
+        var kf11 = new KeyFrame(Duration.seconds(0.5), kv11);
+        var kf12 = new KeyFrame(Duration.seconds(0.5), kv12);
 
         mTimeline1 = new Timeline();
 

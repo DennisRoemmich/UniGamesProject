@@ -4,6 +4,7 @@ import console.Print;
 import controller.GameMove;
 import controller.enums.ActionType;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class SkatSet {
@@ -99,6 +100,7 @@ public class SkatSet {
                     return 2;
 
                 }
+
 
                 return 1;
 

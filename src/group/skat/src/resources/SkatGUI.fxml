@@ -37,26 +37,8 @@
                </children></AnchorPane>
             <AnchorPane fx:id="AnchorTrickDrop" layoutX="365.0" layoutY="146.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="250.0" />
             <AnchorPane fx:id="AnchorTrickOne" layoutX="564.0" layoutY="246.0" prefHeight="230.0" prefWidth="140.0" AnchorPane.leftAnchor="613.0" AnchorPane.rightAnchor="612.0" AnchorPane.topAnchor="295.0" />
-            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="230.0" prefWidth="140.0" rotate="15.0" AnchorPane.leftAnchor="622.0" AnchorPane.rightAnchor="603.0" AnchorPane.topAnchor="305.0" />
-            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" minWidth="-Infinity" prefHeight="230.0" prefWidth="140.0" rotate="-30.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="602.0" AnchorPane.topAnchor="290.0" />
-            <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
-               <children>
-                  <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-                     <children>
-                        <ImageView fx:id="BackgroundCard" fitHeight="206.0" fitWidth="119.0" layoutX="21.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <image>
-                              <Image url="@images/Cards/CardSpadesColor.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="CardForeground" fitHeight="206.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@images/Cards/CardAce.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
+            <AnchorPane fx:id="AnchorTrickTwo" layoutX="633.0" layoutY="315.0" prefHeight="230.0" prefWidth="140.0" rotate="-30.0" AnchorPane.leftAnchor="622.0" AnchorPane.rightAnchor="603.0" AnchorPane.topAnchor="295.0" />
+            <AnchorPane fx:id="AnchorTrickThree" layoutX="643.0" layoutY="325.0" minWidth="-Infinity" prefHeight="230.0" prefWidth="140.0" rotate="30.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="602.0" AnchorPane.topAnchor="290.0" />
             <AnchorPane fx:id="AnchorPlayerhandShelfLeft" layoutX="84.0" layoutY="249.0" prefHeight="197.0" prefWidth="507.0" rotate="90.0" AnchorPane.leftAnchor="-250.0" AnchorPane.topAnchor="340.0">
                <children>
                   <ImageView fx:id="CardForeground1" fitHeight="209.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.topAnchor="0.0">
@@ -104,71 +86,71 @@
             </AnchorPane>
             <AnchorPane fx:id="anchorButtonsPlayActions" AnchorPane.bottomAnchor="312.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="331.0">
                <children>
-                  <AnchorPane fx:id="AnchorButtonPA1" onMouseClicked="#AnchorButtonPA1Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorButtonPA1" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView id="PA" fx:id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button1GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor1.png" />
                            </image>
                         </ImageView>
                         <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button1GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor1.png" />
                            </image></ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorButtonPA2" layoutX="10.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA2Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="159.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorButtonPA2" layoutX="10.0" layoutY="10.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="159.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button2Accept.png" />
+                              <Image url="@images/Buttons/ButtonAcceptCancel2.png" />
                            </image>
                         </ImageView>
                         <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button2Accept.png" />
+                              <Image url="@images/Buttons/ButtonAcceptCancel2.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorButtonPA3" layoutX="168.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA3Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="318.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorButtonPA3" layoutX="168.0" layoutY="10.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="318.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button3GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor3.png" />
                            </image>
                         </ImageView>
                         <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button3GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor3.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorButtonPA4" layoutX="326.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA4Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="477.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorButtonPA4" layoutX="326.0" layoutY="10.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="477.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button4GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor4.png" />
                            </image>
                         </ImageView>
                         <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button4GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor4.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorButtonPA5" layoutX="326.0" layoutY="10.0" onMouseClicked="#AnchorButtonPA5Clicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="636.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorButtonPA5" layoutX="326.0" layoutY="10.0" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="636.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button5GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor5.png" />
                            </image>
                         </ImageView>
                         <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="@images/Buttons/Button5GameColor.png" />
+                              <Image url="@images/Buttons/ButtonGameColor5.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -189,7 +171,7 @@
                   <Font name="Avenir Book" size="31.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="AnchorButtonSort" onMouseClicked="#AnchorButtonSortClicked" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="140.0" AnchorPane.rightAnchor="95.0">
+            <AnchorPane fx:id="AnchorButtonSort" prefHeight="110.0" prefWidth="110.0" AnchorPane.bottomAnchor="140.0" AnchorPane.rightAnchor="95.0">
                <children>
                   <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <image>
@@ -315,8 +297,13 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorPlayerInfo1" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorPlayerInfo1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+                        <Label fx:id="LabelPlayerActive1" opacity="0.73" text="[✸]" textFill="#ffe0f9" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="-260.0">
+                           <font>
+                              <Font name="Chalkboard" size="49.0" />
+                           </font>
+                        </Label>
                         <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
                               <Image url="@images/Views/ViewPlayer.png" />
@@ -347,7 +334,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorPlayerInfo2" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorPlayerInfo2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
@@ -362,6 +349,11 @@
                         <Label fx:id="LabelPlayerPoints2" alignment="CENTER" contentDisplay="CENTER" prefWidth="160.0" text="- 8123P" textFill="#ebbdff" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font name="Avenir Next Bold" size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LabelPlayerActive2" layoutX="222.0" layoutY="26.0" opacity="0.73" text="[✸]" textFill="#ffe0f9" visible="false" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="-60.0">
+                           <font>
+                              <Font name="Chalkboard" size="49.0" />
                            </font>
                         </Label>
                      </children>
@@ -379,7 +371,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="AnchorPlayerInfo3" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="AnchorPlayerInfo3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <ImageView fitHeight="68.0" fitWidth="558.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
@@ -396,6 +388,29 @@
                               <Font name="Avenir Next Bold" size="25.0" />
                            </font>
                         </Label>
+                        <Label fx:id="LabelPlayerActive3" opacity="0.73" text="[✸]" textFill="#ffe0f9" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="-60.0">
+                           <font>
+                              <Font name="Chalkboard" size="49.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AnchorPlayerhandShelfMid" layoutX="293.0" layoutY="737.0" prefHeight="197.0" prefWidth="814.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="260.0">
+               <children>
+                  <AnchorPane fx:id="AnchorCardEx" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                     <children>
+                        <ImageView fx:id="BackgroundCard" fitHeight="206.0" fitWidth="119.0" layoutX="21.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@images/Cards/CardSpadesColor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="CardForeground" fitHeight="206.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@images/Cards/CardAce.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </children>
