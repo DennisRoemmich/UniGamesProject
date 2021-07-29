@@ -1,5 +1,6 @@
 package gui;
 
+import controller.Controller;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import materials.MaterialType;
@@ -18,7 +19,8 @@ public class FxKeyEventController {
     private FxEngineController mFxEngineController;
 
     private Optional<CardType> mCardType = Optional.empty();
-    private MaterialType mMaterialBuffer;
+    private MaterialType mMaterialBufferA;
+    private MaterialType mMaterialBufferB;
     
     public FxKeyEventController(FxEngineController fxEngineController) {
         this.mFxEngineController = fxEngineController;
@@ -44,30 +46,28 @@ public class FxKeyEventController {
         if (materialType.isPresent()) {
             PrintToConsole.println("Selected material: " + materialType.get());
             if (mFxEngineController.getMaterialsLeftToSelect() == 2) {
-                mMaterialBuffer = materialType.get();
+                mMaterialBufferB = materialType.get();
                 mFxEngineController.setMaterialsLeftToSelect(1);
             } else {
-                if (mCardType.isPresent()) {
-                	checkCardTypeForMaterialInput(materialType);
-                } else {
-                    mFxEngineController.getController().bankTrade(materialType.get(), mMaterialBuffer);
-                }
+                mMaterialBufferA  = materialType.get();
                 mFxEngineController.setMaterialsLeftToSelect(0);
+                finishMaterialInput();
             }
         }
     }
 
-	private void checkCardTypeForMaterialInput(Optional<MaterialType> materialType) {
-		if (!materialType.isPresent()) {
-			return;
-		}
-		if (mCardType.get() == CardType.MONOPOLY) {
-			mFxEngineController.getController().playCard(CardType.MONOPOLY, materialType.get());
-		}
-		if (mCardType.get() == CardType.INVENTION) {	
-			mFxEngineController.getController().playInventionCard(mMaterialBuffer, materialType.get());
-		}
-	}
+    private void finishMaterialInput() {
+        Controller controller = mFxEngineController.getController();
+        if (mCardType.isPresent()) {
+            if (mCardType.get() == CardType.INVENTION) {
+                controller.playCard(mCardType.get(), mMaterialBufferA, mMaterialBufferB);
+            } else {
+                controller.playCard(mCardType.get(), mMaterialBufferA);
+            }
+        } else {
+            controller.bankTrade(mMaterialBufferB, mMaterialBufferA);
+        }
+    }
 
     private void handleOptionalMoveInput(KeyEvent event) {
         if (mFxEngineController.getController().getState() == GameState.OPTIONAL_MOVES) {
