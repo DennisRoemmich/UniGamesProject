@@ -45,7 +45,8 @@ public class AiPlayer implements Player {
             case ROLL_DICES -> mController.handleRoll();
             case SETUP_VILLAGE ->  handleSetupVillage();
             case SETUP_STREET -> handleSetupStreet();
-            case OPTIONAL_MOVES -> handleOptionalMoves();
+            //Adjust this method with a boolean input for testing the streets
+            case OPTIONAL_MOVES -> handleOptionalMoves(); 
             case MOVE_BURGLAR -> handleMoveBurglar();
         }
         return reply;
@@ -75,27 +76,40 @@ public class AiPlayer implements Player {
     }
 
     private void handleOptionalMoves() {
-        if (mBuildingCardSwitch) {
-            tryTakingCard();
-        } else {
+
             for (int i = 0; i < 3; i++) {
                 var color = mController.getCurrentPlayerColor();
                 var possibleVillageSpots =
                         BuildRules.getValidNodePositions(mController.getMap(), color, BuildingType.VILLAGE);
                 if (possibleVillageSpots.isEmpty()) {
                     tryCreatingStreet(StreetType.ROAD);
-                    tryCreatingStreet(StreetType.SHIP);
                 } else {
                     tryCreatingBuilding(BuildingType.VILLAGE);
                 }
             }
-            tryCreatingBuilding(BuildingType.TOWN);
-        }
+          tryCreatingBuilding(BuildingType.TOWN);
         tryTrading();
         if (GameState.NOT_RUNNING.equals(mController.getState())) {
         	return;
         }
         mController.endMove();
+    }
+    
+    //This method is for testing how well roads can be placed. 
+    @SuppressWarnings("unused")
+	private void handleOptionalMoves(boolean isTest) {
+	    
+    	//Change the amount the AI places streets per turn 
+    	//Keep in mind that they need have those resources; 
+    	//To adjust this go into the FxEngineController.initialize method
+    	int amountOfStreetsPlaced = 60;
+	    for (int i = 0; i < amountOfStreetsPlaced; i++) {
+	            tryCreatingStreet(StreetType.ROAD);
+	    }
+	    if (GameState.NOT_RUNNING.equals(mController.getState())) {
+	    	return;
+	    }
+	    mController.endMove();
     }
 
     private void handleMoveBurglar() {
@@ -148,10 +162,10 @@ public class AiPlayer implements Player {
     }
 
     public void tryCreatingStreet(StreetType type) {
-        if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), 
-        		BuildingType.VILLAGE).isEmpty()) {
-            return;
-        }
+//        if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), 
+//        		BuildingType.VILLAGE).isEmpty()) {
+//            return;
+//        }
         if (mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(mController.getMap(), color, type);
