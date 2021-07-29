@@ -154,22 +154,19 @@ public class FXController implements Player, Initializable {
 
         switch (game().getGamePhase()) {
 
-            case NOT_STARTED -> {
+            case NOT_STARTED:
 
                 return GUIState.NOT_STARTED;
-            }
 
-            case AUCTION -> {
+            case AUCTION:
 
                 return getStateHelp(GamePhase.AUCTION);
-            }
 
-            case DECLARING -> {
+            case DECLARING:
 
                 return getStateHelp(GamePhase.DECLARING);
-            }
 
-            case PLAYING -> {
+            case PLAYING:
 
                 if (game().getCurrentPlayer().getGameIndex() == getPlayerGameIndex()) {
 
@@ -180,9 +177,8 @@ public class FXController implements Player, Initializable {
                     return GUIState.PLAYING_NOT_YOUR_MOVE;
 
                 }
-            }
 
-            case ENDED -> {
+            case ENDED:
 
                 if (mNextClicked) {
 
@@ -194,12 +190,9 @@ public class FXController implements Player, Initializable {
 
                 }
 
-            }
-
-            case ABORTED -> {
+            case ABORTED:
 
                 return GUIState.GAME_ABORTED;
-            }
         }
 
         return GUIState.GAME_FINISHED;
@@ -346,8 +339,6 @@ public class FXController implements Player, Initializable {
         hasMove = inputType.get("YOURMOVE").equals("TRUE");
         FXPresenter.update();
 
-
-
         return null;
     }
 
@@ -382,12 +373,16 @@ public class FXController implements Player, Initializable {
     public boolean makeMove(GameMove move) {
 
         if (move == null) {
+
             return false;
         }
 
-        if(hasMove) {
+        if (hasMove) {
+
             return mController.makeMove(move);
+
         } else {
+
             Print.debug("INFO", "You can't make a move - it's not your turn.");
             return false;
         }

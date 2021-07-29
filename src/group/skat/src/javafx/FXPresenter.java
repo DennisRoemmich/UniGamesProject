@@ -450,7 +450,7 @@ public class FXPresenter {
 
             var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
 
-            if(i == activePlayerIndex){
+            if (i == activePlayerIndex) {
                 labelPlayerActive[i].setVisible(true);
             } else {
                 labelPlayerActive[i].setVisible(false);
@@ -702,11 +702,11 @@ public class FXPresenter {
 
             if (mFxController.game().getGameResult().declarerDidWin()) {
 
-                mFxController.LabelWinner.setText(name + "wins!");
+                mFxController.LabelWinner.setText(name + " wins!");
 
             } else {
 
-                mFxController.LabelWinner.setText(name + "loses!");
+                mFxController.LabelWinner.setText(name + " loses!");
             }
 
 
