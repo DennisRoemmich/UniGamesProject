@@ -17,12 +17,12 @@ import org.json.simple.JSONObject;
  */
 public class Controller extends GameController {
 
-    private Chess mGame;
+    private Chess mGame = new Chess();
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
-    private boolean mIsWorkingActive = true;
+    private boolean mIsWorkingActive = false;
     
     public Controller() {
     	//Unused
@@ -50,9 +50,9 @@ public class Controller extends GameController {
                 mPresenter.refreshOutput();                
             }
         }
-        if (!mIsWorkingActive) {
+//        if (mIsWorkingActive) {
         	gameStep();
-        }
+//        }
     }
     
     public void setStandardChess() {
@@ -125,9 +125,9 @@ public class Controller extends GameController {
     	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
         Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
         JSONObject json = currentPlayer.requestMove(createRequestJSon("move"));
-    	if (mIsWorkingActive) {
-        	executeMove(json);
-    	}
+//    	if (!mIsWorkingActive) {
+//        	executeMove(json);
+//    	}
         updateGameState();
         if (mPresenter != null) {
             mPresenter.refreshOutput();

@@ -244,7 +244,7 @@ public class Chess {
     }
 
     public boolean isGameRunning() {
-        return getResult() == ChessResult.NONE;
+        return getResult() == ChessResult.NONE && mBoard.equals(ChessBoard.getStartBoard());
     }
 
     public ChessBoard getBoard() {

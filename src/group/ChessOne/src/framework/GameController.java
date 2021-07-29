@@ -73,7 +73,7 @@ public abstract class GameController {
 	public abstract void newGame();
 
 	public void quitGame() {
-		saveGame(); // Usally it's already saved
+		saveGame(); // Usually it's already saved
 		mIsGameRunning = false;
 	}
 
@@ -95,7 +95,7 @@ public abstract class GameController {
 		return failReply;
 	}
 
-	// Also not requied to be used, just for convenience
+	// Also not required to be used, just for convenience
 	@SuppressWarnings("unchecked")
 	protected JSONObject createRequestJSon(String typeName) {
 		JSONObject request = new JSONObject();

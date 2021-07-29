@@ -71,7 +71,7 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @Override
     public void handleSquareClicked(Square clickedSquare) {
-
+    	
         var possibleMoves = mChessController.getGame().getPossibleMoves();
 
         if (mOrigin.isEmpty()) {
