@@ -1,11 +1,9 @@
 package network;
 
-import engine.Chess;
 import engine.Controller;
 import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
-
 import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class NetworkPlayer implements Player {
 
