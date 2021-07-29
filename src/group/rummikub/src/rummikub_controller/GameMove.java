@@ -2,16 +2,17 @@ package rummikub_controller;
 
 import org.json.simple.JSONObject;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class GameMove {
 
-    public ActionType type;
+    private ActionType type;
 
-    public Point pointA;
-    public Point pointB;
+    private Point pointA;
+    private Point pointB;
 
-    public boolean toBeRelogged = false;
+    private boolean toBeRelogged = false;
 
     public GameMove(ActionType type) {
         this.type = type;
@@ -78,4 +79,15 @@ public class GameMove {
 
     }
 
+    public ActionType getType() {
+        return this.type;
+    }
+
+    public Point getPointA() {
+        return pointA;
+    }
+
+    public Point getPointB() {
+        return pointB;
+    }
 }

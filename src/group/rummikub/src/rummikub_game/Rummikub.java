@@ -339,14 +339,8 @@ public class Rummikub {
         if (tile != null) {
 
             getCurrentPlayer().getRack().addTile(tile);
-        //    return true;
 
-        } /* else {
-
-            return false;
-
-        }*/
-
+        }
     }
 
     private void handOutTiles(){
@@ -482,8 +476,6 @@ public class Rummikub {
             sketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
 
         }
-
-        return;
 
     }
 

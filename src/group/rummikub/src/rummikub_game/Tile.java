@@ -1,6 +1,6 @@
 package rummikub_game;
 
-import JavaFX.FXGridCell;
+import javafx.FXGridCell;
 
 public class Tile {
 

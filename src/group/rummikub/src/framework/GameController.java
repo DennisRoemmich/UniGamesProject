@@ -2,7 +2,6 @@ package framework;
 
 import org.json.simple.JSONObject;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -117,7 +116,7 @@ public abstract class GameController {
 	// This template offers easy replies with an ID process it in the UI
 	// It's not required to be used.
 	protected JSONObject createReply(boolean isValid, String replyID) {
-		JSONObject failReply = new JSONObject();
+		var failReply = new JSONObject();
 		failReply.put("isValid", isValid);
 		failReply.put("replyID", replyID);
 		return failReply;

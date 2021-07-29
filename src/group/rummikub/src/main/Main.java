@@ -16,7 +16,7 @@ public class Main extends Application {
 
 
     ClassLoader classLoader = getClass().getClassLoader();
-    URL resource = classLoader.getResource("rummikubGUI.fxml");
+    URL resource = classLoader.getResource("resources/rummikubGUI.fxml");
 
     @Override
     public void start(Stage primaryStage) throws Exception{

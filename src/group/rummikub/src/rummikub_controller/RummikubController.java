@@ -28,17 +28,14 @@ public class RummikubController extends GameController {
 
         this.mPlayers = new ArrayList<Player>();
 
-        PlayerInfo player1 = new PlayerInfo("Mario");
-        PlayerInfo player2 = new PlayerInfo("Luigi");
-        PlayerInfo player3 = new PlayerInfo("Peach");
-        PlayerInfo player4 = new PlayerInfo("HuiBuu");
+        var player1 = new PlayerInfo("Mario");
+        var player2 = new PlayerInfo("Luigi");
+        var player3 = new PlayerInfo("Peach");
+        var player4 = new PlayerInfo("HuiBuu");
         playerInfos.add(player1);
         playerInfos.add(player2);
         playerInfos.add(player3);
         playerInfos.add(player4);
-
-        var standardPlayerNo = 4;
-        var standardStartPlayer = 0;
 
         mGameLog = new GameLog("ID");
         rummiGame = new Rummikub(playerNo, startPlayer, seed);
@@ -80,7 +77,7 @@ public class RummikubController extends GameController {
 
         var successful = false;
 
-        switch (move.type){
+        switch (move.getType()){
 
             case FINISHMOVE -> {
 
@@ -91,28 +88,20 @@ public class RummikubController extends GameController {
                 }
             }
 
-            case ONRACK -> successful = rummiGame.moveTileOnCurrentRack(move.pointA, move.pointB);
+            case ONRACK -> successful = rummiGame.moveTileOnCurrentRack(move.getPointA(), move.getPointB());
 
-            case ONBOARD -> successful = rummiGame.moveTileOnBoard(move.pointA, move.pointB);
+            case ONBOARD -> successful = rummiGame.moveTileOnBoard(move.getPointA(), move.getPointB());
 
-            case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.pointA, move.pointB);
+            case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.getPointA(), move.getPointB());
 
-            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.pointA, move.pointB);
+            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.getPointA(), move.getPointB());
 
-            case SORTGROUP -> {
+            case SORTGROUP -> successful = rummiGame.sortRackForGroup();
 
-                successful = rummiGame.sortRackForGroup();
-            }
+            case SORTRUN -> successful = rummiGame.sortRackForRun();
 
-            case SORTRUN -> {
+            case RESET -> successful = rummiGame.resetMove();
 
-                successful = rummiGame.sortRackForRun();
-            }
-
-            case RESET -> {
-
-                successful = rummiGame.resetMove();
-            }
 
             case UNDOLASTMOVE -> undoLastMove();    // wont be logged
 
@@ -152,18 +141,11 @@ public class RummikubController extends GameController {
         var size = playerInfos.size();
         var podium = new PlayerInfo[size];
 
-        PlayerInfo pole;
-        PlayerInfo vize;
-        PlayerInfo third;
-        PlayerInfo looser;
-
-
-        ArrayList<PlayerInfo> pI = new ArrayList<>();
         int lastBiggest = Integer.MAX_VALUE;
 
         for(var i = 0; i < size; i++){
 
-            PlayerInfo currentBiggest = new PlayerInfo("poop");
+            var currentBiggest = new PlayerInfo("poop");
             currentBiggest.setLastScore(Integer.MIN_VALUE);
 
             for ( var player : playerInfos ){
@@ -187,8 +169,6 @@ public class RummikubController extends GameController {
         return podium;
     }
 
-
-    // @Override
     public void addPlayer(Player player) {
 
         mPlayers.add(player);
@@ -200,23 +180,7 @@ public class RummikubController extends GameController {
 
     @Override
     public JSONObject executeMove(JSONObject obj) {
-
-        var move = new GameMove(obj);
-
-        var successful = makeMove(move);
-
-    /*    var suc = new JSONObject();
-
-        if (successful) {
-
-            obj.put("successful", true);
-
-        } else {
-
-            obj.put("successful", false);
-        }*/
-
-    //    return suc;
+        //default
         return null;
     }
 
@@ -237,7 +201,7 @@ public class RummikubController extends GameController {
 
     @Override
     public void restoreGameSettings(JSONObject gameSettings) {
-
+        //default method
     }
 
     @Override

@@ -79,9 +79,9 @@ public class Test {
     private void maikDrawRack(int p) {
 
         var testName = "Player " + (p+1) + ": Draw Rack";
-        StringBuilder builder = new StringBuilder();
+        var builder = new StringBuilder();
 
-        builder.append("Rack of Player " + (p+1) + ": \n" + rummi.getPlayerAt(p).getRack().toString(true));
+        builder.append("Rack of Player ").append(p + 1).append(": \n").append(rummi.getPlayerAt(p).getRack().toString(true));
 
         printTest(testName, builder.toString());
     }
@@ -89,7 +89,7 @@ public class Test {
     private void maikFinishMove(int p, boolean m) {
 
         var testName = "Player " + (p+1) + ": Finish Move";
-        StringBuilder builder = new StringBuilder();
+        var builder = new StringBuilder();
 
         if (rummi.finishMove()) {
 
@@ -102,7 +102,7 @@ public class Test {
 
                 rummi.getPlayerAt(p).getRack().sortForRun();
             } //
-            builder.append("\n" + rummi.getPlayerAt(p).getRack().toString(true)); //*/
+            builder.append("\n").append(rummi.getPlayerAt(p).getRack().toString(true)); //*/
         }
 
         printTest(testName, builder.toString());
@@ -111,7 +111,7 @@ public class Test {
     private void maikMoveTile(int p, Point m, Point t) {
 
         var testName = "Player " + (p+1) + ": Move Tile : " + (m.x * 15 + m.y + 1) + " => " + (t.x * 15 + t.y + 1);
-        StringBuilder builder = new StringBuilder();
+        var builder = new StringBuilder();
 
         rummi.getPlayerAt(p).getRack().moveTile(m, t);
         builder.append(rummi.getPlayerAt(p).getRack().toString(true));
@@ -122,7 +122,7 @@ public class Test {
     private void maikSort(int p, boolean m) {
 
         var testName = "Palyer " + (p+1) + ": Sorting";
-        StringBuilder builder = new StringBuilder();
+        var builder = new StringBuilder();
 
         if (m) {
 
