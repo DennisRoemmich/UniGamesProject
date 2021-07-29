@@ -128,6 +128,7 @@ public class FXCurrentTrick {
         mTimeline0.setOnFinished(e -> fadeOut(ended));
 
         mTimeline0.play();
+
     }
 
     /**

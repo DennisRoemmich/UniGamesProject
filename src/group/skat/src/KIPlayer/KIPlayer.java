@@ -24,6 +24,7 @@ public class KIPlayer implements Player {
     private SkatPlayer mPlayer;
     private Hand mHand;
     private int mIndex;
+    private boolean hasMove = false;
 
     private Random mRand = new Random();
 
@@ -289,15 +290,26 @@ public class KIPlayer implements Player {
 
         if (inputType.get("YOURMOVE") == "TRUE") {
 
+            hasMove = true;
+
             new Thread(()->{ //use another thread so long process does not block gui
 
                 try {Thread.sleep(SLEEP_DURATION);} catch (InterruptedException ex) { ex.printStackTrace();}
-                Platform.runLater(() -> mController.makeMove(getMove()));
+                Platform.runLater(() -> {
+                    mController.makeMove(getMove());
+                    if( hasMove ){
+                        var jsn = new JSONObject();
+                        jsn.put("YOURMOVE", "TRUE");
+                        requestMove(jsn);
+                    }
+                });
 
             }).start();
 
-
+        } else {
+            hasMove = false;
         }
+
         return new JSONObject();
     }
 }
