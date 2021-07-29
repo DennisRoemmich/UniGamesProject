@@ -56,15 +56,19 @@ public class FxEngineController extends FxController implements Player, Presente
 
     public static final String FINISH_BUTTON_IMAGE_NAME = "resources/FinishButton.png";
     public static final String DICE_BUTTON_IMAGE_NAME = "resources/DiceButton.png";
-
+    
+    //Please modify the setupPlayers and cheatResources functions to test this software's capabilities.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
         setupController();
         setupMapNode();
         
-        //Feel free to change method to change the amount and type of players
-        setupPlayers(true); //true for aiGame, false for 6 player hotseat
+        /*Feel free to change method to change the amount and type of players:
+        * *True* for aiGame with 12 players, 
+		* *False* for 6 player hotseat
+		*/
+        setupPlayers(false); 
         
         //Feel free to change method for changing the values of each resource type (for testing)
         cheatResources(0); //cheat starting resource
@@ -89,20 +93,20 @@ public class FxEngineController extends FxController implements Player, Presente
     		mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
     		mController.addPlayer(aiPlayer, PlayerColor.BLACK);
     		mController.addPlayer(aiPlayer, PlayerColor.WHITE);
-    		
-    		// Choose more players here!
-//    		mController.addPlayer(aiPlayer, PlayerColor.RED);
-//        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
-//        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
-//        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
-//        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
-//        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
-//        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
+
+    		mController.addPlayer(aiPlayer, PlayerColor.RED);
+        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
+        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
+        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
+        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
+        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
+        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
         } else {
     		mController.addPlayer(this, PlayerColor.BLUE);
         	mController.addPlayer(this, PlayerColor.GREEN);
         	mController.addPlayer(this, PlayerColor.YELLOW);       	
         	mController.addPlayer(this, PlayerColor.PURPLE);
+        	mController.addPlayer(this, PlayerColor.RED); 
         	mController.addPlayer(this, PlayerColor.BLACK);
         	mController.addPlayer(this, PlayerColor.WHITE);       	
         }
@@ -347,5 +351,6 @@ public class FxEngineController extends FxController implements Player, Presente
         PrintToConsole.print("Thus player trading is not possible in this version of Siedler!\n");
         PrintToConsole.print("-> In this version the burglar raids neutral villages instead ");
         PrintToConsole.print("of pillaging the other player ones so the other players do not lose anything!\n");
+        PrintToConsole.println("->Ships cost 1 Wool and 1 Wood in this game and are necessary to cross the water!\n");
     }
 }
