@@ -101,7 +101,7 @@ public final class BuildRules {
 
         List<EdgePosition> validPositions = new ArrayList<>();
         for (EdgePosition position : possiblePositions) {
-            if(isNodeValidForNewStreet(map, position, streetType)) {
+            if (isNodeValidForNewStreet(map, position, streetType)) {
                 validPositions.add(position);
             }
         }

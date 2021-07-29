@@ -90,8 +90,10 @@ public class FxController implements Initializable {
     protected Label mMonopolyAmount;
     @FXML
     protected Label mBurglarMessage;
+    @FXML
+    protected Label mChooseRessource;
 
-    @Override
+	@Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mTradeButton = new ImageView();
     }
@@ -153,6 +155,9 @@ public class FxController implements Initializable {
         	mTradeError.setText("");
         }
     }
+    
+
+    
 
     public void refreshDiceViews() {
         setDiceViews(DiceRolling.getDice1(), DiceRolling.getDice2());

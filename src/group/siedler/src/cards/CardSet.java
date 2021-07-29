@@ -12,6 +12,7 @@ import materials.MaterialType;
 public class CardSet {
     private JSONObject mCards;
 
+	@SuppressWarnings("unchecked")
 	public CardSet() {
         mCards = new JSONObject();
         for (CardType type : CardType.values()) {
@@ -19,7 +20,8 @@ public class CardSet {
         }
     }
 
-    public boolean removeCard(CardType type) {
+    @SuppressWarnings("unchecked")
+	public boolean removeCard(CardType type) {
         if (getAmount(type) > 0) {
             mCards.put(type.toString(), getAmount(type) - 1);
             return true;
@@ -28,6 +30,7 @@ public class CardSet {
         }
     }
 
+	@SuppressWarnings("unchecked")
 	public void addCard(CardType type) {
         mCards.put(type.toString(), getAmount(type) + 1);
     }

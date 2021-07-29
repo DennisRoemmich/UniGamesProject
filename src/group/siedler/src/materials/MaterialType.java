@@ -1,9 +1,7 @@
 package materials;
 
 import helper.ListUtility;
-
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Getter methods to access the tiles, nodes and edges on the map. 

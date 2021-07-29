@@ -10,7 +10,6 @@ import framework.Player;
 import framework.PrintToConsole;
 import framework.WriteError;
 import gui.SiedlerEventHandler;
-import helper.ListUtility;
 import helper.QuickJSon;
 import map.BuildRules;
 import map.Map;
@@ -28,9 +27,6 @@ import streets.Street;
 import streets.StreetType;
 import tiles.ResourceTile;
 import tiles.Tile;
-
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -236,23 +232,25 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
 
         switch (cardType) {
-            case KNIGHT -> playKnightCard();
-            case VICTORY -> getNumberOfPlayers();
-            case ROAD -> playRoadCard();
-            case INVENTION -> playInventionCard(materialTypes);
-            case MONOPOLY -> playMonopolyCard(materialTypes);
+            case KNIGHT: 
+            	mState = GameState.MOVE_BURGLAR;
+                mPlayers.get(mCurrentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
+            	break;
+            case ROAD :
+                getCurrentPlayerHand().addResources(MaterialType.WOOD, 2);
+                getCurrentPlayerHand().addResources(MaterialType.CLAY, 2);
+                break;
+            case INVENTION:
+            	playInventionCard(materialTypes);
+            	break;
+            case MONOPOLY:
+            	playMonopolyCard(materialTypes);
+            	break;
+            case VICTORY:
+            	getNumberOfPlayers();
+            	break;
         }
         callPresenterUpdate();
-    }
-
-    private void playKnightCard() {
-        mState = GameState.MOVE_BURGLAR;
-        mPlayers.get(mCurrentPlayer).requestMove(QuickJSon.create("move", GameState.MOVE_BURGLAR.toString()));
-    }
-
-    private void playRoadCard() {
-        getCurrentPlayerHand().addResources(MaterialType.WOOD, 2);
-        getCurrentPlayerHand().addResources(MaterialType.CLAY, 2);
     }
 
     private void playInventionCard(MaterialType... materialTypes) {
@@ -267,8 +265,9 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
 
         // Extract materials, fill with random if needed
-        MaterialType typeA, typeB;
-        switch(materialTypes.length) {
+        MaterialType typeA;
+        MaterialType typeB;
+        switch (materialTypes.length) {
             case 0:
                 typeA = MaterialType.getRandom();
                 typeB = MaterialType.getRandom();
@@ -357,14 +356,13 @@ public class Controller extends GameController implements SiedlerEventHandler {
         }
     }
     
-    public void bankTrade(MaterialType purchaseType, MaterialType sellType) {
+    public void bankTrade(MaterialType sellType, MaterialType purchaseType) {
         if (mState != GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("bankTrade(...) called at wrong time");
             return;
         }
 
     	MaterialSet newHand;
-	
     	newHand = getCurrentPlayerHand().tradeWithBank(getCurrentPlayerHand(), purchaseType, sellType );
     	mPlayerData.get(mCurrentPlayer).setHand(newHand);
     	newHand.toString();

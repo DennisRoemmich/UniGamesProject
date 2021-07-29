@@ -90,6 +90,10 @@
          <font>
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font></Label>
+         <Label fx:id="mChooseRessource" layoutX="30.0" layoutY="650.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
                <Label fx:id="mWinner" layoutX="480.0" layoutY="650.0" text="" textFill="WHITE" > 
          <font>
             <Font name="Trebuchet MS Bold" size="27.0" />

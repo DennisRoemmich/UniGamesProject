@@ -62,9 +62,86 @@ public class FxEngineController extends FxController implements Player, Presente
         super.initialize(url, resourceBundle);
         setupController();
         setupMapNode();
-        setupPlayers();
+        
+        //Feel free to change method to change the amount and type of players
+        setupPlayers(true); //true for aiGame, false for 6 player hotseat
+        
+        //Feel free to change method for changing the values of each resource type (for testing)
+        cheatResources(30); //cheat starting resource
+        
         refreshOutput();
+        refreshRessourceMessage();
         mController.newGame();
+    }
+    
+    //Setup Players AI and players (this)
+    //You may change this method for testing!
+    public void setupPlayers(boolean aiGame) {
+        if (aiGame) {
+        	AiPlayer aiPlayer = new AiPlayer(mController);
+    		
+        	//Human player with blue color (this, BLUE)
+        	mController.addPlayer(this, PlayerColor.BLUE);
+        	
+        	//Ai player with green color (aiPlayer, GREEN)
+        	mController.addPlayer(aiPlayer, PlayerColor.GREEN);
+        	
+        	mController.addPlayer(aiPlayer, PlayerColor.YELLOW);
+        	mController.addPlayer(aiPlayer, PlayerColor.WHITE);
+        	mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
+        	mController.addPlayer(aiPlayer, PlayerColor.RED);
+    		mController.addPlayer(aiPlayer, PlayerColor.BLACK);
+        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
+        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
+        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
+        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
+        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
+        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
+        } else {
+    		mController.addPlayer(this, PlayerColor.BLUE);
+        	mController.addPlayer(this, PlayerColor.GREEN);
+        	mController.addPlayer(this, PlayerColor.YELLOW);
+        	mController.addPlayer(this, PlayerColor.WHITE);
+        	mController.addPlayer(this, PlayerColor.PURPLE);
+        	mController.addPlayer(this, PlayerColor.RED);
+        	mController.addPlayer(this, PlayerColor.ORANGE);
+        	mController.addPlayer(this, PlayerColor.LIME);
+        	mController.addPlayer(this, PlayerColor.PINK);
+        	mController.addPlayer(this, PlayerColor.CYAN);
+        	mController.addPlayer(this, PlayerColor.GREY);
+        	
+        }
+    }
+    
+    //Set up additional resources for testing
+    //You may change this method for testing!
+    public void cheatResources(int amount) {
+        for (int i = 0; i < mController.getNumberOfPlayers(); i++) {
+        	//Change amount of starting wood for all players
+        	mController.getPlayerData().get(i).getHand().addResources(MaterialType.WOOD, amount); 
+        	
+        	//Change amount of starting clay for all players
+        	mController.getPlayerData().get(i).getHand().addResources(MaterialType.CLAY, amount); 
+        	
+        	//Change amount of starting wool for all players
+        	mController.getPlayerData().get(i).getHand().addResources(MaterialType.WOOL, amount);
+        	
+        	//Change amount of starting wheat for all players
+        	mController.getPlayerData().get(i).getHand().addResources(MaterialType.WHEAT, amount);
+        	
+        	//Change amount of starting ore for all players
+        	mController.getPlayerData().get(i).getHand().addResources(MaterialType.ORE, amount); 
+        }
+    }
+    
+    public void refreshRessourceMessage() {
+        
+        if (this.mMaterialsLeftToSelect > 0) {
+        	this.mChooseRessource.setText("Please select a ressource!");
+        	
+        } else { 
+        	this.mChooseRessource.setText("");
+        }
     }
 
     @Override
@@ -215,16 +292,6 @@ public class FxEngineController extends FxController implements Player, Presente
         mMapNode.setScaleY(0.7);
         mMapNode.setScaleZ(0.7);
         mAnchorPane.getChildren().add(mMapNode);
-    }
-    
-    //Setup Players AI and players (this)
-    public void setupPlayers() {
-        AiPlayer aiPlayer = new AiPlayer(mController);
-        mController.addPlayer(this, PlayerColor.BLUE);
-        mController.addPlayer(aiPlayer, PlayerColor.GREEN);
-        mController.addPlayer(aiPlayer, PlayerColor.YELLOW);
-        mController.addPlayer(aiPlayer, PlayerColor.WHITE);
-        mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
     }
 
     public MaterialType chooseResource(KeyEvent event) {

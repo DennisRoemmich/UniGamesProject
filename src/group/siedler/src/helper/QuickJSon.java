@@ -21,7 +21,8 @@ public final class QuickJSon {
     }
 
 
-    public static JSONObject createReply(String value) {
+    @SuppressWarnings("unchecked")
+	public static JSONObject createReply(String value) {
         JSONObject object = new JSONObject();
         object.put("reply", value);
         return object;

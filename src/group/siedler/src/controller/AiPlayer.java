@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AiPlayer implements Player {
 
     private Controller mController;
-    private boolean buildingCardSwitch = false;
+    private boolean mBuildingCardSwitch = false;
 
     public AiPlayer(Controller controller) {
         this.mController = controller;
@@ -51,31 +51,34 @@ public class AiPlayer implements Player {
         return reply;
     }
 
-    private void setToInvalid(JSONObject reply) {
+    @SuppressWarnings("unchecked")
+	private void setToInvalid(JSONObject reply) {
         reply.put("reply", "invalid");
     }
 
     private void handleSetupVillage() {
         List<NodePosition> possiblePositions = BuildRules.getStartNodePositions(mController.getMap());
-        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP)).noneMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
-        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP)).noneMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
+        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP))
+        		.noneMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
+        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP))
+        		.noneMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
         possiblePositions = new ArrayList<>(possiblePositions);
         Collections.shuffle(possiblePositions);
         mController.placeBuilding(possiblePositions.get(0));
     }
 
     private void handleSetupStreet() {
-        List<EdgePosition> possiblePositions = new ArrayList<>(BuildRules.getStartEdgePositions(mController.getMap(), mController.getCurrentPlayerColor()));
+        List<EdgePosition> possiblePositions = new ArrayList<>
+        	(BuildRules.getStartEdgePositions(mController.getMap(), mController.getCurrentPlayerColor()));
         Collections.shuffle(possiblePositions);
         mController.placeStreet(possiblePositions.get(0));
     }
 
     private void handleOptionalMoves() {
-        if(buildingCardSwitch) {
+        if (mBuildingCardSwitch) {
             tryTakingCard();
         } else {
             for (int i = 0; i < 3; i++) {
-                tryCreatingBuilding(BuildingType.TOWN);
                 var color = mController.getCurrentPlayerColor();
                 var possibleVillageSpots =
                         BuildRules.getValidNodePositions(mController.getMap(), color, BuildingType.VILLAGE);
@@ -86,8 +89,12 @@ public class AiPlayer implements Player {
                     tryCreatingBuilding(BuildingType.VILLAGE);
                 }
             }
+            tryCreatingBuilding(BuildingType.TOWN);
         }
         tryTrading();
+        if (GameState.NOT_RUNNING.equals(mController.getState())) {
+        	return;
+        }
         mController.endMove();
     }
 
@@ -96,7 +103,7 @@ public class AiPlayer implements Player {
         Collections.shuffle(possiblePositions);
         List<TilePosition> bestPositions = new ArrayList<>();
         int maxBlock = 0;
-        for(PositionedTile positionedTile : possiblePositions) {
+        for (PositionedTile positionedTile : possiblePositions) {
             if (!positionedTile.getObject().isHasHitnumber()) {
                 continue;
             }
@@ -116,7 +123,7 @@ public class AiPlayer implements Player {
     private int getBlockedResources(PositionedTile positionedTile) {
         int block = 0;
         var buildingPositions = MapTools.getNodePositions(positionedTile.getPosition());
-        for(NodePosition buildingPosition : buildingPositions) {
+        for (NodePosition buildingPosition : buildingPositions) {
             var building = mController.getMap().getBuilding(buildingPosition);
             if (building.isPresent()) {
                 block += building.get().getType() == BuildingType.VILLAGE ? 1 : 2;
@@ -129,22 +136,23 @@ public class AiPlayer implements Player {
     }
 
     public void tryCreatingBuilding(BuildingType type) {
-        if(mController.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
+        if (mController.getCurrentPlayerHand().isSuperset(Building.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<NodePosition> possiblePositions = BuildRules.getValidNodePositions(mController.getMap(), color, type);
             if (!possiblePositions.isEmpty()) {
                 Collections.shuffle(possiblePositions);
                 mController.placeBuilding(possiblePositions.get(0));
-                buildingCardSwitch = !buildingCardSwitch;
+                mBuildingCardSwitch = !mBuildingCardSwitch;
             }
         }
     }
 
     public void tryCreatingStreet(StreetType type) {
-        if(!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), BuildingType.VILLAGE).isEmpty()) {
+        if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), 
+        		BuildingType.VILLAGE).isEmpty()) {
             return;
         }
-        if(mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
+        if (mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(mController.getMap(), color, type);
             if (!possiblePositions.isEmpty()) {
@@ -163,10 +171,10 @@ public class AiPlayer implements Player {
     	materialList.add(MaterialType.WOOL);
     	materialList.add(MaterialType.ORE);
     	
-    	for(MaterialType type  : materialList) {
-	    	if(mController.getCurrentPlayerHand().getAmount(type) >= 6) {
-	    		for( MaterialType type2  : materialList) {
-	    			if(mController.getCurrentPlayerHand().getAmount(type2) <= 1) {
+    	for (MaterialType type  : materialList) {
+	    	if (mController.getCurrentPlayerHand().getAmount(type) >= 6) {
+	    		for ( MaterialType type2  : materialList) {
+	    			if (mController.getCurrentPlayerHand().getAmount(type2) <= 1) {
 	    				mController.bankTrade(type2, type);
 	    				return;
 	    			}
@@ -178,11 +186,12 @@ public class AiPlayer implements Player {
     public void tryTakingCard() {
         if (mController.getCurrentPlayerHand().isSuperset(CardSet.getCost())) {
             mController.takeCard();
-            buildingCardSwitch = !buildingCardSwitch;
+            mBuildingCardSwitch = !mBuildingCardSwitch;
         }
     }
 
-    private void tryUsingCards() {
+    @SuppressWarnings("unused")
+	private void tryUsingCards() {
         for (CardType cardType : CardType.values()) {
             if (cardType == CardType.VICTORY) {
                 continue;

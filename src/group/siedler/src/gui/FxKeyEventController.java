@@ -45,12 +45,13 @@ public class FxKeyEventController {
         var materialType = getMaterialType(event);
         if (materialType.isPresent()) {
             PrintToConsole.println("Selected material: " + materialType.get());
-            if (mFxEngineController.getMaterialsLeftToSelect() == 2) {
-                mMaterialBufferB = materialType.get();
+            if (mFxEngineController.getMaterialsLeftToSelect() == 2) {                       	  
+            	mMaterialBufferB = materialType.get();
                 mFxEngineController.setMaterialsLeftToSelect(1);
             } else {
                 mMaterialBufferA  = materialType.get();
                 mFxEngineController.setMaterialsLeftToSelect(0);
+            	mFxEngineController.mChooseRessource.setText("");
                 finishMaterialInput();
             }
         }
@@ -70,7 +71,8 @@ public class FxKeyEventController {
     }
 
     private void handleOptionalMoveInput(KeyEvent event) {
-        if (mFxEngineController.getController().getState() == GameState.OPTIONAL_MOVES) {
+        String ressourceMessage = "Please select a ressource!";
+    	if (mFxEngineController.getController().getState() == GameState.OPTIONAL_MOVES) {
             PrintToConsole.println("Oprional Move: " + event.getCode());
             switch (event.getCode()) {
                 case K: 
@@ -81,11 +83,13 @@ public class FxKeyEventController {
                 	break;
                 case T: 
                     mCardType = Optional.empty();
+                	mFxEngineController.mChooseRessource.setText(ressourceMessage);
                     mFxEngineController.setMaterialsLeftToSelect(2);
                     break;
                 case I:
                 	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.INVENTION) > 0) {
                 		mCardType = Optional.of(CardType.INVENTION);
+                    	mFxEngineController.mChooseRessource.setText(ressourceMessage);
                 		mFxEngineController.setMaterialsLeftToSelect(2);
                 	} else {
                 		framework.PrintToConsole.println("You do not own this card!");
@@ -94,6 +98,7 @@ public class FxKeyEventController {
                 case M:
                 	if (mFxEngineController.mController.getCurrentPlayerCards().getAmount(CardType.MONOPOLY) > 0) {
                 		mCardType = Optional.of(CardType.MONOPOLY);
+                    	mFxEngineController.mChooseRessource.setText(ressourceMessage);
                 		mFxEngineController.setMaterialsLeftToSelect(1);
                 	} else {
                 		framework.PrintToConsole.println("You do not own this card!");
@@ -121,9 +126,6 @@ public class FxKeyEventController {
             }
         }
     }
-
-
-
 
     public static Optional<MaterialType> getMaterialType(KeyEvent event) {
         return switch (event.getCode()) {

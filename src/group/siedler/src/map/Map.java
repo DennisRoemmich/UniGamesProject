@@ -73,7 +73,8 @@ public class Map {
     }
 
     public Optional<Tile> getTile(TilePosition position) {
-        return mTiles.stream().filter(tile -> tile.getPosition().equals(position)).map(pT -> pT.getObject()).findFirst();
+        return mTiles.stream().filter(tile -> tile.getPosition().equals(position))
+        		.map(pT -> pT.getObject()).findFirst();
     }
 
     public Optional<Building> getBuilding(NodePosition position) {
@@ -103,7 +104,8 @@ public class Map {
 
     public void addBuilding(Building newBuilding) {
     	NodePosition p = newBuilding.getPosition();
-    if (!mBuildings.stream().map(Building::getPosition).collect(Collectors.toList()).contains(p) && MapTools.isPositionValid(this, p)) {
+    if (!mBuildings.stream().map(Building::getPosition).collect(Collectors.toList())
+    		.contains(p) && MapTools.isPositionValid(this, p)) {
             mBuildings.add(newBuilding);
         }       
     }
