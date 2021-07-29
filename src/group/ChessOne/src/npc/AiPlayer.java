@@ -20,8 +20,12 @@ public class AiPlayer implements Player {
     }
 
     protected ChessMove getBestMove(int depth) {
-		long endTime = System.currentTimeMillis() + 10000L;
-		return AiRatingEngine.getBestMove(mController.getGame(), depth, endTime);
+		var game = mController.getGame();
+		if (game.isPresent()) {
+			long endTime = System.currentTimeMillis() + 10000L;
+			return AiRatingEngine.getBestMove(game.get(), depth, endTime);
+		}
+		throw new IllegalStateException();
 	}
 
 	protected void sleep(long millis) {

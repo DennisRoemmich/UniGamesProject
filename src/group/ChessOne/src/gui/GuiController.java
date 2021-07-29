@@ -48,7 +48,7 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AiPlayer aiPlayer = new AiPlayer(mChessController);
         mChessController.setPresenter(this);
-        mChessController.setPlayerA(this);
+        mChessController.setPlayerA(aiPlayer);
         mChessController.setPlayerB(aiPlayer);
         mBoardPane.getChildren().add(mBoardNode);
     }
@@ -71,19 +71,25 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @Override
     public void handleSquareClicked(Square clickedSquare) {
+
+        var game = mChessController.getGame();
+
+        if (game.isEmpty() || !game.get().isGameRunning()) {
+            return;
+        }
     	
-        var possibleMoves = mChessController.getGame().getPossibleMoves();
+        var possibleMoves = game.get().getPossibleMoves();
 
         if (mOrigin.isEmpty()) {
-            handleEmptySquare(clickedSquare, possibleMoves);
+            handleOriginClicked(clickedSquare, possibleMoves);
             refreshOutput();
         } else {
-            handleSquareWithPiece(clickedSquare, possibleMoves);
+            handleDestinationClicked(clickedSquare, possibleMoves);
         }
         refreshOutput();
     }
 
-	private void handleEmptySquare(Square clickedSquare, List<ChessMove> possibleMoves) {
+	private void handleOriginClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
 		mBoardNode.resetPlaceholder();
 		boolean possibleOriginFound = false;
 		for (ChessMove move : possibleMoves) {
@@ -99,14 +105,14 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 		}
 	}
 
-	private void handleSquareWithPiece(Square clickedSquare, List<ChessMove> possibleMoves) {
+	private void handleDestinationClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
 		for (ChessMove move : possibleMoves) {
 		    boolean originEqual = move.getOrigin().equals(mOrigin.get());
 		    boolean destinationEqual = move.getDestination().equals(clickedSquare);
 		    if (originEqual && destinationEqual) {
 		        mBoardNode.resetPlaceholder();
 		        refreshOutput();
-		        mChessController.executeMove(move.toJSon());
+		        mChessController.queueMove(move.toJSon());
 		        break;
 		    }
 		}
@@ -125,10 +131,11 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @FXML
     public void buttonClicked() {
-        if (mChessController.getGame() != null && mChessController.getGame().isGameRunning()) {
+        var game = mChessController.getGame();
+        if (game.isPresent() && game.get().isGameRunning()) {
             try {
-                ChessMove move = ChessMove.valueOf(mInputField.getText(), mChessController.getGame());
-                mChessController.executeMove(move.toJSon());
+                ChessMove move = ChessMove.valueOf(mInputField.getText(), game.get());
+                mChessController.queueMove(move.toJSon());
                 refreshOutput();
             } catch (Exception e) {
                 mInputField.setAccessibleHelp("Invalid input.");

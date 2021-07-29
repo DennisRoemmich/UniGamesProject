@@ -4,20 +4,31 @@ import org.json.simple.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
-public abstract class GameController {
+public abstract class GameController extends Thread {
 
 	protected GameLog mGameLog;
 	protected boolean mIsGameRunning;
-	protected List<Player> mPlayers;
+	protected Player mPlayerA;
+	protected Player mPlayerB;
 	protected Presenter mPresenter;
+	protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
 	
 	protected GameController() {
 		createNewGameLog();
 	}
 
-	public abstract void executeMove(JSONObject move);
+	public void queueMove(JSONObject move) {
+		moveQueue.add(move);
+	}
+
+	protected abstract void executeMove(JSONObject move);
 
 	public void callPresenterUpdate() {
 		if (mPresenter != null) {
@@ -112,5 +123,21 @@ public abstract class GameController {
 
 	public void setPresenter(Presenter mPresenter) {
 		this.mPresenter = mPresenter;
+	}
+
+	public Player getPlayerA() {
+		return mPlayerA;
+	}
+
+	public void setPlayerA(Player playerA) {
+		this.mPlayerA = playerA;
+	}
+
+	public Player getPlayerB() {
+		return mPlayerB;
+	}
+
+	public void setPlayerB(Player playerB) {
+		this.mPlayerB = playerB;
 	}
 }

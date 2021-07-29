@@ -10,6 +10,8 @@ import framework.Player;
 import framework.WriteError;
 import org.json.simple.JSONObject;
 
+import java.util.Optional;
+
 /**
  * Creates the surrounding game logic the chess game operates in.
  * @author Jan de Boer, Dennis Roemmich
@@ -17,23 +19,25 @@ import org.json.simple.JSONObject;
  */
 public class Controller extends GameController {
 
-    private Chess mGame = new Chess();
+    private Optional<Chess> mGame = Optional.empty();
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
-    private boolean mIsWorkingActive = false;
     
     public Controller() {
     	//Unused
     }
 
-    public void executeMove(JSONObject moveJSon) {
+    protected void executeMove(JSONObject moveJSon) {
     	if (moveJSon == null) {
     		return;
     	}
     	if (!moveJSon.containsKey("origin") || !moveJSon.containsKey("destination")) {
             return;
+        }
+    	if (mGame.isEmpty()) {
+    	    return;
         }
     	ChessMove move;
         try {
@@ -43,16 +47,13 @@ public class Controller extends GameController {
             
             return;
         }
-        if (mGame.isMovePossible(move)) {
-            mGame.makeMove(move);
+        if (mGame.get().isMovePossible(move)) {
+            mGame.get().makeMove(move);
             logMove(moveJSon);
             if (mPresenter != null) {
                 mPresenter.refreshOutput();                
             }
         }
-//        if (mIsWorkingActive) {
-        	gameStep();
-//        }
     }
     
     public void setStandardChess() {
@@ -68,11 +69,11 @@ public class Controller extends GameController {
 
     @Override
     public void newGame() {
-    	if (!mStandardChess) {
-    		mGame = new TorpedoChess();
-    	} else {
-    		mGame = new Chess();    		
-    	}
+        if (!mStandardChess) {
+            mGame = Optional.of(new TorpedoChess());
+        } else {
+            mGame = Optional.of(new Chess());
+        }
     }
 
     @Override
@@ -103,11 +104,14 @@ public class Controller extends GameController {
         this.mPlayerB = playerB;
     }
 
-    public Chess getGame() {
+    public Optional<Chess> getGame() {
         return mGame;
     }
 
     public boolean startGame() {
+        if (mGame.isEmpty()) {
+            mGame = Optional.of(new Chess());
+        }
     	if (mPlayerA == null || mPlayerB == null) {
             return false;
         } else {
@@ -115,27 +119,36 @@ public class Controller extends GameController {
             if (mPresenter != null) {
                 mPresenter.refreshOutput();
             }
-            gameStep();
+            gameLoop();
             return true;
         }
     }
 
+    public void gameLoop() {
+        while (moveQueue.poll() == null) {
+
+        }
+        JSONObject move = moveQueue.remove();
+        executeMove(move);
+        if (mIsGameRunning) {
+            gameStep();
+        }
+    }
+
     public void gameStep() {
-    	
-    	boolean isTurnOfPlayerA = mGame.getCurrentColor().isWhite() != mColorSwitch;
-        Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
-        JSONObject json = currentPlayer.requestMove(createRequestJSon("move"));
-//    	if (!mIsWorkingActive) {
-//        	executeMove(json);
-//    	}
-        updateGameState();
-        if (mPresenter != null) {
-            mPresenter.refreshOutput();
+    	if (mGame.isPresent()) {
+            boolean isTurnOfPlayerA = mGame.get().getCurrentColor().isWhite() != mColorSwitch;
+            Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
+            JSONObject json = currentPlayer.requestMove(createRequestJSon("move"));
+            updateGameState();
+            if (mPresenter != null) {
+                mPresenter.refreshOutput();
+            }
         }
     }
 
     private void updateGameState() {
-        if (GameOverDetector.checkForMate(mGame) == ChessResult.NONE) {
+        if (mGame.isPresent() && GameOverDetector.checkForMate(mGame.get()) == ChessResult.NONE) {
         	quitGame();
         }
     }

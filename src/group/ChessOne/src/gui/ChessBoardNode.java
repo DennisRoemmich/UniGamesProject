@@ -94,8 +94,8 @@ public class ChessBoardNode extends Group {
     }
 
     private List<PositionedPiece> getPositionedPieces() {
-        if (mController.getGame() != null) {
-            return mController.getGame().getBoard().getPositionedPieces();
+        if (mController.getGame().isPresent()) {
+            return mController.getGame().get().getBoard().getPositionedPieces();
         } else {
             return new ArrayList<>();
         }

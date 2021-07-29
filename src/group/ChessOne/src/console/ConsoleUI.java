@@ -14,6 +14,7 @@ import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -153,8 +154,10 @@ public class ConsoleUI implements Presenter, Player {
     	PrintToConsole.println("Type \"help\" for information on how to play. \n");
     
     	if (mIsNetworkGame && mNetworkState == NetworkState.CLIENT) {
-
-    		mChessGame = mClientController.getGame();
+    		Optional<Chess> game = Optional.of(mClientController.getGame());
+    		if  (game.isPresent()) {
+				mChessGame = game.get();
+			}
     		mClientController.startGame();
 
 		} else {
@@ -172,7 +175,11 @@ public class ConsoleUI implements Presenter, Player {
 
 			mController.setPresenter(this);
 	        mController.newGame();
-	        mChessGame = mController.getGame();
+			Optional<Chess> game = mController.getGame();
+			if  (game.isPresent()) {
+				mChessGame = game.get();
+			}
+			mClientController.startGame();
 	        mController.startGame();
 
 		}
@@ -255,7 +262,7 @@ public class ConsoleUI implements Presenter, Player {
 		}
 		try {
 			ChessMove move = ChessMove.valueOf(input, mChessGame);
-			for (ChessMove moveToCheck: mController.getGame().getPossibleMoves()) {
+			for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
 				if (move.equals(moveToCheck)) {
 					return move.toJSon();
 				}

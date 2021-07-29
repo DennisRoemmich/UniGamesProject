@@ -87,7 +87,12 @@ public class NetworkPlayer implements Player {
         ChessMove moveIn;
 
         try {
-            moveIn = ChessMove.valueOf(listen(), mController.getGame());
+            var game = mController.getGame();
+            if (game.isPresent()) {
+                moveIn = ChessMove.valueOf(listen(), game.get());
+            } else {
+                throw new IllegalStateException();
+            }
         } catch (Exception e) {
             System.out.println("Receiving move from client failed:\n" + e);
             mController.quitGame();

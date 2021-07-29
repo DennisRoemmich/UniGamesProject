@@ -17,25 +17,26 @@ import java.net.Socket;
 /**
  * This Controller is used for the client side in case of network usage
  */
-public class ClientController extends GameController {
+public class ClientController {
 
     private static final int PORT = 6066;
+
+    private Player mPlayer;
+    private Presenter mPresenter;
 
     String hostName = "Host";
     String clientName = "Client";
 
     String hostIP;
     Socket sock = null;
-    Player player;
-    Presenter presenter;
 
     private Chess mChessGame;
 
 
-    public ClientController(Player guiPlayer, Presenter presenter){
+    public ClientController(Player player, Presenter presenter){
 
-        this.player = guiPlayer;
-        this.presenter = presenter;
+        this.mPlayer = player;
+        this.mPresenter = presenter;
         this.mChessGame = new Chess();
 
         setParams();
@@ -50,13 +51,12 @@ public class ClientController extends GameController {
 
 
     }
-
     public Chess getGame(){
         return mChessGame;
     }
 
     public void startGame(){
-        presenter.refreshOutput();
+        mPresenter.refreshOutput();
         gameLoop();
     }
 
@@ -76,11 +76,15 @@ public class ClientController extends GameController {
 
                 var moveIn = ChessMove.valueOf(moveString, mChessGame);
                 mChessGame.makeMove(moveIn);
-                presenter.refreshOutput();
 
-                var moveOut = ChessMove.valueOf(player.requestMove(createRequestJSon("move")));
+                mPresenter.refreshOutput();
+
+                JSONObject requestJSON = new JSONObject();
+                requestJSON.put("type", "move");
+
+                var moveOut = ChessMove.valueOf(mPlayer.requestMove(requestJSON));
                 mChessGame.makeMove(moveOut);
-                presenter.refreshOutput();
+                mPresenter.refreshOutput();
 
                 try {
                     send(moveOut.toString());
@@ -122,37 +126,6 @@ public class ClientController extends GameController {
 
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             out.writeUTF(message);
-
-    }
-
-
-    @Override
-    public void executeMove(JSONObject move) {
-
-    }
-
-    @Override
-    public JSONObject metaSettingsToJSon() {
-        return null;
-    }
-
-    @Override
-    public JSONObject gameSettingsToJSon() {
-        return null;
-    }
-
-    @Override
-    public void restoreMetaSettings(JSONObject metaSettings) {
-
-    }
-
-    @Override
-    public void restoreGameSettings(JSONObject gameSettings) {
-
-    }
-
-    @Override
-    public void newGame() {
 
     }
 }
