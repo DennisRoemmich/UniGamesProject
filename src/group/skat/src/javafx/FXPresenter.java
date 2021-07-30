@@ -69,14 +69,6 @@ public class FXPresenter {
 
         var state = mFxController.getState();
 
-        if (!mFxController.hasMove() && (state == GUIState.AUCTION_WATCHING || state == GUIState.AUCTION_HEARING || state == GUIState.AUCTION_ASKING)) {
-
-            declareGameTypeView("Not your move", "Wait for you opponents.");
-            mFxController.LabelAuctionValue.setVisible(true);
-
-            return;
-
-        }
 
         switch (state) {
 
@@ -123,8 +115,8 @@ public class FXPresenter {
 
                 } else {
 
-
-                    Print.debug("WARNING", "FX: GUIState AUCTION_ASKING was demanded but there is no implementation yet.");
+                    declareGameTypeView("Not your move", "Wait for you opponents.");
+                    mFxController.LabelAuctionValue.setVisible(true);
 
                 }
 
@@ -702,11 +694,11 @@ public class FXPresenter {
 
             if (mFxController.game().getGameResult().declarerDidWin()) {
 
-                mFxController.LabelWinner.setText(name + "wins!");
+                mFxController.LabelWinner.setText(name + " wins!");
 
             } else {
 
-                mFxController.LabelWinner.setText(name + "loses!");
+                mFxController.LabelWinner.setText(name + " loses!");
             }
 
 

@@ -6,6 +6,7 @@ import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.*;
 import engine.enums.GamePhase;
+import framework.GameLog;
 import framework.Player;
 import javafx.application.Platform;
 import org.json.simple.JSONObject;
@@ -20,11 +21,8 @@ public class KIPlayer implements Player {
     private static final int SLEEP_DURATION = 1000;
 
     private SkatController mController;
-    private SkatGame mGame;
-    private SkatPlayer mPlayer;
-    private Hand mHand;
+    private SkatSetPlayer mSkatSetPlayer;
     private int mIndex;
-    private boolean hasMove = false;
 
     private Random mRand = new Random();
 
@@ -34,17 +32,12 @@ public class KIPlayer implements Player {
 
         this.mController = controller;
         this.mIndex = index;
+        this.mSkatSetPlayer = mController.getSkatSet().getSkatSetPlayerAt(index);
 
 
     }
 
-    public void init(){
 
-        mGame = mController.getGame();
-        mPlayer = mController.getSkatSet().getSkatPlayerAt(mIndex);
-        mHand = mPlayer.getHand();
-
-    }
 
     // TODO: mit welchem index kommt man zum richtigen SkatPlayer
 
@@ -55,7 +48,7 @@ public class KIPlayer implements Player {
      */
     public SkatMove getMove() {
 
-        if (mGame.getGamePhase() == GamePhase.PLAYING) {
+        if (getGame().getGamePhase() == GamePhase.PLAYING) {
 
             return getKIPlay();
 
@@ -63,6 +56,31 @@ public class KIPlayer implements Player {
 
             return getKICall();
         }
+    }
+
+    private Hand getHand(){
+        var player = mController.getSkatSet().getSkatPlayerAt(getSkatPlayerIndex());
+        return player.getHand();
+    }
+
+    private int getSkatPlayerIndex(){
+
+        var playingSetPlayer = mController.getSkatSet().currentPlayingSkatSetPlayer();
+
+        int skatPlayerIndex  = -1;
+
+        for (var i = 0; i < 3; i++){
+            if (playingSetPlayer[i] == mSkatSetPlayer){
+                skatPlayerIndex = i;
+            }
+        }
+
+        return skatPlayerIndex;
+
+    }
+
+    private SkatGame getGame(){
+        return mController.getGame();
     }
 
     /**
@@ -85,7 +103,7 @@ public class KIPlayer implements Player {
 
         SkatMove finalMove;
 
-        var currentTrick = mGame.getCurrentTrick();
+        var currentTrick = getGame().getCurrentTrick();
         var trickSize = currentTrick.getSize();
 
 
@@ -118,7 +136,7 @@ public class KIPlayer implements Player {
      */
     private SkatMove secondToMove(Trick trick) {
 
-        var declarer = mGame.getDeclarer();
+        var declarer = getGame().getDeclarer();
         var declarerIsFirst = declarer.getGameIndex() == (mIndex + 2) % 3;
 
         if (declarerIsFirst) {
@@ -134,7 +152,7 @@ public class KIPlayer implements Player {
     private SkatMove lastToMove(Trick trick) {
 
 
-        var declarer = mGame.getDeclarer();
+        var declarer = getGame().getDeclarer();
         var declarerIsFirst = declarer.getGameIndex() == (mIndex + 1) % 3;
 
         var betterCardIndex = 0;
@@ -160,10 +178,10 @@ public class KIPlayer implements Player {
 
         var max = 0;
 
-        for (var i = 1; i < mHand.getSize(); i++) {
+        for (var i = 1; i < getHand().getSize(); i++) {
 
-            var maxPoints = mHand.getCardAt(max).getPoints();
-            if (mGame.moveIsValid(new SkatMove(i)) && mHand.getCardAt(i).getPoints() > maxPoints) {
+            var maxPoints = getHand().getCardAt(max).getPoints();
+            if (getGame().moveIsValid(new SkatMove(i)) && getHand().getCardAt(i).getPoints() > maxPoints) {
 
                 max = i;
             }
@@ -179,10 +197,10 @@ public class KIPlayer implements Player {
 
         var min = 0;
 
-        for (var i = 1; i < mHand.getSize(); i++) {
+        for (var i = 1; i < getHand().getSize(); i++) {
 
-            var minPoints = mHand.getCardAt(min).getPoints();
-            if (mGame.moveIsValid(new SkatMove(i)) && mHand.getCardAt(i).getPoints() < minPoints) {
+            var minPoints = getHand().getCardAt(min).getPoints();
+            if (getGame().moveIsValid(new SkatMove(i)) && getHand().getCardAt(i).getPoints() < minPoints) {
 
                 min = i;
             }
@@ -199,9 +217,9 @@ public class KIPlayer implements Player {
         int pos;
         do {
 
-            pos = mRand.nextInt(mHand.getSize());
+            pos = mRand.nextInt(getHand().getSize());
 
-        } while (!mGame.moveIsValid(new SkatMove(pos)));
+        } while (!getGame().moveIsValid(new SkatMove(pos)));
 
         return pos;
     }
@@ -214,7 +232,7 @@ public class KIPlayer implements Player {
         for (var i = 0; i < 6; i++) {
 
             var j = getRandomCard();
-            if (!mHand.getCardAt(j).isTrump(mGame.getTrump())) {
+            if (!getHand().getCardAt(j).isTrump(getGame().getTrump())) {
 
                 return j;
             }
@@ -230,14 +248,14 @@ public class KIPlayer implements Player {
      */
     private int getMbyStingCard(Card toSting) {
 
-        var trick = mGame.getCurrentTrick();
+        var trick = getGame().getCurrentTrick();
 
-        for (var i = 0; i < mHand.getSize(); i++) {
+        for (var i = 0; i < getHand().getSize(); i++) {
 
-            var card = mHand.getCardAt(i);
+            var card = getHand().getCardAt(i);
             var valuable = toSting.getPoints() + card.getPoints() > 6;
 
-            if (mGame.moveIsValid(new SkatMove(i)) && trick.isStrongerCard(toSting, card) && valuable) {
+            if (getGame().moveIsValid(new SkatMove(i)) && trick.isStrongerCard(toSting, card) && valuable) {
 
                 return i;
             }
@@ -253,7 +271,7 @@ public class KIPlayer implements Player {
      */
     private int getMbyStingCard(Card toStingUno, Card toStingDos) {
 
-        var trick = mGame.getCurrentTrick();
+        var trick = getGame().getCurrentTrick();
         Card strongerCard;
         if (trick.isStrongerCard(toStingUno, toStingDos)) {
 
@@ -264,12 +282,12 @@ public class KIPlayer implements Player {
             strongerCard = toStingUno;
         }
 
-        for (var i = 0; i < mHand.getSize(); i++) {
+        for (var i = 0; i < getHand().getSize(); i++) {
 
-            var card = mHand.getCardAt(i);
+            var card = getHand().getCardAt(i);
             var valuable = toStingUno.getPoints() + toStingDos.getPoints() + card.getPoints() > 10;
 
-            if (mGame.moveIsValid(new SkatMove(i)) && trick.isStrongerCard(strongerCard, card) && valuable) {
+            if (getGame().moveIsValid(new SkatMove(i)) && trick.isStrongerCard(strongerCard, card) && valuable) {
 
                 return i;
             }
@@ -284,30 +302,25 @@ public class KIPlayer implements Player {
             return null;
         }
 
-        if (mGame == null) {
-            init();
-        }
 
         if (inputType.get("YOURMOVE") == "TRUE") {
 
-            hasMove = true;
+            var sleepDur = 0;
 
+            if (getGame().getGamePhase() != GamePhase.AUCTION){
+                sleepDur = SLEEP_DURATION;
+            }
+
+            int finalSleepDur = sleepDur;
             new Thread(()->{ //use another thread so long process does not block gui
 
-                try {Thread.sleep(SLEEP_DURATION);} catch (InterruptedException ex) { ex.printStackTrace();}
+                try {Thread.sleep(finalSleepDur);} catch (InterruptedException ex) { ex.printStackTrace();}
                 Platform.runLater(() -> {
                     mController.makeMove(getMove());
-                    if( hasMove ){
-                        var jsn = new JSONObject();
-                        jsn.put("YOURMOVE", "TRUE");
-                        requestMove(jsn);
-                    }
                 });
 
             }).start();
 
-        } else {
-            hasMove = false;
         }
 
         return new JSONObject();

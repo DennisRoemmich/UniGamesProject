@@ -152,9 +152,11 @@ public class SkatSet {
 
             mCurrentGame = new SkatGame();
             mGameResults.add(mCurrentGame.getGameResult());
+
+            Print.debug("INFO", "\n  NEW GAME OBJECT!");
         }
 
-        Print.debug("MAIK", "\n  NEW GAME STARTED");
+
     }
 
     public void abortGame() {

@@ -107,6 +107,6 @@ public class GameResult {
      */
     public boolean declarerDidWin() {
 
-        return mDeclarer.getFinalScore() > 60;
+        return mDeclarer.getFinalScore() > 0;
     }
 }

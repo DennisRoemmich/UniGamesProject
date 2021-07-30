@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The SkatConroller is the central engine of the game logic
+ * The SkatController is the central engine of the game logic
  */
 public class SkatController extends GameController {
 
@@ -62,7 +62,12 @@ public class SkatController extends GameController {
      */
     public boolean makeMove(GameMove move) {
 
-        Print.debug("INFO", "Player returns a move.");
+        if (!moveIsValid(move)){
+            Print.debug("INFO", "A false move was entered :" + move.toJSON().toString());
+            Print.debug("INFO","Break");
+        }
+
+
 
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
@@ -126,14 +131,21 @@ public class SkatController extends GameController {
      */
     private void checkPlayerSwitched() {
 
+        messageNextPlayer();
+
+        /*
+
         var index = getGame().getCurrentPlayer().getGameIndex();
 
         if ( mLastCurrentPlayer != index ) {
 
+            Print.debug("INFO", "Player switched (" + mLastCurrentPlayer + " -> " + index + ")");
             mLastCurrentPlayer = index;
             messageNextPlayer();
 
-        }
+
+
+        }*/
 
     }
 
@@ -176,9 +188,17 @@ public class SkatController extends GameController {
 
         }
 
+        if (getGame().getGamePhase() == GamePhase.ENDED || getGame().getGamePhase() == GamePhase.ABORTED) {
+
+            obj.put(yourMove, "FALSE");
+            mPlayers.get(activatePlayerAt).requestMove(obj);
+            obj.put(yourMove, "TRUE");
+            mPlayers.get(guiPlayerIndex).requestMove(obj);
+
+        }
+
         if ( activatePlayerAt != -1 ) {
             obj.put(yourMove, "TRUE");
-            Print.debug("INFO", "Player " + Integer.toString(activatePlayerAt) + " gets the move.");
             mPlayers.get(activatePlayerAt).requestMove(obj);
         } else {
             Print.debug("ERROR", "Something went wrong, no player is playing.");
@@ -241,7 +261,9 @@ public class SkatController extends GameController {
     @Override
     protected JSONObject executeMove(JSONObject jsnMove) {
 
-        makeMove(new SkatMove(jsnMove));
+
+
+        Print.debug("INFO", "Move not valid");
 
         return null;
     }
