@@ -65,6 +65,10 @@ public class FXPresenter {
      */
     public static void update() {
 
+        if(mFxController.getController().getGame() != null && mFxController.getFxSkat() == null){
+            mFxController.initGameStart();
+        }
+
         hideAll();
 
         var state = mFxController.getState();
@@ -425,13 +429,13 @@ public class FXPresenter {
         var labelPlayerActive = new Label[]{mFxController.LabelPlayerActive1, mFxController.LabelPlayerActive2, mFxController.LabelPlayerActive3};
 
         var set = mFxController.getController().getSkatSet();
-        int activePlayerIndex;
+        int activeSkatPlayerIndex;
         var game = mFxController.getController().getGame();
 
         if (game == null || game.getGameResult().isAborted()){
-            activePlayerIndex = -1;
+            activeSkatPlayerIndex = -1;
         } else {
-            activePlayerIndex = (game.getCurrentPlayer().getGameIndex() + 1) % 3;
+            activeSkatPlayerIndex = game.getCurrentPlayer().getGameIndex() % 3;
         }
 
 
@@ -443,8 +447,10 @@ public class FXPresenter {
 
             var index = mFxController.getPlayerGameIndex();
             index = (i + index)  % 3;
+            var setIndex = mFxController.getSkatPlayerGameIndex();
+            setIndex = (i + setIndex)  % 3;
 
-            var skatSetPlayer = set.getSkatSetPlayerAt(index);
+            var skatSetPlayer = set.getSkatSetPlayerAt(setIndex);
             var skatPlayer = set.getSkatPlayerAt(index);
 
             var name = skatSetPlayer.getName();
@@ -454,7 +460,7 @@ public class FXPresenter {
             var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
 
             labelPlayerActive[i].setVisible(false);
-            if (i == activePlayerIndex) {
+            if (index == activeSkatPlayerIndex && (mFxController.getState() == GUIState.PLAYING_NOT_YOUR_MOVE || mFxController.getState() == GUIState.PLAYING_YOUR_MOVE)) {
                 labelPlayerActive[i].setVisible(true);
             }
 

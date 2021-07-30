@@ -7,12 +7,9 @@ import engine.SkatSet;
 import engine.enums.GamePhase;
 import framework.GameController;
 import framework.Player;
-import framework.Presenter;
-import javafx.FXPresenter;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The SkatController is the central engine of the game logic
@@ -23,7 +20,7 @@ public class SkatController extends GameController {
     private SkatSet mSkatSet;
     private String[] mPlayerNames;
     private int mLastCurrentPlayer = -1;
-    int guiPlayerIndex;
+    int firstGuiPlayerIndex;
 
     /* CONSTRUCTOR */
 
@@ -62,9 +59,14 @@ public class SkatController extends GameController {
      */
     public boolean makeMove(GameMove move) {
 
-        if (!moveIsValid(move)){
-            Print.debug("INFO", "A false move was entered :" + move.toJSON().toString());
-            Print.debug("INFO","Break");
+        if(move.isTestMove){
+
+            Print.debug("INFO", "Test move.");
+
+        } else if (!moveIsValid(move)){
+
+            Print.debug("INFO", "A false non-test move was entered :" + move.toJSON().toString());
+
         }
 
 
@@ -99,11 +101,14 @@ public class SkatController extends GameController {
                         mSkatSet.printSkatSetStats();
                     }
                 }
-                messageNextPlayer();
+
+                if (!move.isTestMove){
+                    messageNextPlayer();
+                }
                 return true;
             }
         }
-        messageNextPlayer();
+
         return false;
     }
 
@@ -112,14 +117,18 @@ public class SkatController extends GameController {
         if (move.getType() == ActionType.NEW_SET) {
 
             mSkatSet = new SkatSet(mGameAmount, mPlayerNames);
-            messageNextPlayer();
+            if (!move.isTestMove){
+                messageNextPlayer();
+            }
             return true;
         }
 
         if (move.getType() == ActionType.NEW_GAME) {
 
             mSkatSet.startNewGame();
-            messageNextPlayer();
+            if (!move.isTestMove){
+                messageNextPlayer();
+            }
             return true;
         }
 
@@ -135,7 +144,7 @@ public class SkatController extends GameController {
 
             var player = mPlayers.get(i);
 
-            if (i == guiPlayerIndex){
+            if (i == guiPlayerIndex()){
                 obj.put(yourMove, "TRUE");
             } else {
                 obj.put(yourMove, "FALSE");
@@ -146,7 +155,9 @@ public class SkatController extends GameController {
 
     }
 
-    private void messageNextPlayer() {
+    public void messageNextPlayer() {
+
+
 
         var obj = new JSONObject();
         var activatePlayerAt = -1;
@@ -167,13 +178,17 @@ public class SkatController extends GameController {
         if (getGame().getGamePhase() == GamePhase.ENDED || getGame().getGamePhase() == GamePhase.ABORTED) {
 
             obj.put(yourMove, "FALSE");
-            mPlayers.get((guiPlayerIndex + 1) % 3).requestMove(obj);
-            mPlayers.get((guiPlayerIndex + 2) % 3).requestMove(obj);
+            mPlayers.get((guiPlayerIndex() + 1) % 3).requestMove(obj);
+            mPlayers.get((guiPlayerIndex() + 2) % 3).requestMove(obj);
             obj.put(yourMove, "TRUE");
-            mPlayers.get(guiPlayerIndex).requestMove(obj);
+            mPlayers.get(guiPlayerIndex()).requestMove(obj);
+
+            Print.debug("INFO", "\n  (ENDED || ABORTED) Messaged Player" + activatePlayerAt);
 
             return;
         }
+
+        Print.debug("INFO", "\n  Messaged Player" + activatePlayerAt);
 
         if ( activatePlayerAt != -1 ) {
             obj.put(yourMove, "TRUE");
@@ -208,6 +223,15 @@ public class SkatController extends GameController {
         return mPlayers.size();
     }
 
+
+    private int guiPlayerIndex(){
+
+        return firstGuiPlayerIndex;
+
+       // return (mPlayers.size() * 20 + firstGuiPlayerIndex - mSkatSet.currentGameNo()) % mPlayers.size();
+
+    }
+
     public void addPlayer(Player player) {
 
         var firstMove = true;
@@ -218,7 +242,7 @@ public class SkatController extends GameController {
 
             if (firstMove) { // first gui player was added?
 
-                guiPlayerIndex = mPlayers.size() - 1;
+                firstGuiPlayerIndex = mPlayers.size() - 1;
                 var obj = new JSONObject();
                 obj.put("YOURMOVE", "TRUE");
                 var ret = player.requestMove(obj);

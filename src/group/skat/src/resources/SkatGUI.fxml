@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
@@ -134,7 +135,7 @@
                               <Image url="@images/Buttons/ButtonGameColor4.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ImageView id="Overlay" fitHeight="110.0" fitWidth="110.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
                               <Image url="@images/Buttons/ButtonGameColor4.png" />
                            </image>
@@ -155,15 +156,6 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="anchor_DebugView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: orange; -fx-opacity: 0.8; -fx-border-radius: 5; -fx-border-width: 4; -fx-border-color: black;" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0">
-               <children>
-                  <Label fx:id="label_WindowSize" alignment="TOP_LEFT" layoutX="32.0" layoutY="32.0" prefHeight="61.0" prefWidth="334.0" text="WINDOW     height: 0     width: 0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="28.0">
-                     <font>
-                        <Font name="Avenir Book" size="18.0" />
-                     </font>
-                  </Label>
                </children>
             </AnchorPane>
             <Label fx:id="label_ShowHideDebugView" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showHidedebugView" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: orange; -fx-border-color: black; -fx-border-width: 4; -fx-opacity: 0.7;" text="⌗" textFill="#5c5c5c" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0">
@@ -435,6 +427,20 @@
                   <Label fx:id="LabelGameInfoMode" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="88.0" prefWidth="94.0" text="SUIT" textAlignment="CENTER" textFill="#dcdcdc" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchor_DebugView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white; -fx-opacity: 0.8; -fx-border-radius: 0; -fx-border-width: 2; -fx-border-color: black;" visible="false" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="10.0">
+               <children>
+                  <TextField fx:id="promptTextField" layoutX="43.0" layoutY="30.0" onAction="#onEnter" promptText="Enter Something..." AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="promptLabel" alignment="TOP_LEFT" layoutX="23.0" layoutY="38.0" text="[ENDGAME] - load a test endgame" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font name="Arial" size="17.0" />
                      </font>
                   </Label>
                </children>

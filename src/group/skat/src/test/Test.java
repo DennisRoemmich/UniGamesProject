@@ -22,10 +22,48 @@ public class Test {
         this.controller = controller;
         this.game = controller.getGame();
 
-       // consoleSetUpUno();
-       // consoleSetUpDos();
+    }
+
+
+    public void testEndgame(){
+        skipDeclaration();
+        simulatePlaying(24);
+
+        controller.messageNextPlayer();
+
 
     }
+
+    public void skipDeclaration() {
+
+
+        var move = new SkatMove(ActionType.NEW_GAME);
+        move.testMove();
+        controller.makeMove(move);
+
+        move = new SkatMove(ActionType.PASS);
+        move.testMove();
+        controller.makeMove(move);
+
+        move = new SkatMove(ActionType.RAISE_OR_ACCEPT);
+        move.testMove();
+        controller.makeMove(move);
+
+        move = new SkatMove(ActionType.PASS);
+        move.testMove();
+        controller.makeMove(move);
+
+        move = new SkatMove(ActionType.DROP_SKAT);
+        move.testMove();
+        controller.makeMove(move);
+
+        move = new SkatMove(new Trump(GameMode.GRAND));
+        move.testMove();
+        controller.makeMove(move);
+
+
+    }
+
 
     public void consoleSetUpUno() {
 
@@ -51,7 +89,7 @@ public class Test {
             randomTrump();
             controller.makeMove(new SkatMove(ActionType.SORT));
 
-            simulatePlaying();
+            simulatePlaying(-1);
         }
 
     }
@@ -68,21 +106,30 @@ public class Test {
         simulateRounds(10);
     }
 
-    private void simulatePlaying() {
+    private void simulatePlaying(int o) {
 
         boolean moveNotValid;
 
+
+
         do {
+
+            o--;
 
             moveNotValid = true;
 
             for (var i = 0; i < 10 && moveNotValid; i++) {
 
-                moveNotValid = !controller.makeMove(new SkatMove(i));
+                var move = new SkatMove(i);
+                move.testMove();
+                moveNotValid = !controller.makeMove(move);
 
             }
 
-        } while (controller.getGame().getGamePhase() == GamePhase.PLAYING);
+        } while (controller.getGame().getGamePhase() == GamePhase.PLAYING && o > 0);
+
+
+
     }
 
     private void simulateRounds(int n) {

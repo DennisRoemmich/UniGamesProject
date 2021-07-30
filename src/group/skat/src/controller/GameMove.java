@@ -11,6 +11,7 @@ public class GameMove {
 
     protected ActionType mType;
     ConsoleActionType mConsoleType = ConsoleActionType.SKATMOVE;
+    boolean isTestMove = false;
 
     public ActionType getType() {
 
@@ -26,6 +27,14 @@ public class GameMove {
 
         return null;
 
+    }
+
+    public boolean isTestMove() {
+        return isTestMove;
+    }
+
+    public void testMove() {
+        isTestMove = true;
     }
 
 }

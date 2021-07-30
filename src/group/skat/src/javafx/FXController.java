@@ -17,9 +17,11 @@ import javafx.enums.FXCardPosition;
 import javafx.enums.GUIState;
 import javafx.enums.FXHandShelfPosition;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -29,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
+import test.Test;
 
 import java.net.URL;
 import java.util.*;
@@ -41,6 +44,8 @@ public class FXController implements Player, Initializable {
     public Label LabelPlayerActive3;
     public Label LabelPlayerActive2;
     public Label LabelPlayerActive1;
+    public Label promptLabel;
+    public TextField promptTextField;
     /** this is the index of the player inside the Game. If set to -1 the Console will always use the currentPlayer as perspective, making it hotseat*/
     int playerGameIndex = -1;
 
@@ -85,7 +90,7 @@ public class FXController implements Player, Initializable {
         FXPresenter.update();
     }
 
-    private void initGameStart() {
+    void initGameStart() {
 
         initHandShelfs();
         mFxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
@@ -252,7 +257,9 @@ public class FXController implements Player, Initializable {
 
         } else {
 
-            return skatSetPlayerIndex;
+            var set = getController().getSkatSet();
+            var playerNo = mController.getPlayerNames().length;
+            return (playerNo * 10 + skatSetPlayerIndex - set.currentGameNo()) % playerNo;
 
         }
 
@@ -320,13 +327,6 @@ public class FXController implements Player, Initializable {
 
     /* GETTER */
 
-    /**  Use this Function to set the (Game)Index of the player who is playing in the FXClass if hotseat is NOT played */
-    public void setPlayerGameIndex(int playerGameIndex) {
-
-        this.playerGameIndex = playerGameIndex;
-
-    }
-
     public boolean hasMove() {
 
         return hasMove;
@@ -338,6 +338,8 @@ public class FXController implements Player, Initializable {
 
     @Override
     public JSONObject requestMove(JSONObject inputType) {
+
+        Print.debug("INFO", "Gui Player was called. : " + inputType.get("YOURMOVE").equals("TRUE"));
 
         hasMove = inputType.get("YOURMOVE").equals("TRUE");
         FXPresenter.update();
@@ -442,6 +444,7 @@ public class FXController implements Player, Initializable {
                 break;
 
             case "PLAY":
+
 
                 if (makeMove(new SkatMove(ActionType.NEW_GAME))) {
 
@@ -698,6 +701,7 @@ public class FXController implements Player, Initializable {
             case ENTER: keyEnterClicked(gamePhase); break;
             case BACK_SLASH: keyHashTagClicked(); break;
             case S: keySClicked(gamePhase); break;
+            case V: keyVClicked(); break;
             default: break;
         }
     }
@@ -719,6 +723,16 @@ public class FXController implements Player, Initializable {
     /**
      * if left arrow is clicked
      */
+    private void keyVClicked() {
+
+
+        anchor_DebugView.setVisible(!anchor_DebugView.isVisible());
+
+    }
+
+        /**
+         * if left arrow is clicked
+         */
     private void keyLeftClicked() {
 
         var midHandSelIndex = mMidHandShelf.getSelectedCardIndex();
@@ -1047,4 +1061,54 @@ public class FXController implements Player, Initializable {
     public Label LabelWinner;
 
     public AnchorPane AnchorPreview = new AnchorPane();
+
+    public void onEnter(ActionEvent actionEvent) {
+
+        if(!promptTextField.isFocused()){
+            return;
+        }
+
+        anchor_root.requestFocus();
+        var input = promptTextField.getText();
+
+
+        var output = "Not a valid input.";
+
+        switch (input) {
+            case "ENDGAME" -> {
+
+                if (getState() == GUIState.NOT_STARTED) {
+
+                    var test = new Test(mController);
+                    test.testEndgame();
+                    output = "Skipped to the endgame!";
+                    promptTextField.setText("");
+                } else {
+                    output = "You can use that command only\n before the game has started.";
+                }
+            }
+            case "info" -> {
+                output = "Current player: " + mController.getGame().getCurrentPlayer().getGameIndex() + "\nCards left: " + mController.getGame().getCurrentPlayer().getHand().getSize() + "\nGame state: " + getState().toString();
+                promptTextField.setText("");
+            }
+        }
+
+        promptLabel.setText(output + "\n\n - press V to show / hide.");
+
+        FXPresenter.update();
+
+    }
+
+    public int getSkatPlayerGameIndex() {
+
+        return skatSetPlayerIndex;
+
+    }
 }
+
+
+
+
+
+
+
