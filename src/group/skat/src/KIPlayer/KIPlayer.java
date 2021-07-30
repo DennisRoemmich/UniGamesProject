@@ -273,6 +273,7 @@ public class KIPlayer implements Player {
 
         var trick = getGame().getCurrentTrick();
         Card strongerCard;
+
         if (trick.isStrongerCard(toStingUno, toStingDos)) {
 
             strongerCard = toStingDos;

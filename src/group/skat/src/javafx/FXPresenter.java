@@ -442,7 +442,7 @@ public class FXPresenter {
 
             var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
 
-            if(i == activePlayerIndex){
+            if (i == activePlayerIndex) {
                 labelPlayerActive[i].setVisible(true);
             } else {
                 labelPlayerActive[i].setVisible(false);
