@@ -176,14 +176,23 @@ public class KIPlayer implements Player {
      */
     private int getMostValuableCard() {
 
-        var max = 0;
+        var max = -1;
 
-        for (var i = 1; i < getHand().getSize(); i++) {
+        for (var i = 0; i < getHand().getSize(); i++) {
 
-            var maxPoints = getHand().getCardAt(max).getPoints();
-            if (getGame().moveIsValid(new SkatMove(i)) && getHand().getCardAt(i).getPoints() > maxPoints) {
+            if (getGame().moveIsValid(new SkatMove(i))) {
 
-                max = i;
+                if (max == -1) {
+
+                    max = i;
+                }
+
+                var maxPoints = getHand().getCardAt(max).getPoints();
+
+                if (getHand().getCardAt(i).getPoints() > maxPoints) {
+
+                    max = i;
+                }
             }
         }
 
@@ -195,14 +204,23 @@ public class KIPlayer implements Player {
      */
     private int getLeastValuableCard() {
 
-        var min = 0;
+        var min = -1;
 
-        for (var i = 1; i < getHand().getSize(); i++) {
+        for (var i = 0; i < getHand().getSize(); i++) {
 
-            var minPoints = getHand().getCardAt(min).getPoints();
-            if (getGame().moveIsValid(new SkatMove(i)) && getHand().getCardAt(i).getPoints() < minPoints) {
+            if (getGame().moveIsValid(new SkatMove(i))) {
 
-                min = i;
+                if (min == -1) {
+
+                    min = i;
+                }
+
+                var minPoints = getHand().getCardAt(min).getPoints();
+
+                if (getHand().getCardAt(i).getPoints() < minPoints) {
+
+                    min = i;
+                }
             }
         }
 

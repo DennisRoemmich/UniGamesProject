@@ -71,6 +71,7 @@ public class SkatController extends GameController {
 
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
+            // NEW_SET or NEW_GAME
             if (makeMoveHelp(move)) {
 
                 return true;

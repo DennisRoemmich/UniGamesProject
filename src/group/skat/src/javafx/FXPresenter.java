@@ -200,6 +200,7 @@ public class FXPresenter {
 
             case GAME_FINISHED:
 
+                updateHandShelfs();
                 resultView(true);
                 break;
 

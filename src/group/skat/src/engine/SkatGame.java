@@ -351,6 +351,8 @@ public class SkatGame {
 
         if (mAuction.passedOut()) {
 
+            Print.debug("INFO", "passedOut");
+
             mGamePhase = GamePhase.ABORTED;
             mResult.setAborted(true);
             return;

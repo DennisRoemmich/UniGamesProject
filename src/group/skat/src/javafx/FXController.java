@@ -200,6 +200,11 @@ public class FXController implements Player, Initializable {
 
     private GUIState getStateHelp(GamePhase phase) {
 
+        if (phase == GamePhase.ABORTED) {
+
+            return GUIState.GAME_ABORTED;
+        }
+
         if (phase == GamePhase.AUCTION) {
 
             if (game().getAuction().getQuestioner().getGameIndex() == getPlayerGameIndex()) {
