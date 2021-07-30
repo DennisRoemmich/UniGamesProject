@@ -1,5 +1,6 @@
 package javafx;
 
+import console.Print;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Hand;
@@ -87,8 +88,7 @@ public class FXHandShelf {
 
         var curIndex = mFxController.getPlayerGameIndex();
         Hand playersHand;
-        
-        
+
         playersHand = initPlayersHand(curIndex);
 
         var shiftRight = false;

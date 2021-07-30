@@ -756,6 +756,10 @@ public class FXPresenter {
      */
     public static void updateHandShelfs() {
 
+        for (AnchorPane pane : new AnchorPane[]{mFxController.AnchorPlayerhandShelfLeft, mFxController.AnchorPlayerhandShelfMid, mFxController.AnchorPlayerhandShelfRight}) {
+
+            pane.setVisible(true);
+        }
         buttonSort(true);
 
         if ( mFxController.getFxHandShelfs()[0] == null) {

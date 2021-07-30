@@ -77,8 +77,6 @@ public class FXController implements Player, Initializable {
 
         }
 
-    //    var bgImage = new Image("images/Views/ViewBackgroundBlank.png");
-
         FXPresenter.setFxController(this);
         FXButton.setFXController(this);
 
