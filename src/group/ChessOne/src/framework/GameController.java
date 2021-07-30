@@ -11,21 +11,16 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public abstract class GameController extends Thread {
+public abstract class GameController {
 
 	protected GameLog mGameLog;
 	protected boolean mIsGameRunning;
 	protected Player mPlayerA;
 	protected Player mPlayerB;
 	protected Presenter mPresenter;
-	protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
 	
 	protected GameController() {
 		createNewGameLog();
-	}
-
-	public void queueMove(JSONObject move) {
-		moveQueue.add(move);
 	}
 
 	protected abstract void executeMove(JSONObject move);

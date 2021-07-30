@@ -5,7 +5,7 @@ import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
 
-public class AiPlayer implements Player {
+public class AiPlayer implements Player, Runnable {
 
 	protected Controller mController;
 	private static final int DEPTH = 2;
@@ -36,5 +36,10 @@ public class AiPlayer implements Player {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void run() {
+
 	}
 }

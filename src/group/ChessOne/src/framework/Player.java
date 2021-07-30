@@ -2,6 +2,9 @@ package framework;
 
 import org.json.simple.JSONObject;
 
+import java.util.concurrent.BlockingQueue;
+
 public interface Player {
-	JSONObject requestMove(JSONObject inputType);
+	BlockingQueue<JSONObject> getRequestQueue();
+	void setEngineQueue(BlockingQueue<JSONObject> engineQueue);
 }

@@ -3,6 +3,7 @@ package engine;
 import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
+import javafx.application.Platform;
 import torpedo.TorpedoChess;
 import framework.GameController;
 import framework.Player;
@@ -11,22 +12,41 @@ import framework.WriteError;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Creates the surrounding game logic the chess game operates in.
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class Controller extends GameController {
+public class Controller extends GameController implements Runnable {
 
     private Optional<Chess> mGame = Optional.empty();
     private Player mPlayerA;
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
+    private boolean mIsLoopRunning = true;
+
+    protected LinkedBlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
     
-    public Controller() {
-    	//Unused
+    public Controller(LinkedBlockingQueue<JSONObject> moveQueue) {
+        this.moveQueue = moveQueue;
+    }
+
+    @Override
+    public void run() {
+        newGame();
+        startGame();
+        while(mIsLoopRunning) {
+            try {
+                JSONObject input = moveQueue.take();
+                executeMove(input);
+                refreshOutput();
+            } catch (InterruptedException e) {
+                mIsLoopRunning = false;
+            }
+        }
     }
 
     protected void executeMove(JSONObject moveJSon) {
@@ -50,10 +70,17 @@ public class Controller extends GameController {
         if (mGame.get().isMovePossible(move)) {
             mGame.get().makeMove(move);
             logMove(moveJSon);
-            if (mPresenter != null) {
-                mPresenter.refreshOutput();                
-            }
+            refreshOutput();
         }
+    }
+
+    public void refreshOutput() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.refreshOutput();
+            }
+        });
     }
     
     public void setStandardChess() {
@@ -116,22 +143,8 @@ public class Controller extends GameController {
             return false;
         } else {
             mIsGameRunning = true;
-            if (mPresenter != null) {
-                mPresenter.refreshOutput();
-            }
-            gameLoop();
+            refreshOutput();
             return true;
-        }
-    }
-
-    public void gameLoop() {
-        while (moveQueue.poll() == null) {
-
-        }
-        JSONObject move = moveQueue.remove();
-        executeMove(move);
-        if (mIsGameRunning) {
-            gameStep();
         }
     }
 
@@ -141,9 +154,7 @@ public class Controller extends GameController {
             Player currentPlayer = isTurnOfPlayerA ? mPlayerA : mPlayerB;
             JSONObject json = currentPlayer.requestMove(createRequestJSon("move"));
             updateGameState();
-            if (mPresenter != null) {
-                mPresenter.refreshOutput();
-            }
+            refreshOutput();
         }
     }
 

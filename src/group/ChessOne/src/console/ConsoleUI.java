@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import javax.swing.*;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -29,7 +30,7 @@ public class ConsoleUI implements Presenter, Player {
 
 
 	private final Scanner mScanner = new Scanner(System.in);
-    protected Controller mController = new Controller();
+    protected Controller mController = new Controller(new LinkedBlockingQueue<>());
     private ClientController mClientController;
     private Chess mChessGame = null;
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
