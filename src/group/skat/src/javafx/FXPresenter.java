@@ -195,6 +195,8 @@ public class FXPresenter {
 
             case GAME_ABORTED:
 
+                mFxController.ImageViewBackground.setImage(backGroundBlank);
+                updateHandShelfs();
                 newGameView(true);
                 break;
 
@@ -418,7 +420,7 @@ public class FXPresenter {
         int activePlayerIndex;
         var game = mFxController.getController().getGame();
 
-        if (game == null){
+        if (game == null || game.getGameResult().isAborted()){
             activePlayerIndex = -1;
         } else {
             activePlayerIndex = (game.getCurrentPlayer().getGameIndex() + 1) % 3;
@@ -766,10 +768,9 @@ public class FXPresenter {
 
                 pane.setVisible(false);
             }
+            buttonSort(false);
         }
     }
-
-
 
 
 }

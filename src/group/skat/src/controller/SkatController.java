@@ -62,6 +62,8 @@ public class SkatController extends GameController {
      */
     public boolean makeMove(GameMove move) {
 
+        Print.debug("INFO", "controller make move");
+
         if (!moveIsValid(move)){
             Print.debug("INFO", "A false move was entered :" + move.toJSON().toString());
             Print.debug("INFO","Break");
@@ -82,6 +84,8 @@ public class SkatController extends GameController {
             if (mSkatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
 
                 if (mSkatSet.getCurrentGameResult().isAborted()) {
+
+                    Print.debug("INFO", "is aborted");
 
                     mSkatSet.abortGame();
 
@@ -106,7 +110,6 @@ public class SkatController extends GameController {
         checkPlayerSwitched();
         return false;
     }
-
 
     private boolean makeMoveHelp(GameMove move) {
 
@@ -186,16 +189,17 @@ public class SkatController extends GameController {
                 obj.put(yourMove, "FALSE");
                 player.requestMove(obj);
             }
-
         }
 
         if (getGame().getGamePhase() == GamePhase.ENDED || getGame().getGamePhase() == GamePhase.ABORTED) {
 
             obj.put(yourMove, "FALSE");
-            mPlayers.get(activatePlayerAt).requestMove(obj);
+            mPlayers.get((guiPlayerIndex + 1) % 3).requestMove(obj);
+            mPlayers.get((guiPlayerIndex + 2) % 3).requestMove(obj);
             obj.put(yourMove, "TRUE");
             mPlayers.get(guiPlayerIndex).requestMove(obj);
 
+            return;
         }
 
         if ( activatePlayerAt != -1 ) {

@@ -95,15 +95,17 @@ public class SkatSet {
 
             if (playingPlayers[i] == mPlayers.get(atIndex) ) {
 
+                if (getCurrentSkatGame().getGameResult().isAborted()) {
+
+                    return -1;
+                }
+
                 if (i == getCurrentSkatGame().getCurrentPlayer().getGameIndex()) {
 
                     return 2;
 
                 }
-
-
                 return 1;
-
             }
 
         }
@@ -148,6 +150,11 @@ public class SkatSet {
 
     public void startNewGame() {
 
+        if (!mGameResults.isEmpty() && mGameResults.get(mGameResults.size() - 1).isAborted()) {
+
+            mGameResults.remove(mGameResults.size() - 1);
+        }
+
         if (mGameResults.size() < mGameAmount || mGameAmount == -1) {
 
             mCurrentGame = new SkatGame();
@@ -163,7 +170,7 @@ public class SkatSet {
 
         Print.debug("MAIK", "Game aborted - new Game started");
 
-        mGameResults.remove(mGameResults.size() - 1);
+    //    mGameResults.remove(mGameResults.size() - 1);
 
     }
 

@@ -342,6 +342,6 @@ public class KIPlayer implements Player {
 
         }
 
-        return new JSONObject();
+        return null;
     }
 }

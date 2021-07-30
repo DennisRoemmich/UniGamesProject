@@ -211,7 +211,7 @@ public class FXController implements Player, Initializable {
 
                 return GUIState.AUCTION_ASKING;
             }
-            if (game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
+            if (game().getAuction().getHearer() != null && game().getAuction().getHearer().getGameIndex() == getPlayerGameIndex()) {
 
                 return GUIState.AUCTION_HEARING;
             }
