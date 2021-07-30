@@ -50,7 +50,9 @@ public class Controller extends GameController implements SiedlerEventHandler {
             WriteError.writeErrorLog("No player added to game.");
             return;
         }
-    	mMap = MapGenerator.generateKonstanzMap();
+
+        	mMap = MapGenerator.generateVariableMap(5, 5);
+
         mState = GameState.SETUP_VILLAGE;
         gameStep();
     }

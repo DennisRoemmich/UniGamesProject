@@ -96,7 +96,9 @@ public final class MapGenerator {
 
         int cutOffTilesInCorner = maxY * (maxY + 1);
         int amountOfTiles = width * height - cutOffTilesInCorner;
-        LinkedList<Tile> tiles = new LinkedList<>(getTiles(amountOfTiles));
+        
+      //Change to getTiles() if you want random deserts and water
+        LinkedList<Tile> tiles = new LinkedList<>(getTilesForStandard(amountOfTiles));
 
         for (int x = -maxX; x <= maxX; x++) {
             for (int y = -maxY; y <= maxY; y++) {
@@ -128,6 +130,17 @@ public final class MapGenerator {
         }
 
         int materialTilesAmount = amount - desertTilesAmount - waterTilesAmount;
+        tiles.addAll(getMaterialTiles(materialTilesAmount));
+
+        Collections.shuffle(tiles);
+
+        return tiles;
+    }
+    
+    public static List<Tile> getTilesForStandard(int amount) {
+        List<Tile> tiles = new ArrayList<>();
+
+        int materialTilesAmount = amount;
         tiles.addAll(getMaterialTiles(materialTilesAmount));
 
         Collections.shuffle(tiles);

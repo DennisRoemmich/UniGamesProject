@@ -16,6 +16,7 @@ import materials.MaterialType;
 import org.json.simple.JSONObject;
 import controller.Controller;
 import controller.GameState;
+import controller.Main;
 import framework.Player;
 import framework.Presenter;
 import framework.PrintToConsole;
@@ -68,7 +69,7 @@ public class FxEngineController extends FxController implements Player, Presente
         * *True* for aiGame with 12 players, 
 		* *False* for 6 player hotseat
 		*/
-        setupPlayers(false); 
+        setupPlayers(true); 
         
         //Feel free to change method for changing the values of each resource type (for testing)
         cheatResources(0); //cheat starting resource
@@ -104,11 +105,11 @@ public class FxEngineController extends FxController implements Player, Presente
         } else {
     		mController.addPlayer(this, PlayerColor.BLUE);
         	mController.addPlayer(this, PlayerColor.GREEN);
-        	mController.addPlayer(this, PlayerColor.YELLOW);       	
-        	mController.addPlayer(this, PlayerColor.PURPLE);
-        	mController.addPlayer(this, PlayerColor.RED); 
-        	mController.addPlayer(this, PlayerColor.BLACK);
-        	mController.addPlayer(this, PlayerColor.WHITE);       	
+//        	mController.addPlayer(this, PlayerColor.YELLOW);       	
+//        	mController.addPlayer(this, PlayerColor.PURPLE);
+//        	mController.addPlayer(this, PlayerColor.RED); 
+//        	mController.addPlayer(this, PlayerColor.BLACK);
+//        	mController.addPlayer(this, PlayerColor.WHITE);       	
         }
     }
     
@@ -287,11 +288,13 @@ public class FxEngineController extends FxController implements Player, Presente
     public void setupMapNode() {
         mMapNode = new MapNode(mController);
         mMapNode.refreshOutput();
-        mMapNode.setLayoutX(390);
-        mMapNode.setLayoutY(300);
-        mMapNode.setScaleX(0.7);
-        mMapNode.setScaleY(0.7);
-        mMapNode.setScaleZ(0.7);
+
+	        mMapNode.setLayoutX(390);
+	        mMapNode.setLayoutY(300);
+	        mMapNode.setScaleX(1.6);
+	        mMapNode.setScaleY(1.6);
+	        mMapNode.setScaleZ(0.7);
+        
         mAnchorPane.getChildren().add(mMapNode);
     }
 
