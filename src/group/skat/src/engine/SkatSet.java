@@ -43,6 +43,11 @@ public class SkatSet {
         return mCurrentGame.getGameResult();
     }
 
+    public ArrayList<GameResult> getGameResults() {
+
+        return mGameResults;
+    }
+
     public boolean isFinished() {
 
         return mIsFinished;

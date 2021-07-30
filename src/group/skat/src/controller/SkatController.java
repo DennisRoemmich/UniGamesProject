@@ -62,8 +62,6 @@ public class SkatController extends GameController {
      */
     public boolean makeMove(GameMove move) {
 
-        Print.debug("INFO", "controller make move");
-
         if (!moveIsValid(move)){
             Print.debug("INFO", "A false move was entered :" + move.toJSON().toString());
             Print.debug("INFO","Break");
@@ -85,8 +83,6 @@ public class SkatController extends GameController {
 
                 if (mSkatSet.getCurrentGameResult().isAborted()) {
 
-                    Print.debug("INFO", "is aborted");
-
                     mSkatSet.abortGame();
 
                 } else if (mSkatSet.getCurrentGameResult().isFinished()) {
@@ -103,11 +99,11 @@ public class SkatController extends GameController {
                         mSkatSet.printSkatSetStats();
                     }
                 }
-                checkPlayerSwitched();
+                messageNextPlayer();
                 return true;
             }
         }
-        checkPlayerSwitched();
+        messageNextPlayer();
         return false;
     }
 
@@ -116,41 +112,18 @@ public class SkatController extends GameController {
         if (move.getType() == ActionType.NEW_SET) {
 
             mSkatSet = new SkatSet(mGameAmount, mPlayerNames);
-            checkPlayerSwitched();
+            messageNextPlayer();
             return true;
         }
 
         if (move.getType() == ActionType.NEW_GAME) {
 
             mSkatSet.startNewGame();
-            checkPlayerSwitched();
+            messageNextPlayer();
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * checks if the currentPlayer has changed
-     */
-    private void checkPlayerSwitched() {
-
-        messageNextPlayer();
-
-        /*
-
-        var index = getGame().getCurrentPlayer().getGameIndex();
-
-        if ( mLastCurrentPlayer != index ) {
-
-            Print.debug("INFO", "Player switched (" + mLastCurrentPlayer + " -> " + index + ")");
-            mLastCurrentPlayer = index;
-            messageNextPlayer();
-
-
-
-        }*/
-
     }
 
     private void guiPlayersTurn(){

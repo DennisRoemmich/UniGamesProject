@@ -312,6 +312,7 @@ public class FXPresenter {
         trickView();
         playerViews(false);
         buttonSort(false);
+        gameInfo(false);
 
         paButtonsHide();
 
@@ -621,6 +622,11 @@ public class FXPresenter {
         if (visible) {
 
             var curGameNo = Integer.toString(set.currentGameNo() + 2);
+            if (set.getGameResults().size() > 0 && set.getGameResults().get(set.getGameResults().size() - 1).isAborted()) {
+
+                curGameNo = Integer.toString(set.currentGameNo() + 1);
+            }
+
             var gameAm = Integer.toString(set.getGameAmount()) + "  ";
 
             if (gameAm.equals("-1")) {

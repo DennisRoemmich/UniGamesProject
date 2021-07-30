@@ -202,8 +202,6 @@ public class Auction {
      */
     public void passBid() {
 
-        Print.debug("INFO", "passed");
-
         if (mCurrentAuctioneer == mForeHand) {
 
             mForeHand.setBidding(false);

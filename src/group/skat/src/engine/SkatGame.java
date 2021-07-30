@@ -242,8 +242,6 @@ public class SkatGame {
      */
     public boolean makeSkatMove(SkatMove move) {
 
-        Print.debug("INFO", "make skat move");
-
         if (moveIsValid(move)) {
 
             switch (move.getType()) {
@@ -338,13 +336,10 @@ public class SkatGame {
      */
     private void passBid() {
 
-        Print.debug("INFO", "passing");
-
         mAuction.passBid();
 
         if (!mAuction.isRunning()) {
 
-            Print.debug("INFO", "auction finished");
             finishAuction();
         }
     }
@@ -355,8 +350,6 @@ public class SkatGame {
     private void finishAuction() {
 
         if (mAuction.passedOut()) {
-
-            Print.debug("INFO", "passedOut");
 
             mGamePhase = GamePhase.ABORTED;
             mResult.setAborted(true);
