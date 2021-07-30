@@ -19,6 +19,7 @@ public class GameController {
     protected List<PlayerData> mPlayerData = new ArrayList<>();
     protected GameState mState = GameState.NOT_RUNNING;
 	private Presenter mPresenter;
+	
 
 	public void callPresenterUpdate() {
 		if (mPresenter != null) {

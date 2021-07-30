@@ -15,6 +15,7 @@ import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
 import framework.Player;
+import framework.PrintToConsole;
 import streets.Street;
 import streets.StreetType;
 import tiles.PositionedTile;
@@ -45,8 +46,10 @@ public class AiPlayer implements Player {
             case ROLL_DICES -> mController.handleRoll();
             case SETUP_VILLAGE ->  handleSetupVillage();
             case SETUP_STREET -> handleSetupStreet();
-            //Adjust this method with a boolean input for testing the streets
+            
+            //TESTING: Adjust this method with a boolean input for testing the streets
             case OPTIONAL_MOVES -> handleOptionalMoves(); 
+            
             case MOVE_BURGLAR -> handleMoveBurglar();
         }
         return reply;
@@ -65,7 +68,12 @@ public class AiPlayer implements Player {
         		.noneMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
         possiblePositions = new ArrayList<>(possiblePositions);
         Collections.shuffle(possiblePositions);
-        mController.placeBuilding(possiblePositions.get(0));
+        try {
+        	mController.placeBuilding(possiblePositions.get(0));
+        } catch (Exception e) {
+        	PrintToConsole.println("ERROR: Please do not choose that many Ai Players! "
+        			+ "There is not enough space to place inward villages onto!!!");
+        }
     }
 
     private void handleSetupStreet() {
@@ -95,14 +103,13 @@ public class AiPlayer implements Player {
         mController.endMove();
     }
     
-    //This method is for testing how well roads can be placed. 
+    //*TESTING*: This method is for testing how well roads can be placed. 
     @SuppressWarnings("unused")
 	private void handleOptionalMoves(boolean isTest) {
 	    
-    	//Change the amount the AI places streets per turn 
-    	//Keep in mind that they need have those resources; 
-    	//To adjust this go into the FxEngineController.initialize method
+    	//*TESTING*: Change the amount the AI places streets per turn 
     	int amountOfStreetsPlaced = 60;
+    	
 	    for (int i = 0; i < amountOfStreetsPlaced; i++) {
 	            tryCreatingStreet(StreetType.ROAD);
 	    }
@@ -142,7 +149,7 @@ public class AiPlayer implements Player {
             if (building.isPresent()) {
                 block += building.get().getType() == BuildingType.VILLAGE ? 1 : 2;
                 if (building.get().getColor() == mController.getCurrentPlayerColor()) {
-                    block -= 10; // The Ai shouldn't block it's own tiles
+                    block -= 10; //The AI shouldn't block its own tiles
                 }
             }
         }
@@ -162,10 +169,12 @@ public class AiPlayer implements Player {
     }
 
     public void tryCreatingStreet(StreetType type) {
-//        if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), 
-//        		BuildingType.VILLAGE).isEmpty()) {
-//            return;
-//        }
+       
+    	//*TESTING*: Comment this if statement out to test the streets!
+    	if (!BuildRules.getValidNodePositions(mController.getMap(), mController.getCurrentPlayerColor(), 
+        		BuildingType.VILLAGE).isEmpty()) {
+            return;
+        }
         if (mController.getCurrentPlayerHand().isSuperset(Street.getCost(type))) {
             PlayerColor color = mController.getCurrentPlayerColor();
             List<EdgePosition> possiblePositions = BuildRules.getValidEdgePositions(mController.getMap(), color, type);

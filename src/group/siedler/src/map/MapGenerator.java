@@ -96,19 +96,29 @@ public final class MapGenerator {
 
         int cutOffTilesInCorner = maxY * (maxY + 1);
         int amountOfTiles = width * height - cutOffTilesInCorner;
-        LinkedList<Tile> tiles = new LinkedList<>(getTiles(amountOfTiles));
-
+        
+        //Change to getTiles() if you want random deserts and water
+        LinkedList<Tile> tiles = new LinkedList<>(getTilesForStandard(amountOfTiles));
+        
+        TilePosition desertPosition = new TilePosition(0, 0);
+        Tile desertTile = new NeutralTile(false);
+        PositionedTile tilo = new PositionedTile(desertTile, desertPosition);
+        map.addTile(tilo);
+        
+        int counter = 0;
         for (int x = -maxX; x <= maxX; x++) {
             for (int y = -maxY; y <= maxY; y++) {
                 if (Math.abs(x + y) <= maxX) {
-                    TilePosition position = new TilePosition(x, y);
+                	TilePosition position = new TilePosition(x, y);
                     Tile tile = tiles.pop();
                     PositionedTile positionedTile = new PositionedTile(tile, position);
-                    map.addTile(positionedTile);
+                    if (counter != 9) {
+                    	map.addTile(positionedTile);
+                    }
+                    counter++;
                 }
-            }
+            }	
         }
-
         return map;
     }
 
@@ -128,6 +138,17 @@ public final class MapGenerator {
         }
 
         int materialTilesAmount = amount - desertTilesAmount - waterTilesAmount;
+        tiles.addAll(getMaterialTiles(materialTilesAmount));
+
+        Collections.shuffle(tiles);
+
+        return tiles;
+    }
+    
+    public static List<Tile> getTilesForStandard(int amount) {
+        List<Tile> tiles = new ArrayList<>();
+
+        int materialTilesAmount = amount;
         tiles.addAll(getMaterialTiles(materialTilesAmount));
 
         Collections.shuffle(tiles);

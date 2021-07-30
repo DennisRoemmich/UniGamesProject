@@ -1,6 +1,7 @@
 package gui;
 
 import controller.AiPlayer;
+
 import helper.QuickJSon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,60 +57,42 @@ public class FxEngineController extends FxController implements Player, Presente
 
     public static final String FINISH_BUTTON_IMAGE_NAME = "resources/FinishButton.png";
     public static final String DICE_BUTTON_IMAGE_NAME = "resources/DiceButton.png";
-    
-    //Please modify the setupPlayers and cheatResources functions to test this software's capabilities.
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
         setupController();
         setupMapNode();
+        setupPlayers(); 
         
-        /*Feel free to change method to change the amount and type of players:
-        * *True* for aiGame with 12 players, 
-		* *False* for 6 player hotseat
-		*/
-        setupPlayers(false); 
-        
-        //Feel free to change method for changing the values of each resource type (for testing)
-        cheatResources(0); //cheat starting resource
+        cheatResources(FxMenuController.getStartingAmount()); 
         
         refreshOutput();
         refreshRessourceMessage();
         mController.newGame();
     }
     
-    //Setup Players AI and players (this)
-    //You may change this method for testing!
-    public void setupPlayers(boolean aiGame) {
-        if (aiGame) {
+    public void setupPlayers() {
+    	
         	AiPlayer aiPlayer = new AiPlayer(mController);
-    		
-        	//Human player with blue color (this, BLUE)
-        	mController.addPlayer(this, PlayerColor.BLUE);
         	
-        	//Ai player with green color (aiPlayer, GREEN)
-        	mController.addPlayer(aiPlayer, PlayerColor.GREEN);
-        	mController.addPlayer(aiPlayer, PlayerColor.YELLOW);
-    		mController.addPlayer(aiPlayer, PlayerColor.PURPLE);
-    		mController.addPlayer(aiPlayer, PlayerColor.BLACK);
-    		mController.addPlayer(aiPlayer, PlayerColor.WHITE);
-
-    		mController.addPlayer(aiPlayer, PlayerColor.RED);
-        	mController.addPlayer(aiPlayer, PlayerColor.BROWN);
-        	mController.addPlayer(aiPlayer, PlayerColor.ORANGE);
-        	mController.addPlayer(aiPlayer, PlayerColor.LIME);
-        	mController.addPlayer(aiPlayer, PlayerColor.PINK);
-        	mController.addPlayer(aiPlayer, PlayerColor.CYAN);
-        	mController.addPlayer(aiPlayer, PlayerColor.GREY);
-        } else {
-    		mController.addPlayer(this, PlayerColor.BLUE);
-        	mController.addPlayer(this, PlayerColor.GREEN);
-        	mController.addPlayer(this, PlayerColor.YELLOW);       	
-        	mController.addPlayer(this, PlayerColor.PURPLE);
-        	mController.addPlayer(this, PlayerColor.RED); 
-        	mController.addPlayer(this, PlayerColor.BLACK);
-        	mController.addPlayer(this, PlayerColor.WHITE);       	
-        }
+        	int aiPlayers = FxMenuController.getAiAmount();
+        	int humanPlayers = FxMenuController.getHumanAmount();
+        	int allPlayers = aiPlayers + humanPlayers;
+        	
+        	boolean flag = true;
+        	
+        	for (int i = 0; i < allPlayers; i++) {
+        		if (humanPlayers > 0 && flag) {
+    				mController.addPlayer(this, PlayerColor.getColorList().get(i));
+    				humanPlayers--;
+    				flag = false;
+        		} else {
+    				mController.addPlayer(aiPlayer, PlayerColor.getColorList().get(i));
+    				aiPlayers--;
+    				flag = true;
+        		}
+        	}
     }
     
     //Set up additional resources for testing
@@ -287,13 +270,22 @@ public class FxEngineController extends FxController implements Player, Presente
     public void setupMapNode() {
         mMapNode = new MapNode(mController);
         mMapNode.refreshOutput();
-        mMapNode.setLayoutX(390);
-        mMapNode.setLayoutY(300);
-        mMapNode.setScaleX(0.7);
-        mMapNode.setScaleY(0.7);
-        mMapNode.setScaleZ(0.7);
+        if (FxMenuController.ismIsStandardMap()) {
+	        mMapNode.setLayoutX(390);
+	        mMapNode.setLayoutY(300);
+	        mMapNode.setScaleX(1.6);
+	        mMapNode.setScaleY(1.6);
+	        mMapNode.setScaleZ(0.7);
+        } else {
+          mMapNode.setLayoutX(390);
+          mMapNode.setLayoutY(300);
+          mMapNode.setScaleX(0.7);
+          mMapNode.setScaleY(0.7);
+          mMapNode.setScaleZ(0.7);
+        }
         mAnchorPane.getChildren().add(mMapNode);
     }
+    
 
     public MaterialType chooseResource(KeyEvent event) {
         return switch (event.getCode()) {
@@ -353,4 +345,6 @@ public class FxEngineController extends FxController implements Player, Presente
         PrintToConsole.print("of pillaging the other player ones so the other players do not lose anything!\n");
         PrintToConsole.println("->Ships cost 1 Wool and 1 Wood in this game and are necessary to cross the water!\n");
     }
+    
+
 }

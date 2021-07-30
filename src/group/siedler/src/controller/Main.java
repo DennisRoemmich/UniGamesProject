@@ -14,25 +14,45 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+	private static Stage pStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+    	
+    	setPrimaryStage(primaryStage);
+    	
+    	ClassLoader classLoader = getClass().getClassLoader();
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        var resource = classLoader.getResource("resources/SiedlerGUI.fxml");
-        if (resource == null) {
+        
+        var resourceMenu = classLoader.getResource("resources/SiedlerMenu.fxml");
+        if (resourceMenu == null) {
             PrintToConsole.println("\n=== URL is null ===\n");
         }
-        FXMLLoader loader = new FXMLLoader(resource);
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 1200, 900);
+        FXMLLoader loaderMenu = new FXMLLoader(resourceMenu);
+        Parent rootMenu = loaderMenu.load();
+        
+        Scene scene = new Scene(rootMenu, 1200, 900);
+        
 
+
+        
         scene.getRoot().requestFocus();
         
-        primaryStage.setTitle("Die Siedler von Konstanz");
+        primaryStage.setTitle("Die Siedler von Konstanz - Menü");
         primaryStage.setScene(scene);
 
         primaryStage.show();
+    
+	}
+    
+    public static Stage getPrimaryStage() {
+        return pStage;
     }
+
+    private static void setPrimaryStage(Stage pStage) {
+        Main.pStage = pStage;
+    }
+    
 
 
     public static void main(String[] args) {

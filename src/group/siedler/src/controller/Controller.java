@@ -9,6 +9,7 @@ import framework.GameController;
 import framework.Player;
 import framework.PrintToConsole;
 import framework.WriteError;
+import gui.FxMenuController;
 import gui.SiedlerEventHandler;
 import helper.QuickJSon;
 import map.BuildRules;
@@ -50,9 +51,14 @@ public class Controller extends GameController implements SiedlerEventHandler {
             WriteError.writeErrorLog("No player added to game.");
             return;
         }
-    	mMap = MapGenerator.generateKonstanzMap();
+    	if (FxMenuController.ismIsStandardMap()) {
+            mMap = MapGenerator.generateVariableMap(5, 5);
+    	} else {
+    		mMap = MapGenerator.generateKonstanzMap();
+    	}
         mState = GameState.SETUP_VILLAGE;
         gameStep();
+
     }
 
     private void gameStep() {

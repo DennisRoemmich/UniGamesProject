@@ -95,6 +95,8 @@ public class FxController implements Initializable {
     @FXML
     protected Label mSetupPhase;
 
+
+
 	@Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mTradeButton = new ImageView();

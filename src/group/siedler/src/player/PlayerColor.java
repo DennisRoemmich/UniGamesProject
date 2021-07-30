@@ -1,5 +1,8 @@
 package player;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -8,7 +11,7 @@ import javafx.scene.paint.Color;
  *
  */
 public enum PlayerColor {
-    BLUE, GREEN, YELLOW, RED, PURPLE, BLACK, WHITE, PINK, ORANGE, BROWN, GREY, CYAN, LIME;
+    BLUE, GREEN, YELLOW, PURPLE, WHITE, RED, BLACK, PINK, ORANGE, BROWN, GREY, CYAN, LIME;
 
     public Color getColor() {
         return switch (this) {
@@ -26,6 +29,10 @@ public enum PlayerColor {
             case CYAN -> Color.CYAN;
             case LIME -> Color.LIME;
         };
+    }
+    
+    public static List<PlayerColor> getColorList() {
+    	return Arrays.asList(PlayerColor.values());
     }
 
 }
