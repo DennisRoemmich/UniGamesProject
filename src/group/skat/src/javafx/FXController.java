@@ -95,6 +95,11 @@ public class FXController implements Player, Initializable {
         initHandShelfs();
         mFxSkat = new FXSkat(this, AnchorSkatCardLeft, AnchorSkatCardRight);
         mFxCurrentTrick = new FXCurrentTrick(this, AnchorTrickOne, AnchorTrickTwo, AnchorTrickThree);
+
+        for (AnchorPane pane : new AnchorPane[]{AnchorPlayerhandShelfLeft, AnchorPlayerhandShelfMid, AnchorPlayerhandShelfRight}) {
+
+            pane.setVisible(true);
+        }
     }
 
     private void initHandShelfs() {
