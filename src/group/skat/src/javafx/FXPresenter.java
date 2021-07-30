@@ -196,7 +196,14 @@ public class FXPresenter {
             case GAME_ABORTED:
 
                 mFxController.ImageViewBackground.setImage(backGroundBlank);
-                updateHandShelfs();
+                for (AnchorPane pane : new AnchorPane[]{mFxController.AnchorPlayerhandShelfLeft, mFxController.AnchorPlayerhandShelfMid, mFxController.AnchorPlayerhandShelfRight}) {
+
+                    for (var child : pane.getChildren()) {
+
+                        child.setVisible(false);
+                    }
+                    pane.getChildren().removeAll();
+                }
                 newGameView(true);
                 break;
 
@@ -362,11 +369,11 @@ public class FXPresenter {
             mFxController.LabelGameInfoMode.setText(trump.getGameMode().toString().toUpperCase());
             mFxController.LabelGameInfoMode.setVisible(true);
 
-            var IV = mFxController.IVGameInfoColor;
+            var iV = mFxController.IVGameInfoColor;
 
             if (trump.getGameMode() == GameMode.SUIT) {
 
-                IV.setImage( switch (trump.getColor()) {
+                iV.setImage( switch (trump.getColor()) {
 
                   case CLUBS -> club;
                   case SPADES -> spade;
@@ -375,11 +382,11 @@ public class FXPresenter {
 
               });
 
-                IV.setVisible(true);
+                iV.setVisible(true);
 
             } else {
 
-               IV.setVisible(false);
+               iV.setVisible(false);
 
             }
 
@@ -446,10 +453,9 @@ public class FXPresenter {
 
             var iconImgView = (ImageView) anchorPlayerIcon[i].getChildren().get(0);
 
+            labelPlayerActive[i].setVisible(false);
             if (i == activePlayerIndex) {
                 labelPlayerActive[i].setVisible(true);
-            } else {
-                labelPlayerActive[i].setVisible(false);
             }
 
             if (declarer) {
@@ -622,7 +628,7 @@ public class FXPresenter {
         if (visible) {
 
             var curGameNo = Integer.toString(set.currentGameNo() + 2);
-            if (set.getGameResults().size() > 0 && set.getGameResults().get(set.getGameResults().size() - 1).isAborted()) {
+            if (!set.getGameResults().isEmpty() && set.getGameResults().get(set.getGameResults().size() - 1).isAborted()) {
 
                 curGameNo = Integer.toString(set.currentGameNo() + 1);
             }
@@ -756,10 +762,7 @@ public class FXPresenter {
      */
     public static void updateHandShelfs() {
 
-        for (AnchorPane pane : new AnchorPane[]{mFxController.AnchorPlayerhandShelfLeft, mFxController.AnchorPlayerhandShelfMid, mFxController.AnchorPlayerhandShelfRight}) {
 
-            pane.setVisible(true);
-        }
         buttonSort(true);
 
         if ( mFxController.getFxHandShelfs()[0] == null) {
@@ -778,6 +781,7 @@ public class FXPresenter {
 
                 pane.setVisible(false);
             }
+
             buttonSort(false);
         }
     }

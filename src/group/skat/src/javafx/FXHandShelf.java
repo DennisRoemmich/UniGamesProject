@@ -206,6 +206,15 @@ public class FXHandShelf {
         mSelectedCardIndex = -1;
     }
 
+    /**
+     * needed for proper GUI abortion
+     */
+    public void emptyCards() {
 
+        for (FXCard card : mHandFXCards) {
+
+            card.removeCard();
+        }
+    }
 
 }
