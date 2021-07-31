@@ -40,6 +40,7 @@ public class ConsoleUI implements Presenter, Player {
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
     private LinkedBlockingQueue<JSONObject> requestQueue = new LinkedBlockingQueue<>();
     private boolean endFlag = false;
+    private int lastPrintedBoardHash = 0;
 
     public ConsoleUI() {
 	}
@@ -365,11 +366,14 @@ public class ConsoleUI implements Presenter, Player {
     	var game = gameOwner.getGame();
     	if (game.isPresent()) {
 			mChessGame = game.get();
-			GamePrinter.printBoard(mChessGame.getBoard());
-			if (mChessGame.isGameOver()) {
-				GamePrinter.printResult(GameOverDetector.checkForMate(game.get()));
-			} else {
-				PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
+			if (mChessGame.getBoard().hashCode() != lastPrintedBoardHash) {
+				lastPrintedBoardHash = mChessGame.getBoard().hashCode();
+				GamePrinter.printBoard(mChessGame.getBoard());
+				if (mChessGame.isGameOver()) {
+					GamePrinter.printResult(GameOverDetector.checkForMate(game.get()));
+				} else {
+					PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
+				}
 			}
 		}
     }
