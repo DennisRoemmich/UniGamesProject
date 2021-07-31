@@ -1,6 +1,7 @@
 package javafx;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -10,7 +11,9 @@ import rummikub_game.TileColor;
 
 public class FXGridCell {
 
+    @FXML
     private ImageView imgView;
+    @FXML
     private Text text;
     private int value;
 
@@ -58,8 +61,7 @@ public class FXGridCell {
             case RED -> text.setFill(Color.web("#FF0000"));
             case YELLOW -> text.setFill(Color.web("#FFA500"));
             default -> {
-                text.setText("♕"); // U+1F921
-            //    text.setText("/U1F921");
+                text.setText("♕");
                 text.setFill(Color.web("#FF00FF"));
             }
         }

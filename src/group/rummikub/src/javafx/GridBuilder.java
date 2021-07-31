@@ -14,33 +14,31 @@ public class GridBuilder {
     private GridPane grid ;
 
     public void initialize() {
-        int numCols = 4 ;
-        int numRows = 4 ;
+        var numCols = 4 ;
+        var numRows = 4 ;
 
-        for (int i = 0 ; i < numCols ; i++) {
-            ColumnConstraints colConstraints = new ColumnConstraints();
+        for (var i = 0 ; i < numCols ; i++) {
+            var colConstraints = new ColumnConstraints();
             colConstraints.setHgrow(Priority.SOMETIMES);
             grid.getColumnConstraints().add(colConstraints);
         }
 
-        for (int i = 0 ; i < numRows ; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
+        for (var i = 0 ; i < numRows ; i++) {
+            var rowConstraints = new RowConstraints();
             rowConstraints.setVgrow(Priority.SOMETIMES);
             grid.getRowConstraints().add(rowConstraints);
         }
 
-        for (int i = 0 ; i < numCols ; i++) {
-            for (int j = 0; j < numRows; j++) {
+        for (var i = 0 ; i < numCols ; i++) {
+            for (var j = 0; j < numRows; j++) {
                 addPane(i, j);
             }
         }
     }
 
     private void addPane(int colIndex, int rowIndex) {
-        Pane pane = new Pane();
-        pane.setOnMouseEntered(e -> {
-            System.out.printf("Mouse entered cell [%d, %d]%n", colIndex, rowIndex);
-        });
+        var pane = new Pane();
+        pane.setOnMouseEntered(e -> System.out.printf("Mouse entered cell [%d, %d]%n", colIndex, rowIndex));
         grid.add(pane, colIndex, rowIndex);
     }
 

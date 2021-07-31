@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -34,12 +35,14 @@ public class FXController implements Player, Initializable {
 
     /* CONSTANTS */
 
-    private final int RACK_ROW_AMOUNT = 2;
-    private final int RACK_COLUMN_AMOUNT = 16;
-    private final int BOARD_COLUMN_AMOUNT = 16;
-    private final int BOARD_ROW_AMOUNT = 7;
-    public AnchorPane anchorPanePod;
-    public ImageView imageView_startNewGame;
+    private static final int RACK_ROW_AMOUNT = 2;
+    private static final int RACK_COLUMN_AMOUNT = 16;
+    private static final int BOARD_COLUMN_AMOUNT = 16;
+    private static final int BOARD_ROW_AMOUNT = 7;
+    @FXML
+    private AnchorPane anchorPanePod;
+    @FXML
+    private ImageView imageViewStartNewGame;
 
 
 
@@ -54,80 +57,136 @@ public class FXController implements Player, Initializable {
 
     /* OUTLETS */
 
-    public AnchorPane anchorPaneBoard;
-
-    public ImageView buttonSortForGroup;
-    public ImageView buttonFinishOrDraw;
-    public ImageView buttonSortForRun;
-    public ImageView buttonReset;
-    public ImageView buttonCancel;
-
-    public AnchorPane anchorPaneP1;
-    public Label labelNameP1;
-    public Label labelRackP1;
-    public Label labelScoreP1;
-    public Rectangle rectanglePlayerP1;
-    public Circle circlePlayerP1;
-    public Label labelLetterP1;
-    public AnchorPane anchorPaneP2;
-    public Label labelNameP2;
-    public Label labelRackP2;
-    public Label labelScoreP2;
-    public Rectangle rectanglePlayerP2;
-    public Circle circlePlayerP2;
-    public Label labelLetterP2;
-    public AnchorPane anchorPaneP3;
-    public Label labelNameP3;
-    public Label labelRackP3;
-    public Label labelScoreP3;
-    public Rectangle rectanglePlayerP3;
-    public Circle circlePlayerP3;
-    public Label labelLetterP3;
-    public AnchorPane anchorPaneP4;
-    public Label labelNameP4;
-    public Label labelRackP4;
-    public Label labelScoreP4;
-    public Rectangle rectanglePlayerP4;
-    public Circle circlePlayerP4;
-    public Label labelLetterP4;
-
-    public AnchorPane anchorPaneGameMessage;
-    public Label labelGameMessage;
-
-    public ImageView buttonOpenContextMenu;
-    public AnchorPane anchorPaneContextMenu;
-    public Label buttonToMainMenu;
-    public Label buttonToSettings;
-    public Label buttonStartNewGame;
-    public Label buttonQuit;
-
-    public ImageView board0201;
-    public ImageView board0204;
-    public ImageView imageViewBackGround;
-    public AnchorPane rootAnchorPane;
-
-    public ImageView buttonCloseContextMenu;
-    public GridPane gridPaneBoard;
-    public GridPane gridPaneRack;
-
-
-
-    public AnchorPane anchorpanePod1;
-    public Label labelPod1Name;
-    public Label labelPod1Score;
-    public Label labelPod1Totscore;
-    public AnchorPane anchorpanePod2;
-    public Label labelPod2Name;
-    public Label labelPod2Score;
-    public Label labelPod2Totscore;
-    public AnchorPane anchorpanePod3;
-    public Label labelPod3Name;
-    public Label labelPod3Score;
-    public Label labelPod3Totscore;
-    public AnchorPane anchorpanePod4;
-    public Label labelPod4Name;
-    public Label labelPod4Score;
-    public Label labelPod4Totscore;
+    @FXML
+    private AnchorPane anchorPaneBoard;
+    @FXML
+    private ImageView buttonSortForGroup;
+    @FXML
+    private ImageView buttonFinishOrDraw;
+    @FXML
+    private ImageView buttonSortForRun;
+    @FXML
+    private ImageView buttonReset;
+    @FXML
+    private ImageView buttonCancel;
+    @FXML
+    private AnchorPane anchorPaneP1;
+    @FXML
+    private Label labelNameP1;
+    @FXML
+    private Label labelRackP1;
+    @FXML
+    private Label labelScoreP1;
+    @FXML
+    private Rectangle rectanglePlayerP1;
+    @FXML
+    private Circle circlePlayerP1;
+    @FXML
+    private Label labelLetterP1;
+    @FXML
+    private AnchorPane anchorPaneP2;
+    @FXML
+    private Label labelNameP2;
+    @FXML
+    private Label labelRackP2;
+    @FXML
+    private Label labelScoreP2;
+    @FXML
+    private Rectangle rectanglePlayerP2;
+    @FXML
+    private Circle circlePlayerP2;
+    @FXML
+    private Label labelLetterP2;
+    @FXML
+    private AnchorPane anchorPaneP3;
+    @FXML
+    private Label labelNameP3;
+    @FXML
+    private Label labelRackP3;
+    @FXML
+    private Label labelScoreP3;
+    @FXML
+    private Rectangle rectanglePlayerP3;
+    @FXML
+    private Circle circlePlayerP3;
+    @FXML
+    private Label labelLetterP3;
+    @FXML
+    private AnchorPane anchorPaneP4;
+    @FXML
+    private Label labelNameP4;
+    @FXML
+    private Label labelRackP4;
+    @FXML
+    private Label labelScoreP4;
+    @FXML
+    private Rectangle rectanglePlayerP4;
+    @FXML
+    private Circle circlePlayerP4;
+    @FXML
+    private Label labelLetterP4;
+    @FXML
+    private AnchorPane anchorPaneGameMessage;
+    @FXML
+    private Label labelGameMessage;
+    @FXML
+    private ImageView buttonOpenContextMenu;
+    @FXML
+    private AnchorPane anchorPaneContextMenu;
+    @FXML
+    private Label buttonToMainMenu;
+    @FXML
+    private Label buttonToSettings;
+    @FXML
+    private Label buttonStartNewGame;
+    @FXML
+    private Label buttonQuit;
+    @FXML
+    private ImageView board0201;
+    @FXML
+    private ImageView board0204;
+    @FXML
+    private ImageView imageViewBackGround;
+    @FXML
+    private AnchorPane rootAnchorPane;
+    @FXML
+    private ImageView buttonCloseContextMenu;
+    @FXML
+    private GridPane gridPaneBoard;
+    @FXML
+    private GridPane gridPaneRack;
+    @FXML
+    private AnchorPane anchorpanePod1;
+    @FXML
+    private Label labelPod1Name;
+    @FXML
+    private Label labelPod1Score;
+    @FXML
+    private Label labelPod1Totscore;
+    @FXML
+    private AnchorPane anchorpanePod2;
+    @FXML
+    private Label labelPod2Name;
+    @FXML
+    private Label labelPod2Score;
+    @FXML
+    private Label labelPod2Totscore;
+    @FXML
+    private AnchorPane anchorpanePod3;
+    @FXML
+    private Label labelPod3Name;
+    @FXML
+    private Label labelPod3Score;
+    @FXML
+    private Label labelPod3Totscore;
+    @FXML
+    private AnchorPane anchorpanePod4;
+    @FXML
+    private Label labelPod4Name;
+    @FXML
+    private Label labelPod4Score;
+    @FXML
+    private Label labelPod4Totscore;
 
     // true if board is valid, else false
     private boolean stateFinishButton = true;
@@ -237,12 +296,6 @@ public class FXController implements Player, Initializable {
 
     }
 
-    public void acceptButtonClicked() {
-
-        System.out.print("hello world");
-
-    }
-
     public void sortForGroupClicked() {
 
         var move = new GameMove(ActionType.SORTGROUP);
@@ -325,10 +378,6 @@ public class FXController implements Player, Initializable {
     public void openSettings() {
 
         setGameMessage("Settings are open");
-
-        System.out.println(rummiGame.getBoard().toString(true));
-        System.out.println(rummiGame.getSketchBoard().toString(true));
-
 
     }
 
@@ -637,8 +686,8 @@ public class FXController implements Player, Initializable {
 
         /* Podium */
 
-        imageView_startNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
-        imageView_startNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageView_startNewGame.fitWidthProperty().multiply(0.5)));
+        imageViewStartNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
+        imageViewStartNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageViewStartNewGame.fitWidthProperty().multiply(0.5)));
 
         anchorpanePod1.layoutXProperty().set(35);
         anchorpanePod1.layoutYProperty().set(20);
