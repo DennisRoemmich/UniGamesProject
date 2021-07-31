@@ -1,6 +1,5 @@
 package javafx;
 
-import console.Print;
 import engine.enums.GamePhase;
 import javafx.enums.FXCardPosition;
 import javafx.animation.Interpolator;

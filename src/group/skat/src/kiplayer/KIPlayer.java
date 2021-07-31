@@ -1,12 +1,10 @@
-package KIPlayer;
+package kiplayer;
 
-import console.Print;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.*;
 import engine.enums.GamePhase;
-import framework.GameLog;
 import framework.Player;
 import javafx.application.Platform;
 import org.json.simple.JSONObject;
@@ -37,9 +35,6 @@ public class KIPlayer implements Player {
 
     }
 
-
-
-    // TODO: mit welchem index kommt man zum richtigen SkatPlayer
 
     /* OTHER */
 
@@ -318,6 +313,7 @@ public class KIPlayer implements Player {
     public JSONObject requestMove(JSONObject inputType) {
 
         if (mController.getGame() == null) {
+
             return null;
         }
 
@@ -333,10 +329,13 @@ public class KIPlayer implements Player {
             int finalSleepDur = sleepDur;
             new Thread(()->{ //use another thread so long process does not block gui
 
-                try {Thread.sleep(finalSleepDur);} catch (InterruptedException ex) { ex.printStackTrace();}
-                Platform.runLater(() -> {
-                    mController.makeMove(getMove());
-                });
+                try {
+
+                    Thread.sleep(finalSleepDur);
+
+                } catch (InterruptedException ex) { ex.printStackTrace();}
+
+                Platform.runLater(() -> mController.makeMove(getMove()));
 
             }).start();
 

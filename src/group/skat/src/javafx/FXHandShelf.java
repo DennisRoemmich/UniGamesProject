@@ -1,6 +1,5 @@
 package javafx;
 
-import console.Print;
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Hand;

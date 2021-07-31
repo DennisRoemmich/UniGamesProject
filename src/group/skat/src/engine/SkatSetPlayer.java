@@ -5,7 +5,6 @@ public class SkatSetPlayer {
     private String mName;
     private int mTotalScore;
 
-    private boolean mIsPlaying;
     private SkatPlayer mSkatPlayer;
 
     /* CONSTRUCTOR */
@@ -14,8 +13,6 @@ public class SkatSetPlayer {
 
         this.mName = name;
         mTotalScore = 0;
-
-        mIsPlaying = false;
     }
 
     /* GETTER */
@@ -31,11 +28,6 @@ public class SkatSetPlayer {
     }
 
     /* SETTER */
-
-    public void setPlaying(boolean b) {
-
-        mIsPlaying = b;
-    }
 
     public void setSkatPlayer(SkatPlayer player) {
 

@@ -2,7 +2,7 @@ package main;
 
 import console.Print;
 import controller.SkatController;
-import KIPlayer.KIPlayer;
+import kiplayer.KIPlayer;
 import framework.NetworkPlayer;
 import javafx.FXLauncher;
 import test.Test;

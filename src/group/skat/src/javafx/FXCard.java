@@ -23,12 +23,12 @@ public class FXCard {
     private int mIndex;
     private Card mCard;
 
-    public AnchorPane mAnchorCard;
+    private AnchorPane mAnchorCard;
 
-    public ImageView mImageCardBackground;
-    public ImageView mImageCardColor;
-    public ImageView mImageCardValue;
-    public ImageView mImageCardHighlighted;
+    private ImageView mImageCardBackground;
+    private ImageView mImageCardColor;
+    private ImageView mImageCardValue;
+    private ImageView mImageCardHighlighted;
 
     // Images
 

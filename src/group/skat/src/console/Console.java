@@ -13,19 +13,8 @@ import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import framework.Player;
 import org.json.simple.JSONObject;
-import test.Test;
 
 import java.util.Scanner;
-
-/*
- *TODO :
- * - [S]ort Hand
- * - Always be able to move on hand
- * - Make this class less ugly
- * - display end of the game
- * - test class and GameClass
- *
- */
 
 public class Console implements Player {
 
@@ -66,9 +55,6 @@ public class Console implements Player {
 
         this.mController = controller;
 
-        var test = new Test(controller);
-        // test.consoleSetUp();
-
         gameLoop();
     }
 
@@ -92,6 +78,11 @@ public class Console implements Player {
             display();
 
             move = getValidConsoleMove();
+
+            if (move == null) {
+
+                return;
+            }
 
             // if we have a waiting situation... collect movements on hand? Update on game?
 

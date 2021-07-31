@@ -90,7 +90,7 @@ public class SkatSet {
 
     /**
      * returns 0 if player is not part of the current game; 1 if player is part and 2 if player is playing;
-     * @param atIndex
+     * @param atIndex index
      */
     public int skatSetPlayerStatus(int atIndex) {
 
@@ -165,7 +165,6 @@ public class SkatSet {
             mCurrentGame = new SkatGame();
             mGameResults.add(mCurrentGame.getGameResult());
 
-            Print.debug("INFO", "\n  NEW GAME OBJECT!");
         }
 
 
@@ -173,9 +172,7 @@ public class SkatSet {
 
     public void abortGame() {
 
-        Print.debug("MAIK", "Game aborted - new Game started");
-
-    //    mGameResults.remove(mGameResults.size() - 1);
+        /* is handled in startNewGame() */
 
     }
 

@@ -19,7 +19,6 @@ public class SkatController extends GameController {
     private int mGameAmount;
     private SkatSet mSkatSet;
     private String[] mPlayerNames;
-    private int mLastCurrentPlayer = -1;
     int firstGuiPlayerIndex;
 
     /* CONSTRUCTOR */
@@ -63,7 +62,7 @@ public class SkatController extends GameController {
 
             Print.debug("INFO", "Test move.");
 
-        } else if (!moveIsValid(move)){
+        } else if (!moveIsValid(move)) {
 
             Print.debug("INFO", "A false non-test move was entered :" + move.toJSON().toString());
 
@@ -74,41 +73,34 @@ public class SkatController extends GameController {
         if (!move.getType().isSkatMove() && moveIsValid(move)) {
 
             // NEW_SET or NEW_GAME
-            if (makeMoveHelp(move)) {
+            return makeMoveHelp(move);
 
-                return true;
+        } else if (mSkatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
+
+            if (mSkatSet.getCurrentGameResult().isAborted()) {
+
+                mSkatSet.abortGame();
+
+            } else if (mSkatSet.getCurrentGameResult().isFinished()) {
+
+                mSkatSet.gameIsFinished();
+
+                guiPlayersTurn();
+
+                if (mSkatSet.isFinished()) {
+
+                    mSkatSet.printSkatSetStats();
+                }
             }
 
-        } else {
+            if (!move.isTestMove) {
 
-            if (mSkatSet.getCurrentSkatGame().makeSkatMove((SkatMove) move)) {
-
-                if (mSkatSet.getCurrentGameResult().isAborted()) {
-
-                    mSkatSet.abortGame();
-
-                } else if (mSkatSet.getCurrentGameResult().isFinished()) {
-
-                    Print.debug("MAIK", "GAME IS FINISHED");
-                    mSkatSet.gameIsFinished();
-
-                    guiPlayersTurn();
-
-                    if (mSkatSet.isFinished()) {
-
-                        Print.debug("MAIK", "\n  SET IS FINISHED");
-
-                        mSkatSet.printSkatSetStats();
-                    }
-                }
-
-                if (!move.isTestMove){
-                    messageNextPlayer();
-                }
-                return true;
+                messageNextPlayer();
             }
+
+            return true;
+
         }
-
         return false;
     }
 
@@ -183,12 +175,8 @@ public class SkatController extends GameController {
             obj.put(yourMove, "TRUE");
             mPlayers.get(guiPlayerIndex()).requestMove(obj);
 
-            Print.debug("INFO", "\n  (ENDED || ABORTED) Messaged Player" + activatePlayerAt);
-
             return;
         }
-
-        Print.debug("INFO", "\n  Messaged Player" + activatePlayerAt);
 
         if ( activatePlayerAt != -1 ) {
             obj.put(yourMove, "TRUE");
@@ -227,9 +215,6 @@ public class SkatController extends GameController {
     private int guiPlayerIndex(){
 
         return firstGuiPlayerIndex;
-
-       // return (mPlayers.size() * 20 + firstGuiPlayerIndex - mSkatSet.currentGameNo()) % mPlayers.size();
-
     }
 
     public void addPlayer(Player player) {

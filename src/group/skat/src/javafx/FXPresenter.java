@@ -65,7 +65,8 @@ public class FXPresenter {
      */
     public static void update() {
 
-        if(mFxController.getController().getGame() != null && mFxController.getFxSkat() == null){
+        if(mFxController.getController().getGame() != null && mFxController.getFxSkat() == null) {
+
             mFxController.initGameStart();
         }
 
@@ -84,52 +85,7 @@ public class FXPresenter {
 
             case AUCTION_WATCHING, AUCTION_ASKING, AUCTION_HEARING:
 
-                updateHandShelfs();
-                playerViews(true);
-                gameInfo(true);
-
-                mFxController.ImageViewBackground.setImage(backGroundShelfs);
-
-                var message = "";
-                var controller = mFxController.getController();
-                var auction = controller.getGame().getAuction();
-
-                if (state == GUIState.AUCTION_ASKING) {
-
-                    var auctionValue = auction.getNextAuctionValue();
-
-                    if (controller.getGame().getAuction().getQuestioner() == controller.getGame().getPlayerAt(0)) {
-
-                        message = "Raise and play?";
-
-                    } else {
-
-                        var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
-                        message = "Raise against " + name + "?";
-                    }
-
-                    mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
-
-                } else if (state == GUIState.AUCTION_HEARING) {
-
-                    var auctionValue = auction.getAuctionValue();
-                    var name = controller.getSkatSet().getPlayingPlayerName(auction.getQuestioner().getGameIndex());
-                    message = name + " raised. Call?";
-                    mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
-
-                } else {
-
-                    declareGameTypeView("Not your move", "Wait for you opponents.");
-                    mFxController.LabelAuctionValue.setVisible(true);
-
-                }
-
-
-
-                declareGameTypeView("Auction", message);
-                mFxController.LabelAuctionValue.setVisible(true);
-                buttonsAcceptCancel(); // call last
-
+                updateAuction(state);
 
                 break;
 
@@ -220,6 +176,55 @@ public class FXPresenter {
             default: break;
         }
 
+    }
+
+    private static void updateAuction(GUIState state) {
+
+        updateHandShelfs();
+        playerViews(true);
+        gameInfo(true);
+
+        mFxController.ImageViewBackground.setImage(backGroundShelfs);
+
+        var message = "";
+        var controller = mFxController.getController();
+        var auction = controller.getGame().getAuction();
+
+        if (state == GUIState.AUCTION_ASKING) {
+
+            var auctionValue = auction.getNextAuctionValue();
+
+            if (controller.getGame().getAuction().getQuestioner() == controller.getGame().getPlayerAt(0)) {
+
+                message = "Raise and play?";
+
+            } else {
+
+                var name = controller.getSkatSet().getPlayingPlayerName(auction.getHearer().getGameIndex());
+                message = "Raise against " + name + "?";
+            }
+
+            mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
+
+        } else if (state == GUIState.AUCTION_HEARING) {
+
+            var auctionValue = auction.getAuctionValue();
+            var name = controller.getSkatSet().getPlayingPlayerName(auction.getQuestioner().getGameIndex());
+            message = name + " raised. Call?";
+            mFxController.LabelAuctionValue.setText(Integer.toString(auctionValue));
+
+        } else {
+
+            declareGameTypeView("Not your move", "Wait for you opponents.");
+            mFxController.LabelAuctionValue.setVisible(true);
+
+        }
+
+
+
+        declareGameTypeView("Auction", message);
+        mFxController.LabelAuctionValue.setVisible(true);
+        buttonsAcceptCancel(); // call last
     }
 
 
@@ -423,7 +428,6 @@ public class FXPresenter {
 
         var anchorPlayerView = new AnchorPane[]{mFxController.AnchorPlayerView1, mFxController.AnchorPlayerView2, mFxController.AnchorPlayerView3};
         var anchorPlayerIcon = new AnchorPane[]{mFxController.AnchorPlayerIcon1, mFxController.AnchorPlayerIcon2, mFxController.AnchorPlayerIcon3};
-        var anchorPlayerInfo = new AnchorPane[]{mFxController.AnchorPlayerInfo1, mFxController.AnchorPlayerInfo2, mFxController.AnchorPlayerInfo3};
         var labelPlayerName = new Label[]{mFxController.LabelPlayerName1, mFxController.LabelPlayerName2, mFxController.LabelPlayerName3};
         var labelPlayerScore = new Label[]{mFxController.LabelPlayerPoints1, mFxController.LabelPlayerPoints2, mFxController.LabelPlayerPoints3};
         var labelPlayerActive = new Label[]{mFxController.LabelPlayerActive1, mFxController.LabelPlayerActive2, mFxController.LabelPlayerActive3};
