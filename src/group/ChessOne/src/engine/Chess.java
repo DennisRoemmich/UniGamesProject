@@ -62,6 +62,7 @@ public class Chess {
 
         if (isPawnMove(move)) {
             handleEnPassantCapture(move);
+            resetEnPassantFlags();
             handlePromotion(move);
             handleDoubleMove(move);
             mLastPawnMoveOrCapture = mCurrentMove;
@@ -74,7 +75,6 @@ public class Chess {
         mBoard.movePiece(move);
 
         registerMove(move.getDestination());
-        resetEnPassantFlags();
         nextPlayer();
         updatePossibleMoves();
         updateRunningFlag();
@@ -132,7 +132,7 @@ public class Chess {
         if (move.getOrigin().getFile().equals(move.getDestination().getFile())) {
         	return;
         }
-        Optional<Square>  s = move.getDestination().getNext(mCurrentPlayerColor.getPawnMoveDirection());
+        Optional<Square>  s = move.getDestination().getNext(mCurrentPlayerColor.getContrary().getPawnMoveDirection());
         if (mBoard.getPiece(move.getDestination()).isEmpty() && s.isPresent() ) {
             Square squareToRemove = s.get();
             mBoard.removePiece(squareToRemove);
