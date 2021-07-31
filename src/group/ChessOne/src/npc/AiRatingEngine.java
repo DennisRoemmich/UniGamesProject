@@ -1,4 +1,4 @@
-package src.npc;
+package npc;
 
 import engine.*;
 import engine.analysis.GameOverDetector;

@@ -1,7 +1,8 @@
-package src.console;
+package console;
 
 import engine.Chess;
 import engine.Controller;
+import engine.analysis.ChessResult;
 import engine.board.ChessMove;
 import engine.squares.File;
 import engine.squares.Square;
@@ -280,10 +281,10 @@ public class ConsoleUI implements Presenter, Player {
 
     private void printResult() {
         switch (mChessGame.getResult()) {
-            case ChessResult.DRAW -> PrintToConsole.println("Draw");
-            case ChessResult.CHECKMATE -> PrintToConsole.println("Checkmate");
-            case ChessResult.STALEMATE -> PrintToConsole.println("Stalemate");
-            case ChessResult.NONE -> PrintToConsole.println("The game isn't over.");
+            case DRAW -> PrintToConsole.println("Draw");
+            case CHECKMATE -> PrintToConsole.println("Checkmate");
+            case STALEMATE -> PrintToConsole.println("Stalemate");
+            case NONE -> PrintToConsole.println("The game isn't over.");
             default -> PrintToConsole.println("ERROR: Unknown game result");
         }
     }

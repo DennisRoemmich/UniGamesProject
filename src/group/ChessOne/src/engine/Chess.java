@@ -1,4 +1,4 @@
-package src.engine;
+package engine;
 
 import engine.analysis.CheckDetector;
 import engine.analysis.GameOverDetector;

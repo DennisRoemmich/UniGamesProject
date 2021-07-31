@@ -1,4 +1,4 @@
-package src.network;
+package network;
 
 import engine.Chess;
 import engine.board.ChessMove;

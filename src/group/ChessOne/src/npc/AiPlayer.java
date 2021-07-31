@@ -1,4 +1,4 @@
-package src.npc;
+package npc;
 
 import engine.Chess;
 import engine.Controller;
