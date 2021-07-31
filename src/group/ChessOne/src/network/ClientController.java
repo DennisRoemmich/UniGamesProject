@@ -6,6 +6,7 @@ import engine.board.ChessMove;
 import framework.GameController;
 import framework.Player;
 import framework.Presenter;
+import framework.PrintToConsole;
 import org.json.simple.JSONObject;
 import torpedo.TorpedoChess;
 
@@ -15,6 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -45,7 +47,7 @@ public class ClientController implements Runnable, GameOwner {
         this.mPlayer = player;
         this.mPresenter = presenter;
 
-        setParams();
+        getHostIP();
 
         try {
             setUpHostConnection();
@@ -55,8 +57,10 @@ public class ClientController implements Runnable, GameOwner {
         }
     }
 
-    private void setParams(){
-        hostIP = JOptionPane.showInputDialog(null, "You play as Client. Please enter the IP of the host.","Network Connection", JOptionPane.QUESTION_MESSAGE);
+    private void getHostIP(){
+        PrintToConsole.println("Please enter the host IP:");
+        Scanner scanner = new Scanner(System.in);
+        hostIP = scanner.nextLine();
     }
 
     private void setUpHostConnection() throws IOException {
