@@ -16,8 +16,8 @@ import java.util.Optional;
  */
 public class Knight extends ChessPiece  {
 
-    public Knight(Color color) {
-        super(color, ChessPieceType.KNIGHT);
+    public Knight(PlayerColor playerColor) {
+        super(playerColor, ChessPieceType.KNIGHT);
     }
 
     @Override

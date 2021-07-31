@@ -18,8 +18,8 @@ import java.util.Optional;
  */
 public class King extends ChessPiece {
 
-    public King(Color color) {
-        super(color, ChessPieceType.KING);
+    public King(PlayerColor playerColor) {
+        super(playerColor, ChessPieceType.KING);
     }
 
     @Override

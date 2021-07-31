@@ -3,16 +3,16 @@ package engine.pieces;
 import engine.squares.Direction;
 import engine.squares.Rank;
 
-public enum Color {
+public enum PlayerColor {
     BLACK(false), WHITE(true);
 
     private boolean mValue;
 
-    Color(boolean value) {
+    PlayerColor(boolean value) {
         this.mValue = value;
     }
 
-    public Color getContrary() {
+    public PlayerColor getContrary() {
         if (this == BLACK) {
             return WHITE;
         } else {
@@ -24,7 +24,7 @@ public enum Color {
         return mValue;
     }
 
-    public static Color valueOf(boolean value) {
+    public static PlayerColor valueOf(boolean value) {
         return value ? WHITE : BLACK;
     }
 

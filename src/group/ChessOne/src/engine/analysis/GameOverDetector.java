@@ -3,7 +3,7 @@ package engine.analysis;
 import engine.Chess;
 import engine.board.ChessBoard;
 import engine.pieces.ChessPiece;
-import engine.pieces.Color;
+import engine.pieces.PlayerColor;
 
 /**
  * Checks if the game is over.
@@ -36,13 +36,13 @@ public final class GameOverDetector {
     }
 
     private static boolean isDraw(ChessBoard board) {
-        return !(canPlayerWin(board, Color.WHITE) || canPlayerWin(board, Color.BLACK));
+        return !(canPlayerWin(board, PlayerColor.WHITE) || canPlayerWin(board, PlayerColor.BLACK));
     }
 
-    private static boolean canPlayerWin(ChessBoard board, Color color) {
+    private static boolean canPlayerWin(ChessBoard board, PlayerColor playerColor) {
         int availableMinorPieces = 0; //Bishop & Knight are minor pieces, at least two are required for a checkmate
 
-        for (ChessPiece piece : board.getPieces(color)) {
+        for (ChessPiece piece : board.getPieces(playerColor)) {
             switch (piece.getType()) {
                 case PAWN, ROOK, QUEEN:
                 	return true;

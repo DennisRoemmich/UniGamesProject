@@ -4,6 +4,8 @@ import engine.Controller;
 import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,10 +38,7 @@ public class NetworkPlayer implements Player {
 
     }
 
-    private void setParams(){
 
-        hostIP = JOptionPane.showInputDialog(null, "You play as Host. Please enter the IP of the host.","Network Connection", JOptionPane.QUESTION_MESSAGE);
-    }
 
     private void setUpClientConnection() throws IOException {
 
@@ -66,10 +65,8 @@ public class NetworkPlayer implements Player {
     }
 
     private void send(String message) throws IOException {
-
         DataOutputStream out = new DataOutputStream(sock.getOutputStream());
         out.writeUTF(message);
-
     }
 
     public void requestMove(JSONObject inputType) {
@@ -89,7 +86,10 @@ public class NetworkPlayer implements Player {
         try {
             var game = mController.getGame();
             if (game.isPresent()) {
-                moveIn = ChessMove.valueOf(listen(), game.get());
+                String moveString = listen();
+                JSONParser parser = new JSONParser();
+                JSONObject moveJSON = (JSONObject) parser.parse(moveString);
+                mController.getMoveQueue().add(moveJSON);
             } else {
                 throw new IllegalStateException();
             }

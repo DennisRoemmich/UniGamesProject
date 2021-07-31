@@ -18,13 +18,13 @@ import java.util.Optional;
 public abstract class ChessPiece {
 
     private final ChessPieceType mType;
-    private final Color mColor;
+    private final PlayerColor mPlayerColor;
     private int mNumberOfMoves = 0;
 
     /* Constructor */
 
-    protected ChessPiece(Color color, ChessPieceType type) {
-        this.mColor = color;
+    protected ChessPiece(PlayerColor playerColor, ChessPieceType type) {
+        this.mPlayerColor = playerColor;
         this.mType = type;
     }
 
@@ -78,8 +78,8 @@ public abstract class ChessPiece {
         return mType.name();
     }
 
-    public Color getColor() {
-        return mColor;
+    public PlayerColor getColor() {
+        return mPlayerColor;
     }
 
     public final ChessPieceType getType() {
@@ -93,7 +93,7 @@ public abstract class ChessPiece {
             case KNIGHT -> 'N';
             default -> mType.toString().charAt(0);
         };
-        if (mColor.isWhite()) {
+        if (mPlayerColor.isWhite()) {
             c = Character.toLowerCase(c);
         }
         return c;
@@ -102,28 +102,28 @@ public abstract class ChessPiece {
     public final char toSymbol() {
         switch (mType) {
             case PAWN:
-                return  mColor.isWhite() ? '♟' : '♙';
+                return  mPlayerColor.isWhite() ? '♟' : '♙';
             case KNIGHT:
-                return  mColor.isWhite() ? '♞' : '♘';
+                return  mPlayerColor.isWhite() ? '♞' : '♘';
             case BISHOP:
-                return  mColor.isWhite() ? '♝' : '♗';
+                return  mPlayerColor.isWhite() ? '♝' : '♗';
             case ROOK:
-                return  mColor.isWhite() ? '♜' : '♖';
+                return  mPlayerColor.isWhite() ? '♜' : '♖';
             case QUEEN:
-                return  mColor.isWhite() ? '♛' : '♕';
+                return  mPlayerColor.isWhite() ? '♛' : '♕';
             case KING:
-                return  mColor.isWhite() ? '♚' : '♔';
+                return  mPlayerColor.isWhite() ? '♚' : '♔';
         }
         return ' ';
     }
 
     @Override
     public final String toString() {
-        return (mColor.isWhite() ? "WHITE_" : "BLACK_") + mType.toString();
+        return (mPlayerColor.isWhite() ? "WHITE_" : "BLACK_") + mType.toString();
     }
 
     public double getSignedValue() {
-        return mType.getValue() * mColor.getScoreFactor();
+        return mType.getValue() * mPlayerColor.getScoreFactor();
     }
 
     @Override

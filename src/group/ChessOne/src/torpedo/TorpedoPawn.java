@@ -1,11 +1,11 @@
 package torpedo;
 
-import engine.pieces.Color;
+import engine.pieces.PlayerColor;
 import engine.pieces.Pawn;
 
 public class TorpedoPawn extends Pawn {
-    public TorpedoPawn(Color color) {
-        super(color);
+    public TorpedoPawn(PlayerColor playerColor) {
+        super(playerColor);
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  * @author Jan de Boer, Dennis Roemmich
  */
-public class Controller extends GameController implements Runnable {
+public class Controller extends GameController implements Runnable, GameOwner {
 
     private Optional<Chess> mGame = Optional.empty();
     private Player mPlayerA;
@@ -76,10 +76,6 @@ public class Controller extends GameController implements Runnable {
 
     public void refreshOutput() {
         mPresenter.refreshOutput();
-    }
-
-    public void setStandardChess() {
-        this.mStandardChess = !(this.mStandardChess);
     }
 
     public ChessMove getLastMove() {
@@ -172,5 +168,9 @@ public class Controller extends GameController implements Runnable {
         } else {
             return false;
         }
+    }
+
+    public void setGameMode(boolean isStandard) {
+        mStandardChess = isStandard;
     }
 }

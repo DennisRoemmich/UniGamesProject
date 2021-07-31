@@ -29,7 +29,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @SuppressWarnings("rawtypes")
-public class GuiController implements Initializable, Player, Presenter, GuiEventHandler, EventHandler {
+public class GuiController implements Initializable, Runnable, Player, Presenter, GuiEventHandler, EventHandler {
 
     @FXML
     private AnchorPane mBoardPane;
@@ -42,9 +42,11 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     private Controller mChessController;
     private ChessBoardNode mBoardNode;
+    private PromotionNode mPromotionNode;
 
     private Optional<Square> mOrigin = Optional.empty();
     private LinkedBlockingQueue<JSONObject> mRequestQueue = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<Chess> mPresenterQueue = new LinkedBlockingQueue<>();
 
     private boolean acceptMoveInput = false;
 
@@ -64,16 +66,20 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
         mChessController.setPlayerA(this);
         mChessController.setPlayerB(this);
         mBoardPane.getChildren().add(mBoardNode);
-        refreshOutput();
     }
 
     @Override
     public void refreshOutput() {
-        mBoardNode.refreshNode();
-        var game = mChessController.getGame();
-        if (game.isPresent()) {
-            ratingLabel.setText(String.valueOf(game.get().getBoard().hashCode()));
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                mBoardNode.refreshNode();
+                var game = mChessController.getGame();
+                if (game.isPresent()) {
+                    ratingLabel.setText(String.valueOf(game.get().getBoard().hashCode()));
+                }
+            }
+        });
     }
 
     @Override
@@ -83,7 +89,6 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @Override
     public void handleSquareClicked(Square clickedSquare) {
-        refreshOutput();
 
         var game = mChessController.getGame();
 
@@ -117,6 +122,7 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 		} else {
 		    mBoardNode.resetPlaceholder();
 		}
+        refreshOutput();
 	}
 
 	private void handleDestinationClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
@@ -189,4 +195,8 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
         });
     }
 
+    @Override
+    public void run() {
+
+    }
 }

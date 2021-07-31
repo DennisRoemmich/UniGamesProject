@@ -17,8 +17,8 @@ public class Pawn extends ChessPiece {
 
     private boolean mCanBeCapturedEnPassant = false;
 
-    public Pawn(Color color) {
-        super(color, ChessPieceType.PAWN);
+    public Pawn(PlayerColor playerColor) {
+        super(playerColor, ChessPieceType.PAWN);
     }
 
     @Override

@@ -73,26 +73,26 @@ public class ChessBoard {
 
     public static ChessBoard getStartBoard() {
         ChessBoard board = new ChessBoard();
-        for (Color color : Color.values()) {
-            Rank bRank = color.getBackrank();
+        for (PlayerColor playerColor : PlayerColor.values()) {
+            Rank bRank = playerColor.getBackrank();
             for (File file : File.values()) {
-                Optional<Square> s = new Square(bRank, file).getNext(color.getPawnMoveDirection());
+                Optional<Square> s = new Square(bRank, file).getNext(playerColor.getPawnMoveDirection());
                 if (s.isPresent()) {
-                    board.placePiece(new Pawn(color), s.get());
+                    board.placePiece(new Pawn(playerColor), s.get());
                 }
 
             }
             for (File file : new File[]{File.A, File.H}) {
-                board.placePiece(new Rook(color), new Square(bRank, file));
+                board.placePiece(new Rook(playerColor), new Square(bRank, file));
             }
             for (File file : new File[]{File.B, File.G}) {
-                board.placePiece(new Knight(color), new Square(bRank, file));
+                board.placePiece(new Knight(playerColor), new Square(bRank, file));
             }
             for (File file : new File[]{File.C, File.F}) {
-                board.placePiece(new Bishop(color), new Square(bRank, file));
+                board.placePiece(new Bishop(playerColor), new Square(bRank, file));
             }
-            board.placePiece(new Queen(color), new Square(bRank, File.D));
-            board.placePiece(new King(color), new Square(bRank, File.E));
+            board.placePiece(new Queen(playerColor), new Square(bRank, File.D));
+            board.placePiece(new King(playerColor), new Square(bRank, File.E));
         }
         return board;
     }
@@ -110,8 +110,8 @@ public class ChessBoard {
         return piecesExtracted(getPositionedPieces());
     }
 
-    public List<ChessPiece> getPieces(Color color) {
-        return piecesExtracted(getPositionedPieces(color));
+    public List<ChessPiece> getPieces(PlayerColor playerColor) {
+        return piecesExtracted(getPositionedPieces(playerColor));
     }
 
 
@@ -119,21 +119,21 @@ public class ChessBoard {
         return mPositionedPieces;
     }
 
-    public List<PositionedPiece> getPositionedPieces(Color color) {
+    public List<PositionedPiece> getPositionedPieces(PlayerColor playerColor) {
         List<PositionedPiece> filteredPieces = new ArrayList<>();
         for (PositionedPiece positionedPiece : mPositionedPieces) {
-            if (positionedPiece.getPiece().getColor().equals(color)) {
+            if (positionedPiece.getPiece().getColor().equals(playerColor)) {
                 filteredPieces.add(positionedPiece);
             }
         }
         return filteredPieces;
     }
 
-    public List<PositionedPiece> getPositionedPieces(Color color, ChessPieceType type) {
+    public List<PositionedPiece> getPositionedPieces(PlayerColor playerColor, ChessPieceType type) {
         List<PositionedPiece> filteredPieces = new ArrayList<>();
         for (PositionedPiece positionedPiece : mPositionedPieces) {
             ChessPiece piece = positionedPiece.getPiece();
-            if (piece.getColor().equals(color) && piece.getType().equals(type) ) {
+            if (piece.getColor().equals(playerColor) && piece.getType().equals(type) ) {
                 filteredPieces.add(positionedPiece);
             }
         }

@@ -14,8 +14,8 @@ import java.util.Optional;
  */
 public class Bishop extends ChessPiece {
 
-    public Bishop(Color color) {
-        super(color, ChessPieceType.BISHOP);
+    public Bishop(PlayerColor playerColor) {
+        super(playerColor, ChessPieceType.BISHOP);
     }
     
     public Bishop(Bishop bishop) {

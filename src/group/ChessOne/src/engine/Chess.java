@@ -10,7 +10,7 @@ import engine.squares.Rank;
 import engine.squares.Square;
 import console.ConsoleUI;
 import engine.analysis.ChessResult;
-import engine.pieces.Color;
+import engine.pieces.PlayerColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Chess {
     protected ChessBoard mBoard = ChessBoard.getStartBoard();
     protected int mCurrentMove = 0;
     protected int mLastPawnMoveOrCapture = 0;
-    protected Color mCurrentColor = Color.WHITE;
+    protected PlayerColor mCurrentPlayerColor = PlayerColor.WHITE;
     private boolean mAutoPromotion = true;
     private List<ChessMove> mPossibleMoves = new ArrayList<>();
     private boolean mIsGameOver = false;
@@ -37,7 +37,7 @@ public class Chess {
 
     public Chess(Chess game) {
         mBoard = new ChessBoard(game.getBoard());
-        mCurrentColor = game.getCurrentColor();
+        mCurrentPlayerColor = game.getCurrentColor();
         mAutoPromotion = game.getAutoPromotion();
         mPossibleMoves = game.getPossibleMoves();
     }
@@ -90,7 +90,7 @@ public class Chess {
     }
 
     protected void handleCastling(ChessMove move) {
-        var possibleKings = mBoard.getPositionedPieces(mCurrentColor, ChessPieceType.KING);
+        var possibleKings = mBoard.getPositionedPieces(mCurrentPlayerColor, ChessPieceType.KING);
         if (possibleKings.isEmpty()) {
         	return;
         }
@@ -102,14 +102,14 @@ public class Chess {
         	
         	switch (move.getDestination().getFile()) {
                 case C:
-                    extraOrigin = new Square(mCurrentColor.getBackrank(), File.A);
-                    extraDestination = new Square(mCurrentColor.getBackrank(), File.D);
+                    extraOrigin = new Square(mCurrentPlayerColor.getBackrank(), File.A);
+                    extraDestination = new Square(mCurrentPlayerColor.getBackrank(), File.D);
                     extraMove = new ChessMove(extraOrigin, extraDestination);
                     mBoard.movePiece(extraMove);
                     break;
                 case G:
-                    extraOrigin = new Square(mCurrentColor.getBackrank(), File.H);
-                    extraDestination = new Square(mCurrentColor.getBackrank(), File.F);
+                    extraOrigin = new Square(mCurrentPlayerColor.getBackrank(), File.H);
+                    extraDestination = new Square(mCurrentPlayerColor.getBackrank(), File.F);
                     extraMove = new ChessMove(extraOrigin, extraDestination);
                     mBoard.movePiece(extraMove);
                     break;
@@ -132,7 +132,7 @@ public class Chess {
         if (move.getOrigin().getFile().equals(move.getDestination().getFile())) {
         	return;
         }
-        Optional<Square>  s = move.getDestination().getNext(mCurrentColor.getPawnMoveDirection());
+        Optional<Square>  s = move.getDestination().getNext(mCurrentPlayerColor.getPawnMoveDirection());
         if (mBoard.getPiece(move.getDestination()).isEmpty() && s.isPresent() ) {
             Square squareToRemove = s.get();
             mBoard.removePiece(squareToRemove);
@@ -140,7 +140,7 @@ public class Chess {
     }
 
     protected void handlePromotion(ChessMove move) {
-        Rank topRank = mCurrentColor.isWhite() ? Rank.M8 : Rank.M1;
+        Rank topRank = mCurrentPlayerColor.isWhite() ? Rank.M8 : Rank.M1;
         if (move.getDestination().getRank() != topRank) {
         	return;
         }
@@ -149,7 +149,7 @@ public class Chess {
             	return;
         }
 
-        ChessPiece promotionPiece = new Queen(mCurrentColor);
+        ChessPiece promotionPiece = new Queen(mCurrentPlayerColor);
         if (!mAutoPromotion) {
             ConsoleUI newUI = new ConsoleUI();
             promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
@@ -176,8 +176,8 @@ public class Chess {
     }
 
     protected void resetEnPassantFlags() {
-        var pawns = mBoard.getPositionedPieces(Color.WHITE, ChessPieceType.PAWN);
-        pawns.addAll(mBoard.getPositionedPieces(Color.BLACK, ChessPieceType.PAWN));
+        var pawns = mBoard.getPositionedPieces(PlayerColor.WHITE, ChessPieceType.PAWN);
+        pawns.addAll(mBoard.getPositionedPieces(PlayerColor.BLACK, ChessPieceType.PAWN));
         for (ChessPiece piece : mBoard.getPieces()) {
             if (piece.getType() == ChessPieceType.PAWN) {
                 ((Pawn) piece).resetDoubleMove();
@@ -186,14 +186,14 @@ public class Chess {
     }
 
     public void nextPlayer() {
-        mCurrentColor = mCurrentColor.getContrary();
-        if (mCurrentColor.isWhite()) {
+        mCurrentPlayerColor = mCurrentPlayerColor.getContrary();
+        if (mCurrentPlayerColor.isWhite()) {
         	mCurrentMove++;
         }
     }
 
     public List<Square> getPossibleOrigins(Square destination, ChessPieceType pieceType) {
-        List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(mCurrentColor, pieceType);
+        List<PositionedPiece> positionedPieces = mBoard.getPositionedPieces(mCurrentPlayerColor, pieceType);
         List<Square> origins = new ArrayList<>();
         for (PositionedPiece piece : positionedPieces) {
             var moves = piece.getPiece().findMoves(this);
@@ -207,7 +207,7 @@ public class Chess {
     }
 
     public void updatePossibleMoves() {
-        var pieces = mBoard.getPieces(mCurrentColor);
+        var pieces = mBoard.getPieces(mCurrentPlayerColor);
         List<ChessMove> newPossibleMoves = new ArrayList<>();
         for (ChessPiece piece: pieces) {
         var possibleDestinations = piece.findMoves(this);
@@ -278,20 +278,20 @@ public class Chess {
     protected ChessPiece setPromotionPiece(char c) {
         switch (c) {
             case 'n', 'N':
-                return new Knight(mCurrentColor);
+                return new Knight(mCurrentPlayerColor);
             case 'b', 'B':
-                return new Bishop(mCurrentColor);
+                return new Bishop(mCurrentPlayerColor);
             case 'r', 'R':
-                return new Rook(mCurrentColor);
+                return new Rook(mCurrentPlayerColor);
             case 'q', 'Q':
-                return new Queen(mCurrentColor);
+                return new Queen(mCurrentPlayerColor);
             default:
                 throw new IllegalArgumentException();
         }
     }
 
-    public Color getCurrentColor() {
-        return mCurrentColor;
+    public PlayerColor getCurrentColor() {
+        return mCurrentPlayerColor;
     }
 
     public int getCurrentMove() {

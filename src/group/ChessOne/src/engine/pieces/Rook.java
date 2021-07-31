@@ -15,8 +15,8 @@ import java.util.Optional;
  */
 public class Rook extends ChessPiece  {
 
-    public Rook(Color color) {
-        super(color, ChessPieceType.ROOK);
+    public Rook(PlayerColor playerColor) {
+        super(playerColor, ChessPieceType.ROOK);
     }
     
     @Override
