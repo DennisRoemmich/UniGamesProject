@@ -183,7 +183,7 @@ public class ConsoleMenu {
         boolean correctInput = false;
         while (!correctInput) {
 
-            GamePrinter.printGameModeQuestion(mIsNetworkGame);
+            PrintToConsole.println("Please choose either [C]lassical Chess or [T]orpedo Chess");
             String input = mScanner.nextLine();
 
             correctInput = true;

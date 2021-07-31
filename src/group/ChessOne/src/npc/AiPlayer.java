@@ -11,7 +11,8 @@ import java.util.concurrent.BlockingQueue;
 public class AiPlayer implements Player, Runnable {
 
 	protected Controller mController;
-	private static final int DEPTH = 2;
+	private static final int DEPTH = 3;
+	private AiRatingEngine ratingEngine = new AiRatingEngine();
 
 	public AiPlayer(Controller controller) {
 		this.mController = controller;
@@ -26,7 +27,7 @@ public class AiPlayer implements Player, Runnable {
 		if (game.isPresent()) {
 			Chess gameClone = new Chess(game.get());
 			long endTime = System.currentTimeMillis() + 10000L;
-			return AiRatingEngine.getBestMove(gameClone, depth, endTime);
+			return ratingEngine.getBestMove(gameClone, depth, endTime);
 		}
 		throw new IllegalStateException();
 	}

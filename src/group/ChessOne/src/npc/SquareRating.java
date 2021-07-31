@@ -29,13 +29,13 @@ public final class SquareRating {
     };
 
     protected static final double[] KNIGHT_RATING_TABLE = {
-            -2, -1,  -1,  -1,  -1,  -1, -1, -2,
-            -1,  2,  2,  2,  2,  2,  2,  -1,
-            -1,   3,  3,  3,  3,  3,  3,  -1,
-            -1,   3,  3,  3,  3,  3,  3,  -1,
-            -1,   3,  3,  3,  3,  3,  3,  -1,
-            -1,   3,  3,  3,  3,  3,  3,  -1,
-            -1,   0,  0,  1,  1,  0,  0,  -1,
+            -2, -1, -1, -1, -1, -1, -1, -2,
+            -1,  2,  2,  2,  2,  2,  2, -1,
+            -1,  3,  3,  3,  3,  3,  3, -1,
+            -1,  3,  3,  3,  3,  3,  3, -1,
+            -1,  3,  3,  3,  3,  3,  3, -1,
+            -1,  3,  3,  3,  3,  3,  3, -1,
+            -1,  0,  0,  1,  1,  0,  0, -1,
             -2, -3, -1, -1, -1, -1, -3, -2
     };
 
@@ -69,7 +69,7 @@ public final class SquareRating {
             0, 1, 2, 2, 2, 2, 1, 0,
             0, 1, 2, 2, 2, 2, 1, 0,
             0, 1, 1, 1, 1, 1, 1, 0,
-            0, 0, 5, 2, 3, 0, 5, 0
+            0, 0, 15, 2, 4, 0, 15, 0
     };
     
     private SquareRating() {
@@ -77,9 +77,10 @@ public final class SquareRating {
     }
 	
     public static double rate(PositionedPiece piece) {
-        int index = getCorrectedSquare(piece).getIndex();
+        var corrected = getCorrectedSquare(piece);
+        int index = corrected.getIndex();
 
-        return switch (piece.getPiece().getType()) {
+        var rating =  switch (piece.getPiece().getType()) {
             case PAWN   -> PAWN_RATING_TABLE[index];
             case BISHOP -> BISHOP_RATING_TABLE[index];
             case KNIGHT -> KNIGHT_RATING_TABLE[index];
@@ -88,6 +89,7 @@ public final class SquareRating {
             case QUEEN  -> QUEEN_RATING_TABLE[index];
             default -> 0;
         };
+        return rating;
     }
 
     public static Square getCorrectedSquare(PositionedPiece piece) {
