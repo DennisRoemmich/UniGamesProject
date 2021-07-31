@@ -127,14 +127,6 @@ public class Controller extends GameController implements Runnable, GameOwner {
         }
     }
 
-    public void loadGame(GameLog gameLog) {
-        newGame();
-        restoreGameSettings(gameLog.getGameSettings());
-        for(JSONObject move : gameLog.getMoveLog()) {
-            executeMove(move);
-        }
-    }
-
     private void updateGameState() {
         if (mGame.isPresent() && GameOverDetector.checkForMate(mGame.get()) == ChessResult.NONE) {
             quitGame();
@@ -203,5 +195,26 @@ public class Controller extends GameController implements Runnable, GameOwner {
         } else {
             mStandardChess = true;
         }
+    }
+
+    /* Replay & undo */
+
+    public final void replayLog(GameLog log) {
+        newGame();
+        restoreMetaSettings(log.getMetaSettings());
+        restoreGameSettings(log.getGameSettings());
+        for (JSONObject move : log.getMoveLog()) {
+            moveQueue.add(move);
+        }
+        startGame();
+    }
+
+    public final void undoLastMove() {
+        undoLastMoves(1);
+    }
+
+    public final void undoLastMoves(int amount) {
+        mGameLog.removeLastMoves(amount);
+        replayLog(mGameLog);
     }
 }

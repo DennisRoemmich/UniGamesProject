@@ -229,7 +229,7 @@ public class ConsoleMenu {
             controller.get().setPlayerB(playerB);
 
             if (gameLog.isPresent()) {
-                controller.get().loadGame(gameLog.get());
+                controller.get().replayLog(gameLog.get());
             } else {
                 controller.get().newGame();
             }

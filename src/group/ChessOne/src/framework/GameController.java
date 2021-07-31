@@ -13,126 +13,104 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class GameController {
 
-	protected GameLog mGameLog;
-	protected boolean mIsGameRunning;
-	protected Player mPlayerA;
-	protected Player mPlayerB;
-	protected Presenter mPresenter;
-	
-	protected GameController() {
-		createNewGameLog();
-	}
+    protected GameLog mGameLog;
+    protected boolean mIsGameRunning;
+    protected Player mPlayerA;
+    protected Player mPlayerB;
+    protected Presenter mPresenter;
 
-	protected abstract void executeMove(JSONObject move);
+    protected GameController() {
+        createNewGameLog();
+    }
 
-	public void callPresenterUpdate() {
-		if (mPresenter != null) {
-			mPresenter.refreshOutput();
-		}
-	}
+    protected abstract void executeMove(JSONObject move);
 
-	/* Logs & Settings */
+    public void callPresenterUpdate() {
+        if (mPresenter != null) {
+            mPresenter.refreshOutput();
+        }
+    }
 
-	public abstract JSONObject metaSettingsToJSon();
+    /* Logs & Settings */
 
-	public abstract JSONObject gameSettingsToJSon();
+    public abstract JSONObject metaSettingsToJSon();
 
-	public abstract void restoreMetaSettings(JSONObject metaSettings);
+    public abstract JSONObject gameSettingsToJSon();
 
-	public abstract void restoreGameSettings(JSONObject gameSettings);
+    public abstract void restoreMetaSettings(JSONObject metaSettings);
 
-	public void logMove(JSONObject move) {
-		mGameLog.logMove(move);
-		saveGame();
-	}
+    public abstract void restoreGameSettings(JSONObject gameSettings);
 
-	public void createNewGameLog() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
-		LocalDateTime now = LocalDateTime.now();
-		mGameLog = new GameLog(dateFormatter.format(now));
-	}
+    public void logMove(JSONObject move) {
+        mGameLog.logMove(move);
+        saveGame();
+    }
 
-	/* Replay & undo */
+    public void createNewGameLog() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
+        LocalDateTime now = LocalDateTime.now();
+        mGameLog = new GameLog(dateFormatter.format(now));
+    }
 
-	public final void replayLog(GameLog log) {
-		newGame();
-		restoreMetaSettings(log.getMetaSettings());
-		restoreGameSettings(log.getGameSettings());
-		for (JSONObject move : log.getMoveLog()) {
-			executeMove(move);
-			callPresenterUpdate();
-		}
-		mGameLog = log;
-	}
+    /* Game Handling / Meta */
 
-	public final void undoLastMove() {
-		undoLastMoves(1);
-	}
+    public abstract void newGame();
 
-	public final void undoLastMoves(int amount) {
-		mGameLog.removeLastMoves(amount);
-		replayLog(mGameLog);
-	}
+    public void quitGame() {
+        saveGame(); // Usually it's already saved
+        mIsGameRunning = false;
+    }
 
-	/* Game Handling / Meta */
+    public final void saveGame() {
+        if (mGameLog != null) {
+            FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
+        }
+    }
 
-	public abstract void newGame();
+    /* Helper methods */
 
-	public void quitGame() {
-		saveGame(); // Usually it's already saved
-		mIsGameRunning = false;
-	}
+    // This template offers easy replies with an ID process it in the UI
+    // It's not required to be used.
+    @SuppressWarnings("unchecked")
+    protected JSONObject createReply(boolean isValid, String replyID) {
+        JSONObject failReply = new JSONObject();
+        failReply.put("isValid", isValid);
+        failReply.put("replyID", replyID);
+        return failReply;
+    }
 
-	public final void saveGame() {
-		if (mGameLog != null) {
-			FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
-		}
-	}
+    // Also not required to be used, just for convenience
+    @SuppressWarnings("unchecked")
+    protected JSONObject createRequestJSon(String typeName) {
+        JSONObject request = new JSONObject();
 
-	/* Helper methods */
+        request.put("type", typeName);
+        return request;
+    }
 
-	// This template offers easy replies with an ID process it in the UI
-	// It's not required to be used.
-	@SuppressWarnings("unchecked")
-	protected JSONObject createReply(boolean isValid, String replyID) {
-		JSONObject failReply = new JSONObject();
-		failReply.put("isValid", isValid);
-		failReply.put("replyID", replyID);
-		return failReply;
-	}
+    /* Getter and Setter */
 
-	// Also not required to be used, just for convenience
-	@SuppressWarnings("unchecked")
-	protected JSONObject createRequestJSon(String typeName) {
-		JSONObject request = new JSONObject();
+    public Presenter getPresenter() {
+        return mPresenter;
+    }
 
-		request.put("type", typeName);
-		return request;
-	}
+    public void setPresenter(Presenter mPresenter) {
+        this.mPresenter = mPresenter;
+    }
 
-	/* Getter and Setter */
+    public Player getPlayerA() {
+        return mPlayerA;
+    }
 
-	public Presenter getPresenter() {
-		return mPresenter;
-	}
+    public void setPlayerA(Player playerA) {
+        this.mPlayerA = playerA;
+    }
 
-	public void setPresenter(Presenter mPresenter) {
-		this.mPresenter = mPresenter;
-	}
+    public Player getPlayerB() {
+        return mPlayerB;
+    }
 
-	public Player getPlayerA() {
-		return mPlayerA;
-	}
-
-	public void setPlayerA(Player playerA) {
-		this.mPlayerA = playerA;
-	}
-
-	public Player getPlayerB() {
-		return mPlayerB;
-	}
-
-	public void setPlayerB(Player playerB) {
-		this.mPlayerB = playerB;
-	}
+    public void setPlayerB(Player playerB) {
+        this.mPlayerB = playerB;
+    }
 }
