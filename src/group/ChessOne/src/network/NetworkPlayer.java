@@ -1,4 +1,4 @@
-package network;
+package src.network;
 
 import engine.Controller;
 import engine.board.ChessMove;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
 
 public class NetworkPlayer implements Player {
 
@@ -71,8 +72,7 @@ public class NetworkPlayer implements Player {
 
     }
 
-    @Override
-    public JSONObject requestMove(JSONObject inputType) {
+    public void requestMove(JSONObject inputType) {
 
         var moveOut = mController.getLastMove();
 
@@ -81,7 +81,7 @@ public class NetworkPlayer implements Player {
         } catch (Exception e) {
             System.out.println("Sending last move to connected client failed:\n" + e);
             mController.quitGame();
-            return new JSONObject();
+            return;
         }
 
         ChessMove moveIn;
@@ -96,11 +96,16 @@ public class NetworkPlayer implements Player {
         } catch (Exception e) {
             System.out.println("Receiving move from client failed:\n" + e);
             mController.quitGame();
-            return new JSONObject();
+            return;
         }
 
-        return moveIn.toJSon();
+        return;
 
+    }
+
+    @Override
+    public BlockingQueue<JSONObject> getRequestQueue() {
+        return null;
     }
 }
 

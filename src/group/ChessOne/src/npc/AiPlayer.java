@@ -1,9 +1,12 @@
-package npc;
+package src.npc;
 
+import engine.Chess;
 import engine.Controller;
 import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
+
+import java.util.concurrent.BlockingQueue;
 
 public class AiPlayer implements Player, Runnable {
 
@@ -14,16 +17,16 @@ public class AiPlayer implements Player, Runnable {
 		this.mController = controller;
 	}
 
-	@Override
-    public JSONObject requestMove(JSONObject dataType) {
-		return getBestMove(DEPTH).toJSon();
+    public void requestMove(JSONObject dataType) {
+		mController.getMoveQueue().add(getBestMove(DEPTH).toJSon());
     }
 
     protected ChessMove getBestMove(int depth) {
 		var game = mController.getGame();
 		if (game.isPresent()) {
+			Chess gameClone = new Chess(game.get());
 			long endTime = System.currentTimeMillis() + 10000L;
-			return AiRatingEngine.getBestMove(game.get(), depth, endTime);
+			return AiRatingEngine.getBestMove(gameClone, depth, endTime);
 		}
 		throw new IllegalStateException();
 	}
@@ -41,5 +44,10 @@ public class AiPlayer implements Player, Runnable {
 	@Override
 	public void run() {
 
+	}
+
+	@Override
+	public BlockingQueue<JSONObject> getRequestQueue() {
+		return null;
 	}
 }

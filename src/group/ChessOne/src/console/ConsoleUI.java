@@ -1,4 +1,4 @@
-package console;
+package src.console;
 
 import engine.Chess;
 import engine.Controller;
@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import javax.swing.*;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -28,12 +29,15 @@ public class ConsoleUI implements Presenter, Player {
 
 	private boolean mIsNetworkGame = true;
 
-
 	private final Scanner mScanner = new Scanner(System.in);
-    protected Controller mController = new Controller(new LinkedBlockingQueue<>());
+    protected Controller mController = new Controller();
     private ClientController mClientController;
     private Chess mChessGame = null;
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
+    private LinkedBlockingQueue<JSONObject> requestQueue = new LinkedBlockingQueue<>();
+
+    public ConsoleUI() {
+	}
 
     public void run() {
     	PrintToConsole.println("Welcome to Chess!");
@@ -147,7 +151,42 @@ public class ConsoleUI implements Presenter, Player {
 		}
 		mController.setPresenter(this);
 		mController.replayLog(log);
-		mController.startGame();
+		mChessGame = mController.getGame().get();
+		Thread engineThread = new Thread(mController);
+		engineThread.start();
+		gameLoop();
+	}
+
+	public void gameLoop() {
+    	boolean stopFlag = false;
+    	while (!stopFlag) {
+
+			while (requestQueue.peek() == null) {
+			}
+			var request = requestQueue.poll();
+
+			if (!request.get("type").equals("move")) {
+				continue;
+			}
+
+			PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
+			String input = mScanner.nextLine();
+			if (checkSpecialInput(input)) {
+				//PrintToConsole("error2");
+			}
+			try {
+				ChessMove move = ChessMove.valueOf(input, mChessGame);
+				for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
+					if (move.equals(moveToCheck)) {
+						mController.getMoveQueue().add(move.toJSon());
+						break;
+					}
+				}
+			} catch (Exception e) {
+				PrintToConsole.println("The given input couldn't be resolved.");
+				requestQueue.add(request);
+			}
+		}
 	}
 
     public void startGame(boolean mAiGame) {
@@ -180,9 +219,11 @@ public class ConsoleUI implements Presenter, Player {
 			if  (game.isPresent()) {
 				mChessGame = game.get();
 			}
-			mClientController.startGame();
-	        mController.startGame();
 
+			mChessGame = mController.getGame().get();
+			Thread engineThread = new Thread(mController);
+			engineThread.start();
+			gameLoop();
 		}
 
     }
@@ -230,7 +271,7 @@ public class ConsoleUI implements Presenter, Player {
             }
             PrintToConsole.println(rank.toString());
             if (rank != Rank.M1) {
-        PrintToConsole.println(" ├───┼───┼───┼───┼───┼───┼───┼───┤ ");
+       		PrintToConsole.println(" ├───┼───┼───┼───┼───┼───┼───┼───┤ ");
 			}
         }
         PrintToConsole.println(" └───────────────────────────────┘ ");
@@ -239,39 +280,18 @@ public class ConsoleUI implements Presenter, Player {
 
     private void printResult() {
         switch (mChessGame.getResult()) {
-            case DRAW -> PrintToConsole.println("Draw");
-            case CHECKMATE -> PrintToConsole.println("Checkmate");
-            case STALEMATE -> PrintToConsole.println("Stalemate");
-            case NONE -> PrintToConsole.println("The game isn't over.");
+            case ChessResult.DRAW -> PrintToConsole.println("Draw");
+            case ChessResult.CHECKMATE -> PrintToConsole.println("Checkmate");
+            case ChessResult.STALEMATE -> PrintToConsole.println("Stalemate");
+            case ChessResult.NONE -> PrintToConsole.println("The game isn't over.");
             default -> PrintToConsole.println("ERROR: Unknown game result");
         }
     }
 
-    @Override
-    public JSONObject requestMove(JSONObject dataType) {
+    public void requestMove(JSONObject dataType) {
 
     	refreshOutput();
-
-		if (!dataType.get("type").equals("move")) {
-			return new JSONObject();
-		}
-
-		PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
-		String input = mScanner.nextLine();
-		if (checkSpecialInput(input)) {
-			//PrintToConsole("error2");
-		}
-		try {
-			ChessMove move = ChessMove.valueOf(input, mChessGame);
-			for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
-				if (move.equals(moveToCheck)) {
-					return move.toJSon();
-				}
-			}
-		} catch (Exception e) {
-			PrintToConsole.println("Unknown Issue.");
-		}
-		return requestMove(dataType);
+    	requestQueue.add(dataType);
 	}
 
     public boolean checkSpecialInput(String input) {
@@ -356,10 +376,16 @@ public class ConsoleUI implements Presenter, Player {
 	@Override
     public void refreshOutput() {
         printBoard();
-        if (mChessGame.isGameRunning()) {
-			PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
+        mChessGame = mController.getGame().get();
+        if (mChessGame.isGameOver()) {
+			printResult();
 		} else {
-            printResult();
+			PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
         }
     }
+
+	@Override
+	public BlockingQueue<JSONObject> getRequestQueue() {
+		return requestQueue;
+	}
 }

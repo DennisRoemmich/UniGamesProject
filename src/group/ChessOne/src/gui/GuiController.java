@@ -1,13 +1,15 @@
-package gui;
+package src.gui;
 
 import engine.Controller;
 import engine.Chess;
 import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.layout.AnchorPane;
 import engine.squares.Square;
 import framework.Player;
@@ -16,11 +18,14 @@ import npc.AiPlayer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import npc.AiRatingEngine;
+import npc.AiRatingResult;
 import org.json.simple.JSONObject;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @SuppressWarnings("rawtypes")
@@ -29,9 +34,7 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     @FXML
     private AnchorPane mBoardPane;
     @FXML
-    private Button mUniversalButton;
-    @FXML
-    private Label mOutputLabel;
+    private Label ratingLabel;
     @FXML
     private TextField mInputField;
     @FXML
@@ -41,9 +44,9 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     private ChessBoardNode mBoardNode;
 
     private Optional<Square> mOrigin = Optional.empty();
-    private LinkedBlockingQueue<JSONObject> mEngineQueue = new LinkedBlockingQueue<>();
-    private LinkedBlockingQueue<JSONObject> mReplyQueue = new LinkedBlockingQueue<>();
-    private Thread mEngineThread;
+    private LinkedBlockingQueue<JSONObject> mRequestQueue = new LinkedBlockingQueue<>();
+
+    private boolean acceptMoveInput = false;
 
     public GuiController() {
     	//Unused
@@ -51,29 +54,26 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mChessController = new Controller(mEngineQueue);
-        mEngineThread = new Thread(mChessController);
+        mChessController = new Controller();
 
-        AiPlayer aiPlayer = new AiPlayer(mChessController);
+        AiPlayer aiPlayerA = new AiPlayer(mChessController);
+        AiPlayer aiPlayerB = new AiPlayer(mChessController);
         mBoardNode = new ChessBoardNode(mChessController, this);
 
         mChessController.setPresenter(this);
-        mChessController.setPlayerA(aiPlayer);
+        mChessController.setPlayerA(this);
         mChessController.setPlayerB(this);
         mBoardPane.getChildren().add(mBoardNode);
-
-        mEngineThread.start();
-    }
-
-    @Override
-    public JSONObject requestMove(JSONObject inputType) {
         refreshOutput();
-        return null;
     }
 
     @Override
     public void refreshOutput() {
         mBoardNode.refreshNode();
+        var game = mChessController.getGame();
+        if (game.isPresent()) {
+            ratingLabel.setText(String.valueOf(game.get().getBoard().hashCode()));
+        }
     }
 
     @Override
@@ -87,19 +87,20 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
 
         var game = mChessController.getGame();
 
-        /*if (game.isEmpty() || !game.get().isGameRunning()) {
+        if (!mChessController.isItMyTurn(this)) {
             return;
-        }*/
-    	
-        var possibleMoves = game.get().getPossibleMoves();
-
-        if (mOrigin.isEmpty()) {
-            handleOriginClicked(clickedSquare, possibleMoves);
-            refreshOutput();
-        } else {
-            handleDestinationClicked(clickedSquare, possibleMoves);
         }
-        refreshOutput();
+
+        if (game.isPresent()) {
+            var possibleMoves = game.get().getPossibleMoves();
+
+            if (mOrigin.isEmpty()) {
+                handleOriginClicked(clickedSquare, possibleMoves);
+                refreshOutput();
+            } else {
+                handleDestinationClicked(clickedSquare, possibleMoves);
+            }
+        }
     }
 
 	private void handleOriginClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
@@ -144,28 +145,48 @@ public class GuiController implements Initializable, Player, Presenter, GuiEvent
     @FXML
     public void buttonClicked() {
         var game = mChessController.getGame();
-        if (game.isPresent() && game.get().isGameRunning()) {
+        if (game.isPresent() && !game.get().isGameOver()) {
             try {
                 ChessMove move = ChessMove.valueOf(mInputField.getText(), game.get());
                 makeMove(move.toJSon());
-
             } catch (Exception e) {
                 mInputField.setAccessibleHelp("Invalid input.");
             }
             mInputField.setText("");
+        } else if (game.isPresent()) {
+            startGame();
         } else {
             mChessController.newGame();
-            mChessController.startGame();
+            startGame();
         }
+        refreshOutput();
     }
 
     private void makeMove(JSONObject moveJSON) {
-        mEngineQueue.add(moveJSON);
+        mChessController.getMoveQueue().add(moveJSON);
     }
-    
-//    @FXML
-//    public void aiButtonClicked() {
-//    	mChessController.setPlayerB(new AiPlayer(mChessController));
-//    }
+
+    private void startGame() {
+        if(mChessController.getGame().isPresent()) {
+            Thread engineThread = new Thread(mChessController);
+            engineThread.start();
+        }
+    }
+
+    @Override
+    public BlockingQueue<JSONObject> getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    @Override
+    public void requestMove(JSONObject previousMove) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                acceptMoveInput = true;
+                refreshOutput();
+            }
+        });
+    }
 
 }

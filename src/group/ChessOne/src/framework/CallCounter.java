@@ -1,4 +1,4 @@
-package framework;
+package src.framework;
 
 import org.json.simple.JSONObject;
 

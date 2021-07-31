@@ -1,4 +1,4 @@
-package framework;
+package src.framework;
 
 import org.json.simple.JSONObject;
 
@@ -77,6 +77,14 @@ public class GameLog {
 		rawComplete.put(gameSettingsKey, mGameSettings);
 		rawComplete.put(metaSettingsKey, mMetaSettings);
 		return new JSONObject(rawComplete);
+	}
+
+	public JSONObject getLastMove() {
+		if (mMoveLog.isEmpty()) {
+			return new JSONObject();
+		} else {
+			return mMoveLog.get(mMoveLog.size() - 1);
+		}
 	}
 
 }

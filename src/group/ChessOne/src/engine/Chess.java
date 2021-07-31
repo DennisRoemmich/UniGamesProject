@@ -1,4 +1,4 @@
-package engine;
+package src.engine;
 
 import engine.analysis.CheckDetector;
 import engine.analysis.GameOverDetector;
@@ -29,6 +29,7 @@ public class Chess {
     protected Color mCurrentColor = Color.WHITE;
     private boolean mAutoPromotion = true;
     private List<ChessMove> mPossibleMoves = new ArrayList<>();
+    private boolean mIsGameOver = false;
 
     public Chess() {
         updatePossibleMoves();
@@ -76,7 +77,7 @@ public class Chess {
         resetEnPassantFlags();
         nextPlayer();
         updatePossibleMoves();
-
+        updateRunningFlag();
     }
 
     public boolean isMovePossible(ChessMove move) {
@@ -239,12 +240,27 @@ public class Chess {
         return possibleChecks;
     }
 
+    private void updateRunningFlag() {
+        if (getResult() != ChessResult.NONE) {
+            mIsGameOver = false;
+        }
+    }
+
     public ChessResult getResult() {
         return GameOverDetector.checkForMate(this);
     }
 
-    public boolean isGameRunning() {
-        return getResult() == ChessResult.NONE && mBoard.equals(ChessBoard.getStartBoard());
+    public boolean isGameOver() {
+        return mIsGameOver;
+    }
+
+    public boolean hasAnyPieceMoved() {
+        for(ChessPiece piece : mBoard.getPieces()) {
+            if (piece.getNumberOfMoves() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ChessBoard getBoard() {
@@ -285,4 +301,6 @@ public class Chess {
     public int getLastPawnMoveOrCapture() {
         return mLastPawnMoveOrCapture;
     }
+
+
 }

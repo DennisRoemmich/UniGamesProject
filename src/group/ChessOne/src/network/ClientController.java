@@ -1,4 +1,4 @@
-package network;
+package src.network;
 
 import engine.Chess;
 import engine.board.ChessMove;
@@ -82,7 +82,8 @@ public class ClientController {
                 JSONObject requestJSON = new JSONObject();
                 requestJSON.put("type", "move");
 
-                var moveOut = ChessMove.valueOf(mPlayer.requestMove(requestJSON));
+                // TODO : Adopt to new pattern
+                var moveOut = ChessMove.valueOf(new JSONObject());
                 mChessGame.makeMove(moveOut);
                 mPresenter.refreshOutput();
 

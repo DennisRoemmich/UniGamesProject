@@ -1,4 +1,4 @@
-package engine.squares;
+package src.engine.squares;
 
 /**
  * Directions the Chess pieces can move towards.
