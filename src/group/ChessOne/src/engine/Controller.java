@@ -3,15 +3,14 @@ package engine;
 import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
+import framework.*;
 import javafx.application.Platform;
 import torpedo.TorpedoChess;
-import framework.GameController;
-import framework.Player;
 
-import framework.WriteError;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -28,15 +27,22 @@ public class Controller extends GameController implements Runnable, GameOwner {
     private boolean mStandardChess = true;
     private boolean mIsLoopRunning = true;
 
-    protected LinkedBlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
+    protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
 
     public Controller() {
 
     }
 
+    public Controller(Player player, Presenter presenter) {
+        this.mPlayerA = player;
+        this.mPresenter = presenter;
+    }
+
     @Override
     public void run() {
-        newGame();
+        if (mGame.isEmpty()) {
+            newGame();
+        }
         startGame();
         while (mIsLoopRunning) {
             if (getCurrentPlayer().isPresent()) {
@@ -94,34 +100,6 @@ public class Controller extends GameController implements Runnable, GameOwner {
         }
     }
 
-    @Override
-    public JSONObject metaSettingsToJSon() {
-        return new JSONObject();
-    }
-
-    @Override
-    public JSONObject gameSettingsToJSon() {
-        return new JSONObject();
-    }
-
-    @Override
-    public void restoreMetaSettings(JSONObject metaSettings) {
-        //Not used yet
-    }
-
-    @Override
-    public void restoreGameSettings(JSONObject gameSettings) {
-        //Not used yet
-    }
-
-    public void setPlayerA(Player playerA) {
-        this.mPlayerA = playerA;
-    }
-
-    public void setPlayerB(Player playerB) {
-        this.mPlayerB = playerB;
-    }
-
     public Optional<Chess> getGame() {
         return mGame;
     }
@@ -139,9 +117,26 @@ public class Controller extends GameController implements Runnable, GameOwner {
         }
     }
 
+    public void loadGame(GameLog gameLog) {
+        newGame();
+        restoreGameSettings(gameLog.getGameSettings());
+        for(JSONObject move : gameLog.getMoveLog()) {
+            executeMove(move);
+        }
+    }
+
     private void updateGameState() {
         if (mGame.isPresent() && GameOverDetector.checkForMate(mGame.get()) == ChessResult.NONE) {
             quitGame();
+        }
+    }
+
+    public boolean isItMyTurn(Player player) {
+        var currentPlayer = getCurrentPlayer();
+        if (currentPlayer.isPresent()) {
+            return player == currentPlayer.get();
+        } else {
+            return false;
         }
     }
 
@@ -157,20 +152,46 @@ public class Controller extends GameController implements Runnable, GameOwner {
         }
     }
 
-    public LinkedBlockingQueue<JSONObject> getMoveQueue() {
+    public BlockingQueue<JSONObject> getMoveQueue() {
         return moveQueue;
-    }
-
-    public boolean isItMyTurn(Player player) {
-        var currentPlayer = getCurrentPlayer();
-        if (currentPlayer.isPresent()) {
-            return player == currentPlayer.get();
-        } else {
-            return false;
-        }
     }
 
     public void setGameMode(boolean isStandard) {
         mStandardChess = isStandard;
+    }
+
+    public void setPlayerA(Player playerA) {
+        this.mPlayerA = playerA;
+    }
+
+    public void setPlayerB(Player playerB) {
+        this.mPlayerB = playerB;
+    }
+
+    @Override
+    public JSONObject metaSettingsToJSon() {
+        return new JSONObject();
+    }
+
+    @Override
+    public JSONObject gameSettingsToJSon() {
+        JSONObject gameSettings = new JSONObject();
+        gameSettings.put("mode", mStandardChess ? "Classical" : "Torpedo");
+        return gameSettingsToJSon();
+    }
+
+    @Override
+    public void restoreMetaSettings(JSONObject metaSettings) {
+        //Not used yet
+    }
+
+    @Override
+    public void restoreGameSettings(JSONObject gameSettings) {
+        if (gameSettings.containsKey("mode")) {
+            var mode = gameSettings.get("mode");
+            mStandardChess = mode == "Classical";
+        } else {
+            mStandardChess = true;
+        }
     }
 }

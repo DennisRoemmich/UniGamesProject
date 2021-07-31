@@ -44,7 +44,7 @@ public final class GamePrinter {
         }
     }
 
-    public static final void printHelp() {
+    public static final void printGameModes() {
         PrintToConsole.println("--------Classic Chess 1v1---------");
         PrintToConsole.println("The classic chess game vs another player via hotseat.");
         PrintToConsole.println("");
@@ -65,5 +65,27 @@ public final class GamePrinter {
             PrintToConsole.print("[C]lassic Chess 1v1, ");
         }
         PrintToConsole.print("[T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit \n");
+    }
+
+    public static final void printHelp() {
+        PrintToConsole.println("----------Commands----------");
+        PrintToConsole.print("*help* Prints the current screen with ");
+        PrintToConsole.println("information on commands and how to play the game ");
+        PrintToConsole.println("*menu* Opens the game settings menu");
+        PrintToConsole.println("*undo* Undoes the last move ");
+        PrintToConsole.println("*exit* Closes the chess application ");
+        PrintToConsole.println("");
+        PrintToConsole.println("--------How to play---------");
+        PrintToConsole.println("This chess app uses the official chess notation to register moves.");
+        PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row).");
+        PrintToConsole.print("In case there are several possible moves (like BISHOP can move ");
+        PrintToConsole.println("to e4 and PAWN can move to e4), you must define the moving piece. ");
+        PrintToConsole.println("This can be done by typing Be4 (BISHOP to e4) ");
+        PrintToConsole.print("For special moves like castling you may either move the king ");
+        PrintToConsole.println("two squares or use the special castling notation (O-O or O-O-O) ");
+        PrintToConsole.println("");
+        PrintToConsole.print("For further information please visit: ");
+        PrintToConsole.println("https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
+        PrintToConsole.println("");
     }
 }

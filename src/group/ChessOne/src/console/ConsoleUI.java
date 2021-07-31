@@ -27,14 +27,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Jan de Boer, Dennis Roemmich
  *
  */
-public class ConsoleUI implements Presenter, Player {
+public class ConsoleUI implements Runnable, Presenter, Player {
 
-	private boolean mIsNetworkGame = false;
-	private boolean mIsAiGame = false;
 
 	private final Scanner mScanner = new Scanner(System.in);
-    protected Controller mController;
-    private ClientController mClientController;
     private GameOwner gameOwner;
     private Chess mChessGame = null;
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
@@ -42,176 +38,16 @@ public class ConsoleUI implements Presenter, Player {
     private boolean endFlag = false;
     private int lastPrintedBoardHash = 0;
 
-    public ConsoleUI() {
+    private BlockingQueue<String> superQueue;
+
+    public ConsoleUI(BlockingQueue<String> superQueue) {
+		this.superQueue = superQueue;
 	}
 
-    public void run() {
-		PrintToConsole.println("Welcome to Chess!");
-
-		askNetworkOrHotseat();
-
-		if (mIsNetworkGame) {
-			askHostOrClient();
-		}
-
-		if (mNetworkState == NetworkState.CLIENT) {
-			mClientController = new ClientController(this, this);
-			gameOwner = mClientController;
-		} else {
-			mController = new Controller();
-			gameOwner = mController;
-		}
-
-		if (!mIsNetworkGame) {
-			askGameMode();
-		}
-
-		startGame(mIsAiGame);
-	}
-
-	public void askGameMode() {
-    	boolean correctInput = false;
-		while (!correctInput) {
-
-			GamePrinter.printGameModeQuestion(mIsNetworkGame);
-			String input = mScanner.nextLine();
-
-			correctInput = true;
-
-			switch (input) {
-				case "r", "R":
-					loadGame();
-					break;
-				case "c", "C":
-					mIsAiGame = false;
-					break;
-				case "a", "A":
-					mIsAiGame = true;
-					break;
-				case "t", "T":
-					mController.setGameMode(false);
-					break;
-				case "h", "H":
-					GamePrinter.printHelp();
-					correctInput = false;
-					break;
-				case "q", "Q":
-					endFlag = true;
-					break;
-				default:
-					PrintToConsole.println("Please try again");
-					correctInput = false;
-					break;
-			}
-		}
-	}
-
-    public void askNetworkOrHotseat() {
-		boolean wrongMenuInput = true;
-		while (wrongMenuInput) {
-			PrintToConsole.println("");
-			PrintToConsole.println("Play [H]otseat, Play via [N]etwork, [Q]uit");
-
-			String input = mScanner.nextLine();
-
-			switch (input) {
-				case "h", "H":
-					mIsNetworkGame = false;
-					wrongMenuInput = false;
-					break;
-				case "n", "N":
-					mIsNetworkGame = true;
-					wrongMenuInput = false;
-					break;
-				case "q", "Q":
-					endFlag = true;
-					return;
-				default:
-					break;
-			}
-		}
-	}
-
-	public void askHostOrClient() {
-    	boolean wrongMenuInput = true;
-    	while (wrongMenuInput) {
-			PrintToConsole.println("Do you want to be the [H]ost or [C]lient?");
-
-			String input = mScanner.nextLine();
-
-			switch (input) {
-				case "h", "H":
-					mNetworkState = NetworkState.HOST;
-					wrongMenuInput = false;
-					break;
-				case "c", "C":
-					mNetworkState = NetworkState.CLIENT;
-					wrongMenuInput = false;
-					PrintToConsole.print("Awaiting network confirmation... (Popup window)\n");
-					break;
-				case "q", "Q":
-					endFlag = true;
-					return;
-				default:
-					break;
-			}
-		}
-	}
-    
-    public void loadGame() {
-    	try {
-    		PrintToConsole.println("Please enter the save file name or type [A] for Abort. ");
-    		PrintToConsole.println("To replay your last game type the filename of your newest created save state");
-    		String inputTwo = mScanner.nextLine();
-    		if (!"a".equalsIgnoreCase(inputTwo)) {
-    						
-    				JSONObject loadedGame = FileController.loadJSon(inputTwo);
-    				startGame(GameLog.valueOf(loadedGame), false);
-    		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    }
-
-	public void startGame(boolean mAiGame) {
-
-		PrintToConsole.println("Type \"help\" for information on how to play. \n");
-
-		if (mIsNetworkGame && mNetworkState == NetworkState.CLIENT) {
-			Thread clientThread = new Thread(mClientController);
-			clientThread.start();
-
-		} else {
-
-			if (mAiGame) {
-				mController.setPlayerA(this);
-				mController.setPlayerB(new AiPlayer(mController));
-			} else if (mIsNetworkGame) {
-				mController.setPlayerA(this);
-				mController.setPlayerB(new NetworkPlayer(mController));
-			} else {
-				mController.setPlayerA(this);
-				mController.setPlayerB(this);
-			}
-
-			mController.setPresenter(this);
-			mController.newGame();
-			Optional<Chess> game = mController.getGame();
-			if  (game.isPresent()) {
-				mChessGame = game.get();
-			}
-
-			mChessGame = mController.getGame().get();
-			Thread engineThread = new Thread(mController);
-			engineThread.start();
-		}
-
-		gameLoop();
-	}
-
-	public void startGame(GameLog log, boolean aiGame) {
-		mController.replayLog(log);
-		startGame(aiGame);
+	@Override
+	public void run() {
+    	gameLoop();
+    	superQueue.add("end");
 	}
 
 	public void gameLoop() {
@@ -236,9 +72,9 @@ public class ConsoleUI implements Presenter, Player {
 				for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
 					if (move.equals(moveToCheck)) {
 						if (mNetworkState == NetworkState.CLIENT) {
-							mClientController.getMoveQueue().add(move.toJSon());
+							gameOwner.getMoveQueue().add(move.toJSon());
 						} else {
-							mController.getMoveQueue().add(move.toJSon());
+							gameOwner.getMoveQueue().add(move.toJSon());
 						}
 						break;
 					}
@@ -283,30 +119,12 @@ public class ConsoleUI implements Presenter, Player {
 	}
 
     public boolean checkSpecialInput(String input) {
-		if ("exit".equalsIgnoreCase(input)) {
+		/*if ("exit".equalsIgnoreCase(input)) {
 			mController.quitGame();
 			return true;
 		}
 		if ("help".equalsIgnoreCase(input)) {
-			PrintToConsole.println("----------Commands----------");
-			PrintToConsole.print("*help* Prints the current screen with ");
-			PrintToConsole.println("information on commands and how to play the game ");
-			PrintToConsole.println("*menu* Opens the game settings menu");
-			PrintToConsole.println("*undo* Undoes the last move ");
-			PrintToConsole.println("*exit* Closes the chess application ");
-			PrintToConsole.println("");
-			PrintToConsole.println("--------How to play---------");
-			PrintToConsole.println("This chess app uses the official chess notation to register moves.");
-			PrintToConsole.println("Simply type the square you want your piece to move to, e.g. e (column) 4 (row).");
-			PrintToConsole.print("In case there are several possible moves (like BISHOP can move ");
-			PrintToConsole.println("to e4 and PAWN can move to e4), you must define the moving piece. ");
-			PrintToConsole.println("This can be done by typing Be4 (BISHOP to e4) ");
-			PrintToConsole.print("For special moves like castling you may either move the king ");
-			PrintToConsole.println("two squares or use the special castling notation (O-O or O-O-O) ");
-			PrintToConsole.println("");
-			PrintToConsole.print("For further information please visit: ");
-			PrintToConsole.println("https://en.wikipedia.org/wiki/Algebraic_notation_(chess)");
-			PrintToConsole.println("");
+			GamePrinter.printHelp();
 			return true;
 		}
 		if ("undo".equalsIgnoreCase(input)) {
@@ -323,7 +141,7 @@ public class ConsoleUI implements Presenter, Player {
 				autoPromotion();
 				return true;
 			}
-		}
+		}*/
 		return false;
     }
 
@@ -356,10 +174,6 @@ public class ConsoleUI implements Presenter, Player {
     			return 'Q';
     	}
     }
-    
-    public Controller getController() {
-    	return this.mController;
-    }
 
 	@Override
     public void refreshOutput() {;
@@ -381,5 +195,13 @@ public class ConsoleUI implements Presenter, Player {
 	@Override
 	public BlockingQueue<JSONObject> getRequestQueue() {
 		return requestQueue;
+	}
+
+	public GameOwner getGameOwner() {
+		return gameOwner;
+	}
+
+	public void setGameOwner(GameOwner gameOwner) {
+		this.gameOwner = gameOwner;
 	}
 }

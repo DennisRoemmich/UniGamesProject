@@ -151,8 +151,8 @@ public class Chess {
 
         ChessPiece promotionPiece = new Queen(mCurrentPlayerColor);
         if (!mAutoPromotion) {
-            ConsoleUI newUI = new ConsoleUI();
-            promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
+            //ConsoleUI newUI = new ConsoleUI();
+            //promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
         }
         mBoard.placePiece(promotionPiece, move.getOrigin());
     }

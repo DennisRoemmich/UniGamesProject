@@ -54,8 +54,8 @@ public class MenuPrototype {
     }
 
     private void startChess() {
-        ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.run();
+        ConsoleMenu consoleMenu = new ConsoleMenu();
+        consoleMenu.run();
     }
 
     private void quitGame() {

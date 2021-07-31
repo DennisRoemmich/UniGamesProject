@@ -97,7 +97,7 @@ public final class AiRatingEngine implements Runnable {
         Chess gameClone = new Chess(game);
         double rating = rateSituationRecursively(gameClone, depth, maxTime);
         gameClone.makeMove(move);
-        rating = rateSituationRecursively(gameClone, depth, maxTime);
+        rating = rateSituationRecursively(gameClone, depth, maxTime) - rating;
         return rating;
     }
 
