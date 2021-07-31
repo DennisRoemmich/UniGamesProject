@@ -47,8 +47,6 @@ public class ConsoleMenu {
         }
 
         startGame();
-        while (replyQueue.peek() == null) {
-        }
     }
 
     public void askNetworkOrLocal() {
@@ -212,6 +210,7 @@ public class ConsoleMenu {
 
         PrintToConsole.println("Type \"help\" for information on how to play. \n");
 
+        Optional<Controller> controller = Optional.empty();
         ConsoleUI consoleUI = new ConsoleUI(replyQueue); // Player A
         Thread controllerThread;
 
@@ -220,27 +219,51 @@ public class ConsoleMenu {
             consoleUI.setGameOwner(clientController);
             controllerThread = new Thread(clientController);
         } else {
-            Controller controller = new Controller(consoleUI, consoleUI);
-            consoleUI.setGameOwner(controller);
+            controller = Optional.of(new Controller(consoleUI, consoleUI));
+            consoleUI.setGameOwner(controller.get());
             Player playerB = switch (mOpponent) {
                 case HOTSEAT -> consoleUI;
-                case AI_PLAYER -> new AiPlayer(controller);
-                case NETWORK_PLAYER -> new NetworkPlayer(controller);
+                case AI_PLAYER -> new AiPlayer(controller.get());
+                case NETWORK_PLAYER -> new NetworkPlayer(controller.get());
             };
-            controller.setPlayerB(playerB);
+            controller.get().setPlayerB(playerB);
 
             if (gameLog.isPresent()) {
-                controller.loadGame(gameLog.get());
+                controller.get().loadGame(gameLog.get());
             } else {
-                controller.newGame();
+                controller.get().newGame();
             }
-            controllerThread = new Thread(controller);
+            controllerThread = new Thread(controller.get());
         }
 
         Thread consoleUIThread = new Thread(consoleUI);
 
         consoleUIThread.start();
         controllerThread.start();
+
+        gameLoop(controller);
+    }
+
+    private void gameLoop(Optional<Controller> controller) {
+        boolean runningFlag = true;
+        while (runningFlag) {
+            while (replyQueue.peek() == null) {
+            }
+            String message = replyQueue.poll();
+            switch (message) {
+                case "end":
+                    runningFlag = false;
+                    break;
+                case "undo":
+                    if (controller.isPresent()) {
+                        int amount = mOpponent == Opponent.AI_PLAYER ? 2 : 1;
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("undo", amount);
+                        controller.get().getMoveQueue().add(jsonObject);
+                    }
+                    break;
+            }
+        }
     }
 
     private enum Opponent {

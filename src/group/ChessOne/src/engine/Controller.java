@@ -50,7 +50,17 @@ public class Controller extends GameController implements Runnable, GameOwner {
                 while (moveQueue.peek() == null) {
                 }
                 JSONObject input = moveQueue.poll();
-                executeMove(input);
+                if (input.containsKey("undo")) {
+                    int amount;
+                    try {
+                        amount = Integer.valueOf(input.get("undo").toString());
+                    } catch (Exception e) {
+                        amount = 1;
+                    }
+                    undoLastMoves(amount);
+                } else {
+                    executeMove(input);
+                }
                 refreshOutput();
             }
         }

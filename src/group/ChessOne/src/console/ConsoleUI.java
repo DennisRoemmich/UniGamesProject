@@ -16,8 +16,7 @@ import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -65,7 +64,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 			PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 			String input = mScanner.nextLine();
 			if (checkSpecialInput(input)) {
-				//PrintToConsole("error2");
+				continue;
 			}
 			try {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
@@ -85,7 +84,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 			}
 		}
 	}
-
 
     private NetworkState hostOrClient() {
 
@@ -113,14 +111,14 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 	}
 
     public void requestMove(JSONObject dataType) {
-
     	refreshOutput();
     	requestQueue.add(dataType);
 	}
 
     public boolean checkSpecialInput(String input) {
-		/*if ("exit".equalsIgnoreCase(input)) {
-			mController.quitGame();
+
+		if ("exit".equalsIgnoreCase(input)) {
+			superQueue.add("end");
 			return true;
 		}
 		if ("help".equalsIgnoreCase(input)) {
@@ -128,20 +126,20 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 			return true;
 		}
 		if ("undo".equalsIgnoreCase(input)) {
-			mController.undoLastMove();
+			superQueue.add("undo");
 			return true;
 		}
 		if ("menu".equalsIgnoreCase(input)) {
 			PrintToConsole.println("Settings:");
 			PrintToConsole.println("Set Auto-[P]romotion on/off");
 			PrintToConsole.println("Any input to continue the game");
-			
+
 			String newInput = mScanner.nextLine();
 			if ("p".equalsIgnoreCase(newInput)) {
 				autoPromotion();
 				return true;
 			}
-		}*/
+		}
 		return false;
     }
 
