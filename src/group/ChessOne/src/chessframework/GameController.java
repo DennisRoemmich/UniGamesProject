@@ -1,0 +1,123 @@
+package chessframework;
+
+import org.json.simple.JSONObject;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Framework Controller that has to be implemented by the main game controller
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
+public abstract class GameController {
+
+    protected GameLog mGameLog;
+    protected boolean mIsGameRunning;
+    protected Player mPlayerA;
+    protected Player mPlayerB;
+    protected Presenter mPresenter;
+
+    protected GameController() {
+        createNewGameLog();
+    }
+
+    protected abstract void executeMove(JSONObject move);
+
+    public void callPresenterUpdate() {
+        if (mPresenter != null) {
+            mPresenter.refreshOutput();
+        }
+    }
+
+    /* Logs & Settings */
+
+    public abstract JSONObject metaSettingsToJSon();
+
+    public abstract JSONObject gameSettingsToJSon();
+
+    public abstract void restoreMetaSettings(JSONObject metaSettings);
+
+    public abstract void restoreGameSettings(JSONObject gameSettings);
+
+    public void logMove(JSONObject move) {
+        mGameLog.logMove(move);
+    }
+
+    public void createNewGameLog() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
+        LocalDateTime now = LocalDateTime.now();
+        mGameLog = new GameLog(dateFormatter.format(now));
+    }
+
+    /* Game Handling / Meta */
+
+    public abstract void newGame();
+
+    public void quitGame() {
+        mIsGameRunning = false;
+    }
+
+    public final String saveGame() {
+        if (!(mGameLog == null || mGameLog.getMoveLog().isEmpty())) {
+            int gameStateIndex = 1;
+            boolean isNumberUsed = FileController.doesJSonExist(String.valueOf(gameStateIndex));
+            while (isNumberUsed) {
+                gameStateIndex++;
+                isNumberUsed = FileController.doesJSonExist(String.valueOf(gameStateIndex));
+            }
+            String name = String.valueOf(gameStateIndex);
+            FileController.saveJSon(mGameLog.getCompleteJSonObject(), name);
+            return name;
+        } else {
+            return "NOT SAVED";
+        }
+    }
+
+    /* Helper methods */
+
+    // This template offers easy replies with an ID process it in the UI
+    // It's not required to be used.
+    @SuppressWarnings("unchecked")
+    protected JSONObject createReply(boolean isValid, String replyID) {
+        JSONObject failReply = new JSONObject();
+        failReply.put("isValid", isValid);
+        failReply.put("replyID", replyID);
+        return failReply;
+    }
+
+    // Also not required to be used, just for convenience
+    @SuppressWarnings("unchecked")
+    protected JSONObject createRequestJSon(String typeName) {
+        JSONObject request = new JSONObject();
+
+        request.put("type", typeName);
+        return request;
+    }
+
+    /* Getter and Setter */
+
+    public Presenter getPresenter() {
+        return mPresenter;
+    }
+
+    public void setPresenter(Presenter mPresenter) {
+        this.mPresenter = mPresenter;
+    }
+
+    public Player getPlayerA() {
+        return mPlayerA;
+    }
+
+    public void setPlayerA(Player playerA) {
+        this.mPlayerA = playerA;
+    }
+
+    public Player getPlayerB() {
+        return mPlayerB;
+    }
+
+    public void setPlayerB(Player playerB) {
+        this.mPlayerB = playerB;
+    }
+}
