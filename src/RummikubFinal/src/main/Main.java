@@ -18,6 +18,8 @@ public class Main extends Application {
     ClassLoader mClassLoader = getClass().getClassLoader();
     URL mResource = mClassLoader.getResource("resources/rummikubGUI.fxml");
 
+    static boolean disableRandom = false;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -25,7 +27,7 @@ public class Main extends Application {
 
         Parent root = loader.load();
 
-        var applicationName = "Rummikub Alpha";
+        var applicationName = "Rummikub Final";
         primaryStage.setTitle(applicationName);
 
         var appHeight = 1200;
@@ -44,13 +46,17 @@ public class Main extends Application {
 
     public static void initGameController(Player fxController) {
 
-        var rController = new RummikubController();
+        var rController = new RummikubController(disableRandom);
         rController.addPlayer(fxController);
 
     }
 
 
     public static void main(String[] args) {
+
+        if(args.length > 0 && args[0].equals("test")){
+            disableRandom = true;
+        }
 
         launch(args);
 

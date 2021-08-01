@@ -24,7 +24,7 @@ public class RummikubController extends GameController {
 
     /* CONSTRUCTOR */
 
-    public RummikubController() {
+    public RummikubController(boolean test){
 
         this.mPlayers = new ArrayList<Player>();
 
@@ -38,7 +38,7 @@ public class RummikubController extends GameController {
         mPlayerInfos.add(player4);
 
         mGameLog = new GameLog("ID");
-        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed);
+        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed, test);
 
 
     }
@@ -49,7 +49,7 @@ public class RummikubController extends GameController {
         this.mStartPlayer = startPlayer;
 
         mGameLog = new GameLog("ID");
-        mRummiGame = new Rummikub(playerNumber, startPlayer, seed);
+        mRummiGame = new Rummikub(playerNumber, startPlayer, seed, false);
 
     }
 
@@ -237,7 +237,7 @@ public class RummikubController extends GameController {
 
 
         mGameLog = new GameLog("ID");
-        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed);
+        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed, mRummiGame.isRandomDisabled());
 
         for ( var player : mPlayers ) {
             player.setController(this);

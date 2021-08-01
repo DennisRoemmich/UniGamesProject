@@ -1,5 +1,6 @@
 package rummikub_game;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,6 +22,7 @@ public class Rummikub {
     private Tile[] mTileStack;
     private int mTilesOnStack = 0;
 
+    private boolean mDisableRandom;
     private final ArrayList<Tile> mMovedRackTiles = new ArrayList<>();
 
     /**
@@ -28,8 +30,9 @@ public class Rummikub {
      * @param playerNumber number of players in the game
      * @param indexStartPlayer must be the arrayindex! (Player 1 means index 0)
      */
-    public Rummikub(int playerNumber, int indexStartPlayer, int seed) {
+    public Rummikub(int playerNumber, int indexStartPlayer, int seed, boolean test) {
 
+        this.mDisableRandom = test;
         this.mRand = new Random(seed);
 
         this.mPlayers = new RummikubPlayer[playerNumber];
@@ -310,9 +313,9 @@ public class Rummikub {
     }
 
     private boolean tilesMoved() {
-        
+
         if (!getCurrentPlayer().getCommingOut()) {
-            
+
             if (sumMovedRackTiles() >= 30) {
 
                 getCurrentPlayer().setCommingOut(true);
@@ -388,10 +391,23 @@ public class Rummikub {
         winner.setScore(totalSum);
     }
 
+    boolean randomStack = true;
+
+    public void disableRandom(){
+
+        randomStack = false;
+        System.out.println("Disabled random");
+    }
+
+    public boolean isRandomDisabled(){
+        return mDisableRandom;
+    }
+
     /**
      * returns null if there are no tiles left! Otherwise random remaining tile on stack ist returned.
      */
     private Tile getRandomTileFromStack() {
+
 
         if ( mTilesOnStack == 0 ) {
 
@@ -399,8 +415,23 @@ public class Rummikub {
 
         }
 
-         var randomIndex = mRand.nextInt(mTilesOnStack);        // <-- this one is right
-        // var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
+        int randomIndex;
+
+        if (!mDisableRandom) {
+
+            randomIndex = mRand.nextInt(mTilesOnStack);
+
+        } else {
+
+            randomIndex = mTilesOnStack-1;
+
+        }
+
+
+
+
+
+
 
         var tile = mTileStack[randomIndex];
 

@@ -77,7 +77,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </GridPane>
-      <ImageView fx:id="button_Undo" fitHeight="100.0" fitWidth="80.0" layoutX="1877.0" layoutY="912.0" onMouseClicked="#undoButtonClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="210.0" AnchorPane.rightAnchor="140.0">
+      <ImageView fx:id="button_Undo" fitHeight="100.0" fitWidth="80.0" layoutX="1877.0" layoutY="912.0" onMouseClicked="#undoButtonClicked" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="210.0" AnchorPane.rightAnchor="140.0">
          <image>
             <Image url="@images/buttonUndo.jpeg" />
          </image>

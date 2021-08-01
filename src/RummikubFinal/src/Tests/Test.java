@@ -11,9 +11,9 @@ public class Test {
 
     private static Rummikub rummi;
 
-    public Test(){
+    public Test(Rummikub rummiGame){
 
-        rummi = new Rummikub(4, 0, 0);
+        rummi = rummiGame;
 
     }
 
@@ -239,7 +239,7 @@ public class Test {
 
         var console = new Console();
 
-        var controller = new RummikubController();
+        var controller = new RummikubController(false);
 
         for (var i = 0; i < 4; i++){
             controller.addPlayer(console);

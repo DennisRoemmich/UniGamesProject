@@ -1,5 +1,6 @@
 package javafx;
 
+import Tests.Test;
 import framework.GameController;
 import framework.Player;
 import javafx.animation.Interpolator;
@@ -276,6 +277,7 @@ public class FXController implements Player, Initializable {
     private boolean makeMove(GameMove move) {
 
         mOriginPoint = null;
+
 
         mRummikubController.makeMove(move);
 
@@ -554,7 +556,7 @@ public class FXController implements Player, Initializable {
         anchorPane.getChildren().add(imageView);
         anchorPane.getChildren().add(text);
     }
-    
+
     public void cellActions(int finalX, int finalY, AnchorPane anchorPane, String gridName, FXGridCell currentCell) {
 
 
@@ -596,7 +598,7 @@ public class FXController implements Player, Initializable {
         });
 
     }
-    
+
     private void cellActionsOne(AnchorPane anchorPane, int finalX, int finalY, String gridName, FXGridCell currentCell, ImageView imageView, DoubleBinding cellWidthProperty, DoubleBinding cellHeightProperty, Text text) {
 
         anchorPane.setOnMouseClicked(mouseEvent -> {
@@ -722,7 +724,7 @@ public class FXController implements Player, Initializable {
 
         /* PLAYER BOX BINDINGS */
 
-        for(var i = 1; i < 4; i++) {
+        for (var i = 0; i < 4; i++) {
 
             playerAnchorPane[i].prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.25));
             playerAnchorPane[i].prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.12));
