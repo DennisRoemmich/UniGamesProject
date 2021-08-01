@@ -4,60 +4,61 @@ import materials.MaterialSet;
 import materials.MaterialType;
 import positions.NodePosition;
 import player.PlayerColor;
-import streets.StreetType;
 
+/**
+ * Represents a building and its functionalities in the game.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class Building {
-    private NodePosition position;
-    private BuildingType type;
-    private PlayerColor color;
+    private NodePosition mPosition;
+    private BuildingType mType;
+    private PlayerColor mColor;
 
     public Building(NodePosition position, PlayerColor color) {
-        this.position = position;
-        this.color = color;
-        this.type = BuildingType.VILLAGE;
+        this.mPosition = position;
+        this.mColor = color;
+        this.mType = BuildingType.VILLAGE;
     }
 
     public void upgrade() {
-        type = BuildingType.TOWN;
+        mType = BuildingType.TOWN;
     }
 
     public NodePosition getPosition() {
-        return position;
+        return mPosition;
     }
 
     public void setPosition(NodePosition position) {
-        this.position = position;
+        this.mPosition = position;
     }
 
     public BuildingType getType() {
-        return type;
+        return mType;
     }
 
     public void setType(BuildingType type) {
-        this.type = type;
+        this.mType = type;
     }
 
     public PlayerColor getColor() {
-        return color;
+        return mColor;
     }
 
     public void setColor(PlayerColor color) {
-        this.color = color;
+        this.mColor = color;
     }
 
     public static MaterialSet getCost(BuildingType type) {
         MaterialSet materials = new MaterialSet();
-        switch (type) {
-            case VILLAGE -> {
-                materials.addResources(MaterialType.WOOD, 1);
-                materials.addResources(MaterialType.CLAY, 1);
-                materials.addResources(MaterialType.WHEAT, 1);
-                materials.addResources(MaterialType.WOOL, 1);
-            }
-            case TOWN -> {
-                materials.addResources(MaterialType.ORE, 2);
-                materials.addResources(MaterialType.WHEAT, 3);
-            }
+        if (type == BuildingType.VILLAGE) {
+            materials.addResources(MaterialType.WOOD, 1);
+            materials.addResources(MaterialType.CLAY, 1);
+            materials.addResources(MaterialType.WHEAT, 1);
+            materials.addResources(MaterialType.WOOL, 1);
+        } else {
+            materials.addResources(MaterialType.ORE, 2);
+            materials.addResources(MaterialType.WHEAT, 3);
         }
         return materials;
     }

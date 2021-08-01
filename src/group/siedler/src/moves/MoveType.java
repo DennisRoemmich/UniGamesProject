@@ -1,12 +1,17 @@
 package moves;
 
-import helper.QuickJSON;
+import helper.QuickJSon;
 import org.json.simple.JSONObject;
 
+/**
+ * Defines the two different main move types
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public enum MoveType {
     ROLL_DICES, OPTIONAL;
 
-    public JSONObject getJSON() {
-        return QuickJSON.create("type", this.toString());
+    public JSONObject getJSon() {
+        return QuickJSon.create("type", this.toString());
     }
 }

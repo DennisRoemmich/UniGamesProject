@@ -1,24 +1,26 @@
 package gui;
 
 import javafx.event.Event;
+
 import javafx.event.EventHandler;
-import org.w3c.dom.Node;
-import positions.EdgePosition;
 import positions.NodePosition;
-import siedlerController.Controller;
-import streets.StreetType;
 
-public class BuilderPlaceholderEventHandler implements EventHandler {
-    private Controller controller;
-    private NodePosition position;
+/**
+ * Handles mouse clicks onto the transparent (or villages to upgrade) Building placeholders.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
+public class BuilderPlaceholderEventHandler implements EventHandler<Event> {
+    private SiedlerEventHandler mEventHandler;
+    private NodePosition mPosition;
 
-    public BuilderPlaceholderEventHandler(Controller controller, NodePosition position) {
-        this.controller = controller;
-        this.position = position;
+    public BuilderPlaceholderEventHandler(SiedlerEventHandler eventHandler, NodePosition position) {
+        this.mEventHandler = eventHandler;
+        this.mPosition = position;
     }
 
     @Override
     public void handle(Event event) {
-        controller.placeBuilding(position);
+        mEventHandler.handleBuildingClick(mPosition);
     }
 }

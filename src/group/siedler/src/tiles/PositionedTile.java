@@ -1,33 +1,16 @@
 package tiles;
 
+import positions.PositionedObject;
 import positions.TilePosition;
 
-public class PositionedTile {
-    private Tile tile;
-    private TilePosition position;
+/**
+ * Represents Tile together with its tile position. 
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
+public class PositionedTile extends PositionedObject<Tile, TilePosition> {
 
     public PositionedTile(Tile tile, TilePosition position) {
-        this.tile = tile;
-        this.position = position;
-    }
-
-    public Tile getTile() {
-        return tile;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
-
-    public TilePosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(TilePosition position) {
-        this.position = position;
-    }
-
-    public String toString() {
-        return tile + " @ " + position;
+        super(tile, position);
     }
 }
