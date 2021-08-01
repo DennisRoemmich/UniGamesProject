@@ -9,23 +9,28 @@ import framework.PrintToConsole;
 import java.util.LinkedList;
 import java.util.Optional;
 
+/**
+ * Runs the rating calculation.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class AiRatingEngine implements Runnable {
 
     private AiRatingTask mTask;
-    private AiRatingStorage ratingStorage;
+    private AiRatingStorage mRatingStorage;
 
     public AiRatingEngine(AiRatingTask task, AiRatingStorage ratingStorage) {
         this.mTask = task;
-        this.ratingStorage = ratingStorage;
+        this.mRatingStorage = ratingStorage;
     }
 
     public AiRatingEngine(AiRatingTask task) {
         this.mTask = task;
-        this.ratingStorage = new AiRatingStorage();
+        this.mRatingStorage = new AiRatingStorage();
     }
 
     public AiRatingEngine() {
-        this.ratingStorage = new AiRatingStorage();
+        this.mRatingStorage = new AiRatingStorage();
     }
 
     @Override
@@ -136,11 +141,11 @@ public final class AiRatingEngine implements Runnable {
     }
 
     private double getRatingFromStorage(Chess game, int depth) {
-        if (ratingStorage.isRatingStored(game, depth)) {
-            return ratingStorage.getRating(game, depth);
+        if (mRatingStorage.isRatingStored(game, depth)) {
+            return mRatingStorage.getRating(game, depth);
         } else {
             var rating = rateSituationRecursively(game, depth);
-            ratingStorage.addRating(game, rating, depth);
+            mRatingStorage.addRating(game, rating, depth);
             return rating;
         }
     }

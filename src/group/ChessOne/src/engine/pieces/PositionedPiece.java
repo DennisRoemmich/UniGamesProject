@@ -4,6 +4,11 @@ import engine.squares.Square;
 
 import java.util.Objects;
 
+/**
+ * Assigning a piece to a square
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class PositionedPiece {
     private Square mPosition;
     private ChessPiece mPiece;

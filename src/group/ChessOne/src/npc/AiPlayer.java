@@ -6,11 +6,16 @@ import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
 
+/**
+ * Implementation of the AI player
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class AiPlayer implements Player {
 
 	protected Controller mController;
 	private static final int DEPTH = 3;
-	private AiRatingEngine ratingEngine = new AiRatingEngine();
+	private AiRatingEngine mRatingEngine = new AiRatingEngine();
 	private boolean mShouldPrint = false;
 
 	public AiPlayer(Controller controller) {
@@ -30,7 +35,7 @@ public class AiPlayer implements Player {
 		var game = mController.getGame();
 		if (game.isPresent()) {
 			Chess gameClone = new Chess(game.get());
-			return ratingEngine.getBestMove(gameClone, depth, mShouldPrint);
+			return mRatingEngine.getBestMove(gameClone, depth, mShouldPrint);
 		}
 		throw new IllegalStateException();
 	}

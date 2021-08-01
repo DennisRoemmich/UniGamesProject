@@ -1,9 +1,14 @@
 package engine.pieces;
 
+/**
+ * Controller for the GUI options interface
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class ChessPieceCopyFactory {
 	
 	private ChessPieceCopyFactory() {
-		
+		//Unused
 	}
 	
     public static ChessPiece getCopy(ChessPiece piece) {

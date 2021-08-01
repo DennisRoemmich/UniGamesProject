@@ -77,6 +77,7 @@ public class Chess {
         nextPlayer();
         updateRunningFlag();
     }
+    
     public boolean isMovePossible(ChessMove move) {
         for (ChessMove possibleMove : getPossibleMoves()) {
             if (possibleMove.equals(move)) {
@@ -229,7 +230,7 @@ public class Chess {
     }
 
     public boolean hasAnyPieceMoved() {
-        for(ChessPiece piece : mBoard.getPieces()) {
+        for (ChessPiece piece : mBoard.getPieces()) {
             if (piece.getNumberOfMoves() > 0) {
                 return true;
             }

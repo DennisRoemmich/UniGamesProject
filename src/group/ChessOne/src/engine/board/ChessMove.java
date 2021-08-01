@@ -10,6 +10,11 @@ import java.util.*;
 
 import org.json.simple.JSONObject;
 
+/**
+ * A chess move in the chess game
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ChessMove {
     private final Square mOrigin;
     private final Square mDestination;

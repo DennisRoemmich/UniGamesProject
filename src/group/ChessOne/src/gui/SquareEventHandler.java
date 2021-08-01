@@ -4,6 +4,11 @@ import engine.squares.Square;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+/**
+ * Eventhandler for highlighting the squares
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class SquareEventHandler implements EventHandler {
     private GuiEventHandler mEventHandler;

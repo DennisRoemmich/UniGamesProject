@@ -3,6 +3,11 @@ package engine.pieces;
 import engine.squares.Direction;
 import engine.squares.Rank;
 
+/**
+ * Handling the color of the players and its pieces
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public enum PlayerColor {
     BLACK(false), WHITE(true);
 

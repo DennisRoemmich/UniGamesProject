@@ -6,33 +6,38 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * FXML elements declaration
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class GuiElements {
     @FXML
-    protected Button topLeftButton;
+    protected Button mTopLeftButton;
     @FXML
-    protected Button topRightButton;
+    protected Button mTopRightButton;
     @FXML
-    protected Button middleLeftButton;
+    protected Button mMiddleLeftButton;
     @FXML
-    protected Button middleRightButton;
+    protected Button mMiddleRightButton;
     @FXML
-    protected Button bottomLeftButton;
+    protected Button mBottomLeftButton;
     @FXML
-    protected Button bottomRightButton;
+    protected Button mBottomRightButton;
     @FXML
-    protected Label topLabel;
+    protected Label mTopLabel;
     @FXML
-    protected Label middleLabel;
+    protected Label mMiddleLabel;
     @FXML
-    protected Label bottomLabel;
+    protected Label mBottomLabel;
     @FXML
-    protected Label infoLabel;
+    protected Label mInfoLabel;
     @FXML
     protected Button mUniversalButton;
     @FXML
     protected AnchorPane mBoardPane;
     @FXML
-    protected AnchorPane configPane;
+    protected AnchorPane mConfigPane;
     @FXML
     protected TextField mInputField;
 }

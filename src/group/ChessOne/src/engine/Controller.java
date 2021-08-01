@@ -23,7 +23,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
 
-    protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<>();
+    protected BlockingQueue<JSONObject> mMoveQueue = new LinkedBlockingQueue<>();
 
     private boolean mIsLoopRunning = true;
 
@@ -44,10 +44,10 @@ public class Controller extends GameController implements Runnable, GameOwner {
             var player = getCurrentPlayer();
             if (player.isPresent()) {
                 player.get().requestMove(createRequestJSon("move"));
-                while (moveQueue.peek() == null) {
+                while (mMoveQueue.peek() == null) {
                     // Waiting for move
                 }
-                JSONObject input = moveQueue.poll();
+                JSONObject input = mMoveQueue.poll();
                 if (input.containsKey("undo")) {
                     int amount;
                     try {
@@ -163,7 +163,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
     }
 
     public void addMoveToQueue(JSONObject move) {
-        moveQueue.add(move);
+        mMoveQueue.add(move);
     }
 
     public void setGameMode(boolean isStandard) {
@@ -175,7 +175,8 @@ public class Controller extends GameController implements Runnable, GameOwner {
         return new JSONObject();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+				@Override
     public JSONObject gameSettingsToJSon() {
         JSONObject gameSettings = new JSONObject();
         gameSettings.put("mode", mStandardChess ? "Classical" : "Torpedo");
@@ -191,7 +192,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
     public void restoreGameSettings(JSONObject gameSettings) {
         if (gameSettings.containsKey("mode")) {
             var mode = gameSettings.get("mode");
-            mStandardChess = mode == "Classical";
+            mStandardChess = mode.equals("Classical");
         } else {
             mStandardChess = true;
         }
@@ -204,7 +205,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
         restoreMetaSettings(log.getMetaSettings());
         restoreGameSettings(log.getGameSettings());
         for (JSONObject move : log.getMoveLog()) {
-            moveQueue.add(move);
+            mMoveQueue.add(move);
         }
         startGame();
     }

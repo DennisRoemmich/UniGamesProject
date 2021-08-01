@@ -7,6 +7,11 @@ import engine.squares.File;
 import engine.squares.Rank;
 import engine.squares.Square;
 
+/**
+ * Implements the new game mode Torpedo Chess!
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class TorpedoChess extends Chess {
     public TorpedoChess() {
         super();

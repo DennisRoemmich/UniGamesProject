@@ -63,7 +63,8 @@ public class King extends ChessPiece {
 
         for (PositionedPiece positionedRook : game.getBoard().getPositionedPieces(getColor(), ChessPieceType.ROOK)) {
             if (checkCastlingWithRook(game, positionedRook)) {
-                Direction castlingDirection = positionedRook.getPosition().getFile().equals(File.A) ? Direction.LEFT : Direction.RIGHT;
+                Direction castlingDirection = positionedRook.getPosition()
+                		.getFile().equals(File.A) ? Direction.LEFT : Direction.RIGHT;
                 Square destination = new Square(kingSquare);
                 for (int i = 0; i < 2; i++) {
                     var nextStep = destination.getNext(castlingDirection);
@@ -82,10 +83,13 @@ public class King extends ChessPiece {
     private boolean checkCastlingWithRook(Chess game, PositionedPiece positionedRook) {
         Rook rook = (Rook) positionedRook.getPiece();
 
-        if (rook.getNumberOfMoves() > 0) return false;
+        if (rook.getNumberOfMoves() > 0) {
+        	return false;
+        }
 
         Square kingSquare = new Square(getColor().getBackrank(), File.E);
-        Direction castlingDirection = positionedRook.getPosition().getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
+        Direction castlingDirection = positionedRook
+        		.getPosition().getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
 
         // Check if squares for king are not covered by the opponent
         List<Square> squaresToCheck = new ArrayList<>();
@@ -98,8 +102,8 @@ public class King extends ChessPiece {
             squaresToCheck.add(nextSquare.get());
         }
 
-        for(Square square : squaresToCheck) {
-            if(CheckDetector.isSquareAttackedByOpponent(game, square)) {
+        for (Square square : squaresToCheck) {
+            if (CheckDetector.isSquareAttackedByOpponent(game, square)) {
                 return false;
             }
         }
@@ -108,8 +112,8 @@ public class King extends ChessPiece {
         if (castlingDirection == Direction.LEFT) {
             squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
         }
-        for(Square square : squaresToCheck) {
-            if(game.getBoard().getPiece(square).isPresent()) {
+        for (Square square : squaresToCheck) {
+            if (game.getBoard().getPiece(square).isPresent()) {
                 return false;
             }
         }

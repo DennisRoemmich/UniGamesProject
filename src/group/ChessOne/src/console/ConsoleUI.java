@@ -20,15 +20,15 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 
 
 	private final Scanner mScanner = new Scanner(System.in);
-    private GameOwner gameOwner;
+    private GameOwner mGameOwner;
     private Chess mChessGame = null;
-    private LinkedBlockingQueue<JSONObject> requestQueue = new LinkedBlockingQueue<>();
-    private int lastPrintedBoardHash = 0;
+    private LinkedBlockingQueue<JSONObject> mRequestQueue = new LinkedBlockingQueue<>();
+    private int mLastPrintedBoardHash = 0;
 
-    private BlockingQueue<String> superQueue;
+    private BlockingQueue<String> mSuperQueue;
 
     public ConsoleUI(BlockingQueue<String> superQueue) {
-		this.superQueue = superQueue;
+		this.mSuperQueue = superQueue;
 	}
 
 	@Override
@@ -40,14 +40,14 @@ public class ConsoleUI implements Runnable, Presenter, Player {
     	boolean stopFlag = false;
     	while (!stopFlag) {
 
-			while (requestQueue.peek() == null) {
+			while (mRequestQueue.peek() == null) {
 				// Waiting for request
 			}
-			var request = requestQueue.poll();
+			var request = mRequestQueue.poll();
 
 			if (!request.containsKey("type")) {
 				continue;
-			} else if(request.containsKey("stopFlag")) {
+			} else if (request.containsKey("stopFlag")) {
 				stopFlag = true;
 			}
 
@@ -67,26 +67,26 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
 				for (ChessMove moveToCheck : mChessGame.getPossibleMoves()) {
 					if (move.equals(moveToCheck)) {
-						gameOwner.addMoveToQueue(move.toJSon());
+						mGameOwner.addMoveToQueue(move.toJSon());
 						break;
 					}
 				}
 			} catch (Exception e) {
 				PrintToConsole.println("The given input couldn't be resolved.");
-				requestQueue.add(request);
+				mRequestQueue.add(request);
 			}
 		}
 	}
 
 	public void requestMove(JSONObject dataType) {
     	refreshOutput();
-    	requestQueue.add(dataType);
+    	mRequestQueue.add(dataType);
 	}
 
     public boolean checkSpecialInput(String input) {
 
 		if ("quit".equalsIgnoreCase(input)) {
-			superQueue.add("quit");
+			mSuperQueue.add("quit");
 			return true;
 		}
 		if ("help".equalsIgnoreCase(input)) {
@@ -94,7 +94,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 			return true;
 		}
 		if ("undo".equalsIgnoreCase(input)) {
-			superQueue.add("undo");
+			mSuperQueue.add("undo");
 			return true;
 		}
 		if ("menu".equalsIgnoreCase(input)) {
@@ -143,30 +143,31 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 
 	@Override
     public void refreshOutput() {
-    	var game = gameOwner.getGame();
+    	var game = mGameOwner.getGame();
     	if (game.isPresent()) {
 			mChessGame = game.get();
-			if (mChessGame.getBoard().hashCode() != lastPrintedBoardHash) {
-				lastPrintedBoardHash = mChessGame.getBoard().hashCode();
+			if (mChessGame.getBoard().hashCode() != mLastPrintedBoardHash) {
+				mLastPrintedBoardHash = mChessGame.getBoard().hashCode();
 				GamePrinter.printBoard(mChessGame.getBoard());
 				if (mChessGame.isGameOver()) {
 					GamePrinter.printResult(GameOverDetector.checkForMate(game.get()));
 				} else {
-					PrintToConsole.println(mChessGame.getCurrentColor().isWhite() ? "It's whites turn" : "It's blacks turn");
+					PrintToConsole.println(mChessGame.getCurrentColor()
+							.isWhite() ? "It's whites turn" : "It's blacks turn");
 				}
 			}
 		}
     }
 
 	public BlockingQueue<JSONObject> getRequestQueue() {
-		return requestQueue;
+		return mRequestQueue;
 	}
 
 	public GameOwner getGameOwner() {
-		return gameOwner;
+		return mGameOwner;
 	}
 
 	public void setGameOwner(GameOwner gameOwner) {
-		this.gameOwner = gameOwner;
+		this.mGameOwner = gameOwner;
 	}
 }

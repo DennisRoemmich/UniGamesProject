@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * GameLog for the save/load, undo and replay feature.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class GameLog {
 	private final String mId;
 	ArrayList<JSONObject> mMoveLog = new ArrayList<>();

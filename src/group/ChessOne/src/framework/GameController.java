@@ -5,6 +5,11 @@ import org.json.simple.JSONObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Framework Controller that has to be implemented by the main game controller
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public abstract class GameController {
 
     protected GameLog mGameLog;

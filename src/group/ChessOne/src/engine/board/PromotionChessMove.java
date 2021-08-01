@@ -7,6 +7,11 @@ import java.util.Objects;
 
 import org.json.simple.JSONObject;
 
+/**
+ * Describes the promotion of a chess piece
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class PromotionChessMove extends ChessMove {
 
     private final ChessPieceType mSelectedPieceType;

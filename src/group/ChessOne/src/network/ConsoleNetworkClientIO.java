@@ -3,13 +3,20 @@ package network;
 import framework.PrintToConsole;
 import java.util.Scanner;
 
+/**
+ * Eventhandler for highlighting the squares
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ConsoleNetworkClientIO implements NetworkClientIO {
 
     @Override
-    public String getHostIP(){
+    public String getHostIP() {
         PrintToConsole.println("Please enter the host IP:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+		Scanner scanner = new Scanner(System.in);
+		String ip = scanner.nextLine();
+		scanner.close();
+        return ip;
     }
 
     @Override

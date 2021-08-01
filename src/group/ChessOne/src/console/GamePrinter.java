@@ -7,6 +7,11 @@ import engine.squares.Rank;
 import engine.squares.Square;
 import framework.PrintToConsole;
 
+/**
+ * Prints information to the console
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class GamePrinter {
 
     private GamePrinter() {
@@ -38,7 +43,7 @@ public final class GamePrinter {
         PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
     }
 
-    public static final void printResult(ChessResult result) {
+    public static void printResult(ChessResult result) {
         switch (result) {
             case DRAW -> PrintToConsole.println("Draw");
             case CHECKMATE -> PrintToConsole.println("Checkmate");
@@ -48,7 +53,7 @@ public final class GamePrinter {
         }
     }
 
-    public static final void printGameModes() {
+    public static void printGameModes() {
         PrintToConsole.println("--------Classic Chess 1v1---------");
         PrintToConsole.println("The classic chess game vs another player via hotseat.");
         PrintToConsole.println("");
@@ -61,7 +66,7 @@ public final class GamePrinter {
         PrintToConsole.println("");
     }
 
-    public static final void printGameModeQuestion(boolean networkGame) {
+    public static void printGameModeQuestion(boolean networkGame) {
         PrintToConsole.print("Please choose your game mode: \n");
         if (!networkGame) {
             PrintToConsole.print("[C]lassic Chess 1v1, Classic Chess vs [A]I, ");
@@ -71,7 +76,7 @@ public final class GamePrinter {
         PrintToConsole.print("[T]orpedo Chess 1v1, [R]eplay from save file, [H]elp, [Q]uit \n");
     }
 
-    public static final void printHelp() {
+    public static void printHelp() {
         PrintToConsole.println("----------Commands----------");
         PrintToConsole.print("*help* Prints the current screen with ");
         PrintToConsole.println("information on commands and how to play the game ");

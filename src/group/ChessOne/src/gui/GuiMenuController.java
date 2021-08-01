@@ -10,19 +10,24 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the GUI options interface
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public abstract class GuiMenuController extends GuiElements implements Initializable {
 
     /* Button Highlighting */
 
-    private final Color highlightColor = Color.web("#C8DF52");
-    private final Color standardColor = Color.web("#DBE8D8");
-    private final BorderWidths highlightWidth = new BorderWidths(3);
-    private final BorderWidths standardWidth = new BorderWidths(3);
-    private final CornerRadii cornerRadii = new CornerRadii(3);
-    private final BorderStroke selectedBorderStroke =
-            new BorderStroke(highlightColor, BorderStrokeStyle.SOLID, cornerRadii, highlightWidth);
-    private final BorderStroke unselectedBorderStroke =
-            new BorderStroke(standardColor, BorderStrokeStyle.SOLID, cornerRadii, standardWidth);
+    private final Color mHighlightColor = Color.web("#C8DF52");
+    private final Color mStandardColor = Color.web("#DBE8D8");
+    private final BorderWidths mHighlightWidth = new BorderWidths(3);
+    private final BorderWidths mStandardWidth = new BorderWidths(3);
+    private final CornerRadii mCornerRadii = new CornerRadii(3);
+    private final BorderStroke mSelectedBorderStroke =
+            new BorderStroke(mHighlightColor, BorderStrokeStyle.SOLID, mCornerRadii, mHighlightWidth);
+    private final BorderStroke mUnselectedBorderStroke =
+            new BorderStroke(mStandardColor, BorderStrokeStyle.SOLID, mCornerRadii, mStandardWidth);
 
     /* Game Configuration States */
 
@@ -31,7 +36,7 @@ public abstract class GuiMenuController extends GuiElements implements Initializ
     private boolean mIsHost = false;
     private boolean mIsAiGame = true;
     private boolean mIsClassicalChess = true;
-    private Optional<GameLog> gameLog = Optional.empty();
+    private Optional<GameLog> mGameLog = Optional.empty();
 
     /* -   -   -   -   -   -   - */
 
@@ -46,52 +51,52 @@ public abstract class GuiMenuController extends GuiElements implements Initializ
 
     public void refreshConfigurationView() {
         if (mIsInConfiguration) {
-            configPane.setVisible(true);
+            mConfigPane.setVisible(true);
             mUniversalButton.setText("Start Game");
             refreshText();
             refreshStrokes();
         } else {
-            configPane.setVisible(false);
+            mConfigPane.setVisible(false);
             mUniversalButton.setText("Execute Move");
         }
     }
 
     private void refreshText() {
         if (mIsNetworkGame) {
-            middleLabel.setText("Host or Client?");
-            middleLeftButton.setText("Host");
-            middleRightButton.setText("Client");
+            mMiddleLabel.setText("Host or Client?");
+            mMiddleLeftButton.setText("Host");
+            mMiddleRightButton.setText("Client");
         } else {
-            middleLabel.setText("Hotseat or AI?");
-            middleLeftButton.setText("Hotseat");
-            middleRightButton.setText("AI");
+            mMiddleLabel.setText("Hotseat or AI?");
+            mMiddleLeftButton.setText("Hotseat");
+            mMiddleRightButton.setText("AI");
         }
     }
 
     private void refreshStrokes() {
         boolean middleState;
         if (mIsNetworkGame) {
-            topLeftButton.setBorder(new Border(unselectedBorderStroke));
-            topRightButton.setBorder(new Border(selectedBorderStroke));
+            mTopLeftButton.setBorder(new Border(mUnselectedBorderStroke));
+            mTopRightButton.setBorder(new Border(mSelectedBorderStroke));
             middleState = mIsHost;
         } else {
-            topLeftButton.setBorder(new Border(selectedBorderStroke));
-            topRightButton.setBorder(new Border(unselectedBorderStroke));
+            mTopLeftButton.setBorder(new Border(mSelectedBorderStroke));
+            mTopRightButton.setBorder(new Border(mUnselectedBorderStroke));
             middleState = !mIsAiGame;
         }
         if (middleState) {
-            middleLeftButton.setBorder(new Border(selectedBorderStroke));
-            middleRightButton.setBorder(new Border(unselectedBorderStroke));
+            mMiddleLeftButton.setBorder(new Border(mSelectedBorderStroke));
+            mMiddleRightButton.setBorder(new Border(mUnselectedBorderStroke));
         } else {
-            middleLeftButton.setBorder(new Border(unselectedBorderStroke));
-            middleRightButton.setBorder(new Border(selectedBorderStroke));
+            mMiddleLeftButton.setBorder(new Border(mUnselectedBorderStroke));
+            mMiddleRightButton.setBorder(new Border(mSelectedBorderStroke));
         }
         if (mIsClassicalChess) {
-            bottomLeftButton.setBorder(new Border(selectedBorderStroke));
-            bottomRightButton.setBorder(new Border(unselectedBorderStroke));
+            mBottomLeftButton.setBorder(new Border(mSelectedBorderStroke));
+            mBottomRightButton.setBorder(new Border(mUnselectedBorderStroke));
         } else {
-            bottomLeftButton.setBorder(new Border(unselectedBorderStroke));
-            bottomRightButton.setBorder(new Border(selectedBorderStroke));
+            mBottomLeftButton.setBorder(new Border(mUnselectedBorderStroke));
+            mBottomRightButton.setBorder(new Border(mSelectedBorderStroke));
         }
     }
 
@@ -158,7 +163,7 @@ public abstract class GuiMenuController extends GuiElements implements Initializ
     }
 
     public Optional<GameLog> getGameLog() {
-        return gameLog;
+        return mGameLog;
     }
 
     public boolean isInConfiguration() {

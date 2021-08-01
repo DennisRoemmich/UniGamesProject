@@ -14,22 +14,27 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Class implementing the network player
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class NetworkPlayer implements Player {
 
     private static final int PORT = 6066;
 
-    String hostName = "Host";
-    String clientName = "Client";
+    String mHostName = "Host";
+    String mClientName = "Client";
 
     Controller mController;
-    String hostIP;
-    Socket sock;
+    String mHostIP;
+    Socket mSock;
 
-    public NetworkPlayer(Controller controller){
+    public NetworkPlayer(Controller controller) {
         this.mController = controller;
     }
 
-    public NetworkPlayer(Controller controller, String gameMode){
+    public NetworkPlayer(Controller controller, String gameMode) {
         this.mController = controller;
         tryConnectingClient(gameMode);
     }
@@ -37,7 +42,7 @@ public class NetworkPlayer implements Player {
     public void tryConnectingClient(String gameMode) {
         try {
             setUpClientConnection(gameMode);
-        } catch (Exception e){
+        } catch (Exception e) {
             PrintToConsole.println("Connection to client failed:\n" + e);
         }
     }
@@ -49,10 +54,10 @@ public class NetworkPlayer implements Player {
         PrintToConsole.println("Waiting for client...");
 
         try (ServerSocket serverSock = new ServerSocket(PORT, 128, addr)) {
-            sock = serverSock.accept();
+            mSock = serverSock.accept();
 
             send(gameMode);
-            clientName = listen();
+            mClientName = listen();
 
             PrintToConsole.println("Client connected.");
         }
@@ -61,22 +66,22 @@ public class NetworkPlayer implements Player {
 
     private String listen() throws IOException {
 
-        DataInputStream in = new DataInputStream(sock.getInputStream());
+        DataInputStream in = new DataInputStream(mSock.getInputStream());
         return in.readUTF();
 
     }
 
     private void send(String message) throws IOException {
-        DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+        DataOutputStream out = new DataOutputStream(mSock.getOutputStream());
         out.writeUTF(message);
     }
 
     public void requestMove(JSONObject inputType) {
 
-        if (inputType.containsKey("type") && inputType.get("type") == "quit") {
+        if (inputType.containsKey("type") && inputType.get("type").equals("quit")) {
             try {
                 send("quit");
-            } catch (Exception e){
+            } catch (Exception e) {
                 WriteError.writeErrorLog("Client couldn't be notified before quitting");
             }
         }
@@ -96,8 +101,8 @@ public class NetworkPlayer implements Player {
             if (game.isPresent()) {
                 String moveString = listen();
                 JSONParser parser = new JSONParser();
-                JSONObject moveJSON = (JSONObject) parser.parse(moveString);
-                mController.addMoveToQueue(moveJSON);
+                JSONObject moveJSon = (JSONObject) parser.parse(moveString);
+                mController.addMoveToQueue(moveJSon);
             } else {
                 throw new IllegalStateException();
             }

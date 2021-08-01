@@ -4,6 +4,11 @@ import engine.pieces.PositionedPiece;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
+/**
+ * Eventhandler for initializing moving the pieces
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class PieceEventHandler implements EventHandler {
     private PositionedPiece mPiece;

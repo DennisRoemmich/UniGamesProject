@@ -6,6 +6,11 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
+/**
+ * Manages the JSON files
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class FileController {
 
     public static final String FILEEXTENSION = ".json";

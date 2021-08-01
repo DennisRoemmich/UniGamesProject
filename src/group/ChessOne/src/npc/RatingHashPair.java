@@ -2,21 +2,26 @@ package npc;
 
 import engine.Chess;
 
+/**
+ * Assigns a hash to a rating.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class RatingHashPair {
     private int mGameHash;
     private double mRating;
-    private int depth = 1;
+    private int mDepth = 1;
 
     public RatingHashPair(int mGameHash, double rating, int depth) {
         this.mGameHash = mGameHash;
         this.mRating = rating;
-        this.depth = depth;
+        this.mDepth = depth;
     }
 
     public RatingHashPair(Chess game, double rating, int depth) {
         this.mGameHash = game.hashCode();
         this.mRating = rating;
-        this.depth = depth;
+        this.mDepth = depth;
     }
 
     public int getGameHash() {
@@ -36,10 +41,10 @@ public class RatingHashPair {
     }
 
     public int getDepth() {
-        return depth;
+        return mDepth;
     }
 
     public void setDepth(int depth) {
-        this.depth = depth;
+        this.mDepth = depth;
     }
 }

@@ -1,7 +1,5 @@
 package framework;
 
-import java.util.logging.Logger;
-
 /**
  * Printing to the console.
  * @author Jan de Boer, Dennis Roemmich

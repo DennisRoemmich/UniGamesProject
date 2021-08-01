@@ -5,6 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main for the GUI initialization
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class Main extends Application {
 
     @Override

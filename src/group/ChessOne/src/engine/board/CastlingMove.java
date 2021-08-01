@@ -3,6 +3,11 @@ package engine.board;
 import engine.squares.Square;
 import org.json.simple.JSONObject;
 
+/**
+ * The castling move in the chess game.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class CastlingMove extends ChessMove {
 
     public CastlingMove(Square origin, Square destination) {

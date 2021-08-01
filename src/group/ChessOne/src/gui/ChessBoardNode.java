@@ -10,10 +10,15 @@ import javafx.scene.shape.Shape;
 
 import java.util.*;
 
+/**
+ * A node representing a square on the board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ChessBoardNode extends Group {
 
     private static final double WIDTH = 100;
-    private Optional<ChessBoard> board = Optional.empty();
+    private Optional<ChessBoard> mBoard = Optional.empty();
     private GuiEventHandler mEventHandler;
 
     private List<Square> mPlaceholders = new ArrayList<>();
@@ -26,8 +31,8 @@ public class ChessBoardNode extends Group {
     public void refreshNode() {
         this.getChildren().clear();
         addBackground();
-        if (board.isPresent()) {
-            addPieces(board.get());
+        if (mBoard.isPresent()) {
+            addPieces(mBoard.get());
         }
     }
 
@@ -92,10 +97,10 @@ public class ChessBoardNode extends Group {
     }
 
     public Optional<ChessBoard> getBoard() {
-        return board;
+        return mBoard;
     }
 
     public void setBoard(Optional<ChessBoard> board) {
-        this.board = board;
+        this.mBoard = board;
     }
 }

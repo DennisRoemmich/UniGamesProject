@@ -12,17 +12,16 @@ import java.util.Optional;
 
 /**
  * Knight piece on the chess board.
- *
  * @author Jan de Boer, Dennis Roemmich
  */
 public class Knight extends ChessPiece {
+	
+    private static final int[] FILE_OFFSETS = {1, 2, 2, 1, -1, -2, -2, -1};
+    private static final int[] RANK_OFFSETS = {2, 1, -1, -2, -2, -1, 1, 2};
 
     public Knight(PlayerColor playerColor) {
         super(playerColor, ChessPieceType.KNIGHT);
     }
-
-    private static final int[] fileOffsets = {1, 2, 2, 1, -1, -2, -2, -1};
-    private static final int[] rankOffsets = {2, 1, -1, -2, -2, -1, 1, 2};
 
     @Override
     public List<Square> findCoveredSquares(Chess game) {
@@ -39,8 +38,8 @@ public class Knight extends ChessPiece {
         File newFile;
         Square squareToTest;
         for (int i = 0; i < 8; i++) {
-            int rankOffset = rankOffsets[i];
-            int fileOffset = fileOffsets[i];
+            int rankOffset = RANK_OFFSETS[i];
+            int fileOffset = FILE_OFFSETS[i];
             try {
                 newRank = Rank.valueOf(origin.getRank().getIndex() + rankOffset);
                 newFile = File.valueOf(origin.getFile().getIndex() + fileOffset);

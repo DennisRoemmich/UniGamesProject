@@ -55,7 +55,8 @@ public class Pawn extends ChessPiece {
         }
     }
 
-    private void utilizeSquareToTest(Chess game, List<Square> coveredSquared, Square origin, Optional<Square> squareToTest, Direction captureDirection) {
+    private void utilizeSquareToTest(Chess game, List<Square> coveredSquared, 
+    		Square origin, Optional<Square> squareToTest, Direction captureDirection) {
         if (squareToTest.isPresent()) {
             var piece = game.getBoard().getPiece(squareToTest.get());
             if (piece.isEmpty()) {
@@ -68,7 +69,8 @@ public class Pawn extends ChessPiece {
         }
     }
 
-    private void addEnPassantMove(Chess game, List<Square> coveredSquared, Square origin, Square destinationSquare, Direction captureDirection) {
+    private void addEnPassantMove(Chess game, List<Square> coveredSquared, 
+    		Square origin, Square destinationSquare, Direction captureDirection) {
         var enPassantVictimSquare = origin.getNext(captureDirection);
         if (enPassantVictimSquare.isPresent()) {
             var possiblePiece = game.getBoard().getPiece(enPassantVictimSquare.get());
@@ -82,7 +84,7 @@ public class Pawn extends ChessPiece {
     }
 
     private Optional<Square> getNextSquare(Optional<Square> squareToTest, Direction captureDirection) {
-        if(squareToTest.isPresent()) {
+        if (squareToTest.isPresent()) {
             if (squareToTest.get().getNext(captureDirection).isEmpty()) {
                 return Optional.empty();
             } else {

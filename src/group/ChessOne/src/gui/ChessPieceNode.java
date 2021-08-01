@@ -5,6 +5,12 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+/**
+ * A node representing a piece on the board.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public class ChessPieceNode extends Group {
     private PositionedPiece mPositionedPiece;
     private ImageView mImageView;
