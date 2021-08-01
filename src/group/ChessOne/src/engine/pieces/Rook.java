@@ -6,6 +6,7 @@ import engine.squares.Square;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -31,4 +32,12 @@ public class Rook extends ChessPiece  {
         Direction[] rookDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
         return moveFinder.getReachableSquares(rookDirections);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ChessPieceType.ROOK, getColor().isWhite(), getNumberOfMoves() == 0);
+    }
+
+
+
 }

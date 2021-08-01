@@ -6,6 +6,7 @@ import engine.squares.Square;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -84,4 +85,8 @@ public class Pawn extends ChessPiece {
         mCanBeCapturedEnPassant = false;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(ChessPieceType.KING, getColor().isWhite(), mCanBeCapturedEnPassant);
+    }
 }

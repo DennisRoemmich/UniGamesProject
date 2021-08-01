@@ -9,7 +9,7 @@ import framework.PrintToConsole;
  */
 public class ConsoleMain {
     public static void main(String[] args) {
-        MenuPrototype menu = new MenuPrototype();
-        menu.startLoop();
+        ConsoleMenu consoleMenu = new ConsoleMenu();
+        consoleMenu.run();
     }
 }

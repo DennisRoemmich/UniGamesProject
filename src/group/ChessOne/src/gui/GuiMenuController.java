@@ -1,6 +1,7 @@
 package gui;
 
 import console.ConsoleMenu;
+import engine.Chess;
 import engine.board.ChessMove;
 import framework.GameLog;
 import javafx.fxml.FXML;
@@ -155,15 +156,6 @@ public abstract class GuiMenuController implements Initializable {
     public final void bottomRightClicked() {
         mIsClassicalChess = false;
         refreshConfigurationView();
-    }
-
-    @FXML
-    public final void universalButtonClicked() {
-        if (mIsInConfiguration) {
-            mIsInConfiguration = false;
-            refreshConfigurationView();
-            startGame();
-        }
     }
 
     public boolean isNetworkGame() {

@@ -17,7 +17,6 @@ public class SquareEventHandler implements EventHandler {
 
     @Override
     public void handle(Event event) {
-        PrintToConsole.println(mSquare + " clicked!");
         mEventHandler.handleSquareClicked(mSquare);
     }
 

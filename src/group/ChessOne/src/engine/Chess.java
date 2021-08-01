@@ -28,6 +28,7 @@ public class Chess {
     protected int mLastPawnMoveOrCapture = 0;
     protected PlayerColor mCurrentPlayerColor = PlayerColor.WHITE;
     private boolean mAutoPromotion = true;
+    private int mLastMoveCalculationHash = 0;
     private List<ChessMove> mPossibleMoves = new ArrayList<>();
     private boolean mIsGameOver = false;
 
@@ -47,6 +48,7 @@ public class Chess {
         	return;
         }
         makeMoveWithoutValidation(move);
+        updatePossibleMoves();
     }
 
     public void makeMoveForCheckChecking(ChessMove move) {
@@ -76,10 +78,8 @@ public class Chess {
 
         registerMove(move.getDestination());
         nextPlayer();
-        updatePossibleMoves();
         updateRunningFlag();
     }
-
     public boolean isMovePossible(ChessMove move) {
         for (ChessMove possibleMove : getPossibleMoves()) {
             if (possibleMove.equals(move)) {
@@ -88,6 +88,7 @@ public class Chess {
         }
         return false;
     }
+
 
     protected void handleCastling(ChessMove move) {
         var possibleKings = mBoard.getPositionedPieces(mCurrentPlayerColor, ChessPieceType.KING);
@@ -214,30 +215,11 @@ public class Chess {
             newPossibleMoves.addAll(possibleDestinations);
         }
         this.mPossibleMoves = newPossibleMoves;
+        this.mLastMoveCalculationHash = mBoard.hashCode();
     }
 
     public List<ChessMove> getPossibleMoves() {
          return mPossibleMoves;
-    }
-
-    public List<ChessMove> getPossiblesCaptureMoves() {
-        List<ChessMove> possibleCaptures = new ArrayList<>();
-        for (ChessMove move : getPossibleMoves()) {
-            if (mBoard.getPiece(move.getDestination()).isPresent()) {
-                possibleCaptures.add(move);
-            }
-        }
-        return possibleCaptures;
-    }
-
-    public List<ChessMove> getPossibleCheckMoves() {
-        List<ChessMove> possibleChecks = new ArrayList<>();
-        for (ChessMove move : getPossibleMoves()) {
-            if (CheckDetector.isInCheckAfterMove(this, move)) {
-                possibleChecks.add(move);
-            }
-        }
-        return possibleChecks;
     }
 
     private void updateRunningFlag() {
@@ -301,6 +283,5 @@ public class Chess {
     public int getLastPawnMoveOrCapture() {
         return mLastPawnMoveOrCapture;
     }
-
 
 }

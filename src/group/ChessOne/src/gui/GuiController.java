@@ -136,6 +136,25 @@ public class GuiController extends GuiMenuController implements Player, Presente
 		mOrigin = Optional.empty();
 	}
 
+    @FXML
+    public final void universalButtonClicked() {
+        if (isInConfiguration()) {
+            setIsInConfiguration(false);
+            refreshConfigurationView();
+            startGame();
+        } else {
+            var game = gameOwner.getGame();
+            if (acceptMoveInput && game.isPresent()) {
+                try {
+                    ChessMove move = ChessMove.valueOf(mInputField.getText(), game.get());
+                    makeMove(move.toJSon());
+                } catch (Exception e) {
+
+                }
+            }
+        }
+    }
+
 	@Override
     public void startGame() {
         mChessController = Optional.empty();
