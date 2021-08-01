@@ -35,6 +35,12 @@ public class FXHandShelf {
 
         mSelectedCardIndex = -1;
 
+        for (var child : pane.getChildren()) {
+
+            child.setVisible(false);
+        }
+        pane.getChildren().removeAll();
+
         init(pane);
         update();
     }

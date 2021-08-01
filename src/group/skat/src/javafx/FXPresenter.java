@@ -164,12 +164,22 @@ public class FXPresenter {
                     }
                     pane.getChildren().removeAll();
                 }
+
                 newGameView(true);
                 break;
 
             case GAME_FINISHED:
 
                 updateHandShelfs();
+                for (AnchorPane pane : new AnchorPane[]{mFxController.AnchorPlayerhandShelfLeft, mFxController.AnchorPlayerhandShelfMid, mFxController.AnchorPlayerhandShelfRight}) {
+
+                    for (var child : pane.getChildren()) {
+
+                        child.setVisible(false);
+                    }
+                    pane.getChildren().removeAll();
+                }
+
                 resultView(true);
                 break;
 
