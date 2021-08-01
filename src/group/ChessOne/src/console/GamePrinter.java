@@ -73,7 +73,7 @@ public final class GamePrinter {
         PrintToConsole.println("information on commands and how to play the game ");
         PrintToConsole.println("*menu* Opens the game settings menu");
         PrintToConsole.println("*undo* Undoes the last move ");
-        PrintToConsole.println("*exit* Closes the chess application ");
+        PrintToConsole.println("*quit* Closes the chess application ");
         PrintToConsole.println("");
         PrintToConsole.println("--------How to play---------");
         PrintToConsole.println("This chess app uses the official chess notation to register moves.");

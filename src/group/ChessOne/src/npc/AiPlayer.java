@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 
 import java.util.concurrent.BlockingQueue;
 
-public class AiPlayer implements Player, Runnable {
+public class AiPlayer implements Player {
 
 	protected Controller mController;
 	private static final int DEPTH = 3;
@@ -40,11 +40,6 @@ public class AiPlayer implements Player, Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void run() {
-
 	}
 
 	@Override

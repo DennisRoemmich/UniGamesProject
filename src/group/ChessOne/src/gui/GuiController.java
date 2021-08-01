@@ -157,7 +157,6 @@ public class GuiController extends GuiMenuController implements Player, Presente
                 mChessController.get().replayLog(gameLog.get());
             } else {
                 mChessController.get().setGameMode(isClassicalChess());
-                mChessController.get().setGameMode(isClassicalChess());
                 mChessController.get().newGame();
             }
             controllerThread = new Thread(mChessController.get());

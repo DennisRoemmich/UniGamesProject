@@ -20,7 +20,6 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
 /**
  * The console UI to interact with the chess game.
  * @author Jan de Boer, Dennis Roemmich
@@ -34,7 +33,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
     private Chess mChessGame = null;
     private NetworkState mNetworkState = NetworkState.UNDEFINED;
     private LinkedBlockingQueue<JSONObject> requestQueue = new LinkedBlockingQueue<>();
-    private boolean endFlag = false;
     private int lastPrintedBoardHash = 0;
 
     private BlockingQueue<String> superQueue;
@@ -46,7 +44,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 	@Override
 	public void run() {
     	gameLoop();
-    	superQueue.add("end");
+    	superQueue.add("quit");
 	}
 
 	public void gameLoop() {
@@ -57,8 +55,11 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 			}
 			var request = requestQueue.poll();
 
-			if (!request.get("type").equals("move")) {
+			if (!request.containsKey("type")) {
 				continue;
+			} else if (request.get("type").toString() == "quit"){
+				stopFlag = true;
+				break;
 			}
 
 			PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
@@ -70,11 +71,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
 				for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
 					if (move.equals(moveToCheck)) {
-						if (mNetworkState == NetworkState.CLIENT) {
-							gameOwner.getMoveQueue().add(move.toJSon());
-						} else {
-							gameOwner.getMoveQueue().add(move.toJSon());
-						}
+						gameOwner.getMoveQueue().add(move.toJSon());
 						break;
 					}
 				}
@@ -85,31 +82,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 		}
 	}
 
-    private NetworkState hostOrClient() {
-
-		var input = JOptionPane.showOptionDialog(null, "Client or Host?", "Network Connection",
-				JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null,
-				new String[]{"HOST", "CLIENT"}, "HOST");
-
-		if (input == 0) {
-
-			mNetworkState = NetworkState.HOST;
-			return NetworkState.HOST;
-
-		}
-
-		if (input == 1) {
-
-			mNetworkState = NetworkState.CLIENT;
-			return NetworkState.CLIENT;
-
-		}
-
-		return NetworkState.UNDEFINED;
-
-	}
-
     public void requestMove(JSONObject dataType) {
     	refreshOutput();
     	requestQueue.add(dataType);
@@ -117,8 +89,8 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 
     public boolean checkSpecialInput(String input) {
 
-		if ("exit".equalsIgnoreCase(input)) {
-			superQueue.add("end");
+		if ("quit".equalsIgnoreCase(input)) {
+			superQueue.add("quit");
 			return true;
 		}
 		if ("help".equalsIgnoreCase(input)) {

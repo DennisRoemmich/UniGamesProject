@@ -35,10 +35,10 @@ public final class AiRatingEngine implements Runnable {
 
     @Override
     public void run() {
-        executeTaks(mTask);
+        executeTask(mTask);
     }
 
-    private void executeTaks(AiRatingTask task) {
+    private void executeTask(AiRatingTask task) {
         var move = task.getMoveToRate();
 
         if (task.getDepth() < 1 || task.getTimeout() < 1) {
@@ -67,17 +67,16 @@ public final class AiRatingEngine implements Runnable {
         double bestRating = 0;
 
         for (ChessMove move : possibleMoves) {
+            PrintToConsole.print(".");
             var rating = rateMoveRecursively(game, move, depth, maxTime);
 
             if (bestMove.isEmpty() || (isWhite ? (rating > bestRating) : (rating < bestRating))) {
                 bestRating = rating;
                 bestMove = Optional.of(move);
             }
-
-            PrintToConsole.println("@move " + move + " was rated with " + rating);
         }
 
-        PrintToConsole.println("Best move is " + bestMove + " with " + bestRating);
+        PrintToConsole.println("\n\nBest move is " + bestMove + " with " + bestRating);
         return bestMove.get();
     }
 
@@ -86,7 +85,6 @@ public final class AiRatingEngine implements Runnable {
     }
 
     private double rateMoveRecursively(Chess game, ChessMove move, int depth, long maxTime) {
-        PrintToConsole.println("Rating " + move + " @depth " + depth);
         Chess gameClone = new Chess(game);
         double rating = rateSituation(game);
         gameClone.makeMove(move);
@@ -111,8 +109,6 @@ public final class AiRatingEngine implements Runnable {
     }
 
     public double rateSituationRecursively(Chess game, int depth, long maxTime) {
-        PrintToConsole.println("Rating move " + game.getCurrentMove() + " of " + game.getCurrentColor() + " @depth " + depth);
-
         if (depth <= 1) {
             return rateSituation(game);
         } else {

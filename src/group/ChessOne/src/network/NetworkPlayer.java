@@ -3,6 +3,7 @@ package network;
 import engine.Controller;
 import engine.board.ChessMove;
 import framework.Player;
+import framework.WriteError;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -73,6 +74,14 @@ public class NetworkPlayer implements Player {
     }
 
     public void requestMove(JSONObject inputType) {
+
+        if (inputType.containsKey("type") && inputType.get("type") == "quit") {
+            try {
+                send("quit");
+            } catch (Exception e){
+                WriteError.writeErrorLog("Client couldn't be notified before quitting");
+            }
+        }
 
         var moveOut = mController.getLastMove();
 

@@ -58,6 +58,9 @@ public class Controller extends GameController implements Runnable, GameOwner {
                         amount = 1;
                     }
                     undoLastMoves(amount);
+                } else if (input.containsKey("quit")) {
+                    mPlayerA.requestMove(QuickJSon.create("type", "quit"));
+                    mPlayerB.requestMove(QuickJSon.create("type", "quit"));
                 } else {
                     executeMove(input);
                 }

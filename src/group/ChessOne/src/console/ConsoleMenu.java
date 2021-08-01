@@ -2,10 +2,7 @@ package console;
 
 import engine.Chess;
 import engine.Controller;
-import framework.FileController;
-import framework.GameLog;
-import framework.Player;
-import framework.PrintToConsole;
+import framework.*;
 import network.ClientController;
 import network.ConsoleNetworkClientIO;
 import network.NetworkPlayer;
@@ -256,15 +253,16 @@ public class ConsoleMenu {
             }
             String message = requestQueue.poll();
             switch (message) {
-                case "end":
+                case "quit":
                     runningFlag = false;
+                    if (controller.isPresent()) {
+                        controller.get().getMoveQueue().add(QuickJSon.createReply("quit"));
+                    }
                     break;
                 case "undo":
                     if (controller.isPresent()) {
                         int amount = mOpponent == Opponent.AI_PLAYER ? 2 : 1;
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("undo", amount);
-                        controller.get().getMoveQueue().add(jsonObject);
+                        controller.get().getMoveQueue().add(QuickJSon.create("undo", amount));
                     }
                     break;
             }

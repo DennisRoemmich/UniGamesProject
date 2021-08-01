@@ -102,17 +102,17 @@ public abstract class ChessPiece {
     public final char toSymbol() {
         switch (mType) {
             case PAWN:
-                return  mPlayerColor.isWhite() ? '♟' : '♙';
+                return  mPlayerColor.isWhite() ? '♙' : '♟';
             case KNIGHT:
-                return  mPlayerColor.isWhite() ? '♞' : '♘';
+                return  mPlayerColor.isWhite() ? '♘' : '♞';
             case BISHOP:
-                return  mPlayerColor.isWhite() ? '♝' : '♗';
+                return  mPlayerColor.isWhite() ? '♗' : '♝';
             case ROOK:
-                return  mPlayerColor.isWhite() ? '♜' : '♖';
+                return  mPlayerColor.isWhite() ? '♖' : '♜';
             case QUEEN:
-                return  mPlayerColor.isWhite() ? '♛' : '♕';
+                return  mPlayerColor.isWhite() ? '♕' : '♛';
             case KING:
-                return  mPlayerColor.isWhite() ? '♚' : '♔';
+                return  mPlayerColor.isWhite() ? '♔' : '♚';
         }
         return ' ';
     }
