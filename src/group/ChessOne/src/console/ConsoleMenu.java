@@ -41,7 +41,7 @@ public class ConsoleMenu {
         if (endFlag) {
             return;
         }
-        if (!(mIsNetworkGame && !mIsHost)) {
+        if (!mIsNetworkGame) {
             askLoadGame();
             if (gameLog.isEmpty()) {
                 askGameMode();
@@ -164,17 +164,17 @@ public class ConsoleMenu {
         while (!correctInput) {
             PrintToConsole.println("Please enter the save file name or type [A] for Abort. ");
             PrintToConsole.println("To replay your last game type the filename of your newest created save state");
-            String inputTwo = mScanner.nextLine();
-            if (!"a".equalsIgnoreCase(inputTwo)) {
+            String logName = mScanner.nextLine();
+            if (!"a".equalsIgnoreCase(logName)) {
                 try {
-                    correctInput = true;
-                    JSONObject gameLogJSon = FileController.loadJSon(inputTwo);
+                    JSONObject gameLogJSon = FileController.loadJSon(logName);
                     return Optional.of(GameLog.valueOf(gameLogJSon));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    PrintToConsole.println("File not found. Please try again.");
+                    correctInput = false;
                 }
             } else {
-                return Optional.empty();
+                correctInput = true;
             }
         }
         return Optional.empty();
@@ -273,7 +273,7 @@ public class ConsoleMenu {
                     runningFlag = false;
                     break;
                 case "undo":
-                    if (controller.isPresent()) {
+                    if (controller.isPresent() && !mIsNetworkGame) {
                         int amount = mOpponent == Opponent.AI_PLAYER ? 2 : 1;
                         controller.get().addMoveToQueue(QuickJSon.create("undo", amount));
                     }
