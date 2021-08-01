@@ -11,6 +11,7 @@ import engine.Trump;
 import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
+import javafx.scene.input.MouseEvent;
 import skatguiframework.GameController;
 import skatguiframework.Player;
 import javafx.enums.FXCardPosition;
@@ -32,6 +33,7 @@ import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 import test.Test;
 
+import java.beans.EventHandler;
 import java.net.URL;
 import java.util.*;
 
@@ -398,7 +400,7 @@ public class FXController implements Player, Initializable {
 
 
     /** This should be an FXButton */
-    public void showHideDebugView() {
+    public void showHideDebugView(MouseEvent mouseEvent) {
 
        if ( anchor_DebugView.isVisible() ) {
            anchor_DebugView.setVisible(false);
