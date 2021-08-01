@@ -3,25 +3,41 @@ package rummikub_game;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class for sets (on the board)
+ */
 public class Set {
 
     private final ArrayList<Tile> tiles;
 
+    /**
+     * constructor
+     */
     public Set() {
 
         tiles = new ArrayList<>();
     }
 
+    /**
+     * adds a tile to the set
+     * @param tile tile
+     */
     public void addTile(Tile tile) {
 
         tiles.add(tile);
     }
 
+    /**
+     * @return size of set
+     */
     public int getSize() {
 
         return tiles.size();
     }
 
+    /**
+     * @return true if valid, false if not
+     */
     public boolean isValid() {
 
         if (tiles.size() < 3) {
@@ -32,6 +48,10 @@ public class Set {
         return isRun() || isGroup();
     }
 
+    /**
+     * ckecks if a run set is valid
+     * @return true if valid, false if not
+     */
     public boolean isRun() {
 
         ArrayList<Tile> check = new ArrayList<>();
@@ -53,6 +73,9 @@ public class Set {
         return sameColors(check);
     }
 
+    /**
+     * helper method for validation check
+     */
     private boolean jokerCheck(int i, ArrayList<Tile> check) {
 
         int j = i+1;
@@ -76,6 +99,10 @@ public class Set {
         return true;
     }
 
+    /**
+     * checks if a group set is valid
+     * @return true if valid, false if not
+     */
     public boolean isGroup() {
         ArrayList<Tile> check = new ArrayList<>();
         var jokers = 0;
@@ -101,17 +128,25 @@ public class Set {
         return noSameColors(check);
     }
 
+    /**
+     * @param a tile
+     * @param b tile
+     * @return true if tiles have same color, false if not
+     */
     public boolean sameColor(Tile a, Tile b) {return a.getTileColor() == b.getTileColor(); }
 
     public boolean isSmaller(Tile a, Tile b) {
+
         return a.getValue() == b.getValue()-1;
     }
 
     public boolean smallerAndColor(Tile a, Tile b) {
+
         return isSmaller(a, b) && sameColor(a, b);
     }
 
     public boolean noSameColors(List<Tile> list) {
+
         for(var i = 0; i < list.size()-1; i++) {
             for(int j = i+1; j < list.size();j++) {
                 if (list.get(i).getTileColor() == list.get(j).getTileColor()) {
@@ -123,6 +158,7 @@ public class Set {
     }
 
     public boolean sameColors(List<Tile> list) {
+
         for(var i = 0; i < list.size()-1; i++) {
             if (list.get(i).getTileColor() != list.get(i+1).getTileColor()) {
                 return false;

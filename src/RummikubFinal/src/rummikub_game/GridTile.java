@@ -1,5 +1,8 @@
 package rummikub_game;
 
+/**
+ * class for grid tiles - grid tile can contain an actual tile, or is empty
+ */
 public class GridTile {
 
     private Tile mTile;

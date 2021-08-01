@@ -2,6 +2,9 @@ package rummikub_game;
 
 import javafx.FXGridCell;
 
+/**
+ * class for the tiles
+ */
 public class Tile {
 
     TileColor mColor;
@@ -122,17 +125,14 @@ public class Tile {
         return mColor == tile.mColor && mValue == tile.mValue;
     }
 
+    /**
+     * @param tile grid cell
+     * @return true if grid cell tile and this tile are the same (not identical, but same color and value)
+     */
     public boolean isEqualToFX(FXGridCell tile) {
 
         return mColor != tile.getTileColor() || mValue != tile.getValue();
     }
 
-
-    public void copyValuesFrom(Tile tile) {
-
-        mColor = tile.getTileColor();
-        mValue = tile.mValue;
-
-    }
 
 }

@@ -1,5 +1,8 @@
 package rummikub_game;
 
+/**
+ * class for the players
+ */
 public class RummikubPlayer {
 
     private Rack mTileRack;
@@ -52,11 +55,18 @@ public class RummikubPlayer {
         this.mScore = score;
     }
 
+    /**
+     * sets if player has already played a move or not
+     * @param b true if already played a move, false if not
+     */
     public void setCommingOut(boolean b) {
 
         mCommingOut = b;
     }
 
+    /**
+     * @return true if player already has played his first move, false if not
+     */
     public boolean getCommingOut() {
 
         return mCommingOut;

@@ -10,6 +10,9 @@ import rummikub_controller.RummikubController;
 
 import java.net.URL;
 
+/**
+ * main class for rummikub
+ */
 public class Main extends Application {
 
     Scene mScene;

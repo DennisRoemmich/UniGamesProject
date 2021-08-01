@@ -30,6 +30,9 @@ import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * this class handles everything with the gui
+ */
 public class FXController implements Player, Initializable {
 
     private static final String CELLTEST = "cellTest";
@@ -58,8 +61,6 @@ public class FXController implements Player, Initializable {
     @FXML
     private ImageView imageViewStartNewGame;
     @FXML
-    private AnchorPane anchorPaneBoard;
-    @FXML
     private ImageView buttonSortForGroup;
     @FXML
     private ImageView buttonFinishOrDraw;
@@ -67,8 +68,6 @@ public class FXController implements Player, Initializable {
     private ImageView buttonSortForRun;
     @FXML
     private ImageView buttonReset;
-    @FXML
-    private ImageView buttonCancel;
     @FXML
     private AnchorPane anchorPaneP1;
     @FXML
@@ -130,23 +129,11 @@ public class FXController implements Player, Initializable {
     @FXML
     private Label labelGameMessage;
     @FXML
-    private ImageView buttonOpenContextMenu;
-    @FXML
     private AnchorPane anchorPaneContextMenu;
-    @FXML
-    private Label buttonToMainMenu;
-    @FXML
-    private Label buttonToSettings;
-    @FXML
-    private Label buttonStartNewGame;
-    @FXML
-    private Label buttonQuit;
     @FXML
     private ImageView imageViewBackGround;
     @FXML
     private AnchorPane rootAnchorPane;
-    @FXML
-    private ImageView buttonCloseContextMenu;
     @FXML
     private GridPane gridPaneBoard;
     @FXML
@@ -199,25 +186,25 @@ public class FXController implements Player, Initializable {
 
     GamePoint mOriginPoint = null;
 
+
     /**
-     * Should be triggered when action on cell of grid is triggered
+     * handles click event of board cell
+     * @param point coordinates of boardcell
      */
-
-
     private void boardCellClicked(Point point) {
 
-        debugPrint(CELLTEST, "boardCellClicked()");
+
 
         // valid start of a move
         if (mOriginPoint == null && !mBoardCells[point.x][point.y].isEmpty()) {
-            debugPrint(CELLTEST, "boardCellClicked(): valid start");
+
             mOriginPoint = new GamePoint(GameArea.BOARD, point);
             return;
         }
 
         // valid end of a move
         if (mOriginPoint != null && mBoardCells[point.x][point.y].isEmpty()) {
-            debugPrint(CELLTEST, "boardCellClicked(): valid end");
+
             GameMove move;
 
             // move is board to board
@@ -237,13 +224,17 @@ public class FXController implements Player, Initializable {
 
     }
 
+    /**
+     * handles click event of rack cell
+     * @param point coordinates
+     */
     private void rackCellClicked(Point point) {
 
-        debugPrint(CELLTEST, "rackCellClicked()");
+
 
         // valid start of a move
         if (mOriginPoint == null && !mRackCells[point.x][point.y].isEmpty()) {
-            debugPrint(CELLTEST, "rackCellClicked(): valid start");
+
             mOriginPoint = new GamePoint(GameArea.RACK, point);
             return;
         }
@@ -256,12 +247,10 @@ public class FXController implements Player, Initializable {
             // move is board to board
             if ( mOriginPoint.area == GameArea.RACK ) {
 
-                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + mOriginPoint.point.x + "," + mOriginPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
                 move = new GameMove(ActionType.ONRACK, mOriginPoint.point, point);
 
             } else { // move is board to rack
 
-                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + mOriginPoint.point.x + "," + mOriginPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
                 move = new GameMove(ActionType.BOARDTORACK, mOriginPoint.point, point);
 
             }
@@ -274,7 +263,11 @@ public class FXController implements Player, Initializable {
 
     }
 
-    private boolean makeMove(GameMove move) {
+    /**
+     * executes move via rummikubController
+     * @param move move
+     */
+    private void makeMove(GameMove move) {
 
         mOriginPoint = null;
 
@@ -282,12 +275,14 @@ public class FXController implements Player, Initializable {
         mRummikubController.makeMove(move);
 
         updateGUI();
-
-        return true;
     }
 
 
     /* GUI ACTIONS */
+
+    /**
+     * all the possible actions in the gui
+     */
 
     public void sortForGroupClicked() {
 
@@ -389,6 +384,10 @@ public class FXController implements Player, Initializable {
         anchorPaneContextMenu.setVisible(false);
     }
 
+    /**
+     * sets the game massage shown at some actions
+     * @param s string to show
+     */
     public void setGameMessage(String s) {
 
         anchorPaneGameMessage.setOpacity(1);
@@ -406,6 +405,9 @@ public class FXController implements Player, Initializable {
         timeline0.play();
     }
 
+    /**
+     * to fade out game message
+     */
     private void gameMessageFadeOut() {
 
         var kv1 = new KeyValue(anchorPaneGameMessage.opacityProperty(), 0, Interpolator.EASE_IN);
@@ -418,7 +420,7 @@ public class FXController implements Player, Initializable {
     }
 
 
-    FXGridCell dragActionHappening = null;
+    FXGridCell mDragActionHappening = null;
 
     private void setUpGrids() {
 
@@ -463,21 +465,12 @@ public class FXController implements Player, Initializable {
 
     }
 
-    // TODO delete this
-    private void debugPrint(String identifier, String message) {
-
-        if(identifier.equals(CELLTEST)) {
-
-            System.out.println("CellTest: " + message);
-
-        }
-
-    }
-
 
     boolean eventHandlerActive = false;
 
-    // Helper Function for setUpGrids
+    /**
+     * Helper Function for setUpGrids
+     */
     private void addCellTo(String gridName, int columnX, int rowY, int padding, DoubleBinding cellWidthProperty, DoubleBinding cellHeightProperty) {
 
         GridPane gridPane;
@@ -578,7 +571,6 @@ public class FXController implements Player, Initializable {
             // This if statement has to be removed if drag&push will be implemented
             if( currentCell.isEmpty() ) {
 
-                debugPrint(CELLTEST, "dragDropped: [" + finalX + "][" + finalY + "]");
 
                 if (gridName.equals("RACK")) {
                     rackCellClicked(new Point(finalX, finalY));
@@ -606,7 +598,6 @@ public class FXController implements Player, Initializable {
             if(eventHandlerActive) {return;}
             eventHandlerActive = true;
 
-            debugPrint(CELLTEST, "MouseClicked: [" + finalX + "][" + finalY + "]");
 
             if (gridName.equals("RACK")) {
                 rackCellClicked(new Point(finalX, finalY));
@@ -623,11 +614,10 @@ public class FXController implements Player, Initializable {
             if(eventHandlerActive) {return;}
             eventHandlerActive = true;
 
-            debugPrint(CELLTEST, "dragDetected: [" + finalX + "][" + finalY + "]");
 
             if ( !currentCell.isEmpty() ) {
 
-                dragActionHappening = currentCell;
+                mDragActionHappening = currentCell;
 
                 Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
@@ -665,9 +655,8 @@ public class FXController implements Player, Initializable {
             if(eventHandlerActive) {return;}
             eventHandlerActive = true;
 
-            debugPrint(CELLTEST, "dragDone: [" + finalX + "][" + finalY + "]");
 
-            dragActionHappening = null;
+            mDragActionHappening = null;
 
             if ( mOriginPoint != null ) {
 
@@ -773,10 +762,12 @@ public class FXController implements Player, Initializable {
         mRummiGame = mRummikubController.getGame();
 
         updateGUI();
-
     }
 
 
+    /**
+     * update method
+     */
     public void updateGUI() {
 
 
@@ -981,6 +972,9 @@ public class FXController implements Player, Initializable {
         anchorPaneGameMessage.setVisible(false);
     }
 
+    /**
+     * sets the result view after game is finished
+     */
     private void setPodium() {
 
         PlayerInfo[] podium = mRummikubController.getPodium();

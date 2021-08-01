@@ -1,5 +1,8 @@
 package rummikub_controller;
 
+/**
+ * this class bundles some info about a player
+ */
 public class PlayerInfo {
 
     private String mName;

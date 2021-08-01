@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * the rummikub controller is the central class and is intersection between gui and game engine
+ */
 public class RummikubController extends GameController {
 
     private GameState mState = GameState.STARTING;
@@ -24,6 +27,9 @@ public class RummikubController extends GameController {
 
     /* CONSTRUCTOR */
 
+    /**
+     * constructor
+     */
     public RummikubController(boolean test){
 
         this.mPlayers = new ArrayList<Player>();
@@ -71,6 +77,11 @@ public class RummikubController extends GameController {
         return mPlayerInfos;
     }
 
+    /**
+     * executes a game move
+     * @param move move
+     * @return true if executed, false if failed
+     */
     public boolean makeMove(GameMove move) {
 
         /* CHECK IF MOVE IS VALID */
@@ -148,6 +159,9 @@ public class RummikubController extends GameController {
         return successful;
     }
 
+    /**
+     * handles game end
+     */
     private void gameEnded() {
 
         mState = GameState.FINISHED;
@@ -161,6 +175,9 @@ public class RummikubController extends GameController {
 
     }
 
+    /**
+     * @return scores of players at end of the game
+     */
     public PlayerInfo[] getPodium() {
 
         var size = mPlayerInfos.size();

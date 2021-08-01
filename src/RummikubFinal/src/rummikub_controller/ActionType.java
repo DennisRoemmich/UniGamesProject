@@ -1,5 +1,8 @@
 package rummikub_controller;
 
+/**
+ * this enum includes all possible actions in the game
+ */
 public enum ActionType {
 
     FINISHMOVE(0),

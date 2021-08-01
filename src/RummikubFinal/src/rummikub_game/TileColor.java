@@ -1,5 +1,8 @@
 package rummikub_game;
 
+/**
+ * this enum includes all possible colors, joker is counted as a own color
+ */
 public enum TileColor {
 
     BLACK(0),

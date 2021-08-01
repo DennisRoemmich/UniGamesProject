@@ -2,6 +2,9 @@ package javafx;
 
 import java.awt.*;
 
+/**
+ * this class is for helping handling the position of a click or a grid cell
+ */
 public class GamePoint {
 
     GameArea area;

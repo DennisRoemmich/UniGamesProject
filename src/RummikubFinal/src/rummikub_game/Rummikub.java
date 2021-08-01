@@ -5,6 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * central class of the game engine
+ */
 public class Rummikub {
 
     private static final int JOKER_AMOUNT = 2;
@@ -297,6 +300,9 @@ public class Rummikub {
 
     }
 
+    /**
+     * executed when a player has played no tiles in his move
+     */
     private void noTilesMoved() {
 
         var nextTile = getRandomTileFromStack();
@@ -312,6 +318,10 @@ public class Rummikub {
         }
     }
 
+    /**
+     * executed when a player has played some tiles in his move
+     * @return true if move is to accept, false if not
+     */
     private boolean tilesMoved() {
 
         if (!getCurrentPlayer().getCommingOut()) {
@@ -320,6 +330,7 @@ public class Rummikub {
 
                 getCurrentPlayer().setCommingOut(true);
                 acceptSketchBoard();
+
             } else {
 
                 return false;
@@ -330,7 +341,6 @@ public class Rummikub {
 
     /**
      * Current player gets (random) Tile from tileStack
-     * @return false if there weren't any tiles left on stack.
      */
     public void currentPlayerTakeTile() {
 
@@ -343,6 +353,9 @@ public class Rummikub {
         }
     }
 
+    /**
+     * hands out tiles at the beginning
+     */
     private void handOutTiles() {
 
         for ( RummikubPlayer player : mPlayers) {
@@ -357,6 +370,9 @@ public class Rummikub {
         }
     }
 
+    /**
+     * @return sum of value of tiles moved from rack to board in latest move
+     */
     public int sumMovedRackTiles() {
 
         var sum = 0;
@@ -467,6 +483,9 @@ public class Rummikub {
 
     }
 
+    /**
+     * @return winner
+     */
     public RummikubPlayer getWinner() {
 
         for ( RummikubPlayer player : mPlayers) {

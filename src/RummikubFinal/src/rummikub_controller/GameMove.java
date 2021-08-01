@@ -4,6 +4,9 @@ import org.json.simple.JSONObject;
 
 import java.awt.*;
 
+/**
+ * this class is for handling the different game moves
+ */
 public class GameMove {
 
     private ActionType mType;
@@ -26,6 +29,10 @@ public class GameMove {
     }
 
 
+    /**
+     * converts the move into a json object
+     * @return json object
+     */
     public JSONObject toJSON() {
 
         var obj = new JSONObject();
@@ -46,6 +53,9 @@ public class GameMove {
         return obj;
     }
 
+    /**
+     * in rummikub point is used as (column, row)
+     */
     public void swapCoordinates() {
 
         mPointA = new Point(mPointA.y, mPointA.x);

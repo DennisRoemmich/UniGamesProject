@@ -2,6 +2,9 @@ package rummikub_game;
 
 import java.awt.*;
 
+/**
+ * class for rack
+ */
 public class Rack {
 
     public static final int GRID_HEIGHT = 2;
@@ -169,8 +172,8 @@ public class Rack {
 
     /**
      * adds a tile at a certain point
-     * @param pos
-     * @param tile
+     * @param pos coordinates
+     * @param tile tile
      * @return
      */
     public boolean addTileAt(Point pos, Tile tile) {

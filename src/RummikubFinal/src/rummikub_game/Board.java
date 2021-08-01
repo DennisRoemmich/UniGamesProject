@@ -3,6 +3,9 @@ package rummikub_game;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * this class is for the game board
+ */
 public class Board {
 
     public static final int GRID_HEIGHT = 8;
@@ -10,6 +13,9 @@ public class Board {
 
     private GridTile[][] mGrid;
 
+    /**
+     * constructor
+     */
     public Board() {
 
         // init Board with empty GridTiles
@@ -39,6 +45,12 @@ public class Board {
         }
     }
 
+    /**
+     * adds a tile at a position
+     * @param position position
+     * @param tile tile
+     * @return true if valid, false if not
+     */
     public boolean addTile(Point position, Tile tile) {
 
         if (isOnBoard(position) && getGridTileAt(position).isEmpty()) {
@@ -52,11 +64,19 @@ public class Board {
         }
     }
 
+    /**
+     * removes a tile at a position
+     * @param position position
+     */
     public void removeTile(Point position) {
 
         getGridTileAt(position).removeTile();
     }
 
+    /**
+     * @param point coordinates
+     * @return tile at coordinates
+     */
     public GridTile getGridTileAt(Point point) {
 
         return mGrid[point.x][point.y];
@@ -68,6 +88,12 @@ public class Board {
         return point.x < GRID_HEIGHT && point.y < GRID_WIDTH;
     }
 
+    /**
+     * moves a tile on the board
+     * @param from tile coordinates
+     * @param to target coordinates
+     * @return true if valid, false if not
+     */
     public boolean moveTile(Point from, Point to) {
 
         if (isOnBoard(from) && isOnBoard(to) && !getGridTileAt(from).isEmpty() && getGridTileAt(to).isEmpty()) {
@@ -80,11 +106,10 @@ public class Board {
         return false;
     }
 
-    public void clearBoard() {
-
-        initEmptyBoard();
-    }
-
+    /**
+     * checks if the board is valid
+     * @return true if valid, false if not
+     */
     public boolean isValid() {
 
         for (var set : createSets()) {
@@ -102,6 +127,11 @@ public class Board {
         return toString(false);
     }
 
+    /**
+     * for debug
+     * @param wide
+     * @return
+     */
     public String toString(boolean wide) {
 
         var strB = new StringBuilder();
@@ -128,6 +158,10 @@ public class Board {
     }
 
 
+    /**
+     * creates sets laying on the board for e.g. validation check
+     * @return array list of sets
+     */
     private ArrayList<Set> createSets() {
 
         ArrayList<Set> setList = new ArrayList<>();

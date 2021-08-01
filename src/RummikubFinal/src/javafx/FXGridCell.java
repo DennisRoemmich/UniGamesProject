@@ -8,6 +8,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import rummikub_game.TileColor;
 
+/**
+ * this class is used for the cell on the board and on the racks
+ */
 public class FXGridCell {
 
     private ImageView mImgView;
@@ -21,6 +24,9 @@ public class FXGridCell {
 
     private boolean mEmpty = true;
 
+    /**
+     * constructor
+     */
     FXGridCell(ImageView view, Text text) {
         this.mImgView = view;
         this.mText = text;
@@ -28,6 +34,7 @@ public class FXGridCell {
 
         updateVisibility();
     }
+
 
     public void show() {
 
@@ -42,6 +49,11 @@ public class FXGridCell {
     }
 
 
+    /**
+     * fills the cell corresponding to the given tile
+     * @param tColor color of tile
+     * @param value value of tile
+     */
     public void fill(TileColor tColor, int value) {
 
         this.mValue = value;
@@ -59,18 +71,24 @@ public class FXGridCell {
             case YELLOW -> mText.setFill(Color.web("#FFA500"));
             default -> {
                 mText.setText("♕"); // U+1F921
-            //    text.setText("/U1F921");
                 mText.setFill(Color.web("#FF00FF"));
             }
         }
 
     }
 
+    /**
+     * sets width of cell
+     * @param cellWidthProperty width
+     */
     public void setCellWidthProperty(DoubleBinding cellWidthProperty) {
 
         this.mCellWidthProperty = cellWidthProperty;
     }
 
+    /**
+     * sets the value-string of the cell
+     */
     private void createText() {
 
         mText.setText(Integer.toString(mValue));
@@ -85,6 +103,9 @@ public class FXGridCell {
 
     }
 
+    /**
+     * handles visibility
+     */
     public void updateVisibility() {
 
         if (mEmpty) {
