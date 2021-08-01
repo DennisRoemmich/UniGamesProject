@@ -7,5 +7,5 @@ import java.util.concurrent.BlockingQueue;
 
 public interface GameOwner {
     Optional<Chess> getGame();
-    BlockingQueue<JSONObject> getMoveQueue();
+    void addMoveToQueue(JSONObject move);
 }

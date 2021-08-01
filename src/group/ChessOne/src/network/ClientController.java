@@ -110,7 +110,14 @@ public class ClientController implements Runnable, GameOwner {
 
                 while (moveQueue.peek() == null) {
                 }
-                var moveOut = ChessMove.valueOf(moveQueue.poll());
+
+                var moveJSon = moveQueue.poll();
+
+                if (moveJSon.containsKey("quit")) {
+                    validConnection = false;
+                }
+
+                var moveOut = ChessMove.valueOf(moveJSon);
 
                 try {
                     send(moveOut.toJSon().toJSONString());
@@ -142,8 +149,9 @@ public class ClientController implements Runnable, GameOwner {
         return mGame;
     }
 
-    public BlockingQueue<JSONObject> getMoveQueue() {
-        return moveQueue;
+    @Override
+    public void addMoveToQueue(JSONObject move) {
+        moveQueue.add(move);
     }
 }
 

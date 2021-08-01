@@ -44,7 +44,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 	@Override
 	public void run() {
     	gameLoop();
-    	superQueue.add("quit");
 	}
 
 	public void gameLoop() {
@@ -71,7 +70,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
 				for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
 					if (move.equals(moveToCheck)) {
-						gameOwner.getMoveQueue().add(move.toJSon());
+						gameOwner.addMoveToQueue(move.toJSon());
 						break;
 					}
 				}

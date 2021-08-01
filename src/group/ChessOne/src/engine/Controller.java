@@ -10,7 +10,9 @@ import torpedo.TorpedoChess;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -59,14 +61,14 @@ public class Controller extends GameController implements Runnable, GameOwner {
                     }
                     undoLastMoves(amount);
                 } else if (input.containsKey("quit")) {
-                    mPlayerA.requestMove(QuickJSon.create("type", "quit"));
-                    mPlayerB.requestMove(QuickJSon.create("type", "quit"));
+                    mIsGameRunning = false;
                 } else {
                     executeMove(input);
                 }
                 refreshOutput();
             }
         }
+        PrintToConsole.println("Controller finished.");
     }
 
     protected void executeMove(JSONObject moveJSon) {
@@ -157,8 +159,8 @@ public class Controller extends GameController implements Runnable, GameOwner {
         }
     }
 
-    public BlockingQueue<JSONObject> getMoveQueue() {
-        return moveQueue;
+    public void addMoveToQueue(JSONObject move) {
+        moveQueue.add(move);
     }
 
     public void setGameMode(boolean isStandard) {

@@ -101,7 +101,7 @@ public class NetworkPlayer implements Player {
                 String moveString = listen();
                 JSONParser parser = new JSONParser();
                 JSONObject moveJSON = (JSONObject) parser.parse(moveString);
-                mController.getMoveQueue().add(moveJSON);
+                mController.addMoveToQueue(moveJSON);
             } else {
                 throw new IllegalStateException();
             }

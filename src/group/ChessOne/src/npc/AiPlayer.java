@@ -13,13 +13,14 @@ public class AiPlayer implements Player {
 	protected Controller mController;
 	private static final int DEPTH = 3;
 	private AiRatingEngine ratingEngine = new AiRatingEngine();
+	private boolean mIs
 
 	public AiPlayer(Controller controller) {
 		this.mController = controller;
 	}
 
     public void requestMove(JSONObject dataType) {
-		mController.getMoveQueue().add(getBestMove(DEPTH).toJSon());
+		mController.addMoveToQueue(getBestMove(DEPTH).toJSon());
     }
 
     protected ChessMove getBestMove(int depth) {

@@ -11,8 +11,10 @@ import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ConsoleMenu {
@@ -25,6 +27,8 @@ public class ConsoleMenu {
 
     private Scanner mScanner = new Scanner(System.in);
     private boolean endFlag = false;
+
+    private ConsoleUI consoleUI;
 
     private BlockingQueue<String> requestQueue = new LinkedBlockingQueue<>();
 
@@ -209,7 +213,7 @@ public class ConsoleMenu {
         PrintToConsole.println("Type \"help\" for information on how to play. \n");
 
         Optional<Controller> controller = Optional.empty();
-        ConsoleUI consoleUI = new ConsoleUI(requestQueue); // Player A
+        consoleUI = new ConsoleUI(requestQueue); // Player A
         Thread controllerThread;
 
         if (mIsNetworkGame && !mIsHost) {
@@ -244,6 +248,17 @@ public class ConsoleMenu {
         controllerThread.start();
 
         gameLoop(controller);
+
+        consoleUI.requestMove(QuickJSon.create("type", "quit"));
+        consoleUI.getGameOwner().addMoveToQueue(QuickJSon.create("quit", "quit"));
+        PrintToConsole.println("See you soon!");
+
+        try {
+            consoleUIThread.join();
+            controllerThread.join();
+        } catch (Exception e) {
+            WriteError.writeErrorLog("Couldn't wait till al Threads finished.");
+        }
     }
 
     private void gameLoop(Optional<Controller> controller) {
@@ -255,14 +270,11 @@ public class ConsoleMenu {
             switch (message) {
                 case "quit":
                     runningFlag = false;
-                    if (controller.isPresent()) {
-                        controller.get().getMoveQueue().add(QuickJSon.createReply("quit"));
-                    }
                     break;
                 case "undo":
                     if (controller.isPresent()) {
                         int amount = mOpponent == Opponent.AI_PLAYER ? 2 : 1;
-                        controller.get().getMoveQueue().add(QuickJSon.create("undo", amount));
+                        controller.get().addMoveToQueue(QuickJSon.create("undo", amount));
                     }
                     break;
             }

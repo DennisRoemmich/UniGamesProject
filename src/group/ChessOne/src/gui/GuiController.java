@@ -16,11 +16,9 @@ import npc.AiPlayer;
 import javafx.fxml.FXML;
 import org.json.simple.JSONObject;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -38,6 +36,8 @@ public class GuiController extends GuiMenuController implements Player, Presente
     private Optional<Square> mOrigin = Optional.empty();
 
     private LinkedBlockingQueue<JSONObject> mRequestQueue = new LinkedBlockingQueue<>();
+
+    private Queue<Thread> managedThreads = new ConcurrentLinkedDeque<>();
 
     private boolean acceptMoveInput = false;
 
@@ -188,6 +188,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
         finally {
             boardNodeLock.writeLock().unlock();
         }
+        addThreadToManager(controllerThread);
         controllerThread.start();
         refreshOutput();
     }
@@ -206,7 +207,13 @@ public class GuiController extends GuiMenuController implements Player, Presente
     }
 
     private void makeMove(JSONObject moveJSON) {
-        gameOwner.getMoveQueue().add(moveJSON);
+        gameOwner.addMoveToQueue(moveJSON);
+    }
+
+    public void addThreadToManager(Thread thread) {
+        if (!managedThreads.contains(thread)) {
+            managedThreads.add(thread);
+        }
     }
 
     @Override
