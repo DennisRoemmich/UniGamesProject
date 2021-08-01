@@ -65,7 +65,7 @@ public final class MapGenerator {
         List<TilePosition> desertPositions = new ArrayList<>(map.getTiles().stream()
         				.filter(pT -> !(pT.getObject().isWater() || pT.getObject()
         				.isHasHitnumber()))
-        				.map(pT -> pT.getPosition()).toList());
+        				.map(PositionedObject::getPosition).toList());
         Collections.shuffle(desertPositions);
         map.setBurglarPosition(desertPositions.get(0));
 
