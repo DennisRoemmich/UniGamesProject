@@ -1,10 +1,10 @@
-package javafx;
+package javafxcontroller;
 
 import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.Card;
 import engine.enums.GamePhase;
-import javafx.enums.FXCardPosition;
+import javafxcontroller.enums.FXCardPosition;
 import javafx.scene.layout.AnchorPane;
 
 /**

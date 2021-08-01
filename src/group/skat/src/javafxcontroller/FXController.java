@@ -1,4 +1,4 @@
-package javafx;
+package javafxcontroller;
 
 import controller.GameMove;
 import console.Print;
@@ -12,11 +12,11 @@ import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
 import javafx.scene.input.MouseEvent;
+import javafxcontroller.enums.GUIState;
 import skatguiframework.GameController;
 import skatguiframework.Player;
-import javafx.enums.FXCardPosition;
-import javafx.enums.GUIState;
-import javafx.enums.FXHandShelfPosition;
+import javafxcontroller.enums.FXCardPosition;
+import javafxcontroller.enums.FXHandShelfPosition;
 import javafx.animation.Timeline;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -33,7 +33,6 @@ import javafx.scene.text.Text;
 import org.json.simple.JSONObject;
 import test.Test;
 
-import java.beans.EventHandler;
 import java.net.URL;
 import java.util.*;
 

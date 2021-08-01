@@ -1,4 +1,4 @@
-package javafx;
+package javafxcontroller;
 
 import controller.SkatController;
 import javafx.application.Application;

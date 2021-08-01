@@ -4,7 +4,7 @@ import console.Print;
 import controller.SkatController;
 import kiplayer.KIPlayer;
 import skatguiframework.NetworkPlayer;
-import javafx.FXLauncher;
+import javafxcontroller.FXLauncher;
 import test.Test;
 
 import javax.swing.*;

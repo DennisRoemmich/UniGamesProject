@@ -1,7 +1,7 @@
 package console;
 
 import console.enums.ConsoleActionType;
-import javafx.enums.GUIState;
+import javafxcontroller.enums.GUIState;
 import controller.SkatController;
 import controller.SkatMove;
 import controller.enums.ActionType;

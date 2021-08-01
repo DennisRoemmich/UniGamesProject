@@ -1,10 +1,10 @@
-package javafx;
+package javafxcontroller;
 
 
 import console.Print;
 import engine.enums.CardValue;
 import engine.enums.GameMode;
-import javafx.enums.GUIState;
+import javafxcontroller.enums.GUIState;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
