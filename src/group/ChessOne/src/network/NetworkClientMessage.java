@@ -1,0 +1,5 @@
+package network;
+
+public enum NetworkClientMessage {
+    SEND_MOVE_FAILED, RECEIVE_MOVE_FAILED, HOST_CONNECTION_REFUSED, HOST_CONNECTED, CONNECTING_TO_HOST;
+}

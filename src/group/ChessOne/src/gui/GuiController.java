@@ -1,46 +1,43 @@
 package gui;
 
 import engine.Controller;
-import engine.Chess;
+import engine.GameOwner;
 import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.skin.TableHeaderRow;
-import javafx.scene.layout.AnchorPane;
 import engine.squares.Square;
 import framework.Player;
 import framework.Presenter;
+import network.ClientController;
+import network.ConsoleNetworkClientIO;
+import network.NetworkPlayer;
 import npc.AiPlayer;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import npc.AiRatingEngine;
-import npc.AiRatingResult;
 import org.json.simple.JSONObject;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @SuppressWarnings("rawtypes")
-public class GuiController extends GuiMenuController implements Runnable, Player, Presenter, GuiEventHandler, EventHandler {
+public class GuiController extends GuiMenuController implements Player, Presenter, GuiEventHandler {
 
-    @FXML
-    private Button mIsAi;
-
-    private Controller mChessController;
+    private GameOwner gameOwner;
     private ChessBoardNode mBoardNode;
-    private PromotionNode mPromotionNode;
+
+    private final ReadWriteLock boardNodeLock = new ReentrantReadWriteLock();
+
+    private Optional<Controller> mChessController;
 
     private Optional<Square> mOrigin = Optional.empty();
+
     private LinkedBlockingQueue<JSONObject> mRequestQueue = new LinkedBlockingQueue<>();
-    private LinkedBlockingQueue<Chess> mPresenterQueue = new LinkedBlockingQueue<>();
 
     private boolean acceptMoveInput = false;
 
@@ -51,21 +48,8 @@ public class GuiController extends GuiMenuController implements Runnable, Player
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
-        mChessController = new Controller();
-
-        AiPlayer aiPlayerA = new AiPlayer(mChessController);
-        AiPlayer aiPlayerB = new AiPlayer(mChessController);
-        mBoardNode = new ChessBoardNode(mChessController, this);
-
-        mChessController.setPresenter(this);
-        mChessController.setPlayerA(this);
-        mChessController.setPlayerB(this);
+        mBoardNode = new ChessBoardNode(this);
         mBoardPane.getChildren().add(mBoardNode);
-    }
-
-    @Override
-    public void startGame(boolean isNetworkGame, boolean aiHostFlag, boolean isClassicalChess) {
-        startTestGame();
     }
 
     @Override
@@ -73,10 +57,11 @@ public class GuiController extends GuiMenuController implements Runnable, Player
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                mBoardNode.refreshNode();
-                var game = mChessController.getGame();
-                if (game.isPresent()) {
-                    ratingLabel.setText(String.valueOf(game.get().getBoard().hashCode()));
+                boardNodeLock.writeLock().lock();
+                try {
+                    mBoardNode.refreshNode();
+                } finally {
+                    boardNodeLock.writeLock().unlock();
                 }
             }
         });
@@ -90,9 +75,9 @@ public class GuiController extends GuiMenuController implements Runnable, Player
     @Override
     public void handleSquareClicked(Square clickedSquare) {
 
-        var game = mChessController.getGame();
+        var game = gameOwner.getGame();
 
-        if (!mChessController.isItMyTurn(this)) {
+        if (!acceptMoveInput) {
             return;
         }
 
@@ -109,19 +94,25 @@ public class GuiController extends GuiMenuController implements Runnable, Player
     }
 
 	private void handleOriginClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
-		mBoardNode.resetPlaceholder();
-		boolean possibleOriginFound = false;
-		for (ChessMove move : possibleMoves) {
-		    if (move.getOrigin().equals(clickedSquare)) {
-		        possibleOriginFound = true;
-		        mBoardNode.addPlaceholder(move.getDestination());
-		    }
-		}
-		if (possibleOriginFound) {
-		    mOrigin = Optional.of(clickedSquare);
-		} else {
-		    mBoardNode.resetPlaceholder();
-		}
+        boardNodeLock.writeLock().lock();
+        try {
+            mBoardNode.resetPlaceholder();
+            boolean possibleOriginFound = false;
+            for (ChessMove move : possibleMoves) {
+                if (move.getOrigin().equals(clickedSquare)) {
+                    possibleOriginFound = true;
+                    mBoardNode.addPlaceholder(move.getDestination());
+                }
+            }
+            if (possibleOriginFound) {
+                mOrigin = Optional.of(clickedSquare);
+            } else {
+                mBoardNode.resetPlaceholder();
+            }
+        }
+        finally {
+            boardNodeLock.writeLock().unlock();
+        }
         refreshOutput();
 	}
 
@@ -130,52 +121,74 @@ public class GuiController extends GuiMenuController implements Runnable, Player
 		    boolean originEqual = move.getOrigin().equals(mOrigin.get());
 		    boolean destinationEqual = move.getDestination().equals(clickedSquare);
 		    if (originEqual && destinationEqual) {
-		        mBoardNode.resetPlaceholder();
+                acceptMoveInput = false;
+                refreshOutput();
                 makeMove(move.toJSon());
 		        break;
 		    }
 		}
-		mBoardNode.resetPlaceholder();
+		boardNodeLock.writeLock().lock();
+		try {
+            mBoardNode.resetPlaceholder();
+        } finally {
+            boardNodeLock.writeLock().unlock();
+        }
 		mOrigin = Optional.empty();
 	}
 
-    @Override
-    public void handle(Event event) {
-    	//Unused
-    }
+	@Override
+    public void startGame() {
+        mChessController = Optional.empty();
+        Thread controllerThread;
 
-    public Controller getChessController() {
-        return mChessController;
-    }
-
-    public void startTestGame() {
-        var game = mChessController.getGame();
-        if (game.isPresent() && !game.get().isGameOver()) {
-            try {
-                ChessMove move = ChessMove.valueOf(mInputField.getText(), game.get());
-                makeMove(move.toJSon());
-            } catch (Exception e) {
-                mInputField.setAccessibleHelp("Invalid input.");
-            }
-            mInputField.setText("");
-        } else if (game.isPresent()) {
-            startGame();
+        if (isNetworkGame() && !isHost()) {
+            ClientController clientController = new ClientController(new ConsoleNetworkClientIO(), this, this);
+            gameOwner = clientController;
+            controllerThread = new Thread(clientController);
+            clientController.setupConnection();
         } else {
-            mChessController.newGame();
-            startGame();
+            mChessController = Optional.of(new Controller(this, this));
+            gameOwner = mChessController.get();
+
+            mChessController.get().setPlayerB(createPlayerB(mChessController.get()));
+
+            var gameLog = getGameLog();
+            if (gameLog.isPresent()) {
+                mChessController.get().replayLog(gameLog.get());
+            } else {
+                mChessController.get().setGameMode(isClassicalChess());
+                mChessController.get().setGameMode(isClassicalChess());
+                mChessController.get().newGame();
+            }
+            controllerThread = new Thread(mChessController.get());
         }
+        setIsInConfiguration(false);
+        boardNodeLock.writeLock().lock();
+        try {
+            mBoardNode.setBoard(Optional.of(gameOwner.getGame().get().getBoard()));
+        }
+        finally {
+            boardNodeLock.writeLock().unlock();
+        }
+        controllerThread.start();
         refreshOutput();
     }
 
-    private void makeMove(JSONObject moveJSON) {
-        mChessController.getMoveQueue().add(moveJSON);
+    private Player createPlayerB(Controller controller) {
+        Player playerB;
+        if (isNetworkGame()) {
+            String gameModeName = isClassicalChess() ? "Classical" : "Torpedo";
+            playerB = new NetworkPlayer(controller, gameModeName);
+        } else if (isAiGame()) {
+            playerB = new AiPlayer(controller);
+        } else {
+            playerB = this;
+        }
+        return playerB;
     }
 
-    private void startGame() {
-        if(mChessController.getGame().isPresent()) {
-            Thread engineThread = new Thread(mChessController);
-            engineThread.start();
-        }
+    private void makeMove(JSONObject moveJSON) {
+        gameOwner.getMoveQueue().add(moveJSON);
     }
 
     @Override
@@ -184,7 +197,7 @@ public class GuiController extends GuiMenuController implements Runnable, Player
     }
 
     @Override
-    public void requestMove(JSONObject previousMove) {
+    public void requestMove(JSONObject moveType) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -192,10 +205,5 @@ public class GuiController extends GuiMenuController implements Runnable, Player
                 refreshOutput();
             }
         });
-    }
-
-    @Override
-    public void run() {
-
     }
 }

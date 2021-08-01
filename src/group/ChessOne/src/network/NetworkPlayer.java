@@ -27,20 +27,23 @@ public class NetworkPlayer implements Player {
     Socket sock;
 
     public NetworkPlayer(Controller controller){
-
         this.mController = controller;
+    }
 
+    public NetworkPlayer(Controller controller, String gameMode){
+        this.mController = controller;
+        tryConnectingClient(gameMode);
+    }
+
+    public void tryConnectingClient(String gameMode) {
         try {
-            setUpClientConnection();
+            setUpClientConnection(gameMode);
         } catch (Exception e){
             System.out.println("Connection to client failed:\n" + e);
         }
-
     }
 
-
-
-    private void setUpClientConnection() throws IOException {
+    private void setUpClientConnection(String gameMode) throws IOException {
 
         InetAddress addr = InetAddress.getByName("0.0.0.0");
 
@@ -49,7 +52,7 @@ public class NetworkPlayer implements Player {
         ServerSocket serverSock = new ServerSocket(PORT, 128, addr);
         sock = serverSock.accept();
 
-        send(hostName);
+        send(gameMode);
         clientName = listen();
 
         System.out.println("Client connected.");

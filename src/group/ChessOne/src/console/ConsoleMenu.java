@@ -7,6 +7,7 @@ import framework.GameLog;
 import framework.Player;
 import framework.PrintToConsole;
 import network.ClientController;
+import network.ConsoleNetworkClientIO;
 import network.NetworkPlayer;
 import network.NetworkState;
 import npc.AiPlayer;
@@ -28,7 +29,7 @@ public class ConsoleMenu {
     private Scanner mScanner = new Scanner(System.in);
     private boolean endFlag = false;
 
-    private BlockingQueue<String> replyQueue = new LinkedBlockingQueue<>();
+    private BlockingQueue<String> requestQueue = new LinkedBlockingQueue<>();
 
     public void run() {
         PrintToConsole.println("Welcome to Chess!");
@@ -211,26 +212,30 @@ public class ConsoleMenu {
         PrintToConsole.println("Type \"help\" for information on how to play. \n");
 
         Optional<Controller> controller = Optional.empty();
-        ConsoleUI consoleUI = new ConsoleUI(replyQueue); // Player A
+        ConsoleUI consoleUI = new ConsoleUI(requestQueue); // Player A
         Thread controllerThread;
 
         if (mIsNetworkGame && !mIsHost) {
-            ClientController clientController = new ClientController(consoleUI, consoleUI);
+            ClientController clientController = new ClientController(new ConsoleNetworkClientIO(), consoleUI, consoleUI);
             consoleUI.setGameOwner(clientController);
             controllerThread = new Thread(clientController);
+            clientController.setupConnection();
         } else {
             controller = Optional.of(new Controller(consoleUI, consoleUI));
             consoleUI.setGameOwner(controller.get());
+            String gameModeName = mStandardChess ? "Classical" : "Torpedo";
+
             Player playerB = switch (mOpponent) {
                 case HOTSEAT -> consoleUI;
                 case AI_PLAYER -> new AiPlayer(controller.get());
-                case NETWORK_PLAYER -> new NetworkPlayer(controller.get());
+                case NETWORK_PLAYER -> new NetworkPlayer(controller.get(), gameModeName);
             };
             controller.get().setPlayerB(playerB);
 
             if (gameLog.isPresent()) {
                 controller.get().replayLog(gameLog.get());
             } else {
+                controller.get().setGameMode(mStandardChess);
                 controller.get().newGame();
             }
             controllerThread = new Thread(controller.get());
@@ -247,9 +252,9 @@ public class ConsoleMenu {
     private void gameLoop(Optional<Controller> controller) {
         boolean runningFlag = true;
         while (runningFlag) {
-            while (replyQueue.peek() == null) {
+            while (requestQueue.peek() == null) {
             }
-            String message = replyQueue.poll();
+            String message = requestQueue.poll();
             switch (message) {
                 case "end":
                     runningFlag = false;

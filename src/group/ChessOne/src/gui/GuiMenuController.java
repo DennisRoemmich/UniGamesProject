@@ -58,7 +58,7 @@ public abstract class GuiMenuController implements Initializable {
         refreshConfigurationView();
     }
 
-    public abstract void startGame(boolean isNetworkGame, boolean aiHostFlag, boolean isClassicalChess);
+    public abstract void startGame();
 
     /* Refresh Methods */
 
@@ -93,7 +93,7 @@ public abstract class GuiMenuController implements Initializable {
         } else {
             topLeftButton.setBorder(new Border(selectedBorderStroke));
             topRightButton.setBorder(new Border(unselectedBorderStroke));
-            middleState = mIsAiGame;
+            middleState = !mIsAiGame;
         }
         if (middleState) {
             middleLeftButton.setBorder(new Border(selectedBorderStroke));
@@ -130,7 +130,7 @@ public abstract class GuiMenuController implements Initializable {
         if (mIsNetworkGame) {
             mIsHost = true;
         } else {
-            mIsAiGame = true;
+            mIsAiGame = false;
         }
         refreshConfigurationView();
     }
@@ -140,7 +140,7 @@ public abstract class GuiMenuController implements Initializable {
         if (mIsNetworkGame) {
             mIsHost = false;
         } else {
-            mIsAiGame = false;
+            mIsAiGame = true;
         }
         refreshConfigurationView();
     }
@@ -159,8 +159,38 @@ public abstract class GuiMenuController implements Initializable {
 
     @FXML
     public final void universalButtonClicked() {
-        mIsInConfiguration = false;
-        refreshConfigurationView();
-        startGame(true, true, true);
+        if (mIsInConfiguration) {
+            mIsInConfiguration = false;
+            refreshConfigurationView();
+            startGame();
+        }
+    }
+
+    public boolean isNetworkGame() {
+        return mIsNetworkGame;
+    }
+
+    public boolean isHost() {
+        return mIsHost;
+    }
+
+    public boolean isAiGame() {
+        return mIsAiGame;
+    }
+
+    public boolean isClassicalChess() {
+        return mIsClassicalChess;
+    }
+
+    public Optional<GameLog> getGameLog() {
+        return gameLog;
+    }
+
+    public boolean isInConfiguration() {
+        return mIsInConfiguration;
+    }
+
+    public void setIsInConfiguration(boolean mIsInConfiguration) {
+        this.mIsInConfiguration = mIsInConfiguration;
     }
 }

@@ -9,7 +9,6 @@ import framework.PrintToConsole;
  */
 public class ConsoleMain {
     public static void main(String[] args) {
-        PrintToConsole.println("ConsoleMain started");
         MenuPrototype menu = new MenuPrototype();
         menu.startLoop();
     }

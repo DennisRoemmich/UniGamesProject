@@ -1,38 +1,35 @@
 package gui;
 
-import engine.Controller;
+import engine.board.ChessBoard;
 import engine.pieces.PositionedPiece;
 import engine.squares.Square;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
+import java.util.*;
 
 public class ChessBoardNode extends Group {
 
     private static final double WIDTH = 100;
-    private Controller mController;
+    private Optional<ChessBoard> board = Optional.empty();
     private GuiEventHandler mEventHandler;
 
     private List<Square> mPlaceholders = new ArrayList<>();
 
-    public ChessBoardNode(Controller controller, GuiEventHandler eventHandler) {
-        this.mController = controller;
+    public ChessBoardNode(GuiEventHandler eventHandler) {
         this.mEventHandler = eventHandler;
         refreshNode();
     }
 
-
-    public void refreshNode() {
+    public void refreshNode() {//Optional<ChessBoard> board) {
         this.getChildren().clear();
         addBackground();
-        addPieces();
+        if (board.isPresent()) {
+            addPieces(board.get());
+        }
     }
-
 
     private void addBackground() {
         for (Square square : Square.values()) {
@@ -67,8 +64,9 @@ public class ChessBoardNode extends Group {
         this.getChildren().add(rectangle);
     }
 
-    private void addPieces() {
-        for (PositionedPiece piece : getPositionedPieces()) {
+    private void addPieces(ChessBoard board) {
+        ChessBoard boardClone = new ChessBoard(board);
+        for (PositionedPiece piece : boardClone.getPositionedPieces()) {
             addPiece(piece);
         }
     }
@@ -93,11 +91,11 @@ public class ChessBoardNode extends Group {
         mPlaceholders.clear();
     }
 
-    private List<PositionedPiece> getPositionedPieces() {
-        if (mController.getGame().isPresent()) {
-            return mController.getGame().get().getBoard().getPositionedPieces();
-        } else {
-            return new ArrayList<>();
-        }
+    public Optional<ChessBoard> getBoard() {
+        return board;
+    }
+
+    public void setBoard(Optional<ChessBoard> board) {
+        this.board = board;
     }
 }

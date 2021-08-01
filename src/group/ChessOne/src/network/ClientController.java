@@ -3,20 +3,16 @@ package network;
 import engine.Chess;
 import engine.GameOwner;
 import engine.board.ChessMove;
-import framework.GameController;
 import framework.Player;
 import framework.Presenter;
-import framework.PrintToConsole;
 import org.json.simple.JSONObject;
 import torpedo.TorpedoChess;
 
-import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -33,6 +29,8 @@ public class ClientController implements Runnable, GameOwner {
 
     private boolean mStandardChess = true;
 
+    private NetworkClientIO io;
+
     String hostName = "Host";
     String clientName = "Client";
 
@@ -43,46 +41,42 @@ public class ClientController implements Runnable, GameOwner {
     private BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<>();
 
 
-    public ClientController(Player player, Presenter presenter){
+    public ClientController(NetworkClientIO io, Presenter presenter, Player player){
+        this.io = io;
         this.mPlayer = player;
         this.mPresenter = presenter;
+    }
 
-        getHostIP();
-
+    public void setupConnection() {
+        hostIP = io.getHostIP();
         try {
             setUpHostConnection();
         } catch (Exception e){
-            System.out.println("Couldn't connect to the Host. Exception:\n" + e);
-
+            io.presentMessage(NetworkClientMessage.HOST_CONNECTION_REFUSED);
         }
     }
-
-    private void getHostIP(){
-        PrintToConsole.println("Please enter the host IP:");
-        Scanner scanner = new Scanner(System.in);
-        hostIP = scanner.nextLine();
-    }
-
     private void setUpHostConnection() throws IOException {
 
         sock = new Socket(hostIP, PORT);
 
-        System.out.print("Connecting to Server...\n");
+        io.presentMessage(NetworkClientMessage.CONNECTING_TO_HOST);
 
-        var hostName = listen();
+        var gameMode = listen();
         send(clientName);
 
-        System.out.print("Connection to Host " + hostName + " established.\n");
+        io.presentMessage(NetworkClientMessage.HOST_CONNECTED);
+
+        if (gameMode == "Torpedo") {
+            mGame = Optional.of(new TorpedoChess());
+        } else {
+            mGame = Optional.of(new Chess());
+        }
 
     }
 
     @Override
     public void run() {
-        if (!mStandardChess) {
-            mGame = Optional.of(new TorpedoChess());
-        } else {
-            mGame = Optional.of(new Chess());
-        }
+
         startGame();
     }
 
@@ -99,7 +93,7 @@ public class ClientController implements Runnable, GameOwner {
             try {
                 moveString = listen();
             } catch (Exception e){
-                System.out.println("Failed to receive move:\n" + e);
+                io.presentMessage(NetworkClientMessage.RECEIVE_MOVE_FAILED);
                 validConnection = false;
             }
 
@@ -123,10 +117,8 @@ public class ClientController implements Runnable, GameOwner {
                     mGame.get().makeMove(moveOut);
                     mPresenter.refreshOutput();
                 } catch (Exception e){
-
-                    System.out.println("Failed to send move:\n" + e);
+                    io.presentMessage(NetworkClientMessage.SEND_MOVE_FAILED);
                     validConnection = false;
-
                 }
             }
         } while(validConnection);
