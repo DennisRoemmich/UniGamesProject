@@ -29,7 +29,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AiPlayer implements Player {
 
     private Controller mController;
-    private boolean mBuildingCardSwitch = false;
 
     public AiPlayer(Controller controller) {
         this.mController = controller;
@@ -62,14 +61,30 @@ public class AiPlayer implements Player {
 
     private void handleSetupVillage() {
         List<NodePosition> possiblePositions = BuildRules.getStartNodePositions(mController.getMap());
-        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP))
-        		.noneMatch(tP -> mController.getMap().getTile(tP).isEmpty())).toList();
-        possiblePositions = possiblePositions.stream().filter(nP -> Arrays.stream(MapTools.getTilesPositions(nP))
-        		.noneMatch(tP -> mController.getMap().getTile(tP).get().isWater())).toList();
-        possiblePositions = new ArrayList<>(possiblePositions);
-        Collections.shuffle(possiblePositions);
+        
+        List<NodePosition> filteredPostitions = new ArrayList<>();
+        
+        for (NodePosition nP : possiblePositions) {
+        	List<TilePosition> tilePostitions = Arrays.stream(MapTools.getTilesPositions(nP))
+        												.toList();
+        	boolean isEmpty =  tilePostitions.stream()
+        										.anyMatch(tP -> mController.getMap().getTile(tP).isEmpty());
+        	
+        	if (isEmpty) {
+        		continue;
+        	}
+
+        	boolean isWater = tilePostitions.stream()
+        			.filter(tP -> mController.getMap().getTile(tP).isPresent())
+        			.anyMatch(tP -> mController.getMap().getTile(tP).get().isWater());
+        	if (!isWater) {
+        		filteredPostitions.add(nP);
+        	}
+        }
+        
+        Collections.shuffle(filteredPostitions);
         try {
-        	mController.placeBuilding(possiblePositions.get(0));
+        	mController.placeBuilding(filteredPostitions.get(0));
         } catch (Exception e) {
         	PrintToConsole.println("ERROR: Please do not choose that many Ai Players! "
         			+ "There is not enough space to place inward villages onto!!!");
@@ -84,19 +99,22 @@ public class AiPlayer implements Player {
     }
 
     private void handleOptionalMoves() {
-
-            for (int i = 0; i < 3; i++) {
-                var color = mController.getCurrentPlayerColor();
-                var possibleVillageSpots =
-                        BuildRules.getValidNodePositions(mController.getMap(), color, BuildingType.VILLAGE);
-                if (possibleVillageSpots.isEmpty()) {
-                    tryCreatingStreet(StreetType.ROAD);
-                } else {
-                    tryCreatingBuilding(BuildingType.VILLAGE);
-                }
+		tryUsingCards();
+		
+        for (int i = 0; i < 3; i++) {
+            var color = mController.getCurrentPlayerColor();
+            var possibleVillageSpots =
+                    BuildRules.getValidNodePositions(mController.getMap(), color, BuildingType.VILLAGE);
+            if (possibleVillageSpots.isEmpty()) {
+                tryCreatingStreet(StreetType.ROAD);
+            } else {
+                tryCreatingBuilding(BuildingType.VILLAGE);
             }
-          tryCreatingBuilding(BuildingType.TOWN);
+        }
+        tryCreatingBuilding(BuildingType.TOWN);
+        tryTakingCard();
         tryTrading();
+        
         if (GameState.NOT_RUNNING.equals(mController.getState())) {
         	return;
         }
@@ -163,7 +181,6 @@ public class AiPlayer implements Player {
             if (!possiblePositions.isEmpty()) {
                 Collections.shuffle(possiblePositions);
                 mController.placeBuilding(possiblePositions.get(0));
-                mBuildingCardSwitch = !mBuildingCardSwitch;
             }
         }
     }
@@ -209,7 +226,6 @@ public class AiPlayer implements Player {
     public void tryTakingCard() {
         if (mController.getCurrentPlayerHand().isSuperset(CardSet.getCost())) {
             mController.takeCard();
-            mBuildingCardSwitch = !mBuildingCardSwitch;
         }
     }
 
@@ -219,7 +235,7 @@ public class AiPlayer implements Player {
             if (cardType == CardType.VICTORY) {
                 continue;
             }
-            mController.playCard(cardType, new MaterialType[0]);
+            mController.playCard(cardType);
         }
     }
 }

@@ -29,6 +29,8 @@ public class FxMenuController {
 	ClassLoader mClassLoader;
 	
     private static boolean mIsStandardMap;
+    private static int mAiAmount;
+    private static int mStartingAmount;
     
     private static int mHumanAmount;
     public static int getHumanAmount() {
@@ -39,7 +41,7 @@ public class FxMenuController {
 		FxMenuController.mHumanAmount = humanAmount;
 	}
 
-	private static int mAiAmount;
+	
     
 	public static int getAiAmount() {
 		return mAiAmount;
@@ -49,14 +51,14 @@ public class FxMenuController {
 		FxMenuController.mAiAmount = aiAmount;
 	}
 
-	private static int StartingAmount;
+	
 
     public static int getStartingAmount() {
-		return StartingAmount;
+		return mStartingAmount;
 	}
 
 	public static void setStartingAmount(int startingAmount) {
-		FxMenuController.StartingAmount = startingAmount;
+		FxMenuController.mStartingAmount = startingAmount;
 	}
 
 	public static boolean ismIsStandardMap() {
@@ -127,7 +129,5 @@ public class FxMenuController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
     }
 }

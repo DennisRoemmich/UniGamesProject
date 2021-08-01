@@ -20,6 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
     	
     	setPrimaryStage(primaryStage);
+    	primaryStage.setResizable(false);
     	
     	ClassLoader classLoader = getClass().getClassLoader();
 

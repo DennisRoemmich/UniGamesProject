@@ -178,7 +178,7 @@ public class Controller extends GameController implements SiedlerEventHandler {
     
     public void takeCard() {
     	CardSet set = getCurrentPlayerCards();
-    	int cardRoll = ThreadLocalRandom.current().nextInt(0, 24);
+    	int cardRoll = ThreadLocalRandom.current().nextInt(0, 100);
     	
     	if (!CardSet.getCost().isSubset(getCurrentPlayerHand())) {
     		PrintToConsole.println("Not enough ressources!");
@@ -187,24 +187,24 @@ public class Controller extends GameController implements SiedlerEventHandler {
     	
     	getCurrentPlayerHand().removeResourceSet(CardSet.getCost());
     	
-    	if (cardRoll < 14) {
+    	if (cardRoll < 56) {
     		set.addCard(CardType.KNIGHT);
     	}
     	
-    	if (cardRoll < 19 && cardRoll >= 14) {
+    	if (cardRoll < 76 && cardRoll >= 56) {
     		set.addCard(CardType.VICTORY);
     		mPlayerData.get(mCurrentPlayer).increaseWinPoints();
     	}
     	
-    	if (cardRoll < 21 && cardRoll >= 19) {
+    	if (cardRoll < 80 && cardRoll >= 76) {
     		set.addCard(CardType.ROAD);
     	}
     	
-    	if (cardRoll < 23 && cardRoll >= 21) {
+    	if (cardRoll < 92 && cardRoll >= 80) {
     		set.addCard(CardType.INVENTION);
     	}
     	
-    	if (cardRoll < 25 && cardRoll >= 23) {
+    	if (cardRoll >= 92) {
     		set.addCard(CardType.MONOPOLY);
     	} 
     	
