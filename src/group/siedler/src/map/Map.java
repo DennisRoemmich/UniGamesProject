@@ -4,6 +4,7 @@ import buildings.Building;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
+import positions.PositionedObject;
 import positions.TilePosition;
 import streets.PositionedStreet;
 import streets.Street;
@@ -74,15 +75,18 @@ public class Map {
 
     public Optional<Tile> getTile(TilePosition position) {
         return mTiles.stream().filter(tile -> tile.getPosition().equals(position))
-        		.map(pT -> pT.getObject()).findFirst();
+        		.map(PositionedObject::getObject).findFirst();
     }
 
     public Optional<Building> getBuilding(NodePosition position) {
-        return mBuildings.stream().filter(building -> building.getPosition().equals(position)).findFirst();
+        return mBuildings.stream()
+                        .filter(building -> building.getPosition().equals(position)).findFirst();
     }
 
     public Optional<Street> getStreet(EdgePosition position) {
-        return mStreets.stream().filter(s -> s.getPosition().equals(position)).map(s -> s.getObject()).findFirst();
+        return mStreets.stream()
+                        .filter(s -> s.getPosition().equals(position))
+                        .map(PositionedObject::getObject).findFirst();
     }
 
     public void addTiles(PositionedTile... newTiles) {
@@ -119,7 +123,7 @@ public class Map {
     }
 
     public void addStreet(PositionedStreet newStreet) {
-        if (!mStreets.stream().map(s -> s.getPosition()).toList().contains(newStreet.getPosition())) {
+        if (!mStreets.stream().map(PositionedObject::getPosition).toList().contains(newStreet.getPosition())) {
             mStreets.add(newStreet);
         }
     }
