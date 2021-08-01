@@ -17,6 +17,7 @@ import javafx.enums.FXCardPosition;
 import javafx.enums.GUIState;
 import javafx.enums.FXHandShelfPosition;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -985,7 +986,6 @@ public class FXController implements Player, Initializable {
 
 
     /* OUTLETS */
-
 
 
     public AnchorPane anchor_DebugView;
