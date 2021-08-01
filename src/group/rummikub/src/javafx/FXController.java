@@ -42,7 +42,7 @@ public class FXController implements Player, Initializable {
     @FXML
     private AnchorPane anchorPanePod;
     @FXML
-    private ImageView imageViewStartNewGame;
+    private ImageView imageView_startNewGame;
 
 
 
@@ -282,6 +282,8 @@ public class FXController implements Player, Initializable {
     private boolean makeMove(GameMove move){
 
         originPoint = null;
+
+        rummikubController.makeMove(move);
 
         updateGUI();
 
@@ -686,8 +688,8 @@ public class FXController implements Player, Initializable {
 
         /* Podium */
 
-        imageViewStartNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
-        imageViewStartNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageViewStartNewGame.fitWidthProperty().multiply(0.5)));
+        imageView_startNewGame.fitWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.25));
+        imageView_startNewGame.xProperty().bind(anchorPanePod.widthProperty().multiply(0.5).subtract(imageView_startNewGame.fitWidthProperty().multiply(0.5)));
 
         anchorpanePod1.layoutXProperty().set(35);
         anchorpanePod1.layoutYProperty().set(20);
