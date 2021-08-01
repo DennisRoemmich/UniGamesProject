@@ -1,26 +1,19 @@
 package menuMain;
 
 
-import TicTacToeFX.GUIStarter;
-import TicTacToeFX.TicTacToe;
 import console.ConsoleMenu;
-
 import main.SkatLauncher;
-import tictactoe.GUI;
-
-import java.util.Locale;
 import java.util.Scanner;
 
 public class MenuPrototype {
 
-    private Scanner mScanner = new Scanner(System.in);
+    private final Scanner mScanner = new Scanner(System.in);
 
     public MenuPrototype() {
 
         printWelcomeMessage();
         printSelectGame();
         handleGameInput();
-
 
     }
 
@@ -40,7 +33,7 @@ public class MenuPrototype {
 
     private void handleGameInput() {
         String input = mScanner.nextLine();
-        String error = "This game isn't implemented yet :(";
+        var error = "This game isn't implemented yet :(";
         input = input.toUpperCase();
         switch (input) {
             case "C", "c":
@@ -54,7 +47,7 @@ public class MenuPrototype {
             	startSkat();
                 break;
             case "K", "k":
-            	println(error);
+            	startSiedler();
                 break;
             case "T1": // MARIA
 
@@ -110,8 +103,54 @@ public class MenuPrototype {
     }
 
     private void startChess() {
-        ConsoleMenu consoleMenu = new ConsoleMenu();
-        consoleMenu.run();
+
+
+        var invalidInput = false;
+
+        do {
+
+
+            print("Do you want to play the [C]onsole or the [G]ui version?\n> ");
+            String input = mScanner.nextLine();
+            input = input.toUpperCase();
+
+            switch (input) {
+
+                case "C":
+
+                    ConsoleMenu consoleMenu = new ConsoleMenu();
+                    consoleMenu.run();
+                    break;
+
+                case "G":
+
+                    try {
+                        chessgui.Main.main(new String[0]);
+                    } catch (Exception e){
+                        println(">> Please restart the menu before opening another GUI-based application");
+                    }
+                    break;
+
+                case "Q":
+
+                    break;
+
+                default:
+                    invalidInput = true;
+                    println("invalid input");
+                    break;
+
+            }
+
+        } while (invalidInput);
+
+
+    }
+
+    private void startSiedler(){
+
+        siedler.controller.Main.main(new String[0]);
+
     }
 
     private void startRummikub() {
