@@ -6,13 +6,8 @@ import engine.board.ChessMove;
 import engine.pieces.ChessPiece;
 import engine.pieces.PositionedPiece;
 import framework.PrintToConsole;
-import framework.TimeKeeper;
-
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public final class AiRatingEngine implements Runnable {
 
@@ -41,14 +36,14 @@ public final class AiRatingEngine implements Runnable {
     private void executeTask(AiRatingTask task) {
         var move = task.getMoveToRate();
 
-        if (task.getDepth() < 1 || task.getTimeout() < 1) {
+        if (task.getDepth() < 1) {
             return;
         }
 
         double rating;
         AiRatingResult result;
         if (move.isPresent()) {
-            rating = rateMoveRecursively(task.getGame(), move.get(), task.getDepth(), task.getTimeout());
+            rating = rateMoveRecursively(task.getGame(), move.get(), task.getDepth());
             result = new AiRatingResult(task.getGame(), move.get(), rating);
         } else {
             rating = getRatingFromStorage(task.getGame(), task.getDepth());
@@ -58,7 +53,7 @@ public final class AiRatingEngine implements Runnable {
     }
 
 
-    public ChessMove getBestMove(Chess game, int depth, long maxTime, boolean shouldPrint) {
+    public ChessMove getBestMove(Chess game, int depth, boolean shouldPrint) {
         boolean isWhite = game.getCurrentColor().isWhite();
 
         var possibleMoves = new LinkedList<>(game.getPossibleMoves());
@@ -70,7 +65,7 @@ public final class AiRatingEngine implements Runnable {
             if (shouldPrint) {
                 PrintToConsole.print(".");
             }
-            var rating = rateMoveRecursively(game, move, depth, maxTime);
+            var rating = rateMoveRecursively(game, move, depth);
 
             if (bestMove.isEmpty() || (isWhite ? (rating > bestRating) : (rating < bestRating))) {
                 bestRating = rating;
@@ -81,14 +76,13 @@ public final class AiRatingEngine implements Runnable {
         if (shouldPrint) {
             PrintToConsole.println("\n\nBest move is " + bestMove + " with " + bestRating);
         }
+        if (bestMove.isEmpty()) {
+            throw new IllegalStateException();
+        }
         return bestMove.get();
     }
 
-    private double rateMove(Chess game, ChessMove move) {
-        return rateMoveRecursively(game, move, 1, 5000L);
-    }
-
-    private double rateMoveRecursively(Chess game, ChessMove move, int depth, long maxTime) {
+    private double rateMoveRecursively(Chess game, ChessMove move, int depth) {
         Chess gameClone = new Chess(game);
         double rating = rateSituation(game);
         gameClone.makeMove(move);
@@ -98,21 +92,18 @@ public final class AiRatingEngine implements Runnable {
 
     public double rateSituation(Chess game) {
         switch (GameOverDetector.checkForMate(game)) {
-            case CHECKMATE -> {
+            case CHECKMATE:
                 return 100000 * game.getCurrentColor().getContrary().getScoreFactor();
-            }
-            case NONE -> {
+            case NONE:
                 double pieceRating = getPieceValueRating(game);
                 double positionRating = getPositionRating(game);
                 return pieceRating + positionRating;
-            }
-            default -> {
+            default:
                 return 0;
-            }
         }
     }
 
-    public double rateSituationRecursively(Chess game, int depth, long maxTime) {
+    public double rateSituationRecursively(Chess game, int depth) {
         if (depth <= 1) {
             return rateSituation(game);
         } else {
@@ -148,7 +139,7 @@ public final class AiRatingEngine implements Runnable {
         if (ratingStorage.isRatingStored(game, depth)) {
             return ratingStorage.getRating(game, depth);
         } else {
-            var rating = rateSituationRecursively(game, depth, 5000L);
+            var rating = rateSituationRecursively(game, depth);
             ratingStorage.addRating(game, rating, depth);
             return rating;
         }

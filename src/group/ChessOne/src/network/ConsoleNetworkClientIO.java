@@ -1,27 +1,13 @@
 package network;
 
-import engine.Chess;
-import engine.board.ChessMove;
-import framework.Player;
-import framework.Presenter;
 import framework.PrintToConsole;
-import org.json.simple.JSONObject;
-import torpedo.TorpedoChess;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.Optional;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ConsoleNetworkClientIO implements NetworkClientIO {
 
     @Override
     public String getHostIP(){
-        System.out.println("Please enter the host IP:");
+        PrintToConsole.println("Please enter the host IP:");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

@@ -1,6 +1,5 @@
 package engine;
 
-import engine.analysis.CheckDetector;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessBoard;
 import engine.board.ChessMove;
@@ -8,7 +7,6 @@ import engine.pieces.*;
 import engine.squares.File;
 import engine.squares.Rank;
 import engine.squares.Square;
-import console.ConsoleUI;
 import engine.analysis.ChessResult;
 import engine.pieces.PlayerColor;
 
@@ -28,7 +26,6 @@ public class Chess {
     protected int mLastPawnMoveOrCapture = 0;
     protected PlayerColor mCurrentPlayerColor = PlayerColor.WHITE;
     private boolean mAutoPromotion = true;
-    private int mLastMoveCalculationHash = 0;
     private List<ChessMove> mPossibleMoves = new ArrayList<>();
     private boolean mIsGameOver = false;
 
@@ -151,10 +148,6 @@ public class Chess {
         }
 
         ChessPiece promotionPiece = new Queen(mCurrentPlayerColor);
-        if (!mAutoPromotion) {
-            //ConsoleUI newUI = new ConsoleUI();
-            //promotionPiece = setPromotionPiece(newUI.setPromotionPiece());
-        }
         mBoard.placePiece(promotionPiece, move.getOrigin());
     }
 
@@ -215,7 +208,6 @@ public class Chess {
             newPossibleMoves.addAll(possibleDestinations);
         }
         this.mPossibleMoves = newPossibleMoves;
-        this.mLastMoveCalculationHash = mBoard.hashCode();
     }
 
     public List<ChessMove> getPossibleMoves() {

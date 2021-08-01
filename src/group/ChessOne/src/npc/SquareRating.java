@@ -80,7 +80,7 @@ public final class SquareRating {
         var corrected = getCorrectedSquare(piece);
         int index = corrected.getIndex();
 
-        var rating =  switch (piece.getPiece().getType()) {
+        return switch (piece.getPiece().getType()) {
             case PAWN   -> PAWN_RATING_TABLE[index];
             case BISHOP -> BISHOP_RATING_TABLE[index];
             case KNIGHT -> KNIGHT_RATING_TABLE[index];
@@ -89,7 +89,6 @@ public final class SquareRating {
             case QUEEN  -> QUEEN_RATING_TABLE[index];
             default -> 0;
         };
-        return rating;
     }
 
     public static Square getCorrectedSquare(PositionedPiece piece) {

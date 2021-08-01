@@ -1,20 +1,18 @@
 package network;
 
 import engine.Controller;
-import engine.board.ChessMove;
 import framework.Player;
+import framework.PrintToConsole;
 import framework.WriteError;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.BlockingQueue;
 
 public class NetworkPlayer implements Player {
 
@@ -40,7 +38,7 @@ public class NetworkPlayer implements Player {
         try {
             setUpClientConnection(gameMode);
         } catch (Exception e){
-            System.out.println("Connection to client failed:\n" + e);
+            PrintToConsole.println("Connection to client failed:\n" + e);
         }
     }
 
@@ -48,16 +46,16 @@ public class NetworkPlayer implements Player {
 
         InetAddress addr = InetAddress.getByName("0.0.0.0");
 
-        System.out.println("Waiting for client...");
+        PrintToConsole.println("Waiting for client...");
 
-        ServerSocket serverSock = new ServerSocket(PORT, 128, addr);
-        sock = serverSock.accept();
+        try (ServerSocket serverSock = new ServerSocket(PORT, 128, addr)) {
+            sock = serverSock.accept();
 
-        send(gameMode);
-        clientName = listen();
+            send(gameMode);
+            clientName = listen();
 
-        System.out.println("Client connected.");
-
+            PrintToConsole.println("Client connected.");
+        }
 
     }
 
@@ -88,12 +86,10 @@ public class NetworkPlayer implements Player {
         try {
             send(moveOut.toString());
         } catch (Exception e) {
-            System.out.println("Sending last move to connected client failed:\n" + e);
+            PrintToConsole.println("Sending last move to connected client failed:\n" + e);
             mController.quitGame();
             return;
         }
-
-        ChessMove moveIn;
 
         try {
             var game = mController.getGame();
@@ -106,18 +102,9 @@ public class NetworkPlayer implements Player {
                 throw new IllegalStateException();
             }
         } catch (Exception e) {
-            System.out.println("Receiving move from client failed:\n" + e);
+            PrintToConsole.println("Receiving move from client failed:\n" + e);
             mController.quitGame();
-            return;
         }
-
-        return;
-
-    }
-
-    @Override
-    public BlockingQueue<JSONObject> getRequestQueue() {
-        return null;
     }
 }
 

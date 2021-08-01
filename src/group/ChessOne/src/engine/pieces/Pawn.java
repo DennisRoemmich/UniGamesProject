@@ -24,53 +24,84 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Square> findCoveredSquares(Chess game) {
-    	Optional<Square> s = game.getBoard().getSquare(this);
+        List<Square> coveredSquared = new ArrayList<>();
+
+    	Optional<Square> s = findSelf(game);
+
     	if (!s.isPresent()) {
-        	return new ArrayList<>();
+        	return coveredSquared;
         }
+
         Square origin = s.get();
 
-        List<Square> list = new ArrayList<>();
 
         Direction moveDirection = getColor().getPawnMoveDirection();
 
         //Einfacher Zug & Doppelzug
-        Square squareToTest = origin.getNext(moveDirection).get();
-
-        if (game.getBoard().isFieldFree(squareToTest)) {
-            list.add(squareToTest);
-            if (isDoubleMovePossible() && squareToTest.getNext(moveDirection).isPresent()) {
-                squareToTest = squareToTest.getNext(moveDirection).get();
-                if (game.getBoard().isFieldFree(squareToTest)) {
-                    list.add(squareToTest);
-                }
-            }
-        }
+        addRegularMoves(game, coveredSquared, origin, moveDirection);
 
         //Schlagen
-        for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
-            squareToTest = origin.getNext(moveDirection).get();
-            if(squareToTest.getNext(captureDirection).isEmpty()) continue;
-            squareToTest = squareToTest.getNext(captureDirection).get();
+        addCaptureMoves(game, coveredSquared, origin, moveDirection);
 
-            var piece = game.getBoard().getPiece(squareToTest);
-            if(piece.isEmpty()) {
+        return coveredSquared;
+    }
+
+    private void addCaptureMoves(Chess game, List<Square> coveredSquared, Square origin, Direction moveDirection) {
+        Optional<Square> squareToTest;
+        for (Direction captureDirection : new Direction[]{Direction.LEFT, Direction.RIGHT}) {
+            squareToTest = origin.getNext(moveDirection);
+            squareToTest = getNextSquare(squareToTest, captureDirection);
+            utilizeSquareToTest(game, coveredSquared, origin, squareToTest, captureDirection);
+        }
+    }
+
+    private void utilizeSquareToTest(Chess game, List<Square> coveredSquared, Square origin, Optional<Square> squareToTest, Direction captureDirection) {
+        if (squareToTest.isPresent()) {
+            var piece = game.getBoard().getPiece(squareToTest.get());
+            if (piece.isEmpty()) {
                 // Capture En Passant
-                var possiblePiece = game.getBoard().getPiece(origin.getNext(captureDirection).get());
-                if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
-                    Pawn pawn = (Pawn) possiblePiece.get();
-                    if (pawn.mCanBeCapturedEnPassant) {
-                        list.add(squareToTest);
-                    }
-                }
+                addEnPassantMove(game, coveredSquared, origin, squareToTest.get(), captureDirection);
             } else if (piece.get().getColor().equals(getColor().getContrary())) {
                 // Capture regular
-                list.add(squareToTest);
-                continue;
+                coveredSquared.add(squareToTest.get());
             }
         }
+    }
 
-        return list;
+    private void addEnPassantMove(Chess game, List<Square> coveredSquared, Square origin, Square destinationSquare, Direction captureDirection) {
+        var enPassantVictimSquare = origin.getNext(captureDirection);
+        if (enPassantVictimSquare.isPresent()) {
+            var possiblePiece = game.getBoard().getPiece(enPassantVictimSquare.get());
+            if (possiblePiece.isPresent() && possiblePiece.get().getType().equals(ChessPieceType.PAWN)) {
+                Pawn pawn = (Pawn) possiblePiece.get();
+                if (pawn.mCanBeCapturedEnPassant) {
+                    coveredSquared.add(destinationSquare);
+                }
+            }
+        }
+    }
+
+    private Optional<Square> getNextSquare(Optional<Square> squareToTest, Direction captureDirection) {
+        if(squareToTest.isPresent()) {
+            if (squareToTest.get().getNext(captureDirection).isEmpty()) {
+                return Optional.empty();
+            } else {
+                squareToTest = squareToTest.get().getNext(captureDirection);
+            }
+        }
+        return squareToTest;
+    }
+
+    private void addRegularMoves(Chess game, List<Square> coveredSquared, Square origin, Direction moveDirection) {
+        var squareToTest = origin.getNext(moveDirection);
+
+        if (squareToTest.isPresent() && game.getBoard().isFieldFree(squareToTest.get())) {
+            coveredSquared.add(squareToTest.get());
+            var nextSquare = squareToTest.get().getNext(moveDirection);
+            if (isDoubleMovePossible() && nextSquare.isPresent() && game.getBoard().isFieldFree(nextSquare.get())) {
+                coveredSquared.add(nextSquare.get());
+            }
+        }
     }
 
     protected boolean isDoubleMovePossible() {
@@ -88,5 +119,16 @@ public class Pawn extends ChessPiece {
     @Override
     public int hashCode() {
         return Objects.hash(ChessPieceType.KING, getColor().isWhite(), mCanBeCapturedEnPassant);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return hashCode() == o.hashCode();
     }
 }

@@ -9,6 +9,10 @@ import framework.PrintToConsole;
 
 public final class GamePrinter {
 
+    private GamePrinter() {
+        // Prevent construction
+    }
+
     public static void printBoard(ChessBoard board) {
         PrintToConsole.println("   A   B   C   D   E   F   G   H  ");
         PrintToConsole.println(" ┌───────────────────────────────┐ ");
@@ -21,7 +25,7 @@ public final class GamePrinter {
                     PrintToConsole.print(' ');
                 } else {
                     // .toChar() can be changed to .toSymbol() for Unicode symbols
-                    PrintToConsole.print(piece.get().toSymbol());
+                    PrintToConsole.print(piece.get().toChar());
                 }
                 PrintToConsole.print(" │");
             }

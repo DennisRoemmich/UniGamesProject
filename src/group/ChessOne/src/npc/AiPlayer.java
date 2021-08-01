@@ -6,8 +6,6 @@ import engine.board.ChessMove;
 import framework.Player;
 import org.json.simple.JSONObject;
 
-import java.util.concurrent.BlockingQueue;
-
 public class AiPlayer implements Player {
 
 	protected Controller mController;
@@ -32,25 +30,9 @@ public class AiPlayer implements Player {
 		var game = mController.getGame();
 		if (game.isPresent()) {
 			Chess gameClone = new Chess(game.get());
-			long endTime = System.currentTimeMillis() + 10000L;
-			return ratingEngine.getBestMove(gameClone, depth, endTime, mShouldPrint);
+			return ratingEngine.getBestMove(gameClone, depth, mShouldPrint);
 		}
 		throw new IllegalStateException();
-	}
-
-	protected void sleep(long millis) {
-		if (millis > 0) {
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@Override
-	public BlockingQueue<JSONObject> getRequestQueue() {
-		return null;
 	}
 
 	public void setShouldPrint(boolean mShouldPrint) {

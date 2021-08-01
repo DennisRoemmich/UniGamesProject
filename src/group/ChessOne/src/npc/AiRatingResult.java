@@ -4,8 +4,6 @@ import engine.Chess;
 import engine.board.ChessMove;
 
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class AiRatingResult {
     private Chess mGame;

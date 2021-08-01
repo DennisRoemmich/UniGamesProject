@@ -1,14 +1,8 @@
 package gui;
 
-import console.ConsoleMenu;
-import engine.Chess;
-import engine.board.ChessMove;
 import framework.GameLog;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -16,20 +10,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public abstract class GuiMenuController implements Initializable {
-
-    @FXML
-    private Button topLeftButton, topRightButton, middleLeftButton, middleRightButton, bottomLeftButton, bottomRightButton;
-    @FXML
-    private Label topLabel, middleLabel, bottomLabel;
-    @FXML
-    protected Label infoLabel;
-    @FXML
-    protected Button mUniversalButton;
-    @FXML
-    protected AnchorPane mBoardPane, configPane;
-    @FXML
-    protected TextField mInputField;
+public abstract class GuiMenuController extends GuiElements implements Initializable {
 
     /* Button Highlighting */
 
@@ -66,10 +47,12 @@ public abstract class GuiMenuController implements Initializable {
     public void refreshConfigurationView() {
         if (mIsInConfiguration) {
             configPane.setVisible(true);
+            mUniversalButton.setText("Start Game");
             refreshText();
             refreshStrokes();
         } else {
             configPane.setVisible(false);
+            mUniversalButton.setText("Execute Move");
         }
     }
 

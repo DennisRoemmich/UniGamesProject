@@ -27,11 +27,8 @@ public class ClientController implements Runnable, GameOwner {
     private Player mPlayer;
     private Presenter mPresenter;
 
-    private boolean mStandardChess = true;
-
     private NetworkClientIO io;
 
-    String hostName = "Host";
     String clientName = "Client";
 
     String hostIP;
@@ -66,7 +63,7 @@ public class ClientController implements Runnable, GameOwner {
 
         io.presentMessage(NetworkClientMessage.HOST_CONNECTED);
 
-        if (gameMode == "Torpedo") {
+        if (gameMode.equals("Torpedo")) {
             mGame = Optional.of(new TorpedoChess());
         } else {
             mGame = Optional.of(new Chess());
@@ -109,6 +106,7 @@ public class ClientController implements Runnable, GameOwner {
                 mPlayer.requestMove(requestJSON);
 
                 while (moveQueue.peek() == null) {
+                    // Waiting for next move
                 }
 
                 var moveJSon = moveQueue.poll();

@@ -59,46 +59,61 @@ public class King extends ChessPiece {
             return castlingMoves;
         }
 
+        Square kingSquare = new Square(getColor().getBackrank(), File.E);
+
         for (PositionedPiece positionedRook : game.getBoard().getPositionedPieces(getColor(), ChessPieceType.ROOK)) {
-
-            Rook rook = (Rook) positionedRook.getPiece();
-
-            if (rook.getNumberOfMoves() > 0) continue;
-
-            Square kingSquare = new Square(getColor().getBackrank(), File.E);
-            Direction kingMoveDirection = positionedRook.getPosition().getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
-
-            // Check if engine.squares for king are not covered by the opponent
-            List<Square> squaresToCheck = new ArrayList<>();
-            squaresToCheck.add(kingSquare.getNext(kingMoveDirection).get());
-            squaresToCheck.add(squaresToCheck.get(0).getNext(kingMoveDirection).get());
-
-            boolean stopFlag = false;
-            for(Square square : squaresToCheck) {
-                if(CheckDetector.isSquareAttackedByOpponent(game, square)) {
-                    stopFlag = true;
+            if (checkCastlingWithRook(game, positionedRook)) {
+                Direction castlingDirection = positionedRook.getPosition().getFile().equals(File.A) ? Direction.LEFT : Direction.RIGHT;
+                Square destination = new Square(kingSquare);
+                for (int i = 0; i < 2; i++) {
+                    var nextStep = destination.getNext(castlingDirection);
+                    if (nextStep.isPresent()) {
+                        destination = nextStep.get();
+                    }
                 }
+                ChessMove move = new ChessMove(kingSquare, destination);
+                castlingMoves.add(move);
             }
-            if(stopFlag) continue;
 
-
-            // Check if those engine.squares (+ the B-Square if castling is on queen side) are free
-            if (kingMoveDirection == Direction.LEFT) {
-                squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
-            }
-            for(Square square : squaresToCheck) {
-                if(game.getBoard().getPiece(square).isPresent()) {
-                    stopFlag = true;
-                }
-            }
-            if(stopFlag) continue;
-
-            // Add move to list
-            Square destination = squaresToCheck.get(1);
-            ChessMove move = new ChessMove(kingSquare, destination);
-            castlingMoves.add(move);
         }
         return castlingMoves;
+    }
+
+    private boolean checkCastlingWithRook(Chess game, PositionedPiece positionedRook) {
+        Rook rook = (Rook) positionedRook.getPiece();
+
+        if (rook.getNumberOfMoves() > 0) return false;
+
+        Square kingSquare = new Square(getColor().getBackrank(), File.E);
+        Direction castlingDirection = positionedRook.getPosition().getFile() == File.A ? Direction.LEFT : Direction.RIGHT;
+
+        // Check if squares for king are not covered by the opponent
+        List<Square> squaresToCheck = new ArrayList<>();
+        var nextSquare = kingSquare.getNext(castlingDirection);
+        if (nextSquare.isPresent()) {
+            squaresToCheck.add(nextSquare.get());
+            nextSquare = nextSquare.get().getNext(castlingDirection);
+        }
+        if (nextSquare.isPresent()) {
+            squaresToCheck.add(nextSquare.get());
+        }
+
+        for(Square square : squaresToCheck) {
+            if(CheckDetector.isSquareAttackedByOpponent(game, square)) {
+                return false;
+            }
+        }
+
+        // Check if those squares (+ the B-Square if castling is on queen side) are free
+        if (castlingDirection == Direction.LEFT) {
+            squaresToCheck.add(new Square(getColor().getBackrank(), File.B));
+        }
+        for(Square square : squaresToCheck) {
+            if(game.getBoard().getPiece(square).isPresent()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -106,4 +121,14 @@ public class King extends ChessPiece {
         return Objects.hash(ChessPieceType.KING, getColor().isWhite(), getNumberOfMoves() == 0);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        return hashCode() == o.hashCode();
+    }
 }

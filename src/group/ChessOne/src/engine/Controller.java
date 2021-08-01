@@ -4,15 +4,12 @@ import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import framework.*;
-import javafx.application.Platform;
 import torpedo.TorpedoChess;
 
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -23,12 +20,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Controller extends GameController implements Runnable, GameOwner {
 
     private Optional<Chess> mGame = Optional.empty();
-    private Player mPlayerA;
-    private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
 
-    protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
+    protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<>();
 
     private boolean mIsLoopRunning = true;
 
@@ -43,14 +38,14 @@ public class Controller extends GameController implements Runnable, GameOwner {
 
     @Override
     public void run() {
-        if (mGame.isEmpty()) {
-            newGame();
-        }
+        createGameIfNecessary();
         startGame();
         while (mIsLoopRunning) {
-            if (getCurrentPlayer().isPresent()) {
-                getCurrentPlayer().get().requestMove(createRequestJSon("move"));
+            var player = getCurrentPlayer();
+            if (player.isPresent()) {
+                player.get().requestMove(createRequestJSon("move"));
                 while (moveQueue.peek() == null) {
+                    // Waiting for move
                 }
                 JSONObject input = moveQueue.poll();
                 if (input.containsKey("undo")) {
@@ -71,6 +66,12 @@ public class Controller extends GameController implements Runnable, GameOwner {
             }
         }
         PrintToConsole.println("Controller finished.");
+    }
+
+    private void createGameIfNecessary() {
+        if (mGame.isEmpty()) {
+            newGame();
+        }
     }
 
     protected void executeMove(JSONObject moveJSon) {
@@ -167,14 +168,6 @@ public class Controller extends GameController implements Runnable, GameOwner {
 
     public void setGameMode(boolean isStandard) {
         mStandardChess = isStandard;
-    }
-
-    public void setPlayerA(Player playerA) {
-        this.mPlayerA = playerA;
-    }
-
-    public void setPlayerB(Player playerB) {
-        this.mPlayerB = playerB;
     }
 
     @Override

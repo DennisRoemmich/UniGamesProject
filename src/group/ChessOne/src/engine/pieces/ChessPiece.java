@@ -55,6 +55,10 @@ public abstract class ChessPiece {
         return validMoves;
     }
 
+    protected Optional<Square> findSelf(Chess game) {
+        return game.getBoard().getSquare(this);
+    }
+
     private boolean isSquareFreeOrOpponent(Chess game, Square square) {
         var piece = game.getBoard().getPiece(square);
         return piece.isEmpty() || piece.get().getColor().equals(getColor().getContrary());

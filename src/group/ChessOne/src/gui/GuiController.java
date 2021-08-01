@@ -6,7 +6,6 @@ import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
 import javafx.application.Platform;
-import javafx.scene.control.Button;
 import engine.squares.Square;
 import framework.Player;
 import framework.Presenter;
@@ -25,15 +24,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@SuppressWarnings("rawtypes")
 public class GuiController extends GuiMenuController implements Player, Presenter, GuiEventHandler {
 
     private GameOwner gameOwner;
     private ChessBoardNode mBoardNode;
 
     private final ReadWriteLock boardNodeLock = new ReentrantReadWriteLock();
-
-    private Optional<Controller> mChessController;
 
     private Optional<Square> mOrigin = Optional.empty();
 
@@ -56,19 +52,45 @@ public class GuiController extends GuiMenuController implements Player, Presente
 
     @Override
     public void refreshOutput() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                boardNodeLock.writeLock().lock();
-                try {
-                    mBoardNode.refreshNode();
-                } finally {
-                    boardNodeLock.writeLock().unlock();
-                }
-                refreshGameState();
-                refreshConfigurationView();
+        Platform.runLater(new Refresher());
+    }
+
+    private class Refresher implements Runnable {
+        @Override
+        public void run() {
+            boardNodeLock.writeLock().lock();
+            try {
+                mBoardNode.refreshNode();
+            } finally {
+                boardNodeLock.writeLock().unlock();
             }
-        });
+            refreshGameState();
+            refreshConfigurationView();
+        }
+
+        private void refreshGameState() {
+            var game = gameOwner.getGame();
+            if (game.isPresent()) {
+                switch (GameOverDetector.checkForMate(game.get())) {
+                    case CHECKMATE:
+                        infoLabel.setText("Checkmate.");
+                        setIsInConfiguration(true);
+                        return;
+                    case STALEMATE:
+                        infoLabel.setText("Stalemate.");
+                        setIsInConfiguration(true);
+                        return;
+                    case DRAW:
+                        infoLabel.setText("Draw.");
+                        setIsInConfiguration(true);
+                        return;
+                    case NONE:
+                        infoLabel.setText("It's " + game.get().getCurrentColor().toString() + "'s turn.");
+                }
+            } else {
+                infoLabel.setText("No game is running.");
+            }
+        }
     }
 
     @Override
@@ -152,7 +174,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
                     ChessMove move = ChessMove.valueOf(mInputField.getText(), game.get());
                     makeMove(move.toJSon());
                 } catch (Exception e) {
-
+                    // Move invalid
                 }
             }
         }
@@ -160,7 +182,6 @@ public class GuiController extends GuiMenuController implements Player, Presente
 
     @Override
     public void startGame() {
-        mChessController = Optional.empty();
         Thread controllerThread;
 
         if (isNetworkGame() && !isHost()) {
@@ -169,24 +190,27 @@ public class GuiController extends GuiMenuController implements Player, Presente
             controllerThread = new Thread(clientController);
             clientController.setupConnection();
         } else {
-            mChessController = Optional.of(new Controller(this, this));
-            gameOwner = mChessController.get();
+            Controller controller = new Controller(this, this);
+            gameOwner = controller;
 
-            mChessController.get().setPlayerB(createPlayerB(mChessController.get()));
+            controller.setPlayerB(createPlayerB(controller));
 
             var gameLog = getGameLog();
             if (gameLog.isPresent()) {
-                mChessController.get().replayLog(gameLog.get());
+                controller.replayLog(gameLog.get());
             } else {
-                mChessController.get().setGameMode(isClassicalChess());
-                mChessController.get().newGame();
+                controller.setGameMode(isClassicalChess());
+                controller.newGame();
             }
-            controllerThread = new Thread(mChessController.get());
+            controllerThread = new Thread(controller);
         }
         setIsInConfiguration(false);
         boardNodeLock.writeLock().lock();
         try {
-            mBoardNode.setBoard(Optional.of(gameOwner.getGame().get().getBoard()));
+            var game = gameOwner.getGame();
+            if (game.isPresent()) {
+                mBoardNode.setBoard(Optional.of(game.get().getBoard()));
+            }
         } finally {
             boardNodeLock.writeLock().unlock();
         }
@@ -218,43 +242,20 @@ public class GuiController extends GuiMenuController implements Player, Presente
         }
     }
 
-    private void refreshGameState() {
-        var game = gameOwner.getGame();
-        if (game.isPresent()) {
-            switch (GameOverDetector.checkForMate(game.get())) {
-                case CHECKMATE:
-                    infoLabel.setText("Checkmate.");
-                    setIsInConfiguration(true);
-                    return;
-                case STALEMATE:
-                    infoLabel.setText("Stalemate.");
-                    setIsInConfiguration(true);
-                    return;
-                case DRAW:
-                    infoLabel.setText("Draw.");
-                    setIsInConfiguration(true);
-                    return;
-                case NONE:
-                    infoLabel.setText("It's " + game.get().getCurrentColor().toString() + "'s turn.");
-            }
-        } else {
-            infoLabel.setText("No game is running.");
-        }
-    }
-
-    @Override
     public BlockingQueue<JSONObject> getRequestQueue() {
         return mRequestQueue;
     }
 
     @Override
     public void requestMove(JSONObject moveType) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                acceptMoveInput = true;
-                refreshOutput();
-            }
-        });
+        Platform.runLater(new MoveRequester());
+    }
+
+    private class MoveRequester implements Runnable {
+        @Override
+        public void run() {
+            acceptMoveInput = true;
+            refreshOutput();
+        }
     }
 }

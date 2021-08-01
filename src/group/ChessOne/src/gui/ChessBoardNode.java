@@ -23,7 +23,7 @@ public class ChessBoardNode extends Group {
         refreshNode();
     }
 
-    public void refreshNode() {//Optional<ChessBoard> board) {
+    public void refreshNode() {
         this.getChildren().clear();
         addBackground();
         if (board.isPresent()) {

@@ -1,20 +1,16 @@
 package console;
 
-import engine.Chess;
 import engine.Controller;
 import framework.*;
 import network.ClientController;
 import network.ConsoleNetworkClientIO;
 import network.NetworkPlayer;
-import network.NetworkState;
 import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
 import java.util.Optional;
-import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ConsoleMenu {
@@ -28,24 +24,31 @@ public class ConsoleMenu {
     private Scanner mScanner = new Scanner(System.in);
     private boolean endFlag = false;
 
-    private ConsoleUI consoleUI;
-
     private BlockingQueue<String> requestQueue = new LinkedBlockingQueue<>();
 
     public void run() {
         PrintToConsole.println("Welcome to Chess!");
 
         askNetworkOrLocal();
+        if (endFlag) {
+            return;
+        }
         if (mIsNetworkGame) {
             askHostOrClient();
         } else {
             askOpponent();
+        }
+        if (endFlag) {
+            return;
         }
         if (!(mIsNetworkGame && !mIsHost)) {
             askLoadGame();
             if (gameLog.isEmpty()) {
                 askGameMode();
             }
+        }
+        if (endFlag) {
+            return;
         }
 
         startGame();
@@ -123,7 +126,7 @@ public class ConsoleMenu {
                     endFlag = true;
                     break;
                 default:
-                    PrintToConsole.println("Please try again");
+                    PrintToConsole.println("Please try it again");
                     correctInput = false;
                     break;
             }
@@ -141,11 +144,9 @@ public class ConsoleMenu {
             switch (input) {
                 case "y", "Y":
                     gameLog = askGameLog();
-                    correctInput = true;
                     break;
                 case "n", "N":
                     gameLog = Optional.empty();
-                    correctInput = true;
                     break;
                 case "q", "Q":
                     endFlag = true;
@@ -173,7 +174,6 @@ public class ConsoleMenu {
                     e.printStackTrace();
                 }
             } else {
-                correctInput = true;
                 return Optional.empty();
             }
         }
@@ -213,7 +213,7 @@ public class ConsoleMenu {
         PrintToConsole.println("Type \"help\" for information on how to play. \n");
 
         Optional<Controller> controller = Optional.empty();
-        consoleUI = new ConsoleUI(requestQueue); // Player A
+        ConsoleUI consoleUI = new ConsoleUI(requestQueue); // Player A
         Thread controllerThread;
 
         if (mIsNetworkGame && !mIsHost) {
@@ -256,8 +256,8 @@ public class ConsoleMenu {
         try {
             consoleUIThread.join();
             controllerThread.join();
-        } catch (Exception e) {
-            WriteError.writeErrorLog("Couldn't wait till al Threads finished.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -265,6 +265,7 @@ public class ConsoleMenu {
         boolean runningFlag = true;
         while (runningFlag) {
             while (requestQueue.peek() == null) {
+                // Waiting for request
             }
             String message = requestQueue.poll();
             switch (message) {
@@ -277,6 +278,8 @@ public class ConsoleMenu {
                         controller.get().addMoveToQueue(QuickJSon.create("undo", amount));
                     }
                     break;
+                default:
+                    WriteError.writeErrorLog("Unknown message received.");
             }
         }
     }

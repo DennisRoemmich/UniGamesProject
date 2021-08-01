@@ -1,21 +1,12 @@
 package console;
 
 import engine.Chess;
-import engine.Controller;
 import engine.GameOwner;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
-import engine.squares.File;
-import engine.squares.Square;
-import engine.squares.Rank;
 import framework.*;
-import network.ClientController;
-import network.NetworkPlayer;
-import network.NetworkState;
-import npc.AiPlayer;
 import org.json.simple.JSONObject;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -31,7 +22,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 	private final Scanner mScanner = new Scanner(System.in);
     private GameOwner gameOwner;
     private Chess mChessGame = null;
-    private NetworkState mNetworkState = NetworkState.UNDEFINED;
     private LinkedBlockingQueue<JSONObject> requestQueue = new LinkedBlockingQueue<>();
     private int lastPrintedBoardHash = 0;
 
@@ -51,24 +41,31 @@ public class ConsoleUI implements Runnable, Presenter, Player {
     	while (!stopFlag) {
 
 			while (requestQueue.peek() == null) {
+				// Waiting for request
 			}
 			var request = requestQueue.poll();
 
 			if (!request.containsKey("type")) {
 				continue;
-			} else if (request.get("type").toString() == "quit"){
+			} else if(request.containsKey("stopFlag")) {
 				stopFlag = true;
-				break;
+			}
+
+			if (request.get("type").toString().equals("quit")) {
+				return;
 			}
 
 			PrintToConsole.println("Please enter your move (e.g. \"e4\" or \"Nf3\"):");
 			String input = mScanner.nextLine();
-			if (checkSpecialInput(input)) {
-				continue;
-			}
+			handleMoveInput(request, input);
+		}
+	}
+
+	private void handleMoveInput(JSONObject request, String input) {
+		if (!checkSpecialInput(input)) {
 			try {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
-				for (ChessMove moveToCheck: mChessGame.getPossibleMoves()) {
+				for (ChessMove moveToCheck : mChessGame.getPossibleMoves()) {
 					if (move.equals(moveToCheck)) {
 						gameOwner.addMoveToQueue(move.toJSon());
 						break;
@@ -81,7 +78,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 		}
 	}
 
-    public void requestMove(JSONObject dataType) {
+	public void requestMove(JSONObject dataType) {
     	refreshOutput();
     	requestQueue.add(dataType);
 	}
@@ -145,7 +142,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
     }
 
 	@Override
-    public void refreshOutput() {;
+    public void refreshOutput() {
     	var game = gameOwner.getGame();
     	if (game.isPresent()) {
 			mChessGame = game.get();
@@ -161,7 +158,6 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 		}
     }
 
-	@Override
 	public BlockingQueue<JSONObject> getRequestQueue() {
 		return requestQueue;
 	}

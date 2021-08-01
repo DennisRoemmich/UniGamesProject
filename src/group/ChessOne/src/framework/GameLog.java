@@ -12,10 +12,10 @@ public class GameLog {
 	private final JSONObject mMetaSettings;
 	private final JSONObject mGameSettings;
 
-	public static String idKey = "id";
-	public static String moveLogKey = "moveLog";
-	public static String metaSettingsKey = "metaSettings";
-	public static String gameSettingsKey = "gameSetttings";
+	public static final String ID_KEY = "id";
+	public static final String MOVE_LOG_KEY = "moveLog";
+	public static final String META_SETTINGS_KEY = "metaSettings";
+	public static final String GAME_SETTINGS_KEY = "gameSettings";
 
 	public GameLog(String id) {
 		this.mId = id;
@@ -32,11 +32,11 @@ public class GameLog {
 	}
 
 	public static GameLog valueOf(JSONObject log) {
-		String id = (String) log.get(idKey);
-		JSONObject metaSettings = (JSONObject) log.get(metaSettingsKey);
-		JSONObject gameSettings = (JSONObject) log.get(gameSettingsKey);
+		String id = (String) log.get(ID_KEY);
+		JSONObject metaSettings = (JSONObject) log.get(META_SETTINGS_KEY);
+		JSONObject gameSettings = (JSONObject) log.get(GAME_SETTINGS_KEY);
 		@SuppressWarnings("unchecked")
-		List<JSONObject> moveLog = (List<JSONObject>) log.get(moveLogKey);
+		List<JSONObject> moveLog = (List<JSONObject>) log.get(MOVE_LOG_KEY);
 		return new GameLog(id, metaSettings, gameSettings, moveLog);
 	}
 
@@ -73,9 +73,9 @@ public class GameLog {
 
 	public JSONObject getCompleteJSonObject() {
 		HashMap<String, Object> rawComplete = new HashMap<>();
-		rawComplete.put(moveLogKey, mMoveLog);
-		rawComplete.put(gameSettingsKey, mGameSettings);
-		rawComplete.put(metaSettingsKey, mMetaSettings);
+		rawComplete.put(MOVE_LOG_KEY, mMoveLog);
+		rawComplete.put(GAME_SETTINGS_KEY, mGameSettings);
+		rawComplete.put(META_SETTINGS_KEY, mMetaSettings);
 		return new JSONObject(rawComplete);
 	}
 
