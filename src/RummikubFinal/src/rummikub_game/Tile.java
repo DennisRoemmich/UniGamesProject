@@ -4,17 +4,17 @@ import javafx.FXGridCell;
 
 public class Tile {
 
-    TileColor color;
-    int value;
+    TileColor mColor;
+    int mValue;
 
     /**
      * Constructor only for joker
      * @param joker color of tile
      */
-    public Tile(TileColor joker){
+    public Tile(TileColor joker) {
 
-        this.color = joker;
-        value = 30;
+        this.mColor = joker;
+        mValue = 30;
     }
 
     /**
@@ -22,10 +22,10 @@ public class Tile {
      * @param color color of tile
      * @param value value of tile
      */
-    public Tile(TileColor color, int value){
+    public Tile(TileColor color, int value) {
 
-        this.color = color;
-        this.value = value;
+        this.mColor = color;
+        this.mValue = value;
     }
 
     /**
@@ -33,7 +33,7 @@ public class Tile {
      */
     public TileColor getTileColor() {
 
-        return color;
+        return mColor;
     }
 
     /**
@@ -41,44 +41,42 @@ public class Tile {
      */
     public int getValue() {
 
-        return value;
+        return mValue;
     }
 
     /**
      * @return true if joker, false if not joker
      */
-    public boolean isJoker(){
+    public boolean isJoker() {
 
-        return color == TileColor.JOKER;
+        return mColor == TileColor.JOKER;
     }
 
     /**
      * @return String of Tile
      */
-    public String toString(){
+    public String toString() {
 
         return toString(false);
     }
 
-    public String toString(boolean wide){
+    public String toString(boolean wide) {
 
         if (!wide) {
 
-            return "[" + color.toString() + "," + Integer.toString(value) + "]";
+            return "[" + mColor.toString() + "," + Integer.toString(mValue) + "]";
 
         }
 
-        var colorString = "??";
+        var colorString = switch (mColor) {
+            case JOKER -> "JK";
+            case RED -> "RD";
+            case BLUE -> "BL";
+            case BLACK -> "BK";
+            case YELLOW -> "YL";
+        };
 
-        switch (color){
-            case JOKER -> colorString = "JK";
-            case RED -> colorString = "RD";
-            case BLUE -> colorString = "BL";
-            case BLACK -> colorString = "BK";
-            case YELLOW -> colorString = "YL";
-        }
-
-        var formatted = String.format("%02d", value);
+        var formatted = String.format("%02d", mValue);
 
         return "[" + colorString + "|" + formatted + "]";
 
@@ -94,7 +92,7 @@ public class Tile {
 
         if (tile != null) {
 
-            return tile.getValue() < value;
+            return tile.getValue() < mValue;
 
         } else {
 
@@ -111,7 +109,7 @@ public class Tile {
 
         if (tile != null) {
 
-            return tile.getTileColor().value < color.value;
+            return tile.getTileColor().mValue < mColor.mValue;
 
         } else {
 
@@ -121,19 +119,19 @@ public class Tile {
 
     public boolean isEqualTo(Tile tile) {
 
-        return color == tile.color && value == tile.value;
+        return mColor == tile.mColor && mValue == tile.mValue;
     }
 
     public boolean isEqualToFX(FXGridCell tile) {
 
-        return color != tile.getTileColor() || value != tile.getValue();
+        return mColor != tile.getTileColor() || mValue != tile.getValue();
     }
 
 
-    public void copyValuesFrom(Tile tile){
+    public void copyValuesFrom(Tile tile) {
 
-        color = tile.getTileColor();
-        value = tile.value;
+        mColor = tile.getTileColor();
+        mValue = tile.mValue;
 
     }
 

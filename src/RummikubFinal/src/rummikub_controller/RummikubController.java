@@ -12,19 +12,19 @@ import java.util.Random;
 
 public class RummikubController extends GameController {
 
-    private GameState state = GameState.STARTING;
-    private Rummikub rummiGame;
-    private ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+    private GameState mState = GameState.STARTING;
+    private Rummikub mRummiGame;
+    private ArrayList<PlayerInfo> mPlayerInfos = new ArrayList<>();
 
-    int playerNo = 4;
-    int startPlayer = 0;
+    int mPlayerNo = 4;
+    int mStartPlayer = 0;
 
-    private final Random rand = new Random();
-    private int seed = rand.nextInt();
+    private final Random mRand = new Random();
+    private int seed = mRand.nextInt();
 
     /* CONSTRUCTOR */
 
-    public RummikubController(){
+    public RummikubController() {
 
         this.mPlayers = new ArrayList<Player>();
 
@@ -32,85 +32,110 @@ public class RummikubController extends GameController {
         var player2 = new PlayerInfo("Luigi");
         var player3 = new PlayerInfo("Peach");
         var player4 = new PlayerInfo("HuiBuu");
-        playerInfos.add(player1);
-        playerInfos.add(player2);
-        playerInfos.add(player3);
-        playerInfos.add(player4);
+        mPlayerInfos.add(player1);
+        mPlayerInfos.add(player2);
+        mPlayerInfos.add(player3);
+        mPlayerInfos.add(player4);
 
         mGameLog = new GameLog("ID");
-        rummiGame = new Rummikub(playerNo, startPlayer, seed);
+        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed);
 
 
     }
 
-    public RummikubController(int playerNumber, int startPlayer){
+    public RummikubController(int playerNumber, int startPlayer) {
 
-        this.playerNo = playerNumber;
-        this.startPlayer = startPlayer;
+        this.mPlayerNo = playerNumber;
+        this.mStartPlayer = startPlayer;
 
         mGameLog = new GameLog("ID");
-        rummiGame = new Rummikub(playerNumber, startPlayer, seed);
+        mRummiGame = new Rummikub(playerNumber, startPlayer, seed);
 
     }
 
     /* FUNCTIONS */
 
 
-    public Rummikub getGame(){
+    public Rummikub getGame() {
 
-        return rummiGame;
+        return mRummiGame;
     }
 
     public GameState getGameState() {
 
-        return state;
+        return mState;
     }
 
     public List<PlayerInfo> getPlayerInfos() {
 
-        return playerInfos;
+        return mPlayerInfos;
     }
 
-    public boolean makeMove(GameMove move){
+    public boolean makeMove(GameMove move) {
 
         /* CHECK IF MOVE IS VALID */
 
         var successful = false;
 
-        switch (move.getType()){
+        switch (move.getType()) {
 
-            case FINISHMOVE -> {
+            case FINISHMOVE:
 
-                successful = rummiGame.finishMove();
-                if (successful && rummiGame.isFinished()) {
+                successful = mRummiGame.finishMove();
+                if (successful && mRummiGame.isFinished()) {
 
                     gameEnded();
                 }
-            }
+                break;
 
-            case ONRACK -> successful = rummiGame.moveTileOnCurrentRack(move.getPointA(), move.getPointB());
+            case ONRACK:
 
-            case ONBOARD -> successful = rummiGame.moveTileOnBoard(move.getPointA(), move.getPointB());
+                successful = mRummiGame.moveTileOnCurrentRack(move.getPointA(), move.getPointB());
+                break;
 
-            case RACKTOBOARD -> successful = rummiGame.moveTileFromCurrentRackToBoard(move.getPointA(), move.getPointB());
+            case ONBOARD:
 
-            case BOARDTORACK -> successful = rummiGame.moveTileFromBoardToCurrentRack(move.getPointA(), move.getPointB());
+                successful = mRummiGame.moveTileOnBoard(move.getPointA(), move.getPointB());
+                break;
 
-            case SORTGROUP -> successful = rummiGame.sortRackForGroup();
+            case RACKTOBOARD:
 
-            case SORTRUN -> successful = rummiGame.sortRackForRun();
+                successful = mRummiGame.moveTileFromCurrentRackToBoard(move.getPointA(), move.getPointB());
+                break;
 
-            case RESET -> successful = rummiGame.resetMove();
+            case BOARDTORACK:
+
+                successful = mRummiGame.moveTileFromBoardToCurrentRack(move.getPointA(), move.getPointB());
+                break;
+
+            case SORTGROUP:
+
+                successful = mRummiGame.sortRackForGroup();
+                break;
+
+            case SORTRUN:
+
+                successful = mRummiGame.sortRackForRun();
+                break;
+
+            case RESET:
+
+                successful = mRummiGame.resetMove();
+                break;
 
 
-            case UNDOLASTMOVE -> undoLastMove();    // wont be logged
+            case UNDOLASTMOVE:
 
-            case STARTGAME -> {  // wont be logged, creates new gameLOg
+                undoLastMove();    // wont be logged
+                break;
 
-                seed = rand.nextInt();
+            case STARTGAME:   // wont be logged, creates new gameLOg
+
+                seed = mRand.nextInt();
                 newGame();
-            }
+                break;
 
+            default: break;
         }
 
         /* CREATE AND SAVE JSON OBJECT */
@@ -125,32 +150,32 @@ public class RummikubController extends GameController {
 
     private void gameEnded() {
 
-        state = GameState.FINISHED;
+        mState = GameState.FINISHED;
 
-        for (var i = 0; i < rummiGame.getPlayerAmount(); i++) {
+        for (var i = 0; i < mRummiGame.getPlayerAmount(); i++) {
 
-            var score = rummiGame.getPlayerAt(i).getScore();
-            playerInfos.get(i).setLastScore(score);
-            playerInfos.get(i).addToTotalScore(score);
+            var score = mRummiGame.getPlayerAt(i).getScore();
+            mPlayerInfos.get(i).setLastScore(score);
+            mPlayerInfos.get(i).addToTotalScore(score);
         }
 
     }
 
     public PlayerInfo[] getPodium() {
 
-        var size = playerInfos.size();
+        var size = mPlayerInfos.size();
         var podium = new PlayerInfo[size];
 
         int lastBiggest = Integer.MAX_VALUE;
 
-        for(var i = 0; i < size; i++){
+        for(var i = 0; i < size; i++) {
 
             var currentBiggest = new PlayerInfo("poop");
             currentBiggest.setLastScore(Integer.MIN_VALUE);
 
-            for ( var player : playerInfos ){
+            for ( var player : mPlayerInfos) {
 
-                if ( player.getLastScore() < lastBiggest && player.getLastScore() > currentBiggest.getLastScore() ){
+                if ( player.getLastScore() < lastBiggest && player.getLastScore() > currentBiggest.getLastScore() ) {
 
                     currentBiggest = player;
 
@@ -208,13 +233,13 @@ public class RummikubController extends GameController {
     public void newGame() {
 
 
-        state = GameState.RUNNING;
+        mState = GameState.RUNNING;
 
 
         mGameLog = new GameLog("ID");
-        rummiGame = new Rummikub(playerNo, startPlayer, seed);
+        mRummiGame = new Rummikub(mPlayerNo, mStartPlayer, seed);
 
-        for ( var player : mPlayers ){
+        for ( var player : mPlayers ) {
             player.setController(this);
         }
 

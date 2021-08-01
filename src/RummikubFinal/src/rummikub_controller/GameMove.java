@@ -2,92 +2,66 @@ package rummikub_controller;
 
 import org.json.simple.JSONObject;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class GameMove {
 
-    private ActionType type;
+    private ActionType mType;
 
-    private Point pointA;
-    private Point pointB;
+    private Point mPointA;
+    private Point mPointB;
 
-    private boolean toBeRelogged = false;
+    private boolean mToBeRelogged = false;
 
     public GameMove(ActionType type) {
-        this.type = type;
+        this.mType = type;
     }
 
     public GameMove(ActionType type, Point a, Point b) {
 
-        this.type = type;
-        this.pointA = a;
-        this.pointB = b;
+        this.mType = type;
+        this.mPointA = a;
+        this.mPointB = b;
 
     }
 
-    public GameMove(JSONObject jsn){
 
-        type = ActionType.valueOf((String) jsn.get("actionType"));
-
-        toBeRelogged = Boolean.parseBoolean((String) jsn.get("toBeRelogged"));
-
-        if ( type.usesPoints() ) {
-
-            pointA = new Point(Integer.parseInt(jsn.get("PointAx").toString()),Integer.parseInt(jsn.get("PointAy").toString()));
-            pointB = new Point(Integer.parseInt(jsn.get("PointBx").toString()),Integer.parseInt(jsn.get("PointBy").toString()));
-
-            if(pointA == null ||pointB == null){
-
-                System.out.println("Break3: " + type.toString());
-
-            }
-
-        } else {
-
-                System.out.println("Break5: " + type.toString());
-
-
-        }
-
-    }
-
-    public JSONObject toJSON(){
+    public JSONObject toJSON() {
 
         var obj = new JSONObject();
 
-        obj.put("actionType", type.toString());
+        obj.put("actionType", mType.toString());
 
-        if ( type.usesPoints() ) {
+        if ( mType.usesPoints() ) {
 
-            obj.put("PointAx", Integer.toString(pointA.x) );
-            obj.put("PointAy", Integer.toString(pointA.y));
-            obj.put("PointBx", Integer.toString(pointB.x));
-            obj.put("PointBy", Integer.toString(pointB.y));
+            obj.put("PointAx", Integer.toString(mPointA.x) );
+            obj.put("PointAy", Integer.toString(mPointA.y));
+            obj.put("PointBx", Integer.toString(mPointB.x));
+            obj.put("PointBy", Integer.toString(mPointB.y));
 
         }
 
-        obj.put("toBeRelogged", Boolean.toString(toBeRelogged));
+        obj.put("toBeRelogged", Boolean.toString(mToBeRelogged));
 
         return obj;
     }
 
-    public void swapCoordinates(){
+    public void swapCoordinates() {
 
-        pointA = new Point(pointA.y, pointA.x);
-        pointB = new Point(pointB.y, pointB.x);
+        mPointA = new Point(mPointA.y, mPointA.x);
+        mPointB = new Point(mPointB.y, mPointB.x);
 
     }
 
     public ActionType getType() {
-        return this.type;
+        return this.mType;
     }
 
     public Point getPointA() {
-        return pointA;
+        return mPointA;
     }
 
     public Point getPointB() {
-        return pointB;
+        return mPointB;
     }
 }

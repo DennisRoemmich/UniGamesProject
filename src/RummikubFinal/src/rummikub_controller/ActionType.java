@@ -14,14 +14,14 @@ public enum ActionType {
     UNDOLASTMOVE(9),
     STARTGAME(10);
 
-    int value;
+    int mValue;
 
     ActionType(int value) {
-        this.value = value;
+        this.mValue = value;
     }
 
     boolean usesPoints() {
-        return ( value == 1 || value == 2 || value == 3 || value == 8 );
+        return ( mValue == 1 || mValue == 2 || mValue == 3 || mValue == 8 );
     }
 
 }

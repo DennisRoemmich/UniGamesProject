@@ -2,20 +2,20 @@ package rummikub_game;
 
 public class RummikubPlayer {
 
-    private Rack tileRack;
-    private Rack sketchRack;
-    private int score;
-    private boolean commingOut;
+    private Rack mTileRack;
+    private Rack mSketchRack;
+    private int mScore;
+    private boolean mCommingOut;
 
     /**
      * Constructor
      */
-    public RummikubPlayer(){
+    public RummikubPlayer() {
 
-        tileRack = new Rack();
-        sketchRack = new Rack();
-        score = 0;
-        commingOut = false;
+        mTileRack = new Rack();
+        mSketchRack = new Rack();
+        mScore = 0;
+        mCommingOut = false;
     }
 
     /**
@@ -24,84 +24,84 @@ public class RummikubPlayer {
      */
     public Rack getSketchRack() {
 
-        return sketchRack;
+        return mSketchRack;
     }
 
     /**
      * returns actual Rack
      * @return tileRack
      */
-    public Rack getRack(){
+    public Rack getRack() {
 
-        return tileRack;
+        return mTileRack;
     }
 
     /**
      * @return players score of the current game (only set in the end of the game)
      */
-    public int getScore(){
+    public int getScore() {
 
-        return score;
+        return mScore;
     }
 
     /**
      * sets players score of the current game (only set in the end of the game)
      */
-    public void setScore(int score){
+    public void setScore(int score) {
 
-        this.score = score;
+        this.mScore = score;
     }
 
     public void setCommingOut(boolean b) {
 
-        commingOut = b;
+        mCommingOut = b;
     }
 
     public boolean getCommingOut() {
 
-        return commingOut;
+        return mCommingOut;
     }
 
     /**
      * resets the sketchRack to the previous tileRack
      */
-    public void resetSketchRack(){
+    public void resetSketchRack() {
 
-        for (var i = 0; i < tileRack.getRackSize(); i++) {
+        for (var i = 0; i < mTileRack.getRackSize(); i++) {
 
-            var sourceGridTile = tileRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH];
+            var sourceGridTile = mTileRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH];
 
             var returnTile = new GridTile();
 
-            if( sourceGridTile.getTile() != null ) {
+            if ( sourceGridTile.getTile() != null ) {
 
-                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+                returnTile.setTile(new Tile(sourceGridTile.getTile().mColor, sourceGridTile.getTile().mValue));
 
             }
 
-            sketchRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH] = returnTile;
+            mSketchRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH] = returnTile;
         }
     }
 
     /**
      * sets tileRack to new sketchRack
      */
-    public void acceptSketchRack(){
+    public void acceptSketchRack() {
 
-        for (var i = 0; i < tileRack.getRackSize(); i++) {
+        for (var i = 0; i < mTileRack.getRackSize(); i++) {
 
 
-            var sourceGridTile = sketchRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH];
+            var sourceGridTile = mSketchRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH];
 
             var returnTile = new GridTile();
 
-            if( sourceGridTile.getTile() != null ) {
+            if ( sourceGridTile.getTile() != null ) {
 
-                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+                returnTile.setTile(new Tile(sourceGridTile.getTile().mColor, sourceGridTile.getTile().mValue));
 
             }
 
-            tileRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH] = returnTile;
+            mTileRack.getGrid()[i / Rack.GRID_WIDTH][i % Rack.GRID_WIDTH] = returnTile;
         }
 
 

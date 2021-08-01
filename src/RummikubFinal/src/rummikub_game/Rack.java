@@ -7,17 +7,17 @@ public class Rack {
     public static final int GRID_HEIGHT = 2;
     public static final int GRID_WIDTH = 16;
 
-    private final GridTile[][] grid;
+    private final GridTile[][] mGrid;
 
     /**
      * Constructor
      */
     public Rack() {
 
-        grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
+        mGrid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
         for (var i = 0; i < getRackSize(); i++) {
 
-            grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
+            mGrid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
         }
     }
 
@@ -58,7 +58,7 @@ public class Rack {
     /**
      * @return sum of all Tiles in rack
      */
-    public int getSum(){
+    public int getSum() {
 
         var sum = 0;
 
@@ -78,7 +78,7 @@ public class Rack {
      */
     public GridTile[][] getGrid() {
 
-        return grid;
+        return mGrid;
     }
 
     /**
@@ -98,7 +98,7 @@ public class Rack {
      */
     public GridTile getGridTileAt(Point point) {
 
-        return grid[point.x][point.y];
+        return mGrid[point.x][point.y];
     }
 
     /**
@@ -118,7 +118,7 @@ public class Rack {
      */
     public GridTile positionToGridTile(int position) {
 
-        return grid[position / GRID_WIDTH][position % GRID_WIDTH];
+        return mGrid[position / GRID_WIDTH][position % GRID_WIDTH];
     }
 
     /**
@@ -130,7 +130,7 @@ public class Rack {
 
         for (var i = 0; i < getRackSize(); i++) {
 
-            if (grid[i / GRID_WIDTH][i % GRID_WIDTH] == gridTile) {
+            if (mGrid[i / GRID_WIDTH][i % GRID_WIDTH] == gridTile) {
 
                 return i;
             }
@@ -232,12 +232,12 @@ public class Rack {
         return false;
     }
 
-    public String toString(){
+    public String toString() {
 
         return toString(false);
     }
 
-    public String toString(boolean wide){
+    public String toString(boolean wide) {
 
         var strB = new StringBuilder();
 
@@ -524,7 +524,7 @@ public class Rack {
 
             var n = 0;
 
-            while (h < tiles.length && tiles[h].getTileColor().value == i) {
+            while (h < tiles.length && tiles[h].getTileColor().mValue == i) {
 
                 h++;
                 n++;

@@ -2,38 +2,38 @@ package rummikub_controller;
 
 public class PlayerInfo {
 
-    private String name;
-    private int lastScore;
-    private int totalScore;
+    private String mName;
+    private int mLastScore;
+    private int mTotalScore;
 
 
     public PlayerInfo(String name) {
 
-        this.name = name;
+        this.mName = name;
     }
 
     public String getName() {
 
-        return name;
+        return mName;
     }
 
     public int getTotalScore() {
 
-        return totalScore;
+        return mTotalScore;
     }
 
     public void addToTotalScore(int score) {
 
-        totalScore += score;
+        mTotalScore += score;
     }
 
     public void setLastScore(int score) {
 
-        lastScore = score;
+        mLastScore = score;
     }
 
     public int getLastScore() {
 
-        return lastScore;
+        return mLastScore;
     }
 }

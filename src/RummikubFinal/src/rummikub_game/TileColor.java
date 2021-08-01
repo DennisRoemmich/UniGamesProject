@@ -8,10 +8,10 @@ public enum TileColor {
     YELLOW(3),
     JOKER(4);
 
-    public final int value;
+    public final int mValue;
 
     TileColor(int value) {
 
-        this.value = value;
+        this.mValue = value;
     }
 }

@@ -49,7 +49,7 @@ public class GameLog {
 	}
 
 	public void removeLastMoves(int aAmount) {
-		for (int i = 0; i < aAmount; i++ ) {
+		for (var i = 0; i < aAmount; i++ ) {
 			removeLastMove();
 		}
  	}

@@ -12,16 +12,16 @@ import java.net.URL;
 
 public class Main extends Application {
 
-    Scene scene;
+    Scene mScene;
 
 
-    ClassLoader classLoader = getClass().getClassLoader();
-    URL resource = classLoader.getResource("resources/rummikubGUI.fxml");
+    ClassLoader mClassLoader = getClass().getClassLoader();
+    URL mResource = mClassLoader.getResource("resources/rummikubGUI.fxml");
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
-        var loader = new FXMLLoader(resource);
+        var loader = new FXMLLoader(mResource);
 
         Parent root = loader.load();
 
@@ -30,8 +30,8 @@ public class Main extends Application {
 
         var appHeight = 1200;
         var appWidth = 1200;
-        scene = new Scene(root, appHeight, appWidth);
-        primaryStage.setScene(scene);
+        mScene = new Scene(root, appHeight, appWidth);
+        primaryStage.setScene(mScene);
         primaryStage.show();
 
         Player fxController = loader.getController();
@@ -42,7 +42,7 @@ public class Main extends Application {
 
 
 
-    public static void initGameController(Player fxController){
+    public static void initGameController(Player fxController) {
 
         var rController = new RummikubController();
         rController.addPlayer(fxController);

@@ -8,9 +8,9 @@ public class Board {
     public static final int GRID_HEIGHT = 8;
     public static final int GRID_WIDTH = 16;
 
-    private GridTile[][] grid;
+    private GridTile[][] mGrid;
 
-    public Board(){
+    public Board() {
 
         // init Board with empty GridTiles
 
@@ -20,7 +20,7 @@ public class Board {
 
     public GridTile[][] getBoard() {
 
-        return grid;
+        return mGrid;
     }
 
     public int getBoardSize() {
@@ -30,18 +30,18 @@ public class Board {
 
     public void initEmptyBoard() {
 
-        grid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
+        mGrid = new GridTile[GRID_HEIGHT][GRID_WIDTH];
 
         for (var i = 0; i < getBoardSize(); i++) {
 
-            grid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
+            mGrid[i / GRID_WIDTH][i % GRID_WIDTH] = new GridTile();
 
         }
     }
 
     public boolean addTile(Point position, Tile tile) {
 
-        if(isOnBoard(position) && getGridTileAt(position).isEmpty()){
+        if (isOnBoard(position) && getGridTileAt(position).isEmpty()) {
 
             getGridTileAt(position).setTile(tile);
             return true;
@@ -57,9 +57,9 @@ public class Board {
         getGridTileAt(position).removeTile();
     }
 
-    public GridTile getGridTileAt(Point point){
+    public GridTile getGridTileAt(Point point) {
 
-        return grid[point.x][point.y];
+        return mGrid[point.x][point.y];
 
     }
 
@@ -97,12 +97,12 @@ public class Board {
         return true;
     }
 
-    public String toString(){
+    public String toString() {
 
         return toString(false);
     }
 
-    public String toString(boolean wide){
+    public String toString(boolean wide) {
 
         var strB = new StringBuilder();
 
@@ -135,7 +135,7 @@ public class Board {
 
         for (var i = 0; i < getBoardSize(); i++) {
 
-            var currentGridTile = grid[i / GRID_WIDTH][i % GRID_WIDTH];
+            var currentGridTile = mGrid[i / GRID_WIDTH][i % GRID_WIDTH];
 
             if (currentGridTile.isEmpty()) {
 

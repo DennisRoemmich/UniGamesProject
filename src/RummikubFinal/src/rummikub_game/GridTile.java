@@ -2,14 +2,14 @@ package rummikub_game;
 
 public class GridTile {
 
-    private Tile tile;
+    private Tile mTile;
 
     /**
      * Constructor
      */
     public GridTile(){
 
-        tile = null;
+        mTile = null;
     }
 
     /**
@@ -17,7 +17,7 @@ public class GridTile {
      */
     public boolean isEmpty() {
 
-        return tile == null;
+        return mTile == null;
     }
 
     /**
@@ -25,7 +25,7 @@ public class GridTile {
      */
     public Tile getTile() {
 
-        return tile;
+        return mTile;
     }
 
     /**
@@ -34,7 +34,7 @@ public class GridTile {
      */
     public void setTile(Tile tile) {
 
-        this.tile = tile;
+        this.mTile = tile;
     }
 
     /**
@@ -42,7 +42,7 @@ public class GridTile {
      */
     public void removeTile() {
 
-        tile = null;
+        mTile = null;
     }
 
     public String toString() {
@@ -53,7 +53,7 @@ public class GridTile {
 
     public String toString(boolean wide) {
 
-        if (tile == null) {
+        if (mTile == null) {
 
             if(wide){
 
@@ -67,7 +67,7 @@ public class GridTile {
 
         }
 
-        return tile.toString(wide);
+        return mTile.toString(wide);
 
     }
 

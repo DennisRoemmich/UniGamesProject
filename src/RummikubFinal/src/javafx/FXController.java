@@ -39,24 +39,23 @@ public class FXController implements Player, Initializable {
     private static final int RACK_COLUMN_AMOUNT = 16;
     private static final int BOARD_COLUMN_AMOUNT = 16;
     private static final int BOARD_ROW_AMOUNT = 7;
-    @FXML
-    private AnchorPane anchorPanePod;
-    @FXML
-    private ImageView imageViewStartNewGame;
-
 
 
     /* VARS */
 
-    FXGridCell[][] boardCells  = new FXGridCell[BOARD_COLUMN_AMOUNT][BOARD_ROW_AMOUNT];
-    FXGridCell[][] rackCells  = new FXGridCell[RACK_COLUMN_AMOUNT][RACK_ROW_AMOUNT];
+    FXGridCell[][] mBoardCells = new FXGridCell[BOARD_COLUMN_AMOUNT][BOARD_ROW_AMOUNT];
+    FXGridCell[][] mRackCells = new FXGridCell[RACK_COLUMN_AMOUNT][RACK_ROW_AMOUNT];
 
-    private Rummikub rummiGame;
-    private RummikubController rummikubController;
+    private Rummikub mRummiGame;
+    private RummikubController mRummikubController;
 
 
     /* OUTLETS */
 
+    @FXML
+    private AnchorPane anchorPanePod;
+    @FXML
+    private ImageView imageViewStartNewGame;
     @FXML
     private AnchorPane anchorPaneBoard;
     @FXML
@@ -189,45 +188,45 @@ public class FXController implements Player, Initializable {
 
 
     // images
-    String emptyTileURL = "resources/images/RummikubTile.png";
-    String buttonDrawURL = "resources/images/buttonDraw.jpg";
-    String buttonFinishURL = "resources/images/buttonFinish.jpeg";
-    String buttonFinishNotPossibleURL = "resources/images/buttonFinishNotPossible.jpeg";
+    String mEmptyTileURL = "resources/images/RummikubTile.png";
+    String mButtonDrawURL = "resources/images/buttonDraw.jpg";
+    String mButtonFinishURL = "resources/images/buttonFinish.jpeg";
+    String mButtonFinishNotPossibleURL = "resources/images/buttonFinishNotPossible.jpeg";
 
     /* FUNCTIONS */
 
 
-    GamePoint originPoint = null;
+    GamePoint mOriginPoint = null;
 
     /**
      * Should be triggered when action on cell of grid is triggered
      */
 
 
-    private void boardCellClicked(Point point){
+    private void boardCellClicked(Point point) {
 
         debugPrint(CELLTEST, "boardCellClicked()");
 
         // valid start of a move
-        if (originPoint == null && !boardCells[point.x][point.y].isEmpty()) {
+        if (mOriginPoint == null && !mBoardCells[point.x][point.y].isEmpty()) {
             debugPrint(CELLTEST, "boardCellClicked(): valid start");
-            originPoint = new GamePoint(GameArea.BOARD, point);
+            mOriginPoint = new GamePoint(GameArea.BOARD, point);
             return;
         }
 
         // valid end of a move
-        if (originPoint != null && boardCells[point.x][point.y].isEmpty()){
+        if (mOriginPoint != null && mBoardCells[point.x][point.y].isEmpty()) {
             debugPrint(CELLTEST, "boardCellClicked(): valid end");
             GameMove move;
 
             // move is board to board
-            if ( originPoint.area == GameArea.BOARD ) {
+            if ( mOriginPoint.area == GameArea.BOARD ) {
 
-                move = new GameMove(ActionType.ONBOARD, originPoint.point, point);
+                move = new GameMove(ActionType.ONBOARD, mOriginPoint.point, point);
 
             } else { // move is rack to board
 
-                move = new GameMove(ActionType.RACKTOBOARD, originPoint.point, point);
+                move = new GameMove(ActionType.RACKTOBOARD, mOriginPoint.point, point);
             }
 
             move.swapCoordinates(); // :(
@@ -237,32 +236,32 @@ public class FXController implements Player, Initializable {
 
     }
 
-    private void rackCellClicked(Point point){
+    private void rackCellClicked(Point point) {
 
         debugPrint(CELLTEST, "rackCellClicked()");
 
         // valid start of a move
-        if (originPoint == null && !rackCells[point.x][point.y].isEmpty()){
+        if (mOriginPoint == null && !mRackCells[point.x][point.y].isEmpty()) {
             debugPrint(CELLTEST, "rackCellClicked(): valid start");
-            originPoint = new GamePoint(GameArea.RACK, point);
+            mOriginPoint = new GamePoint(GameArea.RACK, point);
             return;
         }
 
         // valid end of a move
-        if (originPoint != null && rackCells[point.x][point.y].isEmpty()){
+        if (mOriginPoint != null && mRackCells[point.x][point.y].isEmpty()) {
 
             GameMove move;
 
             // move is board to board
-            if ( originPoint.area == GameArea.RACK ) {
+            if ( mOriginPoint.area == GameArea.RACK ) {
 
-                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + originPoint.point.x + "," + originPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
-                move = new GameMove(ActionType.ONRACK, originPoint.point, point);
+                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + mOriginPoint.point.x + "," + mOriginPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
+                move = new GameMove(ActionType.ONRACK, mOriginPoint.point, point);
 
             } else { // move is board to rack
 
-                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + originPoint.point.x + "," + originPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
-                move = new GameMove(ActionType.BOARDTORACK, originPoint.point, point);
+                debugPrint(CELLTEST, "rackCellClicked(): valid end [" + mOriginPoint.point.x + "," + mOriginPoint.point.y + "] -> [" + point.x + "," + point.y + "]");
+                move = new GameMove(ActionType.BOARDTORACK, mOriginPoint.point, point);
 
             }
 
@@ -274,11 +273,11 @@ public class FXController implements Player, Initializable {
 
     }
 
-    private boolean makeMove(GameMove move){
+    private boolean makeMove(GameMove move) {
 
-        originPoint = null;
+        mOriginPoint = null;
 
-        rummikubController.makeMove(move);
+        mRummikubController.makeMove(move);
 
         updateGUI();
 
@@ -287,11 +286,6 @@ public class FXController implements Player, Initializable {
 
 
     /* GUI ACTIONS */
-
-    public void gridClicked() {
-
-
-    }
 
     public void sortForGroupClicked() {
 
@@ -309,11 +303,11 @@ public class FXController implements Player, Initializable {
 
         if (!stateFinishButton) {
 
-            if (!rummiGame.getSketchBoard().isValid()) {
+            if (!mRummiGame.getSketchBoard().isValid()) {
 
                 setGameMessage("Board is invalid!");
 
-            } else if (!rummiGame.getCurrentPlayer().getCommingOut() && rummiGame.sumMovedRackTiles() <= 30) {
+            } else if (!mRummiGame.getCurrentPlayer().getCommingOut() && mRummiGame.sumMovedRackTiles() <= 30) {
 
                 setGameMessage("30 points needed to finish!");
             }
@@ -331,16 +325,16 @@ public class FXController implements Player, Initializable {
 
     public void validFinishMove() {
 
-        var p = (rummiGame.getCurrentPlayerIndex() + rummiGame.getPlayerAmount() - 1) % rummiGame.getPlayerAmount();
+        var p = (mRummiGame.getCurrentPlayerIndex() + mRummiGame.getPlayerAmount() - 1) % mRummiGame.getPlayerAmount();
 
-        if ( rummiGame.isFinished() ) {
+        if ( mRummiGame.isFinished() ) {
 
-            setGameMessage("Game over: " + rummikubController.getPlayerInfos().get(p).getName() + " wins!");
+            setGameMessage("Game over: " + mRummikubController.getPlayerInfos().get(p).getName() + " wins!");
             setPodium();
 
         } else {
 
-            setGameMessage(rummikubController.getPlayerInfos().get(p).getName() + " finished!");
+            setGameMessage(mRummikubController.getPlayerInfos().get(p).getName() + " finished!");
         }
     }
 
@@ -424,7 +418,7 @@ public class FXController implements Player, Initializable {
 
     FXGridCell dragActionHappening = null;
 
-    private void setUpGrids(){
+    private void setUpGrids() {
 
 
         // RACK
@@ -452,8 +446,8 @@ public class FXController implements Player, Initializable {
 
         padding = 2; // in px
 
-        for(var y = 0; y < BOARD_ROW_AMOUNT; y++){
-            for(var x = 0; x < BOARD_COLUMN_AMOUNT; x++){
+        for(var y = 0; y < BOARD_ROW_AMOUNT; y++) {
+            for(var x = 0; x < BOARD_COLUMN_AMOUNT; x++) {
 
                 addCellTo("BOARD", x, y, padding, boardCellWidth, boardCellHeight);
 
@@ -467,9 +461,10 @@ public class FXController implements Player, Initializable {
 
     }
 
-    private void debugPrint(String identifier, String message){
+    // TODO delete this
+    private void debugPrint(String identifier, String message) {
 
-        if(identifier.equals(CELLTEST) && false){
+        if(identifier.equals(CELLTEST)) {
 
             System.out.println("CellTest: " + message);
 
@@ -481,7 +476,7 @@ public class FXController implements Player, Initializable {
     boolean eventHandlerActive = false;
 
     // Helper Function for setUpGrids
-    private void addCellTo(String gridName, int columnX, int rowY, int padding, DoubleBinding cellWidthProperty, DoubleBinding cellHeightProperty){
+    private void addCellTo(String gridName, int columnX, int rowY, int padding, DoubleBinding cellWidthProperty, DoubleBinding cellHeightProperty) {
 
         GridPane gridPane;
 
@@ -500,7 +495,7 @@ public class FXController implements Player, Initializable {
 
         var imageView = new ImageView();
 
-        var image = new Image(emptyTileURL);
+        var image = new Image(mEmptyTileURL);
         imageView.setImage(image);
 
         var text = new Text();
@@ -508,6 +503,29 @@ public class FXController implements Player, Initializable {
         text.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 
         /* BINDING AND LAYOUT*/
+
+        cellBindings(anchorPane, cellHeightProperty, cellWidthProperty, gridName, imageView, padding, text);
+
+        var currentCell = new FXGridCell(imageView, text);
+        currentCell.setCellWidthProperty(cellWidthProperty);
+
+        if (gridName.equals("RACK")) {
+            mRackCells[columnX][rowY] = currentCell;
+        } else {
+            mBoardCells[columnX][rowY] = currentCell;
+        }
+
+        cellActionsOne(anchorPane, columnX, rowY, gridName, currentCell, imageView, cellWidthProperty, cellHeightProperty, text);
+
+        cellActions(columnX, rowY, anchorPane, gridName, currentCell);
+
+        cellActionsTwo(anchorPane, columnX, rowY);
+
+        gridPane.add(anchorPane, columnX, rowY);
+
+    }
+
+    private void cellBindings(AnchorPane anchorPane, DoubleBinding cellHeightProperty, DoubleBinding cellWidthProperty, String gridName, ImageView imageView, int padding, Text text) {
 
         anchorPane.prefHeightProperty().bind(cellHeightProperty);
         anchorPane.prefWidthProperty().bind(cellWidthProperty);
@@ -535,75 +553,10 @@ public class FXController implements Player, Initializable {
 
         anchorPane.getChildren().add(imageView);
         anchorPane.getChildren().add(text);
+    }
+    
+    public void cellActions(int finalX, int finalY, AnchorPane anchorPane, String gridName, FXGridCell currentCell) {
 
-        var currentCell = new FXGridCell(imageView, text);
-        currentCell.setCellWidthProperty(cellWidthProperty);
-
-        if (gridName.equals("RACK")){
-            rackCells[columnX][rowY] = currentCell;
-        } else {
-            boardCells[columnX][rowY] = currentCell;
-        }
-
-
-        int finalY = rowY;
-        int finalX = columnX;
-
-        anchorPane.setOnMouseClicked(mouseEvent -> {
-
-            if(eventHandlerActive){return;}
-            eventHandlerActive = true;
-
-            debugPrint(CELLTEST, "MouseClicked: [" + finalX + "][" + finalY + "]");
-
-            if (gridName.equals("RACK")){
-                rackCellClicked(new Point(finalX, finalY));
-            } else {
-                boardCellClicked(new Point(finalX, finalY));
-            }
-
-            eventHandlerActive = false;
-
-        });
-
-        anchorPane.setOnDragDetected(mouseEvent -> {
-
-            if(eventHandlerActive){return;}
-            eventHandlerActive = true;
-
-            debugPrint(CELLTEST, "dragDetected: [" + finalX + "][" + finalY + "]");
-
-            if ( !currentCell.isEmpty() ) {
-
-                dragActionHappening = currentCell;
-
-                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-
-                //Put ImageView on dragboard
-                var cbContent = new ClipboardContent();
-
-                var image1 = new Image(emptyTileURL, cellWidthProperty.doubleValue(), cellHeightProperty.doubleValue(), false, false);
-                // Include Number here
-
-                cbContent.putImage(image1);
-                //cbContent.put(DataFormat.)
-
-                db.setContent(cbContent);
-                imageView.setVisible(false);
-                text.setVisible(false);
-                mouseEvent.consume();
-
-                if (gridName.equals("RACK")){
-                    rackCellClicked(new Point(finalX, finalY));
-                } else {
-                    boardCellClicked(new Point(finalX, finalY));
-                }
-
-            }
-
-            eventHandlerActive = false;
-
-        });
 
         anchorPane.setOnDragOver(event -> {
 
@@ -617,7 +570,7 @@ public class FXController implements Player, Initializable {
 
         anchorPane.setOnDragDropped(event -> {
 
-            if(eventHandlerActive){return;}
+            if(eventHandlerActive) {return;}
             eventHandlerActive = true;
 
             // This if statement has to be removed if drag&push will be implemented
@@ -625,7 +578,7 @@ public class FXController implements Player, Initializable {
 
                 debugPrint(CELLTEST, "dragDropped: [" + finalX + "][" + finalY + "]");
 
-                if (gridName.equals("RACK")){
+                if (gridName.equals("RACK")) {
                     rackCellClicked(new Point(finalX, finalY));
                 } else {
                     boardCellClicked(new Point(finalX, finalY));
@@ -642,36 +595,93 @@ public class FXController implements Player, Initializable {
 
         });
 
-        anchorPane.setOnDragDone(event -> {
+    }
+    
+    private void cellActionsOne(AnchorPane anchorPane, int finalX, int finalY, String gridName, FXGridCell currentCell, ImageView imageView, DoubleBinding cellWidthProperty, DoubleBinding cellHeightProperty, Text text) {
 
-            if(eventHandlerActive){return;}
+        anchorPane.setOnMouseClicked(mouseEvent -> {
+
+            if(eventHandlerActive) {return;}
             eventHandlerActive = true;
 
-            debugPrint(CELLTEST, "dragDone: [" + finalX + "][" + finalY + "]");
+            debugPrint(CELLTEST, "MouseClicked: [" + finalX + "][" + finalY + "]");
 
-            dragActionHappening = null;
-
-            if ( originPoint != null ){
-
-                if ( originPoint.area == GameArea.RACK ){
-                    rackCells[finalX][finalY].show();
-                } else {
-                    boardCells[finalX][finalY].show();
-                }
-
-                originPoint = null;
-
+            if (gridName.equals("RACK")) {
+                rackCellClicked(new Point(finalX, finalY));
+            } else {
+                boardCellClicked(new Point(finalX, finalY));
             }
 
             eventHandlerActive = false;
 
         });
 
+        anchorPane.setOnDragDetected(mouseEvent -> {
 
+            if(eventHandlerActive) {return;}
+            eventHandlerActive = true;
 
+            debugPrint(CELLTEST, "dragDetected: [" + finalX + "][" + finalY + "]");
 
-        gridPane.add(anchorPane, columnX, rowY);
+            if ( !currentCell.isEmpty() ) {
 
+                dragActionHappening = currentCell;
+
+                Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+                //Put ImageView on dragboard
+                var cbContent = new ClipboardContent();
+
+                var image1 = new Image(mEmptyTileURL, cellWidthProperty.doubleValue(), cellHeightProperty.doubleValue(), false, false);
+                // Include Number here
+
+                cbContent.putImage(image1);
+                //cbContent.put(DataFormat.)
+
+                db.setContent(cbContent);
+                imageView.setVisible(false);
+                text.setVisible(false);
+                mouseEvent.consume();
+
+                if (gridName.equals("RACK")) {
+                    rackCellClicked(new Point(finalX, finalY));
+                } else {
+                    boardCellClicked(new Point(finalX, finalY));
+                }
+
+            }
+
+            eventHandlerActive = false;
+
+        });
+    }
+
+    private void cellActionsTwo(AnchorPane anchorPane, int finalX, int finalY) {
+
+        anchorPane.setOnDragDone(event -> {
+
+            if(eventHandlerActive) {return;}
+            eventHandlerActive = true;
+
+            debugPrint(CELLTEST, "dragDone: [" + finalX + "][" + finalY + "]");
+
+            dragActionHappening = null;
+
+            if ( mOriginPoint != null ) {
+
+                if ( mOriginPoint.area == GameArea.RACK ) {
+                    mRackCells[finalX][finalY].show();
+                } else {
+                    mBoardCells[finalX][finalY].show();
+                }
+
+                mOriginPoint = null;
+
+            }
+
+            eventHandlerActive = false;
+
+        });
     }
 
     /* INTERFACE FUNCTIONS */
@@ -712,7 +722,7 @@ public class FXController implements Player, Initializable {
 
         /* PLAYER BOX BINDINGS */
 
-        for(var i = 1; i < 4; i++){
+        for(var i = 1; i < 4; i++) {
 
             playerAnchorPane[i].prefHeightProperty().bind(rootAnchorPane.heightProperty().multiply(0.25));
             playerAnchorPane[i].prefWidthProperty().bind(rootAnchorPane.widthProperty().multiply(0.12));
@@ -757,8 +767,8 @@ public class FXController implements Player, Initializable {
     @Override
     public void setController(GameController controller) {
 
-        rummikubController = (RummikubController) controller;
-        rummiGame = rummikubController.getGame();
+        mRummikubController = (RummikubController) controller;
+        mRummiGame = mRummikubController.getGame();
 
         updateGUI();
 
@@ -787,20 +797,20 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIFinishButton() {
 
-        var noTilesMoved = rummiGame.getMovedRackTiles().isEmpty();
+        var noTilesMoved = mRummiGame.getMovedRackTiles().isEmpty();
 
-        var validBoard = rummiGame.getSketchBoard().isValid();
+        var validBoard = mRummiGame.getSketchBoard().isValid();
 
-        var commingOutDone = rummiGame.getCurrentPlayer().getCommingOut();
+        var commingOutDone = mRummiGame.getCurrentPlayer().getCommingOut();
 
-        var movedTilesOver30 = rummiGame.sumMovedRackTiles() >= 30;
+        var movedTilesOver30 = mRummiGame.sumMovedRackTiles() >= 30;
 
         stateFinishButton = noTilesMoved || (validBoard && (commingOutDone || movedTilesOver30));
     }
 
     private void updateGUIEnvironment() {
 
-        var state = rummikubController.getGameState();
+        var state = mRummikubController.getGameState();
 
         if (state == GameState.STARTING) {
 
@@ -827,7 +837,7 @@ public class FXController implements Player, Initializable {
 
     private void updateGUIBoard() {
 
-        var sketchboard = rummiGame.getSketchBoard();
+        var sketchboard = mRummiGame.getSketchBoard();
 
         for (var i = 0; i < BOARD_ROW_AMOUNT; i++) {
 
@@ -836,7 +846,7 @@ public class FXController implements Player, Initializable {
                 var gridPoint = new Point(i, j);
                 var gridTile = sketchboard.getGridTileAt(gridPoint);
 
-                var boardTile = boardCells[j][i];
+                var boardTile = mBoardCells[j][i];
 
                 boardTile.updateVisibility();
 
@@ -854,12 +864,12 @@ public class FXController implements Player, Initializable {
 
             }
         }
-        stateFinishButton = rummiGame.getSketchBoard().isValid() || rummiGame.sumMovedRackTiles() >= 30;
+        stateFinishButton = mRummiGame.getSketchBoard().isValid() || mRummiGame.sumMovedRackTiles() >= 30;
     }
 
     private void updateGUIRack() {
 
-        var currentPlayersRack = rummiGame.getCurrentPlayersSketchRack();
+        var currentPlayersRack = mRummiGame.getCurrentPlayersSketchRack();
 
         for (var i = 0; i < RACK_ROW_AMOUNT; i++) {
 
@@ -868,7 +878,7 @@ public class FXController implements Player, Initializable {
                 var gridPoint = new Point(i, j);
                 var gridTile = currentPlayersRack.getGridTileAt(gridPoint);
 
-                var rackTile = rackCells[j][i];
+                var rackTile = mRackCells[j][i];
 
                 rackTile.updateVisibility();
 
@@ -899,38 +909,40 @@ public class FXController implements Player, Initializable {
         labelNameP3.setStyle(blackColor);
         labelNameP4.setStyle(blackColor);
 
-        switch (rummiGame.getCurrentPlayerIndex()){
+        switch (mRummiGame.getCurrentPlayerIndex()) {
+
             case 0 -> labelNameP1.setStyle(whiteColor);
             case 1 -> labelNameP2.setStyle(whiteColor);
             case 2 -> labelNameP3.setStyle(whiteColor);
             case 3 -> labelNameP4.setStyle(whiteColor);
+            default -> { /* will never happen */ }
         }
 
-        var p = rummiGame.getPlayerAmount();
+        var p = mRummiGame.getPlayerAmount();
         var tilesImage = "";
 
-        labelNameP1.setText(rummikubController.getPlayerInfos().get(0).getName());
-        labelRackP1.setText(rummiGame.getPlayerAt(0).getRack().getSize() + tilesImage);
-        labelScoreP1.setText(Integer.toString(rummiGame.getPlayerAt(0).getScore()));
+        labelNameP1.setText(mRummikubController.getPlayerInfos().get(0).getName());
+        labelRackP1.setText(mRummiGame.getPlayerAt(0).getRack().getSize() + tilesImage);
+        labelScoreP1.setText(Integer.toString(mRummiGame.getPlayerAt(0).getScore()));
         labelLetterP1.setText(Character.toString(labelNameP1.getText().charAt(0)));
 
-        labelNameP2.setText(rummikubController.getPlayerInfos().get(1).getName());
-        labelRackP2.setText(rummiGame.getPlayerAt(1).getRack().getSize() + tilesImage);
-        labelScoreP2.setText(Integer.toString(rummiGame.getPlayerAt(1).getScore()));
+        labelNameP2.setText(mRummikubController.getPlayerInfos().get(1).getName());
+        labelRackP2.setText(mRummiGame.getPlayerAt(1).getRack().getSize() + tilesImage);
+        labelScoreP2.setText(Integer.toString(mRummiGame.getPlayerAt(1).getScore()));
         labelLetterP2.setText(Character.toString(labelNameP2.getText().charAt(0)));
 
         if (p >= 3) {
 
-            labelNameP3.setText(rummikubController.getPlayerInfos().get(2).getName());
-            labelRackP3.setText(rummiGame.getPlayerAt(2).getRack().getSize() + tilesImage);
-            labelScoreP3.setText(Integer.toString(rummiGame.getPlayerAt(2).getScore()));
+            labelNameP3.setText(mRummikubController.getPlayerInfos().get(2).getName());
+            labelRackP3.setText(mRummiGame.getPlayerAt(2).getRack().getSize() + tilesImage);
+            labelScoreP3.setText(Integer.toString(mRummiGame.getPlayerAt(2).getScore()));
             labelLetterP3.setText(Character.toString(labelNameP3.getText().charAt(0)));
 
             if (p == 4) {
 
-                labelNameP4.setText(rummikubController.getPlayerInfos().get(3).getName());
-                labelRackP4.setText(rummiGame.getPlayerAt(3).getRack().getSize() + tilesImage);
-                labelScoreP4.setText(Integer.toString(rummiGame.getPlayerAt(3).getScore()));
+                labelNameP4.setText(mRummikubController.getPlayerInfos().get(3).getName());
+                labelRackP4.setText(mRummiGame.getPlayerAt(3).getRack().getSize() + tilesImage);
+                labelScoreP4.setText(Integer.toString(mRummiGame.getPlayerAt(3).getScore()));
                 labelLetterP4.setText(Character.toString(labelNameP4.getText().charAt(0)));
 
             } else {
@@ -949,18 +961,18 @@ public class FXController implements Player, Initializable {
 
         if (stateFinishButton) {
 
-            if (rummiGame.getMovedRackTiles().isEmpty()) {
+            if (mRummiGame.getMovedRackTiles().isEmpty()) {
 
-                buttonFinishOrDraw.setImage(new Image(buttonDrawURL));
+                buttonFinishOrDraw.setImage(new Image(mButtonDrawURL));
 
             } else {
 
-                buttonFinishOrDraw.setImage(new Image(buttonFinishURL));
+                buttonFinishOrDraw.setImage(new Image(mButtonFinishURL));
             }
 
         } else {
 
-            buttonFinishOrDraw.setImage(new Image(buttonFinishNotPossibleURL));
+            buttonFinishOrDraw.setImage(new Image(mButtonFinishNotPossibleURL));
         }
 
         anchorPaneContextMenu.setVisible(false);
@@ -969,11 +981,7 @@ public class FXController implements Player, Initializable {
 
     private void setPodium() {
 
-        PlayerInfo[] podium = rummikubController.getPodium();
-
-        for (var i = 0; i < 4; i++) {
-            System.out.println(podium[i].getName() + ", " + podium[i].getLastScore() + ", " + podium[i].getTotalScore());
-        }
+        PlayerInfo[] podium = mRummikubController.getPodium();
 
         labelPod1Name.setText(podium[0].getName());
         labelPod1Score.setText(Integer.toString(podium[0].getLastScore()));

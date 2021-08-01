@@ -10,18 +10,18 @@ public class Rummikub {
     private static final int START_TILES_AMOUNT = 14;
     private static final boolean ACCEPT_CHANGES_WITHOUT_PUTTING = false;
 
-    private final Random rand;
+    private final Random mRand;
 
-    private final Board board;
-    private final Board sketchBoard;
+    private final Board mBoard;
+    private final Board mSketchBoard;
 
-    private final RummikubPlayer[] players;
-    private final int startPlayer;
-    private int currentMove;
-    private Tile[] tileStack;
-    private int tilesOnStack = 0;
+    private final RummikubPlayer[] mPlayers;
+    private final int mStartPlayer;
+    private int mCurrentMove;
+    private Tile[] mTileStack;
+    private int mTilesOnStack = 0;
 
-    private final ArrayList<Tile> movedRackTiles = new ArrayList<>();
+    private final ArrayList<Tile> mMovedRackTiles = new ArrayList<>();
 
     /**
      * Constructor. Initializes board, players etc.
@@ -30,20 +30,20 @@ public class Rummikub {
      */
     public Rummikub(int playerNumber, int indexStartPlayer, int seed) {
 
-        this.rand = new Random(seed);
+        this.mRand = new Random(seed);
 
-        this.players = new RummikubPlayer[playerNumber];
+        this.mPlayers = new RummikubPlayer[playerNumber];
 
         /* initialize player array */
         for (var i = 0; i < playerNumber; i++) {
 
-           players[i] = new RummikubPlayer();
+           mPlayers[i] = new RummikubPlayer();
         }
 
-        this.board = new Board();
-        this.sketchBoard = new Board();
-        this.startPlayer = indexStartPlayer;
-        this.currentMove = 0;
+        this.mBoard = new Board();
+        this.mSketchBoard = new Board();
+        this.mStartPlayer = indexStartPlayer;
+        this.mCurrentMove = 0;
 
         createTileStack();
         handOutTiles();
@@ -52,50 +52,50 @@ public class Rummikub {
     /**
      * @return currentPlayer
      */
-    public RummikubPlayer getCurrentPlayer(){
+    public RummikubPlayer getCurrentPlayer() {
 
-        return players[ getCurrentPlayerIndex() ];
+        return mPlayers[ getCurrentPlayerIndex() ];
     }
 
     /**
      * @return currentPlayer index
      */
-    public int getCurrentPlayerIndex(){
+    public int getCurrentPlayerIndex() {
 
-        return ( currentMove + startPlayer ) % players.length;
+        return ( mCurrentMove + mStartPlayer) % mPlayers.length;
     }
 
     /**
      * @param index of player
      * @return player
      */
-    public RummikubPlayer getPlayerAt (int index){
+    public RummikubPlayer getPlayerAt (int index) {
 
-        return players[ index ];
+        return mPlayers[ index ];
     }
 
     /**
      * @return currentMove
      */
-    public int getCurrentMove(){
+    public int getCurrentMove() {
 
-        return this.currentMove;
+        return this.mCurrentMove;
     }
 
     /**
      * @return board
      */
-    public Board getBoard(){
+    public Board getBoard() {
 
-        return this.board;
+        return this.mBoard;
     }
 
     /**
      * @return sketchboard
      */
-    public Board getSketchBoard(){
+    public Board getSketchBoard() {
 
-        return this.sketchBoard;
+        return this.mSketchBoard;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Rummikub {
      */
     public ArrayList<Tile> getMovedRackTiles() {
 
-        return movedRackTiles;
+        return mMovedRackTiles;
     }
 
     /**
@@ -119,7 +119,7 @@ public class Rummikub {
      */
     public int getPlayerAmount() {
 
-        return players.length;
+        return mPlayers.length;
     }
 
     /**
@@ -149,19 +149,19 @@ public class Rummikub {
      * Is always referring to sketchRack and sketchBoard!
      * @return true if movement is possible, false otherwise.
      */
-    public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos){
+    public boolean moveTileFromCurrentRackToBoard(Point rackPos, Point boardPos) {
 
         var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
-        var boardGridTile = sketchBoard.getGridTileAt(boardPos);
+        var boardGridTile = mSketchBoard.getGridTileAt(boardPos);
 
         if ( rackGridTile.isEmpty() || !boardGridTile.isEmpty() ) {
 
             return false;
         }
 
-        if (sketchBoard.addTile(boardPos, rackGridTile.getTile())) {
+        if (mSketchBoard.addTile(boardPos, rackGridTile.getTile())) {
 
-            movedRackTiles.add(rackGridTile.getTile());
+            mMovedRackTiles.add(rackGridTile.getTile());
             getCurrentPlayersSketchRack().removeTile(rackPos);
             return true;
         }
@@ -178,7 +178,7 @@ public class Rummikub {
      */
     public boolean moveTileFromBoardToCurrentRack(Point boardPos, Point rackPos) {
 
-        var boardGridTile = sketchBoard.getGridTileAt(boardPos);
+        var boardGridTile = mSketchBoard.getGridTileAt(boardPos);
         var rackGridTile = getCurrentPlayersSketchRack().getGridTileAt(rackPos);
 
         var i = boardRackMoveInvalid(boardGridTile.getTile());
@@ -190,8 +190,8 @@ public class Rummikub {
 
         if (getCurrentPlayersSketchRack().addTileAt(rackPos, boardGridTile.getTile())) {
 
-            movedRackTiles.remove(i);
-            sketchBoard.removeTile(boardPos);
+            mMovedRackTiles.remove(i);
+            mSketchBoard.removeTile(boardPos);
 
             return true;
         }
@@ -206,9 +206,9 @@ public class Rummikub {
      */
     private int boardRackMoveInvalid(Tile tile) {
 
-        for (var i = 0; i < movedRackTiles.size(); i++) {
+        for (var i = 0; i < mMovedRackTiles.size(); i++) {
 
-            if (movedRackTiles.get(i) == tile) {
+            if (mMovedRackTiles.get(i) == tile) {
 
                 return i;
             }
@@ -243,7 +243,7 @@ public class Rummikub {
      */
     public boolean isFinished() {
 
-        return ( currentMove != 0 && getWinner() != null );
+        return ( mCurrentMove != 0 && getWinner() != null );
     }
 
 
@@ -251,7 +251,7 @@ public class Rummikub {
 
         getCurrentPlayer().resetSketchRack();
         resetSketchBoard();
-        movedRackTiles.clear();
+        mMovedRackTiles.clear();
 
         return true;
 
@@ -261,26 +261,26 @@ public class Rummikub {
      * call if move should be finished; Only finishes move if board is possible!
      * @return false if current board is invalid, otherwise true
      */
-    public boolean finishMove(){
+    public boolean finishMove() {
 
-        if (sketchBoard.isValid()) {
+        if (mSketchBoard.isValid()) {
 
             /* true if player didn't play tiles */
-            if (movedRackTiles.isEmpty()){
+            if (mMovedRackTiles.isEmpty()) {
 
                 noTilesMoved();
 
             } else {
 
-                if (!tilesMoved()){
+                if (!tilesMoved()) {
 
                     return false;
                 }
             }
 
-            movedRackTiles.clear();
+            mMovedRackTiles.clear();
             getCurrentPlayer().acceptSketchRack();
-            currentMove++;
+            mCurrentMove++;
 
             if( isFinished() ) {
 
@@ -303,18 +303,16 @@ public class Rummikub {
             getCurrentPlayer().getSketchRack().addTile( nextTile );
         }
 
-        if ( ACCEPT_CHANGES_WITHOUT_PUTTING ){
+        if ( ACCEPT_CHANGES_WITHOUT_PUTTING ) {
 
             acceptSketchBoard();
         }
     }
 
     private boolean tilesMoved() {
-
-        System.out.println(getCurrentPlayer().getCommingOut());
+        
         if (!getCurrentPlayer().getCommingOut()) {
-
-            System.out.println(sumMovedRackTiles());
+            
             if (sumMovedRackTiles() >= 30) {
 
                 getCurrentPlayer().setCommingOut(true);
@@ -331,7 +329,7 @@ public class Rummikub {
      * Current player gets (random) Tile from tileStack
      * @return false if there weren't any tiles left on stack.
      */
-    public void currentPlayerTakeTile(){
+    public void currentPlayerTakeTile() {
 
         var tile = getRandomTileFromStack();
 
@@ -342,9 +340,9 @@ public class Rummikub {
         }
     }
 
-    private void handOutTiles(){
+    private void handOutTiles() {
 
-        for ( RummikubPlayer player : players ) {
+        for ( RummikubPlayer player : mPlayers) {
 
             for ( var i = 0; i < START_TILES_AMOUNT; i++ ) {
 
@@ -359,7 +357,7 @@ public class Rummikub {
     public int sumMovedRackTiles() {
 
         var sum = 0;
-        for (Tile t : movedRackTiles) {
+        for (Tile t : mMovedRackTiles) {
 
             sum += t.getValue();
         }
@@ -372,14 +370,14 @@ public class Rummikub {
      * call if game is over
      * evaluates stats
      */
-    private void gameOver(){
+    private void gameOver() {
 
         var winner = getWinner();
         var totalSum = 0;
 
-        for ( RummikubPlayer player : players ){
+        for ( RummikubPlayer player : mPlayers) {
 
-            if ( player != winner ){
+            if ( player != winner ) {
 
                 var sum = player.getRack().getSum();
                 player.setScore(-sum);
@@ -393,25 +391,25 @@ public class Rummikub {
     /**
      * returns null if there are no tiles left! Otherwise random remaining tile on stack ist returned.
      */
-    private Tile getRandomTileFromStack(){
+    private Tile getRandomTileFromStack() {
 
-        if ( tilesOnStack == 0 ) {
+        if ( mTilesOnStack == 0 ) {
 
             return null;
 
         }
 
-         var randomIndex = rand.nextInt(tilesOnStack);        // <-- this one is right
+         var randomIndex = mRand.nextInt(mTilesOnStack);        // <-- this one is right
         // var randomIndex = tilesOnStack-1;                       // <-- For Testing *DELETE*
 
-        var tile = tileStack[randomIndex];
+        var tile = mTileStack[randomIndex];
 
         /* put top tile to position where the random tile was
            this is so the removed tiles are always at the end of the array */
-        tileStack[randomIndex] = tileStack[tilesOnStack-1];
-        tileStack[tilesOnStack-1] = null;
+        mTileStack[randomIndex] = mTileStack[mTilesOnStack -1];
+        mTileStack[mTilesOnStack -1] = null;
 
-        tilesOnStack--;
+        mTilesOnStack--;
 
         return tile;
     }
@@ -419,30 +417,30 @@ public class Rummikub {
     /**
      * (re)creates tileStack, with all the 106 tiles. Tiles are ordered not random!
      */
-    private void createTileStack(){
+    private void createTileStack() {
 
-        tileStack = new Tile[104 + JOKER_AMOUNT];
+        mTileStack = new Tile[104 + JOKER_AMOUNT];
 
-        for(TileColor color : TileColor.values()){
+        for(TileColor color : TileColor.values()) {
             if(color != TileColor.JOKER) {
                 for (var i = 0; i < 13*2; i++) {
-                    tileStack[color.value*26+i] = new Tile(color, (i%13)+1);
+                    mTileStack[color.mValue *26+i] = new Tile(color, (i%13)+1);
                 }
             }
         }
-        for (var i = 0; i < JOKER_AMOUNT; i++){
-            tileStack[104+i] = new Tile(TileColor.JOKER);
+        for (var i = 0; i < JOKER_AMOUNT; i++) {
+            mTileStack[104+i] = new Tile(TileColor.JOKER);
         }
 
-        tilesOnStack = 104 + JOKER_AMOUNT;
+        mTilesOnStack = 104 + JOKER_AMOUNT;
 
     }
 
-    public RummikubPlayer getWinner(){
+    public RummikubPlayer getWinner() {
 
-        for ( RummikubPlayer player : players ){
+        for ( RummikubPlayer player : mPlayers) {
 
-            if ( player.getRack().isEmpty() ){
+            if ( player.getRack().isEmpty() ) {
 
                 return player;
             }
@@ -455,24 +453,22 @@ public class Rummikub {
      */
     private void resetSketchBoard() {
 
-        System.out.println("RESET-SKETCH-BOARD");
-
         // PASS BY VALUE :
-        for (var i = 0; i < sketchBoard.getBoardSize(); i++) {
+        for (var i = 0; i < mSketchBoard.getBoardSize(); i++) {
 
-            var sourceGridTile = board.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
+            var sourceGridTile = mBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
 
             var returnTile = new GridTile();
 
             if( sourceGridTile.getTile() != null ) {
 
-                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+                returnTile.setTile(new Tile(sourceGridTile.getTile().mColor, sourceGridTile.getTile().mValue));
 
             }
 
 
 
-            sketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
+            mSketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
 
         }
 
@@ -483,22 +479,20 @@ public class Rummikub {
      */
     private void acceptSketchBoard() {
 
-        System.out.println("ACCEPT-SKETCH-BOARD");
-
-        for (var i = 0; i < board.getBoardSize(); i++) {
+        for (var i = 0; i < mBoard.getBoardSize(); i++) {
 
 
-            var sourceGridTile = sketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
+            var sourceGridTile = mSketchBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH];
 
             var returnTile = new GridTile();
 
             if( sourceGridTile.getTile() != null ) {
 
-                returnTile.setTile(new Tile(sourceGridTile.getTile().color, sourceGridTile.getTile().value));
+                returnTile.setTile(new Tile(sourceGridTile.getTile().mColor, sourceGridTile.getTile().mValue));
 
             }
 
-            board.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
+            mBoard.getBoard()[i / Board.GRID_WIDTH][i % Board.GRID_WIDTH] = returnTile;
         }
     }
 
