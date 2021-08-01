@@ -3,19 +3,18 @@ package main;
 import console.Print;
 import controller.SkatController;
 import kiplayer.KIPlayer;
-import framework.NetworkPlayer;
+import skatguiframework.NetworkPlayer;
 import javafx.FXLauncher;
 import test.Test;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * main class for everything
  */
-public class SkatLauncher {
+public class GuiSkatLauncher {
 
     private static boolean mFxLauncher = true;
     private static boolean mWindows = false;
@@ -29,9 +28,8 @@ public class SkatLauncher {
     /**
      * main method
      * @param args args
-     * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
 
 
         try {
@@ -53,7 +51,7 @@ public class SkatLauncher {
             standardPlayerNames.remove(standardPlayerNames.size()-1);
         }
 
-        var controller = new SkatController(GAME_AMOUNT, standardPlayerNames);
+        var controller = new SkatController(GAME_AMOUNT, standardPlayerNames.toArray(new String[standardPlayerNames.size()]));
 
         new Test(controller);
 
@@ -73,7 +71,11 @@ public class SkatLauncher {
 
             if (input == 0) {
 
-                var networkPlayer = new NetworkPlayer(controller);
+                try {
+                    var networkPlayer = new NetworkPlayer(controller);
+                } catch (Exception e) {
+
+                }
 
             }
 

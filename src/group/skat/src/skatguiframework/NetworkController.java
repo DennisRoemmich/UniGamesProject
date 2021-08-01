@@ -1,4 +1,4 @@
-package framework;
+package skatguiframework;
 
 public class NetworkController {
 

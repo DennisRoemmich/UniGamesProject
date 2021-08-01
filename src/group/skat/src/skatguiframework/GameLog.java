@@ -1,4 +1,4 @@
-package framework;
+package skatguiframework;
 
 import org.json.simple.JSONObject;
 

@@ -5,7 +5,7 @@ import controller.SkatMove;
 import controller.enums.ActionType;
 import engine.*;
 import engine.enums.GamePhase;
-import framework.Player;
+import skatguiframework.Player;
 import javafx.application.Platform;
 import org.json.simple.JSONObject;
 

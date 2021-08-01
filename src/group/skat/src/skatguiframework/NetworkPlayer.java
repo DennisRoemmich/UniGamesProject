@@ -1,4 +1,4 @@
-package framework;
+package skatguiframework;
 
 import console.Print;
 import controller.SkatController;

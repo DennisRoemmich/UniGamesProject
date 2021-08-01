@@ -5,8 +5,8 @@ import controller.enums.ActionType;
 import engine.SkatGame;
 import engine.SkatSet;
 import engine.enums.GamePhase;
-import framework.GameController;
-import framework.Player;
+import skatguiframework.GameController;
+import skatguiframework.Player;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -23,9 +23,7 @@ public class SkatController extends GameController {
 
     /* CONSTRUCTOR */
 
-    public SkatController(int gameAmount, ArrayList<String> nameList) {
-
-        String[] names = nameList.toArray(new String[0]);
+    public SkatController(int gameAmount, String[] names) {
 
         this.mPlayers = new ArrayList<>();
 

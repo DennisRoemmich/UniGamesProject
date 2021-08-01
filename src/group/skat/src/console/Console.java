@@ -11,7 +11,7 @@ import engine.Trump;
 import engine.enums.CardColor;
 import engine.enums.GameMode;
 import engine.enums.GamePhase;
-import framework.Player;
+import skatguiframework.Player;
 import org.json.simple.JSONObject;
 
 import java.util.Scanner;
