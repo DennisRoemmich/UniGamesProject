@@ -29,14 +29,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @SuppressWarnings("rawtypes")
-public class GuiController implements Initializable, Runnable, Player, Presenter, GuiEventHandler, EventHandler {
+public class GuiController extends GuiMenuController implements Runnable, Player, Presenter, GuiEventHandler, EventHandler {
 
-    @FXML
-    private AnchorPane mBoardPane;
-    @FXML
-    private Label ratingLabel;
-    @FXML
-    private TextField mInputField;
     @FXML
     private Button mIsAi;
 
@@ -66,6 +60,11 @@ public class GuiController implements Initializable, Runnable, Player, Presenter
         mChessController.setPlayerA(this);
         mChessController.setPlayerB(this);
         mBoardPane.getChildren().add(mBoardNode);
+    }
+
+    @Override
+    public void startGame(boolean isNetworkGame, boolean aiHostFlag, boolean isClassicalChess) {
+        startTestGame();
     }
 
     @Override
@@ -148,8 +147,7 @@ public class GuiController implements Initializable, Runnable, Player, Presenter
         return mChessController;
     }
 
-    @FXML
-    public void buttonClicked() {
+    public void startTestGame() {
         var game = mChessController.getGame();
         if (game.isPresent() && !game.get().isGameOver()) {
             try {
