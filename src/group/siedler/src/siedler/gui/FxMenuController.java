@@ -1,9 +1,7 @@
-package gui;
+package siedler.gui;
 
 import java.io.IOException;
 
-import controller.Main;
-import framework.PrintToConsole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import siedler.controller.Main;
+import siedler.framework.PrintToConsole;
 
 public class FxMenuController {
 	
@@ -73,11 +73,13 @@ public class FxMenuController {
 	@FXML
     public void handleStandardButton(ActionEvent event) {
 		setmIsStandardMap(true);
-    	
-		setHumanAmount(Integer.parseInt(mFieldHumanAmount.getText()));
-		setAiAmount(Integer.parseInt(mFieldAiAmount.getText()));
-		setStartingAmount(Integer.parseInt(mFieldStartMaterial.getText()));
-		
+    	try {
+    		setHumanAmount(Integer.parseInt(mFieldHumanAmount.getText()));
+    		setAiAmount(Integer.parseInt(mFieldAiAmount.getText()));
+    		setStartingAmount(Integer.parseInt(mFieldStartMaterial.getText()));
+    	} catch (Exception e) {
+    		PrintToConsole.println("Please input a number!");
+    	}
     	mClassLoader = getClass().getClassLoader();
         var resourceMain = mClassLoader.getResource("resources/SiedlerGUI.fxml");
         if (resourceMain == null) {

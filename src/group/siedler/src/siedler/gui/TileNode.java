@@ -1,4 +1,4 @@
-package gui;
+package siedler.gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;

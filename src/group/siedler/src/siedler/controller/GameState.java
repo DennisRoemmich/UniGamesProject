@@ -1,4 +1,4 @@
-package controller;
+package siedler.controller;
 
 /**
  * The different game states that handle the type of moves that can be played in each state.

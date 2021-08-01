@@ -1,14 +1,14 @@
-package gui;
+package siedler.gui;
 
-import controller.Controller;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import materials.MaterialType;
+import siedler.controller.Controller;
+import siedler.controller.GameState;
+import siedler.framework.PrintToConsole;
 
 import java.util.Optional;
 import cards.CardType;
-import controller.GameState;
-import framework.PrintToConsole;
 
 /**
  * Handles all the Key inputs.
@@ -92,7 +92,7 @@ public class FxKeyEventController {
                     	mFxEngineController.mChooseRessource.setText(ressourceMessage);
                 		mFxEngineController.setMaterialsLeftToSelect(2);
                 	} else {
-                		framework.PrintToConsole.println("You do not own this card!");
+                		siedler.framework.PrintToConsole.println("You do not own this card!");
                 	}
                 	break;
                 case M:
@@ -101,7 +101,7 @@ public class FxKeyEventController {
                     	mFxEngineController.mChooseRessource.setText(ressourceMessage);
                 		mFxEngineController.setMaterialsLeftToSelect(1);
                 	} else {
-                		framework.PrintToConsole.println("You do not own this card!");
+                		siedler.framework.PrintToConsole.println("You do not own this card!");
                 	}
                 	break;
                 case ENTER:
@@ -121,7 +121,7 @@ public class FxKeyEventController {
                 	mFxEngineController.getController().takeCard();
                 	break;
 			default:
-				framework.PrintToConsole.println("Nothing happened!");
+				siedler.framework.PrintToConsole.println("Nothing happened!");
 				break;
             }
         }

@@ -1,4 +1,4 @@
-package gui;
+package siedler.gui;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;

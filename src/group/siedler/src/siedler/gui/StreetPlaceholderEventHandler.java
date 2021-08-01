@@ -1,4 +1,4 @@
-package gui;
+package siedler.gui;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;

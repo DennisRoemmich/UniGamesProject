@@ -1,4 +1,4 @@
-package gui;
+package siedler.gui;
 
 import java.util.Optional;
 import buildings.Building;

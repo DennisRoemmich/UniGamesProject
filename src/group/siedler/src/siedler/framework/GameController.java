@@ -1,12 +1,12 @@
-package framework;
+package siedler.framework;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.GameState;
 import materials.MaterialSet;
 import player.PlayerColor;
 import player.PlayerData;
+import siedler.controller.GameState;
 
 /**
  * All the meta information for the Conroller class. Includes the presenter.

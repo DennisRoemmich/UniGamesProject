@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FxMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="siedler.gui.FxMenuController">
    <children>
          <ImageView fx:id="mBackground" fitHeight="900.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -50,17 +50,17 @@
             <Font name="Trebuchet MS Bold" size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="mFieldAiAmount" alignment="CENTER" layoutX="706.0" layoutY="328.0" prefHeight="59.0" prefWidth="93.0" text="1">
+      <TextField fx:id="mFieldAiAmount" alignment="CENTER" layoutX="706.0" layoutY="328.0" prefHeight="59.0" prefWidth="93.0" text="0">
          <font>
             <Font size="30.0" />
          </font>
       </TextField>
-      <TextField fx:id="mFieldHumanAmount" alignment="CENTER" layoutX="706.0" layoutY="239.0" prefHeight="59.0" prefWidth="93.0" text="2">
+      <TextField fx:id="mFieldHumanAmount" alignment="CENTER" layoutX="706.0" layoutY="239.0" prefHeight="59.0" prefWidth="93.0" text="3">
          <font>
             <Font size="30.0" />
          </font>
       </TextField>
-      <Label alignment="CENTER" layoutX="838.0" layoutY="254.0" prefHeight="29.0" prefWidth="163.0" text="(max 12)" textFill="aliceblue">
+      <Label alignment="CENTER" layoutX="838.0" layoutY="254.0" prefHeight="29.0" prefWidth="163.0" text="(1-12)" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold Italic" size="30.0" />
          </font>
@@ -76,6 +76,11 @@
          </font>
       </Label>
       <Label alignment="CENTER" layoutX="609.0" layoutY="760.0" prefHeight="36.0" prefWidth="473.0" text="(for a maximum of 12 players)" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold Italic" size="30.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="838.0" layoutY="432.0" prefHeight="36.0" prefWidth="226.0" text="(Standard: 0)" textFill="aliceblue">
          <font>
             <Font name="Trebuchet MS Bold Italic" size="30.0" />
          </font>

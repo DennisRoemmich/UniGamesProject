@@ -1,12 +1,12 @@
-package gui;
+package siedler.gui;
 
 import buildings.BuildingType;
-import controller.Controller;
 import javafx.scene.Group;
 import map.BuildRules;
 import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
+import siedler.controller.Controller;
 import buildings.Building;
 import map.Map;
 import streets.PositionedStreet;

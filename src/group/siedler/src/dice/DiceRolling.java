@@ -2,13 +2,13 @@ package dice;
 
 import buildings.Building;
 import buildings.BuildingType;
-import framework.PrintToConsole;
 import map.Map;
 import map.MapTools;
 import tiles.PositionedTile;
 import tiles.ResourceTile;
 import player.PlayerData;
 import positions.NodePosition;
+import siedler.framework.PrintToConsole;
 
 import java.util.List;
 import java.util.Optional;

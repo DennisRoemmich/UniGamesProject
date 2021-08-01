@@ -1,4 +1,4 @@
-package gui;
+package siedler.gui;
 
 import positions.EdgePosition;
 import positions.NodePosition;

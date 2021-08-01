@@ -1,4 +1,4 @@
-package framework;
+package siedler.framework;
 
 /**
  * The presenter refreshes the the controller output.

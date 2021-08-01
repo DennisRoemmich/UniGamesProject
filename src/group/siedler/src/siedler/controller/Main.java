@@ -1,11 +1,11 @@
-package controller;
+package siedler.controller;
 
-import framework.PrintToConsole;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import siedler.framework.PrintToConsole;
 
 /**
  * Launches the application and its resources.

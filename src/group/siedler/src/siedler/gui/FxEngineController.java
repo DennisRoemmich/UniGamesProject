@@ -1,6 +1,4 @@
-package gui;
-
-import controller.AiPlayer;
+package siedler.gui;
 
 import helper.QuickJSon;
 import javafx.fxml.FXML;
@@ -15,13 +13,15 @@ import javafx.stage.Stage;
 import map.BuildRules;
 import materials.MaterialType;
 import org.json.simple.JSONObject;
-import controller.Controller;
-import controller.GameState;
-import framework.Player;
-import framework.Presenter;
-import framework.PrintToConsole;
+
 import player.PlayerColor;
 import positions.EdgePosition;
+import siedler.controller.AiPlayer;
+import siedler.controller.Controller;
+import siedler.controller.GameState;
+import siedler.framework.Player;
+import siedler.framework.Presenter;
+import siedler.framework.PrintToConsole;
 import streets.StreetType;
 import java.io.IOException;
 import java.net.URL;
@@ -74,25 +74,21 @@ public class FxEngineController extends FxController implements Player, Presente
     
     public void setupPlayers() {
     	
-        	AiPlayer aiPlayer = new AiPlayer(mController);
-        	
-        	int aiPlayers = FxMenuController.getAiAmount();
-        	int humanPlayers = FxMenuController.getHumanAmount();
-        	int allPlayers = aiPlayers + humanPlayers;
-        	
-        	boolean flag = true;
-        	
-        	for (int i = 0; i < allPlayers; i++) {
-        		if (humanPlayers > 0 && flag) {
-    				mController.addPlayer(this, PlayerColor.getColorList().get(i));
-    				humanPlayers--;
-    				flag = false;
-        		} else {
-    				mController.addPlayer(aiPlayer, PlayerColor.getColorList().get(i));
-    				aiPlayers--;
-    				flag = true;
-        		}
-        	}
+    	AiPlayer aiPlayer = new AiPlayer(mController);
+    	
+    	int aiPlayers = FxMenuController.getAiAmount();
+    	int humanPlayers = FxMenuController.getHumanAmount();
+    	int allPlayers = aiPlayers + humanPlayers;
+    	
+    	for (int i = 0; i < allPlayers; i++) {
+    		if (humanPlayers > 0) {
+				mController.addPlayer(this, PlayerColor.getColorList().get(i));
+				humanPlayers--;
+    		} else if (aiPlayers > 0) {
+				mController.addPlayer(aiPlayer, PlayerColor.getColorList().get(i));
+				aiPlayers--;
+    		} 
+    	}
     }
     
     //Set up additional resources for testing

@@ -1,7 +1,6 @@
-package gui;
+package siedler.gui;
 
 import cards.CardType;
-import controller.Controller;
 import dice.DiceRolling;
 import javafx.fxml.Initializable;
 import java.net.URL;
@@ -11,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import materials.MaterialType;
+import siedler.controller.Controller;
+
 import java.util.ResourceBundle;
 
 /**

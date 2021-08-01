@@ -1,4 +1,4 @@
-package controller;
+package siedler.controller;
 
 import buildings.Building;
 import buildings.BuildingType;
@@ -14,8 +14,8 @@ import player.PlayerColor;
 import positions.EdgePosition;
 import positions.NodePosition;
 import positions.TilePosition;
-import framework.Player;
-import framework.PrintToConsole;
+import siedler.framework.Player;
+import siedler.framework.PrintToConsole;
 import streets.Street;
 import streets.StreetType;
 import tiles.PositionedTile;
