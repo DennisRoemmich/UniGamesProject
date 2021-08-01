@@ -50,6 +50,7 @@ public class GuiController extends GuiMenuController implements Runnable, Player
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        super.initialize(url, resourceBundle);
         mChessController = new Controller();
 
         AiPlayer aiPlayerA = new AiPlayer(mChessController);
