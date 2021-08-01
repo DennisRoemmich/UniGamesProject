@@ -398,17 +398,18 @@ public class FXController implements Player, Initializable {
 
 
     /** This should be an FXButton */
-    public void showHidedebugView() {
+    public void showHideDebugView() {
 
        if ( anchor_DebugView.isVisible() ) {
            anchor_DebugView.setVisible(false);
            label_ShowHideDebugView.setText("⌗");
+
        } else {
+
            anchor_DebugView.setVisible(true);
-           var text = new StringBuilder();
-           text.append("ROOT :      height: ").append(String.format("%.0f", anchor_root.getHeight())).append("     width: ").append(String.format("%.0f", anchor_root.getWidth())).append("\n");
-           text.append("WINDOW :    height: ").append(String.format("%.0f", mScene.getHeight())).append("     width: ").append(String.format("%.0f", mScene.getWidth()));
-           label_WindowSize.setText(text.toString());
+           String text = "ROOT :      height: " + String.format("%.0f", anchor_root.getHeight()) + "     width: " + String.format("%.0f", anchor_root.getWidth()) + "\n" +
+                         "WINDOW :    height: " + String.format("%.0f", mScene.getHeight()) + "     width: " + String.format("%.0f", mScene.getWidth());
+           label_WindowSize.setText(text);
            label_ShowHideDebugView.setText("⤫");
        }
 
