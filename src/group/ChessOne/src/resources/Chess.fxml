@@ -15,9 +15,9 @@
          </font>
       </Button>
       <TextField fx:id="mInputField" layoutX="953.0" layoutY="744.0" onAction="#universalButtonClicked" prefHeight="50.0" prefWidth="250.0" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="50.0" />
-      <Label fx:id="ratingLabel" layoutX="417.0" layoutY="855.0" text="Rating">
+      <Label fx:id="infoLabel" layoutX="393.0" layoutY="22.0" text="Current State">
          <font>
-            <Font name="Bauhaus 93" size="21.0" />
+            <Font name="Apple Symbols" size="22.0" />
          </font>
       </Label>
       <AnchorPane fx:id="configPane" layoutX="882.0" layoutY="137.0" prefHeight="313.0" prefWidth="286.0">

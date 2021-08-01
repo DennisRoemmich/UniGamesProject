@@ -228,7 +228,7 @@ public class ConsoleMenu {
 
             Player playerB = switch (mOpponent) {
                 case HOTSEAT -> consoleUI;
-                case AI_PLAYER -> new AiPlayer(controller.get());
+                case AI_PLAYER -> new AiPlayer(controller.get(), true);
                 case NETWORK_PLAYER -> new NetworkPlayer(controller.get(), gameModeName);
             };
             controller.get().setPlayerB(playerB);

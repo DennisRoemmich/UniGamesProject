@@ -23,11 +23,11 @@ public abstract class GuiMenuController implements Initializable {
     @FXML
     private Label topLabel, middleLabel, bottomLabel;
     @FXML
+    protected Label infoLabel;
+    @FXML
     protected Button mUniversalButton;
     @FXML
     protected AnchorPane mBoardPane, configPane;
-    @FXML
-    protected Label ratingLabel;
     @FXML
     protected TextField mInputField;
 

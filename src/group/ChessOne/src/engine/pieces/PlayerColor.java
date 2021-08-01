@@ -6,10 +6,10 @@ import engine.squares.Rank;
 public enum PlayerColor {
     BLACK(false), WHITE(true);
 
-    private boolean mValue;
+    private boolean mIsWhite;
 
     PlayerColor(boolean value) {
-        this.mValue = value;
+        this.mIsWhite = value;
     }
 
     public PlayerColor getContrary() {
@@ -21,7 +21,7 @@ public enum PlayerColor {
     }
 
     public boolean isWhite() {
-        return mValue;
+        return mIsWhite;
     }
 
     public static PlayerColor valueOf(boolean value) {
@@ -38,5 +38,10 @@ public enum PlayerColor {
 
     public double getScoreFactor() {
         return isWhite() ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return isWhite() ? "white" : "black";
     }
 }

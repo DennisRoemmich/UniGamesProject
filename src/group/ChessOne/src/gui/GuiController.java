@@ -2,6 +2,7 @@ package gui;
 
 import engine.Controller;
 import engine.GameOwner;
+import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import network.NetworkPlayer;
 import npc.AiPlayer;
 import javafx.fxml.FXML;
 import org.json.simple.JSONObject;
+
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
@@ -42,7 +44,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
     private boolean acceptMoveInput = false;
 
     public GuiController() {
-    	//Unused
+        //Unused
     }
 
     @Override
@@ -63,6 +65,8 @@ public class GuiController extends GuiMenuController implements Player, Presente
                 } finally {
                     boardNodeLock.writeLock().unlock();
                 }
+                refreshGameState();
+                refreshConfigurationView();
             }
         });
     }
@@ -93,7 +97,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
         }
     }
 
-	private void handleOriginClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
+    private void handleOriginClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
         boardNodeLock.writeLock().lock();
         try {
             mBoardNode.resetPlaceholder();
@@ -109,32 +113,31 @@ public class GuiController extends GuiMenuController implements Player, Presente
             } else {
                 mBoardNode.resetPlaceholder();
             }
-        }
-        finally {
+        } finally {
             boardNodeLock.writeLock().unlock();
         }
         refreshOutput();
-	}
+    }
 
-	private void handleDestinationClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
-		for (ChessMove move : possibleMoves) {
-		    boolean originEqual = move.getOrigin().equals(mOrigin.get());
-		    boolean destinationEqual = move.getDestination().equals(clickedSquare);
-		    if (originEqual && destinationEqual) {
+    private void handleDestinationClicked(Square clickedSquare, List<ChessMove> possibleMoves) {
+        for (ChessMove move : possibleMoves) {
+            boolean originEqual = move.getOrigin().equals(mOrigin.get());
+            boolean destinationEqual = move.getDestination().equals(clickedSquare);
+            if (originEqual && destinationEqual) {
                 acceptMoveInput = false;
                 refreshOutput();
                 makeMove(move.toJSon());
-		        break;
-		    }
-		}
-		boardNodeLock.writeLock().lock();
-		try {
+                break;
+            }
+        }
+        boardNodeLock.writeLock().lock();
+        try {
             mBoardNode.resetPlaceholder();
         } finally {
             boardNodeLock.writeLock().unlock();
         }
-		mOrigin = Optional.empty();
-	}
+        mOrigin = Optional.empty();
+    }
 
     @FXML
     public final void universalButtonClicked() {
@@ -155,7 +158,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
         }
     }
 
-	@Override
+    @Override
     public void startGame() {
         mChessController = Optional.empty();
         Thread controllerThread;
@@ -184,8 +187,7 @@ public class GuiController extends GuiMenuController implements Player, Presente
         boardNodeLock.writeLock().lock();
         try {
             mBoardNode.setBoard(Optional.of(gameOwner.getGame().get().getBoard()));
-        }
-        finally {
+        } finally {
             boardNodeLock.writeLock().unlock();
         }
         addThreadToManager(controllerThread);
@@ -213,6 +215,30 @@ public class GuiController extends GuiMenuController implements Player, Presente
     public void addThreadToManager(Thread thread) {
         if (!managedThreads.contains(thread)) {
             managedThreads.add(thread);
+        }
+    }
+
+    private void refreshGameState() {
+        var game = gameOwner.getGame();
+        if (game.isPresent()) {
+            switch (GameOverDetector.checkForMate(game.get())) {
+                case CHECKMATE:
+                    infoLabel.setText("Checkmate.");
+                    setIsInConfiguration(true);
+                    return;
+                case STALEMATE:
+                    infoLabel.setText("Stalemate.");
+                    setIsInConfiguration(true);
+                    return;
+                case DRAW:
+                    infoLabel.setText("Draw.");
+                    setIsInConfiguration(true);
+                    return;
+                case NONE:
+                    infoLabel.setText("It's " + game.get().getCurrentColor().toString() + "'s turn.");
+            }
+        } else {
+            infoLabel.setText("No game is running.");
         }
     }
 

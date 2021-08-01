@@ -13,10 +13,15 @@ public class AiPlayer implements Player {
 	protected Controller mController;
 	private static final int DEPTH = 3;
 	private AiRatingEngine ratingEngine = new AiRatingEngine();
-	private boolean mIs
+	private boolean mShouldPrint = false;
 
 	public AiPlayer(Controller controller) {
 		this.mController = controller;
+	}
+
+	public AiPlayer(Controller controller, boolean shouldPrint) {
+		this.mController = controller;
+		this.mShouldPrint = shouldPrint;
 	}
 
     public void requestMove(JSONObject dataType) {
@@ -28,7 +33,7 @@ public class AiPlayer implements Player {
 		if (game.isPresent()) {
 			Chess gameClone = new Chess(game.get());
 			long endTime = System.currentTimeMillis() + 10000L;
-			return ratingEngine.getBestMove(gameClone, depth, endTime);
+			return ratingEngine.getBestMove(gameClone, depth, endTime, mShouldPrint);
 		}
 		throw new IllegalStateException();
 	}
@@ -46,5 +51,9 @@ public class AiPlayer implements Player {
 	@Override
 	public BlockingQueue<JSONObject> getRequestQueue() {
 		return null;
+	}
+
+	public void setShouldPrint(boolean mShouldPrint) {
+		this.mShouldPrint = mShouldPrint;
 	}
 }

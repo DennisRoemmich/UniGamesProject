@@ -27,9 +27,10 @@ public class Controller extends GameController implements Runnable, GameOwner {
     private Player mPlayerB;
     private boolean mColorSwitch = false;
     private boolean mStandardChess = true;
-    private boolean mIsLoopRunning = true;
 
     protected BlockingQueue<JSONObject> moveQueue = new LinkedBlockingQueue<JSONObject>();
+
+    private boolean mIsLoopRunning = true;
 
     public Controller() {
 
@@ -65,6 +66,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
                 } else {
                     executeMove(input);
                 }
+                updateGameState();
                 refreshOutput();
             }
         }

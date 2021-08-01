@@ -58,7 +58,7 @@ public final class AiRatingEngine implements Runnable {
     }
 
 
-    public ChessMove getBestMove(Chess game, int depth, long maxTime) {
+    public ChessMove getBestMove(Chess game, int depth, long maxTime, boolean shouldPrint) {
         boolean isWhite = game.getCurrentColor().isWhite();
 
         var possibleMoves = new LinkedList<>(game.getPossibleMoves());
@@ -67,7 +67,9 @@ public final class AiRatingEngine implements Runnable {
         double bestRating = 0;
 
         for (ChessMove move : possibleMoves) {
-            PrintToConsole.print(".");
+            if (shouldPrint) {
+                PrintToConsole.print(".");
+            }
             var rating = rateMoveRecursively(game, move, depth, maxTime);
 
             if (bestMove.isEmpty() || (isWhite ? (rating > bestRating) : (rating < bestRating))) {
@@ -76,7 +78,9 @@ public final class AiRatingEngine implements Runnable {
             }
         }
 
-        PrintToConsole.println("\n\nBest move is " + bestMove + " with " + bestRating);
+        if (shouldPrint) {
+            PrintToConsole.println("\n\nBest move is " + bestMove + " with " + bestRating);
+        }
         return bestMove.get();
     }
 
