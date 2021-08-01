@@ -1,20 +1,23 @@
 package tiles;
 
-import positions.TilePosition;
-
+/**
+ * Represents the neutral tiles (Water tiles, Desert tiles)
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class NeutralTile extends Tile {
-    private boolean isWater;
-
+	
     public NeutralTile(boolean isWater) {
-        this.isWater = isWater;
+        this.mIsWater = isWater;
     }
-
+    
+    @Override
     public boolean isWater() {
-        return isWater;
+        return mIsWater;
     }
 
     @Override
     public String toString() {
-        return (isWater ? "WATER" : "DESERT") + "TILE";
+        return (mIsWater ? "WATER" : "DESERT") + "TILE";
     }
 }

@@ -1,0 +1,10 @@
+package tictactoe;
+
+public class GUIStarter {
+
+    // main method for GUI
+    public static void main(final String[] args) {
+
+        GUI.main(args);
+    }
+}

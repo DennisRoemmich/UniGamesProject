@@ -3,36 +3,45 @@ package positions;
 import java.util.Objects;
 
 /*
-A basic structure with two integer ans one boolean coordinate (x, y, z)
+A basic structure with two integer and one boolean coordinate (x, y, z)
 No further Functionality, only generated methods.
  */
+/**
+ * Represents Edge positions on the board.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
 public class EdgePosition {
-    private int x;
-    private int y;
-    private EdgePositionZCord z;
+    private int mValueX;
+    private int mValueY;
+    private EdgePositionZCord mValueZ;
 
     public EdgePosition(int x, int y, EdgePositionZCord z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.mValueX = x;
+        this.mValueY = y;
+        this.mValueZ = z;
     }
 
     public int getX() {
-        return x;
+        return mValueX;
     }
 
     public int getY() {
-        return y;
+        return mValueY;
     }
 
     public EdgePositionZCord getZ() {
-        return z;
+        return mValueZ;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+        	return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+        	return false;
+        }
         EdgePosition that = (EdgePosition) o;
         return getX() == that.getX() && getY() == that.getY() && getZ() == that.getZ();
     }
@@ -44,6 +53,6 @@ public class EdgePosition {
 
     @Override
     public String toString() {
-        return "(" + x + "|" + y + "|" + z + ")";
+        return "(" + mValueX + "|" + mValueY + "|" + mValueZ + ")";
     }
 }
