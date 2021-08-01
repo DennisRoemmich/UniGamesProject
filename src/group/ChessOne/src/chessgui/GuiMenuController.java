@@ -1,6 +1,6 @@
-package gui;
+package chessgui;
 
-import framework.GameLog;
+import chessframework.GameLog;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.*;

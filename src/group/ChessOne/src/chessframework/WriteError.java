@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

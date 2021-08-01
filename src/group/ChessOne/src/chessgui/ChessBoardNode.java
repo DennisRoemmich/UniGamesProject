@@ -1,4 +1,4 @@
-package gui;
+package chessgui;
 
 import engine.board.ChessBoard;
 import engine.pieces.PositionedPiece;

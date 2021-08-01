@@ -5,7 +5,7 @@ import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import engine.pieces.ChessPiece;
 import engine.pieces.PositionedPiece;
-import framework.PrintToConsole;
+import chessframework.PrintToConsole;
 import java.util.LinkedList;
 import java.util.Optional;
 

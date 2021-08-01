@@ -1,10 +1,10 @@
-package console;
+package chessconsole;
 
 import engine.Chess;
 import engine.GameOwner;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
-import framework.*;
+import chessframework.*;
 import org.json.simple.JSONObject;
 
 import java.util.*;
@@ -62,7 +62,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 	}
 
 	private void handleMoveInput(JSONObject request, String input) {
-		if (!checkSpecialInput(input)) {
+		if (!checkSpecialInput(request, input)) {
 			try {
 				ChessMove move = ChessMove.valueOf(input, mChessGame);
 				for (ChessMove moveToCheck : mChessGame.getPossibleMoves()) {
@@ -83,7 +83,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
     	mRequestQueue.add(dataType);
 	}
 
-    public boolean checkSpecialInput(String input) {
+    public boolean checkSpecialInput(JSONObject request, String input) {
 
 		if ("quit".equalsIgnoreCase(input)) {
 			mSuperQueue.add("quit");
@@ -95,6 +95,11 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 		}
 		if ("undo".equalsIgnoreCase(input)) {
 			mSuperQueue.add("undo");
+			return true;
+		}
+		if ("save".equalsIgnoreCase(input)) {
+			mSuperQueue.add("save");
+			mRequestQueue.add(request);
 			return true;
 		}
 		if ("menu".equalsIgnoreCase(input)) {
@@ -151,6 +156,7 @@ public class ConsoleUI implements Runnable, Presenter, Player {
 				GamePrinter.printBoard(mChessGame.getBoard());
 				if (mChessGame.isGameOver()) {
 					GamePrinter.printResult(GameOverDetector.checkForMate(game.get()));
+					mSuperQueue.add("quit");
 				} else {
 					PrintToConsole.println(mChessGame.getCurrentColor()
 							.isWhite() ? "It's whites turn" : "It's blacks turn");

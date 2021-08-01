@@ -1,6 +1,6 @@
 package network;
 
-import framework.PrintToConsole;
+import chessframework.PrintToConsole;
 import java.util.Scanner;
 
 /**

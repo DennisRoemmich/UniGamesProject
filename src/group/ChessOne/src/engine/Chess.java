@@ -27,7 +27,6 @@ public class Chess {
     protected PlayerColor mCurrentPlayerColor = PlayerColor.WHITE;
     private boolean mAutoPromotion = true;
     private List<ChessMove> mPossibleMoves = new ArrayList<>();
-    private boolean mIsGameOver = false;
 
     public Chess() {
         updatePossibleMoves();
@@ -75,7 +74,6 @@ public class Chess {
 
         registerMove(move.getDestination());
         nextPlayer();
-        updateRunningFlag();
     }
     
     public boolean isMovePossible(ChessMove move) {
@@ -215,18 +213,12 @@ public class Chess {
          return mPossibleMoves;
     }
 
-    private void updateRunningFlag() {
-        if (getResult() != ChessResult.NONE) {
-            mIsGameOver = false;
-        }
-    }
-
     public ChessResult getResult() {
         return GameOverDetector.checkForMate(this);
     }
 
     public boolean isGameOver() {
-        return mIsGameOver;
+        return getResult() != ChessResult.NONE;
     }
 
     public boolean hasAnyPieceMoved() {

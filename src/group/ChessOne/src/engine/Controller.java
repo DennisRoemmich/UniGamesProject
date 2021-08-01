@@ -3,7 +3,7 @@ package engine;
 import engine.analysis.ChessResult;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
-import framework.*;
+import chessframework.*;
 import torpedo.TorpedoChess;
 
 import org.json.simple.JSONObject;
@@ -25,8 +25,6 @@ public class Controller extends GameController implements Runnable, GameOwner {
 
     protected BlockingQueue<JSONObject> mMoveQueue = new LinkedBlockingQueue<>();
 
-    private boolean mIsLoopRunning = true;
-
     public Controller() {
 
     }
@@ -40,7 +38,7 @@ public class Controller extends GameController implements Runnable, GameOwner {
     public void run() {
         createGameIfNecessary();
         startGame();
-        while (mIsLoopRunning) {
+        while (mIsGameRunning) {
             var player = getCurrentPlayer();
             if (player.isPresent()) {
                 player.get().requestMove(createRequestJSon("move"));
@@ -61,8 +59,8 @@ public class Controller extends GameController implements Runnable, GameOwner {
                 } else {
                     executeMove(input);
                 }
-                updateGameState();
                 refreshOutput();
+                updateGameState();
             }
         }
         PrintToConsole.println("Controller finished.");
@@ -136,8 +134,8 @@ public class Controller extends GameController implements Runnable, GameOwner {
     }
 
     private void updateGameState() {
-        if (mGame.isPresent() && GameOverDetector.checkForMate(mGame.get()) == ChessResult.NONE) {
-            quitGame();
+        if (mGame.isPresent() && GameOverDetector.checkForMate(mGame.get()) != ChessResult.NONE) {
+            mIsGameRunning = false;
         }
     }
 

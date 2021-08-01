@@ -1,4 +1,4 @@
-package gui;
+package chessgui;
 
 import engine.Controller;
 import engine.GameOwner;
@@ -7,8 +7,8 @@ import engine.board.ChessMove;
 import engine.pieces.PositionedPiece;
 import javafx.application.Platform;
 import engine.squares.Square;
-import framework.Player;
-import framework.Presenter;
+import chessframework.Player;
+import chessframework.Presenter;
 import network.ClientController;
 import network.ConsoleNetworkClientIO;
 import network.NetworkPlayer;

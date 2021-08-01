@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 import org.json.simple.JSONObject;
 
@@ -42,7 +42,6 @@ public abstract class GameController {
 
     public void logMove(JSONObject move) {
         mGameLog.logMove(move);
-        saveGame();
     }
 
     public void createNewGameLog() {
@@ -56,13 +55,22 @@ public abstract class GameController {
     public abstract void newGame();
 
     public void quitGame() {
-        saveGame(); // Usually it's already saved
         mIsGameRunning = false;
     }
 
-    public final void saveGame() {
-        if (mGameLog != null) {
-            FileController.saveJSon(mGameLog.getCompleteJSonObject(), mGameLog.getID());
+    public final String saveGame() {
+        if (!(mGameLog == null || mGameLog.getMoveLog().isEmpty())) {
+            int gameStateIndex = 1;
+            boolean isNumberUsed = FileController.doesJSonExist(String.valueOf(gameStateIndex));
+            while (isNumberUsed) {
+                gameStateIndex++;
+                isNumberUsed = FileController.doesJSonExist(String.valueOf(gameStateIndex));
+            }
+            String name = String.valueOf(gameStateIndex);
+            FileController.saveJSon(mGameLog.getCompleteJSonObject(), name);
+            return name;
+        } else {
+            return "NOT SAVED";
         }
     }
 

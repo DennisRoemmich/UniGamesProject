@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
@@ -37,5 +37,14 @@ public final class FileController {
             PrintToConsole.println("No saved game found.");
             return null;
         }
+    }
+
+    public static boolean doesJSonExist(String fileName) {
+        try (FileReader reader = new FileReader(fileName + FILEEXTENSION)) {
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+
     }
 }

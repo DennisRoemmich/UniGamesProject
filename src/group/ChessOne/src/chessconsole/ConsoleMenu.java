@@ -1,7 +1,7 @@
-package console;
+package chessconsole;
 
 import engine.Controller;
-import framework.*;
+import chessframework.*;
 import network.ClientController;
 import network.ConsoleNetworkClientIO;
 import network.NetworkPlayer;
@@ -282,10 +282,28 @@ public class ConsoleMenu {
                         controller.get().addMoveToQueue(QuickJSon.create("undo", amount));
                     }
                     break;
+                case "save":
+                    if (controller.isPresent()) {
+                        String name = controller.get().saveGame();
+                        PrintToConsole.println("Game saved with number " + name);
+                    }
+                    break;
                 default:
                     WriteError.writeErrorLog("Unknown message received.");
             }
         }
+    }
+
+    private String askFileName() {
+        String fileName = "";
+        while (fileName == "" || FileController.doesJSonExist(fileName)) {
+            PrintToConsole.println("Please enter a name for this game");
+            fileName = mScanner.nextLine();
+            if (FileController.doesJSonExist(fileName)) {
+                PrintToConsole.println("This name is already used. Please try another one.");
+            }
+        }
+        return fileName;
     }
 
     private enum Opponent {

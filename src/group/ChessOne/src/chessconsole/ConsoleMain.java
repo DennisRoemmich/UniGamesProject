@@ -1,9 +1,9 @@
-package console;
+package chessconsole;
 
 /**
  * Main console class that starts the chess game UI.
- * @author Jan de Boer, Dennis Roemmich
  *
+ * @author Jan de Boer, Dennis Roemmich
  */
 public class ConsoleMain {
     public static void main(String[] args) {

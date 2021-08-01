@@ -1,4 +1,4 @@
-package gui;
+package chessgui;
 
 import engine.pieces.PositionedPiece;
 import javafx.scene.Group;

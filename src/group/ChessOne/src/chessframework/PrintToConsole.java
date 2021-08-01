@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 /**
  * Printing to the console.

@@ -1,11 +1,11 @@
-package console;
+package chessconsole;
 
 import engine.analysis.ChessResult;
 import engine.board.ChessBoard;
 import engine.squares.File;
 import engine.squares.Rank;
 import engine.squares.Square;
-import framework.PrintToConsole;
+import chessframework.PrintToConsole;
 
 /**
  * Prints information to the console

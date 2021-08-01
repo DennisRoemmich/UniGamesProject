@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 import org.json.simple.JSONObject;
 

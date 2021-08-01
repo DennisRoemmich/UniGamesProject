@@ -3,8 +3,8 @@ package network;
 import engine.Chess;
 import engine.GameOwner;
 import engine.board.ChessMove;
-import framework.Player;
-import framework.Presenter;
+import chessframework.Player;
+import chessframework.Presenter;
 import org.json.simple.JSONObject;
 import torpedo.TorpedoChess;
 

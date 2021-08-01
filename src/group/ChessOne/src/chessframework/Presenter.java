@@ -1,4 +1,4 @@
-package framework;
+package chessframework;
 
 /**
  * To be implemented by the main GUI controller

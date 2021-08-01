@@ -1,27 +1,27 @@
-package gui;
+package chessgui;
 
-import engine.pieces.PositionedPiece;
+import engine.squares.Square;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 
 /**
- * Eventhandler for initializing moving the pieces
+ * Eventhandler for highlighting the squares
  * @author Jan de Boer, Dennis Roemmich
  *
  */
 @SuppressWarnings("rawtypes")
-public class PieceEventHandler implements EventHandler {
-    private PositionedPiece mPiece;
+public class SquareEventHandler implements EventHandler {
     private GuiEventHandler mEventHandler;
+    private Square mSquare;
 
-    public PieceEventHandler(GuiEventHandler eventHandler, PositionedPiece piece) {
+    public SquareEventHandler(GuiEventHandler eventHandler, Square square) {
         this.mEventHandler = eventHandler;
-        this.mPiece = piece;
+        this.mSquare = square;
     }
 
     @Override
     public void handle(Event event) {
-        mEventHandler.handlePieceClicked(mPiece);
+        mEventHandler.handleSquareClicked(mSquare);
     }
 
     public GuiEventHandler getEventHandler() {
@@ -32,11 +32,11 @@ public class PieceEventHandler implements EventHandler {
         this.mEventHandler = eventHandler;
     }
 
-    public PositionedPiece getPiece() {
-        return mPiece;
+    public Square getSquare() {
+        return mSquare;
     }
 
-    public void setPiece(PositionedPiece piece) {
-        this.mPiece = piece;
+    public void setSquare(Square square) {
+        this.mSquare = square;
     }
 }

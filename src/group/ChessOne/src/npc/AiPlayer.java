@@ -3,7 +3,7 @@ package npc;
 import engine.Chess;
 import engine.Controller;
 import engine.board.ChessMove;
-import framework.Player;
+import chessframework.Player;
 import org.json.simple.JSONObject;
 
 /**

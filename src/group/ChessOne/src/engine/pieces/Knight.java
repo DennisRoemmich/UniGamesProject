@@ -3,7 +3,7 @@ package engine.pieces;
 import engine.Chess;
 import engine.squares.File;
 import engine.squares.Square;
-import framework.WriteError;
+import chessframework.WriteError;
 import engine.squares.Rank;
 
 import java.util.ArrayList;

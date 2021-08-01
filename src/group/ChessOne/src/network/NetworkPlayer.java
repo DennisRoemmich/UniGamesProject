@@ -1,9 +1,9 @@
 package network;
 
 import engine.Controller;
-import framework.Player;
-import framework.PrintToConsole;
-import framework.WriteError;
+import chessframework.Player;
+import chessframework.PrintToConsole;
+import chessframework.WriteError;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
