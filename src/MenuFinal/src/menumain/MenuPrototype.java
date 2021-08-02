@@ -1,4 +1,4 @@
-package menuMain;
+package menumain;
 
 import chessconsole.ConsoleMenu;
 import main.SkatLauncher;
@@ -8,8 +8,9 @@ import java.util.Scanner;
 public class MenuPrototype {
 
     private final Scanner mScanner = new Scanner(System.in);
+    private final String errorMessage = ">> Please restart the menu before opening another GUI-based application";
 
-    public MenuPrototype() {
+    public void run() {
         printWelcomeMessage();
         printSelectGame();
         handleGameInput();
@@ -31,7 +32,6 @@ public class MenuPrototype {
 
     private void handleGameInput() {
         String input = mScanner.nextLine();
-        var error = "This game isn't implemented yet :(";
         input = input.toUpperCase();
         switch (input) {
             case "C", "c":
@@ -55,7 +55,7 @@ public class MenuPrototype {
                 try {
                     game.TicTacToe.main(new String[0]);
                 } catch (Exception e) {
-                    println(">> Please restart the menu before opening another GUI-based application");
+                    println(errorMessage);
                 }
             	break;
 
@@ -63,7 +63,7 @@ public class MenuPrototype {
                 try {
                     graphicalUI.GUIStarter.main(new String[0]);
                 } catch (Exception e) {
-                    println(">> Please restart the menu before opening another GUI-based application");
+                    println(errorMessage);
                 }
                 break;
 
@@ -71,7 +71,7 @@ public class MenuPrototype {
                 try {
                     TicTacToeFX.GUIStarter.main(new String[0]);
                 } catch (Exception e) {
-                    println(">> Please restart the menu before opening another GUI-based application");
+                    println(errorMessage);
                 }
                 break;
 
@@ -79,7 +79,7 @@ public class MenuPrototype {
                 try {
                     application.Main.main(new String[0]);
                 } catch (Exception e) {
-                    println(">> Please restart the menu before opening another GUI-based application");
+                    println(errorMessage);
                 }
                 break;
 
@@ -87,7 +87,7 @@ public class MenuPrototype {
                 try {
                     tictactoe.GUIStarter.main(new String[0]);
                 } catch (Exception e) {
-                    println(">> Please restart the menu before opening another GUI-based application");
+                    println(errorMessage);
                 }
 
                 break;
@@ -108,25 +108,25 @@ public class MenuPrototype {
             input = input.toUpperCase();
 
             switch (input) {
-                case "C":
+                case "c","C":
                     ConsoleMenu consoleMenu = new ConsoleMenu();
                     consoleMenu.run();
                     break;
 
-                case "G":
+                case "g","G":
                     try {
                         chessgui.Main.main(new String[0]);
                     } catch (Exception e){
-                        println(">> Please restart the menu before opening another GUI-based application");
+                        println(errorMessage);
                     }
                     break;
 
-                case "Q":
+                case "q","Q":
                     break;
 
                 default:
                     invalidInput = true;
-                    println("invalid input");
+                    println("Invalid input");
                     break;
             }
         } while (invalidInput);
@@ -145,21 +145,21 @@ public class MenuPrototype {
             input = input.toUpperCase();
 
             switch (input) {
-                case "Y":
+                case "y","Y":
                     try {
                         rummikubmain.Main.main(new String[]{"test"});
                     } catch (Exception e) {
-                        println(">> Please restart the menu before opening another GUI-based application");
+                        println(errorMessage);
                     }
                     break;
-                case "N":
+                case "n","N":
                     try {
                         rummikubmain.Main.main(new String[]{});
                     } catch (Exception e) {
-                        println(">> Please restart the menu before opening another GUI-based application");
+                        println(errorMessage);
                     }
                     break;
-                case "Q":
+                case "q","Q":
                     break;
                 default:
                     invalidInput = true;
@@ -180,21 +180,22 @@ public class MenuPrototype {
             input = input.toUpperCase();
 
             switch (input) {
-                case "C":
+                case "c", "C":
                     SkatLauncher.main(new String[]{"windows"});
                     break;
-                case "G":
+                case "g", "G":
                     try {
                         guimain.GuiSkatLauncher.main(new String[]{});
                     } catch (Exception e){
-                        println(">> Please restart the menu before opening another GUI-based application");
+                        println(errorMessage);
                     }
                     break;
-                case "Q":
+                case "q", "Q":
+                    quitGame();
                     break;
                 default:
                     invalidInput = true;
-                    println("invalid input");
+                    println("The given input is invalid");
                     break;
             }
         } while (invalidInput);
