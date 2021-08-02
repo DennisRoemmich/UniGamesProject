@@ -294,18 +294,6 @@ public class ConsoleMenu {
         }
     }
 
-    private String askFileName() {
-        String fileName = "";
-        while (fileName == "" || FileController.doesJSonExist(fileName)) {
-            PrintToConsole.println("Please enter a name for this game");
-            fileName = mScanner.nextLine();
-            if (FileController.doesJSonExist(fileName)) {
-                PrintToConsole.println("This name is already used. Please try another one.");
-            }
-        }
-        return fileName;
-    }
-
     private enum Opponent {
         HOTSEAT, AI_PLAYER, NETWORK_PLAYER;
     }

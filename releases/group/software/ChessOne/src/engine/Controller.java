@@ -213,7 +213,9 @@ public class Controller extends GameController implements Runnable, GameOwner {
     }
 
     public final void undoLastMoves(int amount) {
-        mGameLog.removeLastMoves(amount);
-        replayLog(mGameLog);
+        if (mGameLog.getMoveLog().size() >= amount) {
+            mGameLog.removeLastMoves(amount);
+            replayLog(mGameLog);
+        }
     }
 }

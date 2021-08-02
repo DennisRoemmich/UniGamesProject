@@ -4,10 +4,16 @@ import engine.*;
 import engine.analysis.GameOverDetector;
 import engine.board.ChessMove;
 import engine.pieces.ChessPiece;
+import engine.pieces.PlayerColor;
 import engine.pieces.PositionedPiece;
 import chessframework.PrintToConsole;
+
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+
+import static npc.AiRatingEngine.getPositionRating;
 
 /**
  * Runs the rating calculation.
@@ -110,17 +116,35 @@ public final class AiRatingEngine implements Runnable {
 
     public double rateSituationRecursively(Chess game, int depth) {
         if (depth <= 1) {
-            return rateSituation(game);
+            return this.rateSituation(game);
         } else {
-            double rating = rateSituation(game);
-            var possibleMoves = game.getPossibleMoves();
+
+            PlayerColor color = game.getCurrentColor();
+            Optional<ChessMove> bestOpponentMove = Optional.empty();
+            Optional<Double> bestOpponentRating = Optional.empty();
+            List<ChessMove> possibleMoves = game.getPossibleMoves();
+
             for (ChessMove move : possibleMoves) {
                 Chess gameClone = new Chess(game);
                 gameClone.makeMoveWithoutValidation(move);
-                var storedRating = getRatingFromStorage(gameClone, depth - 1) / possibleMoves.size();
-                rating += storedRating;
+                double storedRating = getRatingFromStorage(gameClone, depth - 1);
+                if (bestOpponentMove.isPresent()) {
+                    double opponentAbs = (Double) bestOpponentRating.get() * color.getScoreFactor();
+                    double checkRatingAbs = storedRating * color.getScoreFactor();
+                    if (opponentAbs < checkRatingAbs) {
+                        bestOpponentRating = Optional.of(checkRatingAbs * color.getScoreFactor());
+                        bestOpponentMove = Optional.of(move);
+                    }
+                } else {
+                    bestOpponentRating = Optional.of(storedRating);
+                    bestOpponentMove = Optional.of(move);
+                }
             }
-            return rating;
+            if (bestOpponentRating.isPresent()) {
+                return bestOpponentRating.get();
+            } else {
+                return 0;
+            }
         }
     }
 
