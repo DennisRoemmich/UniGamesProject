@@ -4,6 +4,11 @@ import engine.pieces.PositionedPiece;
 import engine.squares.Rank;
 import engine.squares.Square;
 
+/**
+ * Assigns a positional rating to a square.
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
 public final class SquareRating {
 	
     protected static final double[] PAWN_RATING_TABLE = {
