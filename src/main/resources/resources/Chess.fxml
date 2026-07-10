@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chessgui.GuiController">
+   <children>
+      <AnchorPane fx:id="mBoardPane" layoutX="35.0" layoutY="24.0" prefHeight="800.0" prefWidth="800.0" style="-fx-background-playerColor: grey;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
+      <Button fx:id="mUniversalButton" layoutX="892.0" layoutY="780.0" mnemonicParsing="false" onAction="#universalButtonClicked" prefHeight="50.0" prefWidth="250.0" text="Start Game" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font name="Apple Symbols" size="40.0" />
+         </font>
+      </Button>
+      <TextField fx:id="mInputField" layoutX="953.0" layoutY="744.0" onAction="#universalButtonClicked" prefHeight="50.0" prefWidth="250.0" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="50.0" />
+      <Label fx:id="mInfoLabel" layoutX="393.0" layoutY="22.0" text="Current State">
+         <font>
+            <Font name="Apple Symbols" size="22.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="mConfigPane" layoutX="882.0" layoutY="137.0" prefHeight="313.0" prefWidth="286.0">
+         <children>
+            <Button fx:id="mTopLeftButton" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#topLeftClicked" prefHeight="40.0" prefWidth="115.0" text="Local Game" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="64.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="mTopRightButton" layoutX="149.0" layoutY="64.0" mnemonicParsing="false" onAction="#topRightClicked" prefHeight="40.0" prefWidth="115.0" text="Network Game" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="64.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="mBottomLeftButton" layoutX="14.0" layoutY="264.0" mnemonicParsing="false" onAction="#bottomLeftClicked" prefHeight="40.0" prefWidth="115.0" text="Classical" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="264.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="mMiddleRightButton" layoutX="149.0" layoutY="164.0" mnemonicParsing="false" onAction="#middleRightClicked" prefHeight="40.0" prefWidth="115.0" text="AI" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="164.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="mMiddleLeftButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#middleLeftClicked" prefHeight="40.0" prefWidth="115.0" text="Hotseat" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="164.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="mBottomRightButton" layoutX="149.0" layoutY="264.0" mnemonicParsing="false" onAction="#bottomRightClicked" prefHeight="40.0" prefWidth="115.0" text="Torpedo" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="264.0">
+               <font>
+                  <Font name="Apple Symbols" size="16.0" />
+               </font>
+            </Button>
+            <Label fx:id="mTopLabel" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="250.0" text="Local or Network Game?" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font name="Apple Symbols" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="mMiddleLabel" layoutX="14.0" layoutY="114.0" prefHeight="40.0" prefWidth="250.0" text="Hotseat or AI?" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="114.0">
+               <font>
+                  <Font name="Apple Symbols" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="mBottomLabel" layoutX="14.0" layoutY="214.0" prefHeight="40.0" prefWidth="250.0" text="Classical  or Torpedo Chess?" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="214.0">
+               <font>
+                  <Font name="Apple Symbols" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

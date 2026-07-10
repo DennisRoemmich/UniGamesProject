@@ -1,0 +1,55 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+group = 'de.unikonstanz.gruppe03'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.release = 17
+    // 2021 student code compiles with warnings on modern JDKs; keep the build quiet but honest
+    options.compilerArgs << '-nowarn'
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = '21.0.7'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media']
+}
+
+dependencies {
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    // Andreas' TicTacToe loads from "/Resources/...": that tree lives in its own
+    // classpath entry because macOS' case-insensitive filesystem cannot hold
+    // "resources/" and "Resources/" in the same output directory.
+    runtimeOnly files('src/main/resources-ttt')
+}
+
+application {
+    mainClass = 'menumain.MenuMain'
+}
+
+run {
+    standardInput = System.in
+}
+
+shadowJar {
+    archiveBaseName = 'EotSC'
+    archiveClassifier = "${System.getProperty('os.name').toLowerCase().contains('mac') ? 'macos' : System.getProperty('os.name').toLowerCase().contains('win') ? 'windows' : 'linux'}-${System.getProperty('os.arch')}"
+    from 'src/main/resources-ttt'
+    // JavaFX platform jars are signed; strip stale signatures from the fat jar
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    mergeServiceFiles()
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyInput" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="siedler.gui.FxEngineController">
+   <children>
+      <ImageView fx:id="mBackground" fitHeight="900.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../resources/Background.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mDiceButton" fitHeight="187.0" fitWidth="187.0" layoutX="1001.0" layoutY="698.0" onMouseClicked="#diceButtonClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+         <image>
+            <Image url="@../resources/DiceButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mDice1" fitHeight="130.0" fitWidth="130.0" layoutX="486.0" layoutY="731.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="470.0">
+         <image>
+            <Image url="@../resources/Dice1.png" />
+         </image></ImageView>
+      <ImageView fx:id="mDice2" fitHeight="130.0" fitWidth="130.0" layoutX="625.0" layoutY="735.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="39.0">
+         <image>
+            <Image url="@../resources/Dice1.png" />
+         </image></ImageView>
+         
+      <ImageView fx:id="mPlayerMaterials" fitHeight="568.0" fitWidth="394.0" layoutX="795.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/PlayerBLUEMaterials.png" />
+         </image></ImageView>
+         <Label fx:id="mPoints" layoutX="870.0" layoutY="625.0" text="error" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+                  <Label fx:id="mVictoryPointCard" layoutX="70.0" layoutY="810.0" text="Victory Point Cards" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+                           <Label fx:id="mKnightCard" layoutX="70.0" layoutY="690.0" text="K: Knight Cards" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="mRoadCard" layoutX="70.0" layoutY="720.0" text="R: Road Cards" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="mInventionCard" layoutX="70.0" layoutY="750.0" text="I: Invention Cards" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+                                    <Label fx:id="mMonopolyCard" layoutX="70.0" layoutY="780.0" text="M: Monopoly Cards" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         
+         <Label fx:id="mVictoryAmount" layoutX="400.0" layoutY="810.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mKnightAmount" layoutX="400.0" layoutY="690.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mRoadAmount" layoutX="400.0" layoutY="720.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         <Label fx:id="mInventionAmount" layoutX="400.0" layoutY="750.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         
+         <Label fx:id="mMonopolyAmount" layoutX="400.0" layoutY="780.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+         
+       <Label fx:id="mCurrentPlayer" layoutX="890.0" layoutY="177.0" text="player" textAlignment="CENTER" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+         <Label fx:id="mTradeError" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+         <Label fx:id="mBurglarMessage" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+         <Label fx:id="mSetupPhase" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+         <Label fx:id="mChooseRessource" layoutX="70.0" layoutY="620.0" text="" textFill="aliceblue">
+         <font>
+            <Font name="Trebuchet MS Bold" size="30.0" />
+         </font></Label>
+               <Label fx:id="mWinner" layoutX="480.0" layoutY="620.0" text="" textFill="WHITE" > 
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mWoodLabel" layoutX="884.0" layoutY="247.0" prefHeight="32.0" prefWidth="31.0" text="1:" textFill="SADDLEBROWN">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mWheatLabel" layoutX="884.0" layoutY="330.0" text="2:" textFill="DARKGOLDENROD">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mWoolLabel" layoutX="884.0" layoutY="405.0" text="3:" textFill="DARKGREEN">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mOreLabel" layoutX="884.0" layoutY="487.0" text="4:" textFill="GREY">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mClayLabel" layoutX="884.0" layoutY="555.0" text="5:" textFill="DARKRED">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" style="bold;"  />
+         </font></Label>
+      <Label fx:id="mWoodAmount" layoutX="1040.0" layoutY="247.0" text="error" textFill="SADDLEBROWN">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mWheatAmount" layoutX="1040.0" layoutY="331.0" text="error" textFill="DARKGOLDENROD">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mWoolAmount" layoutX="1040.0" layoutY="405.0" text="error" textFill="DARKGREEN">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mOreAmount" layoutX="1040.0" layoutY="480.0" text="error" textFill="GREY">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+      <Label fx:id="mClayAmount" layoutX="1040.0" layoutY="555.0" text="error" textFill="DARKRED">
+         <font>
+            <Font name="Trebuchet MS Bold" size="27.0" />
+         </font></Label>
+             <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#helpScreenButtonClicked" pickOnBounds="true" preserveRatio="true">
+       <image>
+          <Image url="@InfoIcon.png" />
+       </image>
+       </ImageView>
+             <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="916.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WoodIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WheatIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="388.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@WoolIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="67.0" fitWidth="109.0" layoutX="921.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@OreIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="82.0" layoutX="921.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ClayIcon.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

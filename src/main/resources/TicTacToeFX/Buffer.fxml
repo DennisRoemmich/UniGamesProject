@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<?import javafx.scene.layout.AnchorPane?>
+<Pane fx:controller="TicTacToeFX.SampleController" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1396.0" prefWidth="1169.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <ImageView fx:id="background_image" fitHeight="1396.0" fitWidth="1169.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <image>
+                        <Image url="@../Resources/Background.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+        <ImageView fx:id="tileUpperLeft" fitHeight="300.0" fitWidth="300.0" layoutX="50.0" layoutY="210.0" onMouseClicked="#tileClicked" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Resources/cross_red.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="tileUpperCenter" fitHeight="300.0" fitWidth="300.0" layoutX="400.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="tileUpperRight" fitHeight="300.0" fitWidth="300.0" layoutX="760.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Resources/circle_black.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="tileCenterRight" fitHeight="300.0" fitWidth="300.0" layoutX="760.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="tileCenterCenter" fitHeight="300.0" fitWidth="300.0" layoutX="400.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="tileCenterRight" fitHeight="300.0" fitWidth="300.0" layoutX="50.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="tileLowerRight" fitHeight="300.0" fitWidth="300.0" layoutX="50.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../Resources/cross_black.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="tileLowerCenter" fitHeight="300.0" fitWidth="300.0" layoutX="400.0" layoutY="910.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="tileLowerRight" fitHeight="300.0" fitWidth="300.0" layoutX="760.0" layoutY="910.0" onMouseClicked="#tileClicked" pickOnBounds="true" preserveRatio="true" />
+    </children>
+</Pane>

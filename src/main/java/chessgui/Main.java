@@ -1,0 +1,32 @@
+package chessgui;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+/**
+ * Main for the GUI initialization
+ * @author Jan de Boer, Dennis Roemmich
+ *
+ */
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        var resource = classLoader.getResource("resources/Chess.fxml");
+        FXMLLoader loader = new FXMLLoader(resource);
+        primaryStage.setTitle("Chess One");
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1400, 1000);
+        primaryStage.setTitle("ChessOne");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

@@ -1,0 +1,25 @@
+package siedler.gui;
+
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import positions.EdgePosition;
+
+/**
+ * Handles mouse clicks on the transparent placeholder Streets.
+ * @author Jan de Boer, Fernanda Maria Barrios, Dennis Roemmich
+ *
+ */
+public class StreetPlaceholderEventHandler implements EventHandler<Event> {
+    private SiedlerEventHandler mEventHandler;
+    private EdgePosition mPosition;
+
+    public StreetPlaceholderEventHandler(SiedlerEventHandler eventHandler, EdgePosition position) {
+        this.mEventHandler = eventHandler;
+        this.mPosition = position;
+    }
+
+    @Override
+    public void handle(Event event) {
+        mEventHandler.handleStreetClick(mPosition);
+    }
+}
